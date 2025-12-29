@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Nav } from "@/components/nav";
-import { CharacterCard } from "@/components/character-card";
-import { CHARACTERS } from "@/lib/mock-data";
+import { RoleplayCard } from "@/components/character-card";
+import { ROLEPLAYS, CHAPTERS } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ArrowRight, Bot, Target, Trophy, CheckCircle, Lock, BookOpen } from "lucide-react";
@@ -9,8 +9,8 @@ import heroBg from "@assets/generated_images/abstract_bottle_green_glass_tech_sh
 
 export default function Home() {
   const progress = {
-    chapters: { completed: 0, total: 2 },
-    roleplays: { completed: 3, total: 16 }
+    chapters: { completed: 0, total: CHAPTERS.length },
+    roleplays: { completed: 3, total: ROLEPLAYS.length }
   };
 
   const progressPercentage = Math.round(
@@ -142,15 +142,14 @@ export default function Home() {
       <section className="py-12 bg-muted/20 border-t border-border/50">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-display font-bold">Active Modules</h2>
-            <span className="text-sm text-muted-foreground">Showing 4 of 16 Roleplays</span>
+            <h2 className="text-2xl font-display font-bold">Certification Modules</h2>
+            <span className="text-sm text-muted-foreground">Showing {ROLEPLAYS.length} Active Roleplays</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {CHARACTERS.map((char, i) => (
-              <div key={char.id} className="relative group">
-                {/* Overlay for locked content if needed in future */}
-                <CharacterCard character={char} index={i} />
+            {ROLEPLAYS.map((scenario, i) => (
+              <div key={scenario.id} className="relative group">
+                <RoleplayCard scenario={scenario} index={i} />
               </div>
             ))}
           </div>

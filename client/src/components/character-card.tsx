@@ -1,17 +1,17 @@
-import { Character } from "@/lib/mock-data";
+import { RoleplayScenario } from "@/lib/mock-data";
 import { motion } from "framer-motion";
-import { Brain, Zap, Activity } from "lucide-react";
+import { Shield, MessageSquare, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "wouter";
 
-interface CharacterCardProps {
-  character: Character;
+interface RoleplayCardProps {
+  scenario: RoleplayScenario;
   index: number;
 }
 
-export function CharacterCard({ character, index }: CharacterCardProps) {
+export function RoleplayCard({ scenario, index }: RoleplayCardProps) {
   return (
-    <Link href={`/chat/${character.id}`}>
+    <Link href={`/chat/${scenario.id}`}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -22,62 +22,68 @@ export function CharacterCard({ character, index }: CharacterCardProps) {
         <div className="relative h-48 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
           <motion.img
-            src={character.avatar}
-            alt={character.name}
+            src={scenario.avatar}
+            alt={scenario.name}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
           <div className="absolute bottom-3 left-4 z-20">
-            <span className="inline-block px-2 py-1 mb-1 text-xs font-mono font-medium text-primary bg-white/90 rounded-md backdrop-blur-sm">
-              {character.role}
+            <span className={cn(
+              "inline-block px-2 py-1 mb-1 text-xs font-mono font-medium rounded-md backdrop-blur-sm",
+              scenario.difficulty === 'Beginner' ? "bg-green-500/90 text-white" :
+              scenario.difficulty === 'Intermediate' ? "bg-yellow-500/90 text-white" :
+              "bg-red-500/90 text-white"
+            )}>
+              {scenario.difficulty}
             </span>
             <h3 className="text-xl font-display font-bold text-white tracking-wide">
-              {character.name}
+              {scenario.name}
             </h3>
+            <p className="text-white/80 text-xs font-medium">{scenario.role}</p>
           </div>
         </div>
 
         {/* Content */}
         <div className="p-5 flex flex-col flex-grow bg-card">
           <p className="text-sm text-muted-foreground line-clamp-3 mb-6 flex-grow">
-            {character.description}
+            {scenario.description}
           </p>
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-2 py-4 border-t border-border/50">
             <div className="flex flex-col items-center gap-1">
-              <Brain className="w-4 h-4 text-primary/70" />
-              <span className="text-xs font-mono text-muted-foreground">INT</span>
+              <Shield className="w-4 h-4 text-primary/70" />
+              <span className="text-xs font-mono text-muted-foreground">RES</span>
               <div className="h-1 w-full bg-secondary rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-primary" 
-                  style={{ width: `${character.stats.intelligence}%` }} 
+                  style={{ width: `${scenario.stats.resistance}%` }} 
                 />
               </div>
             </div>
             <div className="flex flex-col items-center gap-1">
-              <Zap className="w-4 h-4 text-primary/70" />
-              <span className="text-xs font-mono text-muted-foreground">PWR</span>
+              <MessageSquare className="w-4 h-4 text-primary/70" />
+              <span className="text-xs font-mono text-muted-foreground">OBJ</span>
               <div className="h-1 w-full bg-secondary rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-primary" 
-                  style={{ width: `${character.stats.power}%` }} 
+                  style={{ width: `${scenario.stats.objections}%` }} 
                 />
               </div>
             </div>
             <div className="flex flex-col items-center gap-1">
-              <Activity className="w-4 h-4 text-primary/70" />
-              <span className="text-xs font-mono text-muted-foreground">SPD</span>
+              <TrendingUp className="w-4 h-4 text-primary/70" />
+              <span className="text-xs font-mono text-muted-foreground">BUY</span>
               <div className="h-1 w-full bg-secondary rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-primary" 
-                  style={{ width: `${character.stats.speed}%` }} 
+                  style={{ width: `${scenario.stats.buy_signal}%` }} 
                 />
               </div>
             </div>
           </div>
 
           <div className="mt-auto pt-4 flex gap-2 flex-wrap">
-            {character.traits.map((trait) => (
+            {scenario.traits.map((trait) => (
               <span 
                 key={trait} 
                 className="text-[10px] uppercase tracking-wider font-bold text-primary/80 bg-secondary/50 px-2 py-1 rounded-sm"

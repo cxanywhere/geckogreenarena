@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Message, Character } from "@/lib/mock-data";
+import { Message, RoleplayScenario } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -8,15 +8,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface ChatInterfaceProps {
-  character: Character;
+  scenario: RoleplayScenario;
 }
 
-export function ChatInterface({ character }: ChatInterfaceProps) {
+export function ChatInterface({ scenario }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
       sender: "ai",
-      text: `Systems online. I am ${character.name}. Seeking input parameters.`,
+      text: `Roleplay initiated: ${scenario.name}. I am playing the role of ${scenario.role}. Let's begin.`,
       timestamp: new Date()
     }
   ]);
@@ -47,7 +47,7 @@ export function ChatInterface({ character }: ChatInterfaceProps) {
       const aiMsg: Message = {
         id: (Date.now() + 1).toString(),
         sender: "ai",
-        text: `Processing input: "${userMsg.text}". My algorithms suggest a 98% probability of interesting conversation. Proceed.`,
+        text: `(Simulating ${scenario.role} response based on ${scenario.traits.join(", ")}...) Interesting point. Tell me more.`,
         timestamp: new Date()
       };
       setMessages(prev => [...prev, aiMsg]);
@@ -61,14 +61,14 @@ export function ChatInterface({ character }: ChatInterfaceProps) {
         <div className="flex items-center gap-3">
           <div className="relative">
             <Avatar className="h-10 w-10 border-2 border-primary/20">
-              <AvatarImage src={character.avatar} />
-              <AvatarFallback>{character.name[0]}</AvatarFallback>
+              <AvatarImage src={scenario.avatar} />
+              <AvatarFallback>{scenario.name[0]}</AvatarFallback>
             </Avatar>
             <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full animate-pulse" />
           </div>
           <div>
-            <h3 className="font-display font-bold text-foreground leading-none">{character.name}</h3>
-            <span className="text-xs text-primary font-mono">{character.role} // ONLINE</span>
+            <h3 className="font-display font-bold text-foreground leading-none">{scenario.name}</h3>
+            <span className="text-xs text-primary font-mono">{scenario.role} // ONLINE</span>
           </div>
         </div>
         <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
@@ -89,8 +89,8 @@ export function ChatInterface({ character }: ChatInterfaceProps) {
               >
                 {msg.sender === "ai" && (
                   <Avatar className="h-8 w-8 mt-1 border border-primary/20">
-                    <AvatarImage src={character.avatar} />
-                    <AvatarFallback>{character.name[0]}</AvatarFallback>
+                    <AvatarImage src={scenario.avatar} />
+                    <AvatarFallback>{scenario.name[0]}</AvatarFallback>
                   </Avatar>
                 )}
                 {msg.sender === "user" && (
