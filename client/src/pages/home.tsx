@@ -103,38 +103,50 @@ export default function Home() {
                   <Progress value={progressPercentage} className="h-2" />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-3">
+                <div className="space-y-4">
+                  <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Required Training</h4>
                     {CHAPTERS.map((chapter) => {
                       const isCompleted = completedChapters.includes(chapter.id);
                       return (
-                        <div key={chapter.id} className={`p-4 rounded-xl border relative group transition-colors ${isCompleted ? 'bg-green-50/50 border-green-200' : 'bg-secondary/30 border-secondary hover:border-primary/30'}`}>
-                          <div className="flex items-center gap-2 mb-2 text-primary">
-                            {isCompleted ? <CheckCircle className="w-4 h-4 text-green-600" /> : <BookOpen className="w-4 h-4" />}
-                            <span className="text-xs font-bold uppercase line-clamp-1">{chapter.title}</span>
+                        <Link key={chapter.id} href={`/chapter/${chapter.id}`}>
+                          <div className={`group relative overflow-hidden rounded-xl border transition-all duration-300 cursor-pointer ${isCompleted ? 'border-green-200 bg-green-50/30' : 'border-border bg-card hover:border-primary/50 hover:shadow-lg'}`}>
+                            {/* Card Content */}
+                            <div className="flex h-32">
+                              {/* Image Section */}
+                              <div className="w-1/3 relative">
+                                <img src={chapter.coverImage} alt={chapter.title} className="absolute inset-0 w-full h-full object-cover" />
+                                <div className={`absolute inset-0 ${isCompleted ? 'bg-green-900/20' : 'bg-black/20'} group-hover:bg-transparent transition-colors`} />
+                              </div>
+                              
+                              {/* Text Section */}
+                              <div className="w-2/3 p-4 flex flex-col justify-between">
+                                <div>
+                                  <div className="flex items-center gap-2 mb-1">
+                                     {isCompleted ? (
+                                        <div className="flex items-center gap-1 text-green-600 text-xs font-bold uppercase">
+                                          <CheckCircle className="w-3 h-3" /> Completed
+                                        </div>
+                                      ) : (
+                                        <div className="flex items-center gap-1 text-primary text-xs font-bold uppercase">
+                                          <BookOpen className="w-3 h-3" /> {chapter.duration} Module
+                                        </div>
+                                      )}
+                                  </div>
+                                  <h3 className="font-display font-bold text-lg leading-tight mb-1 group-hover:text-primary transition-colors">{chapter.title}</h3>
+                                  <p className="text-xs text-muted-foreground line-clamp-2">{chapter.subtitle}</p>
+                                </div>
+                                
+                                <div className="flex items-center justify-end">
+                                  <span className="text-xs font-bold text-primary flex items-center group-hover:translate-x-1 transition-transform">
+                                    {isCompleted ? "Review" : "Start Module"} <ArrowRight className="ml-1 w-3 h-3" />
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <div className="text-sm text-muted-foreground line-clamp-2 mb-3 h-10">
-                            {chapter.description}
-                          </div>
-                          <Link href={`/chapter/${chapter.id}`}>
-                            <Button size="sm" variant={isCompleted ? "outline" : "outline"} className={`w-full text-xs h-8 ${isCompleted ? 'bg-white hover:bg-green-50 text-green-700 border-green-200' : 'bg-white/50 hover:bg-white hover:text-primary'}`}>
-                              {isCompleted ? "Review Slides" : "Read Slides"}
-                            </Button>
-                          </Link>
-                        </div>
+                        </Link>
                       );
                     })}
-                  </div>
-
-                  <div className="p-4 bg-secondary/30 rounded-xl border border-secondary">
-                    <div className="flex items-center gap-2 mb-2 text-primary">
-                      <Bot className="w-4 h-4" />
-                      <span className="text-xs font-bold uppercase">Roleplays</span>
-                    </div>
-                    <div className="text-2xl font-display font-bold">
-                      {progress.roleplays.completed} <span className="text-muted-foreground text-sm font-normal">/ {progress.roleplays.total}</span>
-                    </div>
-                  </div>
                 </div>
 
                 <div className="pt-4 border-t border-border">

@@ -3,31 +3,148 @@ import proudDiyHomeowner from '@assets/generated_images/proud_diy_homeowner_on_l
 import skepticalHomeowner from '@assets/generated_images/skeptical_older_homeowner.png';
 import indecisiveHomeowner from '@assets/generated_images/indecisive_homeowner_thinking.png';
 
+export interface Slide {
+  type: 'content' | 'quiz';
+  title: string;
+  content?: string; // HTML or text content
+  bullets?: string[];
+  image?: string;
+  quiz?: {
+    question: string;
+    options: string[];
+    correctAnswer: number;
+  };
+}
+
 export interface Chapter {
   id: string;
   title: string;
+  subtitle: string;
   description: string;
   duration: string;
   status: 'completed' | 'in-progress' | 'locked';
-  pdfUrl: string;
+  pdfUrl: string; // Keep for download
+  coverImage: string;
+  slides: Slide[];
 }
 
 export const CHAPTERS: Chapter[] = [
   {
     id: "chap-1",
-    title: "Chapter 1: Sales Foundations",
-    description: "Lawn Care Fundamentals & Prepay Mindset. Master the four pillars of field success and the winning sales mindset.",
+    title: "Sales Foundations",
+    subtitle: "Master the Art of the Opener",
+    description: "Learn the psychology behind the first 10 seconds of interaction. This module covers body language, tonality, and the 'Pattern Interrupt' technique that separates top performers from the rest.",
     duration: "45 min",
     status: "in-progress",
-    pdfUrl: "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1766976787/Gecko_Green_Training_-_Certification_1_Chapter_1_1_-compressed-compressed_hctzzg.pdf"
+    pdfUrl: "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1766976787/Gecko_Green_Training_-_Certification_1_Chapter_1_1_-compressed-compressed_hctzzg.pdf",
+    coverImage: "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+    slides: [
+      {
+        type: 'content',
+        title: "The First 10 Seconds",
+        content: "Your success is determined before you even finish your first sentence. Learn how to command attention instantly.",
+        bullets: [
+          "Non-verbal communication accounts for 93% of the first impression.",
+          "The 'Pattern Interrupt': Breaking the homeowner's automatic 'No'.",
+          "Distance & Stance: Respecting personal space while showing confidence."
+        ]
+      },
+      {
+        type: 'content',
+        title: "The Pattern Interrupt",
+        content: "Most homeowners have a script: 'I'm not interested.' You need a script that breaks theirs.",
+        bullets: [
+          "Don't look like a salesperson (no clipboard in hand).",
+          "Start with a question, not a statement.",
+          "Use a casual, neighborly tone."
+        ]
+      },
+      {
+        type: 'quiz',
+        title: "Quick Check: First Impressions",
+        quiz: {
+          question: "What is the primary goal of the first 10 seconds?",
+          options: [
+            "To sell the lawn care package immediately.",
+            "To break the homeowner's automatic rejection pattern.",
+            "To hand them a flyer.",
+            "To ask for their email address."
+          ],
+          correctAnswer: 1
+        }
+      },
+      {
+        type: 'content',
+        title: "Controlling the Frame",
+        content: "Whoever asks the questions controls the conversation. Stop answering questions and start asking them.",
+        bullets: [
+          "The 'Illusion of Choice': Giving options that both lead to 'Yes'.",
+          "Answering a question with a question.",
+          "Setting the time constraint: 'I only have a minute...'"
+        ]
+      },
+       {
+        type: 'quiz',
+        title: "Quick Check: Frame Control",
+        quiz: {
+          question: "How do you handle a homeowner asking 'How much is it?' too early?",
+          options: [
+            "Give them the price immediately to show transparency.",
+            "Ignore the question and keep talking.",
+            "Defer it: 'Great question, I'll get to that in a second, but first...'",
+            "Tell them you don't know."
+          ],
+          correctAnswer: 2
+        }
+      }
+    ]
   },
   {
     id: "chap-2",
-    title: "Chapter 2: Field Execution",
-    description: "The Sales Process, Objections, Closing & Payment. Learn the B-P-D-C framework and how to turn a 'No' into a 'Yes'.",
+    title: "Field Execution",
+    subtitle: "Closing the Deal & Handling Objections",
+    description: "Move from 'Maybe' to 'Yes'. This advanced module breaks down the B-P-D-C framework and teaches you how to turn common objections into closing opportunities.",
     duration: "60 min",
     status: "locked",
-    pdfUrl: "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1766976616/Gecko_Green_Training_-_Certification_1_Chapter_2_2_-compressed_2_1_hok8bh.pdf"
+    pdfUrl: "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1766976616/Gecko_Green_Training_-_Certification_1_Chapter_2_2_-compressed_2_1_hok8bh.pdf",
+    coverImage: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+    slides: [
+      {
+        type: 'content',
+        title: "The B-P-D-C Framework",
+        content: "The roadmap to every successful sale. Memorize this structure.",
+        bullets: [
+          "B: Build Rapport - Connect as a human first.",
+          "P: Problem Awareness - Show them what they can't unsee.",
+          "D: Diagnose & Solution - Present the Gecko Green advantage.",
+          "C: Close - Ask for the business confidently."
+        ]
+      },
+      {
+        type: 'content',
+        title: "Isolating the Objection",
+        content: "Never answer an objection until you're sure it's the ONLY one.",
+        bullets: [
+          "Smoke screens vs. Real Objections.",
+          "The 'Magic Question': 'If we could handle [objection], would you be ready to move forward?'",
+          "Looping: Acknowledge -> Respond -> Close again."
+        ]
+      },
+      {
+        type: 'quiz',
+        title: "Quick Check: Objection Handling",
+        quiz: {
+          question: "What should you do immediately after a homeowner gives an objection?",
+          options: [
+            "Argue with them why they are wrong.",
+            "Immediately drop the price.",
+            "Acknowledge and Isolate it.",
+            "Walk away to the next house."
+          ],
+          correctAnswer: 2
+        }
+      }
+    ]
   }
 ];
 
