@@ -66,7 +66,7 @@ export default function LoginPage() {
               <Input 
                 id="email" 
                 type="email" 
-                placeholder="rep@geckogreen.ai" 
+                placeholder="paul.wilkerson@geckogreen.ai" 
                 className="h-12 bg-white/50 border-primary/20 focus:border-primary focus:ring-primary/20 transition-all"
                 required
               />

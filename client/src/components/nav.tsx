@@ -50,9 +50,15 @@ export function Nav() {
               </a>
             </Link>
           ))}
-          <Button size="sm" className="bg-primary text-white hover:bg-primary/90 rounded-full px-6 font-display">
-            Connect
-          </Button>
+          <div className="flex items-center gap-3 pl-6 border-l border-primary/10">
+            <div className="flex flex-col items-end hidden lg:flex">
+              <span className="text-sm font-bold leading-none">Paul Wilkerson</span>
+              <span className="text-xs text-muted-foreground">Sales Rep</span>
+            </div>
+            <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20">
+              PW
+            </div>
+          </div>
         </div>
 
         {/* Mobile Nav */}

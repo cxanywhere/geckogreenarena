@@ -48,7 +48,7 @@ export default function Home() {
                 </div>
                 
                 <h1 className="text-4xl md:text-5xl font-display font-bold leading-tight tracking-tight mb-4 text-foreground">
-                  Welcome to <span className="text-primary transparent-text-stroke">arena ai</span> by gigarev.
+                  Welcome, <span className="text-primary transparent-text-stroke">Paul Wilkerson</span>.
                 </h1>
                 
                 <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
