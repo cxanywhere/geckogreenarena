@@ -38,7 +38,7 @@ export default function LoginPage() {
                 <GraduationCap className="h-6 w-6 text-white" />
               </div>
               <span className="font-display text-2xl font-bold tracking-tight text-foreground">
-                GigaRev<span className="font-normal opacity-80">ArenaAI</span>
+                arena ai<span className="font-normal opacity-80"> by gigarev</span>
               </span>
             </div>
           </div>
