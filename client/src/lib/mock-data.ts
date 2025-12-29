@@ -4,6 +4,7 @@ export interface Chapter {
   description: string;
   duration: string;
   status: 'completed' | 'in-progress' | 'locked';
+  pdfUrl: string;
 }
 
 export const CHAPTERS: Chapter[] = [
@@ -12,14 +13,16 @@ export const CHAPTERS: Chapter[] = [
     title: "Chapter 1: Sales Foundations",
     description: "Lawn Care Fundamentals & Prepay Mindset. Master the four pillars of field success and the winning sales mindset.",
     duration: "45 min",
-    status: "in-progress"
+    status: "in-progress",
+    pdfUrl: "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1766976787/Gecko_Green_Training_-_Certification_1_Chapter_1_1_-compressed-compressed_hctzzg.pdf"
   },
   {
     id: "chap-2",
     title: "Chapter 2: Field Execution",
     description: "The Sales Process, Objections, Closing & Payment. Learn the B-P-D-C framework and how to turn a 'No' into a 'Yes'.",
     duration: "60 min",
-    status: "locked"
+    status: "locked",
+    pdfUrl: "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1766976616/Gecko_Green_Training_-_Certification_1_Chapter_2_2_-compressed_2_1_hok8bh.pdf"
   }
 ];
 

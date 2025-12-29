@@ -93,14 +93,23 @@ export default function Home() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-secondary/30 rounded-xl border border-secondary">
-                    <div className="flex items-center gap-2 mb-2 text-primary">
-                      <BookOpen className="w-4 h-4" />
-                      <span className="text-xs font-bold uppercase">Chapters</span>
-                    </div>
-                    <div className="text-2xl font-display font-bold">
-                      {progress.chapters.completed} <span className="text-muted-foreground text-sm font-normal">/ {progress.chapters.total}</span>
-                    </div>
+                  <div className="space-y-3">
+                    {CHAPTERS.map((chapter) => (
+                      <div key={chapter.id} className="p-4 bg-secondary/30 rounded-xl border border-secondary relative group hover:border-primary/30 transition-colors">
+                        <div className="flex items-center gap-2 mb-2 text-primary">
+                          <BookOpen className="w-4 h-4" />
+                          <span className="text-xs font-bold uppercase line-clamp-1">{chapter.title}</span>
+                        </div>
+                        <div className="text-sm text-muted-foreground line-clamp-2 mb-3 h-10">
+                          {chapter.description}
+                        </div>
+                        <Link href={`/chapter/${chapter.id}`}>
+                          <Button size="sm" variant="outline" className="w-full text-xs h-8 bg-white/50 hover:bg-white hover:text-primary">
+                            Read Slides
+                          </Button>
+                        </Link>
+                      </div>
+                    ))}
                   </div>
 
                   <div className="p-4 bg-secondary/30 rounded-xl border border-secondary">
