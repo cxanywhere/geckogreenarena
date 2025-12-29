@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "wouter";
 import { Nav } from "@/components/nav";
 import { RoleplayCard } from "@/components/character-card";
 import { ROLEPLAYS, CHAPTERS } from "@/lib/mock-data";
