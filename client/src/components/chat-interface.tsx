@@ -64,7 +64,7 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
   };
 
   return (
-    <div className="flex flex-col h-[80vh] bg-white rounded-xl overflow-hidden border border-border shadow-2xl shadow-primary/5">
+    <div className="flex flex-col h-[calc(100dvh-10rem)] lg:h-[80vh] bg-white rounded-xl overflow-hidden border border-border shadow-2xl shadow-primary/5">
       {/* Header */}
       <div className="p-4 border-b border-border bg-muted/20 flex items-center justify-between">
         <div className="flex items-center gap-3">

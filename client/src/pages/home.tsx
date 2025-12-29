@@ -24,7 +24,7 @@ export default function Home() {
       <Nav />
       
       {/* Personalized Welcome Section */}
-      <section className="relative overflow-hidden pt-12 pb-20">
+      <section className="relative overflow-hidden pt-6 pb-12 md:pt-12 md:pb-20">
         {/* Background Elements */}
         <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
            <img src={heroBg} alt="Abstract Background" className="w-full h-full object-cover mask-image-gradient" />
