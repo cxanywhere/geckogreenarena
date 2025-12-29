@@ -3,7 +3,7 @@ import { Message, RoleplayScenario } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, User, Sparkles } from "lucide-react";
+import { Send, User, Sparkles, Mic, Volume2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -21,6 +21,7 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
     }
   ]);
   const [inputValue, setInputValue] = useState("");
+  const [isRecording, setIsRecording] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -54,6 +55,14 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
     }, 1000);
   };
 
+  const toggleRecording = () => {
+    setIsRecording(!isRecording);
+    // In a real app, this would trigger speech recognition
+    if (!isRecording) {
+      // Simulate listening state visually
+    }
+  };
+
   return (
     <div className="flex flex-col h-[80vh] bg-white rounded-xl overflow-hidden border border-border shadow-2xl shadow-primary/5">
       {/* Header */}
@@ -71,9 +80,14 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
             <span className="text-xs text-primary font-mono">{scenario.role} // ONLINE</span>
           </div>
         </div>
-        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-          <Sparkles className="h-5 w-5" />
-        </Button>
+        <div className="flex gap-2">
+            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
+            <Volume2 className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
+            <Sparkles className="h-5 w-5" />
+            </Button>
+        </div>
       </div>
 
       {/* Messages */}
@@ -117,6 +131,26 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
 
       {/* Input */}
       <div className="p-4 bg-white border-t border-border">
+        {isRecording && (
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            className="mb-4 bg-primary/5 rounded-lg p-4 flex items-center justify-center gap-2"
+          >
+             <div className="flex items-center gap-1 h-8">
+               {[1,2,3,4,5,6,7,8].map(i => (
+                 <motion.div 
+                   key={i}
+                   animate={{ height: [10, 24, 10] }}
+                   transition={{ duration: 0.5, repeat: Infinity, delay: i * 0.1 }}
+                   className="w-1 bg-primary rounded-full"
+                 />
+               ))}
+             </div>
+             <span className="text-sm font-bold text-primary animate-pulse">Listening...</span>
+          </motion.div>
+        )}
+        
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -124,10 +158,19 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
           }}
           className="flex gap-2"
         >
+          <Button 
+            type="button" 
+            size="icon" 
+            onClick={toggleRecording}
+            className={`transition-all duration-300 shadow-lg ${isRecording ? 'bg-red-500 hover:bg-red-600 animate-pulse' : 'bg-secondary text-primary hover:bg-secondary/80'}`}
+          >
+            <Mic className="h-5 w-5" />
+          </Button>
+
           <Input
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Type your message..."
+            placeholder="Type message (or use voice)..."
             className="flex-1 bg-muted/30 border-primary/20 focus-visible:ring-primary/30 font-sans"
           />
           <Button type="submit" size="icon" className="bg-primary hover:bg-primary/90 text-white rounded-lg shadow-lg shadow-primary/20">
