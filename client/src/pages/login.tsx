@@ -137,7 +137,7 @@ export default function LoginPage() {
           <div className="flex justify-end">
             <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-sm font-mono">
               <Lock className="w-3 h-3" />
-              SECURE CONNECTION ENCRYPTED
+              GECKO GREEN TRAINING PORTAL
             </div>
           </div>
           
@@ -147,11 +147,11 @@ export default function LoginPage() {
             transition={{ duration: 0.7, delay: 0.2 }}
           >
             <h2 className="font-display text-5xl font-bold mb-6 leading-tight">
-              The Next Evolution of <br />
-              <span className="text-green-300">Bio-Digital Intelligence</span>
+              Premier Lawn Care <br />
+              <span className="text-green-300">Sales Enablement</span>
             </h2>
             <p className="text-white/80 text-lg max-w-md leading-relaxed">
-              GeckoGreen connects you to the world's most advanced AI personas. Experience seamless integration, real-time adaptation, and unparalleled roleplay fidelity.
+              Master your pitch with Arena AI by GigaRev. The advanced roleplay platform built exclusively for Gecko Green sales professionals to practice, refine, and close more deals.
             </p>
           </motion.div>
         </div>
