@@ -53,7 +53,7 @@ export default function LoginPage() {
 
           <div className="mb-8">
             <h1 className="font-display text-3xl font-bold text-foreground mb-2">
-              Agent Access
+              Sales Rep Access
             </h1>
             <p className="text-muted-foreground">
               Enter your GeckoGreen credentials to enter the Arena.
@@ -66,7 +66,7 @@ export default function LoginPage() {
               <Input 
                 id="email" 
                 type="email" 
-                placeholder="agent@geckogreen.ai" 
+                placeholder="rep@geckogreen.ai" 
                 className="h-12 bg-white/50 border-primary/20 focus:border-primary focus:ring-primary/20 transition-all"
                 required
               />
