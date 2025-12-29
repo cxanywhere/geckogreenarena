@@ -152,23 +152,13 @@ export default function Home() {
                     })}
                 </div>
 
-                <div className="pt-4 border-t border-border">
-                  <div className="flex items-center gap-3 text-sm text-muted-foreground mb-3">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Onboarding Basics</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-foreground font-medium mb-3">
-                    <div className="w-4 h-4 rounded-full border-2 border-primary border-t-transparent animate-spin" />
-                    <span>Advanced Objection Handling</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-muted-foreground/50">
-                    <Lock className="w-4 h-4" />
-                    <span>Final Certification Exam</span>
-                  </div>
-                </div>
-
-                <Button className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-6">
-                  Continue Training <ArrowRight className="ml-2 h-4 w-4" />
+                <Button 
+                  className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-6 shadow-lg shadow-primary/20"
+                  asChild
+                >
+                  <Link href={`/chapter/${CHAPTERS.find(c => !completedChapters.includes(c.id))?.id || CHAPTERS[0].id}`}>
+                    {completedChapters.length === CHAPTERS.length ? "Review Training" : "Continue Training"} <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
                 </Button>
               </div>
             </motion.div>
