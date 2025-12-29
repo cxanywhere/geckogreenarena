@@ -56,10 +56,33 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
   };
 
   const toggleRecording = () => {
-    setIsRecording(!isRecording);
-    // In a real app, this would trigger speech recognition
-    if (!isRecording) {
-      // Simulate listening state visually
+    if (isRecording) {
+      // Stop recording and send simulated voice message
+      setIsRecording(false);
+      
+      // Simulate processing voice input
+      const userMsg: Message = {
+        id: Date.now().toString(),
+        sender: "user",
+        text: "I understand that objection, but let me show you...", // Simulated speech-to-text
+        timestamp: new Date()
+      };
+      
+      setMessages(prev => [...prev, userMsg]);
+      
+      // Simulate AI response after delay
+      setTimeout(() => {
+        const aiMsg: Message = {
+          id: (Date.now() + 1).toString(),
+          sender: "ai",
+          text: `(Simulating ${scenario.role} response based on ${scenario.traits.join(", ")}...) I see what you mean. Go on.`,
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, aiMsg]);
+      }, 1500);
+      
+    } else {
+      setIsRecording(true);
     }
   };
 
@@ -90,7 +113,12 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
         </div>
       </div>
 
-      {/* Messages */}
+      {/* Messages / Transcript */}
+      <div className="bg-muted/10 border-b border-border px-4 py-2 flex items-center gap-2">
+        <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+        <span className="text-xs font-mono font-medium text-muted-foreground uppercase tracking-widest">Live Transcript</span>
+      </div>
+      
       <ScrollArea className="flex-1 p-4 bg-muted/5">
         <div className="flex flex-col gap-4 pb-4">
           <AnimatePresence>
@@ -116,7 +144,7 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
                 <div
                   className={`max-w-[80%] p-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
                     msg.sender === "user"
-                      ? "bg-primary text-white rounded-tr-none"
+                      ? "bg-white border border-border text-foreground rounded-tr-none"
                       : "bg-white border border-border text-foreground rounded-tl-none"
                   }`}
                 >
@@ -129,54 +157,42 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
         </div>
       </ScrollArea>
 
-      {/* Input */}
-      <div className="p-4 bg-white border-t border-border">
-        {isRecording && (
-          <motion.div 
+      {/* Voice Controls */}
+      <div className="p-6 bg-white border-t border-border flex flex-col items-center justify-center gap-4">
+        {isRecording ? (
+           <motion.div 
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
-            className="mb-4 bg-primary/5 rounded-lg p-4 flex items-center justify-center gap-2"
+            className="flex flex-col items-center gap-2 w-full"
           >
-             <div className="flex items-center gap-1 h-8">
-               {[1,2,3,4,5,6,7,8].map(i => (
+             <div className="flex items-center justify-center gap-1 h-12 w-full max-w-[200px]">
+               {[1,2,3,4,5,6,7,8,9,10,11,12].map(i => (
                  <motion.div 
                    key={i}
-                   animate={{ height: [10, 24, 10] }}
-                   transition={{ duration: 0.5, repeat: Infinity, delay: i * 0.1 }}
-                   className="w-1 bg-primary rounded-full"
+                   animate={{ height: [10, 32, 10] }}
+                   transition={{ duration: 0.4, repeat: Infinity, delay: i * 0.05 }}
+                   className="w-1.5 bg-primary rounded-full"
                  />
                ))}
              </div>
              <span className="text-sm font-bold text-primary animate-pulse">Listening...</span>
           </motion.div>
+        ) : (
+          <p className="text-sm text-muted-foreground font-medium">Tap microphone to start speaking</p>
         )}
         
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSend();
-          }}
-          className="flex gap-2"
+        <Button 
+          type="button" 
+          size="lg"
+          onClick={toggleRecording}
+          className={`h-16 w-16 rounded-full transition-all duration-300 shadow-xl border-4 ${
+            isRecording 
+              ? 'bg-red-500 hover:bg-red-600 border-red-100 animate-pulse' 
+              : 'bg-primary hover:bg-primary/90 border-primary/20 hover:scale-105'
+          }`}
         >
-          <Button 
-            type="button" 
-            size="icon" 
-            onClick={toggleRecording}
-            className={`transition-all duration-300 shadow-lg ${isRecording ? 'bg-red-500 hover:bg-red-600 animate-pulse' : 'bg-secondary text-primary hover:bg-secondary/80'}`}
-          >
-            <Mic className="h-5 w-5" />
-          </Button>
-
-          <Input
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Type message (or use voice)..."
-            className="flex-1 bg-muted/30 border-primary/20 focus-visible:ring-primary/30 font-sans"
-          />
-          <Button type="submit" size="icon" className="bg-primary hover:bg-primary/90 text-white rounded-lg shadow-lg shadow-primary/20">
-            <Send className="h-5 w-5" />
-          </Button>
-        </form>
+          <Mic className={`h-8 w-8 ${isRecording ? 'text-white' : 'text-white'}`} />
+        </Button>
       </div>
     </div>
   );
