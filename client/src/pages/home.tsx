@@ -32,15 +32,15 @@ export default function Home() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                 </span>
-                SYSTEM ONLINE V2.0
+                GIGA-REV SYSTEM V2.0 // GECKOGREEN CORP
               </div>
               
               <h1 className="text-5xl md:text-7xl font-display font-bold leading-tight tracking-tight mb-6 text-foreground">
-                Enter the <span className="text-primary transparent-text-stroke">GeckoGreen</span> Arena.
+                Enter the <span className="text-primary transparent-text-stroke">GigaRev</span> Arena.
               </h1>
               
               <p className="text-xl text-muted-foreground mb-8 max-w-xl leading-relaxed">
-                Experience the next evolution of AI roleplay. Engage with hyper-realistic personas in a bottle-green digital ecosystem.
+                Experience the next evolution of AI roleplay. Optimized for GeckoGreen training scenarios and conflict resolution simulations.
               </p>
               
               <div className="flex flex-wrap gap-4">
@@ -107,8 +107,8 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-primary/5 border-t border-primary/10 py-12">
         <div className="container mx-auto px-4 text-center">
-          <div className="font-display font-bold text-2xl text-primary mb-4">GeckoGreen</div>
-          <p className="text-muted-foreground text-sm mb-8">© 2025 GeckoGreen Industries. All rights reserved.</p>
+          <div className="font-display font-bold text-2xl text-primary mb-4">GigaRev ArenaAI</div>
+          <p className="text-muted-foreground text-sm mb-8">© 2025 GigaRev Industries. All rights reserved. Licensed to GeckoGreen.</p>
         </div>
       </footer>
     </div>

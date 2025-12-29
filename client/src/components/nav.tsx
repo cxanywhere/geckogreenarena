@@ -5,12 +5,14 @@ import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
+import geckoLogo from "@assets/image_1766975682051.png";
+
 export function Nav() {
   const [location] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
   const links = [
-    { href: "/", label: "Arena" },
+    { href: "/dashboard", label: "Arena" },
     { href: "/leaderboard", label: "Leaderboard" },
     { href: "/about", label: "About" },
   ];
@@ -18,12 +20,19 @@ export function Nav() {
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-white/80 backdrop-blur-md dark:bg-black/80">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/">
-          <a className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
-            <Zap className="h-6 w-6 fill-primary" />
-            <span>GeckoGreen<span className="text-foreground/80 font-normal">Arena</span></span>
-          </a>
-        </Link>
+        <div className="flex items-center gap-6">
+          <Link href="/dashboard">
+            <a className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
+              <Zap className="h-6 w-6 fill-primary" />
+              <span>GigaRev<span className="text-foreground/80 font-normal">ArenaAI</span></span>
+            </a>
+          </Link>
+          
+          <div className="hidden md:flex items-center gap-2 pl-6 border-l border-primary/10">
+            <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest">Client:</span>
+            <img src={geckoLogo} alt="GeckoGreen" className="h-8 w-auto object-contain" />
+          </div>
+        </div>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">

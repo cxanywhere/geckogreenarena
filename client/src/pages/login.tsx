@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Zap, ArrowRight, Lock } from "lucide-react";
 import heroBg from "@assets/generated_images/abstract_gecko_green_cybernetics.png";
+import geckoLogo from "@assets/image_1766975682051.png";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
@@ -31,21 +32,31 @@ export default function LoginPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex items-center gap-2 mb-12">
-            <div className="h-10 w-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
-              <Zap className="h-6 w-6 text-white" />
+          <div className="flex items-center justify-between mb-12">
+            <div className="flex items-center gap-2">
+              <div className="h-10 w-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+                <Zap className="h-6 w-6 text-white" />
+              </div>
+              <span className="font-display text-2xl font-bold tracking-tight text-foreground">
+                GigaRev<span className="font-normal opacity-80">ArenaAI</span>
+              </span>
             </div>
-            <span className="font-display text-2xl font-bold tracking-tight text-foreground">
-              GeckoGreen
-            </span>
+          </div>
+
+          <div className="mb-8 p-6 bg-white rounded-2xl border border-primary/10 shadow-sm relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+              <Zap className="w-24 h-24 text-primary rotate-12" />
+            </div>
+            <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-3">Authorized Workspace For</p>
+            <img src={geckoLogo} alt="GeckoGreen" className="h-16 w-auto object-contain mb-2" />
           </div>
 
           <div className="mb-8">
-            <h1 className="font-display text-4xl font-bold text-foreground mb-3">
-              Welcome back
+            <h1 className="font-display text-3xl font-bold text-foreground mb-2">
+              Agent Access
             </h1>
-            <p className="text-muted-foreground text-lg">
-              Enter your credentials to access the Arena.
+            <p className="text-muted-foreground">
+              Enter your GeckoGreen credentials to enter the Arena.
             </p>
           </div>
 
