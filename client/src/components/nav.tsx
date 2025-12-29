@@ -21,7 +21,7 @@ export function Nav() {
         <Link href="/">
           <a className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
             <Zap className="h-6 w-6 fill-primary" />
-            <span>GigaRev<span className="text-foreground/80 font-normal">ArenaAI</span></span>
+            <span>GeckoGreen<span className="text-foreground/80 font-normal">Arena</span></span>
           </a>
         </Link>
 
