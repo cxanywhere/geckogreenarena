@@ -1,3 +1,8 @@
+import busyHomeowner from '@assets/generated_images/busy_homeowner_at_door.png';
+import proudDiyHomeowner from '@assets/generated_images/proud_diy_homeowner_on_lawn.png';
+import skepticalHomeowner from '@assets/generated_images/skeptical_older_homeowner.png';
+import indecisiveHomeowner from '@assets/generated_images/indecisive_homeowner_thinking.png';
+
 export interface Slide {
   type: 'content' | 'quiz' | 'roleplay';
   title: string;
