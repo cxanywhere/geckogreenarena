@@ -1,3 +1,8 @@
+import busyHomeowner from '@assets/generated_images/busy_homeowner_at_door.png';
+import proudDiyHomeowner from '@assets/generated_images/proud_diy_homeowner_on_lawn.png';
+import skepticalHomeowner from '@assets/generated_images/skeptical_older_homeowner.png';
+import indecisiveHomeowner from '@assets/generated_images/indecisive_homeowner_thinking.png';
+
 export interface Chapter {
   id: string;
   title: string;
@@ -41,169 +46,172 @@ export interface RoleplayScenario {
   };
 }
 
-// Avatars will be populated with the stock images we fetch
 export const ROLEPLAYS: RoleplayScenario[] = [
-  // Chapter 1 Roleplays
+  // Phase 1: Opening
   {
     id: "rp-1",
-    name: "Why Lawn Care Matters",
-    role: "The Skeptic",
-    description: "Homeowner is unsure why anyone pays for lawn care when they can just mow it. Goal: Explain pride, safety, and investment value.",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000",
-    traits: ["Value Pitch", "Confidence", "Education"],
+    name: "I'm actually really busy right now.",
+    role: "The Busy Homeowner",
+    description: "Chapter 1 → Opening → First 10 Seconds. Acknowledge time pressure + set ≤60s container + ask a qualifying control question.",
+    avatar: busyHomeowner,
+    traits: ["Time Management", "Control Question", "Respect"],
     difficulty: "Beginner",
-    stats: { resistance: 40, objections: 30, buy_signal: 60 }
+    stats: { resistance: 60, objections: 20, buy_signal: 30 }
   },
   {
     id: "rp-2",
-    name: "Explaining Grass Types",
-    role: "The Curious Neighbor",
-    description: "Homeowner wants to know what kind of grass they have and why it looks different. Goal: Identify Bermuda/St. Augustine and explain needs.",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=1000",
-    traits: ["Product Knowledge", "Authority", "Clarity"],
-    difficulty: "Beginner",
-    stats: { resistance: 20, objections: 10, buy_signal: 80 }
+    name: "Not interested.",
+    role: "The Dismissive Prospect",
+    description: "Chapter 1 → Opening → Handling Brush-Offs. Acknowledge + reframe to specific issue + redirect.",
+    avatar: busyHomeowner,
+    traits: ["Reframing", "Persistence", "Specifics"],
+    difficulty: "Intermediate",
+    stats: { resistance: 80, objections: 40, buy_signal: 10 }
   },
   {
     id: "rp-3",
-    name: "Why Do I Still Have Weeds?",
-    role: "The Frustrated Client",
-    description: "Homeowner expects instant results. Goal: Explain the seed bank, pre-emergent vs post-emergent, and set realistic timelines.",
-    avatar: "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?auto=format&fit=crop&q=80&w=1000",
-    traits: ["Empathy", "Expectation Setting", "Technical Knowledge"],
-    difficulty: "Intermediate",
-    stats: { resistance: 70, objections: 60, buy_signal: 40 }
+    name: "No soliciting.",
+    role: "The Rule Follower",
+    description: "Chapter 1 → Opening → Compliance & Authority. Acknowledge rule + clarify intent + request micro-permission.",
+    avatar: skepticalHomeowner,
+    traits: ["Compliance", "Intent Clarification", "Micro-Permission"],
+    difficulty: "Advanced",
+    stats: { resistance: 90, objections: 10, buy_signal: 5 }
   },
-  // Chapter 2 Roleplays
+  // Phase 2: Turn & Burn
   {
     id: "rp-4",
-    name: "The Door Intro",
-    role: "The Busy Homeowner",
-    description: "You have 30 seconds to make a first impression. Goal: Execute the perfect opener, establish rapport, and transition to the lawn.",
-    avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=1000",
-    traits: ["First Impressions", "Body Language", "Tone"],
-    difficulty: "Beginner",
-    stats: { resistance: 50, objections: 20, buy_signal: 50 }
+    name: "I do my own lawn.",
+    role: "The DIY Enthusiast",
+    description: "Chapter 1 → Turn & Burn → DIY Pushback. Validate identity + differentiate + regain lead.",
+    avatar: proudDiyHomeowner,
+    traits: ["Validation", "Differentiation", "Leadership"],
+    difficulty: "Intermediate",
+    stats: { resistance: 70, objections: 60, buy_signal: 40 }
   },
   {
     id: "rp-5",
-    name: "Handling The Brush-Off",
-    role: "The Dismissive Prospect",
-    description: "Homeowner says 'Not interested' immediately. Goal: Use a soft comeback and pivot to a neighbor reference.",
-    avatar: "https://images.unsplash.com/photo-1554151228-14d9def656ec?auto=format&fit=crop&q=80&w=1000",
-    traits: ["Resilience", "Quick Thinking", "Pivoting"],
-    difficulty: "Intermediate",
-    stats: { resistance: 80, objections: 40, buy_signal: 20 }
-  },
-  {
-    id: "rp-6",
-    name: "The Transition (Turn & Burn)",
-    role: "The Gatekeeper",
-    description: "Homeowner is talking but staying in the doorway. Goal: Smoothly move the conversation from the porch to the lawn.",
-    avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&q=80&w=1000",
-    traits: ["Control", "Leadership", "Physical cues"],
-    difficulty: "Intermediate",
-    stats: { resistance: 40, objections: 30, buy_signal: 50 }
-  },
-  {
-    id: "rp-7",
-    name: "The 4-Step Diagnosis",
-    role: "The Analytical Buyer",
-    description: "Homeowner wants proof. Goal: Diagnose 4 key issues on the lawn and link them to Gecko Green solutions.",
-    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=1000",
-    traits: ["Analysis", "Solution Selling", "Credibility"],
-    difficulty: "Advanced",
-    stats: { resistance: 30, objections: 50, buy_signal: 60 }
-  },
-  {
-    id: "rp-8",
-    name: "Setting Expectations",
-    role: "The Perfectionist",
-    description: "Homeowner wants a golf course lawn tomorrow. Goal: Explain the partnership, watering duties, and realistic progress.",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=1000",
-    traits: ["Honesty", "Partnership", "Clarity"],
-    difficulty: "Intermediate",
-    stats: { resistance: 60, objections: 70, buy_signal: 40 }
-  },
-  {
-    id: "rp-9",
-    name: "The Price Objection",
-    role: "The Budget Watcher",
-    description: "Homeowner says 'It costs too much'. Goal: Use the B-P-D-C framework to build value and justify the investment.",
-    avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&q=80&w=1000",
-    traits: ["Value Building", "Negotiation", "Confidence"],
-    difficulty: "Advanced",
-    stats: { resistance: 90, objections: 90, buy_signal: 30 }
-  },
-  {
-    id: "rp-10",
-    name: "The 'I Do It Myself' Objection",
-    role: "The DIY Enthusiast",
-    description: "Homeowner enjoys mowing. Goal: Validate their effort but highlight the difference between maintenance and professional treatment.",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=1000",
-    traits: ["Validation", "Differentiation", "Closing"],
-    difficulty: "Intermediate",
-    stats: { resistance: 70, objections: 60, buy_signal: 40 }
-  },
-  {
-    id: "rp-11",
-    name: "The 'I Have A Service' Objection",
+    name: "We already have a lawn company.",
     role: "The Loyalist",
-    description: "Homeowner uses a competitor. Goal: Find the pain point in their current service and offer a better alternative.",
-    avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&q=80&w=1000",
-    traits: ["Discovery", "Comparison", "Tact"],
+    description: "Chapter 1 → Turn & Burn → Existing Provider. Acknowledge + remove replacement fear + isolate gap.",
+    avatar: skepticalHomeowner,
+    traits: ["Gap Analysis", "Non-Threatening", "Discovery"],
     difficulty: "Advanced",
     stats: { resistance: 85, objections: 50, buy_signal: 20 }
   },
   {
-    id: "rp-12",
-    name: "The 'Spouse' Objection",
-    role: "The Deflector",
-    description: "Homeowner needs to 'talk to my husband/wife'. Goal: Empower them to make a decision or set a firm follow-up.",
-    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=1000",
-    traits: ["Empowerment", "Urgency", "Follow-up"],
+    id: "rp-6",
+    name: "Why are you here?",
+    role: "The Confused Homeowner",
+    description: "Chapter 1 → Turn & Burn → Purpose Statement. State purpose clearly + direct next action.",
+    avatar: busyHomeowner,
+    traits: ["Clarity", "Direction", "Purpose"],
+    difficulty: "Beginner",
+    stats: { resistance: 40, objections: 30, buy_signal: 50 }
+  },
+  // Phase 3: Lawn Walk
+  {
+    id: "rp-7",
+    name: "My lawn looks fine.",
+    role: "The Denialist",
+    description: "Chapter 2 → Lawn Walk → Identifying Issues. Validate + isolate specific problem + visually point.",
+    avatar: proudDiyHomeowner,
+    traits: ["Visual Proof", "Isolation", "Validation"],
     difficulty: "Intermediate",
-    stats: { resistance: 60, objections: 40, buy_signal: 50 }
+    stats: { resistance: 60, objections: 70, buy_signal: 30 }
   },
   {
-    id: "rp-13",
-    name: "Closing The Prepay",
-    role: "The Deal Hunter",
-    description: "Homeowner is interested but hesitant. Goal: present the 5% prepay discount as the logical, best-value choice.",
-    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=1000",
-    traits: ["Closing", "Math", "Urgency"],
+    id: "rp-8",
+    name: "Weeds don't bother me.",
+    role: "The Apathetic Homeowner",
+    description: "Chapter 2 → Lawn Walk → Educating on Spread. Reframe consequence + keep discovery.",
+    avatar: indecisiveHomeowner,
+    traits: ["Consequence Reframing", "Education", "Discovery"],
+    difficulty: "Advanced",
+    stats: { resistance: 75, objections: 80, buy_signal: 20 }
+  },
+  {
+    id: "rp-9",
+    name: "I don't see the issue.",
+    role: "The Visual Skeptic",
+    description: "Chapter 2 → Lawn Walk → Showing, Not Telling. Demonstrate visually, not verbally.",
+    avatar: proudDiyHomeowner,
+    traits: ["Demonstration", "Visual Selling", "Clarity"],
     difficulty: "Intermediate",
-    stats: { resistance: 40, objections: 30, buy_signal: 70 }
+    stats: { resistance: 50, objections: 60, buy_signal: 40 }
+  },
+  // Phase 4: Pricing
+  {
+    id: "rp-10",
+    name: "How much does it cost?",
+    role: "The Price Shopper",
+    description: "Chapter 2 → Pricing → Before Quoting. Defer price + anchor value first.",
+    avatar: skepticalHomeowner,
+    traits: ["Value Anchoring", "Control", "Deferral"],
+    difficulty: "Intermediate",
+    stats: { resistance: 50, objections: 90, buy_signal: 50 }
+  },
+  {
+    id: "rp-11",
+    name: "That's expensive.",
+    role: "The Budget Watcher",
+    description: "Chapter 2 → Pricing → Objection Handling. Normalize + re-anchor to outcome.",
+    avatar: skepticalHomeowner,
+    traits: ["Normalization", "Outcome Focus", "Confidence"],
+    difficulty: "Advanced",
+    stats: { resistance: 80, objections: 90, buy_signal: 30 }
+  },
+  {
+    id: "rp-12",
+    name: "Another company is cheaper.",
+    role: "The Comparison Shopper",
+    description: "Chapter 2 → Pricing → Competitor Comparison. Reframe to outcome, not price.",
+    avatar: skepticalHomeowner,
+    traits: ["Differentiation", "Value Selling", "Reframing"],
+    difficulty: "Advanced",
+    stats: { resistance: 85, objections: 85, buy_signal: 25 }
+  },
+  // Phase 5: Closing
+  {
+    id: "rp-13",
+    name: "Why do I have to pay now?",
+    role: "The Risk Averse",
+    description: "Chapter 2 → Close → Payment Explanation. Normalize process + remove risk + maintain close.",
+    avatar: indecisiveHomeowner,
+    traits: ["Risk Reversal", "Normalization", "Closing"],
+    difficulty: "Intermediate",
+    stats: { resistance: 60, objections: 70, buy_signal: 60 }
   },
   {
     id: "rp-14",
-    name: "Closing The Autopay",
-    role: "The Cash Payer",
-    description: "Homeowner refuses prepay. Goal: Pivot to Autopay as the convenient backup option to secure the sale.",
-    avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&q=80&w=1000",
-    traits: ["Flexibility", "Security Assurance", "Closing"],
-    difficulty: "Beginner",
-    stats: { resistance: 50, objections: 60, buy_signal: 60 }
+    name: "I need to think about it.",
+    role: "The Staller",
+    description: "Chapter 2 → Close → Handling Stalls. Isolate concern + advance decision.",
+    avatar: indecisiveHomeowner,
+    traits: ["Isolation", "Advancement", "Patience"],
+    difficulty: "Intermediate",
+    stats: { resistance: 50, objections: 50, buy_signal: 50 }
   },
   {
     id: "rp-15",
-    name: "Asking For Referrals",
-    role: "The Happy Customer",
-    description: "You just closed the sale. Goal: Leverage the positive momentum to get names of neighbors who might also be interested.",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000",
-    traits: ["Networking", "Boldness", "Growth"],
+    name: "I'll call you / send me something.",
+    role: "The Deflector",
+    description: "Chapter 2 → Close → Securing Next Step. Clarify decision criteria + regain control.",
+    avatar: busyHomeowner,
+    traits: ["Criteria Clarification", "Control", "Closing"],
     difficulty: "Advanced",
-    stats: { resistance: 30, objections: 20, buy_signal: 90 }
+    stats: { resistance: 70, objections: 40, buy_signal: 40 }
   },
+  // Certification
   {
     id: "rp-16",
-    name: "The Full Sales Cycle",
+    name: "Final Certification Assessment",
     role: "The Final Boss",
-    description: "Certification Exam: Handle the entire interaction from Door Intro to Diagnosis to Objection to Close.",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=1000",
+    description: "Post-Training → Final Certification Assessment. Rep must show control across ≥3 phases including successful Phase-5 handling.",
+    avatar: skepticalHomeowner,
     traits: ["Mastery", "Endurance", "Consistency"],
     difficulty: "Advanced",
-    stats: { resistance: 80, objections: 80, buy_signal: 50 }
+    stats: { resistance: 90, objections: 90, buy_signal: 50 }
   }
 ];
 
