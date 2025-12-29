@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { Bot, Zap, Menu } from "lucide-react";
+import { Bot, Zap, Menu, GraduationCap } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,7 @@ export function Nav() {
         <div className="flex items-center gap-6">
           <Link href="/dashboard">
             <a className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
-              <Zap className="h-6 w-6 fill-primary" />
+              <GraduationCap className="h-6 w-6 fill-primary" />
               <span>GigaRev<span className="text-foreground/80 font-normal">ArenaAI</span></span>
             </a>
           </Link>

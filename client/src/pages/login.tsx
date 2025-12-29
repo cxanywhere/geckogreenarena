@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Zap, ArrowRight, Lock } from "lucide-react";
+import { Zap, ArrowRight, Lock, GraduationCap } from "lucide-react";
 import heroBg from "@assets/generated_images/abstract_gecko_green_cybernetics.png";
 import geckoLogo from "@assets/image_1766975682051.png";
 
@@ -35,7 +35,7 @@ export default function LoginPage() {
           <div className="flex items-center justify-between mb-12">
             <div className="flex items-center gap-2">
               <div className="h-10 w-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
-                <Zap className="h-6 w-6 text-white" />
+                <GraduationCap className="h-6 w-6 text-white" />
               </div>
               <span className="font-display text-2xl font-bold tracking-tight text-foreground">
                 GigaRev<span className="font-normal opacity-80">ArenaAI</span>
