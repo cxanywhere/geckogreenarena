@@ -26,6 +26,7 @@ export interface Chapter {
   status: 'completed' | 'in-progress' | 'locked';
   pdfUrl: string; // Keep for download
   coverImage: string;
+  agenda: string[];
   slides: Slide[];
 }
 
@@ -39,6 +40,12 @@ export const CHAPTERS: Chapter[] = [
     status: "in-progress",
     pdfUrl: "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1766976787/Gecko_Green_Training_-_Certification_1_Chapter_1_1_-compressed-compressed_hctzzg.pdf",
     coverImage: "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+    agenda: [
+      "The Psychology of First Impressions",
+      "Pattern Interrupts & Breaking the Script", 
+      "Controlling the Frame & Conversation",
+      "Handling Initial Resistance"
+    ],
     slides: [
       {
         type: 'content',
@@ -121,6 +128,12 @@ export const CHAPTERS: Chapter[] = [
     status: "locked",
     pdfUrl: "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1766976616/Gecko_Green_Training_-_Certification_1_Chapter_2_2_-compressed_2_1_hok8bh.pdf",
     coverImage: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+    agenda: [
+      "The B-P-D-C Sales Framework",
+      "Isolating & Overcoming Objections",
+      "Value-Based Pricing Strategies",
+      "Closing Techniques & Securing Payment"
+    ],
     slides: [
       {
         type: 'content',

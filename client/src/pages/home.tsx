@@ -114,17 +114,17 @@ export default function Home() {
                         <Link key={chapter.id} href={`/chapter/${chapter.id}`}>
                           <div className={`group relative overflow-hidden rounded-xl border transition-all duration-300 cursor-pointer ${isCompleted ? 'border-green-200 bg-green-50/30' : 'border-border bg-card hover:border-primary/50 hover:shadow-lg'}`}>
                             {/* Card Content */}
-                            <div className="flex h-32">
+                            <div className="flex flex-col md:flex-row md:h-48">
                               {/* Image Section */}
-                              <div className="w-1/3 relative">
+                              <div className="md:w-1/3 relative h-32 md:h-full">
                                 <img src={chapter.coverImage} alt={chapter.title} className="absolute inset-0 w-full h-full object-cover" />
                                 <div className={`absolute inset-0 ${isCompleted ? 'bg-green-900/20' : 'bg-black/20'} group-hover:bg-transparent transition-colors`} />
                               </div>
                               
                               {/* Text Section */}
-                              <div className="w-2/3 p-4 flex flex-col justify-between">
+                              <div className="md:w-2/3 p-5 flex flex-col justify-between">
                                 <div>
-                                  <div className="flex items-center gap-2 mb-1">
+                                  <div className="flex items-center gap-2 mb-2">
                                      {isCompleted ? (
                                         <div className="flex items-center gap-1 text-green-600 text-xs font-bold uppercase">
                                           <CheckCircle className="w-3 h-3" /> Completed
@@ -135,13 +135,23 @@ export default function Home() {
                                         </div>
                                       )}
                                   </div>
-                                  <h3 className="font-display font-bold text-lg leading-tight mb-1 group-hover:text-primary transition-colors">{chapter.title}</h3>
-                                  <p className="text-xs text-muted-foreground line-clamp-2">{chapter.subtitle}</p>
+                                  <h3 className="font-display font-bold text-xl leading-tight mb-1 group-hover:text-primary transition-colors">{chapter.title}</h3>
+                                  <p className="text-sm text-muted-foreground mb-3">{chapter.subtitle}</p>
+                                  
+                                  {/* Agenda Items */}
+                                  <div className="space-y-1">
+                                    {chapter.agenda.map((item, i) => (
+                                      <div key={i} className="flex items-center gap-2 text-xs text-muted-foreground/80">
+                                        <div className="w-1 h-1 rounded-full bg-primary/50" />
+                                        <span>{item}</span>
+                                      </div>
+                                    ))}
+                                  </div>
                                 </div>
                                 
-                                <div className="flex items-center justify-end">
-                                  <span className="text-xs font-bold text-primary flex items-center group-hover:translate-x-1 transition-transform">
-                                    {isCompleted ? "Review" : "Start Module"} <ArrowRight className="ml-1 w-3 h-3" />
+                                <div className="flex items-center justify-end mt-4 md:mt-0">
+                                  <span className="text-sm font-bold text-primary flex items-center group-hover:translate-x-1 transition-transform">
+                                    {isCompleted ? "Review" : "Start Module"} <ArrowRight className="ml-1 w-4 h-4" />
                                   </span>
                                 </div>
                               </div>
