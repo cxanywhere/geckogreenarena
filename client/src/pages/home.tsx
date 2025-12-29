@@ -7,10 +7,20 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ArrowRight, Bot, Target, Trophy, CheckCircle, Lock, BookOpen } from "lucide-react";
 import heroBg from "@assets/generated_images/abstract_bottle_green_glass_tech_shapes.png";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  // Simple state to track completions from localStorage
+  const [completedChapters, setCompletedChapters] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Load completion state
+    const saved = JSON.parse(localStorage.getItem("completed_chapters") || "[]");
+    setCompletedChapters(saved);
+  }, []);
+
   const progress = {
-    chapters: { completed: 0, total: CHAPTERS.length },
+    chapters: { completed: completedChapters.length, total: CHAPTERS.length },
     roleplays: { completed: 3, total: ROLEPLAYS.length }
   };
 
@@ -95,22 +105,25 @@ export default function Home() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-3">
-                    {CHAPTERS.map((chapter) => (
-                      <div key={chapter.id} className="p-4 bg-secondary/30 rounded-xl border border-secondary relative group hover:border-primary/30 transition-colors">
-                        <div className="flex items-center gap-2 mb-2 text-primary">
-                          <BookOpen className="w-4 h-4" />
-                          <span className="text-xs font-bold uppercase line-clamp-1">{chapter.title}</span>
+                    {CHAPTERS.map((chapter) => {
+                      const isCompleted = completedChapters.includes(chapter.id);
+                      return (
+                        <div key={chapter.id} className={`p-4 rounded-xl border relative group transition-colors ${isCompleted ? 'bg-green-50/50 border-green-200' : 'bg-secondary/30 border-secondary hover:border-primary/30'}`}>
+                          <div className="flex items-center gap-2 mb-2 text-primary">
+                            {isCompleted ? <CheckCircle className="w-4 h-4 text-green-600" /> : <BookOpen className="w-4 h-4" />}
+                            <span className="text-xs font-bold uppercase line-clamp-1">{chapter.title}</span>
+                          </div>
+                          <div className="text-sm text-muted-foreground line-clamp-2 mb-3 h-10">
+                            {chapter.description}
+                          </div>
+                          <Link href={`/chapter/${chapter.id}`}>
+                            <Button size="sm" variant={isCompleted ? "outline" : "outline"} className={`w-full text-xs h-8 ${isCompleted ? 'bg-white hover:bg-green-50 text-green-700 border-green-200' : 'bg-white/50 hover:bg-white hover:text-primary'}`}>
+                              {isCompleted ? "Review Slides" : "Read Slides"}
+                            </Button>
+                          </Link>
                         </div>
-                        <div className="text-sm text-muted-foreground line-clamp-2 mb-3 h-10">
-                          {chapter.description}
-                        </div>
-                        <Link href={`/chapter/${chapter.id}`}>
-                          <Button size="sm" variant="outline" className="w-full text-xs h-8 bg-white/50 hover:bg-white hover:text-primary">
-                            Read Slides
-                          </Button>
-                        </Link>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
 
                   <div className="p-4 bg-secondary/30 rounded-xl border border-secondary">
@@ -157,11 +170,14 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {ROLEPLAYS.map((scenario, i) => (
-              <div key={scenario.id} className="relative group">
-                <RoleplayCard scenario={scenario} index={i} />
-              </div>
-            ))}
+            {ROLEPLAYS.map((scenario, i) => {
+              const isLocked = !completedChapters.includes(scenario.chapterId);
+              return (
+                <div key={scenario.id} className="relative group">
+                  <RoleplayCard scenario={scenario} index={i} isLocked={isLocked} />
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

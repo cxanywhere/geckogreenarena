@@ -1,15 +1,45 @@
 import { RoleplayScenario } from "@/lib/mock-data";
 import { motion } from "framer-motion";
-import { Shield, MessageSquare, TrendingUp } from "lucide-react";
+import { Shield, MessageSquare, TrendingUp, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "wouter";
 
 interface RoleplayCardProps {
   scenario: RoleplayScenario;
   index: number;
+  isLocked?: boolean;
 }
 
-export function RoleplayCard({ scenario, index }: RoleplayCardProps) {
+export function RoleplayCard({ scenario, index, isLocked = false }: RoleplayCardProps) {
+  if (isLocked) {
+    return (
+      <div className="group relative overflow-hidden rounded-2xl bg-white/50 border border-border h-full flex flex-col grayscale opacity-80 cursor-not-allowed">
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-background/50 backdrop-blur-[2px]">
+          <div className="flex flex-col items-center gap-2 p-4 rounded-xl bg-background border border-border shadow-lg">
+            <Lock className="w-6 h-6 text-muted-foreground" />
+            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Chapter Locked</span>
+          </div>
+        </div>
+        {/* Simplified Locked Content */}
+        <div className="relative h-48 overflow-hidden">
+          <img
+            src={scenario.avatar}
+            alt={scenario.name}
+            className="h-full w-full object-cover"
+          />
+        </div>
+        <div className="p-5">
+          <h3 className="text-xl font-display font-bold text-foreground/50 tracking-wide mb-2">
+            {scenario.name}
+          </h3>
+          <p className="text-sm text-muted-foreground/50 line-clamp-2">
+            {scenario.description}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Link href={`/chat/${scenario.id}`}>
       <motion.div

@@ -44,6 +44,7 @@ export interface RoleplayScenario {
     objections: number; // Was Power
     buy_signal: number; // Was Speed
   };
+  chapterId: string;
 }
 
 export const ROLEPLAYS: RoleplayScenario[] = [
@@ -56,7 +57,8 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     avatar: busyHomeowner,
     traits: ["Time Management", "Control Question", "Respect"],
     difficulty: "Beginner",
-    stats: { resistance: 60, objections: 20, buy_signal: 30 }
+    stats: { resistance: 60, objections: 20, buy_signal: 30 },
+    chapterId: "chap-1"
   },
   {
     id: "rp-2",
@@ -66,7 +68,8 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     avatar: busyHomeowner,
     traits: ["Reframing", "Persistence", "Specifics"],
     difficulty: "Intermediate",
-    stats: { resistance: 80, objections: 40, buy_signal: 10 }
+    stats: { resistance: 80, objections: 40, buy_signal: 10 },
+    chapterId: "chap-1"
   },
   {
     id: "rp-3",
@@ -76,7 +79,8 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     avatar: skepticalHomeowner,
     traits: ["Compliance", "Intent Clarification", "Micro-Permission"],
     difficulty: "Advanced",
-    stats: { resistance: 90, objections: 10, buy_signal: 5 }
+    stats: { resistance: 90, objections: 10, buy_signal: 5 },
+    chapterId: "chap-1"
   },
   // Phase 2: Turn & Burn
   {
@@ -87,7 +91,8 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     avatar: proudDiyHomeowner,
     traits: ["Validation", "Differentiation", "Leadership"],
     difficulty: "Intermediate",
-    stats: { resistance: 70, objections: 60, buy_signal: 40 }
+    stats: { resistance: 70, objections: 60, buy_signal: 40 },
+    chapterId: "chap-1"
   },
   {
     id: "rp-5",
@@ -97,7 +102,8 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     avatar: skepticalHomeowner,
     traits: ["Gap Analysis", "Non-Threatening", "Discovery"],
     difficulty: "Advanced",
-    stats: { resistance: 85, objections: 50, buy_signal: 20 }
+    stats: { resistance: 85, objections: 50, buy_signal: 20 },
+    chapterId: "chap-1"
   },
   {
     id: "rp-6",
@@ -107,7 +113,8 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     avatar: busyHomeowner,
     traits: ["Clarity", "Direction", "Purpose"],
     difficulty: "Beginner",
-    stats: { resistance: 40, objections: 30, buy_signal: 50 }
+    stats: { resistance: 40, objections: 30, buy_signal: 50 },
+    chapterId: "chap-1"
   },
   // Phase 3: Lawn Walk
   {
@@ -118,7 +125,8 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     avatar: proudDiyHomeowner,
     traits: ["Visual Proof", "Isolation", "Validation"],
     difficulty: "Intermediate",
-    stats: { resistance: 60, objections: 70, buy_signal: 30 }
+    stats: { resistance: 60, objections: 70, buy_signal: 30 },
+    chapterId: "chap-2"
   },
   {
     id: "rp-8",
@@ -128,7 +136,8 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     avatar: indecisiveHomeowner,
     traits: ["Consequence Reframing", "Education", "Discovery"],
     difficulty: "Advanced",
-    stats: { resistance: 75, objections: 80, buy_signal: 20 }
+    stats: { resistance: 75, objections: 80, buy_signal: 20 },
+    chapterId: "chap-2"
   },
   {
     id: "rp-9",
@@ -138,7 +147,8 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     avatar: proudDiyHomeowner,
     traits: ["Demonstration", "Visual Selling", "Clarity"],
     difficulty: "Intermediate",
-    stats: { resistance: 50, objections: 60, buy_signal: 40 }
+    stats: { resistance: 50, objections: 60, buy_signal: 40 },
+    chapterId: "chap-2"
   },
   // Phase 4: Pricing
   {
@@ -149,7 +159,8 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     avatar: skepticalHomeowner,
     traits: ["Value Anchoring", "Control", "Deferral"],
     difficulty: "Intermediate",
-    stats: { resistance: 50, objections: 90, buy_signal: 50 }
+    stats: { resistance: 50, objections: 90, buy_signal: 50 },
+    chapterId: "chap-2"
   },
   {
     id: "rp-11",
@@ -159,7 +170,8 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     avatar: skepticalHomeowner,
     traits: ["Normalization", "Outcome Focus", "Confidence"],
     difficulty: "Advanced",
-    stats: { resistance: 80, objections: 90, buy_signal: 30 }
+    stats: { resistance: 80, objections: 90, buy_signal: 30 },
+    chapterId: "chap-2"
   },
   {
     id: "rp-12",
@@ -169,7 +181,8 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     avatar: skepticalHomeowner,
     traits: ["Differentiation", "Value Selling", "Reframing"],
     difficulty: "Advanced",
-    stats: { resistance: 85, objections: 85, buy_signal: 25 }
+    stats: { resistance: 85, objections: 85, buy_signal: 25 },
+    chapterId: "chap-2"
   },
   // Phase 5: Closing
   {
@@ -180,7 +193,8 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     avatar: indecisiveHomeowner,
     traits: ["Risk Reversal", "Normalization", "Closing"],
     difficulty: "Intermediate",
-    stats: { resistance: 60, objections: 70, buy_signal: 60 }
+    stats: { resistance: 60, objections: 70, buy_signal: 60 },
+    chapterId: "chap-2"
   },
   {
     id: "rp-14",
@@ -190,7 +204,8 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     avatar: indecisiveHomeowner,
     traits: ["Isolation", "Advancement", "Patience"],
     difficulty: "Intermediate",
-    stats: { resistance: 50, objections: 50, buy_signal: 50 }
+    stats: { resistance: 50, objections: 50, buy_signal: 50 },
+    chapterId: "chap-2"
   },
   {
     id: "rp-15",
@@ -200,7 +215,8 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     avatar: busyHomeowner,
     traits: ["Criteria Clarification", "Control", "Closing"],
     difficulty: "Advanced",
-    stats: { resistance: 70, objections: 40, buy_signal: 40 }
+    stats: { resistance: 70, objections: 40, buy_signal: 40 },
+    chapterId: "chap-2"
   },
   // Certification
   {
@@ -211,7 +227,8 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     avatar: skepticalHomeowner,
     traits: ["Mastery", "Endurance", "Consistency"],
     difficulty: "Advanced",
-    stats: { resistance: 90, objections: 90, buy_signal: 50 }
+    stats: { resistance: 90, objections: 90, buy_signal: 50 },
+    chapterId: "chap-2"
   }
 ];
 

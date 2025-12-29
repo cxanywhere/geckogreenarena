@@ -1,12 +1,41 @@
-import { useRoute, Link } from "wouter";
+import { useRoute, Link, useLocation } from "wouter";
 import { Nav } from "@/components/nav";
 import { CHAPTERS } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, CheckCircle, Download, FileText } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function ChapterPage() {
   const [, params] = useRoute("/chapter/:id");
+  const [, setLocation] = useLocation();
   const chapter = CHAPTERS.find(c => c.id === params?.id);
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  useEffect(() => {
+    // Check if this chapter is already completed
+    const completedChapters = JSON.parse(localStorage.getItem("completed_chapters") || "[]");
+    if (chapter && completedChapters.includes(chapter.id)) {
+      setIsCompleted(true);
+    }
+  }, [chapter]);
+
+  const handleComplete = () => {
+    if (chapter) {
+      const completedChapters = JSON.parse(localStorage.getItem("completed_chapters") || "[]");
+      if (!completedChapters.includes(chapter.id)) {
+        completedChapters.push(chapter.id);
+        localStorage.setItem("completed_chapters", JSON.stringify(completedChapters));
+      }
+      setIsCompleted(true);
+      toast.success("Chapter completed! Roleplays unlocked.");
+      
+      // Short delay before redirecting
+      setTimeout(() => {
+        setLocation("/dashboard");
+      }, 1000);
+    }
+  };
 
   if (!chapter) {
     return (
@@ -28,7 +57,7 @@ export default function ChapterPage() {
       <div className="flex-1 container mx-auto px-4 py-8 flex flex-col h-full">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            <Link href="/">
+            <Link href="/dashboard">
               <Button variant="ghost" size="icon" className="rounded-full">
                 <ArrowLeft className="h-5 w-5" />
               </Button>
@@ -49,9 +78,12 @@ export default function ChapterPage() {
                 Download PDF
               </a>
             </Button>
-            <Button className="bg-primary text-white hover:bg-primary/90">
+            <Button 
+              className={`text-white hover:bg-primary/90 ${isCompleted ? 'bg-green-600 hover:bg-green-700' : 'bg-primary'}`}
+              onClick={handleComplete}
+            >
               <CheckCircle className="mr-2 h-4 w-4" />
-              Mark as Complete
+              {isCompleted ? "Completed" : "Mark as Complete"}
             </Button>
           </div>
         </div>
