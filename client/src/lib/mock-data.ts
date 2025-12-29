@@ -1,14 +1,10 @@
-import busyHomeowner from '@assets/generated_images/busy_homeowner_at_door.png';
-import proudDiyHomeowner from '@assets/generated_images/proud_diy_homeowner_on_lawn.png';
-import skepticalHomeowner from '@assets/generated_images/skeptical_older_homeowner.png';
-import indecisiveHomeowner from '@assets/generated_images/indecisive_homeowner_thinking.png';
-
 export interface Slide {
-  type: 'content' | 'quiz';
+  type: 'content' | 'quiz' | 'roleplay';
   title: string;
   content?: string; // HTML or text content
   bullets?: string[];
   image?: string;
+  roleplayId?: string; // Reference to a ROLEPLAY id
   quiz?: {
     question: string;
     options: string[];
@@ -60,6 +56,12 @@ export const CHAPTERS: Chapter[] = [
         ]
       },
       {
+        type: 'roleplay',
+        title: "Practice: The Pattern Interrupt",
+        content: "Put your new skills to the test immediately. Can you handle a busy homeowner without getting shut down?",
+        roleplayId: "rp-1" // The Busy Homeowner
+      },
+      {
         type: 'quiz',
         title: "Quick Check: First Impressions",
         quiz: {
@@ -96,6 +98,12 @@ export const CHAPTERS: Chapter[] = [
           ],
           correctAnswer: 2
         }
+      },
+      {
+        type: 'roleplay',
+        title: "Practice: Frame Control",
+        content: "The homeowner is going to try to derail you. Keep control of the conversation.",
+        roleplayId: "rp-6" // The Confused Homeowner (Why are you here?)
       }
     ]
   },
@@ -129,6 +137,12 @@ export const CHAPTERS: Chapter[] = [
           "The 'Magic Question': 'If we could handle [objection], would you be ready to move forward?'",
           "Looping: Acknowledge -> Respond -> Close again."
         ]
+      },
+      {
+        type: 'roleplay',
+        title: "Practice: Isolating Objections",
+        content: "They say 'It's too expensive'. Is it really? Find out.",
+        roleplayId: "rp-11" // The Budget Watcher
       },
       {
         type: 'quiz',

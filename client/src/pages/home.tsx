@@ -12,11 +12,14 @@ import { useState, useEffect } from "react";
 export default function Home() {
   // Simple state to track completions from localStorage
   const [completedChapters, setCompletedChapters] = useState<string[]>([]);
+  const [unlockedRoleplays, setUnlockedRoleplays] = useState<string[]>([]);
 
   useEffect(() => {
     // Load completion state
-    const saved = JSON.parse(localStorage.getItem("completed_chapters") || "[]");
-    setCompletedChapters(saved);
+    const savedChapters = JSON.parse(localStorage.getItem("completed_chapters") || "[]");
+    const savedRoleplays = JSON.parse(localStorage.getItem("unlocked_roleplays") || "[]");
+    setCompletedChapters(savedChapters);
+    setUnlockedRoleplays(savedRoleplays);
   }, []);
 
   const progress = {
@@ -183,7 +186,8 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {ROLEPLAYS.map((scenario, i) => {
-              const isLocked = !completedChapters.includes(scenario.chapterId);
+              // Unlock if chapter is completed OR if specifically unlocked via slide
+              const isLocked = !completedChapters.includes(scenario.chapterId) && !unlockedRoleplays.includes(scenario.id);
               return (
                 <div key={scenario.id} className="relative group">
                   <RoleplayCard scenario={scenario} index={i} isLocked={isLocked} />

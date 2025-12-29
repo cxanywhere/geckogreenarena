@@ -1,8 +1,8 @@
 import { useRoute, Link, useLocation } from "wouter";
 import { Nav } from "@/components/nav";
-import { CHAPTERS, Slide } from "@/lib/mock-data";
+import { CHAPTERS, Slide, ROLEPLAYS } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, CheckCircle, Download, FileText, ChevronRight, ChevronLeft, HelpCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle, Download, FileText, ChevronRight, ChevronLeft, HelpCircle, Bot, Play } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,9 +13,34 @@ export default function ChapterPage() {
   const [, params] = useRoute("/chapter/:id");
   const [, setLocation] = useLocation();
   const chapter = CHAPTERS.find(c => c.id === params?.id);
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  
+  // Load saved progress or default to 0
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(() => {
+    if (!chapter) return 0;
+    const saved = localStorage.getItem(`chapter_progress_${chapter.id}`);
+    return saved ? parseInt(saved) : 0;
+  });
+
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
+
+  // Save progress whenever slide changes
+  useEffect(() => {
+    if (chapter) {
+      localStorage.setItem(`chapter_progress_${chapter.id}`, currentSlideIndex.toString());
+      
+      // If current slide is a roleplay, unlock it immediately
+      const currentSlide = chapter.slides[currentSlideIndex];
+      if (currentSlide.type === 'roleplay' && currentSlide.roleplayId) {
+        const unlocked = JSON.parse(localStorage.getItem("unlocked_roleplays") || "[]");
+        if (!unlocked.includes(currentSlide.roleplayId)) {
+          unlocked.push(currentSlide.roleplayId);
+          localStorage.setItem("unlocked_roleplays", JSON.stringify(unlocked));
+          toast.success("New Roleplay Unlocked!");
+        }
+      }
+    }
+  }, [currentSlideIndex, chapter]);
 
   if (!chapter) {
     return (
@@ -33,6 +58,8 @@ export default function ChapterPage() {
   const currentSlide = chapter.slides[currentSlideIndex];
   const isLastSlide = currentSlideIndex === chapter.slides.length - 1;
   const isQuiz = currentSlide.type === 'quiz';
+  const isRoleplay = currentSlide.type === 'roleplay';
+  const roleplayData = isRoleplay ? ROLEPLAYS.find(r => r.id === currentSlide.roleplayId) : null;
 
   const handleNext = () => {
     if (isQuiz) {
@@ -147,6 +174,14 @@ export default function ChapterPage() {
                     <h2 className="text-2xl font-bold font-display text-primary mb-2">Knowledge Check</h2>
                     <p className="text-muted-foreground">Verify your understanding before moving forward.</p>
                   </div>
+                ) : isRoleplay ? (
+                  <div className="flex flex-col items-center justify-center text-center h-full">
+                     <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6 animate-pulse">
+                      <Bot className="w-10 h-10 text-green-600" />
+                    </div>
+                    <h2 className="text-2xl font-bold font-display text-green-700 mb-2">Roleplay Challenge</h2>
+                    <p className="text-muted-foreground">Apply what you just learned in a real scenario.</p>
+                  </div>
                 ) : (
                   <div className="h-full flex flex-col justify-center">
                      <h2 className="text-3xl font-display font-bold text-foreground mb-6 leading-tight">{currentSlide.title}</h2>
@@ -182,6 +217,33 @@ export default function ChapterPage() {
                        ))}
                      </RadioGroup>
                    </div>
+                ) : isRoleplay && roleplayData ? (
+                  <div className="text-center space-y-6">
+                    <div className="aspect-square w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-white shadow-lg">
+                      <img src={roleplayData.avatar} alt={roleplayData.name} className="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold font-display">{roleplayData.name}</h3>
+                      <p className="text-primary font-mono text-sm">{roleplayData.role}</p>
+                    </div>
+                    <p className="text-muted-foreground text-sm max-w-xs mx-auto">
+                      {currentSlide.content}
+                    </p>
+                    
+                    <div className="flex flex-col gap-3 pt-4">
+                      <Link href={`/chat/${roleplayData.id}`}>
+                        <Button size="lg" className="w-full bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-200">
+                           <Play className="mr-2 h-5 w-5 fill-current" /> Start Roleplay Now
+                        </Button>
+                      </Link>
+                      <Button variant="ghost" onClick={handleNext} className="text-muted-foreground hover:text-primary">
+                        Skip & Save for Later
+                      </Button>
+                      <p className="text-xs text-muted-foreground">
+                        *Roleplay is now unlocked in your dashboard
+                      </p>
+                    </div>
+                  </div>
                 ) : (
                   <div className="prose prose-lg text-muted-foreground">
                     <p className="text-lg leading-relaxed">{currentSlide.content}</p>
@@ -209,11 +271,11 @@ export default function ChapterPage() {
           </Button>
 
           <div className="flex gap-2">
-            {!isQuiz && isLastSlide ? (
+            {!isQuiz && !isRoleplay && isLastSlide ? (
               <Button onClick={handleComplete} size="lg" className="bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-200">
                 Complete Chapter <CheckCircle className="ml-2 h-4 w-4" />
               </Button>
-            ) : (
+            ) : !isRoleplay ? (
               <Button 
                 onClick={handleNext} 
                 size="lg" 
@@ -221,7 +283,7 @@ export default function ChapterPage() {
               >
                 {isQuiz ? (isAnswerCorrect ? "Continue" : "Submit Answer") : "Next Slide"} <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
-            )}
+            ) : null}
           </div>
         </div>
       </div>
