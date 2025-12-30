@@ -199,7 +199,7 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
       {/* PDF Content */}
       <div 
         ref={containerRef}
-        className="flex-1 overflow-auto flex items-center justify-center p-4 bg-muted/30 relative touch-pan-y"
+        className="flex-1 overflow-auto p-4 bg-muted/30 relative touch-pan-y"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -213,34 +213,36 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
           </div>
         )}
 
-        <Document
-          file={pdfUrl}
-          onLoadSuccess={onDocumentLoadSuccess}
-          loading={null}
-          className="max-w-full"
-        >
-          {canRenderPage && (
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`${safeCurrentPage}-${rotation}`}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Page
-                  pageNumber={safeCurrentPage}
-                  width={fitMode === 'width' ? effectiveWidth : undefined}
-                  scale={fitMode === 'manual' ? manualScale : undefined}
-                  rotate={rotation}
-                  className="shadow-2xl rounded-lg overflow-hidden"
-                  renderTextLayer={false}
-                  renderAnnotationLayer={false}
-                />
-              </motion.div>
-            </AnimatePresence>
-          )}
-        </Document>
+        <div className="flex justify-center">
+          <Document
+            file={pdfUrl}
+            onLoadSuccess={onDocumentLoadSuccess}
+            loading={null}
+            className="max-w-full"
+          >
+            {canRenderPage && (
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`${safeCurrentPage}-${rotation}`}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Page
+                    pageNumber={safeCurrentPage}
+                    width={fitMode === 'width' ? effectiveWidth : undefined}
+                    scale={fitMode === 'manual' ? manualScale : undefined}
+                    rotate={rotation}
+                    className="shadow-2xl rounded-lg overflow-hidden"
+                    renderTextLayer={false}
+                    renderAnnotationLayer={false}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            )}
+          </Document>
+        </div>
       </div>
 
       {/* Progress Bar */}
