@@ -2,15 +2,20 @@ import { useRoute, Link, useLocation } from "wouter";
 import { Nav } from "@/components/nav";
 import { PDFViewer } from "@/components/pdf-viewer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Download, FileText, CheckCircle, BookOpen, Presentation, Brain } from "lucide-react";
-import { useEffect, useState, useCallback } from "react";
+import { ArrowLeft, Download, BookOpen, Presentation, Brain } from "lucide-react";
+import { useEffect, useState, useMemo } from "react";
 import { toast } from "sonner";
-import { api, type Chapter, type QuizQuestion } from "@/lib/api";
+import { api, type QuizQuestion } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { QuizOverlay } from "@/components/quiz-overlay";
 import { AnimatePresence } from "framer-motion";
 
-const QUIZ_INTERVAL = 5;
+interface EmbeddedQuiz {
+  question: string;
+  options: string[];
+  correctAnswer: number;
+  slideIndex: number;
+}
 
 export default function ChapterPage() {
   const [, params] = useRoute("/chapter/:id");
@@ -30,16 +35,36 @@ export default function ChapterPage() {
   });
   
   const [showQuiz, setShowQuiz] = useState(false);
-  const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
-  const [completedQuizSlides, setCompletedQuizSlides] = useState<Set<number>>(() => {
+  const [currentQuiz, setCurrentQuiz] = useState<EmbeddedQuiz | null>(null);
+  const [completedQuizPages, setCompletedQuizPages] = useState<Set<number>>(() => {
     if (!params?.id) return new Set();
     const saved = localStorage.getItem(`chapter_quiz_completed_${params.id}`);
     return saved ? new Set(JSON.parse(saved)) : new Set();
   });
-  const [isLoadingQuiz, setIsLoadingQuiz] = useState(false);
 
   const storedUser = localStorage.getItem("currentUser");
   const user = storedUser ? JSON.parse(storedUser) : null;
+
+  const embeddedQuizzes = useMemo(() => {
+    if (!chapter?.slides) return [];
+    return chapter.slides
+      .map((slide: any, index: number) => {
+        if (slide.type === 'quiz' && slide.quiz) {
+          return {
+            question: slide.quiz.question,
+            options: slide.quiz.options,
+            correctAnswer: slide.quiz.correctAnswer,
+            slideIndex: index + 1,
+          };
+        }
+        return null;
+      })
+      .filter(Boolean) as EmbeddedQuiz[];
+  }, [chapter]);
+
+  const quizPageNumbers = useMemo(() => {
+    return new Set(embeddedQuizzes.map(q => q.slideIndex));
+  }, [embeddedQuizzes]);
 
   useEffect(() => {
     if (params?.id) {
@@ -49,49 +74,46 @@ export default function ChapterPage() {
 
   useEffect(() => {
     if (params?.id) {
-      localStorage.setItem(`chapter_quiz_completed_${params.id}`, JSON.stringify(Array.from(completedQuizSlides)));
+      localStorage.setItem(`chapter_quiz_completed_${params.id}`, JSON.stringify(Array.from(completedQuizPages)));
     }
-  }, [completedQuizSlides, params?.id]);
-
-  const checkForQuiz = useCallback(async (page: number) => {
-    if (!chapter || !user || isLoadingQuiz) return;
-    
-    if (page > 1 && page % QUIZ_INTERVAL === 0 && !completedQuizSlides.has(page)) {
-      setIsLoadingQuiz(true);
-      try {
-        const slideContent = chapter.slides?.[page - 1]?.content || 
-          `Slide ${page} of ${chapter.title} - ${chapter.subtitle}. Key topics: ${chapter.agenda.join(", ")}`;
-        
-        const result = await api.getQuizForSlide(chapter.id, page, slideContent);
-        
-        if (result.questions && result.questions.length > 0) {
-          setQuizQuestions(result.questions);
-          setShowQuiz(true);
-        }
-      } catch (error) {
-        console.error("Failed to load quiz:", error);
-      } finally {
-        setIsLoadingQuiz(false);
-      }
-    }
-  }, [chapter, user, completedQuizSlides, isLoadingQuiz]);
+  }, [completedQuizPages, params?.id]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    if (page > currentPage) {
-      checkForQuiz(page);
+    
+    if (quizPageNumbers.has(page) && !completedQuizPages.has(page)) {
+      const quiz = embeddedQuizzes.find(q => q.slideIndex === page);
+      if (quiz) {
+        setCurrentQuiz(quiz);
+        setShowQuiz(true);
+      }
     }
   };
 
-  const handleQuizComplete = () => {
+  const handleQuizComplete = async (selectedAnswer: number) => {
+    if (!currentQuiz || !user || !chapter) return;
+    
+    const isCorrect = selectedAnswer === currentQuiz.correctAnswer;
+    
+    try {
+      await api.submitQuizAnswer(user.id, chapter.id, String(currentQuiz.slideIndex), selectedAnswer);
+    } catch (error) {
+      console.error("Failed to save quiz answer:", error);
+    }
+    
     setShowQuiz(false);
-    setCompletedQuizSlides(prev => new Set([...Array.from(prev), currentPage]));
-    toast.success("Quiz completed! Keep going.");
+    setCompletedQuizPages(prev => new Set([...Array.from(prev), currentPage]));
+    
+    if (isCorrect) {
+      toast.success("Correct! Great job.");
+    } else {
+      toast.info("Not quite right, but keep learning!");
+    }
   };
 
   const handleQuizSkip = () => {
     setShowQuiz(false);
-    setCompletedQuizSlides(prev => new Set([...Array.from(prev), currentPage]));
+    setCompletedQuizPages(prev => new Set([...Array.from(prev), currentPage]));
   };
 
   const handleComplete = () => {
@@ -150,10 +172,10 @@ export default function ChapterPage() {
                   <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
                     <Presentation className="h-4 w-4" />
                     <span>Training Presentation</span>
-                    {completedQuizSlides.size > 0 && (
+                    {completedQuizPages.size > 0 && (
                       <span className="flex items-center gap-1 text-primary">
                         <Brain className="h-3 w-3" />
-                        {completedQuizSlides.size} quizzes
+                        {completedQuizPages.size}/{embeddedQuizzes.length} quizzes
                       </span>
                     )}
                   </div>
@@ -201,18 +223,146 @@ export default function ChapterPage() {
         </div>
       </div>
 
-      {/* Quiz Overlay */}
+      {/* Quiz Overlay for embedded quizzes */}
       <AnimatePresence>
-        {showQuiz && quizQuestions.length > 0 && user && chapter && (
-          <QuizOverlay
-            questions={quizQuestions}
-            chapterId={chapter.id}
-            userId={user.id}
-            onComplete={handleQuizComplete}
+        {showQuiz && currentQuiz && (
+          <EmbeddedQuizOverlay
+            quiz={currentQuiz}
+            onAnswer={handleQuizComplete}
             onSkip={handleQuizSkip}
           />
         )}
       </AnimatePresence>
+    </div>
+  );
+}
+
+function EmbeddedQuizOverlay({ 
+  quiz, 
+  onAnswer, 
+  onSkip 
+}: { 
+  quiz: EmbeddedQuiz; 
+  onAnswer: (answer: number) => void; 
+  onSkip: () => void;
+}) {
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [showResult, setShowResult] = useState(false);
+
+  const handleSubmit = () => {
+    if (selectedAnswer === null) return;
+    setShowResult(true);
+  };
+
+  const handleContinue = () => {
+    if (selectedAnswer !== null) {
+      onAnswer(selectedAnswer);
+    }
+  };
+
+  const isCorrect = selectedAnswer === quiz.correctAnswer;
+
+  return (
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+      <div className="w-full max-w-2xl bg-card border border-border rounded-2xl shadow-2xl overflow-hidden">
+        <div className="p-6 border-b border-border bg-primary/5">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Brain className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-bold text-lg">Knowledge Check</h3>
+                <p className="text-sm text-muted-foreground">Test your understanding</p>
+              </div>
+            </div>
+            <Button variant="ghost" size="sm" onClick={onSkip} data-testid="button-skip-quiz">
+              Skip
+            </Button>
+          </div>
+        </div>
+        
+        <div className="p-6 space-y-6">
+          <p className="text-lg font-medium" data-testid="text-quiz-question">
+            {quiz.question}
+          </p>
+
+          <div className="space-y-3">
+            {quiz.options.map((option, index) => {
+              const isSelected = selectedAnswer === index;
+              const isCorrectAnswer = showResult && index === quiz.correctAnswer;
+              const isWrongAnswer = showResult && isSelected && !isCorrect;
+
+              return (
+                <button
+                  key={index}
+                  onClick={() => !showResult && setSelectedAnswer(index)}
+                  disabled={showResult}
+                  className={`w-full p-4 rounded-xl text-left transition-all border-2 ${
+                    isCorrectAnswer
+                      ? "border-green-500 bg-green-50 dark:bg-green-900/20"
+                      : isWrongAnswer
+                      ? "border-red-500 bg-red-50 dark:bg-red-900/20"
+                      : isSelected
+                      ? "border-primary bg-primary/5"
+                      : "border-border hover:border-primary/50 hover:bg-muted/50"
+                  }`}
+                  data-testid={`button-option-${index}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                      isCorrectAnswer
+                        ? "bg-green-500 text-white"
+                        : isWrongAnswer
+                        ? "bg-red-500 text-white"
+                        : isSelected
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-muted-foreground"
+                    }`}>
+                      {String.fromCharCode(65 + index)}
+                    </div>
+                    <span className="flex-1">{option}</span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {showResult && (
+            <div className={`p-4 rounded-xl ${
+              isCorrect 
+                ? "bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800" 
+                : "bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800"
+            }`}>
+              <p className="font-medium">
+                {isCorrect ? "Correct! Well done." : "Not quite right."}
+              </p>
+              {!isCorrect && (
+                <p className="text-sm text-muted-foreground mt-1">
+                  The correct answer is: {quiz.options[quiz.correctAnswer]}
+                </p>
+              )}
+            </div>
+          )}
+
+          <div className="flex gap-3 pt-2">
+            {!showResult ? (
+              <Button
+                onClick={handleSubmit}
+                disabled={selectedAnswer === null}
+                className="flex-1"
+                data-testid="button-submit-answer"
+              >
+                Submit Answer
+              </Button>
+            ) : (
+              <Button onClick={handleContinue} className="flex-1" data-testid="button-continue">
+                Continue
+              </Button>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
