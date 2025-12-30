@@ -5,35 +5,120 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, XCircle, Trophy, Download, Printer, Share2, Award, Star, TrendingUp, Lock } from "lucide-react";
+import { CheckCircle, XCircle, Trophy, Download, Printer, Share2, Award, Star, TrendingUp, Lock, Brain, Target, Loader2 } from "lucide-react";
 import geckoLogo from "@assets/image_1766975682051.png";
 import arenaLogo from "@assets/generated_images/superhero_style_logo_for_arena_ai.png";
-import { CHAPTERS, ROLEPLAYS } from "@/lib/mock-data";
 import { Link } from "wouter";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
+import { api, type UserProgress, type RoleplayAttempt, type Chapter } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
+
+interface ChapterScore {
+  id: string;
+  title: string;
+  quizScore: number | null;
+  roleplayScore: number | null;
+  completed: boolean;
+}
 
 export default function ReportCardPage() {
-  // Mock results data - in a real app this would come from backend/localStorage
-  const results = {
-    overallScore: 92,
-    passed: true,
-    certifiedDate: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-    chapters: [
-      { id: "chap-1", title: "Sales Foundations", score: 95, status: "passed" },
-      { id: "chap-2", title: "Field Execution", score: 88, status: "passed" }
-    ],
-    roleplays: [
-      { id: "rp-1", title: "The Busy Homeowner", score: 90, feedback: "Excellent handling of time constraint." },
-      { id: "rp-6", title: "The Confused Homeowner", score: 85, feedback: "Good clarity, could be more direct." },
-      { id: "rp-11", title: "The Budget Watcher", score: 92, feedback: "Great value reframing." }
-    ]
-  };
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
+
+  const { data: chapters = [], isLoading: chaptersLoading } = useQuery({
+    queryKey: ["chapters"],
+    queryFn: () => api.getChapters(),
+  });
+
+  const { data: progress = [], isLoading: progressLoading } = useQuery({
+    queryKey: ["userProgress", user?.id],
+    queryFn: () => api.getUserProgress(user?.id),
+    enabled: !!user?.id,
+  });
+
+  const { data: attempts = [], isLoading: attemptsLoading } = useQuery({
+    queryKey: ["userAttempts", user?.id],
+    queryFn: () => api.getUserAttempts(user?.id),
+    enabled: !!user?.id,
+  });
+
+  const { data: roleplays = [] } = useQuery({
+    queryKey: ["roleplays"],
+    queryFn: () => api.getRoleplays(),
+  });
+
+  const isLoading = chaptersLoading || progressLoading || attemptsLoading;
+
+  const chapterScores: ChapterScore[] = chapters.map(chapter => {
+    const chapterProgress = progress.find(p => p.chapterId === chapter.id);
+    const chapterAttempts = attempts.filter(a => {
+      const roleplay = roleplays.find(r => r.id === a.roleplayId);
+      return roleplay?.chapterId === chapter.id;
+    });
+    
+    const bestRoleplayScore = chapterAttempts.length > 0
+      ? Math.max(...chapterAttempts.map(a => a.score))
+      : null;
+
+    return {
+      id: chapter.id,
+      title: chapter.title,
+      quizScore: chapterProgress?.quizScore ?? null,
+      roleplayScore: bestRoleplayScore,
+      completed: chapterProgress?.completed === 1,
+    };
+  });
+
+  const topRoleplays = attempts
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5)
+    .map(attempt => {
+      const roleplay = roleplays.find(r => r.id === attempt.roleplayId);
+      let feedback = "";
+      try {
+        const parsed = attempt.feedback ? JSON.parse(attempt.feedback) : null;
+        feedback = parsed?.strengths?.[0] || "Good performance";
+      } catch {
+        feedback = "Good performance";
+      }
+      return {
+        id: attempt.id,
+        title: roleplay?.name || "Unknown Scenario",
+        score: attempt.score,
+        feedback,
+      };
+    });
+
+  const totalQuizScores = chapterScores.filter(c => c.quizScore !== null);
+  const avgQuizScore = totalQuizScores.length > 0
+    ? Math.round(totalQuizScores.reduce((sum, c) => sum + (c.quizScore || 0), 0) / totalQuizScores.length)
+    : 0;
+
+  const totalRoleplayScores = chapterScores.filter(c => c.roleplayScore !== null);
+  const avgRoleplayScore = totalRoleplayScores.length > 0
+    ? Math.round(totalRoleplayScores.reduce((sum, c) => sum + (c.roleplayScore || 0), 0) / totalRoleplayScores.length)
+    : 0;
+
+  const overallScore = Math.round((avgQuizScore + avgRoleplayScore) / 2) || 0;
+  const passed = overallScore >= 85 && chapterScores.every(c => c.completed);
+  const certifiedDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
   const certificateRef = useRef<HTMLDivElement>(null);
 
   const handlePrint = () => {
     window.print();
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Nav />
+        <div className="flex items-center justify-center h-[60vh]">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background font-sans selection:bg-primary/20 pb-20">
@@ -51,7 +136,7 @@ export default function ReportCardPage() {
             <p className="text-muted-foreground">Detailed breakdown of your certification progress.</p>
           </div>
           
-          {results.passed && (
+          {passed && (
             <div className="flex gap-2">
               <Button variant="outline" className="gap-2" onClick={handlePrint}>
                 <Printer className="w-4 h-4" /> Print
@@ -73,32 +158,36 @@ export default function ReportCardPage() {
                   <Award className="w-6 h-6" />
                 </CardTitle>
                 <div className="space-y-1">
-                  <h3 className="text-4xl font-display font-bold text-primary">{results.overallScore}%</h3>
+                  <h3 className="text-4xl font-display font-bold text-primary">{overallScore}%</h3>
                   <p className="font-medium text-muted-foreground uppercase tracking-wider text-xs">Overall Score</p>
                 </div>
               </CardHeader>
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium">Status</span>
-                  <Badge variant={results.passed ? "default" : "destructive"} className={results.passed ? "bg-green-500 hover:bg-green-600" : ""}>
-                    {results.passed ? "CERTIFIED" : "INCOMPLETE"}
+                  <Badge variant={passed ? "default" : "destructive"} className={passed ? "bg-green-500 hover:bg-green-600" : ""}>
+                    {passed ? "CERTIFIED" : "IN PROGRESS"}
                   </Badge>
                 </div>
                 <Separator className="my-4" />
                 <div className="space-y-4">
                   <div>
                     <div className="flex justify-between text-sm mb-1">
-                      <span className="text-muted-foreground">Knowledge Retention</span>
-                      <span className="font-bold">94%</span>
+                      <span className="text-muted-foreground flex items-center gap-2">
+                        <Brain className="w-4 h-4" /> Knowledge Retention
+                      </span>
+                      <span className="font-bold">{avgQuizScore}%</span>
                     </div>
-                    <Progress value={94} className="h-2" />
+                    <Progress value={avgQuizScore} className="h-2" />
                   </div>
                   <div>
                     <div className="flex justify-between text-sm mb-1">
-                      <span className="text-muted-foreground">Roleplay Performance</span>
-                      <span className="font-bold">89%</span>
+                      <span className="text-muted-foreground flex items-center gap-2">
+                        <Target className="w-4 h-4" /> Roleplay Performance
+                      </span>
+                      <span className="font-bold">{avgRoleplayScore}%</span>
                     </div>
-                    <Progress value={89} className="h-2" />
+                    <Progress value={avgRoleplayScore} className="h-2" />
                   </div>
                 </div>
               </CardContent>
@@ -110,20 +199,31 @@ export default function ReportCardPage() {
                 <CardTitle className="text-lg">Module Breakdown</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {results.chapters.map((chapter) => (
-                  <div key={chapter.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border border-border/50">
-                    <div className="flex items-center gap-3">
-                      {chapter.status === 'passed' ? (
-                        <CheckCircle className="w-5 h-5 text-green-500" />
-                      ) : (
-                        <XCircle className="w-5 h-5 text-red-500" />
-                      )}
-                      <div>
+                {chapterScores.map((chapter) => (
+                  <div key={chapter.id} className="p-3 bg-muted/30 rounded-lg border border-border/50">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-3">
+                        {chapter.completed ? (
+                          <CheckCircle className="w-5 h-5 text-green-500" />
+                        ) : (
+                          <div className="w-5 h-5 rounded-full border-2 border-muted-foreground" />
+                        )}
                         <p className="font-medium text-sm">{chapter.title}</p>
-                        <p className="text-xs text-muted-foreground">Score: {chapter.score}%</p>
+                      </div>
+                      <Badge variant="outline" className="bg-background">
+                        {chapter.completed ? "completed" : "in progress"}
+                      </Badge>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 pl-8">
+                      <div className="text-xs">
+                        <span className="text-muted-foreground">Quiz: </span>
+                        <span className="font-bold">{chapter.quizScore ?? "—"}%</span>
+                      </div>
+                      <div className="text-xs">
+                        <span className="text-muted-foreground">Roleplay: </span>
+                        <span className="font-bold">{chapter.roleplayScore ?? "—"}%</span>
                       </div>
                     </div>
-                    <Badge variant="outline" className="bg-background">{chapter.status}</Badge>
                   </div>
                 ))}
               </CardContent>
@@ -132,18 +232,24 @@ export default function ReportCardPage() {
              {/* Roleplay Feedback */}
              <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Roleplay Highlights</CardTitle>
+                <CardTitle className="text-lg">Top Roleplay Performances</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {results.roleplays.map((rp) => (
-                  <div key={rp.id} className="space-y-2 pb-4 border-b border-border/50 last:border-0 last:pb-0">
-                    <div className="flex justify-between items-start">
-                       <p className="font-medium text-sm">{rp.title}</p>
-                       <span className="text-xs font-bold text-primary">{rp.score}%</span>
+                {topRoleplays.length > 0 ? (
+                  topRoleplays.map((rp) => (
+                    <div key={rp.id} className="space-y-2 pb-4 border-b border-border/50 last:border-0 last:pb-0">
+                      <div className="flex justify-between items-start">
+                         <p className="font-medium text-sm">"{rp.title}"</p>
+                         <span className="text-xs font-bold text-primary">{rp.score}%</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground italic">"{rp.feedback}"</p>
                     </div>
-                    <p className="text-xs text-muted-foreground italic">"{rp.feedback}"</p>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <p className="text-sm text-muted-foreground text-center py-4">
+                    Complete some roleplays to see your performance here.
+                  </p>
+                )}
               </CardContent>
             </Card>
 
@@ -151,29 +257,21 @@ export default function ReportCardPage() {
 
           {/* Right Column - Certificate */}
           <div className="lg:col-span-2">
-            {results.passed ? (
+            {passed ? (
                <div className="w-full overflow-x-auto pb-6">
-                 {/* 
-                     We remove 'aspect-[1.414/1]' to allow natural height growth based on content,
-                     avoiding overflow. We use min-h to ensure it looks substantial.
-                 */}
                  <div className="relative min-w-[700px] md:min-w-full min-h-[500px] md:min-h-[600px] bg-white text-black p-6 md:p-10 shadow-2xl rounded-sm border-[12px] md:border-[16px] border-double border-[#1e3a8a] print:shadow-none print:border-0 print:w-full print:h-full print:absolute print:inset-0 print:z-[9999]" ref={certificateRef}>
                     
-                    {/* Decorative Corner Elements - Adjusted z-index to be behind content if needed, but usually fine on top */}
                     <div className="absolute top-3 left-3 w-10 h-10 md:w-16 md:h-16 border-t-4 border-l-4 border-[#1e3a8a] pointer-events-none" />
                     <div className="absolute top-3 right-3 w-10 h-10 md:w-16 md:h-16 border-t-4 border-r-4 border-[#1e3a8a] pointer-events-none" />
                     <div className="absolute bottom-3 left-3 w-10 h-10 md:w-16 md:h-16 border-b-4 border-l-4 border-[#1e3a8a] pointer-events-none" />
                     <div className="absolute bottom-3 right-3 w-10 h-10 md:w-16 md:h-16 border-b-4 border-r-4 border-[#1e3a8a] pointer-events-none" />
                     
-                    {/* Background Watermark */}
                     <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
                        <img src={geckoLogo} className="w-2/3 h-2/3 object-contain grayscale" />
                     </div>
 
-                    {/* Inner Container - Removed h-full, added flex-grow to let it expand */}
                     <div className="relative flex flex-col items-center text-center border-2 border-dashed border-gray-200 p-6 md:p-8 h-full">
                       
-                      {/* Header */}
                       <div className="w-full space-y-4 md:space-y-6">
                          <div className="flex justify-between items-start w-full px-2 md:px-4">
                             <img src={geckoLogo} alt="Gecko Green" className="h-10 md:h-14 w-auto object-contain" />
@@ -191,29 +289,25 @@ export default function ReportCardPage() {
                          </div>
                       </div>
 
-                      {/* Name - Adjusted spacing */}
                       <div className="py-6 md:py-8 w-full border-b border-gray-300 max-w-xl mx-auto">
-                         <h2 className="font-display text-3xl md:text-5xl font-bold text-black tracking-tight leading-tight">Paul Wilkerson</h2>
+                         <h2 className="font-display text-3xl md:text-5xl font-bold text-black tracking-tight leading-tight">
+                           {user?.name || "Sales Representative"}
+                         </h2>
                       </div>
 
-                      {/* Description - Adjusted spacing and line height */}
                       <div className="max-w-2xl mx-auto space-y-4 pt-6 md:pt-8">
                          <p className="text-gray-600 font-serif text-sm md:text-lg leading-relaxed px-4">
                            Has successfully demonstrated mastery of the <strong className="text-[#1e3a8a]">Gecko Green Sales Methodology</strong>, achieving excellence in Opening, Pitching, Objection Handling, and Closing strategies through rigorous AI-driven simulation training.
                          </p>
                          
-                         {/* Skills Tags - Made smaller and ensure wrapping */}
                          <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-bold pt-2">
-                            <span>• Sales Foundations •</span>
-                            <span>• Advanced Negotiation •</span>
-                            <span>• Field Execution •</span>
+                            <span>• Knowledge Score: {avgQuizScore}% •</span>
+                            <span>• Roleplay Score: {avgRoleplayScore}% •</span>
                          </div>
                       </div>
 
-                      {/* Spacer to push footer down if content is short */}
                       <div className="flex-grow min-h-[40px]" />
 
-                      {/* Footer / Signatures */}
                       <div className="w-full grid grid-cols-2 gap-8 md:gap-20 pt-8 px-4 md:px-8 mt-4">
                          <div className="text-center space-y-1">
                             <div className="h-12 md:h-14 flex items-end justify-center pb-1">
@@ -227,16 +321,15 @@ export default function ReportCardPage() {
                          
                          <div className="text-center space-y-1">
                             <div className="h-12 md:h-14 flex items-end justify-center pb-1">
-                               <p className="font-serif text-sm md:text-lg text-gray-800">{results.certifiedDate}</p>
+                               <p className="font-serif text-sm md:text-lg text-gray-800">{certifiedDate}</p>
                             </div>
                             <div className="border-t border-gray-400 pt-2">
                                <p className="font-bold text-xs md:text-sm uppercase text-gray-800">Date Issued</p>
-                               <p className="text-[10px] md:text-xs text-gray-500 uppercase tracking-wide">Authorization ID: 8X-2991</p>
+                               <p className="text-[10px] md:text-xs text-gray-500 uppercase tracking-wide">Overall: {overallScore}%</p>
                             </div>
                          </div>
                       </div>
 
-                      {/* Gold Seal - Absolute positioned but safe from content */}
                       <div className="absolute bottom-6 md:bottom-10 right-6 md:right-10 z-20 hidden sm:block">
                          <div className="relative transform scale-75 md:scale-90">
                             <div className="w-20 h-20 md:w-24 md:h-24 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg border-4 border-yellow-600">
@@ -255,7 +348,27 @@ export default function ReportCardPage() {
               <div className="h-full flex flex-col items-center justify-center bg-card border border-dashed border-border rounded-xl p-12 text-center text-muted-foreground">
                  <Lock className="w-16 h-16 mb-4 opacity-20" />
                  <h3 className="text-xl font-bold mb-2">Certificate Locked</h3>
-                 <p className="max-w-md">Complete all training modules and achieve an overall score of 85% or higher to unlock your official certification.</p>
+                 <p className="max-w-md mb-6">Complete all training modules and achieve an overall score of 85% or higher to unlock your official certification.</p>
+                 
+                 <div className="bg-muted/30 rounded-xl p-6 w-full max-w-md">
+                   <h4 className="font-bold mb-4">Your Progress</h4>
+                   <div className="space-y-3 text-left">
+                     <div>
+                       <div className="flex justify-between text-sm mb-1">
+                         <span>Current Score</span>
+                         <span className="font-bold">{overallScore}% / 85% needed</span>
+                       </div>
+                       <Progress value={overallScore} className="h-2" />
+                     </div>
+                     <div>
+                       <div className="flex justify-between text-sm mb-1">
+                         <span>Chapters Completed</span>
+                         <span className="font-bold">{chapterScores.filter(c => c.completed).length} / {chapterScores.length}</span>
+                       </div>
+                       <Progress value={(chapterScores.filter(c => c.completed).length / Math.max(chapterScores.length, 1)) * 100} className="h-2" />
+                     </div>
+                   </div>
+                 </div>
               </div>
             )}
           </div>

@@ -2,11 +2,15 @@ import { useRoute, Link, useLocation } from "wouter";
 import { Nav } from "@/components/nav";
 import { PDFViewer } from "@/components/pdf-viewer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Download, FileText, CheckCircle, BookOpen, Presentation } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowLeft, Download, FileText, CheckCircle, BookOpen, Presentation, Brain } from "lucide-react";
+import { useEffect, useState, useCallback } from "react";
 import { toast } from "sonner";
-import { api, type Chapter } from "@/lib/api";
+import { api, type Chapter, type QuizQuestion } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
+import { QuizOverlay } from "@/components/quiz-overlay";
+import { AnimatePresence } from "framer-motion";
+
+const QUIZ_INTERVAL = 5;
 
 export default function ChapterPage() {
   const [, params] = useRoute("/chapter/:id");
@@ -24,12 +28,71 @@ export default function ChapterPage() {
     const saved = localStorage.getItem(`chapter_pdf_progress_${params.id}`);
     return saved ? parseInt(saved) : 1;
   });
+  
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
+  const [completedQuizSlides, setCompletedQuizSlides] = useState<Set<number>>(() => {
+    if (!params?.id) return new Set();
+    const saved = localStorage.getItem(`chapter_quiz_completed_${params.id}`);
+    return saved ? new Set(JSON.parse(saved)) : new Set();
+  });
+  const [isLoadingQuiz, setIsLoadingQuiz] = useState(false);
+
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
 
   useEffect(() => {
     if (params?.id) {
       localStorage.setItem(`chapter_pdf_progress_${params.id}`, currentPage.toString());
     }
   }, [currentPage, params?.id]);
+
+  useEffect(() => {
+    if (params?.id) {
+      localStorage.setItem(`chapter_quiz_completed_${params.id}`, JSON.stringify(Array.from(completedQuizSlides)));
+    }
+  }, [completedQuizSlides, params?.id]);
+
+  const checkForQuiz = useCallback(async (page: number) => {
+    if (!chapter || !user || isLoadingQuiz) return;
+    
+    if (page > 1 && page % QUIZ_INTERVAL === 0 && !completedQuizSlides.has(page)) {
+      setIsLoadingQuiz(true);
+      try {
+        const slideContent = chapter.slides?.[page - 1]?.content || 
+          `Slide ${page} of ${chapter.title} - ${chapter.subtitle}. Key topics: ${chapter.agenda.join(", ")}`;
+        
+        const result = await api.getQuizForSlide(chapter.id, page, slideContent);
+        
+        if (result.questions && result.questions.length > 0) {
+          setQuizQuestions(result.questions);
+          setShowQuiz(true);
+        }
+      } catch (error) {
+        console.error("Failed to load quiz:", error);
+      } finally {
+        setIsLoadingQuiz(false);
+      }
+    }
+  }, [chapter, user, completedQuizSlides, isLoadingQuiz]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    if (page > currentPage) {
+      checkForQuiz(page);
+    }
+  };
+
+  const handleQuizComplete = () => {
+    setShowQuiz(false);
+    setCompletedQuizSlides(prev => new Set([...Array.from(prev), currentPage]));
+    toast.success("Quiz completed! Keep going.");
+  };
+
+  const handleQuizSkip = () => {
+    setShowQuiz(false);
+    setCompletedQuizSlides(prev => new Set([...Array.from(prev), currentPage]));
+  };
 
   const handleComplete = () => {
     if (!chapter) return;
@@ -40,9 +103,7 @@ export default function ChapterPage() {
       localStorage.setItem("completed_chapters", JSON.stringify(completedChapters));
     }
     
-    const currentUser = localStorage.getItem("currentUser");
-    if (currentUser) {
-      const user = JSON.parse(currentUser);
+    if (user) {
       api.createProgress({
         userId: user.id,
         chapterId: chapter.id,
@@ -89,6 +150,12 @@ export default function ChapterPage() {
                   <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
                     <Presentation className="h-4 w-4" />
                     <span>Training Presentation</span>
+                    {completedQuizSlides.size > 0 && (
+                      <span className="flex items-center gap-1 text-primary">
+                        <Brain className="h-3 w-3" />
+                        {completedQuizSlides.size} quizzes
+                      </span>
+                    )}
                   </div>
                   <h1 className="text-xl md:text-2xl font-display font-bold text-foreground" data-testid="text-chapter-title">
                     {chapter.title}: {chapter.subtitle}
@@ -114,7 +181,7 @@ export default function ChapterPage() {
             <PDFViewer
               pdfUrl={chapter.pdfUrl}
               currentPage={currentPage}
-              onPageChange={setCurrentPage}
+              onPageChange={handlePageChange}
               onComplete={handleComplete}
             />
           ) : (
@@ -133,6 +200,19 @@ export default function ChapterPage() {
           )}
         </div>
       </div>
+
+      {/* Quiz Overlay */}
+      <AnimatePresence>
+        {showQuiz && quizQuestions.length > 0 && user && chapter && (
+          <QuizOverlay
+            questions={quizQuestions}
+            chapterId={chapter.id}
+            userId={user.id}
+            onComplete={handleQuizComplete}
+            onSkip={handleQuizSkip}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -6,6 +6,8 @@ import {
   resources,
   userProgress,
   roleplayAttempts,
+  quizQuestions,
+  quizAttempts,
   type User,
   type InsertUser,
   type Chapter,
@@ -20,6 +22,10 @@ import {
   type InsertUserProgress,
   type RoleplayAttempt,
   type InsertRoleplayAttempt,
+  type QuizQuestion,
+  type InsertQuizQuestion,
+  type QuizAttempt,
+  type InsertQuizAttempt,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc } from "drizzle-orm";
@@ -61,6 +67,17 @@ export interface IStorage {
   // Roleplay Attempts
   getUserRoleplayAttempts(userId: string): Promise<RoleplayAttempt[]>;
   createRoleplayAttempt(attempt: InsertRoleplayAttempt): Promise<RoleplayAttempt>;
+  
+  // Quiz Questions
+  getQuizQuestionsByChapter(chapterId: string): Promise<QuizQuestion[]>;
+  getQuizQuestionsBySlide(chapterId: string, slideIndex: number): Promise<QuizQuestion[]>;
+  createQuizQuestion(question: InsertQuizQuestion): Promise<QuizQuestion>;
+  createQuizQuestions(questions: InsertQuizQuestion[]): Promise<QuizQuestion[]>;
+  
+  // Quiz Attempts
+  getUserQuizAttempts(userId: string, chapterId: string): Promise<QuizAttempt[]>;
+  createQuizAttempt(attempt: InsertQuizAttempt): Promise<QuizAttempt>;
+  getUserQuizScore(userId: string, chapterId: string): Promise<{ correct: number; total: number }>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -182,6 +199,63 @@ export class DatabaseStorage implements IStorage {
   async createRoleplayAttempt(insertAttempt: InsertRoleplayAttempt): Promise<RoleplayAttempt> {
     const [attempt] = await db.insert(roleplayAttempts).values(insertAttempt).returning();
     return attempt;
+  }
+
+  // Quiz Questions
+  async getQuizQuestionsByChapter(chapterId: string): Promise<QuizQuestion[]> {
+    return await db
+      .select()
+      .from(quizQuestions)
+      .where(eq(quizQuestions.chapterId, chapterId))
+      .orderBy(quizQuestions.slideIndex);
+  }
+
+  async getQuizQuestionsBySlide(chapterId: string, slideIndex: number): Promise<QuizQuestion[]> {
+    return await db
+      .select()
+      .from(quizQuestions)
+      .where(and(eq(quizQuestions.chapterId, chapterId), eq(quizQuestions.slideIndex, slideIndex)));
+  }
+
+  async createQuizQuestion(insertQuestion: InsertQuizQuestion): Promise<QuizQuestion> {
+    const [question] = await db.insert(quizQuestions).values(insertQuestion).returning();
+    return question;
+  }
+
+  async createQuizQuestions(insertQuestions: InsertQuizQuestion[]): Promise<QuizQuestion[]> {
+    if (insertQuestions.length === 0) return [];
+    return await db.insert(quizQuestions).values(insertQuestions).returning();
+  }
+
+  // Quiz Attempts
+  async getUserQuizAttempts(userId: string, chapterId: string): Promise<QuizAttempt[]> {
+    return await db
+      .select()
+      .from(quizAttempts)
+      .where(and(eq(quizAttempts.userId, userId), eq(quizAttempts.chapterId, chapterId)))
+      .orderBy(desc(quizAttempts.createdAt));
+  }
+
+  async createQuizAttempt(insertAttempt: InsertQuizAttempt): Promise<QuizAttempt> {
+    const [attempt] = await db.insert(quizAttempts).values(insertAttempt).returning();
+    return attempt;
+  }
+
+  async getUserQuizScore(userId: string, chapterId: string): Promise<{ correct: number; total: number }> {
+    const attempts = await db
+      .select()
+      .from(quizAttempts)
+      .where(and(eq(quizAttempts.userId, userId), eq(quizAttempts.chapterId, chapterId)));
+    
+    const uniqueQuestions = new Map<string, boolean>();
+    attempts.forEach(a => {
+      if (!uniqueQuestions.has(a.questionId)) {
+        uniqueQuestions.set(a.questionId, a.isCorrect === 1);
+      }
+    });
+    
+    const correct = Array.from(uniqueQuestions.values()).filter(v => v).length;
+    return { correct, total: uniqueQuestions.size };
   }
 }
 

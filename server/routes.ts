@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { insertUserProgressSchema, insertRoleplayAttemptSchema } from "@shared/schema";
 import { z } from "zod";
 import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, type RoleplayMessage, type RoleplayScenario } from "./gemini";
+import { getOrGenerateQuizForSlide, submitQuizAnswer } from "./quiz-service";
 
 const roleplaySessions = new Map<string, { scenario: RoleplayScenario; history: RoleplayMessage[] }>();
 
@@ -324,6 +325,62 @@ export async function registerRoutes(
     } catch (error) {
       console.error("End roleplay session error:", error);
       res.status(500).json({ error: "Failed to end roleplay session" });
+    }
+  });
+
+  // Quiz routes
+  app.get("/api/quiz/:chapterId/slide/:slideIndex", async (req, res) => {
+    try {
+      const { chapterId, slideIndex } = req.params;
+      const { content } = req.query;
+      
+      const questions = await getOrGenerateQuizForSlide(
+        chapterId,
+        parseInt(slideIndex),
+        (content as string) || ""
+      );
+      
+      res.json({ questions });
+    } catch (error) {
+      console.error("Get quiz error:", error);
+      res.status(500).json({ error: "Failed to get quiz questions" });
+    }
+  });
+
+  app.post("/api/quiz/submit", async (req, res) => {
+    try {
+      const { userId, chapterId, questionId, selectedAnswer } = req.body;
+      
+      if (!userId || !chapterId || !questionId || selectedAnswer === undefined) {
+        return res.status(400).json({ error: "userId, chapterId, questionId, and selectedAnswer required" });
+      }
+
+      const result = await submitQuizAnswer(userId, chapterId, questionId, selectedAnswer);
+      res.json(result);
+    } catch (error) {
+      console.error("Submit quiz error:", error);
+      res.status(500).json({ error: "Failed to submit answer" });
+    }
+  });
+
+  app.get("/api/quiz/:chapterId/questions", async (req, res) => {
+    try {
+      const questions = await storage.getQuizQuestionsByChapter(req.params.chapterId);
+      res.json(questions);
+    } catch (error) {
+      console.error("Get chapter quiz error:", error);
+      res.status(500).json({ error: "Failed to get quiz questions" });
+    }
+  });
+
+  app.get("/api/users/:userId/quiz-score/:chapterId", async (req, res) => {
+    try {
+      const { userId, chapterId } = req.params;
+      const score = await storage.getUserQuizScore(userId, chapterId);
+      res.json(score);
+    } catch (error) {
+      console.error("Get quiz score error:", error);
+      res.status(500).json({ error: "Failed to get quiz score" });
     }
   });
 

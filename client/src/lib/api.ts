@@ -87,6 +87,24 @@ export interface RoleplayAttempt {
   createdAt: string;
 }
 
+export interface QuizQuestion {
+  id: string;
+  question: string;
+  options: string[];
+  correctAnswer: number;
+  explanation: string | null;
+}
+
+export interface QuizSubmitResult {
+  isCorrect: boolean;
+  explanation: string | null;
+}
+
+export interface QuizScore {
+  correct: number;
+  total: number;
+}
+
 class APIClient {
   private async request<T>(
     endpoint: string,
@@ -221,6 +239,28 @@ class APIClient {
       method: "POST",
       body: JSON.stringify({ sessionId, userId, roleplayId }),
     });
+  }
+
+  // Quiz
+  async getQuizForSlide(chapterId: string, slideIndex: number, content?: string): Promise<{ questions: QuizQuestion[] }> {
+    const params = new URLSearchParams();
+    if (content) params.set("content", content);
+    return this.request(`/api/quiz/${chapterId}/slide/${slideIndex}?${params.toString()}`);
+  }
+
+  async submitQuizAnswer(userId: string, chapterId: string, questionId: string, selectedAnswer: number): Promise<QuizSubmitResult> {
+    return this.request("/api/quiz/submit", {
+      method: "POST",
+      body: JSON.stringify({ userId, chapterId, questionId, selectedAnswer }),
+    });
+  }
+
+  async getChapterQuizQuestions(chapterId: string): Promise<QuizQuestion[]> {
+    return this.request(`/api/quiz/${chapterId}/questions`);
+  }
+
+  async getUserQuizScore(userId: string, chapterId: string): Promise<QuizScore> {
+    return this.request(`/api/users/${userId}/quiz-score/${chapterId}`);
   }
 }
 
