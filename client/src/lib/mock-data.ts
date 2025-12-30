@@ -381,6 +381,98 @@ export const ROLEPLAYS: RoleplayScenario[] = [
   }
 ];
 
+export interface RoleplayResult {
+  id: string;
+  scenarioId: string;
+  score: number;
+  date: string;
+  feedback: string;
+  metrics: {
+    resistanceHandled: number;
+    objectionsOvercome: number;
+    closingTechnique: number;
+  };
+}
+
+export const PAST_RESULTS: RoleplayResult[] = [
+  {
+    id: "res-1",
+    scenarioId: "rp-1",
+    score: 85,
+    date: "2025-01-10T14:30:00",
+    feedback: "Great job using the pattern interrupt immediately. You maintained a calm tone, but could have been slightly more assertive when asking the control question.",
+    metrics: {
+      resistanceHandled: 90,
+      objectionsOvercome: 80,
+      closingTechnique: 85
+    }
+  },
+  {
+    id: "res-2",
+    scenarioId: "rp-6",
+    score: 72,
+    date: "2025-01-12T09:15:00",
+    feedback: "Good recovery when the homeowner challenged your purpose. Work on pivoting back to the script faster without justifying yourself too much.",
+    metrics: {
+      resistanceHandled: 70,
+      objectionsOvercome: 75,
+      closingTechnique: 70
+    }
+  }
+];
+
+export interface LeaderboardEntry {
+  rank: number;
+  name: string;
+  avatar: string;
+  score: number;
+  roleplaysCompleted: number;
+  trend: 'up' | 'down' | 'same';
+}
+
+export const LEADERBOARD_DATA: LeaderboardEntry[] = [
+  {
+    rank: 1,
+    name: "Sarah Jenkins",
+    avatar: "https://i.pravatar.cc/150?u=sarah",
+    score: 98,
+    roleplaysCompleted: 42,
+    trend: 'up'
+  },
+  {
+    rank: 2,
+    name: "Mike Ross",
+    avatar: "https://i.pravatar.cc/150?u=mike",
+    score: 95,
+    roleplaysCompleted: 38,
+    trend: 'same'
+  },
+  {
+    rank: 3,
+    name: "Jessica Pearson",
+    avatar: "https://i.pravatar.cc/150?u=jessica",
+    score: 92,
+    roleplaysCompleted: 35,
+    trend: 'up'
+  },
+  {
+    rank: 4,
+    name: "Paul Wilkerson", // The User
+    avatar: "https://i.pravatar.cc/150?u=paul", // Placeholder
+    score: 85,
+    roleplaysCompleted: 12,
+    trend: 'up'
+  },
+  {
+    rank: 5,
+    name: "Louis Litt",
+    avatar: "https://i.pravatar.cc/150?u=louis",
+    score: 82,
+    roleplaysCompleted: 28,
+    trend: 'down'
+  }
+];
+
 export interface Message {
   id: string;
   sender: 'user' | 'ai';

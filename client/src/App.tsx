@@ -8,6 +8,8 @@ import Dashboard from "@/pages/home";
 import LoginPage from "@/pages/login";
 import ChatPage from "@/pages/chat";
 import ChapterPage from "@/pages/chapter";
+import ResultsPage from "@/pages/results";
+import LeaderboardPage from "@/pages/leaderboard";
 
 function Router() {
   return (
@@ -16,6 +18,8 @@ function Router() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/chat/:id" component={ChatPage} />
       <Route path="/chapter/:id" component={ChapterPage} />
+      <Route path="/results/:id" component={ResultsPage} />
+      <Route path="/leaderboard" component={LeaderboardPage} />
       <Route component={NotFound} />
     </Switch>
   );

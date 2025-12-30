@@ -3,15 +3,17 @@ import { Message, RoleplayScenario } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, User, Sparkles, Mic, Volume2 } from "lucide-react";
+import { Send, User, Sparkles, Mic, Volume2, StopCircle, Flag } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Link, useLocation } from "wouter";
 
 interface ChatInterfaceProps {
   scenario: RoleplayScenario;
 }
 
 export function ChatInterface({ scenario }: ChatInterfaceProps) {
+  const [, setLocation] = useLocation();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -29,6 +31,12 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
       scrollRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+
+  const handleFinish = () => {
+    // In a real app, this would submit the transcript for analysis
+    // For now, we simulate a delay then redirect to a mocked result
+    setLocation("/results/res-1"); // Redirecting to our mock result 1 for demo
+  };
 
   const handleSend = () => {
     if (!inputValue.trim()) return;
@@ -105,10 +113,10 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
         </div>
         <div className="flex gap-2">
             <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-            <Volume2 className="h-5 w-5" />
+              <Volume2 className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-            <Sparkles className="h-5 w-5" />
+            <Button onClick={handleFinish} size="sm" className="bg-red-500 hover:bg-red-600 text-white border-none">
+              <Flag className="mr-2 h-4 w-4" /> End & Analyze
             </Button>
         </div>
       </div>
@@ -191,7 +199,7 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
               : 'bg-primary hover:bg-primary/90 border-primary/20 hover:scale-105'
           }`}
         >
-          <Mic className={`h-8 w-8 ${isRecording ? 'text-white' : 'text-white'}`} />
+          {isRecording ? <StopCircle className="h-8 w-8 text-white" /> : <Mic className="h-8 w-8 text-white" />}
         </Button>
       </div>
     </div>
