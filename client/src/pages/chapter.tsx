@@ -208,6 +208,7 @@ export default function ChapterPage() {
               currentPage={currentPage}
               onPageChange={handlePageChange}
               onComplete={handleComplete}
+              onClose={() => setLocation("/dashboard")}
             />
           ) : (
             <div className="flex-1 flex items-center justify-center p-8">

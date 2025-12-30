@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useRef, TouchEvent } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize2, Minimize2, RotateCw, Maximize } from "lucide-react";
+import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize2, Minimize2, RotateCw, Maximize, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useOrientation, useIsMobile } from "@/hooks/useOrientation";
 import "react-pdf/dist/Page/AnnotationLayer.css";
@@ -14,9 +14,10 @@ interface PDFViewerProps {
   currentPage: number;
   onPageChange: (page: number) => void;
   onComplete?: () => void;
+  onClose?: () => void;
 }
 
-export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDFViewerProps) {
+export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete, onClose }: PDFViewerProps) {
   const [numPages, setNumPages] = useState<number>(0);
   const [rotation, setRotation] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -31,15 +32,23 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
   const orientation = useOrientation();
   const isLandscape = orientation === 'landscape';
   const isMobile = useIsMobile();
+  
+  // Auto-fullscreen on mobile landscape for immersive viewing
+  const isImmersiveMode = isMobile && isLandscape;
 
   const minSwipeDistance = 50;
 
   useEffect(() => {
     const updateSize = () => {
-      if (containerRef.current) {
+      if (isImmersiveMode) {
+        // In immersive mode, use full viewport
+        setContainerWidth(window.innerWidth);
+        setContainerHeight(window.innerHeight - 48); // Leave small space for minimal controls
+      } else if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
-        const isMobile = window.innerWidth < 640;
-        const padding = isMobile ? 16 : 32;
+        const smallerDim = Math.min(window.innerWidth, window.innerHeight);
+        const isMobileDevice = smallerDim < 768;
+        const padding = isMobileDevice ? 16 : 32;
         setContainerWidth(rect.width - padding);
         setContainerHeight(rect.height - padding);
       }
@@ -59,7 +68,7 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
       window.removeEventListener('orientationchange', updateSize);
       resizeObserver.disconnect();
     };
-  }, [isFullscreen]);
+  }, [isFullscreen, isImmersiveMode]);
 
   const onDocumentLoadSuccess = useCallback(({ numPages: totalPages }: { numPages: number }) => {
     setNumPages(totalPages);
@@ -142,6 +151,113 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
 
   const progressPercentage = numPages > 0 ? (safeCurrentPage / numPages) * 100 : 0;
 
+  const isRotated = rotation === 90 || rotation === 270;
+  
+  // Calculate dimensions for PDF rendering
+  const effectiveDimension = (() => {
+    if (fitMode === 'manual') return undefined;
+    if (!containerWidth || !containerHeight) return undefined;
+    
+    if (isImmersiveMode) {
+      // In immersive mode, fit to height to fill the screen
+      return { height: containerHeight };
+    }
+    // Portrait or desktop: fit to width
+    return { width: isRotated ? Math.min(containerWidth, containerHeight * 0.8) : containerWidth };
+  })();
+
+  // Immersive fullscreen mode for mobile landscape
+  if (isImmersiveMode) {
+    return (
+      <div 
+        className="fixed inset-0 z-50 bg-black flex items-center justify-center"
+        style={{ 
+          height: '100dvh',
+          paddingTop: 'env(safe-area-inset-top)',
+          paddingBottom: 'env(safe-area-inset-bottom)',
+          paddingLeft: 'env(safe-area-inset-left)',
+          paddingRight: 'env(safe-area-inset-right)',
+        }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Close button - top right */}
+        {onClose && (
+          <Button
+            variant="secondary"
+            size="icon"
+            onClick={onClose}
+            className="absolute top-2 right-2 z-10 h-10 w-10 bg-white/90 hover:bg-white text-black rounded-full shadow-lg"
+            data-testid="button-close-viewer"
+          >
+            <X className="h-5 w-5" />
+          </Button>
+        )}
+
+        {/* Page indicator - top left */}
+        <div className="absolute top-2 left-2 z-10 bg-black/60 text-white px-3 py-1 rounded-full text-sm font-medium">
+          {isReady ? `${safeCurrentPage} / ${numPages}` : "..."}
+        </div>
+
+        {/* Navigation arrows on sides */}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={goToPrevPage}
+          disabled={!isReady || safeCurrentPage <= 1}
+          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 h-12 w-12 bg-black/40 hover:bg-black/60 text-white rounded-full"
+          data-testid="button-prev-page"
+        >
+          <ChevronLeft className="h-6 w-6" />
+        </Button>
+
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={goToNextPage}
+          disabled={!isReady || (safeCurrentPage >= numPages && !onComplete)}
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 h-12 w-12 bg-black/40 hover:bg-black/60 text-white rounded-full"
+          data-testid="button-next-page"
+        >
+          <ChevronRight className="h-6 w-6" />
+        </Button>
+
+        {/* Progress bar at bottom */}
+        <div className="absolute bottom-1 left-4 right-4 h-1 bg-white/20 rounded-full overflow-hidden z-10">
+          <div 
+            className="h-full bg-primary transition-all duration-300"
+            style={{ width: `${progressPercentage}%` }}
+          />
+        </div>
+
+        {/* PDF Content */}
+        <Document
+          file={pdfUrl}
+          onLoadSuccess={onDocumentLoadSuccess}
+          loading={
+            <div className="flex items-center justify-center">
+              <div className="h-8 w-8 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            </div>
+          }
+        >
+          {canRenderPage && (
+            <Page
+              pageNumber={safeCurrentPage}
+              height={effectiveDimension?.height}
+              scale={fitMode === 'manual' ? manualScale : undefined}
+              rotate={rotation}
+              className="shadow-2xl"
+              renderTextLayer={false}
+              renderAnnotationLayer={false}
+            />
+          )}
+        </Document>
+      </div>
+    );
+  }
+
+  // Standard mode for portrait/desktop
   const containerClass = isFullscreen 
     ? "fixed inset-0 z-50 bg-black/95 flex flex-col" 
     : "flex flex-col h-full";
@@ -151,41 +267,22 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
     paddingBottom: 'env(safe-area-inset-bottom)',
   } : {};
 
-  const isRotated = rotation === 90 || rotation === 270;
-  
-  // In landscape on mobile, fit to height instead of width for better viewing
-  const effectiveDimension = (() => {
-    if (fitMode === 'manual') return undefined;
-    if (!containerWidth || !containerHeight) return undefined;
-    
-    if (isLandscape && isMobile) {
-      // In landscape, fit to available height
-      const availableHeight = containerHeight - 20;
-      return { height: availableHeight };
-    }
-    // Portrait or desktop: fit to width
-    return { width: isRotated ? Math.min(containerWidth, containerHeight * 0.8) : containerWidth };
-  })();
-
   return (
     <div className={containerClass} style={fullscreenStyle}>
-      {/* Controls Header - compact in landscape */}
-      <div className={`flex items-center justify-between bg-background/80 backdrop-blur-sm border-b border-border shrink-0 ${
-        isLandscape && isMobile ? 'px-2 py-1' : 'px-4 py-3'
-      }`}>
-        <div className="flex items-center gap-1">
+      {/* Controls Header */}
+      <div className="flex items-center justify-between px-4 py-3 bg-background/80 backdrop-blur-sm border-b border-border shrink-0">
+        <div className="flex items-center gap-2">
           <Button 
             variant="ghost" 
             size="icon" 
             onClick={goToPrevPage} 
             disabled={!isReady || safeCurrentPage <= 1}
             data-testid="button-prev-page"
-            className={isLandscape && isMobile ? 'h-8 w-8' : ''}
           >
-            <ChevronLeft className={isLandscape && isMobile ? 'h-4 w-4' : 'h-5 w-5'} />
+            <ChevronLeft className="h-5 w-5" />
           </Button>
-          <span className={`font-medium min-w-[60px] text-center ${isLandscape && isMobile ? 'text-xs' : 'text-sm'}`} data-testid="text-page-indicator">
-            {isReady ? `${safeCurrentPage} / ${numPages}` : "..."}
+          <span className="text-sm font-medium min-w-[80px] text-center" data-testid="text-page-indicator">
+            {isReady ? `${safeCurrentPage} / ${numPages}` : "Loading..."}
           </span>
           <Button 
             variant="ghost" 
@@ -193,45 +290,38 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
             onClick={goToNextPage} 
             disabled={!isReady || (safeCurrentPage >= numPages && !onComplete)}
             data-testid="button-next-page"
-            className={isLandscape && isMobile ? 'h-8 w-8' : ''}
           >
-            <ChevronRight className={isLandscape && isMobile ? 'h-4 w-4' : 'h-5 w-5'} />
+            <ChevronRight className="h-5 w-5" />
           </Button>
         </div>
 
-        <div className="flex items-center gap-0.5">
-          {/* Hide zoom controls in landscape mobile to save space */}
-          {!(isLandscape && isMobile) && (
-            <>
-              <Button variant="ghost" size="icon" onClick={zoomOut} data-testid="button-zoom-out">
-                <ZoomOut className="h-4 w-4" />
-              </Button>
-              <Button 
-                variant={fitMode === 'width' ? 'secondary' : 'ghost'} 
-                size="icon" 
-                onClick={fitToScreen} 
-                data-testid="button-fit-screen"
-                title="Fit to screen"
-              >
-                <Maximize className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="icon" onClick={zoomIn} data-testid="button-zoom-in">
-                <ZoomIn className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="icon" onClick={rotate} data-testid="button-rotate">
-                <RotateCw className="h-4 w-4" />
-              </Button>
-            </>
-          )}
+        <div className="flex items-center gap-1">
+          <Button variant="ghost" size="icon" onClick={zoomOut} data-testid="button-zoom-out">
+            <ZoomOut className="h-4 w-4" />
+          </Button>
           <Button 
-            variant="ghost" 
+            variant={fitMode === 'width' ? 'secondary' : 'ghost'} 
             size="icon" 
-            onClick={toggleFullscreen} 
-            data-testid="button-fullscreen"
-            className={isLandscape && isMobile ? 'h-8 w-8' : ''}
+            onClick={fitToScreen} 
+            data-testid="button-fit-screen"
+            title="Fit to screen"
           >
+            <Maximize className="h-4 w-4" />
+          </Button>
+          <Button variant="ghost" size="icon" onClick={zoomIn} data-testid="button-zoom-in">
+            <ZoomIn className="h-4 w-4" />
+          </Button>
+          <Button variant="ghost" size="icon" onClick={rotate} data-testid="button-rotate">
+            <RotateCw className="h-4 w-4" />
+          </Button>
+          <Button variant="ghost" size="icon" onClick={toggleFullscreen} data-testid="button-fullscreen">
             {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
           </Button>
+          {onClose && (
+            <Button variant="ghost" size="icon" onClick={onClose} data-testid="button-close-viewer">
+              <X className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       </div>
 
@@ -286,36 +376,34 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
         </div>
       </div>
 
-      {/* Progress Bar - thinner in landscape */}
-      <div className={`bg-secondary shrink-0 ${isLandscape && isMobile ? 'h-0.5' : 'h-1'}`}>
+      {/* Progress Bar */}
+      <div className="h-1 bg-secondary shrink-0">
         <div 
           className="h-full bg-primary transition-all duration-300"
           style={{ width: `${progressPercentage}%` }}
         />
       </div>
 
-      {/* Mobile Navigation Footer - hidden in landscape for more space */}
-      {!(isLandscape && isMobile) && (
-        <div className="md:hidden flex items-center justify-between p-3 bg-background border-t border-border shrink-0">
-          <Button 
-            variant="outline" 
-            onClick={goToPrevPage} 
-            disabled={!isReady || safeCurrentPage <= 1}
-            className="flex-1 mr-2"
-            size="sm"
-          >
-            <ChevronLeft className="mr-1 h-4 w-4" /> Prev
-          </Button>
-          <Button 
-            onClick={goToNextPage}
-            disabled={!isReady}
-            className="flex-1 ml-2 bg-primary"
-            size="sm"
-          >
-            {isReady && safeCurrentPage >= numPages ? "Done" : "Next"} <ChevronRight className="ml-1 h-4 w-4" />
-          </Button>
-        </div>
-      )}
+      {/* Mobile Navigation Footer */}
+      <div className="md:hidden flex items-center justify-between p-3 bg-background border-t border-border shrink-0">
+        <Button 
+          variant="outline" 
+          onClick={goToPrevPage} 
+          disabled={!isReady || safeCurrentPage <= 1}
+          className="flex-1 mr-2"
+          size="sm"
+        >
+          <ChevronLeft className="mr-1 h-4 w-4" /> Prev
+        </Button>
+        <Button 
+          onClick={goToNextPage}
+          disabled={!isReady}
+          className="flex-1 ml-2 bg-primary"
+          size="sm"
+        >
+          {isReady && safeCurrentPage >= numPages ? "Done" : "Next"} <ChevronRight className="ml-1 h-4 w-4" />
+        </Button>
+      </div>
     </div>
   );
 }
