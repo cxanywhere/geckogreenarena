@@ -2,6 +2,8 @@ import busyHomeowner from '@assets/generated_images/busy_homeowner_at_door.png';
 import proudDiyHomeowner from '@assets/generated_images/proud_diy_homeowner_on_lawn.png';
 import skepticalHomeowner from '@assets/generated_images/skeptical_older_homeowner.png';
 import indecisiveHomeowner from '@assets/generated_images/indecisive_homeowner_thinking.png';
+import doorToDoorRep from '@assets/generated_images/door_to_door_sales_rep_knocking.png';
+import lawnCareRep from '@assets/generated_images/sales_rep_talking_to_homeowner_on_lawn.png';
 
 export interface Slide {
   type: 'content' | 'quiz' | 'roleplay';
@@ -39,7 +41,7 @@ export const CHAPTERS: Chapter[] = [
     duration: "45 min",
     status: "in-progress",
     pdfUrl: "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1766976787/Gecko_Green_Training_-_Certification_1_Chapter_1_1_-compressed-compressed_hctzzg.pdf",
-    coverImage: "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+    coverImage: doorToDoorRep,
     agenda: [
       "The Psychology of First Impressions",
       "Pattern Interrupts & Breaking the Script", 
@@ -127,7 +129,7 @@ export const CHAPTERS: Chapter[] = [
     duration: "60 min",
     status: "locked",
     pdfUrl: "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1766976616/Gecko_Green_Training_-_Certification_1_Chapter_2_2_-compressed_2_1_hok8bh.pdf",
-    coverImage: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+    coverImage: lawnCareRep,
     agenda: [
       "The B-P-D-C Sales Framework",
       "Isolating & Overcoming Objections",
