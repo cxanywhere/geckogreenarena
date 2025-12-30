@@ -44,10 +44,10 @@ export default function Home() {
         </div>
         
         <div className="container mx-auto px-4 relative z-10">
-          <div className="flex flex-col lg:flex-row gap-12 items-start">
+          <div className="flex flex-col gap-12">
             
-            {/* Left: Motivational Message */}
-            <div className="flex-1 max-w-2xl">
+            {/* Top Section: Welcome & Stats */}
+            <div className="w-full">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -61,117 +61,131 @@ export default function Home() {
                   TRAINEE DASHBOARD // PHASE 1
                 </div>
                 
-                <h1 className="text-4xl md:text-5xl font-display font-bold leading-tight tracking-tight mb-4 text-foreground">
-                  Welcome, <span className="text-primary transparent-text-stroke">Paul Wilkerson</span>.
-                </h1>
-                
-                <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
-                  Your journey to the sales floor starts here. Master the pitch, handle the heat, and earn your place among the elite.
-                </p>
+                <div className="flex flex-col lg:flex-row gap-12 items-end justify-between mb-8">
+                   <div className="max-w-2xl">
+                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight tracking-tight mb-6 text-foreground">
+                       Welcome, <span className="text-primary transparent-text-stroke">Paul Wilkerson</span>.
+                     </h1>
+                     <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
+                       Your journey to the sales floor starts here. Master the pitch, handle the heat, and earn your place among the elite.
+                     </p>
+                   </div>
+                   
+                   {/* Compact Progress Card */}
+                   <div className="w-full lg:w-80 bg-white/50 backdrop-blur-sm border border-primary/10 rounded-2xl p-6 shadow-sm">
+                      <div className="space-y-4">
+                        <div className="flex justify-between items-center">
+                          <h3 className="text-sm font-bold font-display uppercase tracking-wider text-muted-foreground">Certification Progress</h3>
+                          <span className="font-bold text-primary">{progressPercentage}%</span>
+                        </div>
+                        <Progress value={progressPercentage} className="h-2" />
+                        <div className="flex justify-between text-xs font-medium text-muted-foreground">
+                           <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" /> {progress.chapters.completed}/{progress.chapters.total} Modules</span>
+                           <span className="flex items-center gap-1"><Target className="w-3 h-3" /> {progress.roleplays.completed}/{progress.roleplays.total} Scenarios</span>
+                        </div>
+                     </div>
+                   </div>
+                </div>
 
-                <div className="bg-white/50 backdrop-blur-sm border border-primary/10 rounded-2xl p-6 shadow-sm">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-primary/10 rounded-xl">
-                      <Trophy className="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold font-display mb-1">Eye on the Prize</h3>
-                      <p className="text-muted-foreground text-sm">
-                        Complete your certification to unlock full commission eligibility. The floor is waiting for you.
-                      </p>
-                    </div>
+                {/* Status Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+                   <div className="bg-white/50 backdrop-blur-sm border border-primary/10 rounded-2xl p-6 shadow-sm flex items-center gap-4">
+                      <div className="p-3 bg-primary/10 rounded-xl">
+                        <Trophy className="w-6 h-6 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold font-display mb-1">Eye on the Prize</h3>
+                        <p className="text-muted-foreground text-sm">
+                          Complete certification to unlock full commission eligibility.
+                        </p>
+                      </div>
+                  </div>
+                   <div className="bg-white/50 backdrop-blur-sm border border-primary/10 rounded-2xl p-6 shadow-sm flex items-center gap-4">
+                      <div className="p-3 bg-blue-500/10 rounded-xl">
+                        <Target className="w-6 h-6 text-blue-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold font-display mb-1">Weekly Target</h3>
+                        <p className="text-muted-foreground text-sm">
+                          Complete 5 roleplays with a score of 85+ this week.
+                        </p>
+                      </div>
                   </div>
                 </div>
               </motion.div>
             </div>
 
-            {/* Right: Progress Tracker */}
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="w-full lg:w-96 bg-white rounded-2xl shadow-xl shadow-primary/5 border border-primary/10 p-6"
-            >
-              <h3 className="font-display font-bold text-xl mb-6 flex items-center gap-2">
-                <Target className="w-5 h-5 text-primary" />
-                Certification Progress
-              </h3>
-
-              <div className="space-y-6">
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="font-medium text-muted-foreground">Overall Completion</span>
-                    <span className="font-bold text-primary">{progressPercentage}%</span>
-                  </div>
-                  <Progress value={progressPercentage} className="h-2" />
-                </div>
-
-                <div className="space-y-4">
-                  <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Required Training</h4>
-                    {CHAPTERS.map((chapter) => {
-                      const isCompleted = completedChapters.includes(chapter.id);
-                      return (
-                        <Link key={chapter.id} href={`/chapter/${chapter.id}`}>
-                          <div className={`group relative overflow-hidden rounded-xl border transition-all duration-300 cursor-pointer ${isCompleted ? 'border-green-200 bg-green-50/30' : 'border-border bg-card hover:border-primary/50 hover:shadow-lg'}`}>
-                            {/* Card Content */}
-                            <div className="flex flex-col md:flex-row md:h-48">
-                              {/* Image Section */}
-                              <div className="md:w-1/3 relative h-32 md:h-full">
-                                <img src={chapter.coverImage} alt={chapter.title} className="absolute inset-0 w-full h-full object-cover" />
-                                <div className={`absolute inset-0 ${isCompleted ? 'bg-green-900/20' : 'bg-black/20'} group-hover:bg-transparent transition-colors`} />
-                              </div>
+            {/* Training Modules Grid - Full Width */}
+            <div>
+               <div className="flex items-center justify-between mb-8">
+                 <h2 className="text-2xl font-display font-bold flex items-center gap-2">
+                   <BookOpen className="w-6 h-6 text-primary" />
+                   Training Path
+                 </h2>
+               </div>
+               
+               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {CHAPTERS.map((chapter) => {
+                    const isCompleted = completedChapters.includes(chapter.id);
+                    return (
+                      <Link key={chapter.id} href={`/chapter/${chapter.id}`}>
+                        <div className={`group relative overflow-hidden rounded-2xl border transition-all duration-300 cursor-pointer h-full ${isCompleted ? 'border-green-200 bg-green-50/30' : 'border-border bg-card hover:border-primary/50 hover:shadow-xl hover:-translate-y-1'}`}>
+                          <div className="flex flex-col h-full">
+                            {/* Image Section */}
+                            <div className="relative h-56 w-full overflow-hidden">
+                              <img src={chapter.coverImage} alt={chapter.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                              <div className={`absolute inset-0 ${isCompleted ? 'bg-green-900/20' : 'bg-black/40'} group-hover:bg-transparent transition-colors`} />
                               
-                              {/* Text Section */}
-                              <div className="md:w-2/3 p-5 flex flex-col justify-between">
-                                <div>
-                                  <div className="flex items-center gap-2 mb-2">
-                                     {isCompleted ? (
-                                        <div className="flex items-center gap-1 text-green-600 text-xs font-bold uppercase">
-                                          <CheckCircle className="w-3 h-3" /> Completed
-                                        </div>
-                                      ) : (
-                                        <div className="flex items-center gap-1 text-primary text-xs font-bold uppercase">
-                                          <BookOpen className="w-3 h-3" /> {chapter.duration} Module
-                                        </div>
-                                      )}
-                                  </div>
-                                  <h3 className="font-display font-bold text-xl leading-tight mb-1 group-hover:text-primary transition-colors">{chapter.title}</h3>
-                                  <p className="text-sm text-muted-foreground mb-3">{chapter.subtitle}</p>
-                                  
-                                  {/* Agenda Items */}
-                                  <div className="space-y-1">
-                                    {chapter.agenda.map((item, i) => (
-                                      <div key={i} className="flex items-center gap-2 text-xs text-muted-foreground/80">
-                                        <div className="w-1 h-1 rounded-full bg-primary/50" />
-                                        <span>{item}</span>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
+                              <div className="absolute top-4 left-4">
+                                 {isCompleted ? (
+                                    <div className="flex items-center gap-1 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase shadow-sm">
+                                      <CheckCircle className="w-3 h-3" /> Completed
+                                    </div>
+                                  ) : (
+                                    <div className="flex items-center gap-1 bg-white/90 backdrop-blur text-primary px-3 py-1 rounded-full text-xs font-bold uppercase shadow-sm">
+                                      <BookOpen className="w-3 h-3" /> {chapter.duration} Module
+                                    </div>
+                                  )}
+                              </div>
+
+                              <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent">
+                                 <h3 className="font-display font-bold text-2xl leading-tight text-white mb-1 group-hover:text-green-300 transition-colors">{chapter.title}</h3>
+                                 <p className="text-white/80 text-sm">{chapter.subtitle}</p>
+                              </div>
+                            </div>
+                            
+                            {/* Text Section */}
+                            <div className="p-6 flex flex-col flex-1">
+                                <p className="text-muted-foreground mb-6 line-clamp-2">{chapter.description}</p>
                                 
-                                <div className="flex items-center justify-end mt-4 md:mt-0">
-                                  <span className="text-sm font-bold text-primary flex items-center group-hover:translate-x-1 transition-transform">
-                                    {isCompleted ? "Review" : "Start Module"} <ArrowRight className="ml-1 w-4 h-4" />
-                                  </span>
+                                <div className="space-y-3 mb-8 flex-1">
+                                  {chapter.agenda.slice(0, 3).map((item, i) => (
+                                    <div key={i} className="flex items-center gap-3 text-sm text-muted-foreground/90">
+                                      <div className={`w-1.5 h-1.5 rounded-full ${isCompleted ? 'bg-green-500' : 'bg-primary/40'}`} />
+                                      <span>{item}</span>
+                                    </div>
+                                  ))}
                                 </div>
+                              
+                              <div className="flex items-center justify-between pt-6 border-t border-border/50">
+                                <div className="text-xs font-medium text-muted-foreground flex items-center gap-2">
+                                  <div className="bg-primary/10 p-1.5 rounded-md">
+                                     <Bot className="w-3 h-3 text-primary" />
+                                  </div>
+                                  {chapter.slides.length} Interactive Steps
+                                </div>
+                                <span className="text-sm font-bold text-primary flex items-center group-hover:translate-x-1 transition-transform">
+                                  {isCompleted ? "Review Module" : "Start Module"} <ArrowRight className="ml-1 w-4 h-4" />
+                                </span>
                               </div>
                             </div>
                           </div>
-                        </Link>
-                      );
-                    })}
-                </div>
-
-                <Button 
-                  className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-6 shadow-lg shadow-primary/20"
-                  asChild
-                >
-                  <Link href={`/chapter/${CHAPTERS.find(c => !completedChapters.includes(c.id))?.id || CHAPTERS[0].id}`}>
-                    {completedChapters.length === CHAPTERS.length ? "Review Training" : "Continue Training"} <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-            </motion.div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+               </div>
+            </div>
           </div>
         </div>
       </section>
