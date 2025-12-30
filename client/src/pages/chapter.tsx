@@ -7,7 +7,8 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { toast } from "sonner";
 import { api, type QuizQuestion } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useOrientation } from "@/hooks/useOrientation";
 
 const QUIZ_INTERVAL = 5;
 
@@ -255,6 +256,8 @@ function PDFQuizOverlay({
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
+  const orientation = useOrientation();
+  const isLandscape = orientation === 'landscape';
 
   const currentQuestion = questions[currentIndex];
   const isLastQuestion = currentIndex === questions.length - 1;
@@ -286,35 +289,78 @@ function PDFQuizOverlay({
   const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-2 sm:p-4 overflow-auto">
-      <div className="w-full max-w-2xl bg-card border border-border rounded-2xl shadow-2xl overflow-hidden max-h-[100dvh] flex flex-col landscape:max-w-4xl landscape:max-h-[95dvh]">
-        <div className="p-3 sm:p-6 border-b border-border bg-primary/5 shrink-0">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                <Brain className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-2 overflow-auto"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+    >
+      <motion.div 
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.95, opacity: 0 }}
+        className={`bg-card border border-border rounded-xl shadow-2xl overflow-hidden flex ${
+          isLandscape 
+            ? 'flex-row w-full max-w-4xl max-h-[95dvh]' 
+            : 'flex-col w-full max-w-lg max-h-[90dvh]'
+        }`}
+      >
+        {/* Header - compact in landscape */}
+        <div className={`bg-primary/5 border-border shrink-0 ${
+          isLandscape 
+            ? 'w-48 border-r p-3 flex flex-col justify-between' 
+            : 'border-b p-3'
+        }`}>
+          <div className={`flex items-center ${isLandscape ? 'flex-col text-center gap-2' : 'justify-between'}`}>
+            <div className={`flex items-center ${isLandscape ? 'flex-col' : 'gap-2'}`}>
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <Brain className="w-4 h-4 text-primary" />
               </div>
-              <div>
-                <h3 className="font-bold text-base sm:text-lg">Knowledge Check</h3>
-                <p className="text-xs sm:text-sm text-muted-foreground">
-                  Question {currentIndex + 1} of {questions.length}
+              <div className={isLandscape ? 'mt-2' : ''}>
+                <h3 className="font-bold text-sm">Knowledge Check</h3>
+                <p className="text-xs text-muted-foreground">
+                  {currentIndex + 1} / {questions.length}
                 </p>
               </div>
             </div>
-            <Button variant="ghost" size="sm" onClick={onSkip} data-testid="button-skip-quiz">
+            {!isLandscape && (
+              <Button variant="ghost" size="sm" onClick={onSkip} data-testid="button-skip-quiz">
+                Skip
+              </Button>
+            )}
+          </div>
+          
+          {/* Progress dots in landscape sidebar */}
+          {isLandscape && questions.length > 1 && (
+            <div className="flex justify-center gap-1.5 my-3">
+              {questions.map((_, idx) => (
+                <div
+                  key={idx}
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    idx === currentIndex ? "bg-primary" : idx < currentIndex ? "bg-primary/40" : "bg-muted"
+                  }`}
+                />
+              ))}
+            </div>
+          )}
+          
+          {isLandscape && (
+            <Button variant="ghost" size="sm" onClick={onSkip} className="w-full" data-testid="button-skip-quiz">
               Skip
             </Button>
-          </div>
+          )}
         </div>
         
-        <div className="p-3 sm:p-6 space-y-3 sm:space-y-6 overflow-y-auto flex-1 quiz-overlay-content">
-          <div className="quiz-question-section">
-            <p className="text-base sm:text-lg font-medium" data-testid="text-quiz-question">
-              {currentQuestion.question}
-            </p>
-          </div>
+        {/* Content area */}
+        <div className={`flex-1 overflow-y-auto p-3 ${isLandscape ? 'flex flex-col' : ''}`}>
+          {/* Question */}
+          <p className="text-sm font-medium mb-3" data-testid="text-quiz-question">
+            {currentQuestion.question}
+          </p>
 
-          <div className="space-y-2 sm:space-y-3 quiz-options-section">
+          {/* Options - 2 columns in landscape */}
+          <div className={`gap-2 ${isLandscape ? 'grid grid-cols-2' : 'space-y-2'}`}>
             {currentQuestion.options.map((option, index) => {
               const isSelected = selectedAnswer === index;
               const isCorrectAnswer = showResult && index === currentQuestion.correctAnswer;
@@ -325,19 +371,19 @@ function PDFQuizOverlay({
                   key={index}
                   onClick={() => !showResult && setSelectedAnswer(index)}
                   disabled={showResult}
-                  className={`w-full p-3 sm:p-4 rounded-xl text-left transition-all border-2 ${
+                  className={`w-full p-2.5 rounded-lg text-left transition-all border-2 ${
                     isCorrectAnswer
                       ? "border-green-500 bg-green-50 dark:bg-green-900/20"
                       : isWrongAnswer
                       ? "border-red-500 bg-red-50 dark:bg-red-900/20"
                       : isSelected
                       ? "border-primary bg-primary/5"
-                      : "border-border hover:border-primary/50 hover:bg-muted/50"
+                      : "border-border hover:border-primary/50"
                   }`}
                   data-testid={`button-option-${index}`}
                 >
-                  <div className="flex items-center gap-2 sm:gap-3">
-                    <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold shrink-0 ${
+                  <div className="flex items-center gap-2">
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
                       isCorrectAnswer
                         ? "bg-green-500 text-white"
                         : isWrongAnswer
@@ -348,70 +394,65 @@ function PDFQuizOverlay({
                     }`}>
                       {String.fromCharCode(65 + index)}
                     </div>
-                    <span className="flex-1 text-sm sm:text-base">{option}</span>
+                    <span className="flex-1 text-xs leading-tight">{option}</span>
                   </div>
                 </button>
               );
             })}
           </div>
 
+          {/* Result feedback */}
           {showResult && (
-            <div className={`p-4 rounded-xl ${
+            <div className={`mt-3 p-2.5 rounded-lg text-sm ${
               isCorrect 
                 ? "bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800" 
                 : "bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800"
             }`}>
-              <p className="font-medium">
-                {isCorrect ? "Correct! Well done." : "Not quite right."}
+              <p className="font-medium text-xs">
+                {isCorrect ? "Correct!" : "Not quite."}
               </p>
-              {currentQuestion.explanation && (
-                <p className="text-sm text-muted-foreground mt-1">
-                  {currentQuestion.explanation}
-                </p>
-              )}
-              {!isCorrect && !currentQuestion.explanation && (
-                <p className="text-sm text-muted-foreground mt-1">
-                  The correct answer is: {currentQuestion.options[currentQuestion.correctAnswer]}
+              {!isCorrect && (
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Answer: {currentQuestion.options[currentQuestion.correctAnswer]}
                 </p>
               )}
             </div>
           )}
 
-          <div className="flex gap-3 pt-2">
+          {/* Submit/Continue button */}
+          <div className="mt-3">
             {!showResult ? (
               <Button
                 onClick={handleSubmit}
                 disabled={selectedAnswer === null}
-                className="flex-1"
+                className="w-full"
+                size="sm"
                 data-testid="button-submit-answer"
               >
-                Submit Answer
+                Submit
               </Button>
             ) : (
-              <Button onClick={handleNext} className="flex-1" data-testid="button-continue">
-                {isLastQuestion ? "Complete Quiz" : "Next Question"}
+              <Button onClick={handleNext} className="w-full" size="sm" data-testid="button-continue">
+                {isLastQuestion ? "Done" : "Next"}
               </Button>
             )}
           </div>
 
-          {questions.length > 1 && (
-            <div className="flex justify-center gap-2 pt-2">
+          {/* Progress dots - portrait only */}
+          {!isLandscape && questions.length > 1 && (
+            <div className="flex justify-center gap-1.5 mt-3">
               {questions.map((_, idx) => (
                 <div
                   key={idx}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    idx === currentIndex
-                      ? "bg-primary"
-                      : idx < currentIndex
-                      ? "bg-primary/40"
-                      : "bg-muted"
+                  className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                    idx === currentIndex ? "bg-primary" : idx < currentIndex ? "bg-primary/40" : "bg-muted"
                   }`}
                 />
               ))}
             </div>
           )}
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
