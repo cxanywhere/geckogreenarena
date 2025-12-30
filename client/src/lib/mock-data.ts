@@ -7,6 +7,12 @@ import lawnCareRep from '@assets/generated_images/sales_rep_talking_to_homeowner
 
 import salesTrainingThumbnail from '@assets/generated_images/sales_training_video_thumbnail.png';
 
+import busyHomeownerImg from '@assets/generated_images/homeowner_opening_door_looking_busy.png';
+import noSolicitingImg from '@assets/generated_images/homeowner_pointing_to_no_soliciting_sign.png';
+import weedPointingImg from '@assets/generated_images/sales_rep_pointing_at_weeds.png';
+import signingTabletImg from '@assets/generated_images/signing_service_agreement_on_tablet.png';
+import doorHangerImg from '@assets/generated_images/door_hanger_on_handle.png';
+
 export interface Resource {
   id: string;
   type: 'call' | 'video';
@@ -85,6 +91,7 @@ export interface Battlecard {
   script: string;
   keyPoints: string[];
   type: 'script' | 'objection' | 'tip';
+  image?: string;
 }
 
 export const BATTLECARDS: Battlecard[] = [
@@ -96,7 +103,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "Homeowner looks busy or annoyed when opening the door.",
     script: "Sorry to interrupt—I'm not the pizza guy! I'm just the [Name] with Gecko Green, checking the lawns on [Street Name].",
     keyPoints: ["Smile immediately", "Step back 3 feet", "Show open hands"],
-    type: "script"
+    type: "script",
+    image: busyHomeownerImg
   },
   {
     id: "bc-2",
@@ -105,7 +113,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "Homeowner points to a 'No Soliciting' sign.",
     script: "I saw the sign and I promise I'm not selling magazines or candy. I'm just letting neighbors know we're treating the Smiths' lawn tomorrow.",
     keyPoints: ["Acknowledge the sign", "Clarify you're a service provider", "Pivot to social proof"],
-    type: "objection"
+    type: "objection",
+    image: noSolicitingImg
   },
   {
     id: "bc-3",
@@ -114,7 +123,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "Homeowner says 'I don't have time right now'.",
     script: "I totally understand, I'll be super quick—literally 30 seconds. I just wanted to ask...",
     keyPoints: ["Validate their time", "Set a time constraint", "Ask a question immediately"],
-    type: "objection"
+    type: "objection",
+    image: busyHomeownerImg
   },
   {
     id: "bc-4",
@@ -123,7 +133,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "First 10 seconds of interaction.",
     script: "Hi, I'm [Name], the neighborhood specialist for [Area]. We've been working with a few of your neighbors...",
     keyPoints: ["Use 'Specialist' title", "Name drop neighbors", "Confident body language"],
-    type: "tip"
+    type: "tip",
+    image: doorToDoorRep
   },
 
   // Pitch Phase
@@ -134,7 +145,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "Identifying visible weeds on the lawn.",
     script: "Do you see this clover here? It actually spreads roots sideways under the grass, choking it out. That's why this patch is thinning.",
     keyPoints: ["Point physically", "Explain the 'Why'", "Create problem awareness"],
-    type: "script"
+    type: "script",
+    image: weedPointingImg
   },
   {
     id: "bc-6",
@@ -143,7 +155,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "Explaining service benefits.",
     script: "The best part is, if you see any weeds between visits, we come back for free. You literally can't pay for weeds.",
     keyPoints: ["Risk reversal", "Simple language", "Emphasis on 'Free'"],
-    type: "script"
+    type: "script",
+    image: signingTabletImg
   },
   {
     id: "bc-7",
@@ -152,7 +165,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "Moving from problem to solution.",
     script: "The reason the Smiths down the street switched to us was specifically for this crabgrass issue.",
     keyPoints: ["Reference neighbors", "Connect specific problem to solution", "Create FOMO"],
-    type: "script"
+    type: "script",
+    image: lawnCareRep
   },
   {
     id: "bc-8",
@@ -161,7 +175,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "Setting up the close.",
     script: "Are you usually around in the mornings, or do afternoons work better for us to take a look?",
     keyPoints: ["Two positive options", "Assume the appointment", "Avoid Yes/No questions"],
-    type: "tip"
+    type: "tip",
+    image: signingTabletImg
   },
 
   // Objection Handling Phase
@@ -172,7 +187,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "Homeowner takes pride in DIY lawn care.",
     script: "That's awesome, honestly most of my best customers started that way. What products are you using for the deep root feeding?",
     keyPoints: ["Validate their effort", "Ask a technical question", "Highlight professional-grade gap"],
-    type: "objection"
+    type: "objection",
+    image: proudDiyHomeowner
   },
   {
     id: "bc-10",
@@ -181,7 +197,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "Homeowner already pays a competitor.",
     script: "Great, that means you care about the lawn. Who are you using? ... Oh yeah, they're decent. How long have you been with them?",
     keyPoints: ["Don't bash competitor", "Find the pain/gap", "Plant seed of doubt"],
-    type: "objection"
+    type: "objection",
+    image: skepticalHomeowner
   },
   {
     id: "bc-11",
@@ -190,7 +207,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "Price resistance.",
     script: "I get that. But think about the cost of re-sodding this patch if the chinch bugs take over. It's $50 now vs $500 later.",
     keyPoints: ["Reframe as investment", "Cost of inaction", "Break down to daily cost"],
-    type: "objection"
+    type: "objection",
+    image: signingTabletImg
   },
   {
     id: "bc-12",
@@ -199,7 +217,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "Stalling decision.",
     script: "Totally fair. Does she usually handle the gardening, or is it more about the budget?",
     keyPoints: ["Isolate the real objection", "Determine decision maker", "Keep conversation going"],
-    type: "objection"
+    type: "objection",
+    image: indecisiveHomeowner
   },
   {
     id: "bc-13",
@@ -208,7 +227,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "Brush off.",
     script: "I can, but the pricing on the flyer isn't the neighborhood discount I can authorize right now while I'm here.",
     keyPoints: ["Create urgency", "Devalue the flyer", "Highlight 'Now' benefit"],
-    type: "objection"
+    type: "objection",
+    image: doorHangerImg
   },
 
   // Closing Phase
@@ -219,7 +239,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "After presenting price.",
     script: "So, to get that first treatment done and knock out these dandelions, do you want us to start Thursday or Friday?",
     keyPoints: ["Assume the sale", "Give two options", "Focus on the result"],
-    type: "script"
+    type: "script",
+    image: signingTabletImg
   },
   {
     id: "bc-15",
@@ -228,7 +249,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "On the fence.",
     script: "If I can get my manager to wave the first application fee since I'm already treating next door, would that help?",
     keyPoints: ["Conditional close ('If I can...')", "Limited availability", "Value add"],
-    type: "script"
+    type: "script",
+    image: signingTabletImg
   },
   {
     id: "bc-16",
@@ -237,7 +259,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "Choosing a package.",
     script: "Most neighbors go with the Gold package for the aeration, but the Silver covers all the basics. Which one fits better?",
     keyPoints: ["Guide to preferred option", "Simplify choice", "Normalize the upsell"],
-    type: "script"
+    type: "script",
+    image: signingTabletImg
   },
   {
     id: "bc-17",
@@ -246,7 +269,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "Asking for credit card.",
     script: "And for that first visit, do you want to put that on a Visa or a Mastercard?",
     keyPoints: ["Casual tone", "Standard procedure", "Don't pause awkwardly"],
-    type: "tip"
+    type: "tip",
+    image: signingTabletImg
   },
 
   // Follow-up Phase
@@ -257,7 +281,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "Leaving a note when no answer.",
     script: "Sorry I missed you! Just treated the Jones' lawn across the street. Noticed you have some similar clover starting...",
     keyPoints: ["Personalize it", "Mention specific weed", "Leave cell number"],
-    type: "script"
+    type: "script",
+    image: doorHangerImg
   },
   {
     id: "bc-19",
@@ -266,7 +291,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "After a conversation with no close.",
     script: "Hey [Name], this is [Name] from Gecko Green. My manager approved that special rate we talked about. Can I lock it in for you?",
     keyPoints: ["Short & direct", "Remind of offer", "Call to action"],
-    type: "script"
+    type: "script",
+    image: busyHomeownerImg
   },
   {
     id: "bc-20",
@@ -275,7 +301,8 @@ export const BATTLECARDS: Battlecard[] = [
     situation: "After a happy close.",
     script: "Who else on the block do you think would want their lawn looking this good?",
     keyPoints: ["Strike while hot", "Compliment them", "Ask for specific neighbors"],
-    type: "script"
+    type: "script",
+    image: lawnCareRep
   }
 ];
 
