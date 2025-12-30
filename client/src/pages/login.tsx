@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Zap, ArrowRight, Lock, GraduationCap, Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { api } from "@/lib/api";
+import { toast } from "sonner";
 import heroBg from "@assets/generated_images/abstract_gecko_green_cybernetics.png";
 import geckoLogo from "@assets/image_1766975682051.png";
 import arenaLogo from "@assets/generated_images/superhero_style_logo_for_arena_ai.png";
@@ -15,25 +17,28 @@ export default function LoginPage() {
   const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate network request and role-based routing
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const { user } = await api.login(email, password);
       
-      const lowerEmail = email.toLowerCase();
+      localStorage.setItem("currentUser", JSON.stringify(user));
       
-      if (lowerEmail.includes("admin") || lowerEmail.includes("robert") || lowerEmail.includes("director")) {
+      if (user.role === "director") {
         setLocation("/admin-dashboard");
-      } else if (lowerEmail.includes("manager") || lowerEmail.includes("sarah")) {
+      } else if (user.role === "manager") {
         setLocation("/manager-dashboard");
       } else {
         setLocation("/dashboard");
       }
-    }, 1500);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Login failed");
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -102,6 +107,8 @@ export default function LoginPage() {
                 type="password" 
                 placeholder="••••••••" 
                 className="h-12 bg-background border-input focus:border-primary focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
@@ -148,25 +155,31 @@ export default function LoginPage() {
             </div>
             <div className="grid grid-cols-1 gap-2 text-xs">
               <button 
-                onClick={() => setEmail("paul.wilkerson@geckogreen.ai")}
+                onClick={() => { setEmail("alex.rivera@geckogreen.com"); setPassword("demo123"); }}
                 className="flex items-center justify-between p-2 rounded bg-muted/50 hover:bg-muted transition-colors text-left group"
+                type="button"
+                data-testid="button-demo-rep"
               >
                 <span className="font-medium group-hover:text-foreground">Rep Access</span>
-                <span className="font-mono opacity-50">paul.wilkerson@geckogreen.ai</span>
+                <span className="font-mono opacity-50">alex.rivera@geckogreen.com</span>
               </button>
               <button 
-                onClick={() => setEmail("sarah.jenkins@geckogreen.ai")}
+                onClick={() => { setEmail("sarah.jenkins@geckogreen.com"); setPassword("demo123"); }}
                 className="flex items-center justify-between p-2 rounded bg-muted/50 hover:bg-muted transition-colors text-left group"
+                type="button"
+                data-testid="button-demo-manager"
               >
                 <span className="font-medium group-hover:text-foreground">Manager Access</span>
-                <span className="font-mono opacity-50">sarah.jenkins@geckogreen.ai</span>
+                <span className="font-mono opacity-50">sarah.jenkins@geckogreen.com</span>
               </button>
               <button 
-                onClick={() => setEmail("robert.fox@geckogreen.ai")}
+                onClick={() => { setEmail("james.patterson@geckogreen.com"); setPassword("demo123"); }}
                 className="flex items-center justify-between p-2 rounded bg-muted/50 hover:bg-muted transition-colors text-left group"
+                type="button"
+                data-testid="button-demo-director"
               >
                 <span className="font-medium group-hover:text-foreground">Director Access</span>
-                <span className="font-mono opacity-50">robert.fox@geckogreen.ai</span>
+                <span className="font-mono opacity-50">james.patterson@geckogreen.com</span>
               </button>
             </div>
           </div>
