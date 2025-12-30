@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, TouchEvent } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize2, Minimize2, RotateCw, Maximize } from "lucide-react";
@@ -24,7 +24,11 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
   const [containerHeight, setContainerHeight] = useState(0);
   const [fitMode, setFitMode] = useState<'width' | 'height' | 'manual'>('width');
   const [manualScale, setManualScale] = useState(1);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const minSwipeDistance = 50;
 
   useEffect(() => {
     const updateSize = () => {
@@ -102,6 +106,32 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
   const rotate = () => setRotation(prev => (prev + 90) % 360);
   const toggleFullscreen = () => setIsFullscreen(!isFullscreen);
 
+  const handleTouchStart = (e: TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe && isReady && safeCurrentPage < numPages) {
+      onPageChange(safeCurrentPage + 1);
+    } else if (isRightSwipe && isReady && safeCurrentPage > 1) {
+      onPageChange(safeCurrentPage - 1);
+    }
+    
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
   const progressPercentage = numPages > 0 ? (safeCurrentPage / numPages) * 100 : 0;
 
   const containerClass = isFullscreen 
@@ -169,7 +199,10 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
       {/* PDF Content */}
       <div 
         ref={containerRef}
-        className="flex-1 overflow-auto flex items-center justify-center p-4 bg-muted/30 relative"
+        className="flex-1 overflow-auto flex items-center justify-center p-4 bg-muted/30 relative touch-pan-y"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-background/50 z-10">
