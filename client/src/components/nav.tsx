@@ -1,11 +1,12 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { Bot, Zap, Menu, GraduationCap } from "lucide-react";
+import { Bot, Zap, Menu } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
 import geckoLogo from "@assets/image_1766975682051.png";
+import arenaLogo from "@assets/generated_images/superhero_style_logo_for_arena_ai.png";
 
 export function Nav() {
   const [location] = useLocation();
@@ -24,7 +25,7 @@ export function Nav() {
         <div className="flex items-center gap-6">
           <Link href="/dashboard">
             <a className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
-              <GraduationCap className="h-6 w-6 fill-primary" />
+              <img src={arenaLogo} alt="Arena AI" className="h-8 w-8 object-contain" />
               <span>arena ai<span className="text-foreground/80 font-normal"> by gigarev</span></span>
             </a>
           </Link>

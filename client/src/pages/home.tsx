@@ -5,7 +5,7 @@ import { RoleplayCard } from "@/components/character-card";
 import { ROLEPLAYS, CHAPTERS } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ArrowRight, Bot, Target, Trophy, CheckCircle, Lock, BookOpen } from "lucide-react";
+import { ArrowRight, Bot, Target, Trophy, CheckCircle, Lock, BookOpen, Zap } from "lucide-react";
 import heroBg from "@assets/generated_images/abstract_bottle_green_glass_tech_shapes.png";
 import { useState, useEffect } from "react";
 
@@ -91,10 +91,10 @@ export default function Home() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
                    <div className="bg-white/50 backdrop-blur-sm border border-primary/10 rounded-2xl p-6 shadow-sm flex items-center gap-4">
                       <div className="p-3 bg-primary/10 rounded-xl">
-                        <Trophy className="w-6 h-6 text-primary" />
+                        <Zap className="w-6 h-6 text-primary fill-primary" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold font-display mb-1">Eye on the Prize</h3>
+                        <h3 className="text-lg font-bold font-display mb-1">Supercharged Sales</h3>
                         <p className="text-muted-foreground text-sm">
                           Complete certification to unlock full commission eligibility.
                         </p>
