@@ -3,6 +3,9 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertUserProgressSchema, insertRoleplayAttemptSchema } from "@shared/schema";
 import { z } from "zod";
+import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, type RoleplayMessage, type RoleplayScenario } from "./gemini";
+
+const roleplaySessions = new Map<string, { scenario: RoleplayScenario; history: RoleplayMessage[] }>();
 
 export async function registerRoutes(
   httpServer: Server,
@@ -210,6 +213,117 @@ export async function registerRoutes(
       }
       console.error("Create attempt error:", error);
       res.status(500).json({ error: "Failed to create attempt" });
+    }
+  });
+
+  // AI Roleplay session routes
+  app.post("/api/roleplay-session/start", async (req, res) => {
+    try {
+      const { roleplayId, userId } = req.body;
+      
+      if (!roleplayId || !userId) {
+        return res.status(400).json({ error: "roleplayId and userId required" });
+      }
+
+      const roleplay = await storage.getRoleplay(roleplayId);
+      if (!roleplay) {
+        return res.status(404).json({ error: "Roleplay not found" });
+      }
+
+      const scenario: RoleplayScenario = {
+        name: roleplay.name,
+        role: roleplay.role,
+        description: roleplay.description,
+        traits: roleplay.traits,
+        difficulty: roleplay.difficulty,
+        stats: roleplay.stats as { buy_signal: number; objections: number; resistance: number },
+      };
+
+      const openingMessage = await startRoleplayConversation(scenario);
+      const sessionId = `${userId}-${roleplayId}-${Date.now()}`;
+      
+      roleplaySessions.set(sessionId, {
+        scenario,
+        history: [{ role: "model", content: openingMessage }],
+      });
+
+      res.json({ 
+        sessionId, 
+        message: openingMessage,
+        scenario: { name: scenario.name, role: scenario.role, difficulty: scenario.difficulty }
+      });
+    } catch (error) {
+      console.error("Start roleplay session error:", error);
+      res.status(500).json({ error: "Failed to start roleplay session" });
+    }
+  });
+
+  app.post("/api/roleplay-session/message", async (req, res) => {
+    try {
+      const { sessionId, message } = req.body;
+      
+      if (!sessionId || !message) {
+        return res.status(400).json({ error: "sessionId and message required" });
+      }
+
+      const session = roleplaySessions.get(sessionId);
+      if (!session) {
+        return res.status(404).json({ error: "Session not found or expired" });
+      }
+
+      session.history.push({ role: "user", content: message });
+      
+      const response = await continueRoleplayConversation(
+        session.scenario,
+        session.history,
+        message
+      );
+      
+      session.history.push({ role: "model", content: response });
+
+      res.json({ 
+        message: response,
+        turnCount: Math.floor(session.history.length / 2)
+      });
+    } catch (error) {
+      console.error("Roleplay message error:", error);
+      res.status(500).json({ error: "Failed to process message" });
+    }
+  });
+
+  app.post("/api/roleplay-session/end", async (req, res) => {
+    try {
+      const { sessionId, userId, roleplayId } = req.body;
+      
+      if (!sessionId) {
+        return res.status(400).json({ error: "sessionId required" });
+      }
+
+      const session = roleplaySessions.get(sessionId);
+      if (!session) {
+        return res.status(404).json({ error: "Session not found or expired" });
+      }
+
+      const feedback = await evaluateRoleplay(session.scenario, session.history);
+      
+      if (userId && roleplayId) {
+        await storage.createRoleplayAttempt({
+          userId,
+          roleplayId,
+          score: feedback.overallScore,
+          feedback: JSON.stringify(feedback),
+        });
+      }
+      
+      roleplaySessions.delete(sessionId);
+
+      res.json({ 
+        feedback,
+        transcript: session.history
+      });
+    } catch (error) {
+      console.error("End roleplay session error:", error);
+      res.status(500).json({ error: "Failed to end roleplay session" });
     }
   });
 

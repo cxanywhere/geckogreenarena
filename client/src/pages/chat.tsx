@@ -1,22 +1,56 @@
 import { useRoute, Link } from "wouter";
 import { Nav } from "@/components/nav";
 import { ChatInterface } from "@/components/chat-interface";
-import { ROLEPLAYS } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { ArrowLeft, Shield, MessageSquare, TrendingUp, Info } from "lucide-react";
+import { ArrowLeft, Volume2, Info, Loader2, User } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { api, Roleplay } from "@/lib/api";
 
 export default function ChatPage() {
   const [, params] = useRoute("/chat/:id");
-  const scenario = ROLEPLAYS.find(c => c.id === params?.id);
+  const roleplayId = params?.id;
+  
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
 
-  if (!scenario) {
+  const { data: scenario, isLoading, error } = useQuery<Roleplay>({
+    queryKey: ["roleplay", roleplayId],
+    queryFn: () => api.getRoleplay(roleplayId!),
+    enabled: !!roleplayId,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-muted-foreground">Loading scenario...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !scenario) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Scenario Not Found</h1>
-          <Link href="/">
+          <Link href="/dashboard">
             <Button>Return Home</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Please Log In</h1>
+          <Link href="/">
+            <Button>Go to Login</Button>
           </Link>
         </div>
       </div>
@@ -25,11 +59,17 @@ export default function ChatPage() {
 
   const ScenarioStats = () => (
     <div className="bg-card rounded-xl p-6 border border-border shadow-sm h-full">
-      <div className="aspect-square rounded-lg overflow-hidden mb-4 bg-muted">
-        <img src={scenario.avatar} alt={scenario.name} className="w-full h-full object-cover" />
+      <div className="aspect-square rounded-lg overflow-hidden mb-4 bg-muted flex items-center justify-center">
+        {scenario.avatar ? (
+          <img src={scenario.avatar} alt={scenario.name} className="w-full h-full object-cover" />
+        ) : (
+          <User className="w-16 h-16 text-muted-foreground" />
+        )}
       </div>
-      <h2 className="text-2xl font-display font-bold mb-1 text-foreground">{scenario.name}</h2>
+      <h2 className="text-xl font-display font-bold mb-1 text-foreground">"{scenario.name}"</h2>
       <p className="text-primary font-mono text-sm mb-4">{scenario.role}</p>
+      
+      <p className="text-sm text-muted-foreground mb-4">{scenario.description}</p>
       
       <div className="space-y-4">
         <div>
@@ -38,7 +78,7 @@ export default function ChatPage() {
             <span className="font-bold text-foreground">{scenario.stats.resistance}</span>
           </div>
           <div className="h-1.5 bg-secondary rounded-full">
-            <div className="h-full bg-primary rounded-full" style={{ width: `${scenario.stats.resistance}%` }} />
+            <div className="h-full bg-red-500 rounded-full" style={{ width: `${scenario.stats.resistance}%` }} />
           </div>
         </div>
         <div>
@@ -47,7 +87,7 @@ export default function ChatPage() {
             <span className="font-bold text-foreground">{scenario.stats.objections}</span>
           </div>
           <div className="h-1.5 bg-secondary rounded-full">
-            <div className="h-full bg-primary rounded-full" style={{ width: `${scenario.stats.objections}%` }} />
+            <div className="h-full bg-yellow-500 rounded-full" style={{ width: `${scenario.stats.objections}%` }} />
           </div>
         </div>
         <div>
@@ -56,7 +96,7 @@ export default function ChatPage() {
             <span className="font-bold text-foreground">{scenario.stats.buy_signal}</span>
           </div>
           <div className="h-1.5 bg-secondary rounded-full">
-            <div className="h-full bg-primary rounded-full" style={{ width: `${scenario.stats.buy_signal}%` }} />
+            <div className="h-full bg-green-500 rounded-full" style={{ width: `${scenario.stats.buy_signal}%` }} />
           </div>
         </div>
       </div>
@@ -77,7 +117,7 @@ export default function ChatPage() {
       <Nav />
       <div className="container mx-auto px-4 py-4 md:py-8 flex-1 flex flex-col">
         <div className="flex items-center justify-between mb-4 md:mb-6">
-          <Link href="/">
+          <Link href="/dashboard">
             <Button variant="ghost" className="pl-0 hover:pl-2 transition-all text-muted-foreground hover:text-primary">
               <ArrowLeft className="mr-2 h-4 w-4" /> Back to Arena
             </Button>
@@ -110,7 +150,7 @@ export default function ChatPage() {
 
           {/* Main Chat Area */}
           <div className="lg:col-span-9 flex flex-col h-full">
-            <ChatInterface scenario={scenario} />
+            <ChatInterface scenario={scenario} userId={user.id} />
           </div>
         </div>
       </div>

@@ -184,6 +184,44 @@ class APIClient {
       body: JSON.stringify(attempt),
     });
   }
+
+  // AI Roleplay Session
+  async startRoleplaySession(roleplayId: string, userId: string): Promise<{
+    sessionId: string;
+    message: string;
+    scenario: { name: string; role: string; difficulty: string };
+  }> {
+    return this.request("/api/roleplay-session/start", {
+      method: "POST",
+      body: JSON.stringify({ roleplayId, userId }),
+    });
+  }
+
+  async sendRoleplayMessage(sessionId: string, message: string): Promise<{
+    message: string;
+    turnCount: number;
+  }> {
+    return this.request("/api/roleplay-session/message", {
+      method: "POST",
+      body: JSON.stringify({ sessionId, message }),
+    });
+  }
+
+  async endRoleplaySession(sessionId: string, userId?: string, roleplayId?: string): Promise<{
+    feedback: {
+      overallScore: number;
+      strengths: string[];
+      improvements: string[];
+      keyMoments: string[];
+      tips: string[];
+    };
+    transcript: Array<{ role: string; content: string }>;
+  }> {
+    return this.request("/api/roleplay-session/end", {
+      method: "POST",
+      body: JSON.stringify({ sessionId, userId, roleplayId }),
+    });
+  }
 }
 
 export const api = new APIClient();

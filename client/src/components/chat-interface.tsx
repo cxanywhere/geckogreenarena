@@ -1,29 +1,34 @@
 import { useState, useRef, useEffect } from "react";
-import { Message, RoleplayScenario } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, User, Sparkles, Mic, Volume2, StopCircle, Flag } from "lucide-react";
+import { Send, User, Mic, Volume2, StopCircle, Flag, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
+import { api, Roleplay } from "@/lib/api";
 
-interface ChatInterfaceProps {
-  scenario: RoleplayScenario;
+interface Message {
+  id: string;
+  sender: "user" | "ai";
+  text: string;
+  timestamp: Date;
 }
 
-export function ChatInterface({ scenario }: ChatInterfaceProps) {
+interface ChatInterfaceProps {
+  scenario: Roleplay;
+  userId: string;
+}
+
+export function ChatInterface({ scenario, userId }: ChatInterfaceProps) {
   const [, setLocation] = useLocation();
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      sender: "ai",
-      text: `Roleplay initiated: ${scenario.name}. I am playing the role of ${scenario.role}. Let's begin.`,
-      timestamp: new Date()
-    }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isRecording, setIsRecording] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isStarting, setIsStarting] = useState(true);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [isEnding, setIsEnding] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -32,66 +37,99 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
     }
   }, [messages]);
 
-  const handleFinish = () => {
-    // In a real app, this would submit the transcript for analysis
-    // For now, we simulate a delay then redirect to a mocked result
-    setLocation("/results/res-1"); // Redirecting to our mock result 1 for demo
+  useEffect(() => {
+    startSession();
+  }, [scenario.id, userId]);
+
+  const startSession = async () => {
+    setIsStarting(true);
+    try {
+      const response = await api.startRoleplaySession(scenario.id, userId);
+      setSessionId(response.sessionId);
+      setMessages([{
+        id: "1",
+        sender: "ai",
+        text: response.message,
+        timestamp: new Date()
+      }]);
+    } catch (error) {
+      console.error("Failed to start session:", error);
+      setMessages([{
+        id: "1",
+        sender: "ai",
+        text: `*The homeowner answers the door* "${scenario.name}"`,
+        timestamp: new Date()
+      }]);
+    } finally {
+      setIsStarting(false);
+    }
   };
 
-  const handleSend = () => {
-    if (!inputValue.trim()) return;
+  const handleFinish = async () => {
+    if (!sessionId || isEnding) return;
+    
+    setIsEnding(true);
+    try {
+      const result = await api.endRoleplaySession(sessionId, userId, scenario.id);
+      localStorage.setItem('lastRoleplayResult', JSON.stringify({
+        scenario,
+        feedback: result.feedback,
+        transcript: result.transcript
+      }));
+      setLocation(`/results/${scenario.id}`);
+    } catch (error) {
+      console.error("Failed to end session:", error);
+      setLocation(`/results/${scenario.id}`);
+    }
+  };
 
+  const handleSend = async () => {
+    if (!inputValue.trim() || !sessionId || isLoading) return;
+
+    const userMessage = inputValue.trim();
     const userMsg: Message = {
       id: Date.now().toString(),
       sender: "user",
-      text: inputValue,
+      text: userMessage,
       timestamp: new Date()
     };
 
     setMessages(prev => [...prev, userMsg]);
     setInputValue("");
+    setIsLoading(true);
 
-    // Simulate AI response
-    setTimeout(() => {
+    try {
+      const response = await api.sendRoleplayMessage(sessionId, userMessage);
       const aiMsg: Message = {
         id: (Date.now() + 1).toString(),
         sender: "ai",
-        text: `(Simulating ${scenario.role} response based on ${scenario.traits.join(", ")}...) Interesting point. Tell me more.`,
+        text: response.message,
         timestamp: new Date()
       };
       setMessages(prev => [...prev, aiMsg]);
-    }, 1000);
+    } catch (error) {
+      console.error("Failed to send message:", error);
+      const errorMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        sender: "ai",
+        text: "...*pauses*... Could you repeat that?",
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMsg]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
   };
 
   const toggleRecording = () => {
-    if (isRecording) {
-      // Stop recording and send simulated voice message
-      setIsRecording(false);
-      
-      // Simulate processing voice input
-      const userMsg: Message = {
-        id: Date.now().toString(),
-        sender: "user",
-        text: "I understand that objection, but let me show you...", // Simulated speech-to-text
-        timestamp: new Date()
-      };
-      
-      setMessages(prev => [...prev, userMsg]);
-      
-      // Simulate AI response after delay
-      setTimeout(() => {
-        const aiMsg: Message = {
-          id: (Date.now() + 1).toString(),
-          sender: "ai",
-          text: `(Simulating ${scenario.role} response based on ${scenario.traits.join(", ")}...) I see what you mean. Go on.`,
-          timestamp: new Date()
-        };
-        setMessages(prev => [...prev, aiMsg]);
-      }, 1500);
-      
-    } else {
-      setIsRecording(true);
-    }
+    setIsRecording(!isRecording);
   };
 
   return (
@@ -107,16 +145,26 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
             <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full animate-pulse" />
           </div>
           <div>
-            <h3 className="font-display font-bold text-foreground leading-none">{scenario.name}</h3>
-            <span className="text-xs text-primary font-mono">{scenario.role} // ONLINE</span>
+            <h3 className="font-display font-bold text-foreground leading-none">{scenario.role}</h3>
+            <span className="text-xs text-primary font-mono">{scenario.difficulty} // ONLINE</span>
           </div>
         </div>
         <div className="flex gap-2">
             <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
               <Volume2 className="h-5 w-5" />
             </Button>
-            <Button onClick={handleFinish} size="sm" className="bg-red-500 hover:bg-red-600 text-white border-none">
-              <Flag className="mr-2 h-4 w-4" /> End & Analyze
+            <Button 
+              onClick={handleFinish} 
+              size="sm" 
+              className="bg-red-500 hover:bg-red-600 text-white border-none"
+              disabled={isEnding || messages.length < 2}
+              data-testid="button-end-roleplay"
+            >
+              {isEnding ? (
+                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Analyzing...</>
+              ) : (
+                <><Flag className="mr-2 h-4 w-4" /> End & Analyze</>
+              )}
             </Button>
         </div>
       </div>
@@ -129,6 +177,12 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
       
       <ScrollArea className="flex-1 p-4 bg-background">
         <div className="flex flex-col gap-4 pb-4">
+          {isStarting && (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="h-6 w-6 animate-spin text-primary mr-2" />
+              <span className="text-muted-foreground">Connecting to scenario...</span>
+            </div>
+          )}
           <AnimatePresence>
             {messages.map((msg) => (
               <motion.div
@@ -152,7 +206,7 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
                 <div
                   className={`max-w-[80%] p-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
                     msg.sender === "user"
-                      ? "bg-card border border-border text-foreground rounded-tr-none"
+                      ? "bg-primary text-primary-foreground rounded-tr-none"
                       : "bg-card border border-border text-foreground rounded-tl-none"
                   }`}
                 >
@@ -160,47 +214,52 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
                 </div>
               </motion.div>
             ))}
+            {isLoading && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex gap-3"
+              >
+                <Avatar className="h-8 w-8 mt-1 border border-primary/20">
+                  <AvatarImage src={scenario.avatar} />
+                  <AvatarFallback>{scenario.name[0]}</AvatarFallback>
+                </Avatar>
+                <div className="bg-card border border-border rounded-2xl rounded-tl-none p-3 flex items-center gap-1">
+                  <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                  <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                  <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                </div>
+              </motion.div>
+            )}
           </AnimatePresence>
           <div ref={scrollRef} />
         </div>
       </ScrollArea>
 
-      {/* Voice Controls */}
-      <div className="p-6 bg-card border-t border-border flex flex-col items-center justify-center gap-4">
-        {isRecording ? (
-           <motion.div 
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            className="flex flex-col items-center gap-2 w-full"
+      {/* Input Area */}
+      <div className="p-4 bg-card border-t border-border">
+        <div className="flex gap-2">
+          <Input
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Type your response..."
+            className="flex-1"
+            disabled={isLoading || isStarting || isEnding}
+            data-testid="input-chat-message"
+          />
+          <Button
+            onClick={handleSend}
+            disabled={!inputValue.trim() || isLoading || isStarting || isEnding}
+            className="bg-primary"
+            data-testid="button-send-message"
           >
-             <div className="flex items-center justify-center gap-1 h-12 w-full max-w-[200px]">
-               {[1,2,3,4,5,6,7,8,9,10,11,12].map(i => (
-                 <motion.div 
-                   key={i}
-                   animate={{ height: [10, 32, 10] }}
-                   transition={{ duration: 0.4, repeat: Infinity, delay: i * 0.05 }}
-                   className="w-1.5 bg-primary rounded-full"
-                 />
-               ))}
-             </div>
-             <span className="text-sm font-bold text-primary animate-pulse">Listening...</span>
-          </motion.div>
-        ) : (
-          <p className="text-sm text-muted-foreground font-medium">Tap microphone to start speaking</p>
-        )}
-        
-        <Button 
-          type="button" 
-          size="lg"
-          onClick={toggleRecording}
-          className={`h-16 w-16 rounded-full transition-all duration-300 shadow-xl border-4 ${
-            isRecording 
-              ? 'bg-red-500 hover:bg-red-600 border-red-100 animate-pulse' 
-              : 'bg-primary hover:bg-primary/90 border-primary/20 hover:scale-105'
-          }`}
-        >
-          {isRecording ? <StopCircle className="h-8 w-8 text-white" /> : <Mic className="h-8 w-8 text-white" />}
-        </Button>
+            {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+          </Button>
+        </div>
+        <p className="text-xs text-muted-foreground text-center mt-2">
+          Type your response as if you're talking to the homeowner at their door
+        </p>
       </div>
     </div>
   );
