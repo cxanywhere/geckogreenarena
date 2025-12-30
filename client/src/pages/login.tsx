@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Zap, ArrowRight, Lock, GraduationCap } from "lucide-react";
 import heroBg from "@assets/generated_images/abstract_gecko_green_cybernetics.png";
 import geckoLogo from "@assets/image_1766975682051.png";
+import arenaLogo from "@assets/generated_images/superhero_style_logo_for_arena_ai.png";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
@@ -34,9 +35,7 @@ export default function LoginPage() {
         >
           <div className="flex items-center justify-between mb-12">
             <div className="flex items-center gap-2">
-              <div className="h-10 w-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
-                <GraduationCap className="h-6 w-6 text-white" />
-              </div>
+              <img src={arenaLogo} alt="Arena AI" className="h-10 w-10 object-contain drop-shadow-md" />
               <span className="font-display text-2xl font-bold tracking-tight text-foreground">
                 arena ai<span className="font-normal opacity-80"> by gigarev</span>
               </span>
