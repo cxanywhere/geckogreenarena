@@ -4,6 +4,7 @@ import { Bot, Zap, Menu } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/mode-toggle";
 
 import geckoLogo from "@assets/image_1766975682051.png";
 import arenaLogo from "@assets/generated_images/superhero_style_logo_for_arena_ai.png";
@@ -53,6 +54,7 @@ export function Nav() {
             </Link>
           ))}
           <div className="flex items-center gap-3 pl-6 border-l border-primary/10">
+             <ModeToggle />
             <div className="flex flex-col items-end hidden lg:flex">
               <span className="text-sm font-bold leading-none">Paul Wilkerson</span>
               <span className="text-xs text-muted-foreground">Sales Rep</span>
@@ -64,7 +66,8 @@ export function Nav() {
         </div>
 
         {/* Mobile Nav */}
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-4">
+          <ModeToggle />
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
