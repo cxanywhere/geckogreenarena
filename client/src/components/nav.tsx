@@ -23,7 +23,7 @@ export function Nav() {
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-white/80 backdrop-blur-md dark:bg-black/80">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 lg:gap-6">
           <Link href="/dashboard">
             <a className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
               <img src={arenaLogo} alt="Arena AI" className="h-8 w-8 object-contain" />
@@ -34,14 +34,14 @@ export function Nav() {
             </a>
           </Link>
           
-          <div className="hidden md:flex items-center gap-2 pl-6 border-l border-primary/10">
+          <div className="hidden xl:flex items-center gap-2 pl-6 border-l border-primary/10">
             <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest">Client:</span>
             <img src={geckoLogo} alt="GeckoGreen" className="h-8 w-auto object-contain" />
           </div>
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-6">
           {links.map((link) => (
             <Link key={link.href} href={link.href}>
               <a
@@ -58,7 +58,7 @@ export function Nav() {
           ))}
           <div className="flex items-center gap-3 pl-6 border-l border-primary/10">
              <ModeToggle />
-            <div className="flex flex-col items-end hidden lg:flex">
+            <div className="hidden xl:flex flex-col items-end">
               <span className="text-sm font-bold leading-none">Paul Wilkerson</span>
               <span className="text-xs text-muted-foreground">Sales Rep</span>
             </div>
@@ -69,15 +69,18 @@ export function Nav() {
         </div>
 
         {/* Mobile Nav */}
-        <div className="md:hidden flex items-center gap-4">
+        <div className="lg:hidden flex items-center gap-3">
           <ModeToggle />
+          <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20">
+            PW
+          </div>
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-white/95 backdrop-blur-xl border-l-white/20">
+            <SheetContent side="right" className="bg-white/95 dark:bg-black/95 backdrop-blur-xl border-l-white/20">
               <div className="flex flex-col gap-6 mt-10">
                 {links.map((link) => (
                   <Link key={link.href} href={link.href}>
