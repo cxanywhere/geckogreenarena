@@ -1,18 +1,184 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
+import { pgTable, text, varchar, integer, timestamp, jsonb, real } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  username: text("username").notNull().unique(),
+  email: text("email").notNull().unique(),
   password: text("password").notNull(),
+  name: text("name").notNull(),
+  role: text("role").notNull().default("rep"),
+  status: text("status").notNull().default("onboarding"),
+  avatarInitials: text("avatar_initials"),
+  managerId: varchar("manager_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
+export const chapters = pgTable("chapters", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  subtitle: text("subtitle").notNull(),
+  description: text("description").notNull(),
+  duration: text("duration").notNull(),
+  pdfUrl: text("pdf_url"),
+  coverImage: text("cover_image"),
+  agenda: jsonb("agenda").$type<string[]>().notNull(),
+  slides: jsonb("slides").$type<any[]>().notNull(),
+  orderIndex: integer("order_index").notNull().default(0),
 });
 
+export const roleplays = pgTable("roleplays", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  role: text("role").notNull(),
+  description: text("description").notNull(),
+  avatar: text("avatar"),
+  traits: jsonb("traits").$type<string[]>().notNull(),
+  difficulty: text("difficulty").notNull(),
+  stats: jsonb("stats").$type<{resistance: number; objections: number; buy_signal: number}>().notNull(),
+  chapterId: varchar("chapter_id"),
+});
+
+export const battlecards = pgTable("battlecards", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  phase: text("phase").notNull(),
+  title: text("title").notNull(),
+  situation: text("situation").notNull(),
+  script: text("script").notNull(),
+  keyPoints: jsonb("key_points").$type<string[]>().notNull(),
+  type: text("type").notNull(),
+  image: text("image"),
+});
+
+export const resources = pgTable("resources", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  type: text("type").notNull(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  learningOutcome: text("learning_outcome").notNull(),
+  duration: text("duration").notNull(),
+  author: text("author").notNull(),
+  thumbnail: text("thumbnail"),
+  tags: jsonb("tags").$type<string[]>().notNull(),
+});
+
+export const userProgress = pgTable("user_progress", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  chapterId: varchar("chapter_id"),
+  quizScore: integer("quiz_score"),
+  completed: integer("completed").notNull().default(0),
+  completedAt: timestamp("completed_at"),
+});
+
+export const roleplayAttempts = pgTable("roleplay_attempts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  roleplayId: varchar("roleplay_id").notNull(),
+  score: integer("score").notNull(),
+  duration: text("duration"),
+  feedback: text("feedback"),
+  metrics: jsonb("metrics").$type<{resistance: string; clarity: string; tone: string}>(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Relations
+export const usersRelations = relations(users, ({ one, many }) => ({
+  manager: one(users, {
+    fields: [users.managerId],
+    references: [users.id],
+  }),
+  progress: many(userProgress),
+  attempts: many(roleplayAttempts),
+}));
+
+export const chaptersRelations = relations(chapters, ({ many }) => ({
+  roleplays: many(roleplays),
+  progress: many(userProgress),
+}));
+
+export const roleplaysRelations = relations(roleplays, ({ one, many }) => ({
+  chapter: one(chapters, {
+    fields: [roleplays.chapterId],
+    references: [chapters.id],
+  }),
+  attempts: many(roleplayAttempts),
+}));
+
+export const userProgressRelations = relations(userProgress, ({ one }) => ({
+  user: one(users, {
+    fields: [userProgress.userId],
+    references: [users.id],
+  }),
+  chapter: one(chapters, {
+    fields: [userProgress.chapterId],
+    references: [chapters.id],
+  }),
+}));
+
+export const roleplayAttemptsRelations = relations(roleplayAttempts, ({ one }) => ({
+  user: one(users, {
+    fields: [roleplayAttempts.userId],
+    references: [users.id],
+  }),
+  roleplay: one(roleplays, {
+    fields: [roleplayAttempts.roleplayId],
+    references: [roleplays.id],
+  }),
+}));
+
+// Insert schemas
+export const insertUserSchema = createInsertSchema(users).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertChapterSchema = createInsertSchema(chapters).omit({
+  id: true,
+});
+
+export const insertRoleplaySchema = createInsertSchema(roleplays).omit({
+  id: true,
+});
+
+export const insertBattlecardSchema = createInsertSchema(battlecards).omit({
+  id: true,
+});
+
+export const insertResourceSchema = createInsertSchema(resources).omit({
+  id: true,
+});
+
+export const insertUserProgressSchema = createInsertSchema(userProgress).omit({
+  id: true,
+  completedAt: true,
+});
+
+export const insertRoleplayAttemptSchema = createInsertSchema(roleplayAttempts).omit({
+  id: true,
+  createdAt: true,
+});
+
+// Types
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+
+export type InsertChapter = z.infer<typeof insertChapterSchema>;
+export type Chapter = typeof chapters.$inferSelect;
+
+export type InsertRoleplay = z.infer<typeof insertRoleplaySchema>;
+export type Roleplay = typeof roleplays.$inferSelect;
+
+export type InsertBattlecard = z.infer<typeof insertBattlecardSchema>;
+export type Battlecard = typeof battlecards.$inferSelect;
+
+export type InsertResource = z.infer<typeof insertResourceSchema>;
+export type Resource = typeof resources.$inferSelect;
+
+export type InsertUserProgress = z.infer<typeof insertUserProgressSchema>;
+export type UserProgress = typeof userProgress.$inferSelect;
+
+export type InsertRoleplayAttempt = z.infer<typeof insertRoleplayAttemptSchema>;
+export type RoleplayAttempt = typeof roleplayAttempts.$inferSelect;

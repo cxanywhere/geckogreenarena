@@ -1,38 +1,188 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import { 
+  users, 
+  chapters,
+  roleplays,
+  battlecards,
+  resources,
+  userProgress,
+  roleplayAttempts,
+  type User,
+  type InsertUser,
+  type Chapter,
+  type InsertChapter,
+  type Roleplay,
+  type InsertRoleplay,
+  type Battlecard,
+  type InsertBattlecard,
+  type Resource,
+  type InsertResource,
+  type UserProgress,
+  type InsertUserProgress,
+  type RoleplayAttempt,
+  type InsertRoleplayAttempt,
+} from "@shared/schema";
+import { db } from "./db";
+import { eq, and, desc } from "drizzle-orm";
 
 export interface IStorage {
+  // Users
   getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUser(id: string, updates: Partial<InsertUser>): Promise<User | undefined>;
+  getAllUsers(): Promise<User[]>;
+  getUsersByManagerId(managerId: string): Promise<User[]>;
+  
+  // Chapters
+  getAllChapters(): Promise<Chapter[]>;
+  getChapter(id: string): Promise<Chapter | undefined>;
+  createChapter(chapter: InsertChapter): Promise<Chapter>;
+  
+  // Roleplays
+  getAllRoleplays(): Promise<Roleplay[]>;
+  getRoleplay(id: string): Promise<Roleplay | undefined>;
+  getRoleplaysByChapterId(chapterId: string): Promise<Roleplay[]>;
+  createRoleplay(roleplay: InsertRoleplay): Promise<Roleplay>;
+  
+  // Battlecards
+  getAllBattlecards(): Promise<Battlecard[]>;
+  createBattlecard(battlecard: InsertBattlecard): Promise<Battlecard>;
+  
+  // Resources
+  getAllResources(): Promise<Resource[]>;
+  createResource(resource: InsertResource): Promise<Resource>;
+  
+  // User Progress
+  getUserProgress(userId: string): Promise<UserProgress[]>;
+  getUserProgressByChapter(userId: string, chapterId: string): Promise<UserProgress | undefined>;
+  createUserProgress(progress: InsertUserProgress): Promise<UserProgress>;
+  updateUserProgress(id: string, updates: Partial<InsertUserProgress>): Promise<UserProgress | undefined>;
+  
+  // Roleplay Attempts
+  getUserRoleplayAttempts(userId: string): Promise<RoleplayAttempt[]>;
+  createRoleplayAttempt(attempt: InsertRoleplayAttempt): Promise<RoleplayAttempt>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-
-  constructor() {
-    this.users = new Map();
-  }
-
+export class DatabaseStorage implements IStorage {
+  // Users
   async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+    const [user] = await db.insert(users).values(insertUser).returning();
     return user;
+  }
+
+  async updateUser(id: string, updates: Partial<InsertUser>): Promise<User | undefined> {
+    const [user] = await db.update(users).set(updates).where(eq(users.id, id)).returning();
+    return user || undefined;
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return await db.select().from(users);
+  }
+
+  async getUsersByManagerId(managerId: string): Promise<User[]> {
+    return await db.select().from(users).where(eq(users.managerId, managerId));
+  }
+
+  // Chapters
+  async getAllChapters(): Promise<Chapter[]> {
+    return await db.select().from(chapters).orderBy(chapters.orderIndex);
+  }
+
+  async getChapter(id: string): Promise<Chapter | undefined> {
+    const [chapter] = await db.select().from(chapters).where(eq(chapters.id, id));
+    return chapter || undefined;
+  }
+
+  async createChapter(insertChapter: InsertChapter): Promise<Chapter> {
+    const [chapter] = await db.insert(chapters).values(insertChapter).returning();
+    return chapter;
+  }
+
+  // Roleplays
+  async getAllRoleplays(): Promise<Roleplay[]> {
+    return await db.select().from(roleplays);
+  }
+
+  async getRoleplay(id: string): Promise<Roleplay | undefined> {
+    const [roleplay] = await db.select().from(roleplays).where(eq(roleplays.id, id));
+    return roleplay || undefined;
+  }
+
+  async getRoleplaysByChapterId(chapterId: string): Promise<Roleplay[]> {
+    return await db.select().from(roleplays).where(eq(roleplays.chapterId, chapterId));
+  }
+
+  async createRoleplay(insertRoleplay: InsertRoleplay): Promise<Roleplay> {
+    const [roleplay] = await db.insert(roleplays).values(insertRoleplay).returning();
+    return roleplay;
+  }
+
+  // Battlecards
+  async getAllBattlecards(): Promise<Battlecard[]> {
+    return await db.select().from(battlecards);
+  }
+
+  async createBattlecard(insertBattlecard: InsertBattlecard): Promise<Battlecard> {
+    const [battlecard] = await db.insert(battlecards).values(insertBattlecard).returning();
+    return battlecard;
+  }
+
+  // Resources
+  async getAllResources(): Promise<Resource[]> {
+    return await db.select().from(resources);
+  }
+
+  async createResource(insertResource: InsertResource): Promise<Resource> {
+    const [resource] = await db.insert(resources).values(insertResource).returning();
+    return resource;
+  }
+
+  // User Progress
+  async getUserProgress(userId: string): Promise<UserProgress[]> {
+    return await db.select().from(userProgress).where(eq(userProgress.userId, userId));
+  }
+
+  async getUserProgressByChapter(userId: string, chapterId: string): Promise<UserProgress | undefined> {
+    const [progress] = await db
+      .select()
+      .from(userProgress)
+      .where(and(eq(userProgress.userId, userId), eq(userProgress.chapterId, chapterId)));
+    return progress || undefined;
+  }
+
+  async createUserProgress(insertProgress: InsertUserProgress): Promise<UserProgress> {
+    const [progress] = await db.insert(userProgress).values(insertProgress).returning();
+    return progress;
+  }
+
+  async updateUserProgress(id: string, updates: Partial<InsertUserProgress>): Promise<UserProgress | undefined> {
+    const [progress] = await db.update(userProgress).set(updates).where(eq(userProgress.id, id)).returning();
+    return progress || undefined;
+  }
+
+  // Roleplay Attempts
+  async getUserRoleplayAttempts(userId: string): Promise<RoleplayAttempt[]> {
+    return await db
+      .select()
+      .from(roleplayAttempts)
+      .where(eq(roleplayAttempts.userId, userId))
+      .orderBy(desc(roleplayAttempts.createdAt));
+  }
+
+  async createRoleplayAttempt(insertAttempt: InsertRoleplayAttempt): Promise<RoleplayAttempt> {
+    const [attempt] = await db.insert(roleplayAttempts).values(insertAttempt).returning();
+    return attempt;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
