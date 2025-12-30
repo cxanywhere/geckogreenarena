@@ -1,7 +1,7 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize2, Minimize2, RotateCw } from "lucide-react";
+import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize2, Minimize2, RotateCw, Maximize } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -17,10 +17,37 @@ interface PDFViewerProps {
 
 export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDFViewerProps) {
   const [numPages, setNumPages] = useState<number>(0);
-  const [scale, setScale] = useState(1);
   const [rotation, setRotation] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [containerHeight, setContainerHeight] = useState(0);
+  const [fitMode, setFitMode] = useState<'width' | 'height' | 'manual'>('width');
+  const [manualScale, setManualScale] = useState(1);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateSize = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        setContainerWidth(rect.width - 32);
+        setContainerHeight(rect.height - 32);
+      }
+    };
+
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    
+    const resizeObserver = new ResizeObserver(updateSize);
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    return () => {
+      window.removeEventListener('resize', updateSize);
+      resizeObserver.disconnect();
+    };
+  }, [isFullscreen]);
 
   const onDocumentLoadSuccess = useCallback(({ numPages: totalPages }: { numPages: number }) => {
     setNumPages(totalPages);
@@ -57,8 +84,21 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
     }
   };
 
-  const zoomIn = () => setScale(prev => Math.min(prev + 0.25, 2));
-  const zoomOut = () => setScale(prev => Math.max(prev - 0.25, 0.5));
+  const zoomIn = () => {
+    setFitMode('manual');
+    setManualScale(prev => Math.min(prev + 0.25, 3));
+  };
+  
+  const zoomOut = () => {
+    setFitMode('manual');
+    setManualScale(prev => Math.max(prev - 0.25, 0.25));
+  };
+  
+  const fitToScreen = () => {
+    setFitMode('width');
+    setManualScale(1);
+  };
+  
   const rotate = () => setRotation(prev => (prev + 90) % 360);
   const toggleFullscreen = () => setIsFullscreen(!isFullscreen);
 
@@ -67,6 +107,11 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
   const containerClass = isFullscreen 
     ? "fixed inset-0 z-50 bg-black/95 flex flex-col" 
     : "flex flex-col h-full";
+
+  const isRotated = rotation === 90 || rotation === 270;
+  const effectiveWidth = fitMode === 'width' && containerWidth > 0 
+    ? (isRotated ? Math.min(containerWidth, containerHeight * 0.8) : containerWidth)
+    : undefined;
 
   return (
     <div className={containerClass}>
@@ -96,12 +141,20 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
           </Button>
         </div>
 
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={zoomOut} disabled={scale <= 0.5} data-testid="button-zoom-out">
+        <div className="flex items-center gap-1">
+          <Button variant="ghost" size="icon" onClick={zoomOut} data-testid="button-zoom-out">
             <ZoomOut className="h-4 w-4" />
           </Button>
-          <span className="text-xs font-mono w-12 text-center">{Math.round(scale * 100)}%</span>
-          <Button variant="ghost" size="icon" onClick={zoomIn} disabled={scale >= 2} data-testid="button-zoom-in">
+          <Button 
+            variant={fitMode === 'width' ? 'secondary' : 'ghost'} 
+            size="icon" 
+            onClick={fitToScreen} 
+            data-testid="button-fit-screen"
+            title="Fit to screen"
+          >
+            <Maximize className="h-4 w-4" />
+          </Button>
+          <Button variant="ghost" size="icon" onClick={zoomIn} data-testid="button-zoom-in">
             <ZoomIn className="h-4 w-4" />
           </Button>
           <Button variant="ghost" size="icon" onClick={rotate} data-testid="button-rotate">
@@ -114,7 +167,10 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
       </div>
 
       {/* PDF Content */}
-      <div className="flex-1 overflow-auto flex items-center justify-center p-4 bg-muted/30 relative">
+      <div 
+        ref={containerRef}
+        className="flex-1 overflow-auto flex items-center justify-center p-4 bg-muted/30 relative"
+      >
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-background/50 z-10">
             <div className="flex flex-col items-center gap-3">
@@ -133,7 +189,7 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
           {canRenderPage && (
             <AnimatePresence mode="wait">
               <motion.div
-                key={safeCurrentPage}
+                key={`${safeCurrentPage}-${rotation}`}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
@@ -141,7 +197,8 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
               >
                 <Page
                   pageNumber={safeCurrentPage}
-                  scale={scale}
+                  width={fitMode === 'width' ? effectiveWidth : undefined}
+                  scale={fitMode === 'manual' ? manualScale : undefined}
                   rotate={rotation}
                   className="shadow-2xl rounded-lg overflow-hidden"
                   renderTextLayer={false}
