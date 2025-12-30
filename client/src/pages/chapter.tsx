@@ -72,9 +72,12 @@ export default function ChapterPage() {
         console.log(`Got ${result.questions.length} quiz questions`);
       } else {
         console.log("No quiz questions generated:", result.message);
+        lastCheckedPage.current = 0;
       }
     } catch (error) {
       console.error("Failed to generate quiz from PDF:", error);
+      lastCheckedPage.current = 0;
+      toast.error("Couldn't load quiz. Try again on the next page.");
     } finally {
       setIsLoadingQuiz(false);
     }
