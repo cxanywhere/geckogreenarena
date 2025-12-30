@@ -24,18 +24,18 @@ export default function ChatPage() {
   }
 
   const ScenarioStats = () => (
-    <div className="bg-white rounded-xl p-6 border border-border shadow-sm h-full">
+    <div className="bg-card rounded-xl p-6 border border-border shadow-sm h-full">
       <div className="aspect-square rounded-lg overflow-hidden mb-4 bg-muted">
         <img src={scenario.avatar} alt={scenario.name} className="w-full h-full object-cover" />
       </div>
-      <h2 className="text-2xl font-display font-bold mb-1">{scenario.name}</h2>
+      <h2 className="text-2xl font-display font-bold mb-1 text-foreground">{scenario.name}</h2>
       <p className="text-primary font-mono text-sm mb-4">{scenario.role}</p>
       
       <div className="space-y-4">
         <div>
           <div className="flex justify-between text-xs mb-1">
             <span className="text-muted-foreground">RESISTANCE</span>
-            <span className="font-bold">{scenario.stats.resistance}</span>
+            <span className="font-bold text-foreground">{scenario.stats.resistance}</span>
           </div>
           <div className="h-1.5 bg-secondary rounded-full">
             <div className="h-full bg-primary rounded-full" style={{ width: `${scenario.stats.resistance}%` }} />
@@ -44,7 +44,7 @@ export default function ChatPage() {
         <div>
           <div className="flex justify-between text-xs mb-1">
             <span className="text-muted-foreground">OBJECTIONS</span>
-            <span className="font-bold">{scenario.stats.objections}</span>
+            <span className="font-bold text-foreground">{scenario.stats.objections}</span>
           </div>
           <div className="h-1.5 bg-secondary rounded-full">
             <div className="h-full bg-primary rounded-full" style={{ width: `${scenario.stats.objections}%` }} />
@@ -53,7 +53,7 @@ export default function ChatPage() {
         <div>
           <div className="flex justify-between text-xs mb-1">
             <span className="text-muted-foreground">BUY SIGNAL</span>
-            <span className="font-bold">{scenario.stats.buy_signal}</span>
+            <span className="font-bold text-foreground">{scenario.stats.buy_signal}</span>
           </div>
           <div className="h-1.5 bg-secondary rounded-full">
             <div className="h-full bg-primary rounded-full" style={{ width: `${scenario.stats.buy_signal}%` }} />
@@ -62,7 +62,7 @@ export default function ChatPage() {
       </div>
 
       <div className="mt-6 pt-6 border-t border-border">
-        <h3 className="font-bold text-sm mb-3">KEY SKILLS</h3>
+        <h3 className="font-bold text-sm mb-3 text-foreground">KEY SKILLS</h3>
         <div className="flex flex-wrap gap-2">
           {scenario.traits.map(t => (
             <span key={t} className="text-xs bg-muted px-2 py-1 rounded border border-border/50 text-muted-foreground">{t}</span>

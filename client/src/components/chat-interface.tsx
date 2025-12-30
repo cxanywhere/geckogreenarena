@@ -95,7 +95,7 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100dvh-10rem)] lg:h-[80vh] bg-white rounded-xl overflow-hidden border border-border shadow-2xl shadow-primary/5">
+    <div className="flex flex-col h-[calc(100dvh-10rem)] lg:h-[80vh] bg-card rounded-xl overflow-hidden border border-border shadow-2xl shadow-primary/5">
       {/* Header */}
       <div className="p-4 border-b border-border bg-muted/20 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -127,7 +127,7 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
         <span className="text-xs font-mono font-medium text-muted-foreground uppercase tracking-widest">Live Transcript</span>
       </div>
       
-      <ScrollArea className="flex-1 p-4 bg-muted/5">
+      <ScrollArea className="flex-1 p-4 bg-background">
         <div className="flex flex-col gap-4 pb-4">
           <AnimatePresence>
             {messages.map((msg) => (
@@ -152,8 +152,8 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
                 <div
                   className={`max-w-[80%] p-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
                     msg.sender === "user"
-                      ? "bg-white border border-border text-foreground rounded-tr-none"
-                      : "bg-white border border-border text-foreground rounded-tl-none"
+                      ? "bg-card border border-border text-foreground rounded-tr-none"
+                      : "bg-card border border-border text-foreground rounded-tl-none"
                   }`}
                 >
                   {msg.text}
@@ -166,7 +166,7 @@ export function ChatInterface({ scenario }: ChatInterfaceProps) {
       </ScrollArea>
 
       {/* Voice Controls */}
-      <div className="p-6 bg-white border-t border-border flex flex-col items-center justify-center gap-4">
+      <div className="p-6 bg-card border-t border-border flex flex-col items-center justify-center gap-4">
         {isRecording ? (
            <motion.div 
             initial={{ height: 0, opacity: 0 }}

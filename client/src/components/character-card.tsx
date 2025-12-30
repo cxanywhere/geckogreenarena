@@ -46,7 +46,7 @@ export function RoleplayCard({ scenario, index, isLocked = false }: RoleplayCard
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: index * 0.1, duration: 0.4 }}
-        className="group relative cursor-pointer overflow-hidden rounded-2xl bg-white border border-border hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-primary/10 h-full flex flex-col"
+        className="group relative cursor-pointer overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-primary/10 h-full flex flex-col"
       >
         {/* Image Header */}
         <div className="relative h-48 overflow-hidden">

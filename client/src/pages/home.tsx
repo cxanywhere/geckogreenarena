@@ -72,7 +72,7 @@ export default function Home() {
                    </div>
                    
                    {/* Compact Progress Card */}
-                   <div className="w-full lg:w-80 bg-white/50 backdrop-blur-sm border border-primary/10 rounded-2xl p-6 shadow-sm">
+                   <div className="w-full lg:w-80 bg-card/50 backdrop-blur-sm border border-primary/10 rounded-2xl p-6 shadow-sm">
                       <div className="space-y-4">
                         <div className="flex justify-between items-center">
                           <h3 className="text-sm font-bold font-display uppercase tracking-wider text-muted-foreground">Certification Progress</h3>
@@ -89,7 +89,7 @@ export default function Home() {
 
                 {/* Status Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
-                   <div className="bg-white/50 backdrop-blur-sm border border-primary/10 rounded-2xl p-6 shadow-sm flex items-center gap-4">
+                   <div className="bg-card/50 backdrop-blur-sm border border-primary/10 rounded-2xl p-6 shadow-sm flex items-center gap-4">
                       <div className="p-3 bg-primary/10 rounded-xl">
                         <Zap className="w-6 h-6 text-primary fill-primary" />
                       </div>
@@ -100,7 +100,7 @@ export default function Home() {
                         </p>
                       </div>
                   </div>
-                   <div className="bg-white/50 backdrop-blur-sm border border-primary/10 rounded-2xl p-6 shadow-sm flex items-center gap-4">
+                   <div className="bg-card/50 backdrop-blur-sm border border-primary/10 rounded-2xl p-6 shadow-sm flex items-center gap-4">
                       <div className="p-3 bg-blue-500/10 rounded-xl">
                         <Target className="w-6 h-6 text-blue-600" />
                       </div>
