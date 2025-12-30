@@ -2,20 +2,29 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Nav } from "@/components/nav";
 import { RoleplayCard } from "@/components/character-card";
-import { ROLEPLAYS, CHAPTERS } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ArrowRight, Bot, Target, Trophy, CheckCircle, Lock, BookOpen, Zap } from "lucide-react";
 import heroBg from "@assets/generated_images/abstract_bottle_green_glass_tech_shapes.png";
 import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { api, type Chapter, type Roleplay } from "@/lib/api";
 
 export default function Home() {
-  // Simple state to track completions from localStorage
   const [completedChapters, setCompletedChapters] = useState<string[]>([]);
   const [unlockedRoleplays, setUnlockedRoleplays] = useState<string[]>([]);
 
+  const { data: chapters = [] } = useQuery({
+    queryKey: ["chapters"],
+    queryFn: () => api.getChapters(),
+  });
+
+  const { data: roleplays = [] } = useQuery({
+    queryKey: ["roleplays"],
+    queryFn: () => api.getRoleplays(),
+  });
+
   useEffect(() => {
-    // Load completion state
     const savedChapters = JSON.parse(localStorage.getItem("completed_chapters") || "[]");
     const savedRoleplays = JSON.parse(localStorage.getItem("unlocked_roleplays") || "[]");
     setCompletedChapters(savedChapters);
@@ -23,8 +32,8 @@ export default function Home() {
   }, []);
 
   const progress = {
-    chapters: { completed: completedChapters.length, total: CHAPTERS.length },
-    roleplays: { completed: 3, total: ROLEPLAYS.length }
+    chapters: { completed: completedChapters.length, total: chapters.length },
+    roleplays: { completed: 3, total: roleplays.length }
   };
 
   const progressPercentage = Math.round(
@@ -130,15 +139,17 @@ export default function Home() {
                </div>
                
                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  {CHAPTERS.map((chapter) => {
+                  {chapters.map((chapter) => {
                     const isCompleted = completedChapters.includes(chapter.id);
                     return (
                       <Link key={chapter.id} href={`/chapter/${chapter.id}`}>
                         <div className={`group relative overflow-hidden rounded-2xl border transition-all duration-300 cursor-pointer h-full ${isCompleted ? 'border-green-200 bg-green-50/30' : 'border-border bg-card hover:border-primary/50 hover:shadow-xl hover:-translate-y-1'}`}>
                           <div className="flex flex-col h-full">
                             {/* Image Section */}
-                            <div className="relative h-56 w-full overflow-hidden">
-                              <img src={chapter.coverImage} alt={chapter.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                            <div className="relative h-56 w-full overflow-hidden bg-gradient-to-br from-primary/20 to-primary/40">
+                              {chapter.coverImage && (
+                                <img src={chapter.coverImage} alt={chapter.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                              )}
                               <div className={`absolute inset-0 ${isCompleted ? 'bg-green-900/20' : 'bg-black/40'} group-hover:bg-transparent transition-colors`} />
                               
                               <div className="absolute top-4 left-4">
@@ -200,13 +211,13 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl font-display font-bold">Certification Modules</h2>
-            <span className="text-sm text-muted-foreground">Showing {ROLEPLAYS.length} Active Roleplays</span>
+            <span className="text-sm text-muted-foreground">Showing {roleplays.length} Active Roleplays</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {ROLEPLAYS.map((scenario, i) => {
+            {roleplays.map((scenario, i) => {
               // Unlock if chapter is completed OR if specifically unlocked via slide
-              const isLocked = !completedChapters.includes(scenario.chapterId) && !unlockedRoleplays.includes(scenario.id);
+              const isLocked = scenario.chapterId ? (!completedChapters.includes(scenario.chapterId) && !unlockedRoleplays.includes(scenario.id)) : false;
               return (
                 <div key={scenario.id} className="relative group">
                   <RoleplayCard scenario={scenario} index={i} isLocked={isLocked} />

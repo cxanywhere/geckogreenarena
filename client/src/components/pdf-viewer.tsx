@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize2, Minimize2 } from "lucide-react";
@@ -21,20 +21,36 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const onDocumentLoadSuccess = useCallback(({ numPages }: { numPages: number }) => {
-    setNumPages(numPages);
+  const onDocumentLoadSuccess = useCallback(({ numPages: totalPages }: { numPages: number }) => {
+    setNumPages(totalPages);
     setIsLoading(false);
   }, []);
 
+  useEffect(() => {
+    if (numPages > 0) {
+      if (currentPage > numPages) {
+        onPageChange(numPages);
+      } else if (currentPage < 1) {
+        onPageChange(1);
+      }
+    }
+  }, [numPages, currentPage, onPageChange]);
+
+  const isReady = numPages > 0 && !isLoading;
+  const safeCurrentPage = numPages > 0 ? Math.min(Math.max(1, currentPage), numPages) : 1;
+  const canRenderPage = isReady && safeCurrentPage >= 1 && safeCurrentPage <= numPages;
+
   const goToPrevPage = () => {
-    if (currentPage > 1) {
-      onPageChange(currentPage - 1);
+    if (isReady && safeCurrentPage > 1) {
+      onPageChange(safeCurrentPage - 1);
     }
   };
 
   const goToNextPage = () => {
-    if (currentPage < numPages) {
-      onPageChange(currentPage + 1);
+    if (!isReady) return;
+    
+    if (safeCurrentPage < numPages) {
+      onPageChange(safeCurrentPage + 1);
     } else if (onComplete) {
       onComplete();
     }
@@ -43,6 +59,8 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
   const zoomIn = () => setScale(prev => Math.min(prev + 0.25, 2));
   const zoomOut = () => setScale(prev => Math.max(prev - 0.25, 0.5));
   const toggleFullscreen = () => setIsFullscreen(!isFullscreen);
+
+  const progressPercentage = numPages > 0 ? (safeCurrentPage / numPages) * 100 : 0;
 
   const containerClass = isFullscreen 
     ? "fixed inset-0 z-50 bg-black/95 flex flex-col" 
@@ -57,19 +75,19 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
             variant="ghost" 
             size="icon" 
             onClick={goToPrevPage} 
-            disabled={currentPage <= 1}
+            disabled={!isReady || safeCurrentPage <= 1}
             data-testid="button-prev-page"
           >
             <ChevronLeft className="h-5 w-5" />
           </Button>
           <span className="text-sm font-medium min-w-[80px] text-center" data-testid="text-page-indicator">
-            {currentPage} / {numPages || "..."}
+            {isReady ? `${safeCurrentPage} / ${numPages}` : "Loading..."}
           </span>
           <Button 
             variant="ghost" 
             size="icon" 
             onClick={goToNextPage} 
-            disabled={currentPage >= numPages && !onComplete}
+            disabled={!isReady || (safeCurrentPage >= numPages && !onComplete)}
             data-testid="button-next-page"
           >
             <ChevronRight className="h-5 w-5" />
@@ -91,9 +109,9 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
       </div>
 
       {/* PDF Content */}
-      <div className="flex-1 overflow-auto flex items-center justify-center p-4 bg-muted/30">
+      <div className="flex-1 overflow-auto flex items-center justify-center p-4 bg-muted/30 relative">
         {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-background/50">
+          <div className="absolute inset-0 flex items-center justify-center bg-background/50 z-10">
             <div className="flex flex-col items-center gap-3">
               <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
               <p className="text-sm text-muted-foreground">Loading presentation...</p>
@@ -107,23 +125,25 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
           loading={null}
           className="max-w-full"
         >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentPage}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Page
-                pageNumber={currentPage}
-                scale={scale}
-                className="shadow-2xl rounded-lg overflow-hidden"
-                renderTextLayer={false}
-                renderAnnotationLayer={false}
-              />
-            </motion.div>
-          </AnimatePresence>
+          {canRenderPage && (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={safeCurrentPage}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Page
+                  pageNumber={safeCurrentPage}
+                  scale={scale}
+                  className="shadow-2xl rounded-lg overflow-hidden"
+                  renderTextLayer={false}
+                  renderAnnotationLayer={false}
+                />
+              </motion.div>
+            </AnimatePresence>
+          )}
         </Document>
       </div>
 
@@ -131,7 +151,7 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
       <div className="h-1 bg-secondary">
         <div 
           className="h-full bg-primary transition-all duration-300"
-          style={{ width: `${(currentPage / numPages) * 100}%` }}
+          style={{ width: `${progressPercentage}%` }}
         />
       </div>
 
@@ -140,16 +160,17 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
         <Button 
           variant="outline" 
           onClick={goToPrevPage} 
-          disabled={currentPage <= 1}
+          disabled={!isReady || safeCurrentPage <= 1}
           className="flex-1 mr-2"
         >
           <ChevronLeft className="mr-1 h-4 w-4" /> Previous
         </Button>
         <Button 
           onClick={goToNextPage}
+          disabled={!isReady}
           className="flex-1 ml-2 bg-primary"
         >
-          {currentPage >= numPages ? "Complete" : "Next"} <ChevronRight className="ml-1 h-4 w-4" />
+          {isReady && safeCurrentPage >= numPages ? "Complete" : "Next"} <ChevronRight className="ml-1 h-4 w-4" />
         </Button>
       </div>
     </div>

@@ -1,8 +1,23 @@
-import { RoleplayScenario } from "@/lib/mock-data";
 import { motion } from "framer-motion";
-import { Shield, MessageSquare, TrendingUp, Lock } from "lucide-react";
+import { Shield, MessageSquare, TrendingUp, Lock, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "wouter";
+
+interface RoleplayScenario {
+  id: string;
+  name: string;
+  role: string;
+  description: string;
+  avatar?: string;
+  traits: string[];
+  difficulty: string;
+  stats: {
+    resistance: number;
+    objections: number;
+    buy_signal: number;
+  };
+  chapterId?: string;
+}
 
 interface RoleplayCardProps {
   scenario: RoleplayScenario;
@@ -21,12 +36,18 @@ export function RoleplayCard({ scenario, index, isLocked = false }: RoleplayCard
           </div>
         </div>
         {/* Simplified Locked Content */}
-        <div className="relative h-48 overflow-hidden">
-          <img
-            src={scenario.avatar}
-            alt={scenario.name}
-            className="h-full w-full object-cover"
-          />
+        <div className="relative h-48 overflow-hidden bg-muted">
+          {scenario.avatar ? (
+            <img
+              src={scenario.avatar}
+              alt={scenario.name}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-primary/30">
+              <User className="w-16 h-16 text-primary/30" />
+            </div>
+          )}
         </div>
         <div className="p-5">
           <h3 className="text-xl font-display font-bold text-foreground/50 tracking-wide mb-2">
@@ -49,13 +70,19 @@ export function RoleplayCard({ scenario, index, isLocked = false }: RoleplayCard
         className="group relative cursor-pointer overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-primary/10 h-full flex flex-col"
       >
         {/* Image Header */}
-        <div className="relative h-48 overflow-hidden">
+        <div className="relative h-48 overflow-hidden bg-muted">
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
-          <motion.img
-            src={scenario.avatar}
-            alt={scenario.name}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-          />
+          {scenario.avatar ? (
+            <motion.img
+              src={scenario.avatar}
+              alt={scenario.name}
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+          ) : (
+            <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/40">
+              <User className="w-20 h-20 text-primary/40" />
+            </div>
+          )}
           <div className="absolute bottom-3 left-4 z-20">
             <span className={cn(
               "inline-block px-2 py-1 mb-1 text-xs font-mono font-medium rounded-md backdrop-blur-sm",
