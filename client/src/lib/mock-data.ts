@@ -77,6 +77,208 @@ export const TRAINING_RESOURCES: Resource[] = [
   }
 ];
 
+export interface Battlecard {
+  id: string;
+  phase: 'Opening' | 'Pitch' | 'Objection Handling' | 'Closing' | 'Follow-up';
+  title: string;
+  situation: string;
+  script: string;
+  keyPoints: string[];
+  type: 'script' | 'objection' | 'tip';
+}
+
+export const BATTLECARDS: Battlecard[] = [
+  // Opening Phase
+  {
+    id: "bc-1",
+    phase: "Opening",
+    title: "The Pattern Interrupt Opener",
+    situation: "Homeowner looks busy or annoyed when opening the door.",
+    script: "Sorry to interrupt—I'm not the pizza guy! I'm just the [Name] with Gecko Green, checking the lawns on [Street Name].",
+    keyPoints: ["Smile immediately", "Step back 3 feet", "Show open hands"],
+    type: "script"
+  },
+  {
+    id: "bc-2",
+    phase: "Opening",
+    title: "Handling 'No Soliciting' Signs",
+    situation: "Homeowner points to a 'No Soliciting' sign.",
+    script: "I saw the sign and I promise I'm not selling magazines or candy. I'm just letting neighbors know we're treating the Smiths' lawn tomorrow.",
+    keyPoints: ["Acknowledge the sign", "Clarify you're a service provider", "Pivot to social proof"],
+    type: "objection"
+  },
+  {
+    id: "bc-3",
+    phase: "Opening",
+    title: "The 'I'm Busy' Defense",
+    situation: "Homeowner says 'I don't have time right now'.",
+    script: "I totally understand, I'll be super quick—literally 30 seconds. I just wanted to ask...",
+    keyPoints: ["Validate their time", "Set a time constraint", "Ask a question immediately"],
+    type: "objection"
+  },
+  {
+    id: "bc-4",
+    phase: "Opening",
+    title: "Establishing Authority",
+    situation: "First 10 seconds of interaction.",
+    script: "Hi, I'm [Name], the neighborhood specialist for [Area]. We've been working with a few of your neighbors...",
+    keyPoints: ["Use 'Specialist' title", "Name drop neighbors", "Confident body language"],
+    type: "tip"
+  },
+
+  // Pitch Phase
+  {
+    id: "bc-5",
+    phase: "Pitch",
+    title: "The Weed Identification Hook",
+    situation: "Identifying visible weeds on the lawn.",
+    script: "Do you see this clover here? It actually spreads roots sideways under the grass, choking it out. That's why this patch is thinning.",
+    keyPoints: ["Point physically", "Explain the 'Why'", "Create problem awareness"],
+    type: "script"
+  },
+  {
+    id: "bc-6",
+    phase: "Pitch",
+    title: "Building Value: The Guarantee",
+    situation: "Explaining service benefits.",
+    script: "The best part is, if you see any weeds between visits, we come back for free. You literally can't pay for weeds.",
+    keyPoints: ["Risk reversal", "Simple language", "Emphasis on 'Free'"],
+    type: "script"
+  },
+  {
+    id: "bc-7",
+    phase: "Pitch",
+    title: "Social Proof Transition",
+    situation: "Moving from problem to solution.",
+    script: "The reason the Smiths down the street switched to us was specifically for this crabgrass issue.",
+    keyPoints: ["Reference neighbors", "Connect specific problem to solution", "Create FOMO"],
+    type: "script"
+  },
+  {
+    id: "bc-8",
+    phase: "Pitch",
+    title: "The 'Illusion of Choice'",
+    situation: "Setting up the close.",
+    script: "Are you usually around in the mornings, or do afternoons work better for us to take a look?",
+    keyPoints: ["Two positive options", "Assume the appointment", "Avoid Yes/No questions"],
+    type: "tip"
+  },
+
+  // Objection Handling Phase
+  {
+    id: "bc-9",
+    phase: "Objection Handling",
+    title: "'I Do It Myself'",
+    situation: "Homeowner takes pride in DIY lawn care.",
+    script: "That's awesome, honestly most of my best customers started that way. What products are you using for the deep root feeding?",
+    keyPoints: ["Validate their effort", "Ask a technical question", "Highlight professional-grade gap"],
+    type: "objection"
+  },
+  {
+    id: "bc-10",
+    phase: "Objection Handling",
+    title: "'We Have a Service'",
+    situation: "Homeowner already pays a competitor.",
+    script: "Great, that means you care about the lawn. Who are you using? ... Oh yeah, they're decent. How long have you been with them?",
+    keyPoints: ["Don't bash competitor", "Find the pain/gap", "Plant seed of doubt"],
+    type: "objection"
+  },
+  {
+    id: "bc-11",
+    phase: "Objection Handling",
+    title: "'Too Expensive'",
+    situation: "Price resistance.",
+    script: "I get that. But think about the cost of re-sodding this patch if the chinch bugs take over. It's $50 now vs $500 later.",
+    keyPoints: ["Reframe as investment", "Cost of inaction", "Break down to daily cost"],
+    type: "objection"
+  },
+  {
+    id: "bc-12",
+    phase: "Objection Handling",
+    title: "'I Need to Talk to My Spouse'",
+    situation: "Stalling decision.",
+    script: "Totally fair. Does she usually handle the gardening, or is it more about the budget?",
+    keyPoints: ["Isolate the real objection", "Determine decision maker", "Keep conversation going"],
+    type: "objection"
+  },
+  {
+    id: "bc-13",
+    phase: "Objection Handling",
+    title: "'Can You Just Leave a Flyer?'",
+    situation: "Brush off.",
+    script: "I can, but the pricing on the flyer isn't the neighborhood discount I can authorize right now while I'm here.",
+    keyPoints: ["Create urgency", "Devalue the flyer", "Highlight 'Now' benefit"],
+    type: "objection"
+  },
+
+  // Closing Phase
+  {
+    id: "bc-14",
+    phase: "Closing",
+    title: "The Assumptive Close",
+    situation: "After presenting price.",
+    script: "So, to get that first treatment done and knock out these dandelions, do you want us to start Thursday or Friday?",
+    keyPoints: ["Assume the sale", "Give two options", "Focus on the result"],
+    type: "script"
+  },
+  {
+    id: "bc-15",
+    phase: "Closing",
+    title: "The Discount Close",
+    situation: "On the fence.",
+    script: "If I can get my manager to wave the first application fee since I'm already treating next door, would that help?",
+    keyPoints: ["Conditional close ('If I can...')", "Limited availability", "Value add"],
+    type: "script"
+  },
+  {
+    id: "bc-16",
+    phase: "Closing",
+    title: "The Option Close",
+    situation: "Choosing a package.",
+    script: "Most neighbors go with the Gold package for the aeration, but the Silver covers all the basics. Which one fits better?",
+    keyPoints: ["Guide to preferred option", "Simplify choice", "Normalize the upsell"],
+    type: "script"
+  },
+  {
+    id: "bc-17",
+    phase: "Closing",
+    title: "Securing Payment",
+    situation: "Asking for credit card.",
+    script: "And for that first visit, do you want to put that on a Visa or a Mastercard?",
+    keyPoints: ["Casual tone", "Standard procedure", "Don't pause awkwardly"],
+    type: "tip"
+  },
+
+  // Follow-up Phase
+  {
+    id: "bc-18",
+    phase: "Follow-up",
+    title: "The 'Sorry I Missed You' Note",
+    situation: "Leaving a note when no answer.",
+    script: "Sorry I missed you! Just treated the Jones' lawn across the street. Noticed you have some similar clover starting...",
+    keyPoints: ["Personalize it", "Mention specific weed", "Leave cell number"],
+    type: "script"
+  },
+  {
+    id: "bc-19",
+    phase: "Follow-up",
+    title: "The Text Message Follow-up",
+    situation: "After a conversation with no close.",
+    script: "Hey [Name], this is [Name] from Gecko Green. My manager approved that special rate we talked about. Can I lock it in for you?",
+    keyPoints: ["Short & direct", "Remind of offer", "Call to action"],
+    type: "script"
+  },
+  {
+    id: "bc-20",
+    phase: "Follow-up",
+    title: "Referral Ask",
+    situation: "After a happy close.",
+    script: "Who else on the block do you think would want their lawn looking this good?",
+    keyPoints: ["Strike while hot", "Compliment them", "Ask for specific neighbors"],
+    type: "script"
+  }
+];
+
 export interface Slide {
   type: 'content' | 'quiz' | 'roleplay';
   title: string;

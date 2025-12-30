@@ -11,6 +11,7 @@ import ChapterPage from "@/pages/chapter";
 import ResultsPage from "@/pages/results";
 import LeaderboardPage from "@/pages/leaderboard";
 import ResourcesPage from "@/pages/resources";
+import BattlecardsPage from "@/pages/battlecards";
 
 function Router() {
   return (
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/results/:id" component={ResultsPage} />
       <Route path="/leaderboard" component={LeaderboardPage} />
       <Route path="/resources" component={ResourcesPage} />
+      <Route path="/battlecards" component={BattlecardsPage} />
       <Route component={NotFound} />
     </Switch>
   );
