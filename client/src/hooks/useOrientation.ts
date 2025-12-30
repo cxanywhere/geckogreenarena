@@ -37,12 +37,15 @@ export function useOrientation(): Orientation {
 export function useIsMobile(): boolean {
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window === 'undefined') return false;
-    return window.innerWidth < 768;
+    // Use the smaller dimension to detect mobile - works in both orientations
+    const smallerDimension = Math.min(window.innerWidth, window.innerHeight);
+    return smallerDimension < 768;
   });
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      const smallerDimension = Math.min(window.innerWidth, window.innerHeight);
+      setIsMobile(smallerDimension < 768);
     };
 
     window.addEventListener('resize', handleResize);
