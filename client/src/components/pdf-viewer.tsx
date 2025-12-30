@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize2, Minimize2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize2, Minimize2, RotateCw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -18,6 +18,7 @@ interface PDFViewerProps {
 export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDFViewerProps) {
   const [numPages, setNumPages] = useState<number>(0);
   const [scale, setScale] = useState(1);
+  const [rotation, setRotation] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -58,6 +59,7 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
 
   const zoomIn = () => setScale(prev => Math.min(prev + 0.25, 2));
   const zoomOut = () => setScale(prev => Math.max(prev - 0.25, 0.5));
+  const rotate = () => setRotation(prev => (prev + 90) % 360);
   const toggleFullscreen = () => setIsFullscreen(!isFullscreen);
 
   const progressPercentage = numPages > 0 ? (safeCurrentPage / numPages) * 100 : 0;
@@ -95,14 +97,17 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
         </div>
 
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={zoomOut} disabled={scale <= 0.5}>
+          <Button variant="ghost" size="icon" onClick={zoomOut} disabled={scale <= 0.5} data-testid="button-zoom-out">
             <ZoomOut className="h-4 w-4" />
           </Button>
           <span className="text-xs font-mono w-12 text-center">{Math.round(scale * 100)}%</span>
-          <Button variant="ghost" size="icon" onClick={zoomIn} disabled={scale >= 2}>
+          <Button variant="ghost" size="icon" onClick={zoomIn} disabled={scale >= 2} data-testid="button-zoom-in">
             <ZoomIn className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="icon" onClick={toggleFullscreen}>
+          <Button variant="ghost" size="icon" onClick={rotate} data-testid="button-rotate">
+            <RotateCw className="h-4 w-4" />
+          </Button>
+          <Button variant="ghost" size="icon" onClick={toggleFullscreen} data-testid="button-fullscreen">
             {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
           </Button>
         </div>
@@ -137,6 +142,7 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
                 <Page
                   pageNumber={safeCurrentPage}
                   scale={scale}
+                  rotate={rotation}
                   className="shadow-2xl rounded-lg overflow-hidden"
                   renderTextLayer={false}
                   renderAnnotationLayer={false}
