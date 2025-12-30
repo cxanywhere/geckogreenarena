@@ -176,3 +176,23 @@
 @utility text-glow {
   text-shadow: 0 0 20px rgba(0, 200, 100, 0.5);
 }
+
+/* Landscape orientation specific styles */
+@media (orientation: landscape) and (max-height: 500px) {
+  .quiz-overlay-content {
+    flex-direction: row !important;
+    gap: 1rem;
+  }
+  
+  .quiz-question-section {
+    flex: 1;
+    max-width: 40%;
+  }
+  
+  .quiz-options-section {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+}

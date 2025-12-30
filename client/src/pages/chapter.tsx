@@ -307,12 +307,14 @@ function PDFQuizOverlay({
           </div>
         </div>
         
-        <div className="p-3 sm:p-6 space-y-3 sm:space-y-6 overflow-y-auto flex-1">
-          <p className="text-base sm:text-lg font-medium" data-testid="text-quiz-question">
-            {currentQuestion.question}
-          </p>
+        <div className="p-3 sm:p-6 space-y-3 sm:space-y-6 overflow-y-auto flex-1 quiz-overlay-content">
+          <div className="quiz-question-section">
+            <p className="text-base sm:text-lg font-medium" data-testid="text-quiz-question">
+              {currentQuestion.question}
+            </p>
+          </div>
 
-          <div className="space-y-2 sm:space-y-3 landscape:grid landscape:grid-cols-2 landscape:gap-2 landscape:space-y-0">
+          <div className="space-y-2 sm:space-y-3 quiz-options-section">
             {currentQuestion.options.map((option, index) => {
               const isSelected = selectedAnswer === index;
               const isCorrectAnswer = showResult && index === currentQuestion.correctAnswer;
