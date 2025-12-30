@@ -152,91 +152,93 @@ export default function ReportCardPage() {
           {/* Right Column - Certificate */}
           <div className="lg:col-span-2">
             {results.passed ? (
-               <div className="relative w-full aspect-[1.414/1] bg-white text-black p-8 md:p-12 shadow-2xl rounded-sm border-[16px] border-double border-[#1e3a8a] print:shadow-none print:border-0 print:w-full print:h-full print:absolute print:inset-0 print:z-[9999]" ref={certificateRef}>
-                  {/* Decorative Corner Elements */}
-                  <div className="absolute top-4 left-4 w-16 h-16 border-t-4 border-l-4 border-[#1e3a8a]" />
-                  <div className="absolute top-4 right-4 w-16 h-16 border-t-4 border-r-4 border-[#1e3a8a]" />
-                  <div className="absolute bottom-4 left-4 w-16 h-16 border-b-4 border-l-4 border-[#1e3a8a]" />
-                  <div className="absolute bottom-4 right-4 w-16 h-16 border-b-4 border-r-4 border-[#1e3a8a]" />
-                  
-                  {/* Background Watermark */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
-                     <img src={geckoLogo} className="w-2/3 h-2/3 object-contain grayscale" />
-                  </div>
-
-                  <div className="relative h-full flex flex-col items-center text-center justify-between border-2 border-dashed border-gray-200 p-8">
+               <div className="w-full overflow-x-auto pb-6">
+                 <div className="relative min-w-[600px] md:min-w-full aspect-[1.414/1] bg-white text-black p-8 md:p-12 shadow-2xl rounded-sm border-[16px] border-double border-[#1e3a8a] print:shadow-none print:border-0 print:w-full print:h-full print:absolute print:inset-0 print:z-[9999]" ref={certificateRef}>
+                    {/* Decorative Corner Elements */}
+                    <div className="absolute top-4 left-4 w-12 h-12 md:w-16 md:h-16 border-t-4 border-l-4 border-[#1e3a8a]" />
+                    <div className="absolute top-4 right-4 w-12 h-12 md:w-16 md:h-16 border-t-4 border-r-4 border-[#1e3a8a]" />
+                    <div className="absolute bottom-4 left-4 w-12 h-12 md:w-16 md:h-16 border-b-4 border-l-4 border-[#1e3a8a]" />
+                    <div className="absolute bottom-4 right-4 w-12 h-12 md:w-16 md:h-16 border-b-4 border-r-4 border-[#1e3a8a]" />
                     
-                    {/* Header */}
-                    <div className="space-y-6 w-full">
-                       <div className="flex justify-between items-start w-full px-4">
-                          <img src={geckoLogo} alt="Gecko Green" className="h-16 w-auto object-contain" />
-                          <div className="flex flex-col items-end">
-                             <div className="flex items-center gap-2 opacity-50">
-                                <img src={arenaLogo} alt="Arena AI" className="h-6 w-6 grayscale" />
-                                <span className="font-display font-bold uppercase tracking-widest text-xs">Arena AI Certified</span>
-                             </div>
-                          </div>
-                       </div>
-                       
-                       <div className="pt-8">
-                         <h1 className="font-serif text-5xl md:text-6xl text-[#1e3a8a] mb-4 tracking-tight">Certificate of Completion</h1>
-                         <p className="text-gray-500 font-serif italic text-xl">This certifies that</p>
-                       </div>
+                    {/* Background Watermark */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
+                       <img src={geckoLogo} className="w-2/3 h-2/3 object-contain grayscale" />
                     </div>
 
-                    {/* Name */}
-                    <div className="py-8 w-full border-b border-gray-300 max-w-2xl">
-                       <h2 className="font-display text-4xl md:text-5xl font-bold text-black tracking-tight">Paul Wilkerson</h2>
-                    </div>
+                    <div className="relative h-full flex flex-col items-center text-center justify-between border-2 border-dashed border-gray-200 p-4 md:p-8">
+                      
+                      {/* Header */}
+                      <div className="space-y-4 md:space-y-6 w-full">
+                         <div className="flex justify-between items-start w-full px-2 md:px-4">
+                            <img src={geckoLogo} alt="Gecko Green" className="h-10 md:h-16 w-auto object-contain" />
+                            <div className="flex flex-col items-end">
+                               <div className="flex items-center gap-2 opacity-50">
+                                  <img src={arenaLogo} alt="Arena AI" className="h-4 w-4 md:h-6 md:w-6 grayscale" />
+                                  <span className="font-display font-bold uppercase tracking-widest text-[10px] md:text-xs">Arena AI Certified</span>
+                               </div>
+                            </div>
+                         </div>
+                         
+                         <div className="pt-4 md:pt-8">
+                           <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl text-[#1e3a8a] mb-2 md:mb-4 tracking-tight">Certificate of Completion</h1>
+                           <p className="text-gray-500 font-serif italic text-base md:text-xl">This certifies that</p>
+                         </div>
+                      </div>
 
-                    {/* Description */}
-                    <div className="max-w-2xl mx-auto space-y-4">
-                       <p className="text-gray-600 font-serif text-lg leading-relaxed">
-                         Has successfully demonstrated mastery of the <strong className="text-[#1e3a8a]">Gecko Green Sales Methodology</strong>, achieving excellence in Opening, Pitching, Objection Handling, and Closing strategies through rigorous AI-driven simulation training.
-                       </p>
-                       <div className="flex justify-center gap-4 text-sm text-gray-500 uppercase tracking-widest font-bold">
-                          <span>• Sales Foundations •</span>
-                          <span>• Advanced Negotiation •</span>
-                          <span>• Field Execution •</span>
-                       </div>
-                    </div>
+                      {/* Name */}
+                      <div className="py-4 md:py-8 w-full border-b border-gray-300 max-w-2xl relative z-10">
+                         <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-black tracking-tight">Paul Wilkerson</h2>
+                      </div>
 
-                    {/* Footer / Signatures */}
-                    <div className="w-full grid grid-cols-2 gap-20 pt-12 px-12">
-                       <div className="text-center space-y-2">
-                          <div className="h-16 flex items-end justify-center pb-2">
-                             <span className="font-script text-3xl text-[#1e3a8a] transform -rotate-6 block">Sarah Jenkins</span>
-                          </div>
-                          <div className="border-t border-gray-400 pt-2">
-                             <p className="font-bold text-sm uppercase text-gray-800">Sarah Jenkins</p>
-                             <p className="text-xs text-gray-500 uppercase tracking-wide">VP of Sales Training</p>
-                          </div>
-                       </div>
-                       
-                       <div className="text-center space-y-2">
-                          <div className="h-16 flex items-end justify-center pb-2">
-                             <p className="font-serif text-lg text-gray-800">{results.certifiedDate}</p>
-                          </div>
-                          <div className="border-t border-gray-400 pt-2">
-                             <p className="font-bold text-sm uppercase text-gray-800">Date Issued</p>
-                             <p className="text-xs text-gray-500 uppercase tracking-wide">Authorization ID: 8X-2991</p>
-                          </div>
-                       </div>
-                    </div>
+                      {/* Description */}
+                      <div className="max-w-2xl mx-auto space-y-2 md:space-y-4 pt-4">
+                         <p className="text-gray-600 font-serif text-sm md:text-lg leading-relaxed">
+                           Has successfully demonstrated mastery of the <strong className="text-[#1e3a8a]">Gecko Green Sales Methodology</strong>, achieving excellence in Opening, Pitching, Objection Handling, and Closing strategies through rigorous AI-driven simulation training.
+                         </p>
+                         <div className="flex flex-wrap justify-center gap-2 md:gap-4 text-[10px] md:text-sm text-gray-500 uppercase tracking-widest font-bold">
+                            <span>• Sales Foundations •</span>
+                            <span>• Advanced Negotiation •</span>
+                            <span>• Field Execution •</span>
+                         </div>
+                      </div>
 
-                    {/* Gold Seal */}
-                    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-                       <div className="relative">
-                          <div className="w-24 h-24 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg border-4 border-yellow-600">
-                             <div className="w-20 h-20 border-2 border-yellow-600/50 rounded-full flex items-center justify-center">
-                                <Award className="w-10 h-10 text-yellow-700" />
-                             </div>
-                          </div>
-                          <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-blue-900 rotate-45 -z-10 shadow-lg" />
-                       </div>
-                    </div>
+                      {/* Footer / Signatures */}
+                      <div className="w-full grid grid-cols-2 gap-8 md:gap-20 pt-8 md:pt-12 px-4 md:px-12 mt-auto">
+                         <div className="text-center space-y-2">
+                            <div className="h-12 md:h-16 flex items-end justify-center pb-2">
+                               <span className="font-script text-xl md:text-3xl text-[#1e3a8a] transform -rotate-6 block">Sarah Jenkins</span>
+                            </div>
+                            <div className="border-t border-gray-400 pt-2">
+                               <p className="font-bold text-xs md:text-sm uppercase text-gray-800">Sarah Jenkins</p>
+                               <p className="text-[10px] md:text-xs text-gray-500 uppercase tracking-wide">VP of Sales Training</p>
+                            </div>
+                         </div>
+                         
+                         <div className="text-center space-y-2">
+                            <div className="h-12 md:h-16 flex items-end justify-center pb-2">
+                               <p className="font-serif text-base md:text-lg text-gray-800">{results.certifiedDate}</p>
+                            </div>
+                            <div className="border-t border-gray-400 pt-2">
+                               <p className="font-bold text-xs md:text-sm uppercase text-gray-800">Date Issued</p>
+                               <p className="text-[10px] md:text-xs text-gray-500 uppercase tracking-wide">Authorization ID: 8X-2991</p>
+                            </div>
+                         </div>
+                      </div>
 
-                  </div>
+                      {/* Gold Seal - Repositioned to bottom right for better mobile view or keep centered but adjust z-index */}
+                      <div className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 md:translate-x-0 md:left-auto md:right-12 z-20">
+                         <div className="relative transform scale-75 md:scale-100">
+                            <div className="w-20 h-20 md:w-24 md:h-24 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg border-4 border-yellow-600">
+                               <div className="w-16 h-16 md:w-20 md:h-20 border-2 border-yellow-600/50 rounded-full flex items-center justify-center">
+                                  <Award className="w-8 h-8 md:w-10 md:h-10 text-yellow-700" />
+                               </div>
+                            </div>
+                            <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-10 h-10 md:w-12 md:h-12 bg-blue-900 rotate-45 -z-10 shadow-lg" />
+                         </div>
+                      </div>
+
+                    </div>
+                 </div>
                </div>
             ) : (
               <div className="h-full flex flex-col items-center justify-center bg-card border border-dashed border-border rounded-xl p-12 text-center text-muted-foreground">
