@@ -13,6 +13,7 @@ import ResultsPage from "@/pages/results";
 import LeaderboardPage from "@/pages/leaderboard";
 import ResourcesPage from "@/pages/resources";
 import BattlecardsPage from "@/pages/battlecards";
+import ReportCardPage from "@/pages/report-card";
 
 function Router() {
   return (
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/leaderboard" component={LeaderboardPage} />
       <Route path="/resources" component={ResourcesPage} />
       <Route path="/battlecards" component={BattlecardsPage} />
+      <Route path="/report-card" component={ReportCardPage} />
       <Route component={NotFound} />
     </Switch>
   );

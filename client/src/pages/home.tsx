@@ -83,6 +83,11 @@ export default function Home() {
                            <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" /> {progress.chapters.completed}/{progress.chapters.total} Modules</span>
                            <span className="flex items-center gap-1"><Target className="w-3 h-3" /> {progress.roleplays.completed}/{progress.roleplays.total} Scenarios</span>
                         </div>
+                        <Link href="/report-card">
+                           <Button size="sm" variant="outline" className="w-full mt-2 text-xs h-8 border-primary/20 hover:border-primary/50 hover:bg-primary/5">
+                             View Full Report
+                           </Button>
+                        </Link>
                      </div>
                    </div>
                 </div>
