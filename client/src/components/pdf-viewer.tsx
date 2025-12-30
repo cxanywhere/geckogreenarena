@@ -34,13 +34,16 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
     const updateSize = () => {
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
-        setContainerWidth(rect.width - 32);
-        setContainerHeight(rect.height - 32);
+        const isMobile = window.innerWidth < 640;
+        const padding = isMobile ? 16 : 32;
+        setContainerWidth(rect.width - padding);
+        setContainerHeight(rect.height - padding);
       }
     };
 
     updateSize();
     window.addEventListener('resize', updateSize);
+    window.addEventListener('orientationchange', updateSize);
     
     const resizeObserver = new ResizeObserver(updateSize);
     if (containerRef.current) {
@@ -49,6 +52,7 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
 
     return () => {
       window.removeEventListener('resize', updateSize);
+      window.removeEventListener('orientationchange', updateSize);
       resizeObserver.disconnect();
     };
   }, [isFullscreen]);
@@ -199,7 +203,7 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
       {/* PDF Content */}
       <div 
         ref={containerRef}
-        className="flex-1 overflow-auto p-4 bg-muted/30 relative touch-pan-y"
+        className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-4 bg-muted/30 relative touch-pan-y"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -213,7 +217,7 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
           </div>
         )}
 
-        <div className="flex justify-center">
+        <div className="flex justify-center w-full max-w-full">
           <Document
             file={pdfUrl}
             onLoadSuccess={onDocumentLoadSuccess}
@@ -228,13 +232,14 @@ export function PDFViewer({ pdfUrl, currentPage, onPageChange, onComplete }: PDF
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.2 }}
+                  className="max-w-full"
                 >
                   <Page
                     pageNumber={safeCurrentPage}
                     width={fitMode === 'width' ? effectiveWidth : undefined}
                     scale={fitMode === 'manual' ? manualScale : undefined}
                     rotate={rotation}
-                    className="shadow-2xl rounded-lg overflow-hidden"
+                    className="shadow-2xl rounded-lg overflow-hidden max-w-full [&>canvas]:max-w-full [&>canvas]:h-auto"
                     renderTextLayer={false}
                     renderAnnotationLayer={false}
                   />
