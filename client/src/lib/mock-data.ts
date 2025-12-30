@@ -5,6 +5,78 @@ import indecisiveHomeowner from '@assets/generated_images/indecisive_homeowner_t
 import doorToDoorRep from '@assets/generated_images/door_to_door_sales_rep_knocking.png';
 import lawnCareRep from '@assets/generated_images/sales_rep_talking_to_homeowner_on_lawn.png';
 
+import salesTrainingThumbnail from '@assets/generated_images/sales_training_video_thumbnail.png';
+
+export interface Resource {
+  id: string;
+  type: 'call' | 'video';
+  title: string;
+  description: string;
+  learningOutcome: string;
+  duration: string;
+  author: string;
+  thumbnail?: string;
+  tags: string[];
+}
+
+export const TRAINING_RESOURCES: Resource[] = [
+  // Top Sales Calls
+  {
+    id: "call-1",
+    type: "call",
+    title: "Handling the 'Not Interested' at the Door",
+    description: "Listen to how Top Performer Sarah Jenkins turns a quick 'no' into a scheduled appointment using the Pattern Interrupt technique.",
+    learningOutcome: "Learn to stay calm, acknowledge the resistance, and pivot to a control question immediately.",
+    duration: "4:32",
+    author: "Sarah Jenkins",
+    tags: ["Objection Handling", "Opener", "Top 1%"]
+  },
+  {
+    id: "call-2",
+    type: "call",
+    title: "Closing the 'Think About It' Objection",
+    description: "Mike Ross demonstrates the perfect loop to handle a stalling homeowner who wants to talk to their spouse.",
+    learningOutcome: "Master the art of isolating the real objection and creating urgency without being pushy.",
+    duration: "6:15",
+    author: "Mike Ross",
+    tags: ["Closing", "Stalls", "Advanced"]
+  },
+  {
+    id: "call-3",
+    type: "call",
+    title: "Price Objection: 'You Guys Are Too Expensive'",
+    description: "Listen to a masterclass in value anchoring. See how the rep shifts the conversation from price to cost-of-inaction.",
+    learningOutcome: "Learn to agree, validate, and then reframe price in terms of value and long-term savings.",
+    duration: "3:45",
+    author: "Jessica Pearson",
+    tags: ["Pricing", "Value Building"]
+  },
+  
+  // Training Videos
+  {
+    id: "vid-1",
+    type: "video",
+    title: "The Psychology of Door Knocking",
+    description: "A deep dive into body language, distance management, and non-verbal cues that build trust instantly.",
+    learningOutcome: "Understand how your stance and facial expressions impact your conversion rate before you say a word.",
+    duration: "12:30",
+    author: "GigaRev Training Team",
+    thumbnail: salesTrainingThumbnail,
+    tags: ["Psychology", "Foundations"]
+  },
+  {
+    id: "vid-2",
+    type: "video",
+    title: "Mastering the B-P-D-C Framework",
+    description: "Step-by-step breakdown of the Build-Problem-Diagnose-Close framework used by all top Gecko Green reps.",
+    learningOutcome: "Learn to structure every interaction for maximum persuasion and control.",
+    duration: "15:45",
+    author: "VP of Sales",
+    thumbnail: salesTrainingThumbnail,
+    tags: ["Framework", "Process"]
+  }
+];
+
 export interface Slide {
   type: 'content' | 'quiz' | 'roleplay';
   title: string;

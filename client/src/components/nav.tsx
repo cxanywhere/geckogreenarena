@@ -14,6 +14,7 @@ export function Nav() {
   const links = [
     { href: "/dashboard", label: "Arena" },
     { href: "/leaderboard", label: "Leaderboard" },
+    { href: "/resources", label: "Library" },
     { href: "/about", label: "About" },
   ];
 

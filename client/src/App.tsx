@@ -10,6 +10,7 @@ import ChatPage from "@/pages/chat";
 import ChapterPage from "@/pages/chapter";
 import ResultsPage from "@/pages/results";
 import LeaderboardPage from "@/pages/leaderboard";
+import ResourcesPage from "@/pages/resources";
 
 function Router() {
   return (
@@ -20,6 +21,7 @@ function Router() {
       <Route path="/chapter/:id" component={ChapterPage} />
       <Route path="/results/:id" component={ResultsPage} />
       <Route path="/leaderboard" component={LeaderboardPage} />
+      <Route path="/resources" component={ResourcesPage} />
       <Route component={NotFound} />
     </Switch>
   );
