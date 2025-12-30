@@ -15,7 +15,7 @@ export default function LeaderboardPage() {
             <h1 className="text-3xl font-display font-bold text-foreground">Performance Center</h1>
             <p className="text-muted-foreground">Track your progress and compete with top performers.</p>
           </div>
-          <div className="flex items-center gap-4 bg-white px-4 py-2 rounded-xl border border-border shadow-sm">
+          <div className="flex items-center gap-4 bg-card px-4 py-2 rounded-xl border border-border shadow-sm">
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-muted-foreground">Your Rank:</span>
               <span className="text-xl font-bold text-primary">#4</span>
@@ -29,13 +29,13 @@ export default function LeaderboardPage() {
         </div>
 
         <Tabs defaultValue="leaderboard" className="w-full">
-          <TabsList className="bg-white border border-border p-1 rounded-xl mb-8 w-full max-w-md mx-auto grid grid-cols-2">
+          <TabsList className="bg-card border border-border p-1 rounded-xl mb-8 w-full max-w-md mx-auto grid grid-cols-2">
             <TabsTrigger value="leaderboard" className="rounded-lg data-[state=active]:bg-primary/10 data-[state=active]:text-primary font-bold">Global Leaderboard</TabsTrigger>
             <TabsTrigger value="history" className="rounded-lg data-[state=active]:bg-primary/10 data-[state=active]:text-primary font-bold">My Roleplay History</TabsTrigger>
           </TabsList>
 
           <TabsContent value="leaderboard">
-            <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
+            <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
                   <thead className="bg-muted/30 border-b border-border">
@@ -93,7 +93,7 @@ export default function LeaderboardPage() {
                 const scenario = ROLEPLAYS.find(r => r.id === result.scenarioId);
                 if (!scenario) return null;
                 return (
-                  <div key={result.id} className="bg-white p-6 rounded-2xl border border-border hover:border-primary/30 transition-all shadow-sm">
+                  <div key={result.id} className="bg-card p-6 rounded-2xl border border-border hover:border-primary/30 transition-all shadow-sm">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
                         <img src={scenario.avatar} className="w-12 h-12 rounded-full object-cover border border-border" />
