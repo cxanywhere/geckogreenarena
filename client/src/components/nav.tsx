@@ -27,7 +27,10 @@ export function Nav() {
           <Link href="/dashboard">
             <a className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
               <img src={arenaLogo} alt="Arena AI" className="h-8 w-8 object-contain" />
-              <span>arena ai<span className="text-foreground/80 font-normal"> by gigarev</span></span>
+              <div className="flex flex-col leading-none">
+                <span>arena ai</span>
+                <span className="text-[10px] text-foreground/80 font-normal uppercase tracking-wide">by gigarev</span>
+              </div>
             </a>
           </Link>
           

@@ -36,9 +36,12 @@ export default function LoginPage() {
           <div className="flex items-center justify-between mb-12">
             <div className="flex items-center gap-2">
               <img src={arenaLogo} alt="Arena AI" className="h-10 w-10 object-contain drop-shadow-md" />
-              <span className="font-display text-2xl font-bold tracking-tight text-foreground">
-                arena ai<span className="font-normal opacity-80"> by gigarev</span>
-              </span>
+              <div className="flex flex-col leading-none">
+                <span className="font-display text-2xl font-bold tracking-tight text-foreground">
+                  arena ai
+                </span>
+                <span className="text-xs font-normal text-muted-foreground uppercase tracking-widest">by gigarev</span>
+              </div>
             </div>
           </div>
 

@@ -215,7 +215,8 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-primary/5 border-t border-primary/10 py-12">
         <div className="container mx-auto px-4 text-center">
-          <div className="font-display font-bold text-2xl text-primary mb-4">arena ai by gigarev</div>
+          <div className="font-display font-bold text-2xl text-primary mb-1">arena ai</div>
+          <div className="text-xs text-muted-foreground uppercase tracking-widest mb-4">by gigarev</div>
           <p className="text-muted-foreground text-sm mb-8">© 2025 GigaRev Industries. All rights reserved. Licensed to GeckoGreen.</p>
         </div>
       </footer>
