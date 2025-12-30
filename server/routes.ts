@@ -5,7 +5,6 @@ import { insertUserProgressSchema, insertRoleplayAttemptSchema } from "@shared/s
 import { z } from "zod";
 import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, type RoleplayMessage, type RoleplayScenario } from "./gemini";
 import { getOrGenerateQuizForSlide, submitQuizAnswer } from "./quiz-service";
-import { extractPDFContent, getContentForRange } from "./pdf-service";
 
 const roleplaySessions = new Map<string, { scenario: RoleplayScenario; history: RoleplayMessage[] }>();
 
@@ -387,23 +386,36 @@ export async function registerRoutes(
 
   app.post("/api/quiz/from-pdf", async (req, res) => {
     try {
-      const { chapterId, pdfUrl, pageNumber } = req.body;
+      const { chapterId, pageNumber } = req.body;
       
-      if (!chapterId || !pdfUrl || !pageNumber) {
-        return res.status(400).json({ error: "chapterId, pdfUrl, and pageNumber required" });
+      if (!chapterId || !pageNumber) {
+        return res.status(400).json({ error: "chapterId and pageNumber required" });
       }
 
-      const pages = await extractPDFContent(pdfUrl);
-      
-      if (pages.length === 0) {
-        return res.status(400).json({ error: "Could not extract PDF content" });
+      const chapter = await storage.getChapter(chapterId);
+      if (!chapter) {
+        return res.status(404).json({ error: "Chapter not found" });
       }
 
-      const startPage = Math.max(1, pageNumber - 2);
-      const endPage = pageNumber;
-      const content = getContentForRange(pages, startPage, endPage);
+      const slides = chapter.slides || [];
+      const slideIndex = Math.min(Math.floor(pageNumber / 5), slides.length - 1);
       
-      if (!content || content.trim().length < 50) {
+      const contentSlides = slides
+        .slice(Math.max(0, slideIndex - 2), slideIndex + 1)
+        .filter((s: any) => s.type === "content");
+      
+      if (contentSlides.length === 0) {
+        return res.json({ questions: [], message: "No content slides found for this section" });
+      }
+
+      const content = contentSlides.map((s: any) => {
+        let text = s.title || "";
+        if (s.content) text += "\n" + s.content;
+        if (s.bullets) text += "\n" + s.bullets.join("\n");
+        return text;
+      }).join("\n\n");
+      
+      if (!content || content.trim().length < 20) {
         return res.json({ questions: [], message: "Not enough content for quiz" });
       }
 
@@ -411,12 +423,11 @@ export async function registerRoutes(
       
       res.json({ 
         questions,
-        totalPages: pages.length,
-        extractedContent: content.substring(0, 200) + "..."
+        totalSlides: slides.length
       });
     } catch (error) {
-      console.error("PDF quiz generation error:", error);
-      res.status(500).json({ error: "Failed to generate quiz from PDF" });
+      console.error("Quiz generation error:", error);
+      res.status(500).json({ error: "Failed to generate quiz" });
     }
   });
 
@@ -428,10 +439,10 @@ export async function registerRoutes(
         return res.status(404).json({ error: "Chapter or PDF not found" });
       }
 
-      const pages = await extractPDFContent(chapter.pdfUrl);
+      const slides = chapter.slides || [];
       
       res.json({ 
-        totalPages: pages.length,
+        totalPages: slides.length,
         pdfUrl: chapter.pdfUrl
       });
     } catch (error) {

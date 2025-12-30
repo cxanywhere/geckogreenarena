@@ -54,7 +54,7 @@ export default function ChapterPage() {
   }, [completedQuizPages, params?.id]);
 
   const triggerQuiz = useCallback(async (pageNumber: number) => {
-    if (!chapter || !user || isLoadingQuiz || !chapter.pdfUrl) return;
+    if (!chapter || !user || isLoadingQuiz) return;
     
     if (completedQuizPages.has(pageNumber)) return;
     if (lastCheckedPage.current === pageNumber) return;
@@ -63,8 +63,8 @@ export default function ChapterPage() {
     setIsLoadingQuiz(true);
     
     try {
-      console.log(`Generating quiz for page ${pageNumber} from PDF...`);
-      const result = await api.getQuizFromPDF(chapter.id, chapter.pdfUrl, pageNumber);
+      console.log(`Generating quiz for page ${pageNumber}...`);
+      const result = await api.getQuizFromContent(chapter.id, pageNumber);
       
       if (result.questions && result.questions.length > 0) {
         setQuizQuestions(result.questions);
