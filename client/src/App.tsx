@@ -16,6 +16,7 @@ import BattlecardsPage from "@/pages/battlecards";
 import ReportCardPage from "@/pages/report-card";
 import ManagerDashboard from "@/pages/manager-dashboard";
 import RepDetailsPage from "@/pages/rep-details";
+import AdminDashboard from "@/pages/admin-dashboard";
 
 function Router() {
   return (
@@ -23,6 +24,7 @@ function Router() {
       <Route path="/" component={LoginPage} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/manager-dashboard" component={ManagerDashboard} />
+      <Route path="/admin-dashboard" component={AdminDashboard} />
       <Route path="/manager/rep/:id" component={RepDetailsPage} />
       <Route path="/chat/:id" component={ChatPage} />
       <Route path="/chapter/:id" component={ChapterPage} />

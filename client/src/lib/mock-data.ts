@@ -881,3 +881,61 @@ export const SALES_REPS: SalesRep[] = [
     score: 82
   }
 ];
+
+export interface Manager {
+  id: string;
+  name: string;
+  email: string;
+  teamSize: number;
+  avgTeamScore: number;
+  topPerformer: string;
+  avatarInitials: string;
+}
+
+export const MANAGERS: Manager[] = [
+  {
+    id: "mgr-1",
+    name: "Sarah Jenkins",
+    email: "sarah.jenkins@geckogreen.ai",
+    teamSize: 12,
+    avgTeamScore: 88,
+    topPerformer: "Michael Chen",
+    avatarInitials: "SJ"
+  },
+  {
+    id: "mgr-2",
+    name: "David Miller",
+    email: "david.miller@geckogreen.ai",
+    teamSize: 8,
+    avgTeamScore: 82,
+    topPerformer: "Paul Wilkerson",
+    avatarInitials: "DM"
+  },
+  {
+    id: "mgr-3",
+    name: "Amanda Ross",
+    email: "amanda.ross@geckogreen.ai",
+    teamSize: 15,
+    avgTeamScore: 91,
+    topPerformer: "James Wilson",
+    avatarInitials: "AR"
+  }
+];
+
+export interface BillingStats {
+  totalMinutesUsed: number;
+  planLimit: number;
+  costPerMinute: number;
+  projectedCost: number;
+  activeUsers: number;
+  totalRoleplays: number;
+}
+
+export const BILLING_STATS: BillingStats = {
+  totalMinutesUsed: 12450,
+  planLimit: 20000,
+  costPerMinute: 0.15,
+  projectedCost: 1867.50,
+  activeUsers: 35,
+  totalRoleplays: 842
+};

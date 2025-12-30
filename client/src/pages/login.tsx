@@ -125,14 +125,24 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <Button 
-              type="button"
-              variant="outline"
-              onClick={() => setLocation("/manager-dashboard")}
-              className="w-full h-12 text-base font-medium border-primary/20 hover:border-primary/50 hover:bg-primary/5 transition-all"
-            >
-              Manager Login
-            </Button>
+            <div className="grid grid-cols-2 gap-3 mt-4">
+              <Button 
+                type="button"
+                variant="outline"
+                onClick={() => setLocation("/manager-dashboard")}
+                className="w-full h-12 text-sm font-medium border-primary/20 hover:border-primary/50 hover:bg-primary/5 transition-all"
+              >
+                Manager Login
+              </Button>
+              <Button 
+                type="button"
+                variant="outline"
+                onClick={() => setLocation("/admin-dashboard")}
+                className="w-full h-12 text-sm font-medium border-primary/20 hover:border-primary/50 hover:bg-primary/5 transition-all"
+              >
+                Director Access
+              </Button>
+            </div>
           </form>
 
           <div className="mt-8 text-center text-sm text-muted-foreground">
