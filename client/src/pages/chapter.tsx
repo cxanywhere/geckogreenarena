@@ -9,6 +9,7 @@ import { api, type QuizQuestion } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOrientation } from "@/hooks/useOrientation";
+import { CHAPTER_1_QUIZZES, getQuizForSlide, isQuizSlide } from "@/lib/chapter1-quizzes";
 
 const QUIZ_INTERVAL = 5;
 
@@ -54,6 +55,8 @@ export default function ChapterPage() {
     }
   }, [completedQuizPages, params?.id]);
 
+  const isChapter1 = chapter?.title === "Sales Foundations";
+
   const triggerQuiz = useCallback(async (pageNumber: number) => {
     if (!chapter || !user || isLoadingQuiz) return;
     
@@ -61,6 +64,24 @@ export default function ChapterPage() {
     if (lastCheckedPage.current === pageNumber) return;
     
     lastCheckedPage.current = pageNumber;
+    
+    if (isChapter1) {
+      const predefinedQuiz = getQuizForSlide(pageNumber);
+      if (predefinedQuiz) {
+        const quizQuestion: QuizQuestion = {
+          id: `ch1-quiz-${pageNumber}`,
+          question: predefinedQuiz.question,
+          options: predefinedQuiz.options,
+          correctAnswer: predefinedQuiz.correctAnswer,
+          explanation: "",
+        };
+        setQuizQuestions([quizQuestion]);
+        setShowQuiz(true);
+        console.log(`Loaded predefined quiz for slide ${pageNumber}`);
+      }
+      return;
+    }
+    
     setIsLoadingQuiz(true);
     
     try {
@@ -82,13 +103,19 @@ export default function ChapterPage() {
     } finally {
       setIsLoadingQuiz(false);
     }
-  }, [chapter, user, completedQuizPages, isLoadingQuiz]);
+  }, [chapter, user, completedQuizPages, isLoadingQuiz, isChapter1]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     
-    if (page > 1 && page % QUIZ_INTERVAL === 0 && !completedQuizPages.has(page)) {
-      triggerQuiz(page);
+    if (isChapter1) {
+      if (isQuizSlide(page) && !completedQuizPages.has(page)) {
+        triggerQuiz(page);
+      }
+    } else {
+      if (page > 1 && page % QUIZ_INTERVAL === 0 && !completedQuizPages.has(page)) {
+        triggerQuiz(page);
+      }
     }
   };
 
