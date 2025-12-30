@@ -286,17 +286,17 @@ function PDFQuizOverlay({
   const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="w-full max-w-2xl bg-card border border-border rounded-2xl shadow-2xl overflow-hidden">
-        <div className="p-6 border-b border-border bg-primary/5">
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-2 sm:p-4 overflow-auto">
+      <div className="w-full max-w-2xl bg-card border border-border rounded-2xl shadow-2xl overflow-hidden max-h-[100dvh] flex flex-col landscape:max-w-4xl landscape:max-h-[95dvh]">
+        <div className="p-3 sm:p-6 border-b border-border bg-primary/5 shrink-0">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                <Brain className="w-5 h-5 text-primary" />
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Brain className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
               </div>
               <div>
-                <h3 className="font-bold text-lg">Knowledge Check</h3>
-                <p className="text-sm text-muted-foreground">
+                <h3 className="font-bold text-base sm:text-lg">Knowledge Check</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   Question {currentIndex + 1} of {questions.length}
                 </p>
               </div>
@@ -307,12 +307,12 @@ function PDFQuizOverlay({
           </div>
         </div>
         
-        <div className="p-6 space-y-6">
-          <p className="text-lg font-medium" data-testid="text-quiz-question">
+        <div className="p-3 sm:p-6 space-y-3 sm:space-y-6 overflow-y-auto flex-1">
+          <p className="text-base sm:text-lg font-medium" data-testid="text-quiz-question">
             {currentQuestion.question}
           </p>
 
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3 landscape:grid landscape:grid-cols-2 landscape:gap-2 landscape:space-y-0">
             {currentQuestion.options.map((option, index) => {
               const isSelected = selectedAnswer === index;
               const isCorrectAnswer = showResult && index === currentQuestion.correctAnswer;
@@ -323,7 +323,7 @@ function PDFQuizOverlay({
                   key={index}
                   onClick={() => !showResult && setSelectedAnswer(index)}
                   disabled={showResult}
-                  className={`w-full p-4 rounded-xl text-left transition-all border-2 ${
+                  className={`w-full p-3 sm:p-4 rounded-xl text-left transition-all border-2 ${
                     isCorrectAnswer
                       ? "border-green-500 bg-green-50 dark:bg-green-900/20"
                       : isWrongAnswer
@@ -334,8 +334,8 @@ function PDFQuizOverlay({
                   }`}
                   data-testid={`button-option-${index}`}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold shrink-0 ${
                       isCorrectAnswer
                         ? "bg-green-500 text-white"
                         : isWrongAnswer
@@ -346,7 +346,7 @@ function PDFQuizOverlay({
                     }`}>
                       {String.fromCharCode(65 + index)}
                     </div>
-                    <span className="flex-1">{option}</span>
+                    <span className="flex-1 text-sm sm:text-base">{option}</span>
                   </div>
                 </button>
               );

@@ -113,22 +113,22 @@ export default function ChatPage() {
   );
 
   return (
-    <div className="min-h-screen bg-muted/20 flex flex-col">
+    <div className="min-h-[100dvh] bg-muted/20 flex flex-col">
       <Nav />
-      <div className="container mx-auto px-4 py-4 md:py-8 flex-1 flex flex-col">
-        <div className="flex items-center justify-between mb-4 md:mb-6">
+      <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4 md:py-8 flex-1 flex flex-col landscape:py-2">
+        <div className="flex items-center justify-between mb-2 sm:mb-4 md:mb-6 landscape:mb-2">
           <Link href="/dashboard">
-            <Button variant="ghost" className="pl-0 hover:pl-2 transition-all text-muted-foreground hover:text-primary">
-              <ArrowLeft className="mr-2 h-4 w-4" /> Back to Arena
+            <Button variant="ghost" size="sm" className="pl-0 hover:pl-2 transition-all text-muted-foreground hover:text-primary">
+              <ArrowLeft className="mr-1 sm:mr-2 h-4 w-4" /> <span className="hidden sm:inline">Back to Arena</span><span className="sm:hidden">Back</span>
             </Button>
           </Link>
 
           {/* Mobile Stats Trigger */}
-          <div className="lg:hidden">
+          <div className="lg:hidden landscape:hidden">
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="sm" className="gap-2">
-                  <Info className="h-4 w-4" /> Scenario Info
+                  <Info className="h-4 w-4" /> <span className="hidden sm:inline">Scenario Info</span>
                 </Button>
               </SheetTrigger>
               <SheetContent className="w-full sm:w-[400px] overflow-y-auto">
@@ -140,7 +140,7 @@ export default function ChatPage() {
           </div>
         </div>
         
-        <div className="grid lg:grid-cols-12 gap-6 flex-1">
+        <div className="grid lg:grid-cols-12 gap-4 sm:gap-6 flex-1 landscape:gap-3">
           {/* Character Stats Sidebar (Desktop) */}
           <div className="hidden lg:block lg:col-span-3">
             <div className="sticky top-24">
