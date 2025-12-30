@@ -2,20 +2,14 @@ import { useRoute, Link, useLocation } from "wouter";
 import { Nav } from "@/components/nav";
 import { PDFViewer } from "@/components/pdf-viewer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Download, BookOpen, Presentation, Brain } from "lucide-react";
-import { useEffect, useState, useMemo } from "react";
+import { ArrowLeft, Download, BookOpen, Presentation, Brain, Loader2 } from "lucide-react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { toast } from "sonner";
 import { api, type QuizQuestion } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
-import { QuizOverlay } from "@/components/quiz-overlay";
 import { AnimatePresence } from "framer-motion";
 
-interface EmbeddedQuiz {
-  question: string;
-  options: string[];
-  correctAnswer: number;
-  slideIndex: number;
-}
+const QUIZ_INTERVAL = 5;
 
 export default function ChapterPage() {
   const [, params] = useRoute("/chapter/:id");
@@ -35,36 +29,17 @@ export default function ChapterPage() {
   });
   
   const [showQuiz, setShowQuiz] = useState(false);
-  const [currentQuiz, setCurrentQuiz] = useState<EmbeddedQuiz | null>(null);
+  const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
+  const [isLoadingQuiz, setIsLoadingQuiz] = useState(false);
   const [completedQuizPages, setCompletedQuizPages] = useState<Set<number>>(() => {
     if (!params?.id) return new Set();
     const saved = localStorage.getItem(`chapter_quiz_completed_${params.id}`);
     return saved ? new Set(JSON.parse(saved)) : new Set();
   });
+  const lastCheckedPage = useRef(0);
 
   const storedUser = localStorage.getItem("currentUser");
   const user = storedUser ? JSON.parse(storedUser) : null;
-
-  const embeddedQuizzes = useMemo(() => {
-    if (!chapter?.slides) return [];
-    return chapter.slides
-      .map((slide: any, index: number) => {
-        if (slide.type === 'quiz' && slide.quiz) {
-          return {
-            question: slide.quiz.question,
-            options: slide.quiz.options,
-            correctAnswer: slide.quiz.correctAnswer,
-            slideIndex: index + 1,
-          };
-        }
-        return null;
-      })
-      .filter(Boolean) as EmbeddedQuiz[];
-  }, [chapter]);
-
-  const quizPageNumbers = useMemo(() => {
-    return new Set(embeddedQuizzes.map(q => q.slideIndex));
-  }, [embeddedQuizzes]);
 
   useEffect(() => {
     if (params?.id) {
@@ -78,37 +53,55 @@ export default function ChapterPage() {
     }
   }, [completedQuizPages, params?.id]);
 
+  const triggerQuiz = useCallback(async (pageNumber: number) => {
+    if (!chapter || !user || isLoadingQuiz || !chapter.pdfUrl) return;
+    
+    if (completedQuizPages.has(pageNumber)) return;
+    if (lastCheckedPage.current === pageNumber) return;
+    
+    lastCheckedPage.current = pageNumber;
+    setIsLoadingQuiz(true);
+    
+    try {
+      console.log(`Generating quiz for page ${pageNumber} from PDF...`);
+      const result = await api.getQuizFromPDF(chapter.id, chapter.pdfUrl, pageNumber);
+      
+      if (result.questions && result.questions.length > 0) {
+        setQuizQuestions(result.questions);
+        setShowQuiz(true);
+        console.log(`Got ${result.questions.length} quiz questions`);
+      } else {
+        console.log("No quiz questions generated:", result.message);
+      }
+    } catch (error) {
+      console.error("Failed to generate quiz from PDF:", error);
+    } finally {
+      setIsLoadingQuiz(false);
+    }
+  }, [chapter, user, completedQuizPages, isLoadingQuiz]);
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     
-    if (quizPageNumbers.has(page) && !completedQuizPages.has(page)) {
-      const quiz = embeddedQuizzes.find(q => q.slideIndex === page);
-      if (quiz) {
-        setCurrentQuiz(quiz);
-        setShowQuiz(true);
-      }
+    if (page > 1 && page % QUIZ_INTERVAL === 0 && !completedQuizPages.has(page)) {
+      triggerQuiz(page);
     }
   };
 
-  const handleQuizComplete = async (selectedAnswer: number) => {
-    if (!currentQuiz || !user || !chapter) return;
-    
-    const isCorrect = selectedAnswer === currentQuiz.correctAnswer;
+  const handleQuizAnswer = async (questionIndex: number, selectedAnswer: number, isCorrect: boolean) => {
+    if (!user || !chapter || !quizQuestions[questionIndex]) return;
     
     try {
-      await api.submitQuizAnswer(user.id, chapter.id, String(currentQuiz.slideIndex), selectedAnswer);
+      await api.submitQuizAnswer(user.id, chapter.id, quizQuestions[questionIndex].id, selectedAnswer);
     } catch (error) {
       console.error("Failed to save quiz answer:", error);
     }
-    
+  };
+
+  const handleQuizComplete = () => {
     setShowQuiz(false);
     setCompletedQuizPages(prev => new Set([...Array.from(prev), currentPage]));
-    
-    if (isCorrect) {
-      toast.success("Correct! Great job.");
-    } else {
-      toast.info("Not quite right, but keep learning!");
-    }
+    toast.success("Quiz completed! Keep learning.");
   };
 
   const handleQuizSkip = () => {
@@ -175,7 +168,13 @@ export default function ChapterPage() {
                     {completedQuizPages.size > 0 && (
                       <span className="flex items-center gap-1 text-primary">
                         <Brain className="h-3 w-3" />
-                        {completedQuizPages.size}/{embeddedQuizzes.length} quizzes
+                        {completedQuizPages.size} quizzes done
+                      </span>
+                    )}
+                    {isLoadingQuiz && (
+                      <span className="flex items-center gap-1 text-muted-foreground">
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                        Loading quiz...
                       </span>
                     )}
                   </div>
@@ -223,12 +222,13 @@ export default function ChapterPage() {
         </div>
       </div>
 
-      {/* Quiz Overlay for embedded quizzes */}
+      {/* Quiz Overlay */}
       <AnimatePresence>
-        {showQuiz && currentQuiz && (
-          <EmbeddedQuizOverlay
-            quiz={currentQuiz}
-            onAnswer={handleQuizComplete}
+        {showQuiz && quizQuestions.length > 0 && (
+          <PDFQuizOverlay
+            questions={quizQuestions}
+            onAnswer={handleQuizAnswer}
+            onComplete={handleQuizComplete}
             onSkip={handleQuizSkip}
           />
         )}
@@ -237,30 +237,50 @@ export default function ChapterPage() {
   );
 }
 
-function EmbeddedQuizOverlay({ 
-  quiz, 
-  onAnswer, 
+function PDFQuizOverlay({ 
+  questions, 
+  onAnswer,
+  onComplete, 
   onSkip 
 }: { 
-  quiz: EmbeddedQuiz; 
-  onAnswer: (answer: number) => void; 
+  questions: QuizQuestion[];
+  onAnswer: (questionIndex: number, answer: number, isCorrect: boolean) => void;
+  onComplete: () => void;
   onSkip: () => void;
 }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
+  const [correctCount, setCorrectCount] = useState(0);
+
+  const currentQuestion = questions[currentIndex];
+  const isLastQuestion = currentIndex === questions.length - 1;
+
+  if (!currentQuestion) return null;
 
   const handleSubmit = () => {
     if (selectedAnswer === null) return;
+    
+    const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+    if (isCorrect) {
+      setCorrectCount(prev => prev + 1);
+    }
+    
+    onAnswer(currentIndex, selectedAnswer, isCorrect);
     setShowResult(true);
   };
 
-  const handleContinue = () => {
-    if (selectedAnswer !== null) {
-      onAnswer(selectedAnswer);
+  const handleNext = () => {
+    if (isLastQuestion) {
+      onComplete();
+    } else {
+      setCurrentIndex(prev => prev + 1);
+      setSelectedAnswer(null);
+      setShowResult(false);
     }
   };
 
-  const isCorrect = selectedAnswer === quiz.correctAnswer;
+  const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
@@ -273,7 +293,9 @@ function EmbeddedQuizOverlay({
               </div>
               <div>
                 <h3 className="font-bold text-lg">Knowledge Check</h3>
-                <p className="text-sm text-muted-foreground">Test your understanding</p>
+                <p className="text-sm text-muted-foreground">
+                  Question {currentIndex + 1} of {questions.length}
+                </p>
               </div>
             </div>
             <Button variant="ghost" size="sm" onClick={onSkip} data-testid="button-skip-quiz">
@@ -284,13 +306,13 @@ function EmbeddedQuizOverlay({
         
         <div className="p-6 space-y-6">
           <p className="text-lg font-medium" data-testid="text-quiz-question">
-            {quiz.question}
+            {currentQuestion.question}
           </p>
 
           <div className="space-y-3">
-            {quiz.options.map((option, index) => {
+            {currentQuestion.options.map((option, index) => {
               const isSelected = selectedAnswer === index;
-              const isCorrectAnswer = showResult && index === quiz.correctAnswer;
+              const isCorrectAnswer = showResult && index === currentQuestion.correctAnswer;
               const isWrongAnswer = showResult && isSelected && !isCorrect;
 
               return (
@@ -337,9 +359,14 @@ function EmbeddedQuizOverlay({
               <p className="font-medium">
                 {isCorrect ? "Correct! Well done." : "Not quite right."}
               </p>
-              {!isCorrect && (
+              {currentQuestion.explanation && (
                 <p className="text-sm text-muted-foreground mt-1">
-                  The correct answer is: {quiz.options[quiz.correctAnswer]}
+                  {currentQuestion.explanation}
+                </p>
+              )}
+              {!isCorrect && !currentQuestion.explanation && (
+                <p className="text-sm text-muted-foreground mt-1">
+                  The correct answer is: {currentQuestion.options[currentQuestion.correctAnswer]}
                 </p>
               )}
             </div>
@@ -356,11 +383,28 @@ function EmbeddedQuizOverlay({
                 Submit Answer
               </Button>
             ) : (
-              <Button onClick={handleContinue} className="flex-1" data-testid="button-continue">
-                Continue
+              <Button onClick={handleNext} className="flex-1" data-testid="button-continue">
+                {isLastQuestion ? "Complete Quiz" : "Next Question"}
               </Button>
             )}
           </div>
+
+          {questions.length > 1 && (
+            <div className="flex justify-center gap-2 pt-2">
+              {questions.map((_, idx) => (
+                <div
+                  key={idx}
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    idx === currentIndex
+                      ? "bg-primary"
+                      : idx < currentIndex
+                      ? "bg-primary/40"
+                      : "bg-muted"
+                  }`}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

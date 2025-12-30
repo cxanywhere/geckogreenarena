@@ -5,6 +5,7 @@ import { insertUserProgressSchema, insertRoleplayAttemptSchema } from "@shared/s
 import { z } from "zod";
 import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, type RoleplayMessage, type RoleplayScenario } from "./gemini";
 import { getOrGenerateQuizForSlide, submitQuizAnswer } from "./quiz-service";
+import { extractPDFContent, getContentForRange } from "./pdf-service";
 
 const roleplaySessions = new Map<string, { scenario: RoleplayScenario; history: RoleplayMessage[] }>();
 
@@ -381,6 +382,61 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Get quiz score error:", error);
       res.status(500).json({ error: "Failed to get quiz score" });
+    }
+  });
+
+  app.post("/api/quiz/from-pdf", async (req, res) => {
+    try {
+      const { chapterId, pdfUrl, pageNumber } = req.body;
+      
+      if (!chapterId || !pdfUrl || !pageNumber) {
+        return res.status(400).json({ error: "chapterId, pdfUrl, and pageNumber required" });
+      }
+
+      const pages = await extractPDFContent(pdfUrl);
+      
+      if (pages.length === 0) {
+        return res.status(400).json({ error: "Could not extract PDF content" });
+      }
+
+      const startPage = Math.max(1, pageNumber - 2);
+      const endPage = pageNumber;
+      const content = getContentForRange(pages, startPage, endPage);
+      
+      if (!content || content.trim().length < 50) {
+        return res.json({ questions: [], message: "Not enough content for quiz" });
+      }
+
+      const questions = await getOrGenerateQuizForSlide(chapterId, pageNumber, content);
+      
+      res.json({ 
+        questions,
+        totalPages: pages.length,
+        extractedContent: content.substring(0, 200) + "..."
+      });
+    } catch (error) {
+      console.error("PDF quiz generation error:", error);
+      res.status(500).json({ error: "Failed to generate quiz from PDF" });
+    }
+  });
+
+  app.get("/api/pdf/pages/:chapterId", async (req, res) => {
+    try {
+      const chapter = await storage.getChapter(req.params.chapterId);
+      
+      if (!chapter || !chapter.pdfUrl) {
+        return res.status(404).json({ error: "Chapter or PDF not found" });
+      }
+
+      const pages = await extractPDFContent(chapter.pdfUrl);
+      
+      res.json({ 
+        totalPages: pages.length,
+        pdfUrl: chapter.pdfUrl
+      });
+    } catch (error) {
+      console.error("Get PDF pages error:", error);
+      res.status(500).json({ error: "Failed to get PDF info" });
     }
   });
 

@@ -262,6 +262,21 @@ class APIClient {
   async getUserQuizScore(userId: string, chapterId: string): Promise<QuizScore> {
     return this.request(`/api/users/${userId}/quiz-score/${chapterId}`);
   }
+
+  async getQuizFromPDF(chapterId: string, pdfUrl: string, pageNumber: number): Promise<{ 
+    questions: QuizQuestion[]; 
+    totalPages?: number;
+    message?: string;
+  }> {
+    return this.request("/api/quiz/from-pdf", {
+      method: "POST",
+      body: JSON.stringify({ chapterId, pdfUrl, pageNumber }),
+    });
+  }
+
+  async getPDFInfo(chapterId: string): Promise<{ totalPages: number; pdfUrl: string }> {
+    return this.request(`/api/pdf/pages/${chapterId}`);
+  }
 }
 
 export const api = new APIClient();
