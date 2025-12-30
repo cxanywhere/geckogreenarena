@@ -27,7 +27,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen grid lg:grid-cols-2 bg-background font-sans overflow-hidden">
       {/* Left Side - Form */}
-      <div className="flex flex-col justify-center px-8 sm:px-12 lg:px-24 xl:px-32 z-10 bg-white/50 backdrop-blur-sm">
+      <div className="flex flex-col justify-center px-8 sm:px-12 lg:px-24 xl:px-32 z-10 bg-card/50 backdrop-blur-sm">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -42,12 +42,14 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="mb-8 p-6 bg-white rounded-2xl border border-primary/10 shadow-sm relative overflow-hidden group">
+          <div className="mb-8 p-6 bg-card rounded-2xl border border-border shadow-sm relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
               <Zap className="w-24 h-24 text-primary rotate-12" />
             </div>
             <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-3">Authorized Workspace For</p>
-            <img src={geckoLogo} alt="GeckoGreen" className="h-16 w-auto object-contain mb-2" />
+            <div className="bg-white/90 p-2 rounded-lg inline-block">
+               <img src={geckoLogo} alt="GeckoGreen" className="h-12 w-auto object-contain" />
+            </div>
           </div>
 
           <div className="mb-8">
@@ -61,19 +63,19 @@ export default function LoginPage() {
 
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email">Email address</Label>
+              <Label htmlFor="email" className="text-foreground">Email address</Label>
               <Input 
                 id="email" 
                 type="email" 
                 placeholder="paul.wilkerson@geckogreen.ai" 
-                className="h-12 bg-white/50 border-primary/20 focus:border-primary focus:ring-primary/20 transition-all"
+                className="h-12 bg-background border-input focus:border-primary focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
                 required
               />
             </div>
             
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-foreground">Password</Label>
                 <a href="#" className="text-sm font-medium text-primary hover:underline">
                   Forgot password?
                 </a>
@@ -82,21 +84,21 @@ export default function LoginPage() {
                 id="password" 
                 type="password" 
                 placeholder="••••••••" 
-                className="h-12 bg-white/50 border-primary/20 focus:border-primary focus:ring-primary/20 transition-all"
+                className="h-12 bg-background border-input focus:border-primary focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
                 required
               />
             </div>
 
             <div className="flex items-center space-x-2">
-              <Checkbox id="remember" className="border-primary/50 text-primary data-[state=checked]:bg-primary data-[state=checked]:text-white" />
-              <Label htmlFor="remember" className="font-normal text-muted-foreground">
+              <Checkbox id="remember" className="border-input data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground" />
+              <Label htmlFor="remember" className="font-normal text-muted-foreground cursor-pointer">
                 Remember this device for 30 days
               </Label>
             </div>
 
             <Button 
               type="submit" 
-              className="w-full h-12 text-base font-medium bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all hover:-translate-y-0.5"
+              className="w-full h-12 text-base font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all hover:-translate-y-0.5"
               disabled={isLoading}
             >
               {isLoading ? (
