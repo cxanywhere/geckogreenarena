@@ -22,7 +22,7 @@ interface ChapterScore {
 }
 
 export default function ReportCardPage() {
-  const storedUser = localStorage.getItem("user");
+  const storedUser = localStorage.getItem("currentUser");
   const user = storedUser ? JSON.parse(storedUser) : null;
 
   const { data: chapters = [], isLoading: chaptersLoading } = useQuery({

@@ -38,7 +38,7 @@ export default function ChapterPage() {
   });
   const [isLoadingQuiz, setIsLoadingQuiz] = useState(false);
 
-  const storedUser = localStorage.getItem("user");
+  const storedUser = localStorage.getItem("currentUser");
   const user = storedUser ? JSON.parse(storedUser) : null;
 
   useEffect(() => {
