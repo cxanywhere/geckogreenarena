@@ -387,11 +387,20 @@ export interface RoleplayResult {
   score: number;
   date: string;
   feedback: string;
+  transcript: Message[];
   metrics: {
     resistanceHandled: number;
     objectionsOvercome: number;
     closingTechnique: number;
+    tonality: number;
+    pacing: number;
+    listening: number;
   };
+  keyMoments: {
+    timestamp: string;
+    description: string;
+    impact: 'positive' | 'negative' | 'neutral';
+  }[];
 }
 
 export const PAST_RESULTS: RoleplayResult[] = [
@@ -401,11 +410,23 @@ export const PAST_RESULTS: RoleplayResult[] = [
     score: 85,
     date: "2025-01-10T14:30:00",
     feedback: "Great job using the pattern interrupt immediately. You maintained a calm tone, but could have been slightly more assertive when asking the control question.",
+    transcript: [
+        { id: '1', sender: 'ai', text: "I'm actually really busy right now.", timestamp: new Date() },
+        { id: '2', sender: 'user', text: "I completely understand, I'll be super brief. I just wanted to ask...", timestamp: new Date() }
+    ],
     metrics: {
       resistanceHandled: 90,
       objectionsOvercome: 80,
-      closingTechnique: 85
-    }
+      closingTechnique: 85,
+      tonality: 92,
+      pacing: 88,
+      listening: 75
+    },
+    keyMoments: [
+      { timestamp: "0:05", description: "Successfully used 'Pattern Interrupt' to pause the homeowner's retreat.", impact: 'positive' },
+      { timestamp: "0:15", description: "Slight hesitation when asked for price.", impact: 'negative' },
+      { timestamp: "0:45", description: "Strong closing question used to secure the next step.", impact: 'positive' }
+    ]
   },
   {
     id: "res-2",
@@ -413,11 +434,19 @@ export const PAST_RESULTS: RoleplayResult[] = [
     score: 72,
     date: "2025-01-12T09:15:00",
     feedback: "Good recovery when the homeowner challenged your purpose. Work on pivoting back to the script faster without justifying yourself too much.",
+    transcript: [],
     metrics: {
       resistanceHandled: 70,
       objectionsOvercome: 75,
-      closingTechnique: 70
-    }
+      closingTechnique: 70,
+      tonality: 65,
+      pacing: 80,
+      listening: 60
+    },
+    keyMoments: [
+       { timestamp: "0:10", description: "Missed opportunity to validate the homeowner's confusion.", impact: 'negative' },
+       { timestamp: "0:30", description: "Recovered well by stating the clear purpose of the visit.", impact: 'positive' }
+    ]
   }
 ];
 
