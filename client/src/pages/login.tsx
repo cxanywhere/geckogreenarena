@@ -115,6 +115,24 @@ export default function LoginPage() {
                 </div>
               )}
             </Button>
+            
+            <div className="relative my-4">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-border" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">Or</span>
+              </div>
+            </div>
+
+            <Button 
+              type="button"
+              variant="outline"
+              onClick={() => setLocation("/manager-dashboard")}
+              className="w-full h-12 text-base font-medium border-primary/20 hover:border-primary/50 hover:bg-primary/5 transition-all"
+            >
+              Manager Login
+            </Button>
           </form>
 
           <div className="mt-8 text-center text-sm text-muted-foreground">

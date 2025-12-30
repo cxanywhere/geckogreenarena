@@ -811,3 +811,73 @@ export interface Message {
   text: string;
   timestamp: Date;
 }
+
+export interface SalesRep {
+  id: string;
+  name: string;
+  email: string;
+  status: 'active' | 'inactive' | 'onboarding';
+  progress: number; // 0-100
+  roleplaysCompleted: number;
+  lastActive: string;
+  avatarInitials: string;
+  score: number;
+}
+
+export const SALES_REPS: SalesRep[] = [
+  {
+    id: "rep-1",
+    name: "Paul Wilkerson",
+    email: "paul.wilkerson@geckogreen.ai",
+    status: "onboarding",
+    progress: 17,
+    roleplaysCompleted: 3,
+    lastActive: "Just now",
+    avatarInitials: "PW",
+    score: 92
+  },
+  {
+    id: "rep-2",
+    name: "Michael Chen",
+    email: "michael.chen@geckogreen.ai",
+    status: "active",
+    progress: 85,
+    roleplaysCompleted: 12,
+    lastActive: "2 hours ago",
+    avatarInitials: "MC",
+    score: 88
+  },
+  {
+    id: "rep-3",
+    name: "Sarah Jones",
+    email: "sarah.jones@geckogreen.ai",
+    status: "active",
+    progress: 62,
+    roleplaysCompleted: 8,
+    lastActive: "1 day ago",
+    avatarInitials: "SJ",
+    score: 79
+  },
+  {
+    id: "rep-4",
+    name: "David Smith",
+    email: "david.smith@geckogreen.ai",
+    status: "inactive",
+    progress: 10,
+    roleplaysCompleted: 1,
+    lastActive: "5 days ago",
+    avatarInitials: "DS",
+    score: 65
+  },
+  {
+    id: "rep-5",
+    name: "Emily White",
+    email: "emily.white@geckogreen.ai",
+    status: "onboarding",
+    progress: 35,
+    roleplaysCompleted: 4,
+    lastActive: "3 hours ago",
+    avatarInitials: "EW",
+    score: 82
+  }
+];
