@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Zap, ArrowRight, Lock, GraduationCap } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Zap, ArrowRight, Lock, GraduationCap, Briefcase, ShieldCheck } from "lucide-react";
 import heroBg from "@assets/generated_images/abstract_gecko_green_cybernetics.png";
 import geckoLogo from "@assets/image_1766975682051.png";
 import arenaLogo from "@assets/generated_images/superhero_style_logo_for_arena_ai.png";
@@ -13,6 +14,7 @@ import arenaLogo from "@assets/generated_images/superhero_style_logo_for_arena_a
 export default function LoginPage() {
   const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
+  const [role, setRole] = useState("rep");
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +22,13 @@ export default function LoginPage() {
     // Simulate network request
     setTimeout(() => {
       setIsLoading(false);
-      setLocation("/dashboard");
+      if (role === "manager") {
+        setLocation("/manager-dashboard");
+      } else if (role === "admin") {
+        setLocation("/admin-dashboard");
+      } else {
+        setLocation("/dashboard");
+      }
     }, 1500);
   };
 
@@ -33,7 +41,7 @@ export default function LoginPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex items-center justify-between mb-12">
+          <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-2">
               <img src={arenaLogo} alt="Arena AI" className="h-10 w-10 object-contain drop-shadow-md" />
               <div className="flex flex-col leading-none">
@@ -55,95 +63,81 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="mb-8">
+          <div className="mb-6">
             <h1 className="font-display text-3xl font-bold text-foreground mb-2">
-              Sales Rep Access
+              Welcome Back
             </h1>
             <p className="text-muted-foreground">
-              Enter your GeckoGreen credentials to enter the Arena.
+              Sign in to your account to continue.
             </p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-foreground">Email address</Label>
-              <Input 
-                id="email" 
-                type="email" 
-                placeholder="paul.wilkerson@geckogreen.ai" 
-                className="h-12 bg-background border-input focus:border-primary focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
-                required
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-foreground">Password</Label>
-                <a href="#" className="text-sm font-medium text-primary hover:underline">
-                  Forgot password?
-                </a>
-              </div>
-              <Input 
-                id="password" 
-                type="password" 
-                placeholder="••••••••" 
-                className="h-12 bg-background border-input focus:border-primary focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
-                required
-              />
-            </div>
+          <Tabs defaultValue="rep" value={role} onValueChange={setRole} className="space-y-6">
+            <TabsList className="grid w-full grid-cols-3 h-12">
+              <TabsTrigger value="rep" className="text-xs sm:text-sm">Sales Rep</TabsTrigger>
+              <TabsTrigger value="manager" className="text-xs sm:text-sm">Manager</TabsTrigger>
+              <TabsTrigger value="admin" className="text-xs sm:text-sm">Director</TabsTrigger>
+            </TabsList>
 
-            <div className="flex items-center space-x-2">
-              <Checkbox id="remember" className="border-input data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground" />
-              <Label htmlFor="remember" className="font-normal text-muted-foreground cursor-pointer">
-                Remember this device for 30 days
-              </Label>
-            </div>
-
-            <Button 
-              type="submit" 
-              className="w-full h-12 text-base font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all hover:-translate-y-0.5"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <div className="flex items-center gap-2">
-                  <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Authenticating...
+            <form onSubmit={handleLogin} className="space-y-6">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-foreground">Email address</Label>
+                  <Input 
+                    id="email" 
+                    type="email" 
+                    placeholder={
+                      role === "rep" ? "paul.wilkerson@geckogreen.ai" : 
+                      role === "manager" ? "sarah.jenkins@geckogreen.ai" : 
+                      "robert.fox@geckogreen.ai"
+                    }
+                    className="h-12 bg-background border-input focus:border-primary focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
+                    required
+                  />
                 </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  Sign In <ArrowRight className="w-4 h-4" />
+                
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="password" className="text-foreground">Password</Label>
+                    <a href="#" className="text-sm font-medium text-primary hover:underline">
+                      Forgot password?
+                    </a>
+                  </div>
+                  <Input 
+                    id="password" 
+                    type="password" 
+                    placeholder="••••••••" 
+                    className="h-12 bg-background border-input focus:border-primary focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
+                    required
+                  />
                 </div>
-              )}
-            </Button>
-            
-            <div className="relative my-4">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-border" />
               </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">Or</span>
-              </div>
-            </div>
 
-            <div className="grid grid-cols-2 gap-3 mt-4">
+              <div className="flex items-center space-x-2">
+                <Checkbox id="remember" className="border-input data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground" />
+                <Label htmlFor="remember" className="font-normal text-muted-foreground cursor-pointer">
+                  Remember this device for 30 days
+                </Label>
+              </div>
+
               <Button 
-                type="button"
-                variant="outline"
-                onClick={() => setLocation("/manager-dashboard")}
-                className="w-full h-12 text-sm font-medium border-primary/20 hover:border-primary/50 hover:bg-primary/5 transition-all"
+                type="submit" 
+                className="w-full h-12 text-base font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all hover:-translate-y-0.5"
+                disabled={isLoading}
               >
-                Manager Login
+                {isLoading ? (
+                  <div className="flex items-center gap-2">
+                    <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Authenticating...
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    Sign In <ArrowRight className="w-4 h-4" />
+                  </div>
+                )}
               </Button>
-              <Button 
-                type="button"
-                variant="outline"
-                onClick={() => setLocation("/admin-dashboard")}
-                className="w-full h-12 text-sm font-medium border-primary/20 hover:border-primary/50 hover:bg-primary/5 transition-all"
-              >
-                Director Access
-              </Button>
-            </div>
-          </form>
+            </form>
+          </Tabs>
 
           <div className="mt-8 text-center text-sm text-muted-foreground">
             Don't have an access key?{" "}
@@ -174,16 +168,35 @@ export default function LoginPage() {
           </div>
           
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            key={role}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
+            transition={{ duration: 0.5 }}
           >
             <h2 className="font-display text-5xl font-bold mb-6 leading-tight">
-              Premier Lawn Care <br />
-              <span className="text-green-300">Sales Enablement</span>
+              {role === "rep" && (
+                <>
+                  Premier Lawn Care <br />
+                  <span className="text-green-300">Sales Enablement</span>
+                </>
+              )}
+              {role === "manager" && (
+                <>
+                  Team Performance <br />
+                  <span className="text-green-300">Management</span>
+                </>
+              )}
+              {role === "admin" && (
+                <>
+                  Organization <br />
+                  <span className="text-green-300">Administration</span>
+                </>
+              )}
             </h2>
             <p className="text-white/80 text-lg max-w-md leading-relaxed">
-              Master your pitch with Arena AI by GigaRev. The advanced roleplay platform built exclusively for Gecko Green sales professionals to practice, refine, and close more deals.
+              {role === "rep" && "Master your pitch with Arena AI. The advanced roleplay platform built exclusively for Gecko Green sales professionals."}
+              {role === "manager" && "Oversee your team's progress, assign training modules, and track certification status in real-time."}
+              {role === "admin" && "Manage organization-wide settings, billing, and high-level performance metrics for the entire sales force."}
             </p>
           </motion.div>
         </div>
