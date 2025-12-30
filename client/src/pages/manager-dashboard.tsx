@@ -235,7 +235,9 @@ export default function ManagerDashboard() {
                         {rep.avatarInitials}
                       </div>
                       <div className="flex flex-col">
-                        <span className="font-medium">{rep.name}</span>
+                        <Link href={`/manager/rep/${rep.id}`}>
+                          <a className="font-medium hover:text-primary hover:underline transition-colors">{rep.name}</a>
+                        </Link>
                         <span className="text-xs text-muted-foreground">{rep.email}</span>
                       </div>
                     </div>
