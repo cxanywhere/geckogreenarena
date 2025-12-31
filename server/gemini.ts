@@ -32,7 +32,7 @@ Create a visually appealing illustration that represents door-to-door sales succ
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash-exp",
+      model: "gemini-3-pro-image-preview",
       contents: prompt,
       config: {
         responseModalities: ["Text", "Image"],
