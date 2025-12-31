@@ -43,6 +43,7 @@ export interface IStorage {
   getAllChapters(): Promise<Chapter[]>;
   getChapter(id: string): Promise<Chapter | undefined>;
   createChapter(chapter: InsertChapter): Promise<Chapter>;
+  updateChapterCoverImage(id: string, coverImage: string): Promise<Chapter | undefined>;
   
   // Roleplays
   getAllRoleplays(): Promise<Roleplay[]>;
@@ -123,6 +124,11 @@ export class DatabaseStorage implements IStorage {
   async createChapter(insertChapter: InsertChapter): Promise<Chapter> {
     const [chapter] = await db.insert(chapters).values(insertChapter).returning();
     return chapter;
+  }
+
+  async updateChapterCoverImage(id: string, coverImage: string): Promise<Chapter | undefined> {
+    const [chapter] = await db.update(chapters).set({ coverImage }).where(eq(chapters.id, id)).returning();
+    return chapter || undefined;
   }
 
   // Roleplays

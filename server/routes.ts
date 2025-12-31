@@ -1,9 +1,11 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import express from "express";
+import path from "path";
 import { storage } from "./storage";
 import { insertUserProgressSchema, insertRoleplayAttemptSchema } from "@shared/schema";
 import { z } from "zod";
-import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, type RoleplayMessage, type RoleplayScenario } from "./gemini";
+import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
 import { getOrGenerateQuizForSlide, submitQuizAnswer } from "./quiz-service";
 
 const roleplaySessions = new Map<string, { scenario: RoleplayScenario; history: RoleplayMessage[] }>();
@@ -148,6 +150,67 @@ export async function registerRoutes(
 ): Promise<Server> {
   // Ensure database has demo data on startup (non-blocking)
   ensureDatabaseSeeded().catch(err => console.error("Background seeding failed:", err));
+
+  // Serve static files from public/uploads
+  const uploadsPath = path.join(process.cwd(), "public", "uploads");
+  app.use("/uploads", express.static(uploadsPath));
+
+  // Generate chapter cover image using Gemini
+  app.post("/api/chapters/:id/generate-image", async (req, res) => {
+    try {
+      const chapter = await storage.getChapter(req.params.id);
+      if (!chapter) {
+        return res.status(404).json({ error: "Chapter not found" });
+      }
+
+      console.log(`Generating cover image for chapter: ${chapter.title}`);
+      const result = await generateChapterImage(chapter.title, chapter.description);
+      
+      if (!result.success) {
+        console.error("Image generation failed:", result.error);
+        return res.status(500).json({ error: result.error || "Image generation failed" });
+      }
+
+      // Update chapter with the new cover image URL
+      await storage.updateChapterCoverImage(chapter.id, result.imageUrl!);
+      
+      console.log(`Generated image for ${chapter.title}: ${result.imageUrl}`);
+      res.json({ success: true, imageUrl: result.imageUrl });
+    } catch (error) {
+      console.error("Generate chapter image error:", error);
+      res.status(500).json({ error: "Failed to generate image" });
+    }
+  });
+
+  // Generate all chapter cover images
+  app.post("/api/chapters/generate-all-images", async (_req, res) => {
+    try {
+      const chapters = await storage.getAllChapters();
+      const results: { chapterId: string; title: string; success: boolean; imageUrl?: string; error?: string }[] = [];
+
+      for (const chapter of chapters) {
+        if (chapter.coverImage) {
+          results.push({ chapterId: chapter.id, title: chapter.title, success: true, imageUrl: chapter.coverImage });
+          continue;
+        }
+
+        console.log(`Generating cover image for chapter: ${chapter.title}`);
+        const result = await generateChapterImage(chapter.title, chapter.description);
+        
+        if (result.success && result.imageUrl) {
+          await storage.updateChapterCoverImage(chapter.id, result.imageUrl);
+          results.push({ chapterId: chapter.id, title: chapter.title, success: true, imageUrl: result.imageUrl });
+        } else {
+          results.push({ chapterId: chapter.id, title: chapter.title, success: false, error: result.error });
+        }
+      }
+
+      res.json({ success: true, results });
+    } catch (error) {
+      console.error("Generate all chapter images error:", error);
+      res.status(500).json({ error: "Failed to generate images" });
+    }
+  });
 
   // Auth routes
   app.post("/api/auth/login", async (req, res) => {

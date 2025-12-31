@@ -1,6 +1,79 @@
 import { GoogleGenAI } from "@google/genai";
+import * as fs from "fs";
+import * as path from "path";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+
+export interface GeneratedImage {
+  success: boolean;
+  imagePath?: string;
+  imageUrl?: string;
+  error?: string;
+}
+
+export async function generateChapterImage(
+  chapterTitle: string,
+  chapterDescription: string
+): Promise<GeneratedImage> {
+  const prompt = `Create a professional, modern illustration for a sales training module.
+  
+Theme: ${chapterTitle}
+Context: ${chapterDescription}
+
+Style requirements:
+- Clean, corporate illustration style with a green color palette (Gecko Green brand colors: deep green #2D5016, lime green #84CC16)
+- Professional lawn care / door-to-door sales theme
+- Modern, minimalist design suitable for a training platform
+- No text or words in the image
+- Bright, optimistic mood
+- 16:9 aspect ratio suitable for a card header
+
+Create a visually appealing illustration that represents door-to-door sales success, professional interactions with homeowners, and lawn care services.`;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash-exp",
+      contents: prompt,
+      config: {
+        responseModalities: ["Text", "Image"],
+      },
+    });
+
+    const parts = response.candidates?.[0]?.content?.parts;
+    if (!parts) {
+      return { success: false, error: "No response parts received" };
+    }
+
+    for (const part of parts) {
+      if (part.inlineData) {
+        const imageData = part.inlineData.data;
+        if (imageData) {
+          const uploadsDir = path.join(process.cwd(), "public", "uploads");
+          if (!fs.existsSync(uploadsDir)) {
+            fs.mkdirSync(uploadsDir, { recursive: true });
+          }
+          
+          const filename = `chapter-${chapterTitle.toLowerCase().replace(/\s+/g, "-")}-${Date.now()}.png`;
+          const filepath = path.join(uploadsDir, filename);
+          
+          const buffer = Buffer.from(imageData, "base64");
+          fs.writeFileSync(filepath, buffer);
+          
+          return {
+            success: true,
+            imagePath: filepath,
+            imageUrl: `/uploads/${filename}`,
+          };
+        }
+      }
+    }
+
+    return { success: false, error: "No image data in response" };
+  } catch (error: any) {
+    console.error("Failed to generate chapter image:", error);
+    return { success: false, error: error.message || "Image generation failed" };
+  }
+}
 
 export interface RoleplayMessage {
   role: "user" | "model";
