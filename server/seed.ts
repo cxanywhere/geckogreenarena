@@ -155,9 +155,10 @@ async function seed() {
 
     console.log("✓ Created chapters");
 
-    // Seed roleplays
+    // Seed roleplays - Chapter 1 roleplays have fixed IDs for in-chapter linking
     const roleplays = [
       {
+        id: "ch1-rp1",
         name: "I'm actually really busy right now.",
         role: "The Busy Homeowner",
         description: "Chapter 1 → Opening → First 10 Seconds. Acknowledge time pressure + set ≤60s container + ask a qualifying control question.",
@@ -168,6 +169,7 @@ async function seed() {
         chapterId: chapter1.id
       },
       {
+        id: "ch1-rp2",
         name: "Not interested.",
         role: "The Dismissive Prospect",
         description: "Chapter 1 → Opening → Handling Brush-Offs. Acknowledge + reframe to specific issue + redirect.",
@@ -178,6 +180,7 @@ async function seed() {
         chapterId: chapter1.id
       },
       {
+        id: "ch1-rp3",
         name: "No soliciting.",
         role: "The Rule Follower",
         description: "Chapter 1 → Opening → Compliance & Authority. Acknowledge rule + clarify intent + request micro-permission.",
@@ -188,6 +191,7 @@ async function seed() {
         chapterId: chapter1.id
       },
       {
+        id: "ch1-rp4",
         name: "I do my own lawn.",
         role: "The DIY Enthusiast",
         description: "Chapter 1 → Turn & Burn → DIY Pushback. Validate identity + differentiate + regain lead.",
@@ -198,6 +202,7 @@ async function seed() {
         chapterId: chapter1.id
       },
       {
+        id: "ch1-rp5",
         name: "We already have a lawn company.",
         role: "The Loyalist",
         description: "Chapter 1 → Turn & Burn → Existing Provider. Acknowledge + remove replacement fear + isolate gap.",
@@ -208,6 +213,7 @@ async function seed() {
         chapterId: chapter1.id
       },
       {
+        id: "ch1-rp6",
         name: "Why are you here?",
         role: "The Confused Homeowner",
         description: "Chapter 1 → Turn & Burn → Purpose Statement. State purpose clearly + direct next action.",

@@ -1,0 +1,123 @@
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Mic, SkipForward, Target, AlertCircle } from "lucide-react";
+import { PredefinedRoleplay } from "@/lib/chapter1-roleplays";
+import { useOrientation, useIsMobile } from "@/hooks/useOrientation";
+
+interface RoleplayPromptProps {
+  roleplay: PredefinedRoleplay;
+  onStart: () => void;
+  onSkip: () => void;
+  queuePosition?: number;
+  queueTotal?: number;
+}
+
+export function RoleplayPrompt({ 
+  roleplay, 
+  onStart, 
+  onSkip,
+  queuePosition = 1,
+  queueTotal = 1
+}: RoleplayPromptProps) {
+  const orientation = useOrientation();
+  const isMobile = useIsMobile();
+  const isLandscape = orientation === 'landscape';
+  const isImmersive = isMobile && isLandscape;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+        style={isImmersive ? { 
+          paddingLeft: 'max(1rem, env(safe-area-inset-left))',
+          paddingRight: 'max(1rem, env(safe-area-inset-right))'
+        } : undefined}
+      >
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.9, opacity: 0 }}
+          className={`bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl border border-gray-700 shadow-2xl w-full ${
+            isImmersive ? 'max-w-2xl max-h-[85vh] overflow-y-auto' : 'max-w-lg'
+          }`}
+        >
+          <div className={`p-6 ${isImmersive ? 'p-4' : ''}`}>
+            {queueTotal > 1 && (
+              <div className="text-xs text-gray-400 mb-3" data-testid="roleplay-queue-indicator">
+                Roleplay {queuePosition} of {queueTotal}
+              </div>
+            )}
+            
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                <Mic className="w-6 h-6 text-green-400" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-white" data-testid="roleplay-title">
+                  Practice Time
+                </h3>
+                <p className="text-sm text-gray-400">{roleplay.phase} • {roleplay.context}</p>
+              </div>
+            </div>
+
+            <div className="bg-gray-800/50 rounded-xl p-4 mb-4 border border-gray-700">
+              <p className="text-sm text-gray-400 mb-2">The homeowner says:</p>
+              <p className="text-xl font-semibold text-white italic" data-testid="roleplay-objection">
+                "{roleplay.objection}"
+              </p>
+            </div>
+
+            <div className={`grid gap-3 mb-4 ${isImmersive ? 'grid-cols-2' : 'grid-cols-1'}`}>
+              <div className="bg-green-900/20 rounded-lg p-3 border border-green-800/30">
+                <div className="flex items-center gap-2 mb-1">
+                  <Target className="w-4 h-4 text-green-400" />
+                  <span className="text-xs font-medium text-green-400">To Pass</span>
+                </div>
+                <p className="text-sm text-gray-300" data-testid="roleplay-pass-criteria">
+                  {roleplay.passCriteria}
+                </p>
+              </div>
+              
+              <div className="bg-red-900/20 rounded-lg p-3 border border-red-800/30">
+                <div className="flex items-center gap-2 mb-1">
+                  <AlertCircle className="w-4 h-4 text-red-400" />
+                  <span className="text-xs font-medium text-red-400">Avoid</span>
+                </div>
+                <p className="text-sm text-gray-300" data-testid="roleplay-fail-conditions">
+                  {roleplay.failConditions}
+                </p>
+              </div>
+            </div>
+
+            <div className={`flex gap-3 ${isImmersive ? 'flex-row' : 'flex-col sm:flex-row'}`}>
+              <Button
+                onClick={onStart}
+                className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-3"
+                data-testid="button-start-roleplay"
+              >
+                <Mic className="w-5 h-5 mr-2" />
+                Start Roleplay
+              </Button>
+              <Button
+                onClick={onSkip}
+                variant="outline"
+                className="flex-1 border-gray-600 text-gray-300 hover:bg-gray-800 py-3"
+                data-testid="button-skip-roleplay"
+              >
+                <SkipForward className="w-5 h-5 mr-2" />
+                Skip for Later
+              </Button>
+            </div>
+            
+            <p className="text-xs text-gray-500 text-center mt-3">
+              You can complete skipped roleplays at the end of the chapter
+            </p>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}

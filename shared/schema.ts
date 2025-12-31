@@ -162,8 +162,11 @@ export const insertChapterSchema = createInsertSchema(chapters).omit({
   id: true,
 });
 
-export const insertRoleplaySchema = createInsertSchema(roleplays).omit({
+const baseInsertRoleplaySchema = createInsertSchema(roleplays).omit({
   id: true,
+});
+export const insertRoleplaySchema = baseInsertRoleplaySchema.extend({
+  id: z.string().optional(),
 });
 
 export const insertBattlecardSchema = createInsertSchema(battlecards).omit({

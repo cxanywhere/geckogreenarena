@@ -2,14 +2,16 @@ import { useRoute, Link, useLocation } from "wouter";
 import { Nav } from "@/components/nav";
 import { PDFViewer } from "@/components/pdf-viewer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Download, BookOpen, Presentation, Brain, Loader2 } from "lucide-react";
+import { ArrowLeft, Download, BookOpen, Presentation, Brain, Loader2, Mic, CheckCircle } from "lucide-react";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { toast } from "sonner";
 import { api, type QuizQuestion } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOrientation } from "@/hooks/useOrientation";
-import { CHAPTER_1_QUIZZES, getQuizForSlide, isQuizSlide } from "@/lib/chapter1-quizzes";
+import { getQuizForSlide, isQuizSlide } from "@/lib/chapter1-quizzes";
+import { getRoleplaysForSlide, isRoleplaySlide, getAllChapter1Roleplays, type PredefinedRoleplay } from "@/lib/chapter1-roleplays";
+import { RoleplayPrompt } from "@/components/roleplay-prompt";
 
 const QUIZ_INTERVAL = 5;
 
@@ -40,6 +42,18 @@ export default function ChapterPage() {
   });
   const lastCheckedPage = useRef(0);
 
+  const [showRoleplay, setShowRoleplay] = useState(false);
+  const [currentRoleplays, setCurrentRoleplays] = useState<PredefinedRoleplay[]>([]);
+  const [currentRoleplayIndex, setCurrentRoleplayIndex] = useState(0);
+  const [completedRoleplays, setCompletedRoleplays] = useState<Set<string>>(() => {
+    if (!params?.id) return new Set();
+    const saved = localStorage.getItem(`chapter_roleplay_completed_${params.id}`);
+    return saved ? new Set(JSON.parse(saved)) : new Set();
+  });
+  const [skippedRoleplays, setSkippedRoleplays] = useState<PredefinedRoleplay[]>([]);
+  const [showEndOfChapter, setShowEndOfChapter] = useState(false);
+  const [totalSlides, setTotalSlides] = useState(0);
+
   const storedUser = localStorage.getItem("currentUser");
   const user = storedUser ? JSON.parse(storedUser) : null;
 
@@ -55,7 +69,15 @@ export default function ChapterPage() {
     }
   }, [completedQuizPages, params?.id]);
 
+  useEffect(() => {
+    if (params?.id) {
+      localStorage.setItem(`chapter_roleplay_completed_${params.id}`, JSON.stringify(Array.from(completedRoleplays)));
+    }
+  }, [completedRoleplays, params?.id]);
+
   const isChapter1 = chapter?.title === "Sales Foundations";
+
+  const pendingContentForSlide = useRef<{ quizzes: boolean; roleplays: PredefinedRoleplay[] } | null>(null);
 
   const triggerQuiz = useCallback(async (pageNumber: number) => {
     if (!chapter || !user || isLoadingQuiz) return;
@@ -105,18 +127,69 @@ export default function ChapterPage() {
     }
   }, [chapter, user, completedQuizPages, isLoadingQuiz, isChapter1]);
 
-  const handlePageChange = (page: number) => {
+  const triggerRoleplays = useCallback((pageNumber: number) => {
+    if (!isChapter1) return;
+    
+    const roleplays = getRoleplaysForSlide(pageNumber);
+    const uncompletedRoleplays = roleplays.filter(rp => !completedRoleplays.has(rp.id));
+    
+    if (uncompletedRoleplays.length > 0) {
+      setCurrentRoleplays(uncompletedRoleplays);
+      setCurrentRoleplayIndex(0);
+      setShowRoleplay(true);
+    }
+  }, [isChapter1, completedRoleplays]);
+
+  const handlePageChange = (page: number, numPages?: number) => {
     setCurrentPage(page);
+    if (numPages) setTotalSlides(numPages);
     
     if (isChapter1) {
       if (isQuizSlide(page) && !completedQuizPages.has(page)) {
         triggerQuiz(page);
+        
+        if (isRoleplaySlide(page)) {
+          pendingContentForSlide.current = { quizzes: true, roleplays: getRoleplaysForSlide(page) };
+        }
+      } else if (isRoleplaySlide(page)) {
+        triggerRoleplays(page);
       }
     } else {
       if (page > 1 && page % QUIZ_INTERVAL === 0 && !completedQuizPages.has(page)) {
         triggerQuiz(page);
       }
     }
+  };
+
+  const handleRoleplayStart = () => {
+    const roleplay = currentRoleplays[currentRoleplayIndex];
+    if (roleplay) {
+      setShowRoleplay(false);
+      setLocation(`/chat/${roleplay.id}`);
+    }
+  };
+
+  const handleRoleplaySkip = () => {
+    const roleplay = currentRoleplays[currentRoleplayIndex];
+    if (roleplay) {
+      setSkippedRoleplays(prev => {
+        if (prev.find(rp => rp.id === roleplay.id)) return prev;
+        return [...prev, roleplay];
+      });
+    }
+    
+    if (currentRoleplayIndex < currentRoleplays.length - 1) {
+      setCurrentRoleplayIndex(prev => prev + 1);
+    } else {
+      setShowRoleplay(false);
+      setCurrentRoleplays([]);
+      setCurrentRoleplayIndex(0);
+    }
+  };
+
+  const handleRoleplayComplete = (roleplayId: string) => {
+    setCompletedRoleplays(prev => new Set([...Array.from(prev), roleplayId]));
+    setSkippedRoleplays(prev => prev.filter(rp => rp.id !== roleplayId));
   };
 
   const handleQuizAnswer = async (questionIndex: number, selectedAnswer: number, isCorrect: boolean) => {
@@ -133,6 +206,18 @@ export default function ChapterPage() {
     setShowQuiz(false);
     setCompletedQuizPages(prev => new Set([...Array.from(prev), currentPage]));
     toast.success("Quiz completed! Keep learning.");
+    
+    if (pendingContentForSlide.current?.roleplays) {
+      const uncompletedRoleplays = pendingContentForSlide.current.roleplays.filter(
+        rp => !completedRoleplays.has(rp.id)
+      );
+      if (uncompletedRoleplays.length > 0) {
+        setCurrentRoleplays(uncompletedRoleplays);
+        setCurrentRoleplayIndex(0);
+        setShowRoleplay(true);
+      }
+      pendingContentForSlide.current = null;
+    }
   };
 
   const handleQuizSkip = () => {
@@ -141,6 +226,17 @@ export default function ChapterPage() {
   };
 
   const handleComplete = () => {
+    if (!chapter) return;
+    
+    if (isChapter1 && skippedRoleplays.length > 0) {
+      setShowEndOfChapter(true);
+      return;
+    }
+    
+    completeChapter();
+  };
+
+  const completeChapter = () => {
     if (!chapter) return;
     
     const completedChapters = JSON.parse(localStorage.getItem("completed_chapters") || "[]");
@@ -161,6 +257,16 @@ export default function ChapterPage() {
     setTimeout(() => {
       setLocation("/dashboard");
     }, 1500);
+  };
+
+  const handleStartSkippedRoleplay = (roleplay: PredefinedRoleplay) => {
+    setShowEndOfChapter(false);
+    setLocation(`/chat/${roleplay.id}`);
+  };
+
+  const handleSkipAllRoleplays = () => {
+    setShowEndOfChapter(false);
+    completeChapter();
   };
 
   if (!chapter) {
@@ -262,6 +368,32 @@ export default function ChapterPage() {
             onAnswer={handleQuizAnswer}
             onComplete={handleQuizComplete}
             onSkip={handleQuizSkip}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Roleplay Prompt Overlay */}
+      <AnimatePresence>
+        {showRoleplay && currentRoleplays[currentRoleplayIndex] && (
+          <RoleplayPrompt
+            roleplay={currentRoleplays[currentRoleplayIndex]}
+            onStart={handleRoleplayStart}
+            onSkip={handleRoleplaySkip}
+            queuePosition={currentRoleplayIndex + 1}
+            queueTotal={currentRoleplays.length}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* End of Chapter Summary */}
+      <AnimatePresence>
+        {showEndOfChapter && (
+          <EndOfChapterSummary
+            skippedRoleplays={skippedRoleplays}
+            completedRoleplays={completedRoleplays}
+            allRoleplays={getAllChapter1Roleplays()}
+            onStartRoleplay={handleStartSkippedRoleplay}
+            onComplete={handleSkipAllRoleplays}
           />
         )}
       </AnimatePresence>
@@ -479,6 +611,107 @@ function PDFQuizOverlay({
               ))}
             </div>
           )}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function EndOfChapterSummary({
+  skippedRoleplays,
+  completedRoleplays,
+  allRoleplays,
+  onStartRoleplay,
+  onComplete
+}: {
+  skippedRoleplays: PredefinedRoleplay[];
+  completedRoleplays: Set<string>;
+  allRoleplays: PredefinedRoleplay[];
+  onStartRoleplay: (roleplay: PredefinedRoleplay) => void;
+  onComplete: () => void;
+}) {
+  const completedCount = completedRoleplays.size;
+  const totalCount = allRoleplays.length;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 overflow-auto"
+    >
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.95, opacity: 0 }}
+        className="bg-card border border-border rounded-xl shadow-2xl w-full max-w-lg max-h-[90dvh] overflow-y-auto"
+      >
+        <div className="p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+              <CheckCircle className="w-6 h-6 text-primary" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold" data-testid="text-chapter-complete">
+                Chapter Complete!
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                {completedCount} of {totalCount} roleplays completed
+              </p>
+            </div>
+          </div>
+
+          {skippedRoleplays.length > 0 && (
+            <>
+              <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+                <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
+                  You have {skippedRoleplays.length} skipped roleplay{skippedRoleplays.length > 1 ? 's' : ''} to complete
+                </p>
+              </div>
+
+              <div className="space-y-2 mb-4">
+                {skippedRoleplays.map((rp) => (
+                  <button
+                    key={rp.id}
+                    onClick={() => onStartRoleplay(rp)}
+                    className="w-full p-3 rounded-lg border border-border bg-card hover:bg-muted/50 transition-colors text-left"
+                    data-testid={`button-start-roleplay-${rp.id}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                        <Mic className="w-5 h-5 text-green-500" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-sm truncate">"{rp.objection}"</p>
+                        <p className="text-xs text-muted-foreground">{rp.context}</p>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+
+          <div className="flex gap-3">
+            {skippedRoleplays.length > 0 ? (
+              <Button
+                onClick={onComplete}
+                variant="outline"
+                className="flex-1"
+                data-testid="button-skip-all-roleplays"
+              >
+                Skip All & Finish
+              </Button>
+            ) : (
+              <Button
+                onClick={onComplete}
+                className="flex-1"
+                data-testid="button-finish-chapter"
+              >
+                Finish Chapter
+              </Button>
+            )}
+          </div>
         </div>
       </motion.div>
     </motion.div>
