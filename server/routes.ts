@@ -7,6 +7,8 @@ import { insertUserProgressSchema, insertRoleplayAttemptSchema } from "@shared/s
 import { z } from "zod";
 import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
 import { getOrGenerateQuizForSlide, submitQuizAnswer } from "./quiz-service";
+import { vapiService } from "./vapi-service";
+import { getVapiRoleplayConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
 
 const roleplaySessions = new Map<string, { scenario: RoleplayScenario; history: RoleplayMessage[] }>();
 
@@ -648,6 +650,150 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Get PDF pages error:", error);
       res.status(500).json({ error: "Failed to get PDF info" });
+    }
+  });
+
+  // VAPI Voice Roleplay Routes
+  app.get("/api/vapi/configs", async (_req, res) => {
+    try {
+      res.json(VAPI_ROLEPLAY_CONFIGS);
+    } catch (error) {
+      console.error("Get VAPI configs error:", error);
+      res.status(500).json({ error: "Failed to get roleplay configs" });
+    }
+  });
+
+  app.get("/api/vapi/config/:roleplayId", async (req, res) => {
+    try {
+      const config = getVapiRoleplayConfig(req.params.roleplayId);
+      if (!config) {
+        return res.status(404).json({ error: "Roleplay config not found" });
+      }
+      res.json(config);
+    } catch (error) {
+      console.error("Get VAPI config error:", error);
+      res.status(500).json({ error: "Failed to get roleplay config" });
+    }
+  });
+
+  app.post("/api/vapi/start-call", async (req, res) => {
+    try {
+      const { roleplayId } = req.body;
+      if (!roleplayId) {
+        return res.status(400).json({ error: "roleplayId is required" });
+      }
+
+      const result = await vapiService.startWebCall(roleplayId);
+      res.json({ 
+        callId: result.callId,
+        roleplayConfig: result.config
+      });
+    } catch (error: any) {
+      console.error("Start VAPI call error:", error);
+      res.status(500).json({ error: error.message || "Failed to start voice call" });
+    }
+  });
+
+  app.get("/api/vapi/call/:callId", async (req, res) => {
+    try {
+      const callDetails = await vapiService.getCallDetails(req.params.callId);
+      res.json(callDetails);
+    } catch (error: any) {
+      console.error("Get VAPI call error:", error);
+      res.status(500).json({ error: error.message || "Failed to get call details" });
+    }
+  });
+
+  app.get("/api/vapi/transcript/:callId", async (req, res) => {
+    try {
+      const transcriptData = await vapiService.getCallTranscript(req.params.callId);
+      res.json(transcriptData);
+    } catch (error: any) {
+      console.error("Get VAPI transcript error:", error);
+      res.status(500).json({ error: error.message || "Failed to get transcript" });
+    }
+  });
+
+  app.post("/api/vapi/end-call/:callId", async (req, res) => {
+    try {
+      await vapiService.endCall(req.params.callId);
+      res.json({ success: true });
+    } catch (error: any) {
+      console.error("End VAPI call error:", error);
+      res.status(500).json({ error: error.message || "Failed to end call" });
+    }
+  });
+
+  app.post("/api/vapi/evaluate", async (req, res) => {
+    try {
+      const { roleplayId, callId, userId } = req.body;
+      
+      if (!roleplayId || !callId) {
+        return res.status(400).json({ error: "roleplayId and callId are required" });
+      }
+
+      const config = getVapiRoleplayConfig(roleplayId);
+      if (!config) {
+        return res.status(404).json({ error: "Roleplay config not found" });
+      }
+
+      const transcriptData = await vapiService.getCallTranscript(callId);
+      
+      const scenario: RoleplayScenario = {
+        name: config.name,
+        role: config.role,
+        description: `${config.context}. Pass criteria: ${config.passCriteria}. Fail conditions: ${config.failConditions}.`,
+        traits: config.traits,
+        difficulty: config.difficulty,
+        stats: {
+          buy_signal: config.buySignal,
+          objections: 50,
+          resistance: config.resistanceLevel
+        }
+      };
+
+      const feedback = await evaluateRoleplay(scenario, transcriptData.messages);
+      
+      const passed = feedback.overallScore >= 70;
+
+      if (userId) {
+        try {
+          const roleplay = await storage.getRoleplay(roleplayId);
+          if (roleplay) {
+            await storage.createRoleplayAttempt({
+              userId,
+              roleplayId,
+              score: feedback.overallScore,
+              passed,
+              transcript: transcriptData.messages,
+              feedback: {
+                ...feedback,
+                recordingUrl: transcriptData.recordingUrl
+              }
+            });
+          }
+        } catch (dbError) {
+          console.error("Failed to save roleplay attempt:", dbError);
+        }
+      }
+
+      res.json({
+        scenario: {
+          id: config.id,
+          name: config.name,
+          role: config.role,
+          difficulty: config.difficulty
+        },
+        feedback: {
+          ...feedback,
+          passed,
+          recordingUrl: transcriptData.recordingUrl
+        },
+        transcript: transcriptData.messages
+      });
+    } catch (error: any) {
+      console.error("Evaluate VAPI call error:", error);
+      res.status(500).json({ error: error.message || "Failed to evaluate call" });
     }
   });
 

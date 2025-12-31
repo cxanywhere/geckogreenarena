@@ -1,15 +1,34 @@
-import { useRoute, Link } from "wouter";
+import { useState, useEffect } from "react";
+import { useRoute, Link, useLocation } from "wouter";
 import { Nav } from "@/components/nav";
 import { ChatInterface } from "@/components/chat-interface";
+import { VoiceRoleplay } from "@/components/VoiceRoleplay";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { ArrowLeft, Volume2, Info, Loader2, User } from "lucide-react";
+import { ArrowLeft, Volume2, Info, Loader2, User, Mic, MessageSquare } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { api, Roleplay } from "@/lib/api";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+interface VapiConfig {
+  id: string;
+  name: string;
+  role: string;
+  phase: string;
+  context: string;
+  objection: string;
+  passCriteria: string;
+  difficulty: "Beginner" | "Intermediate" | "Advanced";
+  resistanceLevel: number;
+  buySignal: number;
+  traits: string[];
+}
 
 export default function ChatPage() {
   const [, params] = useRoute("/chat/:id");
+  const [, setLocation] = useLocation();
   const roleplayId = params?.id;
+  const [mode, setMode] = useState<"voice" | "text">("voice");
   
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
@@ -19,6 +38,24 @@ export default function ChatPage() {
     queryFn: () => api.getRoleplay(roleplayId!),
     enabled: !!roleplayId,
   });
+
+  const { data: vapiConfig } = useQuery<VapiConfig>({
+    queryKey: ["vapi-config", roleplayId],
+    queryFn: async () => {
+      const res = await fetch(`/api/vapi/config/${roleplayId}`);
+      if (!res.ok) return null;
+      return res.json();
+    },
+    enabled: !!roleplayId,
+  });
+
+  const handleVoiceComplete = (callId: string) => {
+    setLocation(`/results/${roleplayId}?callId=${callId}&mode=voice`);
+  };
+
+  const handleVoiceCancel = () => {
+    setLocation("/dashboard");
+  };
 
   if (isLoading) {
     return (
@@ -112,6 +149,8 @@ export default function ChatPage() {
     </div>
   );
 
+  const hasVoiceMode = !!vapiConfig;
+
   return (
     <div className="min-h-[100dvh] bg-muted/20 flex flex-col">
       <Nav />
@@ -123,34 +162,57 @@ export default function ChatPage() {
             </Button>
           </Link>
 
-          {/* Mobile Stats Trigger */}
-          <div className="lg:hidden landscape:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2">
-                  <Info className="h-4 w-4" /> <span className="hidden sm:inline">Scenario Info</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent className="w-full sm:w-[400px] overflow-y-auto">
-                <div className="mt-6">
-                  <ScenarioStats />
-                </div>
-              </SheetContent>
-            </Sheet>
+          <div className="flex items-center gap-2">
+            {hasVoiceMode && (
+              <Tabs value={mode} onValueChange={(v) => setMode(v as "voice" | "text")} className="hidden sm:block">
+                <TabsList className="h-9">
+                  <TabsTrigger value="voice" className="gap-1.5 px-3" data-testid="tab-voice">
+                    <Mic className="h-3.5 w-3.5" />
+                    <span className="text-xs">Voice</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="text" className="gap-1.5 px-3" data-testid="tab-text">
+                    <MessageSquare className="h-3.5 w-3.5" />
+                    <span className="text-xs">Text</span>
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+            )}
+
+            <div className="lg:hidden landscape:hidden">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <Info className="h-4 w-4" /> <span className="hidden sm:inline">Scenario Info</span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent className="w-full sm:w-[400px] overflow-y-auto">
+                  <div className="mt-6">
+                    <ScenarioStats />
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
         
         <div className="grid lg:grid-cols-12 gap-4 sm:gap-6 flex-1 landscape:gap-3">
-          {/* Character Stats Sidebar (Desktop) */}
           <div className="hidden lg:block lg:col-span-3">
             <div className="sticky top-24">
               <ScenarioStats />
             </div>
           </div>
 
-          {/* Main Chat Area */}
           <div className="lg:col-span-9 flex flex-col h-full">
-            <ChatInterface scenario={scenario} userId={user.id} />
+            {hasVoiceMode && mode === "voice" && vapiConfig ? (
+              <VoiceRoleplay
+                roleplayId={roleplayId!}
+                config={vapiConfig}
+                onComplete={handleVoiceComplete}
+                onCancel={handleVoiceCancel}
+              />
+            ) : (
+              <ChatInterface scenario={scenario} userId={user.id} />
+            )}
           </div>
         </div>
       </div>

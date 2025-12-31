@@ -83,3 +83,39 @@ shared/           # Shared code between frontend/backend
 - **@replit/vite-plugin-runtime-error-modal**: Error overlay
 - **@replit/vite-plugin-cartographer**: Development tooling
 - **@replit/vite-plugin-dev-banner**: Development environment indicator
+
+### Voice AI Integration (VAPI)
+- **@vapi-ai/web**: Client-side SDK for voice calls
+- **VAPI API**: Backend integration for starting calls, retrieving transcripts and recordings
+- **Voice Roleplays**: Real-time voice conversations with AI homeowner personas
+- **Call Recording**: Audio recordings stored by VAPI, URLs returned for playback
+
+## VAPI Voice Roleplay Architecture
+
+### Configuration (server/vapi-config.ts)
+- 6 roleplay personas with objections, personality traits, resistance levels
+- Dynamic assistant prompts with behavioral guidelines
+- Pass/fail criteria for evaluation
+
+### Service (server/vapi-service.ts)
+- `startWebCall()`: Creates VAPI web call session
+- `getCallDetails()`: Retrieves call status and metadata
+- `getCallTranscript()`: Gets transcript and recording URL after call ends
+- `endCall()`: Terminates active call
+
+### API Routes (server/routes.ts)
+- `GET /api/vapi/configs`: List all roleplay configurations
+- `GET /api/vapi/config/:roleplayId`: Get specific config
+- `POST /api/vapi/start-call`: Start voice call session
+- `GET /api/vapi/call/:callId`: Get call details
+- `GET /api/vapi/transcript/:callId`: Get transcript and recording
+- `POST /api/vapi/evaluate`: Evaluate call with Gemini AI, store results
+
+### Frontend Components
+- `VoiceRoleplay.tsx`: Voice call UI with mic control, live transcript, status management
+- `chat.tsx`: Supports both voice and text roleplay modes
+- `results.tsx`: Pass/fail badge, audio playback, AI feedback
+
+### Environment Variables
+- `VAPI_API_KEY`: Private API key (server-side only)
+- `VITE_VAPI_PUBLIC_KEY`: Public key for client SDK
