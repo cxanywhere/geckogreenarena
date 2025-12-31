@@ -144,14 +144,19 @@ export default function ChapterPage() {
     setCurrentPage(page);
     if (numPages) setTotalSlides(numPages);
     
+    console.log(`[PageChange] Page ${page}, isChapter1: ${isChapter1}, isQuizSlide: ${isQuizSlide(page)}, isRoleplaySlide: ${isRoleplaySlide(page)}`);
+    
     if (isChapter1) {
       if (isQuizSlide(page) && !completedQuizPages.has(page)) {
+        console.log(`[Chapter1] Triggering quiz for page ${page}`);
         triggerQuiz(page);
         
         if (isRoleplaySlide(page)) {
+          console.log(`[Chapter1] Also has roleplays for page ${page}, storing as pending`);
           pendingContentForSlide.current = { quizzes: true, roleplays: getRoleplaysForSlide(page) };
         }
       } else if (isRoleplaySlide(page)) {
+        console.log(`[Chapter1] Triggering roleplays for page ${page}`);
         triggerRoleplays(page);
       }
     } else {
