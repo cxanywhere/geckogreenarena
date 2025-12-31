@@ -216,8 +216,8 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {roleplays.map((scenario, i) => {
-              // Unlock if chapter is completed OR if specifically unlocked via slide
-              const isLocked = scenario.chapterId ? (!completedChapters.includes(scenario.chapterId) && !unlockedRoleplays.includes(scenario.id)) : false;
+              // All roleplays unlocked for testing
+              const isLocked = false;
               return (
                 <div key={scenario.id} className="relative group">
                   <RoleplayCard scenario={scenario} index={i} isLocked={isLocked} />
