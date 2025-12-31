@@ -1,0 +1,163 @@
+1) Placement plan (exact “between slides” locations)
+Opening + fundamentals (Slides 1–10)
+
+After Slide 5: Quiz 1
+
+After Slide 6: RP #1 (“I’m actually really busy right now.”)
+
+After Slide 6 (immediately after RP #1): RP #3 (“No soliciting.”)
+
+After Slide 10: Quiz 2
+
+After Slide 10 (immediately after Quiz 2): RP #2 (“Not interested.”)
+
+Product knowledge + education (Slides 11–15)
+
+After Slide 15: Quiz 3
+
+Turn & Burn + weed control science (Slides 16–20)
+
+After Slide 16: RP #6 (“Why are you here?”)
+
+After Slide 18: RP #4 (“I do my own lawn.”)
+
+After Slide 20: Quiz 4
+
+Program + partnership (Slides 21–25)
+
+After Slide 25: Quiz 5
+
+Differentiators + pitch (Slides 26–29)
+
+After Slide 29: Quiz 6
+
+Prepay (Slides 30–34) + wrap (Slide 35)
+
+After Slide 34: Quiz 7
+
+Slide 35: keep as your wrap/self-check
+
+2) Final quiz questions (MCQ)
+Quiz 1 (covers Slides 1–5)
+
+Which set correctly matches the “Four Pillars of Field Success”?
+A. Confidence, Optimism, Personality, Endurance
+B. Timeliness, Attitude, Practice, Persistence
+C. Product, Price, Pitch, Persistence
+D. Appearance, Tone, Explanation, Honesty
+Correct: B
+
+Quiz 2 (covers Slides 6–10)
+
+In a doorstep sale, what’s the correct relationship between emotion and logic?
+A. Logic drives action; emotion justifies afterward
+B. Emotion drives action; logic justifies afterward
+C. They are always equal at the same time
+D. Only logic matters in lawn care
+Correct: B
+
+Quiz 3 (covers Slides 11–15)
+
+A homeowner says, “My lawn is fine.” What is the best next move per the training?
+A. Present pricing immediately to test seriousness
+B. Reveal an unrealized issue with a specific, visible observation and a question
+C. Ask for their email and leave
+D. Offer a discount to create urgency
+Correct: B
+
+Quiz 4 (covers Slides 16–20)
+
+Which statement is TRUE about pre-emergent vs. post-emergent and expectations?
+A. Pre-emergent kills existing weeds; post-emergent prevents sprouting
+B. Post-emergent kills existing weeds; pre-emergent prevents sprouting
+C. Both only work if weeds are already visible
+D. Both work instantly if watered the same day
+Correct: B
+
+Quiz 5 (covers Slides 21–25)
+
+In the “Partnership” model, which is primarily the homeowner’s responsibility?
+A. Seasonal application timing
+B. Product formulation choices
+C. Watering and mowing consistency
+D. Free service calls between visits
+Correct: C
+
+Quiz 6 (covers Slides 26–29)
+
+Which best captures what your “30-second story” must do?
+A. Explain every treatment ingredient in detail
+B. Deliver a clear, confident summary of what you do, how you do it, and why it works—fast
+C. Lead with price to qualify the homeowner
+D. Compare competitors by name and position against them
+Correct: B
+
+Quiz 7 (covers Slides 30–34)
+
+What is the “Prepay Rule in One Line” the rep should follow?
+A. Offer prepay only if the homeowner asks
+B. Prepay first, every time; autopay is the fallback
+C. Autopay is the default; prepay is optional
+D. Prepay only for customers with heavy weeds
+Correct: B
+
+3) Final roleplay list (UNCHANGED) + where to place
+RP #1 — Place after Slide 6
+
+Phase: Phase 1
+Objection: “I’m actually really busy right now.”
+Exact Placement: Chapter 1 → Opening → First 10 Seconds
+PASS CRITERIA (What Rep Must Do): Acknowledge time pressure + set ≤60s container + ask a qualifying control question
+FAIL CONDITIONS: Pitches immediately or disengages
+Winning Response (Control-Explicit, Full): “Totally understand — I’ll be quick. Give me 60 seconds, and if this doesn’t apply I’ll head out. Q›uick question: are you the one who usually handles the lawn here?”
+Losing Response (Loss of Control): “This won’t take long… we do fertilization and weed control.”
+
+RP #3 — Place after Slide 6 (right after RP #1)
+
+Phase: Phase 1
+Objection: “No soliciting.”
+Exact Placement: Chapter 1 → Opening → Compliance & Authority
+PASS CRITERIA (What Rep Must Do): Acknowledge rule + clarify intent + request micro-permission
+FAIL CONDITIONS: Debates policy
+Winning Response (Control-Explicit, Full): “I get that — I’m not selling at the door. I’m just flagging an issue I noticed on your lawn. Mind if I show you real quick?”
+Losing Response (Loss of Control): “I’m not selling anything…” (keeps talking)
+
+RP #2 — Place after Slide 10
+
+Phase: Phase 1
+Objection: “Not interested.”
+Exact Placement: Chapter 1 → Opening → Handling Brush-Offs
+PASS CRITERIA (What Rep Must Do): Acknowledge + reframe to specific issue + redirect
+FAIL CONDITIONS: Argues or accepts rejection
+Winning Response (Control-Explicit, Full): “That’s fair — most people weren’t interested either until I pointed out one thing. Are you seeing weeds along the curb here, or is that already handled?”
+Losing Response (Loss of Control): “Okay, no worries.”
+
+RP #6 — Place after Slide 16
+
+Phase: Phase 2
+Objection: “Why are you here?”
+Exact Placement: Chapter 1 → Turn & Burn → Purpose Statement
+PASS CRITERIA (What Rep Must Do): State purpose clearly + direct next action
+FAIL CONDITIONS: Rambles / over-explains
+Winning Response (Control-Explicit, Full): “Fair question. I’m here because we’re fixing this exact weed issue on your street today. Let me show you where it’s starting.”
+Losing Response (Loss of Control): “I’m with Gecko, and what we do is…”
+
+RP #4 — Place after Slide 18
+
+Phase: Phase 2
+Objection: “I do my own lawn.”
+Exact Placement: Chapter 1 → Turn & Burn → DIY Pushback
+PASS CRITERIA (What Rep Must Do): Validate identity + differentiate + regain lead
+FAIL CONDITIONS: Tries to convert DIY
+Winning Response (Control-Explicit, Full): “That makes sense — most homeowners here do. What I’m seeing is something DIY usually misses, especially this time of year. Can I show you where?”
+Losing Response (Loss of Control): “We help a lot of DIY customers…”
+
+RP #5 — Place after Slide 24
+
+Phase: Phase 2
+Objection: “We already have a lawn company.”
+Exact Placement: Chapter 1 → Turn & Burn → Existing Provider
+PASS CRITERIA (What Rep Must Do): Acknowledge + remove replacement fear + isolate gap
+FAIL CONDITIONS: Attacks competitor
+Winning Response (Control-Explicit, Full): “Got it — not trying to replace them. Quick check: are they addressing weeds like this along the edge, or is that still showing up?”
+Losing Response (Loss of Control): “We’re better than most companies…”
