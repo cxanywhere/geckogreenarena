@@ -31,7 +31,7 @@ export default function ChatPage() {
   const [mode, setMode] = useState<"voice" | "text">("voice");
   
   const storedUser = localStorage.getItem("user");
-  const user = storedUser ? JSON.parse(storedUser) : null;
+  const user = storedUser ? JSON.parse(storedUser) : { id: "guest", name: "Guest User", email: "guest@test.com" };
 
   const { data: scenario, isLoading, error } = useQuery<Roleplay>({
     queryKey: ["roleplay", roleplayId],
@@ -81,18 +81,6 @@ export default function ChatPage() {
     );
   }
 
-  if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Please Log In</h1>
-          <Link href="/">
-            <Button>Go to Login</Button>
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   const ScenarioStats = () => (
     <div className="bg-card rounded-xl p-6 border border-border shadow-sm h-full">
