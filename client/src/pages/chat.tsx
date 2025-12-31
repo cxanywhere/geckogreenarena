@@ -1,14 +1,11 @@
-import { useState, useEffect } from "react";
 import { useRoute, Link, useLocation } from "wouter";
 import { Nav } from "@/components/nav";
-import { ChatInterface } from "@/components/chat-interface";
 import { VoiceRoleplay } from "@/components/VoiceRoleplay";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { ArrowLeft, Volume2, Info, Loader2, User, Mic, MessageSquare } from "lucide-react";
+import { ArrowLeft, Info, Loader2, User, Mic } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { api, Roleplay } from "@/lib/api";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface VapiConfig {
   id: string;
@@ -28,7 +25,6 @@ export default function ChatPage() {
   const [, params] = useRoute("/chat/:id");
   const [, setLocation] = useLocation();
   const roleplayId = params?.id;
-  const [mode, setMode] = useState<"voice" | "text">("voice");
   
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : { id: "guest", name: "Guest User", email: "guest@test.com" };
@@ -39,7 +35,7 @@ export default function ChatPage() {
     enabled: !!roleplayId,
   });
 
-  const { data: vapiConfig } = useQuery<VapiConfig>({
+  const { data: vapiConfig, isLoading: isLoadingConfig } = useQuery<VapiConfig>({
     queryKey: ["vapi-config", roleplayId],
     queryFn: async () => {
       const res = await fetch(`/api/vapi/config/${roleplayId}`);
@@ -57,7 +53,7 @@ export default function ChatPage() {
     setLocation("/dashboard");
   };
 
-  if (isLoading) {
+  if (isLoading || isLoadingConfig) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
@@ -81,6 +77,22 @@ export default function ChatPage() {
     );
   }
 
+  if (!vapiConfig) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-yellow-100 flex items-center justify-center">
+            <Mic className="w-10 h-10 text-yellow-600" />
+          </div>
+          <h1 className="text-2xl font-bold mb-4">Voice Roleplay Not Available</h1>
+          <p className="text-muted-foreground mb-6">This scenario doesn't have voice configuration yet.</p>
+          <Link href="/dashboard">
+            <Button>Return to Dashboard</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const ScenarioStats = () => (
     <div className="bg-card rounded-xl p-6 border border-border shadow-sm h-full">
@@ -137,8 +149,6 @@ export default function ChatPage() {
     </div>
   );
 
-  const hasVoiceMode = !!vapiConfig;
-
   return (
     <div className="min-h-[100dvh] bg-muted/20 flex flex-col">
       <Nav />
@@ -151,20 +161,10 @@ export default function ChatPage() {
           </Link>
 
           <div className="flex items-center gap-2">
-            {hasVoiceMode && (
-              <Tabs value={mode} onValueChange={(v) => setMode(v as "voice" | "text")} className="hidden sm:block">
-                <TabsList className="h-9">
-                  <TabsTrigger value="voice" className="gap-1.5 px-3" data-testid="tab-voice">
-                    <Mic className="h-3.5 w-3.5" />
-                    <span className="text-xs">Voice</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="text" className="gap-1.5 px-3" data-testid="tab-text">
-                    <MessageSquare className="h-3.5 w-3.5" />
-                    <span className="text-xs">Text</span>
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
-            )}
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-[#84CC16]/10 rounded-full">
+              <Mic className="h-4 w-4 text-[#2D5016]" />
+              <span className="text-xs font-medium text-[#2D5016]">Voice Roleplay</span>
+            </div>
 
             <div className="lg:hidden landscape:hidden">
               <Sheet>
@@ -191,16 +191,12 @@ export default function ChatPage() {
           </div>
 
           <div className="lg:col-span-9 flex flex-col h-full">
-            {hasVoiceMode && mode === "voice" && vapiConfig ? (
-              <VoiceRoleplay
-                roleplayId={roleplayId!}
-                config={vapiConfig}
-                onComplete={handleVoiceComplete}
-                onCancel={handleVoiceCancel}
-              />
-            ) : (
-              <ChatInterface scenario={scenario} userId={user.id} />
-            )}
+            <VoiceRoleplay
+              roleplayId={roleplayId!}
+              config={vapiConfig}
+              onComplete={handleVoiceComplete}
+              onCancel={handleVoiceCancel}
+            />
           </div>
         </div>
       </div>
