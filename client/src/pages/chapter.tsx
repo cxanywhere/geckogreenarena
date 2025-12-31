@@ -223,6 +223,18 @@ export default function ChapterPage() {
   const handleQuizSkip = () => {
     setShowQuiz(false);
     setCompletedQuizPages(prev => new Set([...Array.from(prev), currentPage]));
+    
+    if (pendingContentForSlide.current?.roleplays) {
+      const uncompletedRoleplays = pendingContentForSlide.current.roleplays.filter(
+        rp => !completedRoleplays.has(rp.id)
+      );
+      if (uncompletedRoleplays.length > 0) {
+        setCurrentRoleplays(uncompletedRoleplays);
+        setCurrentRoleplayIndex(0);
+        setShowRoleplay(true);
+      }
+      pendingContentForSlide.current = null;
+    }
   };
 
   const handleComplete = () => {
