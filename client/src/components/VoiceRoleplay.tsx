@@ -52,25 +52,52 @@ export function VoiceRoleplay({ roleplayId, config, onComplete, onCancel }: Voic
     }
   }, [transcript]);
 
+  const buildAssistantPrompt = () => {
+    const resistanceDescription = config.resistanceLevel > 70 ? "very resistant and skeptical" : 
+                                   config.resistanceLevel > 40 ? "moderately resistant" : "somewhat open but cautious";
+    const buySignalDescription = config.buySignal > 50 ? "showing some underlying interest" :
+                                 config.buySignal > 25 ? "cautiously curious" : "not showing buying interest";
+
+    return `You are playing the role of a homeowner in a door-to-door sales training simulation for Gecko Green lawn care services.
+
+CHARACTER PROFILE:
+- Name: ${config.role}
+- Opening objection: "${config.objection}"
+- Personality traits: ${config.traits.join(", ")}
+- Difficulty: ${config.difficulty}
+- You are ${resistanceDescription} (resistance: ${config.resistanceLevel}/100)
+- You are ${buySignalDescription} (buy signal: ${config.buySignal}/100)
+
+SCENARIO CONTEXT:
+${config.context}
+
+BEHAVIOR GUIDELINES:
+1. START the conversation with EXACTLY this objection: "${config.objection}"
+2. Stay in character as this homeowner throughout the entire conversation
+3. React realistically to the sales rep's responses based on how well they handle your objection
+4. If the rep handles your objection well (acknowledges you, doesn't push too hard, asks good questions), gradually become slightly more open
+5. If the rep pushes too hard, ignores your concern, or doesn't listen, become MORE resistant
+6. Use natural, conversational language - you're a real person at your front door, NOT an AI
+7. Keep responses SHORT (1-3 sentences max) - this is a doorstep conversation, not a lecture
+8. You may eventually agree to hear more or let them show you something if they do well
+9. If they do poorly, you may close the door or firmly decline
+
+WHAT THE REP SHOULD DO TO PASS:
+${config.passCriteria}
+
+CRITICAL RULES:
+- NEVER break character
+- NEVER reveal you are an AI or part of a training simulation
+- NEVER give the rep direct coaching or hints
+- Respond ONLY as the homeowner would in a real doorstep interaction
+- Your FIRST message MUST be: "${config.objection}"`;
+  };
+
   const startCall = useCallback(async () => {
     try {
       setStatus("connecting");
       setError(null);
       setTranscript([]);
-
-      const response = await fetch("/api/vapi/start-call", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ roleplayId }),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Failed to start call");
-      }
-
-      const data = await response.json();
-      callIdRef.current = data.callId;
 
       const vapi = new Vapi(VAPI_PUBLIC_KEY);
       vapiRef.current = vapi;
@@ -117,13 +144,41 @@ export function VoiceRoleplay({ roleplayId, config, onComplete, onCancel }: Voic
         setStatus("idle");
       });
 
-      await vapi.start(data.callId);
+      const assistantConfig = {
+        name: `Roleplay: ${config.name}`,
+        firstMessage: config.objection,
+        model: {
+          provider: "openai" as const,
+          model: "gpt-4o" as const,
+          temperature: 0.7,
+          messages: [
+            {
+              role: "system" as const,
+              content: buildAssistantPrompt()
+            }
+          ]
+        },
+        voice: {
+          provider: "11labs" as const,
+          voiceId: "21m00Tcm4TlvDq8ikWAM"
+        },
+        transcriber: {
+          provider: "deepgram" as const,
+          model: "nova-2" as const,
+          language: "en-US" as const
+        }
+      };
+
+      const call = await vapi.start(assistantConfig);
+      if (call?.id) {
+        callIdRef.current = call.id;
+      }
     } catch (err: any) {
       console.error("Start call error:", err);
       setError(err.message || "Failed to start voice call");
       setStatus("idle");
     }
-  }, [roleplayId, onComplete]);
+  }, [roleplayId, config, onComplete]);
 
   const endCall = useCallback(() => {
     if (vapiRef.current) {
