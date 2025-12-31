@@ -99,6 +99,12 @@ CRITICAL RULES:
       setError(null);
       setTranscript([]);
 
+      if (!VAPI_PUBLIC_KEY) {
+        throw new Error("VAPI public key is not configured. Please add VITE_VAPI_PUBLIC_KEY to your environment.");
+      }
+
+      console.log("Starting VAPI call with public key:", VAPI_PUBLIC_KEY.substring(0, 10) + "...");
+      
       const vapi = new Vapi(VAPI_PUBLIC_KEY);
       vapiRef.current = vapi;
 
