@@ -91,22 +91,52 @@ export class VapiService {
     return await response.json() as VapiCallResponse;
   }
 
-  async getCallTranscript(callId: string): Promise<{ 
+  async getCallTranscript(callId: string, maxRetries: number = 5): Promise<{ 
     transcript: string; 
     messages: Array<{ role: string; content: string }>;
     recordingUrl?: string;
   }> {
-    const callDetails = await this.getCallDetails(callId);
+    let lastError: Error | null = null;
     
-    const messages = (callDetails.messages || []).map(msg => ({
-      role: msg.role === "assistant" ? "model" : "user",
-      content: msg.message,
-    }));
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        const callDetails = await this.getCallDetails(callId);
+        console.log(`VAPI call ${callId} attempt ${attempt + 1}: status=${callDetails.status}, messages=${callDetails.messages?.length || 0}, transcript length=${callDetails.transcript?.length || 0}`);
+        
+        // Check if call has ended and has transcript data
+        if (callDetails.status === "ended" && (callDetails.messages?.length || callDetails.transcript)) {
+          const messages = (callDetails.messages || []).map(msg => ({
+            role: msg.role === "assistant" ? "model" : "user",
+            content: msg.message,
+          }));
 
+          return {
+            transcript: callDetails.transcript || "",
+            messages,
+            recordingUrl: callDetails.recordingUrl,
+          };
+        }
+        
+        // If still processing, wait and retry
+        if (attempt < maxRetries - 1) {
+          console.log(`VAPI call ${callId} still processing, waiting 3s before retry...`);
+          await new Promise(resolve => setTimeout(resolve, 3000));
+        }
+      } catch (err: any) {
+        lastError = err;
+        console.error(`VAPI getCallTranscript attempt ${attempt + 1} failed:`, err.message);
+        if (attempt < maxRetries - 1) {
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+      }
+    }
+
+    // Return empty if we couldn't get transcript after retries
+    console.warn(`Could not get transcript for call ${callId} after ${maxRetries} attempts`);
     return {
-      transcript: callDetails.transcript || "",
-      messages,
-      recordingUrl: callDetails.recordingUrl,
+      transcript: "",
+      messages: [],
+      recordingUrl: undefined,
     };
   }
 
