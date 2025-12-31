@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import express from "express";
 import path from "path";
+import jwt from "jsonwebtoken";
 import { storage } from "./storage";
 import { insertUserProgressSchema, insertRoleplayAttemptSchema } from "@shared/schema";
 import { z } from "zod";
@@ -654,6 +655,36 @@ export async function registerRoutes(
   });
 
   // VAPI Voice Roleplay Routes
+  
+  // Generate JWT token for VAPI Web SDK (public scope - only allows web calls)
+  app.get("/api/vapi/token", async (_req, res) => {
+    try {
+      const privateKey = process.env.VAPI_API_KEY;
+      const orgId = process.env.VAPI_ORG_ID;
+      
+      if (!privateKey || !orgId) {
+        return res.status(500).json({ error: "VAPI credentials not configured" });
+      }
+
+      const payload = {
+        orgId: orgId,
+        token: {
+          tag: "public",
+          restrictions: {
+            enabled: true,
+            allowTransientAssistant: true
+          }
+        }
+      };
+
+      const token = jwt.sign(payload, privateKey, { expiresIn: "1h" });
+      res.json({ token });
+    } catch (error) {
+      console.error("Generate VAPI token error:", error);
+      res.status(500).json({ error: "Failed to generate token" });
+    }
+  });
+
   app.get("/api/vapi/configs", async (_req, res) => {
     try {
       res.json(VAPI_ROLEPLAY_CONFIGS);

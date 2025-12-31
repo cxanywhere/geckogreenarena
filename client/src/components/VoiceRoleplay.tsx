@@ -32,8 +32,6 @@ interface VoiceRoleplayProps {
   onCancel: () => void;
 }
 
-const VAPI_PUBLIC_KEY = import.meta.env.VITE_VAPI_PUBLIC_KEY || "";
-
 export function VoiceRoleplay({ roleplayId, config, onComplete, onCancel }: VoiceRoleplayProps) {
   const [status, setStatus] = useState<"idle" | "connecting" | "active" | "ending">("idle");
   const [isMuted, setIsMuted] = useState(false);
@@ -99,13 +97,17 @@ CRITICAL RULES:
       setError(null);
       setTranscript([]);
 
-      if (!VAPI_PUBLIC_KEY) {
-        throw new Error("VAPI public key is not configured. Please add VITE_VAPI_PUBLIC_KEY to your environment.");
+      // Fetch JWT token from server
+      const tokenResponse = await fetch("/api/vapi/token");
+      if (!tokenResponse.ok) {
+        const err = await tokenResponse.json();
+        throw new Error(err.error || "Failed to get VAPI token");
       }
+      const { token } = await tokenResponse.json();
 
-      console.log("Starting VAPI call with public key:", VAPI_PUBLIC_KEY.substring(0, 10) + "...");
+      console.log("Starting VAPI call with JWT token");
       
-      const vapi = new Vapi(VAPI_PUBLIC_KEY);
+      const vapi = new Vapi(token);
       vapiRef.current = vapi;
 
       vapi.on("call-start", () => {
