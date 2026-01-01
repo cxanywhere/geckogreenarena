@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import { storage } from "./storage";
 import { insertUserProgressSchema, insertRoleplayAttemptSchema } from "@shared/schema";
 import { z } from "zod";
-import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
+import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
 import { getOrGenerateQuizForSlide, submitQuizAnswer } from "./quiz-service";
 import { vapiService } from "./vapi-service";
 import { getVapiRoleplayConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
@@ -332,6 +332,80 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Get chapter roleplays error:", error);
       res.status(500).json({ error: "Failed to get chapter roleplays" });
+    }
+  });
+
+  // Generate persona avatar for a single roleplay
+  app.post("/api/roleplays/:id/generate-avatar", async (req, res) => {
+    try {
+      const roleplay = await storage.getRoleplay(req.params.id);
+      if (!roleplay) {
+        return res.status(404).json({ error: "Roleplay not found" });
+      }
+
+      console.log(`Generating persona avatar for: ${roleplay.role}`);
+      const stats = roleplay.stats as { resistance: number; objections: number; buy_signal: number };
+      const result = await generatePersonaImage(
+        roleplay.name,
+        roleplay.role,
+        roleplay.traits,
+        roleplay.difficulty,
+        stats.resistance
+      );
+      
+      if (!result.success) {
+        console.error("Avatar generation failed:", result.error);
+        return res.status(500).json({ error: result.error || "Avatar generation failed" });
+      }
+
+      await storage.updateRoleplayAvatar(roleplay.id, result.imageUrl!);
+      
+      console.log(`Generated avatar for ${roleplay.role}: ${result.imageUrl}`);
+      res.json({ success: true, imageUrl: result.imageUrl });
+    } catch (error) {
+      console.error("Generate roleplay avatar error:", error);
+      res.status(500).json({ error: "Failed to generate avatar" });
+    }
+  });
+
+  // Generate avatars for all roleplays
+  app.post("/api/roleplays/generate-all-avatars", async (_req, res) => {
+    try {
+      const roleplays = await storage.getAllRoleplays();
+      const results: { roleplayId: string; role: string; success: boolean; imageUrl?: string; error?: string }[] = [];
+
+      for (const roleplay of roleplays) {
+        // Skip if already has avatar
+        if (roleplay.avatar) {
+          results.push({ roleplayId: roleplay.id, role: roleplay.role, success: true, imageUrl: roleplay.avatar });
+          continue;
+        }
+
+        console.log(`Generating persona avatar for: ${roleplay.role}`);
+        const stats = roleplay.stats as { resistance: number; objections: number; buy_signal: number };
+        const result = await generatePersonaImage(
+          roleplay.name,
+          roleplay.role,
+          roleplay.traits,
+          roleplay.difficulty,
+          stats.resistance
+        );
+        
+        if (result.success && result.imageUrl) {
+          await storage.updateRoleplayAvatar(roleplay.id, result.imageUrl);
+          results.push({ roleplayId: roleplay.id, role: roleplay.role, success: true, imageUrl: result.imageUrl });
+        } else {
+          results.push({ roleplayId: roleplay.id, role: roleplay.role, success: false, error: result.error });
+        }
+
+        // Small delay between generations to avoid rate limiting
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+
+      res.json({ success: true, results });
+    } catch (error) {
+      console.error("Generate all roleplay avatars error:", error);
+      res.status(500).json({ error: "Failed to generate avatars" });
     }
   });
 

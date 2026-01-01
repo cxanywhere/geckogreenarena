@@ -50,6 +50,7 @@ export interface IStorage {
   getRoleplay(id: string): Promise<Roleplay | undefined>;
   getRoleplaysByChapterId(chapterId: string): Promise<Roleplay[]>;
   createRoleplay(roleplay: InsertRoleplay): Promise<Roleplay>;
+  updateRoleplayAvatar(id: string, avatar: string): Promise<Roleplay | undefined>;
   
   // Battlecards
   getAllBattlecards(): Promise<Battlecard[]>;
@@ -148,6 +149,11 @@ export class DatabaseStorage implements IStorage {
   async createRoleplay(insertRoleplay: InsertRoleplay): Promise<Roleplay> {
     const [roleplay] = await db.insert(roleplays).values(insertRoleplay).returning();
     return roleplay;
+  }
+
+  async updateRoleplayAvatar(id: string, avatar: string): Promise<Roleplay | undefined> {
+    const [roleplay] = await db.update(roleplays).set({ avatar }).where(eq(roleplays.id, id)).returning();
+    return roleplay || undefined;
   }
 
   // Battlecards
