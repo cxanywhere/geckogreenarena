@@ -5,7 +5,7 @@ import { ArrowLeft, Trophy, RefreshCw, Activity, CheckCircle, Target, Lightbulb,
 import { motion } from "framer-motion";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 
 interface AIFeedback {
   overallScore: number;
@@ -44,7 +44,27 @@ export default function ResultsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const loadingMessages = useMemo(() => [
+    { title: "Reviewing your conversation...", subtitle: "Our AI coach is listening to every word" },
+    { title: "Analyzing your technique...", subtitle: "Checking how you handled that objection" },
+    { title: "Scoring your performance...", subtitle: "Top reps nail this in under 60 seconds" },
+    { title: "Finding your strengths...", subtitle: "Everyone's got something they do great" },
+    { title: "Preparing your feedback...", subtitle: "Personalized tips coming your way" },
+    { title: "Almost there...", subtitle: "Great things take a moment to process" },
+    { title: "Polishing your results...", subtitle: "Your scorecard is nearly ready" },
+  ], []);
+
+  useEffect(() => {
+    if (isLoading) {
+      const interval = setInterval(() => {
+        setLoadingMessageIndex(prev => (prev + 1) % loadingMessages.length);
+      }, 3500);
+      return () => clearInterval(interval);
+    }
+  }, [isLoading, loadingMessages.length]);
 
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
@@ -56,8 +76,6 @@ export default function ResultsPage() {
         setError(null);
         
         try {
-          await new Promise(resolve => setTimeout(resolve, 3000));
-          
           const response = await fetch("/api/vapi/evaluate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -109,16 +127,50 @@ export default function ResultsPage() {
   };
 
   if (isLoading) {
+    const currentMessage = loadingMessages[loadingMessageIndex];
     return (
       <div className="min-h-screen bg-muted/20 flex flex-col">
         <Nav />
         <div className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-[#84CC16]/20 flex items-center justify-center">
-              <Loader2 className="w-12 h-12 text-[#84CC16] animate-spin" />
+          <div className="text-center max-w-md px-6">
+            <motion.div 
+              className="w-28 h-28 mx-auto mb-8 rounded-full bg-gradient-to-br from-[#84CC16]/30 to-[#2D5016]/20 flex items-center justify-center relative"
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <motion.div 
+                className="absolute inset-0 rounded-full border-4 border-[#84CC16]/30"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              />
+              <Loader2 className="w-14 h-14 text-[#84CC16] animate-spin" />
+            </motion.div>
+            
+            <motion.div
+              key={loadingMessageIndex}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4 }}
+            >
+              <h2 className="text-2xl font-bold mb-3 text-foreground">{currentMessage.title}</h2>
+              <p className="text-muted-foreground text-lg">{currentMessage.subtitle}</p>
+            </motion.div>
+
+            <div className="mt-10 flex justify-center gap-2">
+              {loadingMessages.map((_, idx) => (
+                <motion.div
+                  key={idx}
+                  className={`w-2 h-2 rounded-full ${idx === loadingMessageIndex ? 'bg-[#84CC16]' : 'bg-gray-300'}`}
+                  animate={idx === loadingMessageIndex ? { scale: [1, 1.3, 1] } : {}}
+                  transition={{ duration: 0.5 }}
+                />
+              ))}
             </div>
-            <h2 className="text-xl font-bold mb-2">Analyzing Your Performance...</h2>
-            <p className="text-muted-foreground">Our AI is reviewing your conversation and preparing detailed feedback.</p>
+
+            <p className="mt-8 text-sm text-muted-foreground/70">
+              This usually takes 10-20 seconds
+            </p>
           </div>
         </div>
       </div>
