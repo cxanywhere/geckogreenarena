@@ -75,6 +75,88 @@ Create a visually appealing illustration that represents door-to-door sales succ
   }
 }
 
+export async function generatePersonaImage(
+  personaName: string,
+  personaRole: string,
+  traits: string[],
+  difficulty: string,
+  resistanceLevel: number
+): Promise<GeneratedImage> {
+  const personalityDescription = traits.slice(0, 3).join(", ");
+  const resistanceDesc = resistanceLevel > 70 ? "skeptical and guarded" : 
+                         resistanceLevel > 40 ? "cautious but approachable" : "friendly and open";
+  
+  const ageRange = difficulty === "Advanced" ? "45-65 years old" : 
+                   difficulty === "Intermediate" ? "35-55 years old" : "30-50 years old";
+
+  const prompt = `Create a photorealistic portrait of a homeowner for a sales training simulation.
+
+CHARACTER: "${personaRole}"
+PERSONALITY: ${personalityDescription}
+DEMEANOR: ${resistanceDesc}
+AGE: ${ageRange}
+
+REQUIREMENTS:
+- Photorealistic, high-quality headshot/portrait
+- Natural lighting, outdoor residential setting (front porch, doorway, or yard)
+- Subject should be looking at camera with expression matching their personality
+- Diverse suburban homeowner - can be any ethnicity, gender
+- Casual home attire (not formal business wear)
+- Expression should convey: ${resistanceDesc}
+- Background hints at a residential home with lawn
+- Square portrait format, centered on face
+- Professional photography quality
+- NO text, logos, watermarks, or branding
+- Natural, authentic look - NOT a stock photo feel
+
+The image should look like a real homeowner you might encounter when going door-to-door.`;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3-pro-image-preview",
+      contents: prompt,
+      config: {
+        responseModalities: ["Text", "Image"],
+      },
+    });
+
+    const parts = response.candidates?.[0]?.content?.parts;
+    if (!parts) {
+      return { success: false, error: "No response parts received" };
+    }
+
+    for (const part of parts) {
+      if (part.inlineData) {
+        const imageData = part.inlineData.data;
+        if (imageData) {
+          const uploadsDir = path.join(process.cwd(), "public", "uploads");
+          if (!fs.existsSync(uploadsDir)) {
+            fs.mkdirSync(uploadsDir, { recursive: true });
+          }
+          
+          const safeName = personaRole.toLowerCase().replace(/[^a-z0-9]+/g, "-").substring(0, 30);
+          const filename = `persona-${safeName}-${Date.now()}.png`;
+          const filepath = path.join(uploadsDir, filename);
+          
+          const buffer = Buffer.from(imageData, "base64");
+          fs.writeFileSync(filepath, buffer);
+          
+          return {
+            success: true,
+            imagePath: filepath,
+            imageUrl: `/uploads/${filename}`,
+          };
+        }
+      }
+    }
+
+    return { success: false, error: "No image data in response" };
+  } catch (error: any) {
+    console.error("Failed to generate persona image:", error);
+    return { success: false, error: error.message || "Image generation failed" };
+  }
+}
+
 export interface RoleplayMessage {
   role: "user" | "model";
   content: string;
