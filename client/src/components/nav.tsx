@@ -15,7 +15,7 @@ import {
 import { useAuth } from "@/lib/auth-context";
 
 import geckoLogo from "@assets/image_1766975682051.png";
-import arenaLogo from "@assets/arena-ai-logo-minimalist.png";
+import arenaLogo from "@/assets/arena-logo.png";
 
 export function Nav() {
   const [location, setLocation] = useLocation();

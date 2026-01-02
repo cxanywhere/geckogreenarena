@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, XCircle, Trophy, Download, Printer, Share2, Award, Star, TrendingUp, Lock, Brain, Target, Loader2 } from "lucide-react";
 import geckoLogo from "@assets/image_1766975682051.png";
-import arenaLogo from "@assets/arena-ai-logo-minimalist.png";
+import arenaLogo from "@/assets/arena-logo.png";
 import { Link } from "wouter";
 import { useRef, useEffect, useState } from "react";
 import { api, type UserProgress, type RoleplayAttempt, type Chapter } from "@/lib/api";

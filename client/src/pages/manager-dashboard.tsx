@@ -17,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { SALES_REPS, SalesRep } from "@/lib/mock-data";
 import { Plus, Trash2, Bell, Search, MoreHorizontal, UserPlus, Users, TrendingUp, AlertCircle, CheckCircle2 } from "lucide-react";
-import arenaLogo from "@assets/arena-ai-logo-minimalist.png";
+import arenaLogo from "@/assets/arena-logo.png";
 import geckoLogo from "@assets/image_1766975682051.png";
 import { ModeToggle } from "@/components/mode-toggle";
 
