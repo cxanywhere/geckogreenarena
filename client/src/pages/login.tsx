@@ -12,7 +12,7 @@ import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
 import heroBg from "@assets/generated_images/abstract_gecko_green_cybernetics.png";
 import geckoLogo from "@assets/image_1766975682051.png";
-import arenaLogo from "@assets/generated_images/superhero_style_logo_for_arena_ai.png";
+import arenaLogo from "@assets/arena-ai-logo-minimalist.png";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();

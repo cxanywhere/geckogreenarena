@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Brain, Target, Zap, Clock, ThumbsUp, ThumbsDown, CheckCircle2, XCircle } from "lucide-react";
 import { SALES_REPS, ROLEPLAYS, CHAPTERS } from "@/lib/mock-data";
-import arenaLogo from "@assets/generated_images/superhero_style_logo_for_arena_ai.png";
+import arenaLogo from "@assets/arena-ai-logo-minimalist.png";
 import geckoLogo from "@assets/image_1766975682051.png";
 import { ModeToggle } from "@/components/mode-toggle";
 

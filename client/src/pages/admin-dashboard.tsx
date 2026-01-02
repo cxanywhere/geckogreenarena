@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { MANAGERS, Manager, BILLING_STATS, SALES_REPS } from "@/lib/mock-data";
 import { UserPlus, Users, TrendingUp, AlertCircle, Search, Trash2, Shield, DollarSign, Activity, BarChart3, Settings } from "lucide-react";
-import arenaLogo from "@assets/generated_images/superhero_style_logo_for_arena_ai.png";
+import arenaLogo from "@assets/arena-ai-logo-minimalist.png";
 import geckoLogo from "@assets/image_1766975682051.png";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Progress } from "@/components/ui/progress";

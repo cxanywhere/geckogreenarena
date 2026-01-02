@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import { storage } from "./storage";
 import { insertUserProgressSchema, insertRoleplayAttemptSchema } from "@shared/schema";
 import { z } from "zod";
-import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
+import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, generateLogoImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
 import { getOrGenerateQuizForSlide, submitQuizAnswer } from "./quiz-service";
 import { vapiService } from "./vapi-service";
 import { getVapiRoleplayConfig, convertRoleplayToVapiConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
@@ -406,6 +406,30 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Generate all roleplay avatars error:", error);
       res.status(500).json({ error: "Failed to generate avatars" });
+    }
+  });
+
+  // Generate logo image
+  app.post("/api/generate-logo", async (req, res) => {
+    try {
+      const { prompt, filename } = req.body;
+      
+      if (!prompt || !filename) {
+        return res.status(400).json({ error: "Prompt and filename are required" });
+      }
+
+      console.log(`Generating logo: ${filename}`);
+      const result = await generateLogoImage(prompt, filename);
+      
+      if (!result.success) {
+        console.error("Logo generation failed:", result.error);
+        return res.status(500).json({ error: result.error || "Logo generation failed" });
+      }
+
+      res.json({ success: true, imageUrl: result.imageUrl });
+    } catch (error) {
+      console.error("Generate logo error:", error);
+      res.status(500).json({ error: "Failed to generate logo" });
     }
   });
 

@@ -157,6 +157,55 @@ The image should look like a real homeowner you might encounter when going door-
   }
 }
 
+export async function generateLogoImage(
+  prompt: string,
+  filename: string
+): Promise<GeneratedImage> {
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3-pro-image-preview",
+      contents: prompt,
+      config: {
+        responseModalities: ["Text", "Image"],
+      },
+    });
+
+    const parts = response.candidates?.[0]?.content?.parts;
+    if (!parts) {
+      return { success: false, error: "No response parts received" };
+    }
+
+    for (const part of parts) {
+      if (part.inlineData) {
+        const imageData = part.inlineData.data;
+        if (imageData) {
+          const uploadsDir = path.join(process.cwd(), "public", "uploads");
+          if (!fs.existsSync(uploadsDir)) {
+            fs.mkdirSync(uploadsDir, { recursive: true });
+          }
+          
+          const safeFilename = `${filename}-${Date.now()}.png`;
+          const filepath = path.join(uploadsDir, safeFilename);
+          
+          const buffer = Buffer.from(imageData, "base64");
+          fs.writeFileSync(filepath, buffer);
+          
+          return {
+            success: true,
+            imagePath: filepath,
+            imageUrl: `/uploads/${safeFilename}`,
+          };
+        }
+      }
+    }
+
+    return { success: false, error: "No image data in response" };
+  } catch (error: any) {
+    console.error("Failed to generate logo image:", error);
+    return { success: false, error: error.message || "Image generation failed" };
+  }
+}
+
 export interface RoleplayMessage {
   role: "user" | "model";
   content: string;
