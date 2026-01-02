@@ -39,6 +39,13 @@ export const roleplays = pgTable("roleplays", {
   difficulty: text("difficulty").notNull(),
   stats: jsonb("stats").$type<{resistance: number; objections: number; buy_signal: number}>().notNull(),
   chapterId: varchar("chapter_id"),
+  phase: text("phase"),
+  placement: text("placement"),
+  passCriteria: text("pass_criteria"),
+  failConditions: text("fail_conditions"),
+  winningResponse: text("winning_response"),
+  losingResponse: text("losing_response"),
+  orderIndex: integer("order_index").default(0),
 });
 
 export const battlecards = pgTable("battlecards", {
