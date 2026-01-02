@@ -70,6 +70,9 @@ export interface UserProgress {
   quizScore?: number;
   completed: number;
   completedAt?: string;
+  currentSlide?: number;
+  totalSlides?: number;
+  slidesViewed?: number[];
 }
 
 export interface RoleplayAttempt {
@@ -77,6 +80,7 @@ export interface RoleplayAttempt {
   userId: string;
   roleplayId: string;
   score: number;
+  passed?: number;
   duration?: string;
   feedback?: string;
   metrics?: {
@@ -188,6 +192,13 @@ class APIClient {
     return this.request("/api/progress", {
       method: "POST",
       body: JSON.stringify(progress),
+    });
+  }
+
+  async updateSlideProgress(userId: string, chapterId: string, currentSlide: number, totalSlides: number): Promise<UserProgress> {
+    return this.request("/api/progress/slide", {
+      method: "POST",
+      body: JSON.stringify({ userId, chapterId, currentSlide, totalSlides }),
     });
   }
 

@@ -65,6 +65,7 @@ export interface IStorage {
   getUserProgressByChapter(userId: string, chapterId: string): Promise<UserProgress | undefined>;
   createUserProgress(progress: InsertUserProgress): Promise<UserProgress>;
   updateUserProgress(id: string, updates: Partial<InsertUserProgress>): Promise<UserProgress | undefined>;
+  updateSlideProgress(userId: string, chapterId: string, currentSlide: number, totalSlides: number): Promise<UserProgress>;
   
   // Roleplay Attempts
   getUserRoleplayAttempts(userId: string): Promise<RoleplayAttempt[]>;
@@ -197,6 +198,40 @@ export class DatabaseStorage implements IStorage {
   async updateUserProgress(id: string, updates: Partial<InsertUserProgress>): Promise<UserProgress | undefined> {
     const [progress] = await db.update(userProgress).set(updates).where(eq(userProgress.id, id)).returning();
     return progress || undefined;
+  }
+
+  async updateSlideProgress(userId: string, chapterId: string, currentSlide: number, totalSlides: number): Promise<UserProgress> {
+    const existing = await this.getUserProgressByChapter(userId, chapterId);
+    
+    if (existing) {
+      const slidesViewed = existing.slidesViewed || [];
+      if (!slidesViewed.includes(currentSlide)) {
+        slidesViewed.push(currentSlide);
+      }
+      const [updated] = await db
+        .update(userProgress)
+        .set({ 
+          currentSlide, 
+          totalSlides, 
+          slidesViewed 
+        })
+        .where(eq(userProgress.id, existing.id))
+        .returning();
+      return updated;
+    } else {
+      const [created] = await db
+        .insert(userProgress)
+        .values({
+          userId,
+          chapterId,
+          currentSlide,
+          totalSlides,
+          slidesViewed: [currentSlide],
+          completed: 0,
+        })
+        .returning();
+      return created;
+    }
   }
 
   // Roleplay Attempts

@@ -469,6 +469,23 @@ export async function registerRoutes(
     }
   });
 
+  // Slide progress tracking
+  app.post("/api/progress/slide", async (req, res) => {
+    try {
+      const { userId, chapterId, currentSlide, totalSlides } = req.body;
+      
+      if (!userId || !chapterId || currentSlide === undefined || !totalSlides) {
+        return res.status(400).json({ error: "userId, chapterId, currentSlide, and totalSlides are required" });
+      }
+      
+      const progress = await storage.updateSlideProgress(userId, chapterId, currentSlide, totalSlides);
+      res.json(progress);
+    } catch (error) {
+      console.error("Update slide progress error:", error);
+      res.status(500).json({ error: "Failed to update slide progress" });
+    }
+  });
+
   // Roleplay attempt routes
   app.get("/api/users/:userId/attempts", async (req, res) => {
     try {
@@ -914,6 +931,7 @@ export async function registerRoutes(
       const dbRoleplay = await storage.getRoleplay(roleplayId);
       let config;
       if (dbRoleplay) {
+        const stats = dbRoleplay.stats as { buy_signal: number; objections: number; resistance: number } | null;
         config = convertRoleplayToVapiConfig({
           id: dbRoleplay.id,
           name: dbRoleplay.name,
@@ -921,7 +939,9 @@ export async function registerRoutes(
           description: dbRoleplay.description,
           traits: dbRoleplay.traits,
           difficulty: dbRoleplay.difficulty,
-          stats: dbRoleplay.stats as { buy_signal: number; objections: number; resistance: number },
+          buySignal: stats?.buy_signal || 50,
+          objections: stats?.objections || 50,
+          resistance: stats?.resistance || 50,
           phase: dbRoleplay.phase || "Phase 1",
           placement: dbRoleplay.placement || "",
           passCriteria: dbRoleplay.passCriteria || "",
@@ -968,6 +988,7 @@ export async function registerRoutes(
               userId,
               roleplayId,
               score: feedback.overallScore,
+              passed: passed ? 1 : 0,
               feedback: JSON.stringify({
                 ...feedback,
                 recordingUrl: transcriptData.recordingUrl

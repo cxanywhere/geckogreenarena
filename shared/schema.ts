@@ -78,6 +78,9 @@ export const userProgress = pgTable("user_progress", {
   quizScore: integer("quiz_score"),
   completed: integer("completed").notNull().default(0),
   completedAt: timestamp("completed_at"),
+  currentSlide: integer("current_slide").default(0),
+  totalSlides: integer("total_slides").default(0),
+  slidesViewed: jsonb("slides_viewed").$type<number[]>().default([]),
 });
 
 export const roleplayAttempts = pgTable("roleplay_attempts", {
@@ -85,6 +88,7 @@ export const roleplayAttempts = pgTable("roleplay_attempts", {
   userId: varchar("user_id").notNull(),
   roleplayId: varchar("roleplay_id").notNull(),
   score: integer("score").notNull(),
+  passed: integer("passed").default(0),
   duration: text("duration"),
   feedback: text("feedback"),
   metrics: jsonb("metrics").$type<{resistance: string; clarity: string; tone: string}>(),

@@ -63,6 +63,15 @@ export default function ChapterPage() {
     }
   }, [currentPage, params?.id]);
 
+  // Track slide progress in database
+  useEffect(() => {
+    if (params?.id && user?.id && totalSlides > 0) {
+      api.updateSlideProgress(user.id, params.id, currentPage, totalSlides).catch(err => {
+        console.error("Failed to track slide progress:", err);
+      });
+    }
+  }, [currentPage, params?.id, user?.id, totalSlides]);
+
   useEffect(() => {
     if (params?.id) {
       localStorage.setItem(`chapter_quiz_completed_${params.id}`, JSON.stringify(Array.from(completedQuizPages)));
