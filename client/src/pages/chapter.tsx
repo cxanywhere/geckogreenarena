@@ -2,7 +2,7 @@ import { useRoute, Link, useLocation } from "wouter";
 import { Nav } from "@/components/nav";
 import { PDFViewer } from "@/components/pdf-viewer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Download, BookOpen, Presentation, Brain, Loader2, Mic, CheckCircle } from "lucide-react";
+import { ArrowLeft, Download, BookOpen, Presentation, Brain, Loader2, Mic, CheckCircle, Clock, Target, FileText, GraduationCap, ChevronDown, ChevronUp } from "lucide-react";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { toast } from "sonner";
 import { api, type QuizQuestion } from "@/lib/api";
@@ -12,6 +12,8 @@ import { useOrientation } from "@/hooks/useOrientation";
 import { getQuizForSlide, isQuizSlide } from "@/lib/chapter1-quizzes";
 import { getRoleplaysForSlide, isRoleplaySlide, getAllChapter1Roleplays, type PredefinedRoleplay } from "@/lib/chapter1-roleplays";
 import { RoleplayPrompt } from "@/components/roleplay-prompt";
+import { Progress } from "@/components/ui/progress";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 const QUIZ_INTERVAL = 5;
 
@@ -304,53 +306,155 @@ export default function ChapterPage() {
     );
   }
 
+  const [showObjectives, setShowObjectives] = useState(false);
+  
+  const slideProgress = totalSlides > 0 ? Math.round((currentPage / totalSlides) * 100) : 0;
+  const allQuizzesDone = completedQuizPages.size >= (isChapter1 ? 5 : Math.floor(totalSlides / QUIZ_INTERVAL));
+  const allRoleplaysDone = isChapter1 ? completedRoleplays.size >= getAllChapter1Roleplays().length : true;
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Nav />
       
       <div className="flex-1 flex flex-col max-h-[calc(100vh-64px)]">
-        {/* Header */}
+        {/* Header with Learning Objectives */}
         <div className="border-b border-border bg-card/50 backdrop-blur-sm">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
+          <div className="container mx-auto px-4 py-3">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-4 min-w-0">
                 <Link href="/dashboard">
-                  <Button variant="ghost" size="icon" className="rounded-full" data-testid="button-back">
+                  <Button variant="ghost" size="icon" className="rounded-full shrink-0" data-testid="button-back">
                     <ArrowLeft className="h-5 w-5" />
                   </Button>
                 </Link>
-                <div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
-                    <Presentation className="h-4 w-4" />
-                    <span>Training Presentation</span>
-                    {completedQuizPages.size > 0 && (
-                      <span className="flex items-center gap-1 text-primary">
-                        <Brain className="h-3 w-3" />
-                        {completedQuizPages.size} quizzes done
-                      </span>
-                    )}
-                    {isLoadingQuiz && (
-                      <span className="flex items-center gap-1 text-muted-foreground">
-                        <Loader2 className="h-3 w-3 animate-spin" />
-                        Loading quiz...
-                      </span>
-                    )}
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1 flex-wrap">
+                    <span className="flex items-center gap-1">
+                      <Presentation className="h-4 w-4" />
+                      Chapter {chapters.findIndex(c => c.id === chapter.id) + 1}
+                    </span>
+                    <span className="text-border">|</span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      {chapter.duration}
+                    </span>
                   </div>
-                  <h1 className="text-xl md:text-2xl font-display font-bold text-foreground" data-testid="text-chapter-title">
-                    {chapter.title}: {chapter.subtitle}
+                  <h1 className="text-lg md:text-xl font-display font-bold text-foreground truncate" data-testid="text-chapter-title">
+                    {chapter.title}
                   </h1>
                 </div>
               </div>
               
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" asChild className="hidden md:flex">
-                  <a href={chapter.pdfUrl || ""} target="_blank" rel="noopener noreferrer" download>
-                    <Download className="mr-2 h-4 w-4" />
-                    Download PDF
-                  </a>
+              <div className="flex items-center gap-3 shrink-0">
+                {/* Progress Checklist Pills */}
+                <div className="hidden md:flex items-center gap-2">
+                  <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${slideProgress >= 100 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-muted text-muted-foreground'}`}>
+                    <FileText className="w-3 h-3" />
+                    {currentPage}/{totalSlides || '?'} slides
+                    {slideProgress >= 100 && <CheckCircle className="w-3 h-3" />}
+                  </div>
+                  <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${completedQuizPages.size > 0 ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : 'bg-muted text-muted-foreground'}`}>
+                    <GraduationCap className="w-3 h-3" />
+                    {completedQuizPages.size} quiz{completedQuizPages.size !== 1 ? 'zes' : ''}
+                    {allQuizzesDone && <CheckCircle className="w-3 h-3" />}
+                  </div>
+                  {isChapter1 && (
+                    <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${completedRoleplays.size > 0 ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-muted text-muted-foreground'}`}>
+                      <Mic className="w-3 h-3" />
+                      {completedRoleplays.size} roleplay{completedRoleplays.size !== 1 ? 's' : ''}
+                      {allRoleplaysDone && <CheckCircle className="w-3 h-3" />}
+                    </div>
+                  )}
+                </div>
+                
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setShowObjectives(!showObjectives)}
+                  className="text-xs"
+                  data-testid="button-toggle-objectives"
+                >
+                  {showObjectives ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                  <span className="hidden sm:inline ml-1">Details</span>
                 </Button>
               </div>
             </div>
+            
+            {/* Expandable Objectives & Checklist */}
+            {showObjectives && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                className="mt-4 pt-4 border-t border-border"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* What You'll Learn */}
+                  <div>
+                    <h3 className="text-sm font-bold mb-2 flex items-center gap-2">
+                      <Target className="w-4 h-4 text-primary" />
+                      What You'll Learn
+                    </h3>
+                    <ul className="space-y-1.5">
+                      {(chapter.agenda || []).slice(0, 4).map((item, i) => (
+                        <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
+                          {item}
+                        </li>
+                      ))}
+                      {(!chapter.agenda || chapter.agenda.length === 0) && (
+                        <li className="text-sm text-muted-foreground">Complete this training module</li>
+                      )}
+                    </ul>
+                  </div>
+                  
+                  {/* Requirements to Complete */}
+                  <div>
+                    <h3 className="text-sm font-bold mb-2 flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-500" />
+                      Requirements to Complete
+                    </h3>
+                    <ul className="space-y-2">
+                      <li className="flex items-center gap-2 text-sm">
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center ${slideProgress >= 100 ? 'bg-green-500 text-white' : 'bg-muted border border-border'}`}>
+                          {slideProgress >= 100 ? <CheckCircle className="w-3 h-3" /> : <span className="text-xs font-bold">{slideProgress}%</span>}
+                        </div>
+                        <span className={slideProgress >= 100 ? 'text-green-600 dark:text-green-400' : 'text-muted-foreground'}>
+                          View all slides
+                        </span>
+                      </li>
+                      <li className="flex items-center gap-2 text-sm">
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center ${completedQuizPages.size > 0 ? 'bg-amber-500 text-white' : 'bg-muted border border-border'}`}>
+                          {completedQuizPages.size > 0 ? <CheckCircle className="w-3 h-3" /> : <span className="text-xs font-bold">0</span>}
+                        </div>
+                        <span className={completedQuizPages.size > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-muted-foreground'}>
+                          Complete quizzes (score 90%+)
+                        </span>
+                      </li>
+                      {isChapter1 && (
+                        <li className="flex items-center gap-2 text-sm">
+                          <div className={`w-5 h-5 rounded-full flex items-center justify-center ${completedRoleplays.size > 0 ? 'bg-blue-500 text-white' : 'bg-muted border border-border'}`}>
+                            {completedRoleplays.size > 0 ? <CheckCircle className="w-3 h-3" /> : <span className="text-xs font-bold">0</span>}
+                          </div>
+                          <span className={completedRoleplays.size > 0 ? 'text-blue-600 dark:text-blue-400' : 'text-muted-foreground'}>
+                            Practice voice roleplays
+                          </span>
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                </div>
+                
+                {/* Progress Bar */}
+                <div className="mt-4 pt-3 border-t border-border/50">
+                  <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
+                    <span>Chapter Progress</span>
+                    <span className="font-medium">{slideProgress}% complete</span>
+                  </div>
+                  <Progress value={slideProgress} className="h-2" />
+                </div>
+              </motion.div>
+            )}
           </div>
         </div>
 

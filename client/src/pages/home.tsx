@@ -4,16 +4,18 @@ import { Nav } from "@/components/nav";
 import { RoleplayCard } from "@/components/character-card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ArrowRight, Bot, Target, Trophy, CheckCircle, Lock, BookOpen, Zap, Award, GraduationCap } from "lucide-react";
+import { ArrowRight, Bot, Target, Trophy, CheckCircle, Lock, BookOpen, Zap, Award, GraduationCap, Info, ChevronDown, ChevronUp, Play, Clock, FileText, Mic } from "lucide-react";
 import heroBg from "@assets/generated_images/abstract_bottle_green_glass_tech_shapes.png";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api, type Chapter, type Roleplay } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 export default function Home() {
   const [completedChapters, setCompletedChapters] = useState<string[]>([]);
   const [unlockedRoleplays, setUnlockedRoleplays] = useState<string[]>([]);
+  const [showCertGuide, setShowCertGuide] = useState(true);
   const { user } = useAuth();
 
   const { data: chapters = [] } = useQuery({
@@ -45,25 +47,20 @@ export default function Home() {
     setUnlockedRoleplays(savedRoleplays);
   }, []);
 
-  // Calculate certification progress stats
   const chaptersCompleted = userProgress.filter((p) => p.completed === 1).length;
   const totalChapters = chapters.length;
   
-  // Handle passed as either boolean or number (1/0)
   const isAttemptPassed = (attempt: typeof roleplayAttempts[number]) => {
     return attempt.passed === 1 || (attempt.passed as unknown) === true;
   };
   const roleplaysPassed = roleplayAttempts.filter(isAttemptPassed).length;
-  const totalRoleplaysAttempted = roleplayAttempts.length;
   const passedRoleplayIds = roleplayAttempts.filter(isAttemptPassed).map((a) => a.roleplayId);
   const uniqueRoleplaysPassed = Array.from(new Set(passedRoleplayIds)).length;
   const totalRoleplays = roleplays.length;
   
   const quizScores = userProgress.filter((p) => p.quizScore !== null && p.quizScore !== undefined).map((p) => p.quizScore!);
   const avgQuizScore = quizScores.length > 0 ? Math.round(quizScores.reduce((a, b) => a + b, 0) / quizScores.length) : 0;
-  const quizzesPassing = quizScores.filter((s) => s >= 90).length;
   
-  // Certification requirements
   const allChaptersComplete = chaptersCompleted >= totalChapters && totalChapters > 0;
   const allRoleplaysPassed = uniqueRoleplaysPassed >= totalRoleplays && totalRoleplays > 0;
   const quizScoreMet = avgQuizScore >= 90;
@@ -79,240 +76,399 @@ export default function Home() {
     Math.max(progress.chapters.total + progress.roleplays.total, 1)) * 100
   );
 
+  const getChapterProgress = (chapterId: string) => {
+    const prog = userProgress.find(p => p.chapterId === chapterId);
+    return prog;
+  };
+
+  const isChapterCompleted = (chapterId: string) => {
+    const prog = getChapterProgress(chapterId);
+    return prog?.completed === 1 || completedChapters.includes(chapterId);
+  };
+
+  const isChapterUnlocked = (index: number) => {
+    if (index === 0) return true;
+    const prevChapter = chapters[index - 1];
+    return prevChapter ? isChapterCompleted(prevChapter.id) : true;
+  };
+
+  const getNextAction = () => {
+    for (let i = 0; i < chapters.length; i++) {
+      if (!isChapterCompleted(chapters[i].id)) {
+        return {
+          type: "chapter",
+          chapter: chapters[i],
+          index: i,
+          message: `Continue with Chapter ${i + 1}`,
+        };
+      }
+    }
+    
+    if (!allRoleplaysPassed) {
+      const unpassedRoleplay = roleplays.find(r => !passedRoleplayIds.includes(r.id));
+      if (unpassedRoleplay) {
+        return {
+          type: "roleplay",
+          roleplay: unpassedRoleplay,
+          message: "Practice voice roleplays to pass all scenarios",
+        };
+      }
+    }
+    
+    if (!quizScoreMet && avgQuizScore > 0) {
+      return {
+        type: "quiz",
+        message: "Retake quizzes to improve your average score above 90%",
+      };
+    }
+    
+    return null;
+  };
+
+  const nextAction = getNextAction();
+
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20">
       <Nav />
       
-      {/* Personalized Welcome Section */}
       <section className="relative overflow-hidden pt-6 pb-12 md:pt-12 md:pb-20">
-        {/* Background Elements */}
         <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
            <img src={heroBg} alt="Abstract Background" className="w-full h-full object-cover mask-image-gradient" />
         </div>
         
         <div className="container mx-auto px-4 relative z-10">
-          <div className="flex flex-col gap-12">
+          <div className="flex flex-col gap-8">
             
-            {/* Top Section: Welcome & Stats */}
-            <div className="w-full">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-              >
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono font-bold mb-6">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                  </span>
-                  TRAINEE DASHBOARD // PHASE 1
-                </div>
-                
-                <div className="flex flex-col lg:flex-row gap-12 items-end justify-between mb-8">
-                   <div className="max-w-2xl">
-                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight tracking-tight mb-6 text-foreground">
-                       Welcome, <span className="text-primary transparent-text-stroke">{user?.name || "Sales Rep"}</span>.
-                     </h1>
-                     <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
-                       Your journey to the sales floor starts here. Master the pitch, handle the heat, and earn your place among the elite.
-                     </p>
-                   </div>
-                   
-                   {/* Compact Progress Card */}
-                   <div className="w-full lg:w-80 bg-card/50 backdrop-blur-sm border border-primary/10 rounded-2xl p-6 shadow-sm">
-                      <div className="space-y-4">
-                        <div className="flex justify-between items-center">
-                          <h3 className="text-sm font-bold font-display uppercase tracking-wider text-muted-foreground">Certification Progress</h3>
-                          <span className="font-bold text-primary">{progressPercentage}%</span>
-                        </div>
-                        <Progress value={progressPercentage} className="h-2" />
-                        <div className="flex justify-between text-xs font-medium text-muted-foreground">
-                           <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" /> {progress.chapters.completed}/{progress.chapters.total} Modules</span>
-                           <span className="flex items-center gap-1"><Target className="w-3 h-3" /> {progress.roleplays.completed}/{progress.roleplays.total} Scenarios</span>
-                        </div>
-                        <Link href="/report-card">
-                           <Button size="sm" variant="outline" className="w-full mt-2 text-xs h-8 border-primary/20 hover:border-primary/50 hover:bg-primary/5">
-                             View Full Report
-                           </Button>
-                        </Link>
-                     </div>
-                   </div>
-                </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono font-bold mb-6">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                TRAINEE DASHBOARD
+              </div>
+              
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight tracking-tight mb-4 text-foreground">
+                Welcome, <span className="text-primary transparent-text-stroke">{user?.name || "Sales Rep"}</span>.
+              </h1>
+              <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mb-8">
+                Complete your training to get certified and unlock full commission eligibility.
+              </p>
+            </motion.div>
 
-                {/* Certification Requirements Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16">
-                   {/* Chapter Completion */}
-                   <div className={`bg-card/50 backdrop-blur-sm border rounded-2xl p-5 shadow-sm ${allChaptersComplete ? 'border-green-500/50 bg-green-50/20' : 'border-primary/10'}`}>
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className={`p-2.5 rounded-xl ${allChaptersComplete ? 'bg-green-500/20' : 'bg-primary/10'}`}>
-                          <BookOpen className={`w-5 h-5 ${allChaptersComplete ? 'text-green-600' : 'text-primary'}`} />
-                        </div>
-                        {allChaptersComplete && <CheckCircle className="w-4 h-4 text-green-500" />}
-                      </div>
-                      <h3 className="text-base font-bold font-display mb-1">Training Modules</h3>
-                      <p className="text-muted-foreground text-sm mb-2">
-                        Complete all {totalChapters} training chapters
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <Progress value={totalChapters > 0 ? (chaptersCompleted / totalChapters) * 100 : 0} className="h-1.5 flex-1" />
-                        <span className={`text-xs font-bold ${allChaptersComplete ? 'text-green-600' : 'text-muted-foreground'}`}>
-                          {chaptersCompleted}/{totalChapters}
-                        </span>
-                      </div>
+            {/* How to Get Certified Guide */}
+            <Collapsible open={showCertGuide} onOpenChange={setShowCertGuide}>
+              <div className="bg-gradient-to-r from-primary/5 to-blue-500/5 border border-primary/20 rounded-2xl overflow-hidden">
+                <CollapsibleTrigger className="w-full p-5 flex items-center justify-between hover:bg-primary/5 transition-colors" data-testid="button-toggle-cert-guide">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-primary/10 rounded-xl">
+                      <Info className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="text-left">
+                      <h3 className="font-bold text-lg">How to Get Certified</h3>
+                      <p className="text-sm text-muted-foreground">Complete these 3 requirements to earn your certification</p>
+                    </div>
                   </div>
-                   
-                   {/* Roleplay Mastery */}
-                   <div className={`bg-card/50 backdrop-blur-sm border rounded-2xl p-5 shadow-sm ${allRoleplaysPassed ? 'border-green-500/50 bg-green-50/20' : 'border-primary/10'}`}>
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className={`p-2.5 rounded-xl ${allRoleplaysPassed ? 'bg-green-500/20' : 'bg-blue-500/10'}`}>
-                          <Target className={`w-5 h-5 ${allRoleplaysPassed ? 'text-green-600' : 'text-blue-600'}`} />
-                        </div>
-                        {allRoleplaysPassed && <CheckCircle className="w-4 h-4 text-green-500" />}
-                      </div>
-                      <h3 className="text-base font-bold font-display mb-1">Roleplay Mastery</h3>
-                      <p className="text-muted-foreground text-sm mb-2">
-                        Pass all {totalRoleplays} voice roleplays
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <Progress value={totalRoleplays > 0 ? (uniqueRoleplaysPassed / totalRoleplays) * 100 : 0} className="h-1.5 flex-1" />
-                        <span className={`text-xs font-bold ${allRoleplaysPassed ? 'text-green-600' : 'text-muted-foreground'}`}>
-                          {uniqueRoleplaysPassed}/{totalRoleplays}
-                        </span>
-                      </div>
-                  </div>
-                   
-                   {/* Quiz Excellence */}
-                   <div className={`bg-card/50 backdrop-blur-sm border rounded-2xl p-5 shadow-sm ${quizScoreMet ? 'border-green-500/50 bg-green-50/20' : 'border-primary/10'}`}>
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className={`p-2.5 rounded-xl ${quizScoreMet ? 'bg-green-500/20' : 'bg-amber-500/10'}`}>
-                          <GraduationCap className={`w-5 h-5 ${quizScoreMet ? 'text-green-600' : 'text-amber-600'}`} />
-                        </div>
-                        {quizScoreMet && <CheckCircle className="w-4 h-4 text-green-500" />}
-                      </div>
-                      <h3 className="text-base font-bold font-display mb-1">Quiz Excellence</h3>
-                      <p className="text-muted-foreground text-sm mb-2">
-                        Score 90%+ average on all quizzes
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <Progress value={avgQuizScore} className="h-1.5 flex-1" />
-                        <span className={`text-xs font-bold ${quizScoreMet ? 'text-green-600' : avgQuizScore > 0 ? 'text-amber-600' : 'text-muted-foreground'}`}>
-                          {avgQuizScore > 0 ? `${avgQuizScore}%` : 'N/A'}
-                        </span>
-                      </div>
-                  </div>
-                </div>
+                  {showCertGuide ? <ChevronUp className="w-5 h-5 text-muted-foreground" /> : <ChevronDown className="w-5 h-5 text-muted-foreground" />}
+                </CollapsibleTrigger>
                 
-                {/* Certification Status Banner */}
-                {isCertified && (
-                  <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl p-6 mb-16 text-white shadow-lg">
-                    <div className="flex items-center gap-4">
-                      <div className="p-3 bg-white/20 rounded-xl">
-                        <Award className="w-8 h-8" />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold font-display mb-1">Certification Complete!</h3>
-                        <p className="text-white/90">
-                          Congratulations! You've completed all requirements and are now certified for full commission eligibility.
+                <CollapsibleContent>
+                  <div className="px-5 pb-5">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="bg-card/80 rounded-xl p-4 border border-border/50">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary">1</div>
+                          <h4 className="font-bold">Complete All Chapters</h4>
+                          {allChaptersComplete && <CheckCircle className="w-4 h-4 text-green-500 ml-auto" />}
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-3">
+                          Watch each presentation, learn the material, and finish all slides in order.
                         </p>
+                        <div className="flex items-center gap-2 text-xs">
+                          <FileText className="w-3 h-3" />
+                          <span className="font-medium">{chaptersCompleted}/{totalChapters} chapters complete</span>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-card/80 rounded-xl p-4 border border-border/50">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center font-bold text-blue-600">2</div>
+                          <h4 className="font-bold">Pass All Roleplays</h4>
+                          {allRoleplaysPassed && <CheckCircle className="w-4 h-4 text-green-500 ml-auto" />}
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-3">
+                          Practice voice conversations with AI homeowners and pass each scenario.
+                        </p>
+                        <div className="flex items-center gap-2 text-xs">
+                          <Mic className="w-3 h-3" />
+                          <span className="font-medium">{uniqueRoleplaysPassed}/{totalRoleplays} roleplays passed</span>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-card/80 rounded-xl p-4 border border-border/50">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center font-bold text-amber-600">3</div>
+                          <h4 className="font-bold">Score 90%+ on Quizzes</h4>
+                          {quizScoreMet && <CheckCircle className="w-4 h-4 text-green-500 ml-auto" />}
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-3">
+                          Take the quiz at the end of each chapter and maintain a 90%+ average.
+                        </p>
+                        <div className="flex items-center gap-2 text-xs">
+                          <GraduationCap className="w-3 h-3" />
+                          <span className="font-medium">Current average: {avgQuizScore > 0 ? `${avgQuizScore}%` : "Not started"}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                )}
+                </CollapsibleContent>
+              </div>
+            </Collapsible>
+
+            {/* Next Action Card */}
+            {nextAction && !isCertified && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+                className="bg-gradient-to-r from-primary to-green-600 rounded-2xl p-6 text-white shadow-lg"
+              >
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-white/20 rounded-xl">
+                      <Play className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <p className="text-white/80 text-sm font-medium mb-1">YOUR NEXT STEP</p>
+                      <h3 className="text-xl font-bold font-display">
+                        {nextAction.type === "chapter" 
+                          ? `Chapter ${(nextAction.index ?? 0) + 1}: ${nextAction.chapter?.title}`
+                          : nextAction.message}
+                      </h3>
+                    </div>
+                  </div>
+                  {nextAction.type === "chapter" && nextAction.chapter && (
+                    <Link href={`/chapter/${nextAction.chapter.id}`}>
+                      <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90 font-bold shadow-md" data-testid="button-next-action">
+                        Start Now <ArrowRight className="ml-2 w-4 h-4" />
+                      </Button>
+                    </Link>
+                  )}
+                </div>
               </motion.div>
-            </div>
+            )}
 
-            {/* Training Modules Grid - Full Width */}
-            <div>
-               <div className="flex items-center justify-between mb-8">
-                 <h2 className="text-2xl font-display font-bold flex items-center gap-2">
-                   <BookOpen className="w-6 h-6 text-primary" />
-                   Training Path
-                 </h2>
-               </div>
+            {/* Certification Complete Banner */}
+            {isCertified && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl p-6 text-white shadow-lg"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-white/20 rounded-xl">
+                    <Award className="w-8 h-8" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold font-display mb-1">Certification Complete!</h3>
+                    <p className="text-white/90">
+                      Congratulations! You've completed all requirements and are now certified for full commission eligibility.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Training Path - Sequential Chapters */}
+            <div className="mt-8">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-2xl font-display font-bold flex items-center gap-2">
+                    <BookOpen className="w-6 h-6 text-primary" />
+                    Training Path
+                  </h2>
+                  <p className="text-muted-foreground mt-1">Complete each chapter in order to progress</p>
+                </div>
+                <div className="flex items-center gap-2 bg-card border border-border rounded-full px-4 py-2">
+                  <Progress value={totalChapters > 0 ? (chaptersCompleted / totalChapters) * 100 : 0} className="w-24 h-2" />
+                  <span className="text-sm font-bold">{chaptersCompleted}/{totalChapters}</span>
+                </div>
+              </div>
                
-               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  {chapters.map((chapter) => {
-                    const isCompleted = completedChapters.includes(chapter.id);
-                    return (
-                      <Link key={chapter.id} href={`/chapter/${chapter.id}`}>
-                        <div className={`group relative overflow-hidden rounded-2xl border transition-all duration-300 cursor-pointer h-full ${isCompleted ? 'border-green-200 bg-green-50/30' : 'border-border bg-card hover:border-primary/50 hover:shadow-xl hover:-translate-y-1'}`}>
-                          <div className="flex flex-col h-full">
-                            {/* Image Section */}
-                            <div className="relative h-56 w-full overflow-hidden bg-gradient-to-br from-primary/20 to-primary/40">
-                              {chapter.coverImage && (
-                                <img src={chapter.coverImage} alt={chapter.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                              )}
-                              <div className={`absolute inset-0 ${isCompleted ? 'bg-green-900/20' : 'bg-black/40'} group-hover:bg-transparent transition-colors`} />
-                              
-                              <div className="absolute top-4 left-4">
-                                 {isCompleted ? (
-                                    <div className="flex items-center gap-1 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase shadow-sm">
-                                      <CheckCircle className="w-3 h-3" /> Completed
-                                    </div>
-                                  ) : (
-                                    <div className="flex items-center gap-1 bg-white/90 backdrop-blur text-primary px-3 py-1 rounded-full text-xs font-bold uppercase shadow-sm">
-                                      <BookOpen className="w-3 h-3" /> {chapter.duration} Module
-                                    </div>
-                                  )}
-                              </div>
-
-                              <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent">
-                                 <h3 className="font-display font-bold text-2xl leading-tight text-white mb-1 group-hover:text-green-300 transition-colors">{chapter.title}</h3>
-                                 <p className="text-white/80 text-sm">{chapter.subtitle}</p>
-                              </div>
-                            </div>
-                            
-                            {/* Text Section */}
-                            <div className="p-6 flex flex-col flex-1">
-                                <p className="text-muted-foreground mb-6 line-clamp-2">{chapter.description}</p>
-                                
-                                <div className="space-y-3 mb-8 flex-1">
-                                  {chapter.agenda.slice(0, 3).map((item, i) => (
-                                    <div key={i} className="flex items-center gap-3 text-sm text-muted-foreground/90">
-                                      <div className={`w-1.5 h-1.5 rounded-full ${isCompleted ? 'bg-green-500' : 'bg-primary/40'}`} />
-                                      <span>{item}</span>
-                                    </div>
-                                  ))}
-                                </div>
-                              
-                              <div className="flex items-center justify-between pt-6 border-t border-border/50">
-                                <div className="text-xs font-medium text-muted-foreground flex items-center gap-2">
-                                  <div className="bg-primary/10 p-1.5 rounded-md">
-                                     <Bot className="w-3 h-3 text-primary" />
-                                  </div>
-                                  {chapter.slides.length} Interactive Steps
-                                </div>
-                                <span className="text-sm font-bold text-primary flex items-center group-hover:translate-x-1 transition-transform">
-                                  {isCompleted ? "Review Module" : "Start Module"} <ArrowRight className="ml-1 w-4 h-4" />
-                                </span>
-                              </div>
-                            </div>
+              <div className="space-y-6">
+                {chapters.map((chapter, index) => {
+                  const isCompleted = isChapterCompleted(chapter.id);
+                  const isUnlocked = isChapterUnlocked(index);
+                  const isNext = !isCompleted && isUnlocked && (index === 0 || isChapterCompleted(chapters[index - 1]?.id));
+                  const chapterProgress = getChapterProgress(chapter.id);
+                  const slidesViewed = chapterProgress?.slideProgress || 0;
+                  const totalSlides = chapterProgress?.totalSlides || chapter.slides?.length || 10;
+                  
+                  return (
+                    <motion.div
+                      key={chapter.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <div className={`relative flex gap-6 ${!isUnlocked ? 'opacity-60' : ''}`}>
+                        {/* Step Number & Line */}
+                        <div className="flex flex-col items-center">
+                          <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg border-2 ${
+                            isCompleted 
+                              ? 'bg-green-500 border-green-500 text-white' 
+                              : isNext 
+                                ? 'bg-primary border-primary text-white animate-pulse' 
+                                : isUnlocked 
+                                  ? 'bg-card border-primary/50 text-primary' 
+                                  : 'bg-muted border-muted-foreground/30 text-muted-foreground'
+                          }`}>
+                            {isCompleted ? <CheckCircle className="w-6 h-6" /> : !isUnlocked ? <Lock className="w-5 h-5" /> : index + 1}
                           </div>
+                          {index < chapters.length - 1 && (
+                            <div className={`w-0.5 flex-1 mt-2 ${isCompleted ? 'bg-green-500' : 'bg-border'}`} style={{ minHeight: '2rem' }} />
+                          )}
                         </div>
-                      </Link>
-                    );
-                  })}
-               </div>
+                        
+                        {/* Chapter Card */}
+                        <div className="flex-1 pb-6">
+                          {isUnlocked ? (
+                            <Link href={`/chapter/${chapter.id}`} className="block">
+                              <div className={`group rounded-2xl border transition-all duration-300 cursor-pointer overflow-hidden ${
+                                isCompleted 
+                                  ? 'border-green-200 bg-green-50/30 dark:bg-green-950/20' 
+                                  : isNext 
+                                    ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10 hover:shadow-xl' 
+                                    : 'border-border bg-card hover:border-primary/50 hover:shadow-lg'
+                              }`}>
+                                <div className="flex flex-col md:flex-row">
+                                  {/* Chapter Image */}
+                                  <div className="relative w-full md:w-64 h-40 md:h-auto overflow-hidden bg-gradient-to-br from-primary/20 to-primary/40 shrink-0">
+                                    {chapter.coverImage && (
+                                      <img src={chapter.coverImage} alt={chapter.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                    )}
+                                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent md:bg-gradient-to-t" />
+                                    
+                                    {isNext && (
+                                      <div className="absolute top-3 left-3 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold uppercase flex items-center gap-1 animate-pulse">
+                                        <Play className="w-3 h-3" /> Start Here
+                                      </div>
+                                    )}
+                                    {isCompleted && (
+                                      <div className="absolute top-3 left-3 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase flex items-center gap-1">
+                                        <CheckCircle className="w-3 h-3" /> Completed
+                                      </div>
+                                    )}
+                                  </div>
+                                  
+                                  {/* Chapter Content */}
+                                  <div className="p-5 flex-1">
+                                    <div className="flex items-start justify-between mb-2">
+                                      <div>
+                                        <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider mb-1">Chapter {index + 1}</p>
+                                        <h3 className="font-display font-bold text-xl group-hover:text-primary transition-colors">{chapter.title}</h3>
+                                      </div>
+                                      <div className="flex items-center gap-1 text-xs text-muted-foreground bg-muted px-2 py-1 rounded-full">
+                                        <Clock className="w-3 h-3" />
+                                        {chapter.duration}
+                                      </div>
+                                    </div>
+                                    
+                                    <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{chapter.description}</p>
+                                    
+                                    {/* What You'll Learn */}
+                                    {chapter.agenda && chapter.agenda.length > 0 && (
+                                      <div className="mb-4">
+                                        <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">What you'll learn:</p>
+                                        <div className="flex flex-wrap gap-2">
+                                          {chapter.agenda.slice(0, 3).map((item, i) => (
+                                            <span key={i} className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">{item}</span>
+                                          ))}
+                                        </div>
+                                      </div>
+                                    )}
+                                    
+                                    {/* Progress Bar for in-progress chapters */}
+                                    {!isCompleted && slidesViewed > 0 && (
+                                      <div className="mb-4">
+                                        <div className="flex items-center justify-between text-xs mb-1">
+                                          <span className="text-muted-foreground">Progress</span>
+                                          <span className="font-medium">{slidesViewed}/{totalSlides} slides</span>
+                                        </div>
+                                        <Progress value={(slidesViewed / totalSlides) * 100} className="h-1.5" />
+                                      </div>
+                                    )}
+                                    
+                                    <div className="flex items-center justify-between pt-4 border-t border-border/50">
+                                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                                        <span className="flex items-center gap-1"><FileText className="w-3 h-3" /> {totalSlides} slides</span>
+                                        <span className="flex items-center gap-1"><GraduationCap className="w-3 h-3" /> Quiz included</span>
+                                      </div>
+                                      <span className="text-sm font-bold text-primary flex items-center group-hover:translate-x-1 transition-transform">
+                                        {isCompleted ? "Review" : slidesViewed > 0 ? "Continue" : "Start"} <ArrowRight className="ml-1 w-4 h-4" />
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </Link>
+                          ) : (
+                            <div className="rounded-2xl border border-dashed border-muted-foreground/30 bg-muted/30 p-5">
+                              <div className="flex items-center gap-3 mb-2">
+                                <Lock className="w-5 h-5 text-muted-foreground" />
+                                <div>
+                                  <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Chapter {index + 1}</p>
+                                  <h3 className="font-display font-bold text-lg text-muted-foreground">{chapter.title}</h3>
+                                </div>
+                              </div>
+                              <p className="text-sm text-muted-foreground">
+                                Complete Chapter {index} first to unlock this module
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Chapters & Tasks Section */}
+      {/* Voice Roleplays Section */}
       <section className="py-12 bg-muted/20 border-t border-border/50">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-display font-bold">Certification Modules</h2>
-            <span className="text-sm text-muted-foreground">Showing {roleplays.length} Active Roleplays</span>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-display font-bold flex items-center gap-2">
+                <Mic className="w-6 h-6 text-blue-500" />
+                Voice Roleplays
+              </h2>
+              <p className="text-muted-foreground mt-1">Practice real conversations with AI homeowners</p>
+            </div>
+            <div className="flex items-center gap-2 bg-card border border-border rounded-full px-4 py-2">
+              <Progress value={totalRoleplays > 0 ? (uniqueRoleplaysPassed / totalRoleplays) * 100 : 0} className="w-24 h-2" />
+              <span className="text-sm font-bold">{uniqueRoleplaysPassed}/{totalRoleplays} passed</span>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {roleplays.map((scenario, i) => {
-              // All roleplays unlocked for testing
-              const isLocked = false;
+              const isPassed = passedRoleplayIds.includes(scenario.id);
               return (
                 <div key={scenario.id} className="relative group">
-                  <RoleplayCard scenario={scenario} index={i} isLocked={isLocked} />
+                  <RoleplayCard scenario={scenario} index={i} isLocked={false} />
+                  {isPassed && (
+                    <div className="absolute top-3 right-3 bg-green-500 text-white p-1.5 rounded-full">
+                      <CheckCircle className="w-4 h-4" />
+                    </div>
+                  )}
                 </div>
               );
             })}
