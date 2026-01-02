@@ -206,6 +206,91 @@ export async function generateLogoImage(
   }
 }
 
+export async function generateBattlecardImage(
+  battlecardNumber: number,
+  title: string,
+  useWhen: string,
+  goal: string,
+  keyPoints: string[],
+  talkTrack: string,
+  coachLine: string
+): Promise<GeneratedImage> {
+  const prompt = `Create a professional, detailed infographic battlecard for sales training.
+
+BATTLECARD #${battlecardNumber}: "${title}"
+
+CONTENT TO DISPLAY:
+- Title: "${title}" (prominently displayed at top)
+- Use When: "${useWhen}"
+- Goal: "${goal}"
+- Key Points: ${keyPoints.map((p, i) => `${i + 1}. ${p}`).join(", ")}
+- Talk Track/Script: "${talkTrack}"
+- Coach Line: "${coachLine}"
+
+DESIGN REQUIREMENTS:
+- Professional dark green (#1a472a) background with lime green (#84CC16) accents
+- Clean, modern corporate infographic style
+- All text must be clearly legible and well-organized
+- Use icons/visual elements to represent each section
+- Card number "${battlecardNumber}" in top corner
+- Title prominently at top in large bold white text
+- Organized sections with clear visual hierarchy
+- Gecko Green branding feel (lawn care company)
+- Include visual icons for "When to Use", "Goal", "Key Points", "Script"
+- Professional sales training document aesthetic
+- Dimensions: Portrait orientation, suitable for mobile viewing
+- Include checkmarks or bullet icons for key points
+- Quote bubble or script icon for the talk track section
+- Lightbulb or star icon for the coach line
+
+Create a visually stunning, information-rich battlecard that a sales rep could quickly reference in the field.`;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3-pro-image-preview",
+      contents: prompt,
+      config: {
+        responseModalities: ["Text", "Image"],
+      },
+    });
+
+    const parts = response.candidates?.[0]?.content?.parts;
+    if (!parts) {
+      return { success: false, error: "No response parts received" };
+    }
+
+    for (const part of parts) {
+      if (part.inlineData) {
+        const imageData = part.inlineData.data;
+        if (imageData) {
+          const uploadsDir = path.join(process.cwd(), "public", "uploads", "battlecards");
+          if (!fs.existsSync(uploadsDir)) {
+            fs.mkdirSync(uploadsDir, { recursive: true });
+          }
+          
+          const safeName = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").substring(0, 40);
+          const filename = `battlecard-${battlecardNumber}-${safeName}-${Date.now()}.png`;
+          const filepath = path.join(uploadsDir, filename);
+          
+          const buffer = Buffer.from(imageData, "base64");
+          fs.writeFileSync(filepath, buffer);
+          
+          return {
+            success: true,
+            imagePath: filepath,
+            imageUrl: `/uploads/battlecards/${filename}`,
+          };
+        }
+      }
+    }
+
+    return { success: false, error: "No image data in response" };
+  } catch (error: any) {
+    console.error("Failed to generate battlecard image:", error);
+    return { success: false, error: error.message || "Image generation failed" };
+  }
+}
+
 export interface RoleplayMessage {
   role: "user" | "model";
   content: string;

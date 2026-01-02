@@ -54,7 +54,10 @@ export interface IStorage {
   
   // Battlecards
   getAllBattlecards(): Promise<Battlecard[]>;
+  getBattlecard(id: string): Promise<Battlecard | undefined>;
   createBattlecard(battlecard: InsertBattlecard): Promise<Battlecard>;
+  updateBattlecardImage(id: string, image: string): Promise<Battlecard | undefined>;
+  deleteAllBattlecards(): Promise<void>;
   
   // Resources
   getAllResources(): Promise<Resource[]>;
@@ -162,9 +165,23 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(battlecards);
   }
 
+  async getBattlecard(id: string): Promise<Battlecard | undefined> {
+    const [battlecard] = await db.select().from(battlecards).where(eq(battlecards.id, id));
+    return battlecard || undefined;
+  }
+
   async createBattlecard(insertBattlecard: InsertBattlecard): Promise<Battlecard> {
     const [battlecard] = await db.insert(battlecards).values(insertBattlecard).returning();
     return battlecard;
+  }
+
+  async updateBattlecardImage(id: string, image: string): Promise<Battlecard | undefined> {
+    const [battlecard] = await db.update(battlecards).set({ image }).where(eq(battlecards.id, id)).returning();
+    return battlecard || undefined;
+  }
+
+  async deleteAllBattlecards(): Promise<void> {
+    await db.delete(battlecards);
   }
 
   // Resources
