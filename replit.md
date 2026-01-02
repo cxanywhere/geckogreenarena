@@ -119,3 +119,17 @@ shared/           # Shared code between frontend/backend
 ### Environment Variables
 - `VAPI_API_KEY`: Private API key (server-side only)
 - `VITE_VAPI_PUBLIC_KEY`: Public key for client SDK
+
+## UX Design Patterns
+
+### Dashboard Certification Guidance
+- **How to Get Certified Panel**: Collapsible guide showing 3 requirements (complete chapters, pass roleplays, score 90%+ on quizzes)
+- **Next Action CTA**: Prominent banner showing user's next step with direct link to continue
+- **Sequential Training Path**: Chapters displayed with step numbers, locked/unlocked states based on prior completion
+- **Progress Tracking**: Visual progress bars for chapters and roleplays in header
+
+### Chapter Page Learning Experience
+- **Header Progress Pills**: Quick-view badges showing slides viewed, quizzes completed, roleplays done
+- **Expandable Objectives Panel**: Toggle to show "What You'll Learn" agenda and "Requirements to Complete" checklist
+- **Progress Bar**: Overall chapter completion percentage with real-time updates
+- **Defensive Data Handling**: All chapter.agenda and chapter.slides access includes fallback defaults for robustness
