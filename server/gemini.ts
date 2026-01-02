@@ -492,34 +492,40 @@ Be constructive but honest. The "passed" field should be TRUE only if the rep ge
 export async function generateArenaLogo(mode: "dark" | "light"): Promise<GeneratedImage> {
   const isDark = mode === "dark";
   
-  const prompt = `Create a minimalist, modern logo icon for "Arena AI" - a sales training platform.
+  const prompt = `Create a striking, modern logo icon for "Arena AI" - a competitive sales training platform.
 
 DESIGN REQUIREMENTS:
 - A stylized Spartan/gladiator helmet in profile view, facing left
 - Geometric, angular line-art style with clean edges
-- Cyber/tech aesthetic with subtle glitch effects or digital scan lines
-- The helmet should have a prominent mohawk crest
+- Cyber/tech aesthetic with glitch effects and digital scan lines
+- The helmet should have a prominent mohawk crest/plume
+- IMPORTANT: Add a strong NEON GLOW effect around the helmet outline
 
 COLOR SCHEME FOR ${isDark ? "DARK MODE" : "LIGHT MODE"}:
 ${isDark 
-  ? `- Primary color: Bright neon green (#22C55E) for the helmet outline
-- Accent color: Red/orange (#FF4444) for subtle glitch effects
-- Background: Pure black (#000000) or very dark (#0A0A0A)`
-  : `- Primary color: Deep forest green (#166534) for the helmet outline
-- Accent color: Dark red (#991B1B) for subtle glitch effects  
-- Background: Pure white (#FFFFFF) or very light gray (#FAFAFA)`
+  ? `- Primary color: Bright neon green (#22C55E / #4ADE80) for the helmet outline
+- GLOW EFFECT: Strong green neon glow emanating from the helmet lines (like a neon sign)
+- Accent color: Red/orange (#FF4444) for subtle glitch displacement effects
+- Background: Pure black (#000000) - this makes the glow pop
+- The green lines should appear to GLOW and emit light against the dark background`
+  : `- Primary color: Deep forest green (#166534 / #15803D) for the helmet outline  
+- SUBTLE GLOW: Soft green shadow/glow effect around the helmet
+- Accent color: Dark red (#991B1B) for subtle glitch effects
+- Background: Pure white (#FFFFFF) or very light gray (#F9FAFB)
+- Clean, professional look with subtle depth`
 }
 
 STYLE:
-- Line art only, no filled shapes - just outlines
+- Line art style with NEON GLOW effects
 - Minimal, clean geometric shapes
-- Tech/cyber aesthetic with subtle digital artifacts
+- Tech/cyber aesthetic with digital artifacts and scan lines
+- ${isDark ? "Strong luminous glow like a neon sign at night" : "Clean professional look with subtle shadows"}
 - Professional, bold, intimidating but sleek
 - Square format, centered composition
 - NO text, NO words, just the helmet icon
-- Simple enough to work as a small favicon
+- The glow effect should make the logo feel alive and energetic
 
-The overall feel should be: modern tech company meets gladiator arena - competitive, sharp, elite.`;
+The overall feel should be: ${isDark ? "A glowing neon sign in a dark arena - powerful, electric, elite" : "A clean, professional emblem - sharp, confident, modern"}.`;
 
   try {
     const response = await ai.models.generateContent({
