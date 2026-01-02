@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Zap, ArrowRight, Lock, GraduationCap, Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { api } from "@/lib/api";
+import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
 import heroBg from "@assets/generated_images/abstract_gecko_green_cybernetics.png";
 import geckoLogo from "@assets/image_1766975682051.png";
@@ -18,6 +19,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +28,7 @@ export default function LoginPage() {
     try {
       const { user } = await api.login(email, password);
       
-      localStorage.setItem("currentUser", JSON.stringify(user));
+      login(user);
       
       if (user.role === "director") {
         setLocation("/admin-dashboard");
