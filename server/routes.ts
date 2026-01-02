@@ -743,11 +743,7 @@ export async function registerRoutes(
       const payload = {
         orgId: orgId,
         token: {
-          tag: "public",
-          restrictions: {
-            enabled: true,
-            allowTransientAssistant: true
-          }
+          scope: "public"
         }
       };
 
