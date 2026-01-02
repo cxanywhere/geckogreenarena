@@ -910,7 +910,29 @@ export async function registerRoutes(
         return res.status(400).json({ error: "roleplayId and callId are required" });
       }
 
-      const config = getVapiRoleplayConfig(roleplayId);
+      // First try database, then fall back to hardcoded configs
+      const dbRoleplay = await storage.getRoleplay(roleplayId);
+      let config;
+      if (dbRoleplay) {
+        config = convertRoleplayToVapiConfig({
+          id: dbRoleplay.id,
+          name: dbRoleplay.name,
+          role: dbRoleplay.role,
+          description: dbRoleplay.description,
+          traits: dbRoleplay.traits,
+          difficulty: dbRoleplay.difficulty,
+          stats: dbRoleplay.stats as { buy_signal: number; objections: number; resistance: number },
+          phase: dbRoleplay.phase || "Phase 1",
+          placement: dbRoleplay.placement || "",
+          passCriteria: dbRoleplay.passCriteria || "",
+          failConditions: dbRoleplay.failConditions || "",
+          winningResponse: dbRoleplay.winningResponse || "",
+          losingResponse: dbRoleplay.losingResponse || ""
+        });
+      } else {
+        config = getVapiRoleplayConfig(roleplayId);
+      }
+      
       if (!config) {
         return res.status(404).json({ error: "Roleplay config not found" });
       }
