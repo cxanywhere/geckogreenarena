@@ -438,6 +438,45 @@ export function getVapiRoleplayConfig(roleplayId: string): VapiRoleplayConfig | 
   return VAPI_ROLEPLAY_CONFIGS.find(config => config.id === roleplayId);
 }
 
+export interface DatabaseRoleplay {
+  id: string;
+  name: string;
+  role: string;
+  description: string;
+  difficulty: string;
+  phase?: string;
+  placement?: string;
+  passCriteria?: string;
+  failConditions?: string;
+  winningResponse?: string;
+  losingResponse?: string;
+  buySignal?: number;
+  objections?: number;
+  resistance?: number;
+  traits?: string[];
+}
+
+export function convertRoleplayToVapiConfig(roleplay: DatabaseRoleplay): VapiRoleplayConfig {
+  return {
+    id: roleplay.id,
+    name: roleplay.name,
+    role: roleplay.role,
+    phase: roleplay.phase || "Phase 1",
+    context: roleplay.placement || roleplay.description,
+    objection: roleplay.name,
+    passCriteria: roleplay.passCriteria || "Handle the objection professionally and move toward next step",
+    failConditions: roleplay.failConditions || "Being rude, pushy, or giving up too easily",
+    winningResponse: roleplay.winningResponse || "Acknowledge, ask a discovery question, and guide the conversation",
+    losingResponse: roleplay.losingResponse || "Push forward without addressing their concern",
+    difficulty: (roleplay.difficulty === "Beginner" || roleplay.difficulty === "Intermediate" || roleplay.difficulty === "Advanced") 
+      ? roleplay.difficulty 
+      : roleplay.difficulty === "Expert" ? "Advanced" : "Intermediate",
+    resistanceLevel: roleplay.resistance ?? 60,
+    buySignal: roleplay.buySignal ?? 30,
+    traits: roleplay.traits || ["Professional", "Respectful", "Persistence"]
+  };
+}
+
 export function buildVapiAssistantPrompt(config: VapiRoleplayConfig): string {
   const resistanceDescription = config.resistanceLevel > 70 ? "very resistant and skeptical" : 
                                  config.resistanceLevel > 40 ? "moderately resistant" : "somewhat open but cautious";

@@ -14,6 +14,7 @@ interface AIFeedback {
   keyMoments: string[];
   tips: string[];
   passed?: boolean;
+  passFailReason?: string;
   recordingUrl?: string;
 }
 
@@ -263,9 +264,9 @@ export default function ResultsPage() {
                     {scoreLabel}
                   </h2>
                   <p className="text-sm text-muted-foreground">
-                    {passed 
+                    {feedback.passFailReason || (passed 
                       ? "Great job handling this objection!" 
-                      : "Review the feedback below to improve your technique."}
+                      : "Review the feedback below to improve your technique.")}
                   </p>
                 </div>
               </motion.div>

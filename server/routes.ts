@@ -9,7 +9,7 @@ import { z } from "zod";
 import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
 import { getOrGenerateQuizForSlide, submitQuizAnswer } from "./quiz-service";
 import { vapiService } from "./vapi-service";
-import { getVapiRoleplayConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
+import { getVapiRoleplayConfig, convertRoleplayToVapiConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
 
 const roleplaySessions = new Map<string, { scenario: RoleplayScenario; history: RoleplayMessage[] }>();
 
@@ -761,7 +761,26 @@ export async function registerRoutes(
 
   app.get("/api/vapi/configs", async (_req, res) => {
     try {
-      res.json(VAPI_ROLEPLAY_CONFIGS);
+      // Get roleplays from database and convert to VAPI configs
+      const dbRoleplays = await storage.getAllRoleplays();
+      const vapiConfigs = dbRoleplays.map(rp => convertRoleplayToVapiConfig({
+        id: rp.id,
+        name: rp.name,
+        role: rp.role,
+        description: rp.description,
+        difficulty: rp.difficulty,
+        phase: rp.phase || undefined,
+        placement: rp.placement || undefined,
+        passCriteria: rp.passCriteria || undefined,
+        failConditions: rp.failConditions || undefined,
+        winningResponse: rp.winningResponse || undefined,
+        losingResponse: rp.losingResponse || undefined,
+        buySignal: rp.stats?.buy_signal,
+        objections: rp.stats?.objections,
+        resistance: rp.stats?.resistance,
+        traits: rp.traits
+      }));
+      res.json(vapiConfigs);
     } catch (error) {
       console.error("Get VAPI configs error:", error);
       res.status(500).json({ error: "Failed to get roleplay configs" });
@@ -770,6 +789,31 @@ export async function registerRoutes(
 
   app.get("/api/vapi/config/:roleplayId", async (req, res) => {
     try {
+      // First try database
+      const dbRoleplay = await storage.getRoleplay(req.params.roleplayId);
+      if (dbRoleplay) {
+        const config = convertRoleplayToVapiConfig({
+          id: dbRoleplay.id,
+          name: dbRoleplay.name,
+          role: dbRoleplay.role,
+          description: dbRoleplay.description,
+          difficulty: dbRoleplay.difficulty,
+          phase: dbRoleplay.phase || undefined,
+          placement: dbRoleplay.placement || undefined,
+          passCriteria: dbRoleplay.passCriteria || undefined,
+          failConditions: dbRoleplay.failConditions || undefined,
+          winningResponse: dbRoleplay.winningResponse || undefined,
+          losingResponse: dbRoleplay.losingResponse || undefined,
+          buySignal: dbRoleplay.stats?.buy_signal,
+          objections: dbRoleplay.stats?.objections,
+          resistance: dbRoleplay.stats?.resistance,
+          traits: dbRoleplay.traits
+        });
+        res.json(config);
+        return;
+      }
+
+      // Fallback to hardcoded configs
       const config = getVapiRoleplayConfig(req.params.roleplayId);
       if (!config) {
         return res.status(404).json({ error: "Roleplay config not found" });
@@ -788,6 +832,35 @@ export async function registerRoutes(
         return res.status(400).json({ error: "roleplayId is required" });
       }
 
+      // First try to get roleplay from database
+      const dbRoleplay = await storage.getRoleplay(roleplayId);
+      if (dbRoleplay) {
+        // Convert database roleplay to VAPI config
+        const result = await vapiService.startWebCallWithDbRoleplay({
+          id: dbRoleplay.id,
+          name: dbRoleplay.name,
+          role: dbRoleplay.role,
+          description: dbRoleplay.description,
+          difficulty: dbRoleplay.difficulty,
+          phase: dbRoleplay.phase || undefined,
+          placement: dbRoleplay.placement || undefined,
+          passCriteria: dbRoleplay.passCriteria || undefined,
+          failConditions: dbRoleplay.failConditions || undefined,
+          winningResponse: dbRoleplay.winningResponse || undefined,
+          losingResponse: dbRoleplay.losingResponse || undefined,
+          buySignal: dbRoleplay.stats?.buy_signal,
+          objections: dbRoleplay.stats?.objections,
+          resistance: dbRoleplay.stats?.resistance,
+          traits: dbRoleplay.traits
+        });
+        res.json({ 
+          callId: result.callId,
+          roleplayConfig: result.config
+        });
+        return;
+      }
+
+      // Fallback to hardcoded configs for legacy roleplays
       const result = await vapiService.startWebCall(roleplayId);
       res.json({ 
         callId: result.callId,
@@ -857,9 +930,13 @@ export async function registerRoutes(
         }
       };
 
-      const feedback = await evaluateRoleplay(scenario, transcriptData.messages);
+      const typedMessages = transcriptData.messages.map(m => ({
+        role: m.role as "model" | "user",
+        content: m.content
+      }));
+      const feedback = await evaluateRoleplay(scenario, typedMessages);
       
-      const passed = feedback.overallScore >= 70;
+      const passed = feedback.passed ?? feedback.overallScore >= 70;
 
       if (userId) {
         try {
@@ -869,12 +946,10 @@ export async function registerRoutes(
               userId,
               roleplayId,
               score: feedback.overallScore,
-              passed,
-              transcript: transcriptData.messages,
-              feedback: {
+              feedback: JSON.stringify({
                 ...feedback,
                 recordingUrl: transcriptData.recordingUrl
-              }
+              })
             });
           }
         } catch (dbError) {

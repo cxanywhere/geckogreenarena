@@ -1,4 +1,4 @@
-import { getVapiRoleplayConfig, buildVapiAssistantConfig, type VapiRoleplayConfig } from "./vapi-config";
+import { getVapiRoleplayConfig, buildVapiAssistantConfig, convertRoleplayToVapiConfig, type VapiRoleplayConfig, type DatabaseRoleplay } from "./vapi-config";
 
 const VAPI_API_KEY = process.env.VAPI_API_KEY;
 const VAPI_BASE_URL = "https://api.vapi.ai";
@@ -56,6 +56,31 @@ export class VapiService {
       throw new Error(`Roleplay configuration not found for ID: ${roleplayId}`);
     }
 
+    const assistantConfig = buildVapiAssistantConfig(roleplayConfig);
+
+    const response = await this.fetch("/call/web", {
+      method: "POST",
+      body: JSON.stringify({
+        assistant: assistantConfig,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error("VAPI start call error:", error);
+      throw new Error(`Failed to start VAPI web call: ${error}`);
+    }
+
+    const data = await response.json() as VapiCallResponse;
+    
+    return {
+      callId: data.id,
+      config: roleplayConfig,
+    };
+  }
+
+  async startWebCallWithDbRoleplay(roleplay: DatabaseRoleplay): Promise<{ callId: string; config: VapiRoleplayConfig }> {
+    const roleplayConfig = convertRoleplayToVapiConfig(roleplay);
     const assistantConfig = buildVapiAssistantConfig(roleplayConfig);
 
     const response = await this.fetch("/call/web", {

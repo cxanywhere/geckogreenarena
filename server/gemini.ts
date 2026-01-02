@@ -257,11 +257,13 @@ export async function continueRoleplayConversation(
 }
 
 export interface RoleplayFeedback {
+  passed: boolean;
   overallScore: number;
   strengths: string[];
   improvements: string[];
   keyMoments: string[];
   tips: string[];
+  passFailReason: string;
 }
 
 export async function evaluateRoleplay(
@@ -272,32 +274,45 @@ export async function evaluateRoleplay(
     `${msg.role === "user" ? "SALES REP" : "HOMEOWNER"}: ${msg.content}`
   ).join("\n");
 
+  // Extract pass criteria and fail conditions from description if available
+  const passCriteriaMatch = scenario.description.match(/Pass criteria: ([^.]+\.)/i);
+  const failConditionsMatch = scenario.description.match(/Fail conditions: ([^.]+\.)/i);
+  const passCriteria = passCriteriaMatch ? passCriteriaMatch[1] : "Handle objections professionally and move toward next step";
+  const failConditions = failConditionsMatch ? failConditionsMatch[1] : "Getting door slammed, being rude, or giving up too easily";
+
   const evaluationPrompt = `You are an expert sales coach evaluating a door-to-door sales training roleplay for Gecko Green lawn care.
 
 SCENARIO: ${scenario.name} - ${scenario.description}
 DIFFICULTY: ${scenario.difficulty}
 
+PASS CRITERIA (rep must achieve to pass):
+${passCriteria}
+
+FAIL CONDITIONS (any of these means rep fails):
+${failConditions}
+
 TRANSCRIPT:
 ${transcript}
 
-Evaluate the sales rep's performance and provide feedback in the following JSON format:
-{
-  "overallScore": <number 1-100>,
-  "strengths": [<list of 2-3 things they did well>],
-  "improvements": [<list of 2-3 areas to improve>],
-  "keyMoments": [<list of 1-2 critical moments in the conversation>],
-  "tips": [<list of 2-3 actionable tips for next time>]
-}
+Evaluate the sales rep's performance and determine if they PASSED or FAILED based on the criteria above.
 
 EVALUATION CRITERIA:
-1. Opening response - Did they acknowledge the objection appropriately?
-2. Frame control - Did they stay in control of the conversation?
-3. Active listening - Did they address what the homeowner actually said?
-4. Objection handling - Did they use proper techniques (acknowledge, isolate, respond)?
-5. Persistence without aggression - Professional but not pushy
-6. Closing attempt - Did they try to move toward a next step?
+1. Did they meet the PASS CRITERIA? This is the primary factor for passing.
+2. Did they trigger any FAIL CONDITIONS? If yes, they fail regardless of other factors.
+3. Opening response - Did they acknowledge the objection appropriately?
+4. Frame control - Did they stay in control of the conversation?
+5. Active listening - Did they address what the homeowner actually said?
+6. Objection handling - Did they use proper techniques (acknowledge, isolate, respond)?
+7. Persistence without aggression - Professional but not pushy
+8. Closing attempt - Did they try to move toward a next step?
 
-Be constructive but honest. Score based on the difficulty level - a perfect response to a beginner scenario should score higher than a mediocre response to an advanced one.`;
+SCORING GUIDE:
+- 80-100: Excellent performance, clearly passed
+- 65-79: Good performance, likely passed
+- 50-64: Borderline, may or may not pass
+- Below 50: Failed to meet criteria
+
+Be constructive but honest. The "passed" field should be TRUE only if the rep genuinely met the pass criteria without triggering fail conditions.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -307,13 +322,15 @@ Be constructive but honest. Score based on the difficulty level - a perfect resp
         responseSchema: {
           type: "object",
           properties: {
+            passed: { type: "boolean" },
             overallScore: { type: "number" },
             strengths: { type: "array", items: { type: "string" } },
             improvements: { type: "array", items: { type: "string" } },
             keyMoments: { type: "array", items: { type: "string" } },
             tips: { type: "array", items: { type: "string" } },
+            passFailReason: { type: "string" },
           },
-          required: ["overallScore", "strengths", "improvements", "keyMoments", "tips"],
+          required: ["passed", "overallScore", "strengths", "improvements", "keyMoments", "tips", "passFailReason"],
         },
       },
       contents: evaluationPrompt,
@@ -328,10 +345,12 @@ Be constructive but honest. Score based on the difficulty level - a perfect resp
   }
 
   return {
-    overallScore: 70,
+    passed: false,
+    overallScore: 50,
     strengths: ["Completed the roleplay session"],
     improvements: ["Unable to generate detailed feedback"],
     keyMoments: ["Session completed"],
     tips: ["Try again for more detailed feedback"],
+    passFailReason: "Unable to evaluate - please try again",
   };
 }
