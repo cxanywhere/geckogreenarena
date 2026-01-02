@@ -11,8 +11,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { MANAGERS, Manager, BILLING_STATS, SALES_REPS } from "@/lib/mock-data";
 import { UserPlus, Users, TrendingUp, AlertCircle, Search, Trash2, Shield, DollarSign, Activity, BarChart3, Settings } from "lucide-react";
-import arenaLogo from "@/assets/arena-logo.png";
+import arenaLogoDark from "@/assets/arena-logo-dark.png";
+import arenaLogoLight from "@/assets/arena-logo-light.png";
 import geckoLogo from "@assets/image_1766975682051.png";
+import { useTheme } from "next-themes";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Progress } from "@/components/ui/progress";
 
@@ -22,6 +24,9 @@ export default function AdminDashboard() {
   const { toast } = useToast();
   const [isAddManagerOpen, setIsAddManagerOpen] = useState(false);
   const [newManager, setNewManager] = useState({ name: "", email: "" });
+  const { resolvedTheme } = useTheme();
+  
+  const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
 
   const filteredManagers = managers.filter(m => 
     m.name.toLowerCase().includes(searchQuery.toLowerCase()) || 

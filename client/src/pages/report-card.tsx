@@ -7,7 +7,9 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, XCircle, Trophy, Download, Printer, Share2, Award, Star, TrendingUp, Lock, Brain, Target, Loader2 } from "lucide-react";
 import geckoLogo from "@assets/image_1766975682051.png";
-import arenaLogo from "@/assets/arena-logo.png";
+import arenaLogoDark from "@/assets/arena-logo-dark.png";
+import arenaLogoLight from "@/assets/arena-logo-light.png";
+import { useTheme } from "next-themes";
 import { Link } from "wouter";
 import { useRef, useEffect, useState } from "react";
 import { api, type UserProgress, type RoleplayAttempt, type Chapter } from "@/lib/api";
@@ -30,6 +32,9 @@ interface ChapterScore {
 export default function ReportCardPage() {
   const storedUser = localStorage.getItem("currentUser");
   const user = storedUser ? JSON.parse(storedUser) : null;
+  const { resolvedTheme } = useTheme();
+  
+  const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
 
   const { data: chapters = [], isLoading: chaptersLoading } = useQuery({
     queryKey: ["chapters"],

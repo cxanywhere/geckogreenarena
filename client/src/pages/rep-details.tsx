@@ -9,14 +9,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Brain, Target, Zap, Clock, ThumbsUp, ThumbsDown, CheckCircle2, XCircle } from "lucide-react";
 import { SALES_REPS, ROLEPLAYS, CHAPTERS } from "@/lib/mock-data";
-import arenaLogo from "@/assets/arena-logo.png";
+import arenaLogoDark from "@/assets/arena-logo-dark.png";
+import arenaLogoLight from "@/assets/arena-logo-light.png";
 import geckoLogo from "@assets/image_1766975682051.png";
+import { useTheme } from "next-themes";
 import { ModeToggle } from "@/components/mode-toggle";
 
 export default function RepDetailsPage() {
   const [, params] = useRoute("/manager/rep/:id");
   const repId = params?.id;
   const rep = SALES_REPS.find(r => r.id === repId);
+  const { resolvedTheme } = useTheme();
+  
+  const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
 
   // Mock detailed data - in a real app this would be fetched
   const performanceData = {

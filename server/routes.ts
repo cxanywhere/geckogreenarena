@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import { storage } from "./storage";
 import { insertUserProgressSchema, insertRoleplayAttemptSchema } from "@shared/schema";
 import { z } from "zod";
-import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, generateLogoImage, generateBattlecardImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
+import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, generateLogoImage, generateBattlecardImage, generateArenaLogo, type RoleplayMessage, type RoleplayScenario } from "./gemini";
 import { getOrGenerateQuizForSlide, submitQuizAnswer } from "./quiz-service";
 import { vapiService } from "./vapi-service";
 import { getVapiRoleplayConfig, convertRoleplayToVapiConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
@@ -818,6 +818,33 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Generate all battlecard images error:", error);
       res.status(500).json({ error: "Failed to generate battlecard images" });
+    }
+  });
+
+  // Generate Arena logos (dark and light mode)
+  app.post("/api/generate-arena-logos", async (req, res) => {
+    try {
+      console.log("Generating Arena AI logos...");
+      
+      // Generate dark mode logo
+      console.log("Generating dark mode logo...");
+      const darkResult = await generateArenaLogo("dark");
+      
+      // Small delay between calls
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Generate light mode logo
+      console.log("Generating light mode logo...");
+      const lightResult = await generateArenaLogo("light");
+      
+      res.json({
+        success: true,
+        dark: darkResult,
+        light: lightResult
+      });
+    } catch (error) {
+      console.error("Generate Arena logos error:", error);
+      res.status(500).json({ error: "Failed to generate logos" });
     }
   });
 

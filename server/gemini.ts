@@ -488,3 +488,80 @@ Be constructive but honest. The "passed" field should be TRUE only if the rep ge
     passFailReason: "Unable to evaluate - please try again",
   };
 }
+
+export async function generateArenaLogo(mode: "dark" | "light"): Promise<GeneratedImage> {
+  const isDark = mode === "dark";
+  
+  const prompt = `Create a minimalist, modern logo icon for "Arena AI" - a sales training platform.
+
+DESIGN REQUIREMENTS:
+- A stylized Spartan/gladiator helmet in profile view, facing left
+- Geometric, angular line-art style with clean edges
+- Cyber/tech aesthetic with subtle glitch effects or digital scan lines
+- The helmet should have a prominent mohawk crest
+
+COLOR SCHEME FOR ${isDark ? "DARK MODE" : "LIGHT MODE"}:
+${isDark 
+  ? `- Primary color: Bright neon green (#22C55E) for the helmet outline
+- Accent color: Red/orange (#FF4444) for subtle glitch effects
+- Background: Pure black (#000000) or very dark (#0A0A0A)`
+  : `- Primary color: Deep forest green (#166534) for the helmet outline
+- Accent color: Dark red (#991B1B) for subtle glitch effects  
+- Background: Pure white (#FFFFFF) or very light gray (#FAFAFA)`
+}
+
+STYLE:
+- Line art only, no filled shapes - just outlines
+- Minimal, clean geometric shapes
+- Tech/cyber aesthetic with subtle digital artifacts
+- Professional, bold, intimidating but sleek
+- Square format, centered composition
+- NO text, NO words, just the helmet icon
+- Simple enough to work as a small favicon
+
+The overall feel should be: modern tech company meets gladiator arena - competitive, sharp, elite.`;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3-pro-image-preview",
+      contents: prompt,
+      config: {
+        responseModalities: ["Text", "Image"],
+      },
+    });
+
+    const parts = response.candidates?.[0]?.content?.parts;
+    if (!parts) {
+      return { success: false, error: "No response parts received" };
+    }
+
+    for (const part of parts) {
+      if (part.inlineData) {
+        const imageData = part.inlineData.data;
+        if (imageData) {
+          const uploadsDir = path.join(process.cwd(), "client", "src", "assets");
+          if (!fs.existsSync(uploadsDir)) {
+            fs.mkdirSync(uploadsDir, { recursive: true });
+          }
+          
+          const filename = `arena-logo-${mode}.png`;
+          const filepath = path.join(uploadsDir, filename);
+          
+          const buffer = Buffer.from(imageData, "base64");
+          fs.writeFileSync(filepath, buffer);
+          
+          return {
+            success: true,
+            imagePath: filepath,
+            imageUrl: `/src/assets/${filename}`,
+          };
+        }
+      }
+    }
+
+    return { success: false, error: "No image data in response" };
+  } catch (error: any) {
+    console.error("Failed to generate Arena logo:", error);
+    return { success: false, error: error.message || "Logo generation failed" };
+  }
+}

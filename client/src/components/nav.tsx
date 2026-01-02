@@ -13,14 +13,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/lib/auth-context";
+import { useTheme } from "next-themes";
 
 import geckoLogo from "@assets/image_1766975682051.png";
-import arenaLogo from "@/assets/arena-logo.png";
+import arenaLogoDark from "@/assets/arena-logo-dark.png";
+import arenaLogoLight from "@/assets/arena-logo-light.png";
 
 export function Nav() {
   const [location, setLocation] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { resolvedTheme } = useTheme();
+  
+  const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
 
   const handleSignOut = () => {
     logout();

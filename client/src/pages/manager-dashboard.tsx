@@ -17,8 +17,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { SALES_REPS, SalesRep } from "@/lib/mock-data";
 import { Plus, Trash2, Bell, Search, MoreHorizontal, UserPlus, Users, TrendingUp, AlertCircle, CheckCircle2 } from "lucide-react";
-import arenaLogo from "@/assets/arena-logo.png";
+import arenaLogoDark from "@/assets/arena-logo-dark.png";
+import arenaLogoLight from "@/assets/arena-logo-light.png";
 import geckoLogo from "@assets/image_1766975682051.png";
+import { useTheme } from "next-themes";
 import { ModeToggle } from "@/components/mode-toggle";
 
 export default function ManagerDashboard() {
@@ -27,6 +29,9 @@ export default function ManagerDashboard() {
   const { toast } = useToast();
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [newRep, setNewRep] = useState({ name: "", email: "" });
+  const { resolvedTheme } = useTheme();
+  
+  const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
 
   // Filter reps
   const filteredReps = reps.filter(rep => 

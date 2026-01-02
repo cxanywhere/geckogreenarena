@@ -12,7 +12,9 @@ import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
 import heroBg from "@assets/generated_images/abstract_gecko_green_cybernetics.png";
 import geckoLogo from "@assets/image_1766975682051.png";
-import arenaLogo from "@/assets/arena-logo.png";
+import arenaLogoDark from "@/assets/arena-logo-dark.png";
+import arenaLogoLight from "@/assets/arena-logo-light.png";
+import { useTheme } from "next-themes";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
@@ -20,6 +22,9 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
+  const { resolvedTheme } = useTheme();
+  
+  const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
