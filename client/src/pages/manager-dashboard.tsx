@@ -1,11 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "wouter";
-import { motion } from "framer-motion";
-import { Nav } from "@/components/nav"; // We'll reuse Nav but might mock a manager state if needed, or just accept it displays Paul for now as we don't have auth context.
-// Ideally we'd have a ManagerNav or a prop on Nav, but for this task I'll just use Nav and maybe overlay/replace content if I could, 
-// but since I can't easily change Nav props without editing Nav, I'll stick to a custom header for the manager dashboard or just accept the limitation.
-// Actually, I'll create a simple Manager Header to replace Nav for this page to look authentic.
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -13,64 +7,128 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { SALES_REPS, SalesRep } from "@/lib/mock-data";
-import { Plus, Trash2, Bell, Search, MoreHorizontal, UserPlus, Users, TrendingUp, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Bell, Search, UserPlus, Users, TrendingUp, AlertCircle, Trash2, Copy, Mail, Phone, Check, Loader2 } from "lucide-react";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
 import arenaLogoLight from "@/assets/arena-logo-light.png";
 import geckoLogo from "@assets/image_1766975682051.png";
 import { useTheme } from "next-themes";
 import { ModeToggle } from "@/components/mode-toggle";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string | null;
+  role: string;
+  status: string;
+  avatarInitials: string;
+  managerId?: string | null;
+}
+
+interface CreatedCredentials {
+  email: string;
+  password: string;
+  name: string;
+}
 
 export default function ManagerDashboard() {
-  const [reps, setReps] = useState<SalesRep[]>(SALES_REPS);
   const [searchQuery, setSearchQuery] = useState("");
   const { toast } = useToast();
   const [isAddOpen, setIsAddOpen] = useState(false);
-  const [newRep, setNewRep] = useState({ name: "", email: "" });
+  const [newRep, setNewRep] = useState({ name: "", email: "", phone: "" });
+  const [createdCredentials, setCreatedCredentials] = useState<CreatedCredentials | null>(null);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [sendingEmail, setSendingEmail] = useState(false);
   const { resolvedTheme } = useTheme();
+  const queryClient = useQueryClient();
   
   const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
 
-  // Filter reps
+  const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const managerId = currentUser?.id;
+
+  const { data: teamReps = [], isLoading } = useQuery<User[]>({
+    queryKey: ["/api/managers", managerId, "team"],
+    queryFn: async () => {
+      if (!managerId) return [];
+      const response = await fetch(`/api/managers/${managerId}/team`);
+      if (!response.ok) throw new Error("Failed to fetch team");
+      return response.json();
+    },
+    enabled: !!managerId,
+  });
+
+  const { data: allReps = [] } = useQuery<User[]>({
+    queryKey: ["/api/reps"],
+  });
+
+  const reps = managerId ? teamReps : allReps;
+
   const filteredReps = reps.filter(rep => 
     rep.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
     rep.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const createUserMutation = useMutation({
+    mutationFn: async (userData: { name: string; email: string; phone?: string; role: string; managerId?: string }) => {
+      const response = await apiRequest("POST", "/api/users", userData);
+      return response.json();
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/managers", managerId, "team"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/reps"] });
+      setCreatedCredentials({
+        email: data.credentials.email,
+        password: data.credentials.password,
+        name: data.user.name,
+      });
+      setNewRep({ name: "", email: "", phone: "" });
+      toast({
+        title: "Rep Created",
+        description: "Login credentials have been generated. Copy or send them below.",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create rep",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const deleteUserMutation = useMutation({
+    mutationFn: async (userId: string) => {
+      const response = await apiRequest("DELETE", `/api/users/${userId}`);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/managers", managerId, "team"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/reps"] });
+      toast({
+        title: "Rep Removed",
+        description: "User access has been revoked.",
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleAddRep = () => {
     if (!newRep.name || !newRep.email) return;
-    
-    const rep: SalesRep = {
-      id: `rep-${Date.now()}`,
+    createUserMutation.mutate({
       name: newRep.name,
       email: newRep.email,
-      status: 'onboarding',
-      progress: 0,
-      roleplaysCompleted: 0,
-      lastActive: "Never",
-      avatarInitials: newRep.name.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase(),
-      score: 0
-    };
-
-    setReps([...reps, rep]);
-    setNewRep({ name: "", email: "" });
-    setIsAddOpen(false);
-    
-    toast({
-      title: "Rep Added",
-      description: `${rep.name} has been invited to the platform.`,
+      phone: newRep.phone || undefined,
+      role: "rep",
+      managerId: managerId || undefined,
     });
   };
 
   const handleRemoveRep = (id: string) => {
-    setReps(reps.filter(r => r.id !== id));
-    toast({
-      title: "Rep Removed",
-      description: "User access has been revoked.",
-      variant: "destructive"
-    });
+    deleteUserMutation.mutate(id);
   };
 
   const handleRemind = (id: string) => {
@@ -80,7 +138,50 @@ export default function ManagerDashboard() {
     });
   };
 
-  // Manager Header Component (inline for simplicity in this file)
+  const copyToClipboard = async (text: string, field: string) => {
+    await navigator.clipboard.writeText(text);
+    setCopiedField(field);
+    setTimeout(() => setCopiedField(null), 2000);
+    toast({
+      title: "Copied!",
+      description: `${field} copied to clipboard.`,
+    });
+  };
+
+  const handleSendEmail = async () => {
+    if (!createdCredentials) return;
+    setSendingEmail(true);
+    try {
+      const response = await apiRequest("POST", "/api/send-credentials/email", {
+        email: createdCredentials.email,
+        name: createdCredentials.name,
+        password: createdCredentials.password,
+      });
+      const data = await response.json();
+      if (data.success) {
+        toast({
+          title: "Email Sent",
+          description: `Credentials sent to ${createdCredentials.email}`,
+        });
+      } else {
+        throw new Error(data.error);
+      }
+    } catch (error: any) {
+      toast({
+        title: "Email Failed",
+        description: error.message || "Could not send email",
+        variant: "destructive",
+      });
+    } finally {
+      setSendingEmail(false);
+    }
+  };
+
+  const closeCredentialsDialog = () => {
+    setCreatedCredentials(null);
+    setIsAddOpen(false);
+  };
+
   const ManagerHeader = () => (
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -103,11 +204,11 @@ export default function ManagerDashboard() {
         <div className="flex items-center gap-4">
            <ModeToggle />
            <div className="hidden md:flex flex-col items-end">
-              <span className="text-sm font-bold leading-none">Sarah Jenkins</span>
-              <span className="text-xs text-muted-foreground">Sales Director</span>
+              <span className="text-sm font-bold leading-none">{currentUser?.name || "Sarah Jenkins"}</span>
+              <span className="text-xs text-muted-foreground">Sales Manager</span>
             </div>
             <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20">
-              SJ
+              {currentUser?.avatarInitials || "SJ"}
             </div>
         </div>
       </div>
@@ -125,47 +226,155 @@ export default function ManagerDashboard() {
             <p className="text-muted-foreground">Manage your sales cohort and track certification progress.</p>
           </div>
           
-          <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
+          <Dialog open={isAddOpen} onOpenChange={(open) => {
+            setIsAddOpen(open);
+            if (!open) {
+              setCreatedCredentials(null);
+              setNewRep({ name: "", email: "", phone: "" });
+            }
+          }}>
             <DialogTrigger asChild>
-              <Button className="gap-2 shadow-lg shadow-primary/20">
+              <Button className="gap-2 shadow-lg shadow-primary/20" data-testid="button-add-rep">
                 <UserPlus className="w-4 h-4" /> Add New Rep
               </Button>
             </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Invite Sales Rep</DialogTitle>
-                <DialogDescription>
-                  Enter the details of the new sales rep to onboard them to the Gecko Green Arena.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4 py-4">
-                <div className="space-y-2">
-                  <Label>Full Name</Label>
-                  <Input 
-                    placeholder="e.g. John Doe" 
-                    value={newRep.name} 
-                    onChange={(e) => setNewRep({...newRep, name: e.target.value})}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>Email Address</Label>
-                  <Input 
-                    placeholder="john.doe@geckogreen.ai" 
-                    type="email"
-                    value={newRep.email}
-                    onChange={(e) => setNewRep({...newRep, email: e.target.value})}
-                  />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
-                <Button onClick={handleAddRep}>Send Invite</Button>
-              </DialogFooter>
+            <DialogContent className="max-w-md">
+              {!createdCredentials ? (
+                <>
+                  <DialogHeader>
+                    <DialogTitle>Add Sales Rep</DialogTitle>
+                    <DialogDescription>
+                      Create a new sales rep account. A secure password will be generated automatically.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4 py-4">
+                    <div className="space-y-2">
+                      <Label>Full Name</Label>
+                      <Input 
+                        placeholder="e.g. John Doe" 
+                        value={newRep.name} 
+                        onChange={(e) => setNewRep({...newRep, name: e.target.value})}
+                        data-testid="input-rep-name"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Email Address</Label>
+                      <Input 
+                        placeholder="john.doe@geckogreen.ai" 
+                        type="email"
+                        value={newRep.email}
+                        onChange={(e) => setNewRep({...newRep, email: e.target.value})}
+                        data-testid="input-rep-email"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Phone Number (optional)</Label>
+                      <Input 
+                        placeholder="+1 555-123-4567" 
+                        type="tel"
+                        value={newRep.phone}
+                        onChange={(e) => setNewRep({...newRep, phone: e.target.value})}
+                        data-testid="input-rep-phone"
+                      />
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+                    <Button 
+                      onClick={handleAddRep}
+                      disabled={createUserMutation.isPending}
+                      data-testid="button-create-rep"
+                    >
+                      {createUserMutation.isPending ? (
+                        <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Creating...</>
+                      ) : (
+                        "Create Rep"
+                      )}
+                    </Button>
+                  </DialogFooter>
+                </>
+              ) : (
+                <>
+                  <DialogHeader>
+                    <DialogTitle className="flex items-center gap-2">
+                      <Check className="w-5 h-5 text-green-500" />
+                      Rep Created Successfully
+                    </DialogTitle>
+                    <DialogDescription>
+                      Copy the credentials below or send them directly to the new rep.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4 py-4">
+                    <div className="bg-muted/50 rounded-lg p-4 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-xs text-muted-foreground uppercase tracking-wide">Email</p>
+                          <p className="font-mono text-sm">{createdCredentials.email}</p>
+                        </div>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => copyToClipboard(createdCredentials.email, "Email")}
+                          data-testid="button-copy-email"
+                        >
+                          {copiedField === "Email" ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+                        </Button>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-xs text-muted-foreground uppercase tracking-wide">Password</p>
+                          <p className="font-mono text-sm font-bold">{createdCredentials.password}</p>
+                        </div>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => copyToClipboard(createdCredentials.password, "Password")}
+                          data-testid="button-copy-password"
+                        >
+                          {copiedField === "Password" ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    <div className="flex gap-2">
+                      <Button 
+                        variant="outline" 
+                        className="flex-1 gap-2"
+                        onClick={handleSendEmail}
+                        disabled={sendingEmail}
+                        data-testid="button-send-email"
+                      >
+                        {sendingEmail ? (
+                          <><Loader2 className="w-4 h-4 animate-spin" /> Sending...</>
+                        ) : (
+                          <><Mail className="w-4 h-4" /> Send via Email</>
+                        )}
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="flex-1 gap-2"
+                        disabled
+                        title="SMS integration coming soon"
+                        data-testid="button-send-sms"
+                      >
+                        <Phone className="w-4 h-4" /> Send via SMS
+                      </Button>
+                    </div>
+                    <p className="text-xs text-muted-foreground text-center">
+                      SMS requires Twilio integration setup
+                    </p>
+                  </div>
+                  <DialogFooter>
+                    <Button onClick={closeCredentialsDialog} data-testid="button-done">
+                      Done
+                    </Button>
+                  </DialogFooter>
+                </>
+              )}
             </DialogContent>
           </Dialog>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card className="border-primary/10 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -173,27 +382,27 @@ export default function ManagerDashboard() {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{reps.length}</div>
+              <div className="text-2xl font-bold" data-testid="text-total-reps">{reps.length}</div>
               <p className="text-xs text-muted-foreground mt-1">
-                +2 from last week
+                On your team
               </p>
             </CardContent>
           </Card>
           <Card className="border-primary/10 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Avg. Certification Score</CardTitle>
+              <CardTitle className="text-sm font-medium">Active Reps</CardTitle>
               <TrendingUp className="h-4 w-4 text-green-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">81.2%</div>
+              <div className="text-2xl font-bold">{reps.filter(r => r.status === 'active').length}</div>
               <p className="text-xs text-muted-foreground mt-1">
-                +5.4% improvement
+                Currently training
               </p>
             </CardContent>
           </Card>
           <Card className="border-primary/10 shadow-sm">
              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Pending Certifications</CardTitle>
+              <CardTitle className="text-sm font-medium">Pending Onboarding</CardTitle>
               <AlertCircle className="h-4 w-4 text-yellow-500" />
             </CardHeader>
             <CardContent>
@@ -205,7 +414,6 @@ export default function ManagerDashboard() {
           </Card>
         </div>
 
-        {/* Filter Bar */}
         <div className="flex items-center gap-4 mb-6">
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -214,84 +422,96 @@ export default function ManagerDashboard() {
               className="pl-9 bg-card" 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              data-testid="input-search-reps"
             />
           </div>
         </div>
 
-        {/* Reps Table */}
         <Card className="overflow-hidden border-border/60">
-          <Table>
-            <TableHeader className="bg-muted/50">
-              <TableRow>
-                <TableHead>Rep Name</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Progress</TableHead>
-                <TableHead>Score</TableHead>
-                <TableHead>Last Active</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredReps.map((rep) => (
-                <TableRow key={rep.id}>
-                  <TableCell>
-                    <div className="flex items-center gap-3">
-                      <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
-                        {rep.avatarInitials}
-                      </div>
-                      <div className="flex flex-col">
-                        <Link href={`/manager/rep/${rep.id}`}>
-                          <a className="font-medium hover:text-primary hover:underline transition-colors">{rep.name}</a>
-                        </Link>
-                        <span className="text-xs text-muted-foreground">{rep.email}</span>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={
-                      rep.status === 'active' ? 'default' : 
-                      rep.status === 'inactive' ? 'secondary' : 'outline'
-                    } className={
-                      rep.status === 'active' ? 'bg-green-500 hover:bg-green-600' : 
-                      rep.status === 'onboarding' ? 'bg-yellow-500/10 text-yellow-600 border-yellow-200 hover:bg-yellow-500/20' : ''
-                    }>
-                      {rep.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="w-[60%] space-y-1">
-                      <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-                        <div className="h-full bg-primary rounded-full transition-all duration-500" style={{ width: `${rep.progress}%` }} />
-                      </div>
-                      <p className="text-xs text-muted-foreground">{rep.progress}% Complete</p>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <span className={`font-bold ${
-                      rep.score >= 90 ? 'text-green-600' :
-                      rep.score >= 80 ? 'text-primary' :
-                      rep.score >= 70 ? 'text-yellow-600' : 'text-red-500'
-                    }`}>
-                      {rep.score > 0 ? `${rep.score}%` : '-'}
-                    </span>
-                  </TableCell>
-                  <TableCell className="text-muted-foreground text-sm">
-                    {rep.lastActive}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                       <Button size="sm" variant="ghost" className="h-8 w-8 p-0" onClick={() => handleRemind(rep.id)} title="Send Reminder">
-                        <Bell className="h-4 w-4 text-muted-foreground hover:text-primary" />
-                      </Button>
-                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0" onClick={() => handleRemoveRep(rep.id)} title="Remove User">
-                        <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive" />
-                      </Button>
-                    </div>
-                  </TableCell>
+          {isLoading ? (
+            <div className="p-8 text-center">
+              <Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" />
+              <p className="text-sm text-muted-foreground mt-2">Loading team...</p>
+            </div>
+          ) : (
+            <Table>
+              <TableHeader className="bg-muted/50">
+                <TableRow>
+                  <TableHead>Rep Name</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Phone</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filteredReps.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                      No reps found. Add your first rep above.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredReps.map((rep) => (
+                    <TableRow key={rep.id} data-testid={`row-rep-${rep.id}`}>
+                      <TableCell>
+                        <div className="flex items-center gap-3">
+                          <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                            {rep.avatarInitials}
+                          </div>
+                          <div className="flex flex-col">
+                            <Link href={`/manager/rep/${rep.id}`}>
+                              <a className="font-medium hover:text-primary hover:underline transition-colors">{rep.name}</a>
+                            </Link>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={
+                          rep.status === 'active' ? 'default' : 
+                          rep.status === 'inactive' ? 'secondary' : 'outline'
+                        } className={
+                          rep.status === 'active' ? 'bg-green-500 hover:bg-green-600' : 
+                          rep.status === 'onboarding' ? 'bg-yellow-500/10 text-yellow-600 border-yellow-200 hover:bg-yellow-500/20' : ''
+                        }>
+                          {rep.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {rep.email}
+                      </TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {rep.phone || "-"}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                           <Button 
+                             size="sm" 
+                             variant="ghost" 
+                             className="h-8 w-8 p-0" 
+                             onClick={() => handleRemind(rep.id)} 
+                             title="Send Reminder"
+                           >
+                            <Bell className="h-4 w-4 text-muted-foreground hover:text-primary" />
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            variant="ghost" 
+                            className="h-8 w-8 p-0" 
+                            onClick={() => handleRemoveRep(rep.id)} 
+                            title="Remove User"
+                            data-testid={`button-delete-rep-${rep.id}`}
+                          >
+                            <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          )}
         </Card>
       </main>
     </div>

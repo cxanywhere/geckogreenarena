@@ -11,6 +11,7 @@ import { getOrGenerateQuizForSlide, submitQuizAnswer } from "./quiz-service";
 import { vapiService } from "./vapi-service";
 import { getVapiRoleplayConfig, convertRoleplayToVapiConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
 import { generateSecurePassword, getAvatarInitials } from "./password-generator";
+import { sendCredentialsEmail } from "./email-service";
 
 const roleplaySessions = new Map<string, { scenario: RoleplayScenario; history: RoleplayMessage[] }>();
 
@@ -377,6 +378,28 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Update user error:", error);
       res.status(500).json({ error: "Failed to update user" });
+    }
+  });
+
+  // Send credentials via email
+  app.post("/api/send-credentials/email", async (req, res) => {
+    try {
+      const { email, name, password } = req.body;
+      
+      if (!email || !name || !password) {
+        return res.status(400).json({ error: "Email, name, and password are required" });
+      }
+
+      const result = await sendCredentialsEmail(email, name, password);
+      
+      if (!result.success) {
+        return res.status(500).json({ error: result.error || "Failed to send email" });
+      }
+
+      res.json({ success: true, message: "Credentials sent via email" });
+    } catch (error) {
+      console.error("Send credentials email error:", error);
+      res.status(500).json({ error: "Failed to send credentials email" });
     }
   });
 
