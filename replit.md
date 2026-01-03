@@ -155,6 +155,11 @@ shared/           # Shared code between frontend/backend
 - `sendCredentialsEmail()`: Welcome email with login credentials
 - `sendPasswordResetEmail()`: Password reset flow
 
+### SMS Integration (server/sms-service.ts)
+- Twilio integration for SMS notifications
+- `sendCredentialsSMS()`: Send login credentials via text message
+- API endpoint: `POST /api/send-credentials/sms`
+
 ### Manager Dashboard Features
 - Add new reps with auto-generated passwords
 - Phone field for SMS (future Twilio integration)

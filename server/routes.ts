@@ -12,6 +12,7 @@ import { vapiService } from "./vapi-service";
 import { getVapiRoleplayConfig, convertRoleplayToVapiConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
 import { generateSecurePassword, getAvatarInitials } from "./password-generator";
 import { sendCredentialsEmail } from "./email-service";
+import { sendCredentialsSMS } from "./sms-service";
 
 const roleplaySessions = new Map<string, { scenario: RoleplayScenario; history: RoleplayMessage[] }>();
 
@@ -400,6 +401,28 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Send credentials email error:", error);
       res.status(500).json({ error: "Failed to send credentials email" });
+    }
+  });
+
+  // Send credentials via SMS
+  app.post("/api/send-credentials/sms", async (req, res) => {
+    try {
+      const { phone, email, name, password } = req.body;
+      
+      if (!phone || !email || !name || !password) {
+        return res.status(400).json({ error: "Phone, email, name, and password are required" });
+      }
+
+      const result = await sendCredentialsSMS(phone, name, email, password);
+      
+      if (!result.success) {
+        return res.status(500).json({ error: result.error || "Failed to send SMS" });
+      }
+
+      res.json({ success: true, message: "Credentials sent via SMS" });
+    } catch (error) {
+      console.error("Send credentials SMS error:", error);
+      res.status(500).json({ error: "Failed to send credentials SMS" });
     }
   });
 

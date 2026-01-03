@@ -42,6 +42,8 @@ export default function ManagerDashboard() {
   const [createdCredentials, setCreatedCredentials] = useState<CreatedCredentials | null>(null);
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [sendingEmail, setSendingEmail] = useState(false);
+  const [sendingSMS, setSendingSMS] = useState(false);
+  const [createdPhone, setCreatedPhone] = useState<string | null>(null);
   const { resolvedTheme } = useTheme();
   const queryClient = useQueryClient();
   
@@ -85,6 +87,7 @@ export default function ManagerDashboard() {
         password: data.credentials.password,
         name: data.user.name,
       });
+      setCreatedPhone(newRep.phone || null);
       setNewRep({ name: "", email: "", phone: "" });
       toast({
         title: "Rep Created",
@@ -177,8 +180,39 @@ export default function ManagerDashboard() {
     }
   };
 
+  const handleSendSMS = async () => {
+    if (!createdCredentials || !createdPhone) return;
+    setSendingSMS(true);
+    try {
+      const response = await apiRequest("POST", "/api/send-credentials/sms", {
+        phone: createdPhone,
+        email: createdCredentials.email,
+        name: createdCredentials.name,
+        password: createdCredentials.password,
+      });
+      const data = await response.json();
+      if (data.success) {
+        toast({
+          title: "SMS Sent",
+          description: `Credentials sent to ${createdPhone}`,
+        });
+      } else {
+        throw new Error(data.error);
+      }
+    } catch (error: any) {
+      toast({
+        title: "SMS Failed",
+        description: error.message || "Could not send SMS",
+        variant: "destructive",
+      });
+    } finally {
+      setSendingSMS(false);
+    }
+  };
+
   const closeCredentialsDialog = () => {
     setCreatedCredentials(null);
+    setCreatedPhone(null);
     setIsAddOpen(false);
   };
 
@@ -353,16 +387,23 @@ export default function ManagerDashboard() {
                       <Button 
                         variant="outline" 
                         className="flex-1 gap-2"
-                        disabled
-                        title="SMS integration coming soon"
+                        onClick={handleSendSMS}
+                        disabled={sendingSMS || !createdPhone}
+                        title={!createdPhone ? "Phone number required" : "Send via SMS"}
                         data-testid="button-send-sms"
                       >
-                        <Phone className="w-4 h-4" /> Send via SMS
+                        {sendingSMS ? (
+                          <><Loader2 className="w-4 h-4 animate-spin" /> Sending...</>
+                        ) : (
+                          <><Phone className="w-4 h-4" /> Send via SMS</>
+                        )}
                       </Button>
                     </div>
-                    <p className="text-xs text-muted-foreground text-center">
-                      SMS requires Twilio integration setup
-                    </p>
+                    {!createdPhone && (
+                      <p className="text-xs text-muted-foreground text-center">
+                        Add a phone number to enable SMS
+                      </p>
+                    )}
                   </div>
                   <DialogFooter>
                     <Button onClick={closeCredentialsDialog} data-testid="button-done">
