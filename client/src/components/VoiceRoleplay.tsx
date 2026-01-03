@@ -154,7 +154,7 @@ CRITICAL RULES:
       });
 
       const assistantConfig = {
-        name: `Roleplay: ${config.name}`,
+        name: config.role.slice(0, 40),
         firstMessage: config.objection,
         model: {
           provider: "openai" as const,
