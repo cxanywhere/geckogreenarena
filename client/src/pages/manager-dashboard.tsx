@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/auth-context";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -9,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Bell, Search, UserPlus, Users, TrendingUp, AlertCircle, Trash2, Copy, Mail, Phone, Check, Loader2, Activity, BarChart3, DollarSign } from "lucide-react";
+import { Bell, Search, UserPlus, Users, TrendingUp, AlertCircle, Trash2, Copy, Mail, Phone, Check, Loader2, Activity, BarChart3, DollarSign, LogOut } from "lucide-react";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
 import arenaLogoLight from "@/assets/arena-logo-light.png";
 import geckoLogo from "@assets/image_1766975682051.png";
@@ -46,6 +47,13 @@ export default function ManagerDashboard() {
   const [sendingSMS, setSendingSMS] = useState(false);
   const [createdPhone, setCreatedPhone] = useState<string | null>(null);
   const { resolvedTheme } = useTheme();
+  const { logout } = useAuth();
+  const [, setLocation] = useLocation();
+
+  const handleLogout = () => {
+    logout();
+    setLocation("/login");
+  };
   const queryClient = useQueryClient();
   
   const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
@@ -279,6 +287,9 @@ export default function ManagerDashboard() {
             <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20">
               {currentUser?.avatarInitials || "SJ"}
             </div>
+            <Button variant="ghost" size="icon" onClick={handleLogout} title="Sign out" data-testid="button-logout">
+              <LogOut className="h-4 w-4" />
+            </Button>
         </div>
       </div>
     </nav>
