@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/lib/auth-context";
+import { ProtectedRoute } from "@/components/protected-route";
 import NotFound from "@/pages/not-found";
 import Dashboard from "@/pages/home";
 import LoginPage from "@/pages/login";
@@ -24,18 +25,66 @@ function Router() {
     <Switch>
       <Route path="/" component={LoginPage} />
       <Route path="/login" component={LoginPage} />
-      <Route path="/dashboard" component={Dashboard} />
-      <Route path="/manager-dashboard" component={ManagerDashboard} />
-      <Route path="/admin-dashboard" component={AdminDashboard} />
-      <Route path="/manager/rep/:id" component={RepDetailsPage} />
-      <Route path="/admin/rep/:id" component={RepDetailsPage} />
-      <Route path="/chat/:id" component={ChatPage} />
-      <Route path="/chapter/:id" component={ChapterPage} />
-      <Route path="/results/:id" component={ResultsPage} />
-      <Route path="/leaderboard" component={LeaderboardPage} />
-      <Route path="/resources" component={ResourcesPage} />
-      <Route path="/battlecards" component={BattlecardsPage} />
-      <Route path="/report-card" component={ReportCardPage} />
+      <Route path="/dashboard">
+        <ProtectedRoute allowedRoles={["rep"]}>
+          <Dashboard />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/manager-dashboard">
+        <ProtectedRoute allowedRoles={["manager"]}>
+          <ManagerDashboard />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/admin-dashboard">
+        <ProtectedRoute allowedRoles={["admin", "director"]}>
+          <AdminDashboard />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/manager/rep/:id">
+        <ProtectedRoute allowedRoles={["manager"]}>
+          <RepDetailsPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/admin/rep/:id">
+        <ProtectedRoute allowedRoles={["admin", "director"]}>
+          <RepDetailsPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/chat/:id">
+        <ProtectedRoute allowedRoles={["rep"]}>
+          <ChatPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/chapter/:id">
+        <ProtectedRoute allowedRoles={["rep"]}>
+          <ChapterPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/results/:id">
+        <ProtectedRoute allowedRoles={["rep"]}>
+          <ResultsPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/leaderboard">
+        <ProtectedRoute allowedRoles={["rep"]}>
+          <LeaderboardPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/resources">
+        <ProtectedRoute allowedRoles={["rep"]}>
+          <ResourcesPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/battlecards">
+        <ProtectedRoute allowedRoles={["rep"]}>
+          <BattlecardsPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/report-card">
+        <ProtectedRoute allowedRoles={["rep"]}>
+          <ReportCardPage />
+        </ProtectedRoute>
+      </Route>
       <Route component={NotFound} />
     </Switch>
   );
