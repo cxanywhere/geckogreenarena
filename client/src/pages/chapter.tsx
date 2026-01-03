@@ -55,6 +55,7 @@ export default function ChapterPage() {
   const [skippedRoleplays, setSkippedRoleplays] = useState<PredefinedRoleplay[]>([]);
   const [showEndOfChapter, setShowEndOfChapter] = useState(false);
   const [totalSlides, setTotalSlides] = useState(0);
+  const [showObjectives, setShowObjectives] = useState(false);
 
   const storedUser = localStorage.getItem("currentUser");
   const user = storedUser ? JSON.parse(storedUser) : null;
@@ -306,8 +307,6 @@ export default function ChapterPage() {
     );
   }
 
-  const [showObjectives, setShowObjectives] = useState(false);
-  
   const slideProgress = totalSlides > 0 ? Math.round((currentPage / totalSlides) * 100) : 0;
   const allQuizzesDone = completedQuizPages.size >= (isChapter1 ? 5 : Math.floor(totalSlides / QUIZ_INTERVAL));
   const allRoleplaysDone = isChapter1 ? completedRoleplays.size >= getAllChapter1Roleplays().length : true;
