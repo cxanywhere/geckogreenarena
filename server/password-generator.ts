@@ -2,27 +2,36 @@ import crypto from 'crypto';
 
 const ADJECTIVES = [
   'Swift', 'Bold', 'Bright', 'Cool', 'Fast', 'Green', 'Happy', 'Lucky', 
-  'Quick', 'Sharp', 'Smart', 'Strong', 'Super', 'Wise', 'Epic', 'Prime'
+  'Quick', 'Sharp', 'Smart', 'Strong', 'Super', 'Wise', 'Epic', 'Prime',
+  'Brave', 'Calm', 'Deep', 'Elite', 'Fresh', 'Grand', 'Keen', 'Noble',
+  'Proud', 'Rare', 'Safe', 'True', 'Vast', 'Wild', 'Zinc', 'Alpha',
+  'Beta', 'Cyber', 'Delta', 'Echo', 'Focal', 'Gamma', 'Hyper', 'Ionic',
+  'Jade', 'Kilo', 'Laser', 'Mega', 'Nova', 'Omega', 'Pixel', 'Quantum'
 ];
 
 const NOUNS = [
   'Lion', 'Eagle', 'Tiger', 'Hawk', 'Wolf', 'Bear', 'Falcon', 'Shark',
-  'Dragon', 'Phoenix', 'Storm', 'Thunder', 'Star', 'Blaze', 'Spark', 'Flash'
+  'Dragon', 'Phoenix', 'Storm', 'Thunder', 'Star', 'Blaze', 'Spark', 'Flash',
+  'Arrow', 'Blade', 'Cloud', 'Drift', 'Ember', 'Frost', 'Glyph', 'Haven',
+  'Jade', 'Knight', 'Lunar', 'Matrix', 'Nexus', 'Orbit', 'Prism', 'Quartz',
+  'Ridge', 'Sigma', 'Terra', 'Unity', 'Vertex', 'Wave', 'Xenon', 'Zephyr',
+  'Anchor', 'Beacon', 'Canyon', 'Dune', 'Flare', 'Grove', 'Helix', 'Isle'
 ];
 
-export function generateSecurePassword(): string {
-  const adjective = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)];
-  const noun = NOUNS[Math.floor(Math.random() * NOUNS.length)];
-  const number = Math.floor(Math.random() * 900) + 100;
-  const special = ['!', '@', '#', '$'][Math.floor(Math.random() * 4)];
-  
-  return `${adjective}${noun}${number}${special}`;
+const SPECIAL_CHARS = ['!', '@', '#', '$', '%', '&', '*'];
+
+function secureRandomInt(max: number): number {
+  return crypto.randomInt(0, max);
 }
 
-export function generateUsername(name: string, email: string): string {
-  const cleanName = name.toLowerCase().replace(/\s+/g, '.');
-  const suffix = Math.floor(Math.random() * 100);
-  return `${cleanName}${suffix}`;
+export function generateSecurePassword(): string {
+  const adjective = ADJECTIVES[secureRandomInt(ADJECTIVES.length)];
+  const noun = NOUNS[secureRandomInt(NOUNS.length)];
+  const number = secureRandomInt(9000) + 1000;
+  const special1 = SPECIAL_CHARS[secureRandomInt(SPECIAL_CHARS.length)];
+  const special2 = SPECIAL_CHARS[secureRandomInt(SPECIAL_CHARS.length)];
+  
+  return `${adjective}${noun}${number}${special1}${special2}`;
 }
 
 export function getAvatarInitials(name: string): string {

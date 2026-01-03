@@ -133,3 +133,37 @@ shared/           # Shared code between frontend/backend
 - **Expandable Objectives Panel**: Toggle to show "What You'll Learn" agenda and "Requirements to Complete" checklist
 - **Progress Bar**: Overall chapter completion percentage with real-time updates
 - **Defensive Data Handling**: All chapter.agenda and chapter.slides access includes fallback defaults for robustness
+
+## User Management System
+
+### Password Generation (server/password-generator.ts)
+- Cryptographically secure using `crypto.randomInt`
+- Format: `AdjectiveNoun####!@` (word + word + 4 digits + 2 special chars)
+- ~1 billion possible combinations for security
+
+### User Management API (server/routes.ts)
+- `POST /api/users`: Create user with auto-generated password (returns credentials for display)
+- `DELETE /api/users/:id`: Remove user from system
+- `PATCH /api/users/:id`: Update user status/details
+- `GET /api/managers`: List all managers
+- `GET /api/reps`: List all sales reps
+- `GET /api/users/:userId/progress-summary`: Get user's training progress stats
+- `POST /api/send-credentials/email`: Send login credentials via email
+
+### Email Integration (server/email-service.ts)
+- Resend integration for transactional emails
+- `sendCredentialsEmail()`: Welcome email with login credentials
+- `sendPasswordResetEmail()`: Password reset flow
+
+### Manager Dashboard Features
+- Add new reps with auto-generated passwords
+- Phone field for SMS (future Twilio integration)
+- Credentials display with copy-to-clipboard
+- Send credentials via email button
+- Team filtering by manager ID
+
+### Admin Dashboard Features
+- Add new managers with auto-generated passwords
+- View all managers and reps across organization
+- Remove users with confirmation
+- Billing and usage statistics
