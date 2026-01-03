@@ -314,7 +314,7 @@ export default function Home() {
                   const isNext = !isCompleted && isUnlocked && (index === 0 || isChapterCompleted(chapters[index - 1]?.id));
                   const chapterProgress = getChapterProgress(chapter.id);
                   const slidesViewed = chapterProgress?.slideProgress || 0;
-                  const totalSlides = chapterProgress?.totalSlides || chapter.slides?.length || 10;
+                  const totalSlides = chapterProgress?.totalSlides || chapter.slideCount || 10;
                   
                   return (
                     <motion.div

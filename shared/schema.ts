@@ -27,6 +27,7 @@ export const chapters = pgTable("chapters", {
   coverImage: text("cover_image"),
   agenda: jsonb("agenda").$type<string[]>().notNull(),
   slides: jsonb("slides").$type<any[]>().notNull(),
+  slideCount: integer("slide_count").default(0),
   orderIndex: integer("order_index").notNull().default(0),
 });
 

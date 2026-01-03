@@ -21,6 +21,7 @@ export interface Chapter {
   coverImage?: string;
   agenda: string[];
   slides: any[];
+  slideCount?: number;
   orderIndex: number;
 }
 
