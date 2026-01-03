@@ -131,7 +131,8 @@ export class VapiService {
         // Check if call has ended and has transcript data
         if (callDetails.status === "ended" && (callDetails.messages?.length || callDetails.transcript)) {
           const messages = (callDetails.messages || []).map(msg => ({
-            role: msg.role === "assistant" ? "model" : "user",
+            // VAPI uses "bot" or "assistant" for AI, "user" for human
+            role: (msg.role === "assistant" || msg.role === "bot") ? "model" : "user",
             content: msg.message,
           }));
 

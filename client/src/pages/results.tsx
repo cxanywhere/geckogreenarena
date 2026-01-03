@@ -411,26 +411,60 @@ export default function ResultsPage() {
             <div className="bg-card rounded-2xl shadow-sm border border-border flex flex-col h-[500px]">
               <div className="p-4 border-b border-border">
                 <h3 className="font-bold text-lg">Conversation Transcript</h3>
-                <p className="text-xs text-muted-foreground">{transcript.length} messages</p>
+                <p className="text-xs text-muted-foreground">
+                  {transcript.filter((msg, idx) => {
+                    if (idx === 0 && (
+                      msg.content.includes("CHARACTER PROFILE") ||
+                      msg.content.includes("BEHAVIOR GUIDELINES") ||
+                      msg.content.includes("playing the role of") ||
+                      msg.content.includes("WHAT THE REP SHOULD DO")
+                    )) return false;
+                    return true;
+                  }).length} messages
+                </p>
               </div>
               <ScrollArea className="flex-1 p-4">
                 <div className="space-y-4">
-                  {transcript.map((msg, idx) => (
-                    <div key={idx} className={`flex gap-3 ${msg.role === "user" ? "flex-row-reverse" : ""}`}>
-                      <Avatar className="h-7 w-7 border border-border flex-shrink-0">
-                        <AvatarFallback className="text-[10px] bg-muted">
-                          {msg.role === "user" ? "YOU" : "AI"}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className={`text-sm p-3 rounded-xl max-w-[85%] ${
-                        msg.role === "user" 
-                          ? "bg-primary text-primary-foreground rounded-tr-none" 
-                          : "bg-muted text-foreground rounded-tl-none"
-                      }`}>
-                        {msg.content}
-                      </div>
-                    </div>
-                  ))}
+                  {transcript
+                    .filter((msg, idx) => {
+                      // Skip first message if it's the system prompt (contains training instructions)
+                      if (idx === 0 && (
+                        msg.content.includes("CHARACTER PROFILE") ||
+                        msg.content.includes("BEHAVIOR GUIDELINES") ||
+                        msg.content.includes("playing the role of") ||
+                        msg.content.includes("WHAT THE REP SHOULD DO")
+                      )) {
+                        return false;
+                      }
+                      return true;
+                    })
+                    .map((msg, idx) => {
+                      // Determine if this is a user (sales rep) message
+                      // VAPI uses "user" for human, "assistant"/"model"/"bot" for AI
+                      const isUserMessage = msg.role === "user";
+                      
+                      return (
+                        <div key={idx} className={`flex gap-3 ${isUserMessage ? "flex-row-reverse" : ""}`}>
+                          <Avatar className="h-7 w-7 border border-border flex-shrink-0">
+                            <AvatarFallback className={`text-[10px] ${isUserMessage ? "bg-primary/20" : "bg-muted"}`}>
+                              {isUserMessage ? "YOU" : "HO"}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex flex-col gap-1 max-w-[85%]">
+                            <span className={`text-[10px] font-medium ${isUserMessage ? "text-right" : "text-left"} text-muted-foreground`}>
+                              {isUserMessage ? "You (Sales Rep)" : "Homeowner"}
+                            </span>
+                            <div className={`text-sm p-3 rounded-xl ${
+                              isUserMessage 
+                                ? "bg-primary text-primary-foreground rounded-tr-none" 
+                                : "bg-muted text-foreground rounded-tl-none"
+                            }`}>
+                              {msg.content}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                 </div>
               </ScrollArea>
             </div>
