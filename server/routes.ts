@@ -10,6 +10,7 @@ import { startRoleplayConversation, continueRoleplayConversation, evaluateRolepl
 import { getOrGenerateQuizForSlide, submitQuizAnswer } from "./quiz-service";
 import { vapiService } from "./vapi-service";
 import { getVapiRoleplayConfig, convertRoleplayToVapiConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
+import { generateSecurePassword, getAvatarInitials } from "./password-generator";
 
 const roleplaySessions = new Map<string, { scenario: RoleplayScenario; history: RoleplayMessage[] }>();
 
@@ -270,6 +271,160 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Get team error:", error);
       res.status(500).json({ error: "Failed to get team" });
+    }
+  });
+
+  // Get all managers
+  app.get("/api/managers", async (req, res) => {
+    try {
+      const managers = await storage.getManagers();
+      res.json(managers.map(u => ({ ...u, password: undefined })));
+    } catch (error) {
+      console.error("Get managers error:", error);
+      res.status(500).json({ error: "Failed to get managers" });
+    }
+  });
+
+  // Get all reps
+  app.get("/api/reps", async (req, res) => {
+    try {
+      const reps = await storage.getReps();
+      res.json(reps.map(u => ({ ...u, password: undefined })));
+    } catch (error) {
+      console.error("Get reps error:", error);
+      res.status(500).json({ error: "Failed to get reps" });
+    }
+  });
+
+  // Create new user (admin/manager creates rep or manager)
+  app.post("/api/users", async (req, res) => {
+    try {
+      const { name, email, phone, role, managerId, creatorId } = req.body;
+      
+      if (!name || !email || !role) {
+        return res.status(400).json({ error: "Name, email, and role are required" });
+      }
+
+      // Check if email already exists
+      const existingUser = await storage.getUserByEmail(email);
+      if (existingUser) {
+        return res.status(400).json({ error: "Email already exists" });
+      }
+
+      // Generate secure password
+      const generatedPassword = generateSecurePassword();
+      const avatarInitials = getAvatarInitials(name);
+
+      const newUser = await storage.createUser({
+        name,
+        email,
+        phone: phone || null,
+        password: generatedPassword,
+        role,
+        status: "onboarding",
+        avatarInitials,
+        managerId: managerId || null,
+      });
+
+      // Return user with the generated password (for display/copy)
+      res.json({
+        user: { ...newUser, password: undefined },
+        credentials: {
+          email,
+          password: generatedPassword,
+        },
+        message: "User created successfully. Credentials ready to send.",
+      });
+    } catch (error) {
+      console.error("Create user error:", error);
+      res.status(500).json({ error: "Failed to create user" });
+    }
+  });
+
+  // Delete user
+  app.delete("/api/users/:id", async (req, res) => {
+    try {
+      const userId = req.params.id;
+      const success = await storage.deleteUser(userId);
+      
+      if (!success) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      res.json({ success: true, message: "User deleted successfully" });
+    } catch (error) {
+      console.error("Delete user error:", error);
+      res.status(500).json({ error: "Failed to delete user" });
+    }
+  });
+
+  // Update user status
+  app.patch("/api/users/:id", async (req, res) => {
+    try {
+      const userId = req.params.id;
+      const updates = req.body;
+      
+      // Don't allow password updates through this endpoint
+      delete updates.password;
+      
+      const user = await storage.updateUser(userId, updates);
+      
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      res.json({ ...user, password: undefined });
+    } catch (error) {
+      console.error("Update user error:", error);
+      res.status(500).json({ error: "Failed to update user" });
+    }
+  });
+
+  // Get user progress summary (for managers/admins viewing rep progress)
+  app.get("/api/users/:userId/progress-summary", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      const progress = await storage.getUserProgress(userId);
+      const attempts = await storage.getUserRoleplayAttempts(userId);
+      const chapters = await storage.getAllChapters();
+      const roleplays = await storage.getAllRoleplays();
+
+      const completedChapters = progress.filter(p => p.completed === 1).length;
+      const passedRoleplays = attempts.filter(a => a.passed === 1).length;
+      const uniquePassedRoleplays = Array.from(new Set(attempts.filter(a => a.passed === 1).map(a => a.roleplayId))).length;
+      
+      const quizScores = progress.filter(p => p.quizScore != null).map(p => p.quizScore!);
+      const avgQuizScore = quizScores.length > 0 
+        ? Math.round(quizScores.reduce((a, b) => a + b, 0) / quizScores.length) 
+        : 0;
+
+      const isCertified = 
+        completedChapters >= chapters.length && 
+        uniquePassedRoleplays >= roleplays.length && 
+        avgQuizScore >= 90;
+
+      res.json({
+        user: { ...user, password: undefined },
+        stats: {
+          chaptersCompleted: completedChapters,
+          totalChapters: chapters.length,
+          roleplaysPassed: uniquePassedRoleplays,
+          totalRoleplays: roleplays.length,
+          avgQuizScore,
+          isCertified,
+        },
+        progress,
+        recentAttempts: attempts.slice(0, 5),
+      });
+    } catch (error) {
+      console.error("Get progress summary error:", error);
+      res.status(500).json({ error: "Failed to get progress summary" });
     }
   });
 

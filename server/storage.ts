@@ -28,7 +28,7 @@ import {
   type InsertQuizAttempt,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, desc } from "drizzle-orm";
+import { eq, and, desc, ne, or, isNull } from "drizzle-orm";
 
 export interface IStorage {
   // Users
@@ -36,8 +36,12 @@ export interface IStorage {
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: string, updates: Partial<InsertUser>): Promise<User | undefined>;
+  deleteUser(id: string): Promise<boolean>;
   getAllUsers(): Promise<User[]>;
+  getUsersByRole(role: string): Promise<User[]>;
   getUsersByManagerId(managerId: string): Promise<User[]>;
+  getManagers(): Promise<User[]>;
+  getReps(): Promise<User[]>;
   
   // Chapters
   getAllChapters(): Promise<Chapter[]>;
@@ -114,6 +118,23 @@ export class DatabaseStorage implements IStorage {
 
   async getUsersByManagerId(managerId: string): Promise<User[]> {
     return await db.select().from(users).where(eq(users.managerId, managerId));
+  }
+
+  async deleteUser(id: string): Promise<boolean> {
+    const result = await db.delete(users).where(eq(users.id, id)).returning();
+    return result.length > 0;
+  }
+
+  async getUsersByRole(role: string): Promise<User[]> {
+    return await db.select().from(users).where(eq(users.role, role));
+  }
+
+  async getManagers(): Promise<User[]> {
+    return await db.select().from(users).where(eq(users.role, "manager"));
+  }
+
+  async getReps(): Promise<User[]> {
+    return await db.select().from(users).where(eq(users.role, "rep"));
   }
 
   // Chapters
