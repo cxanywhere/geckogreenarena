@@ -90,8 +90,12 @@ export interface IStorage {
   
   // Quiz Attempts
   getUserQuizAttempts(userId: string, chapterId: string): Promise<QuizAttempt[]>;
+  getAllUserQuizAttempts(userId: string): Promise<QuizAttempt[]>;
   createQuizAttempt(attempt: InsertQuizAttempt): Promise<QuizAttempt>;
   getUserQuizScore(userId: string, chapterId: string): Promise<{ correct: number; total: number }>;
+  
+  // Detailed user data for rep profile
+  getUserDetails(userId: string): Promise<UserDetails>;
   
   // Usage Sessions
   createUsageSession(session: InsertUsageSession): Promise<UsageSession>;
@@ -141,6 +145,54 @@ export interface TeamPerformance {
     avgRoleplayPassRate: number;
     teamScore: number;
   };
+}
+
+export interface RoleplayAttemptDetail {
+  id: string;
+  roleplayId: string;
+  roleplayName: string;
+  roleplayRole: string;
+  chapterTitle: string;
+  score: number;
+  passed: boolean;
+  duration: string | null;
+  feedback: {
+    summary?: string;
+    strengths?: string[];
+    improvements?: string[];
+    recordingUrl?: string;
+    [key: string]: any;
+  } | null;
+  metrics: { resistance: string; clarity: string; tone: string } | null;
+  createdAt: Date;
+}
+
+export interface QuizAttemptDetail {
+  id: string;
+  chapterId: string;
+  chapterTitle: string;
+  questionId: string;
+  questionText: string;
+  options: string[];
+  selectedAnswer: number;
+  correctAnswer: number;
+  isCorrect: boolean;
+  createdAt: Date;
+}
+
+export interface UserDetails {
+  user: User;
+  performance: RepPerformance;
+  roleplayAttempts: RoleplayAttemptDetail[];
+  quizAttempts: QuizAttemptDetail[];
+  chapterProgress: {
+    chapterId: string;
+    chapterTitle: string;
+    completed: boolean;
+    currentSlide: number;
+    totalSlides: number;
+    quizScore: { correct: number; total: number };
+  }[];
 }
 
 export interface OrgPerformance {
@@ -414,6 +466,103 @@ export class DatabaseStorage implements IStorage {
     
     const correct = Array.from(uniqueQuestions.values()).filter(v => v).length;
     return { correct, total: uniqueQuestions.size };
+  }
+
+  async getAllUserQuizAttempts(userId: string): Promise<QuizAttempt[]> {
+    return await db
+      .select()
+      .from(quizAttempts)
+      .where(eq(quizAttempts.userId, userId))
+      .orderBy(desc(quizAttempts.createdAt));
+  }
+
+  async getUserDetails(userId: string): Promise<UserDetails> {
+    const user = await this.getUser(userId);
+    if (!user) {
+      throw new Error(`User ${userId} not found`);
+    }
+    
+    // Get performance summary
+    const performance = await this.getRepPerformance(userId);
+    
+    // Get all roleplay attempts with roleplay details
+    const rawAttempts = await this.getUserRoleplayAttempts(userId);
+    const allRoleplays = await this.getAllRoleplays();
+    const allChapters = await this.getAllChapters();
+    
+    const roleplayAttempts: RoleplayAttemptDetail[] = rawAttempts.map(attempt => {
+      const roleplay = allRoleplays.find(r => r.id === attempt.roleplayId);
+      const chapter = roleplay ? allChapters.find(c => c.id === roleplay.chapterId) : null;
+      
+      let parsedFeedback = null;
+      if (attempt.feedback) {
+        try {
+          parsedFeedback = JSON.parse(attempt.feedback);
+        } catch {
+          parsedFeedback = { summary: attempt.feedback };
+        }
+      }
+      
+      return {
+        id: attempt.id,
+        roleplayId: attempt.roleplayId,
+        roleplayName: roleplay?.name || "Unknown Roleplay",
+        roleplayRole: roleplay?.role || "Unknown Role",
+        chapterTitle: chapter?.title || "Unknown Chapter",
+        score: attempt.score,
+        passed: attempt.passed === 1,
+        duration: attempt.duration,
+        feedback: parsedFeedback,
+        metrics: attempt.metrics,
+        createdAt: attempt.createdAt,
+      };
+    });
+    
+    // Get all quiz attempts with question details
+    const rawQuizAttempts = await this.getAllUserQuizAttempts(userId);
+    const allQuestions = await db.select().from(quizQuestions);
+    
+    const quizAttemptDetails: QuizAttemptDetail[] = rawQuizAttempts.map(attempt => {
+      const question = allQuestions.find(q => q.id === attempt.questionId);
+      const chapter = allChapters.find(c => c.id === attempt.chapterId);
+      
+      return {
+        id: attempt.id,
+        chapterId: attempt.chapterId,
+        chapterTitle: chapter?.title || "Unknown Chapter",
+        questionId: attempt.questionId,
+        questionText: question?.questionText || "Unknown Question",
+        options: question?.options || [],
+        selectedAnswer: attempt.selectedAnswer,
+        correctAnswer: question?.correctAnswer || 0,
+        isCorrect: attempt.isCorrect === 1,
+        createdAt: attempt.createdAt,
+      };
+    });
+    
+    // Get chapter progress with quiz scores
+    const userProgressData = await this.getUserProgress(userId);
+    const chapterProgress = await Promise.all(allChapters.map(async (chapter) => {
+      const progress = userProgressData.find(p => p.chapterId === chapter.id);
+      const quizScore = await this.getUserQuizScore(userId, chapter.id);
+      
+      return {
+        chapterId: chapter.id,
+        chapterTitle: chapter.title,
+        completed: progress?.completed === 1,
+        currentSlide: progress?.currentSlide || 0,
+        totalSlides: chapter.slideCount || 0,
+        quizScore,
+      };
+    }));
+    
+    return {
+      user,
+      performance,
+      roleplayAttempts,
+      quizAttempts: quizAttemptDetails,
+      chapterProgress,
+    };
   }
 
   // Usage Sessions

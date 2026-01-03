@@ -544,6 +544,26 @@ export async function registerRoutes(
     }
   });
 
+  // Get detailed user information (roleplay attempts with recordings, quiz attempts)
+  app.get("/api/users/:userId/details", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      
+      const details = await storage.getUserDetails(userId);
+      
+      res.json({
+        ...details,
+        user: { ...details.user, password: undefined },
+      });
+    } catch (error: any) {
+      console.error("Get user details error:", error);
+      if (error.message?.includes("not found")) {
+        return res.status(404).json({ error: error.message });
+      }
+      res.status(500).json({ error: "Failed to get user details" });
+    }
+  });
+
   // Chapter routes
   app.get("/api/chapters", async (req, res) => {
     try {
