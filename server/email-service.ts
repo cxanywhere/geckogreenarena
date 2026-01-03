@@ -63,8 +63,9 @@ export async function sendCredentialsEmail(
               <tr>
                 <td>
                   <div style="display: inline-block;">
-                    <span style="color: #22c55e; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">arena ai</span>
-                    <span style="color: #6b7280; font-size: 12px; display: block; text-transform: uppercase; letter-spacing: 2px; margin-top: 2px;">by gigarev</span>
+                    <span style="font-size: 32px; margin-right: 8px; vertical-align: middle;">&#129694;</span>
+                    <span style="color: #22c55e; font-size: 28px; font-weight: 700; letter-spacing: -0.5px; vertical-align: middle;">arena ai</span>
+                    <span style="color: #6b7280; font-size: 12px; display: block; text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; margin-left: 44px;">by gigarev</span>
                   </div>
                 </td>
                 <td style="text-align: right; vertical-align: middle;">
