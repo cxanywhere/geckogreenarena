@@ -24,6 +24,9 @@ export default function LoginPage() {
   const { login } = useAuth();
   const { resolvedTheme } = useTheme();
   
+  // Check if user has logged in before on this device
+  const isReturningUser = localStorage.getItem("hasLoggedInBefore") === "true";
+  
   const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -32,6 +35,9 @@ export default function LoginPage() {
     
     try {
       const { user, authToken } = await api.login(email, password);
+      
+      // Mark that user has logged in before for future visits
+      localStorage.setItem("hasLoggedInBefore", "true");
       
       login(user, authToken);
       
@@ -84,7 +90,7 @@ export default function LoginPage() {
 
           <div className="mb-8">
             <h1 className="font-display text-3xl font-bold text-foreground mb-2">
-              Welcome Back
+              {isReturningUser ? "Welcome Back" : "Welcome"}
             </h1>
             <p className="text-muted-foreground">
               Enter your GeckoGreen credentials to enter the Arena.
