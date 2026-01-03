@@ -4,8 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search, ShieldAlert, MessageSquare, Lightbulb, Copy, Zap, Loader2, Maximize2, X } from "lucide-react";
-import { useState } from "react";
+import { Search, ShieldAlert, MessageSquare, Lightbulb, Copy, Zap, Loader2, Maximize2, X, Eye, Lock } from "lucide-react";
+import { useState, type MouseEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
@@ -28,7 +28,21 @@ export default function BattlecardsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activePhase, setActivePhase] = useState("All");
   const [selectedCard, setSelectedCard] = useState<Battlecard | null>(null);
+  const [revealedCards, setRevealedCards] = useState<Set<string>>(new Set());
   const { toast } = useToast();
+
+  const toggleReveal = (cardId: string, e: MouseEvent) => {
+    e.stopPropagation();
+    setRevealedCards(prev => {
+      const next = new Set(prev);
+      if (next.has(cardId)) {
+        next.delete(cardId);
+      } else {
+        next.add(cardId);
+      }
+      return next;
+    });
+  };
 
   const { data: battlecards = [], isLoading } = useQuery<Battlecard[]>({
     queryKey: ["battlecards"],
@@ -224,41 +238,53 @@ export default function BattlecardsPage() {
                   onClick={() => setSelectedCard(card)}
                   data-testid={`card-battlecard-${card.id}`}
                 >
-                  {/* Image Section - Full Card Image */}
-                  {card.image ? (
-                    <div className="relative aspect-[3/4] bg-muted overflow-hidden">
-                      <img 
-                        src={card.image} 
-                        alt={card.title} 
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Badge variant={getBadgeVariant(card.type)} className="shadow-lg uppercase tracking-wider text-[10px] font-bold mb-2">
-                          <span className="flex items-center gap-1">
-                            {getIcon(card.type)}
-                            {card.type}
+                  {/* Card with cover/reveal behavior */}
+                  {revealedCards.has(card.id) ? (
+                    /* Revealed Card Content */
+                    card.image ? (
+                      <div className="relative aspect-[3/4] bg-muted overflow-hidden">
+                        <img 
+                          src={card.image} 
+                          alt={card.title} 
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Badge variant={getBadgeVariant(card.type)} className="shadow-lg uppercase tracking-wider text-[10px] font-bold mb-2">
+                            <span className="flex items-center gap-1">
+                              {getIcon(card.type)}
+                              {card.type}
+                            </span>
+                          </Badge>
+                          <p className="text-white text-sm font-medium line-clamp-2">{card.title}</p>
+                        </div>
+                        <div className="absolute top-3 right-3 flex gap-2">
+                          <Button 
+                            variant="secondary" 
+                            size="icon" 
+                            className="bg-white/90 hover:bg-white shadow-lg"
+                            onClick={(e) => toggleReveal(card.id, e)}
+                            data-testid={`button-hide-${card.id}`}
+                          >
+                            <Lock className="w-4 h-4" />
+                          </Button>
+                          <Button 
+                            variant="secondary" 
+                            size="icon" 
+                            className="bg-white/90 hover:bg-white shadow-lg"
+                            onClick={(e) => { e.stopPropagation(); setSelectedCard(card); }}
+                          >
+                            <Maximize2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                        <div className="absolute top-3 left-3">
+                          <span className="bg-black/60 text-white text-xs font-bold px-2 py-1 rounded-full">
+                            #{index + 1}
                           </span>
-                        </Badge>
-                        <p className="text-white text-sm font-medium line-clamp-2">{card.title}</p>
+                        </div>
                       </div>
-                      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button 
-                          variant="secondary" 
-                          size="icon" 
-                          className="bg-white/90 hover:bg-white shadow-lg"
-                          onClick={(e) => { e.stopPropagation(); setSelectedCard(card); }}
-                        >
-                          <Maximize2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="absolute top-3 left-3">
-                        <span className="bg-black/60 text-white text-xs font-bold px-2 py-1 rounded-full">
-                          #{index + 1}
-                        </span>
-                      </div>
-                    </div>
-                  ) : (
+                    ) : (
+                    /* Revealed Card Content */
                     <>
                       <CardHeader className="px-6 py-4 border-b bg-muted/30">
                         <div className="flex items-center gap-2 mb-2">
@@ -314,8 +340,68 @@ export default function BattlecardsPage() {
                             ))}
                           </div>
                         </div>
+
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="mt-auto"
+                          onClick={(e) => toggleReveal(card.id, e)}
+                          data-testid={`button-hide-${card.id}`}
+                        >
+                          <Lock className="w-3 h-3 mr-2" />
+                          Hide Card
+                        </Button>
                       </CardContent>
                     </>
+                    )
+                  ) : (
+                    /* Card Cover - Not Yet Revealed */
+                    <div className="aspect-[3/4] bg-gradient-to-br from-primary/10 via-primary/5 to-yellow-50/50 dark:from-primary/20 dark:via-background dark:to-background flex flex-col items-center justify-center p-6 text-center relative">
+                      {/* Card Number */}
+                      <div className="absolute top-4 left-4">
+                        <span className="bg-primary/10 text-primary text-sm font-bold px-3 py-1.5 rounded-full border border-primary/20">
+                          #{index + 1}
+                        </span>
+                      </div>
+
+                      {/* Lock Icon */}
+                      <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                        <Lock className="w-8 h-8 text-primary/60" />
+                      </div>
+
+                      {/* Card Title */}
+                      <h3 className="text-lg font-bold font-display text-foreground mb-2 leading-tight">
+                        {card.title}
+                      </h3>
+
+                      {/* Phase Badge */}
+                      <Badge variant="outline" className="mb-4 text-xs font-mono uppercase tracking-wider">
+                        {card.phase}
+                      </Badge>
+
+                      {/* Type Badge */}
+                      <Badge variant={getBadgeVariant(card.type)} className="mb-6 uppercase tracking-wider text-[10px] font-bold">
+                        <span className="flex items-center gap-1">
+                          {getIcon(card.type)}
+                          {card.type}
+                        </span>
+                      </Badge>
+
+                      {/* Reveal Button */}
+                      <Button 
+                        className="bg-primary hover:bg-primary/90 text-white font-bold shadow-lg"
+                        onClick={(e) => toggleReveal(card.id, e)}
+                        data-testid={`button-reveal-${card.id}`}
+                      >
+                        <Eye className="w-4 h-4 mr-2" />
+                        Reveal Card
+                      </Button>
+
+                      {/* Hint Text */}
+                      <p className="text-xs text-muted-foreground mt-4">
+                        Click to see the script and tips
+                      </p>
+                    </div>
                   )}
                 </Card>
               </motion.div>
