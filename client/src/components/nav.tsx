@@ -12,6 +12,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useAuth } from "@/lib/auth-context";
 import { useTheme } from "next-themes";
 
@@ -22,6 +32,7 @@ import arenaLogoLight from "@/assets/arena-logo-light.png";
 export function Nav() {
   const [location, setLocation] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const [showSignOutDialog, setShowSignOutDialog] = useState(false);
   const { user, logout } = useAuth();
   const { resolvedTheme } = useTheme();
   
@@ -30,6 +41,12 @@ export function Nav() {
   const handleSignOut = () => {
     logout();
     setLocation("/login");
+  };
+
+  const confirmSignOut = () => {
+    setShowSignOutDialog(false);
+    setIsOpen(false);
+    handleSignOut();
   };
 
   const getInitials = (name: string) => {
@@ -103,7 +120,7 @@ export function Nav() {
                 <DropdownMenuContent align="end" className="w-48">
                   <div className="px-2 py-1.5 text-sm font-medium">{user.email}</div>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleSignOut} className="text-red-600 cursor-pointer" data-testid="button-signout">
+                  <DropdownMenuItem onClick={() => setShowSignOutDialog(true)} className="text-red-600 cursor-pointer" data-testid="button-signout">
                     <LogOut className="mr-2 h-4 w-4" />
                     Sign Out
                   </DropdownMenuItem>
@@ -157,10 +174,7 @@ export function Nav() {
                 ))}
                 {user && (
                   <button
-                    onClick={() => {
-                      setIsOpen(false);
-                      handleSignOut();
-                    }}
+                    onClick={() => setShowSignOutDialog(true)}
                     className="flex items-center gap-2 text-lg font-medium text-red-600 mt-4 pt-4 border-t border-primary/10"
                     data-testid="button-signout-mobile"
                   >
@@ -173,6 +187,23 @@ export function Nav() {
           </Sheet>
         </div>
       </div>
+
+      <AlertDialog open={showSignOutDialog} onOpenChange={setShowSignOutDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Sign out?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to sign out of your account?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel data-testid="button-signout-cancel">Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmSignOut} className="bg-red-600 hover:bg-red-700" data-testid="button-signout-confirm">
+              Sign Out
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </nav>
   );
 }
