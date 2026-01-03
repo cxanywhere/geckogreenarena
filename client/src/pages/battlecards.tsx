@@ -94,21 +94,86 @@ export default function BattlecardsPage() {
     <div className="min-h-screen bg-muted/20 flex flex-col font-sans">
       <Nav />
       
-      {/* Hero Section */}
-      <div className="bg-white border-b border-border dark:bg-background">
+      {/* Hero Section with Cover Info */}
+      <div className="bg-gradient-to-br from-primary/5 via-white to-yellow-50/50 border-b border-border dark:from-primary/10 dark:via-background dark:to-background">
         <div className="container mx-auto px-4 py-12">
-           <div className="max-w-2xl">
-             <div className="flex items-center gap-2 mb-4">
-               <Zap className="w-5 h-5 text-yellow-500 fill-yellow-500" />
-               <span className="font-mono text-sm font-bold text-yellow-600 uppercase tracking-widest">Sales Enablement</span>
-             </div>
-             <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4 tracking-tight" data-testid="text-battlecards-title">
-               Battlecards
-             </h1>
-             <p className="text-xl text-muted-foreground leading-relaxed">
-               Master every interaction with field-tested scripts, objection handlers, and psychological triggers. {battlecards.length} cards available.
-             </p>
-           </div>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            {/* Left: Title and Description */}
+            <div className="max-w-xl">
+              <div className="flex items-center gap-2 mb-4">
+                <Zap className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+                <span className="font-mono text-sm font-bold text-yellow-600 uppercase tracking-widest">Sales Enablement</span>
+              </div>
+              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4 tracking-tight" data-testid="text-battlecards-title">
+                Battlecards
+              </h1>
+              <p className="text-xl text-muted-foreground leading-relaxed mb-6">
+                Your pocket playbook for handling every door-to-door situation with confidence. {battlecards.length} field-tested cards ready to go.
+              </p>
+              
+              {/* What Are Battlecards */}
+              <div className="bg-white/80 dark:bg-card/80 backdrop-blur-sm rounded-2xl p-6 border border-border shadow-sm">
+                <h2 className="text-lg font-bold text-foreground mb-3 flex items-center gap-2">
+                  <ShieldAlert className="w-5 h-5 text-primary" />
+                  What Are Battlecards?
+                </h2>
+                <p className="text-muted-foreground leading-relaxed">
+                  Battlecards are quick-reference guides with proven scripts and strategies for every sales situation. 
+                  Each card gives you exactly what to say and do when you encounter common objections, tough customers, or tricky scenarios at the door.
+                </p>
+              </div>
+            </div>
+
+            {/* Right: How They Help */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
+                <Lightbulb className="w-4 h-4 text-yellow-500" />
+                How Battlecards Help You Win
+              </h3>
+              
+              <div className="grid gap-3">
+                <div className="bg-white dark:bg-card p-4 rounded-xl border border-border shadow-sm flex gap-4 items-start hover:border-primary/30 transition-colors">
+                  <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
+                    <MessageSquare className="w-5 h-5 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-foreground mb-1">Word-for-Word Scripts</h4>
+                    <p className="text-sm text-muted-foreground">Exact phrases that work. No guessing what to say when you're put on the spot.</p>
+                  </div>
+                </div>
+
+                <div className="bg-white dark:bg-card p-4 rounded-xl border border-border shadow-sm flex gap-4 items-start hover:border-primary/30 transition-colors">
+                  <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center flex-shrink-0">
+                    <ShieldAlert className="w-5 h-5 text-red-600 dark:text-red-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-foreground mb-1">Objection Handlers</h4>
+                    <p className="text-sm text-muted-foreground">Turn "no" into "tell me more" with responses to every common pushback.</p>
+                  </div>
+                </div>
+
+                <div className="bg-white dark:bg-card p-4 rounded-xl border border-border shadow-sm flex gap-4 items-start hover:border-primary/30 transition-colors">
+                  <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0">
+                    <Zap className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-foreground mb-1">Instant Confidence</h4>
+                    <p className="text-sm text-muted-foreground">Review before your shift or between doors. Walk up ready for anything.</p>
+                  </div>
+                </div>
+
+                <div className="bg-white dark:bg-card p-4 rounded-xl border border-border shadow-sm flex gap-4 items-start hover:border-primary/30 transition-colors">
+                  <div className="w-10 h-10 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center flex-shrink-0">
+                    <Lightbulb className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-foreground mb-1">Pro Tips from Top Reps</h4>
+                    <p className="text-sm text-muted-foreground">Techniques and mindset shifts from reps who consistently hit quota.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
