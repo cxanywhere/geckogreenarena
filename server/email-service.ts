@@ -54,7 +54,7 @@ export async function sendCredentialsEmail(
       : 'https://your-arena-ai-app.replit.app';
 
     const result = await client.emails.send({
-      from: fromEmail || 'Arena AI <onboarding@resend.dev>',
+      from: fromEmail || 'Arena AI <arena@updates.gigarev.com>',
       to: toEmail,
       subject: 'Welcome to Arena AI - Your Login Credentials',
       html: `
@@ -109,7 +109,7 @@ export async function sendPasswordResetEmail(
     const { client, fromEmail } = await getResendClient();
 
     await client.emails.send({
-      from: fromEmail || 'Arena AI <onboarding@resend.dev>',
+      from: fromEmail || 'Arena AI <arena@updates.gigarev.com>',
       to: toEmail,
       subject: 'Arena AI - Password Reset Request',
       html: `
