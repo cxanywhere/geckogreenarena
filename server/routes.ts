@@ -218,6 +218,9 @@ export async function registerRoutes(
     }
   });
 
+  // JWT secret for signing auth tokens - in production use a proper secret from env
+  const AUTH_JWT_SECRET = process.env.AUTH_JWT_SECRET || "arena-ai-secret-key-change-in-production";
+
   // Auth routes
   app.post("/api/auth/login", async (req, res) => {
     try {
@@ -233,7 +236,17 @@ export async function registerRoutes(
         return res.status(401).json({ error: "Invalid credentials" });
       }
 
-      res.json({ user: { ...user, password: undefined } });
+      // Generate JWT token with user ID and role
+      const authToken = jwt.sign(
+        { userId: user.id, role: user.role },
+        AUTH_JWT_SECRET,
+        { expiresIn: "7d" }
+      );
+
+      res.json({ 
+        user: { ...user, password: undefined },
+        authToken
+      });
     } catch (error) {
       console.error("Login error:", error);
       res.status(500).json({ error: "Login failed" });
@@ -1473,16 +1486,18 @@ export async function registerRoutes(
 
   app.post("/api/vapi/start-call", async (req, res) => {
     try {
-      const { roleplayId } = req.body;
+      const { roleplayId, userId } = req.body;
       if (!roleplayId) {
         return res.status(400).json({ error: "roleplayId is required" });
       }
 
       // First try to get roleplay from database
       const dbRoleplay = await storage.getRoleplay(roleplayId);
+      let callResult;
+      
       if (dbRoleplay) {
         // Convert database roleplay to VAPI config
-        const result = await vapiService.startWebCallWithDbRoleplay({
+        callResult = await vapiService.startWebCallWithDbRoleplay({
           id: dbRoleplay.id,
           name: dbRoleplay.name,
           role: dbRoleplay.role,
@@ -1499,18 +1514,30 @@ export async function registerRoutes(
           resistance: dbRoleplay.stats?.resistance,
           traits: dbRoleplay.traits
         });
-        res.json({ 
-          callId: result.callId,
-          roleplayConfig: result.config
-        });
-        return;
+      } else {
+        // Fallback to hardcoded configs for legacy roleplays
+        callResult = await vapiService.startWebCall(roleplayId);
       }
 
-      // Fallback to hardcoded configs for legacy roleplays
-      const result = await vapiService.startWebCall(roleplayId);
+      // Create usage session for billing tracking
+      if (userId && callResult.callId) {
+        try {
+          await storage.createUsageSession({
+            userId,
+            roleplayId,
+            vapiCallId: callResult.callId,
+            startTime: new Date(),
+            sessionType: "voice",
+            status: "active",
+          });
+        } catch (usageError) {
+          console.error("Failed to create usage session:", usageError);
+        }
+      }
+
       res.json({ 
-        callId: result.callId,
-        roleplayConfig: result.config
+        callId: callResult.callId,
+        roleplayConfig: callResult.config
       });
     } catch (error: any) {
       console.error("Start VAPI call error:", error);
@@ -1613,7 +1640,7 @@ export async function registerRoutes(
         try {
           const roleplay = await storage.getRoleplay(roleplayId);
           if (roleplay) {
-            await storage.createRoleplayAttempt({
+            const attempt = await storage.createRoleplayAttempt({
               userId,
               roleplayId,
               score: feedback.overallScore,
@@ -1623,6 +1650,15 @@ export async function registerRoutes(
                 recordingUrl: transcriptData.recordingUrl
               })
             });
+
+            // Complete usage session for billing
+            const usageSession = await storage.getUsageSessionByVapiCallId(callId);
+            if (usageSession) {
+              const endTime = new Date();
+              const durationSeconds = Math.floor((endTime.getTime() - new Date(usageSession.startTime).getTime()) / 1000);
+              await storage.completeUsageSession(usageSession.id, endTime, durationSeconds);
+              await storage.updateUsageSession(usageSession.id, { roleplayAttemptId: attempt.id });
+            }
           }
         } catch (dbError) {
           console.error("Failed to save roleplay attempt:", dbError);
@@ -1646,6 +1682,208 @@ export async function registerRoutes(
     } catch (error: any) {
       console.error("Evaluate VAPI call error:", error);
       res.status(500).json({ error: error.message || "Failed to evaluate call" });
+    }
+  });
+
+  // Helper function to validate caller via JWT token and return their user info
+  async function getAuthenticatedUser(req: any): Promise<{ user: any; error?: string } | null> {
+    const authHeader = req.headers["authorization"] as string;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return { user: null, error: "Authorization required" };
+    }
+    
+    const token = authHeader.slice(7);
+    try {
+      const decoded = jwt.verify(token, AUTH_JWT_SECRET) as { userId: string; role: string };
+      const user = await storage.getUser(decoded.userId);
+      if (!user) {
+        return { user: null, error: "Invalid user" };
+      }
+      return { user };
+    } catch (err) {
+      return { user: null, error: "Invalid or expired token" };
+    }
+  }
+
+  // Usage Tracking API - register session when call starts from client SDK
+  app.post("/api/usage/register-session", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+      
+      const { roleplayId, vapiCallId } = req.body;
+      if (!roleplayId) {
+        return res.status(400).json({ error: "roleplayId is required" });
+      }
+
+      // Use authenticated user ID, not client-supplied
+      const session = await storage.createUsageSession({
+        userId: authResult.user.id,
+        roleplayId,
+        vapiCallId: vapiCallId || null,
+        startTime: new Date(),
+        sessionType: "voice",
+        status: "active",
+      });
+
+      res.json({ sessionId: session.id, success: true });
+    } catch (error: any) {
+      console.error("Register usage session error:", error);
+      res.status(500).json({ error: error.message || "Failed to register session" });
+    }
+  });
+
+  // Usage Reporting API with role-based access control
+  app.get("/api/usage/user/:userId", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const requestedUserId = req.params.userId;
+      const callerRole = authResult.user.role;
+      const callerId = authResult.user.id;
+
+      // Reps can only view their own usage (no billing data), managers can view their team, admins can view all
+      if (callerRole === "rep") {
+        if (requestedUserId !== callerId) {
+          return res.status(403).json({ error: "Access denied" });
+        }
+        // Reps see their sessions but not billing data
+        const sessions = await storage.getUserUsageSessions(requestedUserId);
+        return res.json({
+          sessions: sessions.map(s => ({ ...s, costCents: undefined, billedMinutes: undefined })),
+          summary: {
+            totalSessions: sessions.length,
+          }
+        });
+      }
+
+      // Managers can view their team members' usage
+      if (callerRole === "manager") {
+        const teamMembers = await storage.getUsersByManagerId(callerId);
+        const isTeamMember = teamMembers.some(m => m.id === requestedUserId) || requestedUserId === callerId;
+        if (!isTeamMember) {
+          return res.status(403).json({ error: "Access denied" });
+        }
+      }
+
+      // Directors and admins can view anyone
+      const sessions = await storage.getUserUsageSessions(requestedUserId);
+      const totalMinutes = sessions.reduce((sum, s) => sum + (s.billedMinutes || 0), 0);
+      const totalCostCents = sessions.reduce((sum, s) => sum + (s.costCents || 0), 0);
+      
+      res.json({
+        sessions,
+        summary: {
+          totalSessions: sessions.length,
+          totalMinutes,
+          totalCostDollars: (totalCostCents / 100).toFixed(2),
+          ratePerMinute: "$0.15"
+        }
+      });
+    } catch (error: any) {
+      console.error("Get user usage error:", error);
+      res.status(500).json({ error: error.message || "Failed to get usage" });
+    }
+  });
+
+  app.get("/api/usage/team/:managerId", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const callerRole = authResult.user.role;
+      const callerId = authResult.user.id;
+      const requestedManagerId = req.params.managerId;
+
+      // Only managers can view their own team, admins/directors can view any team
+      if (callerRole === "rep") {
+        return res.status(403).json({ error: "Access denied - managers and admins only" });
+      }
+
+      if (callerRole === "manager" && requestedManagerId !== callerId) {
+        return res.status(403).json({ error: "Access denied - can only view your own team" });
+      }
+
+      const sessions = await storage.getTeamUsageSessions(requestedManagerId);
+      const totalMinutes = sessions.reduce((sum, s) => sum + (s.billedMinutes || 0), 0);
+      const totalCostCents = sessions.reduce((sum, s) => sum + (s.costCents || 0), 0);
+      
+      // Group by user
+      const byUser = sessions.reduce((acc, s) => {
+        if (!acc[s.userId]) {
+          acc[s.userId] = { sessions: 0, minutes: 0, costCents: 0 };
+        }
+        acc[s.userId].sessions++;
+        acc[s.userId].minutes += s.billedMinutes || 0;
+        acc[s.userId].costCents += s.costCents || 0;
+        return acc;
+      }, {} as Record<string, { sessions: number; minutes: number; costCents: number }>);
+      
+      res.json({
+        sessions,
+        byUser,
+        summary: {
+          totalSessions: sessions.length,
+          totalMinutes,
+          totalCostDollars: (totalCostCents / 100).toFixed(2),
+          ratePerMinute: "$0.15"
+        }
+      });
+    } catch (error: any) {
+      console.error("Get team usage error:", error);
+      res.status(500).json({ error: error.message || "Failed to get team usage" });
+    }
+  });
+
+  app.get("/api/usage/all", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const callerRole = authResult.user.role;
+
+      // Only admins/directors can view all usage
+      if (callerRole !== "director" && callerRole !== "admin") {
+        return res.status(403).json({ error: "Access denied - admins only" });
+      }
+
+      const sessions = await storage.getAllUsageSessions();
+      const totalMinutes = sessions.reduce((sum, s) => sum + (s.billedMinutes || 0), 0);
+      const totalCostCents = sessions.reduce((sum, s) => sum + (s.costCents || 0), 0);
+      
+      // Group by user
+      const byUser = sessions.reduce((acc, s) => {
+        if (!acc[s.userId]) {
+          acc[s.userId] = { sessions: 0, minutes: 0, costCents: 0 };
+        }
+        acc[s.userId].sessions++;
+        acc[s.userId].minutes += s.billedMinutes || 0;
+        acc[s.userId].costCents += s.costCents || 0;
+        return acc;
+      }, {} as Record<string, { sessions: number; minutes: number; costCents: number }>);
+      
+      res.json({
+        sessions,
+        byUser,
+        summary: {
+          totalSessions: sessions.length,
+          totalMinutes,
+          totalCostDollars: (totalCostCents / 100).toFixed(2),
+          ratePerMinute: "$0.15"
+        }
+      });
+    } catch (error: any) {
+      console.error("Get all usage error:", error);
+      res.status(500).json({ error: error.message || "Failed to get usage" });
     }
   });
 

@@ -171,4 +171,37 @@ shared/           # Shared code between frontend/backend
 - Add new managers with auto-generated passwords
 - View all managers and reps across organization
 - Remove users with confirmation
-- Billing and usage statistics
+- Usage & Billing tab with detailed cost tracking
+
+## Usage Tracking & Billing System
+
+### Database Model (shared/schema.ts)
+- **usageSessions**: Tracks each voice roleplay session with:
+  - `userId`, `roleplayId`, `vapiCallId` - session identification
+  - `startTime`, `endTime`, `durationSeconds` - timing data
+  - `billedMinutes` - rounded up to nearest minute
+  - `rateCentsPerMinute` - billing rate (default: 15 cents)
+  - `costCents` - calculated cost (billedMinutes × rate)
+  - `status` - active, completed, or cancelled
+
+### Billing Calculation
+- Rate: $0.15 per minute for voice roleplay sessions
+- Duration rounded up to nearest minute (e.g., 45 seconds = 1 minute)
+- Cost = billedMinutes × 15 cents
+
+### Usage API Endpoints (server/routes.ts)
+- `POST /api/usage/register-session`: Create usage session when call starts
+- `GET /api/usage/user/:userId`: Get user's usage and cost summary
+- `GET /api/usage/team/:managerId`: Get team usage for managers
+- `GET /api/usage/all`: Get all usage for admins
+
+### Integration Points
+- **VoiceRoleplay.tsx**: Registers usage session when call starts (includes userId)
+- **POST /api/vapi/evaluate**: Completes usage session with duration and cost calculation
+- **Admin Dashboard**: Usage & Billing tab shows total sessions, minutes, cost, and per-user breakdown
+- **Manager Dashboard**: Team Usage tab shows team's sessions, minutes, cost, and per-rep breakdown
+
+### Access Control
+- Sales reps: Can see their training progress (no billing info)
+- Managers: Can see their team's usage and costs
+- Admins/Directors: Can see all organization usage and costs

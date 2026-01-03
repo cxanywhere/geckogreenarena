@@ -196,6 +196,7 @@ export default function ChatPage() {
               config={vapiConfig}
               onComplete={handleVoiceComplete}
               onCancel={handleVoiceCancel}
+              userId={user?.id}
             />
           </div>
         </div>

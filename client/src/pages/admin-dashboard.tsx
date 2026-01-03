@@ -60,6 +60,40 @@ export default function AdminDashboard() {
     queryKey: ["/api/reps"],
   });
 
+  interface UsageData {
+    sessions: Array<{
+      id: string;
+      userId: string;
+      roleplayId: string;
+      durationSeconds: number;
+      billedMinutes: number;
+      costCents: number;
+      status: string;
+      createdAt: string;
+    }>;
+    byUser: Record<string, { sessions: number; minutes: number; costCents: number }>;
+    summary: {
+      totalSessions: number;
+      totalMinutes: number;
+      totalCostDollars: string;
+      ratePerMinute: string;
+    };
+  }
+
+  const { data: usageData } = useQuery<UsageData>({
+    queryKey: ["/api/usage/all"],
+    queryFn: async () => {
+      const authToken = localStorage.getItem("authToken");
+      if (!authToken) return { sessions: [], byUser: {}, summary: { totalSessions: 0, totalMinutes: 0, totalCostDollars: "0.00", ratePerMinute: "$0.15" } };
+      
+      const response = await fetch("/api/usage/all", {
+        headers: { "Authorization": `Bearer ${authToken}` }
+      });
+      if (!response.ok) throw new Error("Failed to fetch usage");
+      return response.json();
+    },
+  });
+
   const filteredManagers = managers.filter(m => 
     m.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
     m.email.toLowerCase().includes(searchQuery.toLowerCase())
@@ -311,6 +345,7 @@ export default function AdminDashboard() {
           <TabsList className="bg-card border border-border">
             <TabsTrigger value="managers">Managers & Teams</TabsTrigger>
             <TabsTrigger value="reps">All Reps Directory</TabsTrigger>
+            <TabsTrigger value="usage">Usage & Billing</TabsTrigger>
           </TabsList>
 
           <TabsContent value="managers" className="space-y-4">
@@ -610,6 +645,144 @@ export default function AdminDashboard() {
                     </TableBody>
                   </Table>
                 )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="usage" className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-4">
+              <Card className="border-primary/10 shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Total Sessions</CardTitle>
+                  <Activity className="h-4 w-4 text-blue-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{usageData?.summary.totalSessions || 0}</div>
+                  <p className="text-xs text-muted-foreground mt-1">Voice roleplay sessions</p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-primary/10 shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Total Minutes</CardTitle>
+                  <BarChart3 className="h-4 w-4 text-green-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{usageData?.summary.totalMinutes || 0}</div>
+                  <p className="text-xs text-muted-foreground mt-1">Billed minutes</p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-primary/10 shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Total Cost</CardTitle>
+                  <DollarSign className="h-4 w-4 text-amber-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">${usageData?.summary.totalCostDollars || "0.00"}</div>
+                  <p className="text-xs text-muted-foreground mt-1">At {usageData?.summary.ratePerMinute || "$0.15"}/min</p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-primary/10 shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Active Users</CardTitle>
+                  <Users className="h-4 w-4 text-purple-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{Object.keys(usageData?.byUser || {}).length}</div>
+                  <p className="text-xs text-muted-foreground mt-1">With usage this period</p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Usage by User</CardTitle>
+                <CardDescription>Breakdown of usage and costs per user</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>User</TableHead>
+                      <TableHead>Sessions</TableHead>
+                      <TableHead>Minutes</TableHead>
+                      <TableHead>Cost</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {Object.entries(usageData?.byUser || {}).length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                          No usage data available yet.
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      Object.entries(usageData?.byUser || {}).map(([userId, data]) => {
+                        const user = [...managers, ...allReps].find(u => u.id === userId);
+                        return (
+                          <TableRow key={userId} data-testid={`row-usage-${userId}`}>
+                            <TableCell>
+                              <div className="flex items-center gap-3">
+                                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                                  {user?.avatarInitials || "?"}
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className="font-medium">{user?.name || userId}</span>
+                                  <span className="text-xs text-muted-foreground">{user?.email || ""}</span>
+                                </div>
+                              </div>
+                            </TableCell>
+                            <TableCell>{data.sessions}</TableCell>
+                            <TableCell>{data.minutes} min</TableCell>
+                            <TableCell className="font-medium">${(data.costCents / 100).toFixed(2)}</TableCell>
+                          </TableRow>
+                        );
+                      })
+                    )}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Recent Sessions</CardTitle>
+                <CardDescription>Last 20 voice roleplay sessions</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Date</TableHead>
+                      <TableHead>User</TableHead>
+                      <TableHead>Duration</TableHead>
+                      <TableHead>Cost</TableHead>
+                      <TableHead>Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {(usageData?.sessions || []).slice(0, 20).map((session) => {
+                      const user = [...managers, ...allReps].find(u => u.id === session.userId);
+                      return (
+                        <TableRow key={session.id} data-testid={`row-session-${session.id}`}>
+                          <TableCell>
+                            {new Date(session.createdAt).toLocaleDateString()} {new Date(session.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </TableCell>
+                          <TableCell>{user?.name || session.userId}</TableCell>
+                          <TableCell>{session.billedMinutes || 0} min</TableCell>
+                          <TableCell>${((session.costCents || 0) / 100).toFixed(2)}</TableCell>
+                          <TableCell>
+                            <Badge variant={session.status === "completed" ? "default" : "secondary"}>
+                              {session.status}
+                            </Badge>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
               </CardContent>
             </Card>
           </TabsContent>

@@ -31,9 +31,9 @@ export default function LoginPage() {
     setIsLoading(true);
     
     try {
-      const { user } = await api.login(email, password);
+      const { user, authToken } = await api.login(email, password);
       
-      login(user);
+      login(user, authToken);
       
       if (user.role === "director") {
         setLocation("/admin-dashboard");

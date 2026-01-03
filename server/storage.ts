@@ -8,6 +8,7 @@ import {
   roleplayAttempts,
   quizQuestions,
   quizAttempts,
+  usageSessions,
   type User,
   type InsertUser,
   type Chapter,
@@ -26,6 +27,8 @@ import {
   type InsertQuizQuestion,
   type QuizAttempt,
   type InsertQuizAttempt,
+  type UsageSession,
+  type InsertUsageSession,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, ne, or, isNull } from "drizzle-orm";
@@ -88,6 +91,15 @@ export interface IStorage {
   getUserQuizAttempts(userId: string, chapterId: string): Promise<QuizAttempt[]>;
   createQuizAttempt(attempt: InsertQuizAttempt): Promise<QuizAttempt>;
   getUserQuizScore(userId: string, chapterId: string): Promise<{ correct: number; total: number }>;
+  
+  // Usage Sessions
+  createUsageSession(session: InsertUsageSession): Promise<UsageSession>;
+  updateUsageSession(id: string, updates: Partial<InsertUsageSession>): Promise<UsageSession | undefined>;
+  getUsageSessionByVapiCallId(vapiCallId: string): Promise<UsageSession | undefined>;
+  getUserUsageSessions(userId: string): Promise<UsageSession[]>;
+  getTeamUsageSessions(managerId: string): Promise<UsageSession[]>;
+  getAllUsageSessions(): Promise<UsageSession[]>;
+  completeUsageSession(id: string, endTime: Date, durationSeconds: number): Promise<UsageSession | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -341,6 +353,67 @@ export class DatabaseStorage implements IStorage {
     
     const correct = Array.from(uniqueQuestions.values()).filter(v => v).length;
     return { correct, total: uniqueQuestions.size };
+  }
+
+  // Usage Sessions
+  async createUsageSession(insertSession: InsertUsageSession): Promise<UsageSession> {
+    const [session] = await db.insert(usageSessions).values(insertSession).returning();
+    return session;
+  }
+
+  async updateUsageSession(id: string, updates: Partial<InsertUsageSession>): Promise<UsageSession | undefined> {
+    const [session] = await db.update(usageSessions).set(updates).where(eq(usageSessions.id, id)).returning();
+    return session || undefined;
+  }
+
+  async getUsageSessionByVapiCallId(vapiCallId: string): Promise<UsageSession | undefined> {
+    const [session] = await db.select().from(usageSessions).where(eq(usageSessions.vapiCallId, vapiCallId));
+    return session || undefined;
+  }
+
+  async getUserUsageSessions(userId: string): Promise<UsageSession[]> {
+    return await db
+      .select()
+      .from(usageSessions)
+      .where(eq(usageSessions.userId, userId))
+      .orderBy(desc(usageSessions.createdAt));
+  }
+
+  async getTeamUsageSessions(managerId: string): Promise<UsageSession[]> {
+    const teamMembers = await this.getUsersByManagerId(managerId);
+    const teamUserIds = teamMembers.map(m => m.id);
+    
+    if (teamUserIds.length === 0) return [];
+    
+    return await db
+      .select()
+      .from(usageSessions)
+      .where(or(...teamUserIds.map(uid => eq(usageSessions.userId, uid))))
+      .orderBy(desc(usageSessions.createdAt));
+  }
+
+  async getAllUsageSessions(): Promise<UsageSession[]> {
+    return await db.select().from(usageSessions).orderBy(desc(usageSessions.createdAt));
+  }
+
+  async completeUsageSession(id: string, endTime: Date, durationSeconds: number): Promise<UsageSession | undefined> {
+    const billedMinutes = Math.ceil(durationSeconds / 60);
+    const rateCentsPerMinute = 15;
+    const costCents = billedMinutes * rateCentsPerMinute;
+    
+    const [session] = await db
+      .update(usageSessions)
+      .set({
+        endTime,
+        durationSeconds,
+        billedMinutes,
+        costCents,
+        status: "completed",
+      })
+      .where(eq(usageSessions.id, id))
+      .returning();
+    
+    return session || undefined;
   }
 }
 

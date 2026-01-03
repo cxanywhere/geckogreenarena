@@ -131,7 +131,7 @@ class APIClient {
   }
 
   // Auth
-  async login(email: string, password: string): Promise<{ user: User }> {
+  async login(email: string, password: string): Promise<{ user: User; authToken?: string }> {
     return this.request("/api/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),

@@ -7,8 +7,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Bell, Search, UserPlus, Users, TrendingUp, AlertCircle, Trash2, Copy, Mail, Phone, Check, Loader2 } from "lucide-react";
+import { Bell, Search, UserPlus, Users, TrendingUp, AlertCircle, Trash2, Copy, Mail, Phone, Check, Loader2, Activity, BarChart3, DollarSign } from "lucide-react";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
 import arenaLogoLight from "@/assets/arena-logo-light.png";
 import geckoLogo from "@assets/image_1766975682051.png";
@@ -65,6 +66,40 @@ export default function ManagerDashboard() {
 
   const { data: allReps = [] } = useQuery<User[]>({
     queryKey: ["/api/reps"],
+  });
+
+  interface UsageData {
+    sessions: Array<{
+      id: string;
+      userId: string;
+      roleplayId: string;
+      durationSeconds: number;
+      billedMinutes: number;
+      costCents: number;
+      status: string;
+      createdAt: string;
+    }>;
+    byUser: Record<string, { sessions: number; minutes: number; costCents: number }>;
+    summary: {
+      totalSessions: number;
+      totalMinutes: number;
+      totalCostDollars: string;
+      ratePerMinute: string;
+    };
+  }
+
+  const { data: usageData } = useQuery<UsageData>({
+    queryKey: ["/api/usage/team", managerId],
+    queryFn: async () => {
+      if (!managerId) return { sessions: [], byUser: {}, summary: { totalSessions: 0, totalMinutes: 0, totalCostDollars: "0.00", ratePerMinute: "$0.15" } };
+      const authToken = localStorage.getItem("authToken");
+      const response = await fetch(`/api/usage/team/${managerId}`, {
+        headers: authToken ? { "Authorization": `Bearer ${authToken}` } : {}
+      });
+      if (!response.ok) throw new Error("Failed to fetch usage");
+      return response.json();
+    },
+    enabled: !!managerId,
   });
 
   const reps = managerId ? teamReps : allReps;
@@ -455,20 +490,27 @@ export default function ManagerDashboard() {
           </Card>
         </div>
 
-        <div className="flex items-center gap-4 mb-6">
-          <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input 
-              placeholder="Search reps..." 
-              className="pl-9 bg-card" 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              data-testid="input-search-reps"
-            />
-          </div>
-        </div>
+        <Tabs defaultValue="team" className="space-y-6">
+          <TabsList className="bg-card border border-border">
+            <TabsTrigger value="team">Team Management</TabsTrigger>
+            <TabsTrigger value="usage">Team Usage</TabsTrigger>
+          </TabsList>
 
-        <Card className="overflow-hidden border-border/60">
+          <TabsContent value="team" className="space-y-4">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="relative flex-1 max-w-sm">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input 
+                  placeholder="Search reps..." 
+                  className="pl-9 bg-card" 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  data-testid="input-search-reps"
+                />
+              </div>
+            </div>
+
+            <Card className="overflow-hidden border-border/60">
           {isLoading ? (
             <div className="p-8 text-center">
               <Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" />
@@ -553,7 +595,147 @@ export default function ManagerDashboard() {
               </TableBody>
             </Table>
           )}
-        </Card>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="usage" className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-4">
+              <Card className="border-primary/10 shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Team Sessions</CardTitle>
+                  <Activity className="h-4 w-4 text-blue-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{usageData?.summary.totalSessions || 0}</div>
+                  <p className="text-xs text-muted-foreground mt-1">Voice roleplay sessions</p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-primary/10 shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Total Minutes</CardTitle>
+                  <BarChart3 className="h-4 w-4 text-green-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{usageData?.summary.totalMinutes || 0}</div>
+                  <p className="text-xs text-muted-foreground mt-1">Billed minutes</p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-primary/10 shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Team Cost</CardTitle>
+                  <DollarSign className="h-4 w-4 text-amber-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">${usageData?.summary.totalCostDollars || "0.00"}</div>
+                  <p className="text-xs text-muted-foreground mt-1">At {usageData?.summary.ratePerMinute || "$0.15"}/min</p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-primary/10 shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Active Reps</CardTitle>
+                  <Users className="h-4 w-4 text-purple-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{Object.keys(usageData?.byUser || {}).length}</div>
+                  <p className="text-xs text-muted-foreground mt-1">With usage this period</p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Usage by Rep</CardTitle>
+                <CardDescription>Breakdown of usage and costs per team member</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Rep</TableHead>
+                      <TableHead>Sessions</TableHead>
+                      <TableHead>Minutes</TableHead>
+                      <TableHead>Cost</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {Object.entries(usageData?.byUser || {}).length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                          No usage data available yet.
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      Object.entries(usageData?.byUser || {}).map(([userId, data]) => {
+                        const user = reps.find(u => u.id === userId);
+                        return (
+                          <TableRow key={userId} data-testid={`row-usage-${userId}`}>
+                            <TableCell>
+                              <div className="flex items-center gap-3">
+                                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                                  {user?.avatarInitials || "?"}
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className="font-medium">{user?.name || userId}</span>
+                                  <span className="text-xs text-muted-foreground">{user?.email || ""}</span>
+                                </div>
+                              </div>
+                            </TableCell>
+                            <TableCell>{data.sessions}</TableCell>
+                            <TableCell>{data.minutes} min</TableCell>
+                            <TableCell className="font-medium">${(data.costCents / 100).toFixed(2)}</TableCell>
+                          </TableRow>
+                        );
+                      })
+                    )}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Recent Sessions</CardTitle>
+                <CardDescription>Last 20 voice roleplay sessions from your team</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Date</TableHead>
+                      <TableHead>Rep</TableHead>
+                      <TableHead>Duration</TableHead>
+                      <TableHead>Cost</TableHead>
+                      <TableHead>Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {(usageData?.sessions || []).slice(0, 20).map((session) => {
+                      const user = reps.find(u => u.id === session.userId);
+                      return (
+                        <TableRow key={session.id} data-testid={`row-session-${session.id}`}>
+                          <TableCell>
+                            {new Date(session.createdAt).toLocaleDateString()} {new Date(session.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </TableCell>
+                          <TableCell>{user?.name || session.userId}</TableCell>
+                          <TableCell>{session.billedMinutes || 0} min</TableCell>
+                          <TableCell>${((session.costCents || 0) / 100).toFixed(2)}</TableCell>
+                          <TableCell>
+                            <Badge variant={session.status === "completed" ? "default" : "secondary"}>
+                              {session.status}
+                            </Badge>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );

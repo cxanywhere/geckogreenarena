@@ -30,9 +30,10 @@ interface VoiceRoleplayProps {
   config: VapiRoleplayConfig;
   onComplete: (callId: string) => void;
   onCancel: () => void;
+  userId?: string;
 }
 
-export function VoiceRoleplay({ roleplayId, config, onComplete, onCancel }: VoiceRoleplayProps) {
+export function VoiceRoleplay({ roleplayId, config, onComplete, onCancel, userId }: VoiceRoleplayProps) {
   const [status, setStatus] = useState<"idle" | "connecting" | "active" | "ending">("idle");
   const [isMuted, setIsMuted] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -180,13 +181,30 @@ CRITICAL RULES:
       const call = await vapi.start(assistantConfig);
       if (call?.id) {
         callIdRef.current = call.id;
+        
+        // Register usage session for billing tracking
+        if (userId) {
+          try {
+            const authToken = localStorage.getItem("authToken");
+            await fetch("/api/usage/register-session", {
+              method: "POST",
+              headers: { 
+                "Content-Type": "application/json",
+                ...(authToken ? { "Authorization": `Bearer ${authToken}` } : {})
+              },
+              body: JSON.stringify({ roleplayId, vapiCallId: call.id })
+            });
+          } catch (err) {
+            console.error("Failed to register usage session:", err);
+          }
+        }
       }
     } catch (err: any) {
       console.error("Start call error:", err);
       setError(err.message || "Failed to start voice call");
       setStatus("idle");
     }
-  }, [roleplayId, config, onComplete]);
+  }, [roleplayId, config, onComplete, userId]);
 
   const endCall = useCallback(() => {
     if (vapiRef.current) {
