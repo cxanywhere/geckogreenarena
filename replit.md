@@ -40,8 +40,10 @@ Preferred communication style: Simple, everyday language.
 - **RoleplayAttempts**: Stores roleplay session results and scores
 
 ### Authentication
-- Simple email/password authentication (stored in database)
-- User session stored in localStorage on client
+- JWT-based authentication with 7-day token expiry
+- Login returns authToken stored in localStorage alongside user data
+- Authorization header (Bearer token) required for protected endpoints
+- getAuthenticatedUser helper validates JWT and extracts user info
 - Role-based routing (rep → dashboard, manager → manager-dashboard, director → admin-dashboard)
 
 ### Project Structure
