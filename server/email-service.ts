@@ -56,61 +56,84 @@ export async function sendCredentialsEmail(
     const result = await client.emails.send({
       from: fromEmail || 'Arena AI <arena@updates.gigarev.com>',
       to: toEmail,
-      subject: 'Welcome to the Arena - Your Training Begins Now',
+      subject: 'Welcome to Arena AI - Your Login Credentials',
       html: `
-        <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0a;">
-          <!-- Hero Header -->
-          <div style="background: linear-gradient(135deg, #0d2818 0%, #1a472a 50%, #0d2818 100%); padding: 40px 30px; text-align: center; border-bottom: 3px solid #22c55e;">
-            <div style="font-size: 48px; margin-bottom: 10px;">&#9876;&#65039;</div>
-            <h1 style="color: #22c55e; margin: 0; font-size: 32px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">ARENA AI</h1>
-            <p style="color: #86efac; margin: 8px 0 0 0; font-size: 14px; letter-spacing: 4px; text-transform: uppercase;">Sales Training Academy</p>
+        <div style="font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
+          <!-- Header -->
+          <div style="background: #0a0a0a; padding: 32px 30px; text-align: left;">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+              <tr>
+                <td>
+                  <div style="display: inline-block;">
+                    <span style="color: #22c55e; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">arena ai</span>
+                    <span style="color: #6b7280; font-size: 12px; display: block; text-transform: uppercase; letter-spacing: 2px; margin-top: 2px;">by gigarev</span>
+                  </div>
+                </td>
+                <td style="text-align: right; vertical-align: middle;">
+                  <span style="background: rgba(34, 197, 94, 0.1); color: #22c55e; font-size: 11px; padding: 6px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; border: 1px solid rgba(34, 197, 94, 0.2);">Sales Training Portal</span>
+                </td>
+              </tr>
+            </table>
           </div>
           
           <!-- Main Content -->
-          <div style="padding: 40px 30px; background: linear-gradient(180deg, #111111 0%, #1a1a1a 100%);">
-            <h2 style="color: #ffffff; margin: 0 0 20px 0; font-size: 24px;">Welcome to the Arena, ${name}!</h2>
+          <div style="padding: 40px 30px; background: #ffffff;">
+            <h1 style="color: #0a0a0a; margin: 0 0 16px 0; font-size: 26px; font-weight: 600;">Welcome, ${name}!</h1>
             
-            <p style="color: #d1d5db; line-height: 1.8; font-size: 16px; margin-bottom: 25px;">
-              You've been chosen to join an elite training program designed to forge <strong style="color: #22c55e;">sales champions</strong>. 
-              Like gladiators of old, you'll enter the Arena to sharpen your skills, face challenging scenarios, and emerge victorious.
+            <p style="color: #4b5563; line-height: 1.7; font-size: 16px; margin-bottom: 28px;">
+              Your account has been created. Use the credentials below to log in and begin your sales training journey.
             </p>
             
-            <div style="background: linear-gradient(135deg, #14532d 0%, #166534 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #22c55e;">
-              <p style="color: #86efac; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 15px 0;">Your Battle Credentials</p>
-              <p style="margin: 0 0 10px 0; color: #ffffff;"><strong>Email:</strong> ${toEmail}</p>
-              <p style="margin: 0; color: #ffffff;"><strong>Password:</strong> <code style="background: #22c55e; color: #0a0a0a; padding: 4px 12px; border-radius: 4px; font-weight: bold;">${password}</code></p>
+            <!-- Credentials Card -->
+            <div style="background: #f9fafb; padding: 24px; border-radius: 12px; margin: 24px 0; border: 1px solid #e5e7eb;">
+              <p style="color: #6b7280; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 16px 0; font-weight: 600;">Your Login Credentials</p>
+              <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td style="padding: 8px 0;">
+                    <span style="color: #6b7280; font-size: 14px;">Email</span>
+                  </td>
+                  <td style="padding: 8px 0; text-align: right;">
+                    <span style="color: #0a0a0a; font-size: 14px; font-weight: 500;">${toEmail}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; border-top: 1px solid #e5e7eb;">
+                    <span style="color: #6b7280; font-size: 14px;">Password</span>
+                  </td>
+                  <td style="padding: 8px 0; border-top: 1px solid #e5e7eb; text-align: right;">
+                    <code style="background: #22c55e; color: #ffffff; padding: 4px 10px; border-radius: 4px; font-size: 13px; font-weight: 600;">${password}</code>
+                  </td>
+                </tr>
+              </table>
             </div>
             
-            <div style="background: #1f2937; padding: 20px; border-radius: 8px; margin: 25px 0;">
-              <p style="color: #22c55e; font-size: 14px; font-weight: bold; margin: 0 0 10px 0;">&#127942; YOUR MISSION:</p>
-              <ul style="color: #d1d5db; margin: 0; padding-left: 20px; line-height: 1.8;">
+            <!-- What's Next -->
+            <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 24px; border-radius: 12px; margin: 24px 0; border-left: 4px solid #22c55e;">
+              <p style="color: #166534; font-size: 14px; font-weight: 600; margin: 0 0 12px 0;">What's Next?</p>
+              <ul style="color: #15803d; margin: 0; padding-left: 18px; line-height: 1.8; font-size: 14px;">
                 <li>Complete training chapters to master sales techniques</li>
-                <li>Conquer voice roleplays against AI homeowner personas</li>
-                <li>Achieve 90%+ on all quizzes to prove your mastery</li>
-                <li>Earn your <strong style="color: #22c55e;">Certified Sales Champion</strong> badge</li>
+                <li>Practice with AI-powered voice roleplays</li>
+                <li>Score 90%+ on quizzes to get certified</li>
               </ul>
             </div>
             
-            <p style="color: #9ca3af; font-size: 14px; font-style: italic; text-align: center; margin: 25px 0;">
-              "Champions aren't made in the gym. They are made from something deep inside them—a desire, a dream, a vision."
-            </p>
-            
-            <div style="text-align: center; margin-top: 30px;">
-              <a href="${appUrl}" style="display: inline-block; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #0a0a0a; padding: 16px 40px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);">
-                &#9876;&#65039; Enter the Arena
+            <!-- CTA Button -->
+            <div style="text-align: center; margin-top: 32px;">
+              <a href="${appUrl}" style="display: inline-block; background: #22c55e; color: #ffffff; padding: 14px 36px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);">
+                Sign In to Arena AI
               </a>
             </div>
             
-            <p style="color: #6b7280; font-size: 12px; text-align: center; margin-top: 25px;">
+            <p style="color: #9ca3af; font-size: 12px; text-align: center; margin-top: 24px;">
               For security, we recommend changing your password after your first login.
             </p>
           </div>
           
           <!-- Footer -->
-          <div style="padding: 25px; background: #0a0a0a; text-align: center; border-top: 1px solid #22c55e;">
-            <p style="color: #22c55e; font-size: 14px; margin: 0 0 5px 0; font-weight: bold;">Good luck, warrior. See you in the Arena!</p>
-            <p style="color: #6b7280; font-size: 12px; margin: 0;">
-              Arena AI by GigaRev - Forging Sales Champions
+          <div style="padding: 24px 30px; background: #f9fafb; text-align: center; border-top: 1px solid #e5e7eb;">
+            <p style="color: #6b7280; font-size: 13px; margin: 0 0 4px 0;">Good luck with your training!</p>
+            <p style="color: #9ca3af; font-size: 12px; margin: 0;">
+              Arena AI by GigaRev
             </p>
           </div>
         </div>
