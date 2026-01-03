@@ -311,6 +311,63 @@ export async function registerRoutes(
     }
   });
 
+  // Leaderboard - aggregate roleplay attempts by user
+  app.get("/api/leaderboard", async (req, res) => {
+    try {
+      const allAttempts = await storage.getAllRoleplayAttempts();
+      const allUsers = await storage.getAllUsers();
+      
+      // Aggregate stats by user
+      const userStats: Record<string, { 
+        userId: string; 
+        totalScore: number; 
+        attemptCount: number; 
+        passedCount: number;
+      }> = {};
+      
+      allAttempts.forEach(attempt => {
+        if (!userStats[attempt.userId]) {
+          userStats[attempt.userId] = {
+            userId: attempt.userId,
+            totalScore: 0,
+            attemptCount: 0,
+            passedCount: 0,
+          };
+        }
+        userStats[attempt.userId].totalScore += attempt.score;
+        userStats[attempt.userId].attemptCount += 1;
+        // Handle both boolean true and numeric 1 for passed field
+        if (attempt.passed === 1 || attempt.passed === true || attempt.passed === "true") {
+          userStats[attempt.userId].passedCount += 1;
+        }
+      });
+      
+      // Calculate averages and build leaderboard entries
+      const leaderboard = Object.values(userStats)
+        .map(stats => {
+          const user = allUsers.find(u => u.id === stats.userId);
+          return {
+            userId: stats.userId,
+            name: user?.name || "Unknown User",
+            avatarInitials: user?.avatarInitials || "??",
+            roleplaysCompleted: stats.attemptCount,
+            passedCount: stats.passedCount,
+            avgScore: stats.attemptCount > 0 ? Math.round(stats.totalScore / stats.attemptCount) : 0,
+          };
+        })
+        .sort((a, b) => b.avgScore - a.avgScore)
+        .map((entry, index) => ({
+          ...entry,
+          rank: index + 1,
+        }));
+      
+      res.json(leaderboard);
+    } catch (error) {
+      console.error("Get leaderboard error:", error);
+      res.status(500).json({ error: "Failed to get leaderboard" });
+    }
+  });
+
   // Create new user (admin/manager creates rep or manager)
   app.post("/api/users", async (req, res) => {
     try {

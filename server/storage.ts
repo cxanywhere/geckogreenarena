@@ -79,6 +79,7 @@ export interface IStorage {
   
   // Roleplay Attempts
   getUserRoleplayAttempts(userId: string): Promise<RoleplayAttempt[]>;
+  getAllRoleplayAttempts(): Promise<RoleplayAttempt[]>;
   createRoleplayAttempt(attempt: InsertRoleplayAttempt): Promise<RoleplayAttempt>;
   
   // Quiz Questions
@@ -290,6 +291,13 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(roleplayAttempts)
       .where(eq(roleplayAttempts.userId, userId))
+      .orderBy(desc(roleplayAttempts.createdAt));
+  }
+
+  async getAllRoleplayAttempts(): Promise<RoleplayAttempt[]> {
+    return await db
+      .select()
+      .from(roleplayAttempts)
       .orderBy(desc(roleplayAttempts.createdAt));
   }
 
