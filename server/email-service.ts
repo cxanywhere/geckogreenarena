@@ -49,9 +49,7 @@ export async function sendCredentialsEmail(
   try {
     const { client, fromEmail } = await getResendClient();
     
-    const appUrl = process.env.REPLIT_DEV_DOMAIN 
-      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-      : 'https://your-arena-ai-app.replit.app';
+    const appUrl = 'https://geckogreen.gigarev.com/login';
 
     const result = await client.emails.send({
       from: fromEmail || 'Arena AI <arena@updates.gigarev.com>',
