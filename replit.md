@@ -46,6 +46,14 @@ Preferred communication style: Simple, everyday language.
 - getAuthenticatedUser helper validates JWT and extracts user info
 - Role-based routing (rep → dashboard, manager → manager-dashboard, director → admin-dashboard)
 
+### Route Protection (client/src/components/protected-route.tsx)
+- ProtectedRoute component wraps dashboard routes to enforce role-based access
+- Checks AuthContext for user and role before rendering protected pages
+- Redirects unauthenticated users to /login
+- Redirects users with wrong role to their correct dashboard
+- Role mapping: rep → /dashboard, manager → /manager-dashboard, admin/director → /admin-dashboard
+- All dashboard and training routes are protected with appropriate allowedRoles
+
 ### Project Structure
 ```
 client/src/       # React frontend application
