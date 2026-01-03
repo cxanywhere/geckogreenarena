@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { BILLING_STATS } from "@/lib/mock-data";
-import { UserPlus, Users, TrendingUp, AlertCircle, Search, Trash2, Shield, DollarSign, Activity, BarChart3, Settings, Copy, Mail, Phone, Check, Loader2, LogOut } from "lucide-react";
+import { UserPlus, Users, TrendingUp, AlertCircle, Search, Trash2, Shield, DollarSign, Activity, BarChart3, Settings, Copy, Mail, Phone, Check, Loader2, LogOut, Trophy, Award, Target, GraduationCap, Mic, ChevronDown, ChevronUp } from "lucide-react";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
 import arenaLogoLight from "@/assets/arena-logo-light.png";
 import geckoLogo from "@assets/image_1766975682051.png";
@@ -38,6 +38,53 @@ interface CreatedCredentials {
   name: string;
 }
 
+interface RepPerformance {
+  userId: string;
+  userName: string;
+  email: string;
+  managerId: string | null;
+  managerName?: string;
+  status: string;
+  chaptersCompleted: number;
+  totalChapters: number;
+  chapterProgress: number;
+  quizAverage: number;
+  quizAttempts: number;
+  roleplaysPassed: number;
+  roleplaysAttempted: number;
+  roleplayPassRate: number;
+  lastActivity: string | null;
+  isCertified: boolean;
+  overallScore: number;
+}
+
+interface TeamPerformance {
+  managerId: string;
+  managerName: string;
+  reps: RepPerformance[];
+  teamStats: {
+    totalReps: number;
+    certifiedReps: number;
+    avgChapterProgress: number;
+    avgQuizScore: number;
+    avgRoleplayPassRate: number;
+    teamScore: number;
+  };
+}
+
+interface OrgPerformance {
+  managers: TeamPerformance[];
+  allReps: RepPerformance[];
+  orgStats: {
+    totalManagers: number;
+    totalReps: number;
+    certifiedReps: number;
+    avgChapterProgress: number;
+    avgQuizScore: number;
+    avgRoleplayPassRate: number;
+  };
+}
+
 export default function AdminDashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const { toast } = useToast();
@@ -48,6 +95,7 @@ export default function AdminDashboard() {
   const [sendingEmail, setSendingEmail] = useState(false);
   const [sendingSMS, setSendingSMS] = useState(false);
   const [createdPhone, setCreatedPhone] = useState<string | null>(null);
+  const [expandedManagers, setExpandedManagers] = useState<Set<string>>(new Set());
   const { resolvedTheme } = useTheme();
   const { user, logout, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
@@ -108,6 +156,32 @@ export default function AdminDashboard() {
       return response.json();
     },
   });
+
+  const { data: orgPerformance, isLoading: performanceLoading } = useQuery<OrgPerformance>({
+    queryKey: ["/api/performance/admin"],
+    queryFn: async () => {
+      const authToken = localStorage.getItem("authToken");
+      if (!authToken) return null;
+      
+      const response = await fetch("/api/performance/admin", {
+        headers: { "Authorization": `Bearer ${authToken}` }
+      });
+      if (!response.ok) throw new Error("Failed to fetch performance");
+      return response.json();
+    },
+  });
+
+  const toggleManagerExpanded = (managerId: string) => {
+    setExpandedManagers(prev => {
+      const next = new Set(prev);
+      if (next.has(managerId)) {
+        next.delete(managerId);
+      } else {
+        next.add(managerId);
+      }
+      return next;
+    });
+  };
 
   const filteredManagers = managers.filter(m => 
     m.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -359,12 +433,313 @@ export default function AdminDashboard() {
           </Card>
         </div>
 
-        <Tabs defaultValue="managers" className="space-y-6">
+        <Tabs defaultValue="performance" className="space-y-6">
           <TabsList className="bg-card border border-border">
+            <TabsTrigger value="performance">Org Performance</TabsTrigger>
             <TabsTrigger value="managers">Managers & Teams</TabsTrigger>
             <TabsTrigger value="reps">All Reps Directory</TabsTrigger>
             <TabsTrigger value="usage">Usage & Billing</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="performance" className="space-y-4">
+            {/* Org Performance Summary Cards */}
+            <div className="grid gap-4 md:grid-cols-4">
+              <Card className="border-primary/10 shadow-sm bg-gradient-to-br from-card to-green-500/5">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Certified Reps</CardTitle>
+                  <Award className="h-4 w-4 text-green-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-green-600">{orgPerformance?.orgStats.certifiedReps || 0}</div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    of {orgPerformance?.orgStats.totalReps || 0} reps certified
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-primary/10 shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Avg Quiz Score</CardTitle>
+                  <GraduationCap className="h-4 w-4 text-blue-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{orgPerformance?.orgStats.avgQuizScore || 0}%</div>
+                  <p className="text-xs text-muted-foreground mt-1">Org average</p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-primary/10 shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Roleplay Pass Rate</CardTitle>
+                  <Mic className="h-4 w-4 text-purple-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{orgPerformance?.orgStats.avgRoleplayPassRate || 0}%</div>
+                  <p className="text-xs text-muted-foreground mt-1">Org average</p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-primary/10 shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Total Managers</CardTitle>
+                  <Users className="h-4 w-4 text-amber-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{orgPerformance?.orgStats.totalManagers || 0}</div>
+                  <p className="text-xs text-muted-foreground mt-1">With teams</p>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Manager Leaderboard with Expandable Teams */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Trophy className="h-5 w-5 text-amber-500" />
+                  Manager Leaderboard
+                </CardTitle>
+                <CardDescription>
+                  Managers ranked by team performance. Click to expand and see team details.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {performanceLoading ? (
+                  <div className="p-8 text-center">
+                    <Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground mt-2">Loading performance data...</p>
+                  </div>
+                ) : (orgPerformance?.managers || []).length === 0 ? (
+                  <div className="p-8 text-center text-muted-foreground">
+                    No managers with teams found.
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    {(orgPerformance?.managers || []).map((manager, index) => (
+                      <div key={manager.managerId} className="border rounded-lg overflow-hidden">
+                        <button
+                          onClick={() => toggleManagerExpanded(manager.managerId)}
+                          className="w-full p-4 flex items-center justify-between hover:bg-muted/50 transition-colors"
+                          data-testid={`button-expand-manager-${manager.managerId}`}
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className={`h-10 w-10 rounded-full flex items-center justify-center text-sm font-bold ${
+                              index === 0 ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" :
+                              index === 1 ? "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300" :
+                              index === 2 ? "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400" :
+                              "bg-muted text-muted-foreground"
+                            }`}>
+                              #{index + 1}
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <div className="h-10 w-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-sm font-bold text-purple-600 dark:text-purple-400">
+                                {manager.managerName.split(" ").map(n => n[0]).join("").toUpperCase()}
+                              </div>
+                              <div className="text-left">
+                                <p className="font-medium">{manager.managerName}</p>
+                                <p className="text-xs text-muted-foreground">{manager.teamStats.totalReps} reps</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-6">
+                            <div className="text-right hidden md:block">
+                              <p className="text-sm text-muted-foreground">Certified</p>
+                              <p className="font-medium text-green-600">{manager.teamStats.certifiedReps}/{manager.teamStats.totalReps}</p>
+                            </div>
+                            <div className="text-right hidden md:block">
+                              <p className="text-sm text-muted-foreground">Quiz Avg</p>
+                              <p className="font-medium">{manager.teamStats.avgQuizScore}%</p>
+                            </div>
+                            <div className="text-right hidden md:block">
+                              <p className="text-sm text-muted-foreground">Roleplay</p>
+                              <p className="font-medium">{manager.teamStats.avgRoleplayPassRate}%</p>
+                            </div>
+                            <div className={`h-12 w-12 rounded-full flex items-center justify-center font-bold ${
+                              manager.teamStats.teamScore >= 80 ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" :
+                              manager.teamStats.teamScore >= 60 ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" :
+                              "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                            }`}>
+                              {manager.teamStats.teamScore}
+                            </div>
+                            {expandedManagers.has(manager.managerId) ? (
+                              <ChevronUp className="h-5 w-5 text-muted-foreground" />
+                            ) : (
+                              <ChevronDown className="h-5 w-5 text-muted-foreground" />
+                            )}
+                          </div>
+                        </button>
+                        
+                        {expandedManagers.has(manager.managerId) && (
+                          <div className="border-t bg-muted/30 p-4">
+                            <Table>
+                              <TableHeader>
+                                <TableRow>
+                                  <TableHead className="w-12">Rank</TableHead>
+                                  <TableHead>Rep</TableHead>
+                                  <TableHead>Status</TableHead>
+                                  <TableHead className="text-center">Chapters</TableHead>
+                                  <TableHead className="text-center">Quiz</TableHead>
+                                  <TableHead className="text-center">Roleplays</TableHead>
+                                  <TableHead className="text-right">Score</TableHead>
+                                </TableRow>
+                              </TableHeader>
+                              <TableBody>
+                                {manager.reps.map((rep, repIndex) => (
+                                  <TableRow key={rep.userId} className={rep.isCertified ? "bg-green-50/50 dark:bg-green-900/10" : ""}>
+                                    <TableCell>
+                                      <div className={`h-7 w-7 rounded-full flex items-center justify-center text-xs font-bold ${
+                                        repIndex === 0 ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" :
+                                        "bg-muted text-muted-foreground"
+                                      }`}>
+                                        {repIndex + 1}
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                      <div className="flex items-center gap-2">
+                                        <div className="h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                                          {rep.userName.split(" ").map(n => n[0]).join("").toUpperCase()}
+                                        </div>
+                                        <span className="font-medium">{rep.userName}</span>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                      {rep.isCertified ? (
+                                        <Badge className="bg-green-500 hover:bg-green-600 gap-1 text-xs">
+                                          <Award className="w-3 h-3" />
+                                          Certified
+                                        </Badge>
+                                      ) : (
+                                        <Badge variant="outline" className="text-muted-foreground text-xs">
+                                          Training
+                                        </Badge>
+                                      )}
+                                    </TableCell>
+                                    <TableCell className="text-center">
+                                      <span className="text-sm">{rep.chaptersCompleted}/{rep.totalChapters}</span>
+                                    </TableCell>
+                                    <TableCell className="text-center">
+                                      <span className={`text-sm font-medium ${rep.quizAverage >= 90 ? "text-green-600" : rep.quizAverage >= 70 ? "text-amber-600" : ""}`}>
+                                        {rep.quizAverage}%
+                                      </span>
+                                    </TableCell>
+                                    <TableCell className="text-center">
+                                      <span className="text-sm">{rep.roleplaysPassed}/{rep.roleplaysAttempted}</span>
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                      <div className={`inline-flex items-center justify-center h-8 w-8 rounded-full text-sm font-bold ${
+                                        rep.overallScore >= 80 ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" :
+                                        rep.overallScore >= 60 ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" :
+                                        "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                                      }`}>
+                                        {rep.overallScore}
+                                      </div>
+                                    </TableCell>
+                                  </TableRow>
+                                ))}
+                              </TableBody>
+                            </Table>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Global Rep Leaderboard */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="h-5 w-5 text-primary" />
+                  Top Performers (All Reps)
+                </CardTitle>
+                <CardDescription>
+                  All reps ranked across the organization. Certified reps appear first.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {performanceLoading ? (
+                  <div className="p-8 text-center">
+                    <Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground mt-2">Loading...</p>
+                  </div>
+                ) : (
+                  <Table>
+                    <TableHeader className="bg-muted/50">
+                      <TableRow>
+                        <TableHead className="w-12">Rank</TableHead>
+                        <TableHead>Rep</TableHead>
+                        <TableHead>Manager</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-center">Quiz Score</TableHead>
+                        <TableHead className="text-center">Roleplays</TableHead>
+                        <TableHead className="text-right">Score</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {(orgPerformance?.allReps || []).slice(0, 10).map((rep, index) => (
+                        <TableRow key={rep.userId} data-testid={`row-org-performance-${rep.userId}`} className={rep.isCertified ? "bg-green-50/50 dark:bg-green-900/10" : ""}>
+                          <TableCell>
+                            <div className={`h-8 w-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                              index === 0 ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" :
+                              index === 1 ? "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300" :
+                              index === 2 ? "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400" :
+                              "bg-muted text-muted-foreground"
+                            }`}>
+                              {index + 1}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-2">
+                              <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                                {rep.userName.split(" ").map(n => n[0]).join("").toUpperCase()}
+                              </div>
+                              <div>
+                                <p className="font-medium">{rep.userName}</p>
+                                <p className="text-xs text-muted-foreground">{rep.email}</p>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <span className="text-sm text-muted-foreground">{rep.managerName || "—"}</span>
+                          </TableCell>
+                          <TableCell>
+                            {rep.isCertified ? (
+                              <Badge className="bg-green-500 hover:bg-green-600 gap-1">
+                                <Award className="w-3 h-3" />
+                                Certified
+                              </Badge>
+                            ) : (
+                              <Badge variant="outline" className="text-muted-foreground">
+                                Training
+                              </Badge>
+                            )}
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <span className={`font-medium ${rep.quizAverage >= 90 ? "text-green-600" : rep.quizAverage >= 70 ? "text-amber-600" : ""}`}>
+                              {rep.quizAverage}%
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <span>{rep.roleplaysPassed}/{rep.roleplaysAttempted}</span>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className={`inline-flex items-center justify-center h-10 w-10 rounded-full font-bold ${
+                              rep.overallScore >= 80 ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" :
+                              rep.overallScore >= 60 ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" :
+                              "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                            }`}>
+                              {rep.overallScore}
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
 
           <TabsContent value="managers" className="space-y-4">
              <div className="flex items-center justify-between gap-4 mb-4">

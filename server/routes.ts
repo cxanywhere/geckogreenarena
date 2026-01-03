@@ -1944,5 +1944,91 @@ export async function registerRoutes(
     }
   });
 
+  // =====================
+  // Performance Metrics API
+  // =====================
+
+  // Get team performance for a manager
+  app.get("/api/managers/:managerId/performance", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const { managerId } = req.params;
+      const callerRole = authResult.user.role;
+      const callerId = authResult.user.id;
+
+      // Only the manager themselves, directors, or admins can view team performance
+      if (callerId !== managerId && callerRole !== "director" && callerRole !== "admin" && callerRole !== "manager") {
+        return res.status(403).json({ error: "Access denied" });
+      }
+
+      const performance = await storage.getTeamPerformance(managerId);
+      res.json(performance);
+    } catch (error: any) {
+      console.error("Get team performance error:", error);
+      res.status(500).json({ error: error.message || "Failed to get team performance" });
+    }
+  });
+
+  // Get org-wide performance for admins/directors
+  app.get("/api/performance/admin", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const callerRole = authResult.user.role;
+
+      // Only admins/directors can view org-wide performance
+      if (callerRole !== "director" && callerRole !== "admin") {
+        return res.status(403).json({ error: "Access denied - admins only" });
+      }
+
+      const performance = await storage.getOrgPerformance();
+      res.json(performance);
+    } catch (error: any) {
+      console.error("Get org performance error:", error);
+      res.status(500).json({ error: error.message || "Failed to get org performance" });
+    }
+  });
+
+  // Get individual rep performance
+  app.get("/api/users/:userId/performance", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const { userId } = req.params;
+      const callerRole = authResult.user.role;
+      const callerId = authResult.user.id;
+
+      // Reps can view their own performance, managers their team, admins anyone
+      const targetUser = await storage.getUser(userId);
+      if (!targetUser) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      const isOwnProfile = callerId === userId;
+      const isManagerOfUser = callerRole === "manager" && targetUser.managerId === callerId;
+      const isAdmin = callerRole === "director" || callerRole === "admin";
+
+      if (!isOwnProfile && !isManagerOfUser && !isAdmin) {
+        return res.status(403).json({ error: "Access denied" });
+      }
+
+      const performance = await storage.getRepPerformance(userId);
+      res.json(performance);
+    } catch (error: any) {
+      console.error("Get user performance error:", error);
+      res.status(500).json({ error: error.message || "Failed to get user performance" });
+    }
+  });
+
   return httpServer;
 }

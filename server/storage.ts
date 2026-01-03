@@ -31,7 +31,7 @@ import {
   type InsertUsageSession,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, desc, ne, or, isNull } from "drizzle-orm";
+import { eq, and, desc, ne, or, isNull, sql, count } from "drizzle-orm";
 
 export interface IStorage {
   // Users
@@ -101,6 +101,59 @@ export interface IStorage {
   getTeamUsageSessions(managerId: string): Promise<UsageSession[]>;
   getAllUsageSessions(): Promise<UsageSession[]>;
   completeUsageSession(id: string, endTime: Date, durationSeconds: number): Promise<UsageSession | undefined>;
+  
+  // Performance Metrics
+  getRepPerformance(userId: string): Promise<RepPerformance>;
+  getTeamPerformance(managerId: string): Promise<TeamPerformance>;
+  getOrgPerformance(): Promise<OrgPerformance>;
+}
+
+// Performance metric types
+export interface RepPerformance {
+  userId: string;
+  userName: string;
+  email: string;
+  managerId: string | null;
+  managerName?: string;
+  status: string;
+  chaptersCompleted: number;
+  totalChapters: number;
+  chapterProgress: number;
+  quizAverage: number;
+  quizAttempts: number;
+  roleplaysPassed: number;
+  roleplaysAttempted: number;
+  roleplayPassRate: number;
+  lastActivity: Date | null;
+  isCertified: boolean;
+  overallScore: number;
+}
+
+export interface TeamPerformance {
+  managerId: string;
+  managerName: string;
+  reps: RepPerformance[];
+  teamStats: {
+    totalReps: number;
+    certifiedReps: number;
+    avgChapterProgress: number;
+    avgQuizScore: number;
+    avgRoleplayPassRate: number;
+    teamScore: number;
+  };
+}
+
+export interface OrgPerformance {
+  managers: TeamPerformance[];
+  allReps: RepPerformance[];
+  orgStats: {
+    totalManagers: number;
+    totalReps: number;
+    certifiedReps: number;
+    avgChapterProgress: number;
+    avgQuizScore: number;
+    avgRoleplayPassRate: number;
+  };
 }
 
 export class DatabaseStorage implements IStorage {
@@ -422,6 +475,185 @@ export class DatabaseStorage implements IStorage {
       .returning();
     
     return session || undefined;
+  }
+
+  // Performance Metrics
+  async getRepPerformance(userId: string): Promise<RepPerformance> {
+    const user = await this.getUser(userId);
+    if (!user) {
+      throw new Error(`User ${userId} not found`);
+    }
+    
+    return this.calculateRepPerformance(user);
+  }
+
+  private async calculateRepPerformance(user: User): Promise<RepPerformance> {
+    const allChapters = await this.getAllChapters();
+    const totalChapters = allChapters.length;
+    
+    // Get chapter progress
+    const progress = await this.getUserProgress(user.id);
+    const chaptersCompleted = progress.filter(p => p.completed === 1).length;
+    const chapterProgress = totalChapters > 0 ? Math.round((chaptersCompleted / totalChapters) * 100) : 0;
+    
+    // Get quiz performance across all chapters
+    let totalCorrect = 0;
+    let totalQuizAttempts = 0;
+    for (const chapter of allChapters) {
+      const score = await this.getUserQuizScore(user.id, chapter.id);
+      totalCorrect += score.correct;
+      totalQuizAttempts += score.total;
+    }
+    const quizAverage = totalQuizAttempts > 0 ? Math.round((totalCorrect / totalQuizAttempts) * 100) : 0;
+    
+    // Get roleplay performance
+    const roleplayAttemptsData = await this.getUserRoleplayAttempts(user.id);
+    const roleplaysAttempted = roleplayAttemptsData.length;
+    const roleplaysPassed = roleplayAttemptsData.filter(a => a.passed === 1).length;
+    const roleplayPassRate = roleplaysAttempted > 0 ? Math.round((roleplaysPassed / roleplaysAttempted) * 100) : 0;
+    
+    // Get last activity - most recent attempt or progress update
+    let lastActivity: Date | null = null;
+    if (roleplayAttemptsData.length > 0) {
+      lastActivity = roleplayAttemptsData[0].createdAt;
+    }
+    
+    // Certification criteria: all chapters complete, 90%+ quiz average, at least 1 roleplay passed
+    const isCertified = chaptersCompleted === totalChapters && 
+                        totalChapters > 0 && 
+                        quizAverage >= 90 && 
+                        roleplaysPassed >= 1;
+    
+    // Overall score: 40% quiz, 30% roleplay, 20% chapter, 10% activity bonus
+    const activityBonus = lastActivity && (Date.now() - lastActivity.getTime()) < 7 * 24 * 60 * 60 * 1000 ? 10 : 0;
+    const overallScore = Math.round(
+      (quizAverage * 0.4) + 
+      (roleplayPassRate * 0.3) + 
+      (chapterProgress * 0.2) + 
+      activityBonus
+    );
+    
+    // Get manager name if applicable
+    let managerName: string | undefined;
+    if (user.managerId) {
+      const manager = await this.getUser(user.managerId);
+      managerName = manager?.name;
+    }
+    
+    return {
+      userId: user.id,
+      userName: user.name,
+      email: user.email,
+      managerId: user.managerId,
+      managerName,
+      status: user.status,
+      chaptersCompleted,
+      totalChapters,
+      chapterProgress,
+      quizAverage,
+      quizAttempts: totalQuizAttempts,
+      roleplaysPassed,
+      roleplaysAttempted,
+      roleplayPassRate,
+      lastActivity,
+      isCertified,
+      overallScore,
+    };
+  }
+
+  async getTeamPerformance(managerId: string): Promise<TeamPerformance> {
+    const manager = await this.getUser(managerId);
+    if (!manager) {
+      throw new Error(`Manager ${managerId} not found`);
+    }
+    
+    const teamMembers = await this.getUsersByManagerId(managerId);
+    const reps: RepPerformance[] = [];
+    
+    for (const member of teamMembers) {
+      const perf = await this.calculateRepPerformance(member);
+      reps.push(perf);
+    }
+    
+    // Sort: certified first, then by overall score
+    reps.sort((a, b) => {
+      if (a.isCertified && !b.isCertified) return -1;
+      if (!a.isCertified && b.isCertified) return 1;
+      return b.overallScore - a.overallScore;
+    });
+    
+    // Calculate team stats
+    const totalReps = reps.length;
+    const certifiedReps = reps.filter(r => r.isCertified).length;
+    const avgChapterProgress = totalReps > 0 ? Math.round(reps.reduce((sum, r) => sum + r.chapterProgress, 0) / totalReps) : 0;
+    const avgQuizScore = totalReps > 0 ? Math.round(reps.reduce((sum, r) => sum + r.quizAverage, 0) / totalReps) : 0;
+    const avgRoleplayPassRate = totalReps > 0 ? Math.round(reps.reduce((sum, r) => sum + r.roleplayPassRate, 0) / totalReps) : 0;
+    const teamScore = totalReps > 0 ? Math.round(reps.reduce((sum, r) => sum + r.overallScore, 0) / totalReps) : 0;
+    
+    return {
+      managerId: manager.id,
+      managerName: manager.name,
+      reps,
+      teamStats: {
+        totalReps,
+        certifiedReps,
+        avgChapterProgress,
+        avgQuizScore,
+        avgRoleplayPassRate,
+        teamScore,
+      },
+    };
+  }
+
+  async getOrgPerformance(): Promise<OrgPerformance> {
+    const allManagers = await this.getManagers();
+    const managers: TeamPerformance[] = [];
+    const allReps: RepPerformance[] = [];
+    
+    for (const manager of allManagers) {
+      const teamPerf = await this.getTeamPerformance(manager.id);
+      managers.push(teamPerf);
+      allReps.push(...teamPerf.reps);
+    }
+    
+    // Also get reps without managers
+    const allUsers = await this.getReps();
+    for (const user of allUsers) {
+      if (!user.managerId && !allReps.find(r => r.userId === user.id)) {
+        const perf = await this.calculateRepPerformance(user);
+        allReps.push(perf);
+      }
+    }
+    
+    // Sort managers by team score
+    managers.sort((a, b) => b.teamStats.teamScore - a.teamStats.teamScore);
+    
+    // Sort all reps: certified first, then by score
+    allReps.sort((a, b) => {
+      if (a.isCertified && !b.isCertified) return -1;
+      if (!a.isCertified && b.isCertified) return 1;
+      return b.overallScore - a.overallScore;
+    });
+    
+    // Org stats
+    const totalReps = allReps.length;
+    const certifiedReps = allReps.filter(r => r.isCertified).length;
+    const avgChapterProgress = totalReps > 0 ? Math.round(allReps.reduce((sum, r) => sum + r.chapterProgress, 0) / totalReps) : 0;
+    const avgQuizScore = totalReps > 0 ? Math.round(allReps.reduce((sum, r) => sum + r.quizAverage, 0) / totalReps) : 0;
+    const avgRoleplayPassRate = totalReps > 0 ? Math.round(allReps.reduce((sum, r) => sum + r.roleplayPassRate, 0) / totalReps) : 0;
+    
+    return {
+      managers,
+      allReps,
+      orgStats: {
+        totalManagers: allManagers.length,
+        totalReps,
+        certifiedReps,
+        avgChapterProgress,
+        avgQuizScore,
+        avgRoleplayPassRate,
+      },
+    };
   }
 }
 

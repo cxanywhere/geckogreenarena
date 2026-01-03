@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Bell, Search, UserPlus, Users, TrendingUp, AlertCircle, Trash2, Copy, Mail, Phone, Check, Loader2, Activity, BarChart3, DollarSign, LogOut } from "lucide-react";
+import { Bell, Search, UserPlus, Users, TrendingUp, AlertCircle, Trash2, Copy, Mail, Phone, Check, Loader2, Activity, BarChart3, DollarSign, LogOut, Trophy, Award, Target, GraduationCap, Mic } from "lucide-react";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
 import arenaLogoLight from "@/assets/arena-logo-light.png";
 import geckoLogo from "@assets/image_1766975682051.png";
@@ -34,6 +34,40 @@ interface CreatedCredentials {
   email: string;
   password: string;
   name: string;
+}
+
+interface RepPerformance {
+  userId: string;
+  userName: string;
+  email: string;
+  managerId: string | null;
+  managerName?: string;
+  status: string;
+  chaptersCompleted: number;
+  totalChapters: number;
+  chapterProgress: number;
+  quizAverage: number;
+  quizAttempts: number;
+  roleplaysPassed: number;
+  roleplaysAttempted: number;
+  roleplayPassRate: number;
+  lastActivity: string | null;
+  isCertified: boolean;
+  overallScore: number;
+}
+
+interface TeamPerformance {
+  managerId: string;
+  managerName: string;
+  reps: RepPerformance[];
+  teamStats: {
+    totalReps: number;
+    certifiedReps: number;
+    avgChapterProgress: number;
+    avgQuizScore: number;
+    avgRoleplayPassRate: number;
+    teamScore: number;
+  };
 }
 
 export default function ManagerDashboard() {
@@ -112,6 +146,20 @@ export default function ManagerDashboard() {
         headers: authToken ? { "Authorization": `Bearer ${authToken}` } : {}
       });
       if (!response.ok) throw new Error("Failed to fetch usage");
+      return response.json();
+    },
+    enabled: !!managerId,
+  });
+
+  const { data: performanceData, isLoading: performanceLoading } = useQuery<TeamPerformance>({
+    queryKey: ["/api/managers", managerId, "performance"],
+    queryFn: async () => {
+      if (!managerId) return null;
+      const authToken = localStorage.getItem("authToken");
+      const response = await fetch(`/api/managers/${managerId}/performance`, {
+        headers: authToken ? { "Authorization": `Bearer ${authToken}` } : {}
+      });
+      if (!response.ok) throw new Error("Failed to fetch performance");
       return response.json();
     },
     enabled: !!managerId,
@@ -508,11 +556,206 @@ export default function ManagerDashboard() {
           </Card>
         </div>
 
-        <Tabs defaultValue="team" className="space-y-6">
+        <Tabs defaultValue="performance" className="space-y-6">
           <TabsList className="bg-card border border-border">
+            <TabsTrigger value="performance">Team Performance</TabsTrigger>
             <TabsTrigger value="team">Team Management</TabsTrigger>
             <TabsTrigger value="usage">Team Usage</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="performance" className="space-y-4">
+            {/* Team Performance Summary Cards */}
+            <div className="grid gap-4 md:grid-cols-4">
+              <Card className="border-primary/10 shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Certified Reps</CardTitle>
+                  <Award className="h-4 w-4 text-green-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-green-600">{performanceData?.teamStats.certifiedReps || 0}</div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    of {performanceData?.teamStats.totalReps || 0} reps certified
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-primary/10 shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Avg Quiz Score</CardTitle>
+                  <GraduationCap className="h-4 w-4 text-blue-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{performanceData?.teamStats.avgQuizScore || 0}%</div>
+                  <p className="text-xs text-muted-foreground mt-1">Team average</p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-primary/10 shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Roleplay Pass Rate</CardTitle>
+                  <Mic className="h-4 w-4 text-purple-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{performanceData?.teamStats.avgRoleplayPassRate || 0}%</div>
+                  <p className="text-xs text-muted-foreground mt-1">Team average</p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-primary/10 shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Team Score</CardTitle>
+                  <Trophy className="h-4 w-4 text-amber-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{performanceData?.teamStats.teamScore || 0}</div>
+                  <p className="text-xs text-muted-foreground mt-1">Overall performance</p>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Leaderboard */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Trophy className="h-5 w-5 text-amber-500" />
+                  Team Leaderboard
+                </CardTitle>
+                <CardDescription>
+                  Reps ranked by certification status and overall score. Certified reps appear first.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {performanceLoading ? (
+                  <div className="p-8 text-center">
+                    <Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground mt-2">Loading performance data...</p>
+                  </div>
+                ) : (
+                  <Table>
+                    <TableHeader className="bg-muted/50">
+                      <TableRow>
+                        <TableHead className="w-12">Rank</TableHead>
+                        <TableHead>Rep</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-center">Chapters</TableHead>
+                        <TableHead className="text-center">Quiz Score</TableHead>
+                        <TableHead className="text-center">Roleplays</TableHead>
+                        <TableHead className="text-right">Overall Score</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {(performanceData?.reps || []).length === 0 ? (
+                        <TableRow>
+                          <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                            No performance data available yet.
+                          </TableCell>
+                        </TableRow>
+                      ) : (
+                        (performanceData?.reps || []).map((rep, index) => (
+                          <TableRow key={rep.userId} data-testid={`row-performance-${rep.userId}`} className={rep.isCertified ? "bg-green-50/50 dark:bg-green-900/10" : ""}>
+                            <TableCell>
+                              <div className={`h-8 w-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                                index === 0 ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" :
+                                index === 1 ? "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300" :
+                                index === 2 ? "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400" :
+                                "bg-muted text-muted-foreground"
+                              }`}>
+                                {index + 1}
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center gap-3">
+                                <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                                  {rep.userName.split(" ").map(n => n[0]).join("").toUpperCase()}
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className="font-medium">{rep.userName}</span>
+                                  <span className="text-xs text-muted-foreground">{rep.email}</span>
+                                </div>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              {rep.isCertified ? (
+                                <Badge className="bg-green-500 hover:bg-green-600 gap-1">
+                                  <Award className="w-3 h-3" />
+                                  Certified
+                                </Badge>
+                              ) : (
+                                <Badge variant="outline" className="text-muted-foreground">
+                                  In Training
+                                </Badge>
+                              )}
+                            </TableCell>
+                            <TableCell className="text-center">
+                              <div className="flex flex-col items-center">
+                                <span className="font-medium">{rep.chaptersCompleted}/{rep.totalChapters}</span>
+                                <span className="text-xs text-muted-foreground">{rep.chapterProgress}%</span>
+                              </div>
+                            </TableCell>
+                            <TableCell className="text-center">
+                              <div className="flex flex-col items-center">
+                                <span className={`font-medium ${rep.quizAverage >= 90 ? "text-green-600" : rep.quizAverage >= 70 ? "text-amber-600" : "text-muted-foreground"}`}>
+                                  {rep.quizAverage}%
+                                </span>
+                                <span className="text-xs text-muted-foreground">{rep.quizAttempts} attempts</span>
+                              </div>
+                            </TableCell>
+                            <TableCell className="text-center">
+                              <div className="flex flex-col items-center">
+                                <span className="font-medium">{rep.roleplaysPassed}/{rep.roleplaysAttempted}</span>
+                                <span className="text-xs text-muted-foreground">{rep.roleplayPassRate}% pass</span>
+                              </div>
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <div className={`inline-flex items-center justify-center h-10 w-10 rounded-full font-bold ${
+                                rep.overallScore >= 80 ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" :
+                                rep.overallScore >= 60 ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" :
+                                "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                              }`}>
+                                {rep.overallScore}
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      )}
+                    </TableBody>
+                  </Table>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Certification Requirements Info */}
+            <Card className="border-primary/10">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium flex items-center gap-2">
+                  <Target className="h-4 w-4 text-primary" />
+                  Certification Requirements
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Check className="h-3 w-3 text-primary" />
+                    </div>
+                    <span>Complete all chapters</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Check className="h-3 w-3 text-primary" />
+                    </div>
+                    <span>Score 90%+ on quizzes</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Check className="h-3 w-3 text-primary" />
+                    </div>
+                    <span>Pass at least 1 roleplay</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
           <TabsContent value="team" className="space-y-4">
             <div className="flex items-center gap-4 mb-6">
