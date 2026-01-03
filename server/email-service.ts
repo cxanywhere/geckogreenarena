@@ -56,7 +56,7 @@ export async function sendCredentialsEmail(
     const result = await client.emails.send({
       from: fromEmail || 'Arena AI <arena@updates.gigarev.com>',
       to: toEmail,
-      subject: 'Welcome to Arena AI - Your Login Credentials',
+      subject: 'Welcome to the Arena - Time to Become a Sales Champion',
       html: `
         <div style="font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
           <!-- Header -->
@@ -78,15 +78,16 @@ export async function sendCredentialsEmail(
           
           <!-- Main Content -->
           <div style="padding: 40px 30px; background: #ffffff;">
-            <h1 style="color: #0a0a0a; margin: 0 0 16px 0; font-size: 26px; font-weight: 600;">Welcome, ${name}!</h1>
+            <h1 style="color: #0a0a0a; margin: 0 0 8px 0; font-size: 26px; font-weight: 600;">Welcome to the Arena, ${name}!</h1>
+            <p style="color: #22c55e; font-size: 15px; font-weight: 500; margin: 0 0 24px 0;">Your journey to becoming a sales champion starts now.</p>
             
             <p style="color: #4b5563; line-height: 1.7; font-size: 16px; margin-bottom: 28px;">
-              Your account has been created. Use the credentials below to log in and begin your sales training journey.
+              You've been selected to train with the best. The Arena is where good sales reps become <strong style="color: #0a0a0a;">unstoppable closers</strong>. Every objection you'll face, every tough customer scenario - we've built AI-powered training to help you conquer them all.
             </p>
             
             <!-- Credentials Card -->
             <div style="background: #f9fafb; padding: 24px; border-radius: 12px; margin: 24px 0; border: 1px solid #e5e7eb;">
-              <p style="color: #6b7280; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 16px 0; font-weight: 600;">Your Login Credentials</p>
+              <p style="color: #6b7280; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 16px 0; font-weight: 600;">Your Access Credentials</p>
               <table cellpadding="0" cellspacing="0" border="0" width="100%">
                 <tr>
                   <td style="padding: 8px 0;">
@@ -107,20 +108,26 @@ export async function sendCredentialsEmail(
               </table>
             </div>
             
-            <!-- What's Next -->
+            <!-- Your Mission -->
             <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 24px; border-radius: 12px; margin: 24px 0; border-left: 4px solid #22c55e;">
-              <p style="color: #166534; font-size: 14px; font-weight: 600; margin: 0 0 12px 0;">What's Next?</p>
+              <p style="color: #166534; font-size: 14px; font-weight: 600; margin: 0 0 12px 0;">Your Path to Certification</p>
               <ul style="color: #15803d; margin: 0; padding-left: 18px; line-height: 1.8; font-size: 14px;">
-                <li>Complete training chapters to master sales techniques</li>
-                <li>Practice with AI-powered voice roleplays</li>
-                <li>Score 90%+ on quizzes to get certified</li>
+                <li><strong>Master the chapters</strong> - Learn winning sales techniques</li>
+                <li><strong>Dominate the roleplays</strong> - Battle AI homeowners until you win</li>
+                <li><strong>Crush the quizzes</strong> - Score 90%+ to prove you're ready</li>
+                <li><strong>Earn your badge</strong> - Become a Certified Sales Champion</li>
               </ul>
             </div>
             
+            <!-- Motivational Quote -->
+            <p style="color: #6b7280; font-size: 14px; font-style: italic; text-align: center; margin: 28px 0; padding: 0 20px;">
+              "Champions are built in the Arena. Every rep who came before you started right here. Now it's your turn."
+            </p>
+            
             <!-- CTA Button -->
             <div style="text-align: center; margin-top: 32px;">
-              <a href="${appUrl}" style="display: inline-block; background: #22c55e; color: #ffffff; padding: 14px 36px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);">
-                Sign In to Arena AI
+              <a href="${appUrl}" style="display: inline-block; background: #22c55e; color: #ffffff; padding: 16px 40px; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 16px; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3); text-transform: uppercase; letter-spacing: 0.5px;">
+                Enter the Arena
               </a>
             </div>
             
@@ -130,9 +137,9 @@ export async function sendCredentialsEmail(
           </div>
           
           <!-- Footer -->
-          <div style="padding: 24px 30px; background: #f9fafb; text-align: center; border-top: 1px solid #e5e7eb;">
-            <p style="color: #6b7280; font-size: 13px; margin: 0 0 4px 0;">Good luck with your training!</p>
-            <p style="color: #9ca3af; font-size: 12px; margin: 0;">
+          <div style="padding: 24px 30px; background: #0a0a0a; text-align: center;">
+            <p style="color: #22c55e; font-size: 14px; margin: 0 0 4px 0; font-weight: 600;">Let's go, champ. See you inside.</p>
+            <p style="color: #6b7280; font-size: 12px; margin: 0;">
               Arena AI by GigaRev
             </p>
           </div>
