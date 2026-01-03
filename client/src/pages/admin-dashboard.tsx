@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
@@ -49,8 +49,15 @@ export default function AdminDashboard() {
   const [sendingSMS, setSendingSMS] = useState(false);
   const [createdPhone, setCreatedPhone] = useState<string | null>(null);
   const { resolvedTheme } = useTheme();
-  const { logout } = useAuth();
+  const { user, logout, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!authLoading && !user) {
+      setLocation("/login");
+    }
+  }, [user, authLoading, setLocation]);
 
   const handleLogout = () => {
     logout();

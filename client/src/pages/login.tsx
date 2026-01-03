@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -21,13 +21,35 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  const { user, login, isLoading: authLoading } = useAuth();
   const { resolvedTheme } = useTheme();
   
   // Check if user has logged in before on this device
   const isReturningUser = localStorage.getItem("hasLoggedInBefore") === "true";
   
   const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
+
+  // Redirect authenticated users to their dashboard
+  useEffect(() => {
+    if (!authLoading && user) {
+      if (user.role === "director") {
+        setLocation("/admin-dashboard");
+      } else if (user.role === "manager") {
+        setLocation("/manager-dashboard");
+      } else {
+        setLocation("/dashboard");
+      }
+    }
+  }, [user, authLoading, setLocation]);
+
+  // Show loading state while checking auth
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="h-8 w-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

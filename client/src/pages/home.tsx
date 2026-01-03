@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Nav } from "@/components/nav";
 import { RoleplayCard } from "@/components/character-card";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,15 @@ export default function Home() {
   const [completedChapters, setCompletedChapters] = useState<string[]>([]);
   const [unlockedRoleplays, setUnlockedRoleplays] = useState<string[]>([]);
   const [showCertGuide, setShowCertGuide] = useState(true);
-  const { user } = useAuth();
+  const { user, isLoading: authLoading } = useAuth();
+  const [, setLocation] = useLocation();
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!authLoading && !user) {
+      setLocation("/login");
+    }
+  }, [user, authLoading, setLocation]);
 
   const { data: chapters = [] } = useQuery({
     queryKey: ["chapters"],
