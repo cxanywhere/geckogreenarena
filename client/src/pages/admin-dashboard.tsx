@@ -7,6 +7,16 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
@@ -96,6 +106,7 @@ export default function AdminDashboard() {
   const [sendingSMS, setSendingSMS] = useState(false);
   const [createdPhone, setCreatedPhone] = useState<string | null>(null);
   const [expandedManagers, setExpandedManagers] = useState<Set<string>>(new Set());
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const { resolvedTheme } = useTheme();
   const { user, logout, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
@@ -110,6 +121,11 @@ export default function AdminDashboard() {
   const handleLogout = () => {
     logout();
     setLocation("/login");
+  };
+
+  const confirmLogout = () => {
+    setShowLogoutDialog(false);
+    handleLogout();
   };
   const queryClient = useQueryClient();
   
@@ -348,7 +364,7 @@ export default function AdminDashboard() {
             <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20 ring-2 ring-primary/20">
               RF
             </div>
-            <Button variant="ghost" size="icon" onClick={handleLogout} title="Sign out" data-testid="button-logout">
+            <Button variant="ghost" size="icon" onClick={() => setShowLogoutDialog(true)} title="Sign out" data-testid="button-logout">
               <LogOut className="h-4 w-4" />
             </Button>
         </div>
@@ -1179,6 +1195,23 @@ export default function AdminDashboard() {
           </TabsContent>
         </Tabs>
       </main>
+
+      <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Sign out?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to sign out of your account?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel data-testid="button-signout-cancel">Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmLogout} className="bg-red-600 hover:bg-red-700" data-testid="button-signout-confirm">
+              Sign Out
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
