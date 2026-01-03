@@ -318,14 +318,12 @@ export default function ManagerDashboard() {
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-6">
-          <Link href="/manager-dashboard">
-            <a className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
+          <Link href="/manager-dashboard" className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
               <img src={arenaLogo} alt="Arena AI" className="h-8 w-8 object-contain" />
               <div className="flex flex-col leading-none">
                 <span>arena ai</span>
                 <span className="text-[10px] text-foreground/80 font-normal uppercase tracking-wide">Manager Portal</span>
               </div>
-            </a>
           </Link>
           <div className="hidden md:flex items-center gap-2 pl-6 border-l border-primary/10">
             <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest">Client:</span>
@@ -804,8 +802,8 @@ export default function ManagerDashboard() {
                             {rep.avatarInitials}
                           </div>
                           <div className="flex flex-col">
-                            <Link href={`/manager/rep/${rep.id}`}>
-                              <a className="font-medium hover:text-primary hover:underline transition-colors">{rep.name}</a>
+                            <Link href={`/manager/rep/${rep.id}`} className="font-medium hover:text-primary hover:underline transition-colors cursor-pointer">
+                              {rep.name}
                             </Link>
                           </div>
                         </div>

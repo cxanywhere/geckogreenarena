@@ -28,6 +28,7 @@ function Router() {
       <Route path="/manager-dashboard" component={ManagerDashboard} />
       <Route path="/admin-dashboard" component={AdminDashboard} />
       <Route path="/manager/rep/:id" component={RepDetailsPage} />
+      <Route path="/admin/rep/:id" component={RepDetailsPage} />
       <Route path="/chat/:id" component={ChatPage} />
       <Route path="/chapter/:id" component={ChapterPage} />
       <Route path="/results/:id" component={ResultsPage} />

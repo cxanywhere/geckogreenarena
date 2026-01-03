@@ -326,14 +326,12 @@ export default function AdminDashboard() {
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-6">
-          <Link href="/admin-dashboard">
-            <a className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
+          <Link href="/admin-dashboard" className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
               <img src={arenaLogo} alt="Arena AI" className="h-8 w-8 object-contain" />
               <div className="flex flex-col leading-none">
                 <span>arena ai</span>
                 <span className="text-[10px] text-destructive font-bold uppercase tracking-wide">Admin / Director Portal</span>
               </div>
-            </a>
           </Link>
           <div className="hidden md:flex items-center gap-2 pl-6 border-l border-primary/10">
             <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest">Org:</span>
@@ -1013,8 +1011,8 @@ export default function AdminDashboard() {
                                   {rep.avatarInitials}
                                 </div>
                                 <div className="flex flex-col">
-                                  <Link href={`/manager/rep/${rep.id}`}>
-                                    <a className="font-medium hover:text-primary hover:underline">{rep.name}</a>
+                                  <Link href={`/admin/rep/${rep.id}`} className="font-medium hover:text-primary hover:underline cursor-pointer">
+                                    {rep.name}
                                   </Link>
                                 </div>
                               </div>
@@ -1028,7 +1026,7 @@ export default function AdminDashboard() {
                               <span className="text-sm text-muted-foreground">{rep.email}</span>
                             </TableCell>
                             <TableCell>
-                              <Link href={`/manager/rep/${rep.id}`}>
+                              <Link href={`/admin/rep/${rep.id}`}>
                                 <Button variant="ghost" size="sm">View Details</Button>
                               </Link>
                             </TableCell>

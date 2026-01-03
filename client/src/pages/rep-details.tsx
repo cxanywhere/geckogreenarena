@@ -326,13 +326,16 @@ function QuizAttemptCard({ attempt }: { attempt: QuizAttemptDetail }) {
 }
 
 export default function RepDetailsPage() {
-  const [, params] = useRoute("/manager/rep/:id");
-  const [, adminParams] = useRoute("/admin/rep/:id");
-  const repId = params?.id || adminParams?.id;
+  const [matchManager, managerParams] = useRoute("/manager/rep/:id");
+  const [matchAdmin, adminParams] = useRoute("/admin/rep/:id");
+  const repId = managerParams?.id || adminParams?.id;
+  const isAdmin = matchAdmin;
   const { resolvedTheme } = useTheme();
   const [expandedRoleplay, setExpandedRoleplay] = useState<string | null>(null);
   
   const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
+  const backUrl = isAdmin ? "/admin-dashboard" : "/manager-dashboard";
+  const portalName = isAdmin ? "Admin / Director Portal" : "Manager Portal";
 
   const { data: userDetails, isLoading, error } = useQuery<UserDetails>({
     queryKey: ["/api/users", repId, "details"],
@@ -344,15 +347,15 @@ export default function RepDetailsPage() {
     enabled: !!repId,
   });
 
-  const ManagerHeader = () => (
+  const Header = () => (
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-6">
-          <Link href="/manager-dashboard" className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
+          <Link href={backUrl} className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
               <img src={arenaLogo} alt="Arena AI" className="h-8 w-8 object-contain" />
               <div className="flex flex-col leading-none">
                 <span>arena ai</span>
-                <span className="text-[10px] text-foreground/80 font-normal uppercase tracking-wide">Manager Portal</span>
+                <span className={`text-[10px] font-normal uppercase tracking-wide ${isAdmin ? 'text-destructive font-bold' : 'text-foreground/80'}`}>{portalName}</span>
               </div>
           </Link>
           <div className="hidden md:flex items-center gap-2 pl-6 border-l border-primary/10">
@@ -371,7 +374,7 @@ export default function RepDetailsPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-muted/20 font-sans">
-        <ManagerHeader />
+        <Header />
         <div className="flex items-center justify-center h-[60vh]">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
@@ -382,9 +385,9 @@ export default function RepDetailsPage() {
   if (error || !userDetails) {
     return (
       <div className="min-h-screen bg-muted/20 font-sans">
-        <ManagerHeader />
+        <Header />
         <div className="container mx-auto px-4 py-8">
-          <Link href="/manager-dashboard">
+          <Link href={backUrl}>
             <Button variant="ghost" className="pl-0 text-muted-foreground hover:text-primary mb-4">
               <ArrowLeft className="mr-2 h-4 w-4" /> Back to Team
             </Button>
@@ -411,11 +414,11 @@ export default function RepDetailsPage() {
 
   return (
     <div className="min-h-screen bg-muted/20 font-sans pb-12">
-      <ManagerHeader />
+      <Header />
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <Link href="/manager-dashboard">
+          <Link href={backUrl}>
             <Button variant="ghost" className="pl-0 text-muted-foreground hover:text-primary mb-4" data-testid="button-back">
               <ArrowLeft className="mr-2 h-4 w-4" /> Back to Team
             </Button>
