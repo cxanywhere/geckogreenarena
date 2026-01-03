@@ -4,14 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search, ShieldAlert, MessageSquare, Lightbulb, Copy, Zap, Loader2, Maximize2, X, Eye, Lock } from "lucide-react";
-import { useState, type MouseEvent } from "react";
+import { Search, ShieldAlert, MessageSquare, Lightbulb, Copy, Zap, Loader2, Maximize2, X, Eye, Lock, ChevronLeft, ChevronRight, Layers } from "lucide-react";
+import { useState, useEffect, useCallback, type MouseEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import useEmblaCarousel from "embla-carousel-react";
 
 interface Battlecard {
   id: string;
@@ -29,10 +30,29 @@ export default function BattlecardsPage() {
   const [activePhase, setActivePhase] = useState("All");
   const [selectedCard, setSelectedCard] = useState<Battlecard | null>(null);
   const [revealedCards, setRevealedCards] = useState<Set<string>>(new Set());
+  const [carouselOpen, setCarouselOpen] = useState(false);
+  const [carouselIndex, setCarouselIndex] = useState(0);
   const { toast } = useToast();
+
+  const openCarousel = (index: number = 0) => {
+    setCarouselIndex(index);
+    setCarouselOpen(true);
+  };
 
   const toggleReveal = (cardId: string, e: MouseEvent) => {
     e.stopPropagation();
+    setRevealedCards(prev => {
+      const next = new Set(prev);
+      if (next.has(cardId)) {
+        next.delete(cardId);
+      } else {
+        next.add(cardId);
+      }
+      return next;
+    });
+  };
+
+  const toggleRevealSimple = (cardId: string) => {
     setRevealedCards(prev => {
       const next = new Set(prev);
       if (next.has(cardId)) {
@@ -124,6 +144,16 @@ export default function BattlecardsPage() {
               <p className="text-xl text-muted-foreground leading-relaxed mb-6">
                 Your pocket playbook for handling every door-to-door situation with confidence. {battlecards.length} field-tested cards ready to go.
               </p>
+
+              {/* Fullscreen Carousel Button */}
+              <Button 
+                onClick={() => openCarousel(0)} 
+                className="mb-6 bg-primary hover:bg-primary/90"
+                data-testid="button-open-carousel"
+              >
+                <Layers className="w-4 h-4 mr-2" />
+                View Fullscreen Carousel
+              </Button>
               
               {/* What Are Battlecards */}
               <div className="bg-white/80 dark:bg-card/80 backdrop-blur-sm rounded-2xl p-6 border border-border shadow-sm">
@@ -508,6 +538,221 @@ export default function BattlecardsPage() {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Fullscreen Carousel Dialog */}
+      {carouselOpen && (
+        <CarouselDialog
+          cards={filteredCards}
+          startIndex={carouselIndex}
+          revealedCards={revealedCards}
+          onToggleReveal={toggleRevealSimple}
+          onCopy={copyToClipboard}
+          onClose={() => setCarouselOpen(false)}
+          getIcon={getIcon}
+          getBadgeVariant={getBadgeVariant}
+        />
+      )}
     </div>
+  );
+}
+
+function CarouselDialog({
+  cards,
+  startIndex,
+  revealedCards,
+  onToggleReveal,
+  onCopy,
+  onClose,
+  getIcon,
+  getBadgeVariant,
+}: {
+  cards: Battlecard[];
+  startIndex: number;
+  revealedCards: Set<string>;
+  onToggleReveal: (id: string) => void;
+  onCopy: (text: string) => void;
+  onClose: () => void;
+  getIcon: (type: string) => React.ReactNode;
+  getBadgeVariant: (type: string) => "destructive" | "default" | "secondary" | "outline";
+}) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, startIndex });
+  const [currentIndex, setCurrentIndex] = useState(startIndex);
+
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => setCurrentIndex(emblaApi.selectedScrollSnap());
+    emblaApi.on("select", onSelect);
+    return () => { emblaApi.off("select", onSelect); };
+  }, [emblaApi]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") scrollPrev();
+      if (e.key === "ArrowRight") scrollNext();
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [scrollPrev, scrollNext, onClose]);
+
+  const currentCard = cards[currentIndex];
+
+  return (
+    <Dialog open={true} onOpenChange={onClose}>
+      <DialogContent className="max-w-5xl max-h-[95vh] w-[95vw] overflow-hidden p-0 bg-background">
+        <VisuallyHidden>
+          <DialogTitle>Battlecard Carousel</DialogTitle>
+          <DialogDescription>Navigate through battlecards using arrows</DialogDescription>
+        </VisuallyHidden>
+
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b bg-muted/30">
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-mono text-muted-foreground">
+              Card {currentIndex + 1} of {cards.length}
+            </span>
+            {currentCard && (
+              <Badge variant={getBadgeVariant(currentCard.type)} className="uppercase tracking-wider text-[10px] font-bold">
+                <span className="flex items-center gap-1">
+                  {getIcon(currentCard.type)}
+                  {currentCard.type}
+                </span>
+              </Badge>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground hidden sm:inline">Use arrow keys to navigate</span>
+            <Button variant="ghost" size="icon" onClick={onClose}>
+              <X className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Carousel */}
+        <div className="relative flex-1 overflow-hidden" ref={emblaRef}>
+          <div className="flex h-full">
+            {cards.map((card, index) => (
+              <div key={card.id} className="flex-[0_0_100%] min-w-0 h-full overflow-y-auto">
+                <div className="p-6 md:p-8 max-w-3xl mx-auto">
+                  {/* Card Cover or Content */}
+                  {revealedCards.has(card.id) ? (
+                    /* Revealed Content */
+                    <div className="space-y-6">
+                      {card.image ? (
+                        <img src={card.image} alt={card.title} className="w-full h-auto rounded-xl shadow-lg" />
+                      ) : (
+                        <>
+                          <div>
+                            <span className="text-xs text-muted-foreground font-mono uppercase tracking-widest">{card.phase}</span>
+                            <h2 className="text-3xl font-bold font-display mt-2">{card.title}</h2>
+                          </div>
+
+                          <div>
+                            <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1">
+                              <ShieldAlert className="w-4 h-4" /> When to Use
+                            </h4>
+                            <p className="text-lg text-foreground/80 bg-muted/30 p-4 rounded-xl border border-border/50">
+                              {card.situation}
+                            </p>
+                          </div>
+
+                          <div className="bg-primary/5 p-6 rounded-xl border border-primary/10 relative group">
+                            <h4 className="text-sm font-bold text-primary uppercase tracking-wider mb-3 flex items-center gap-1">
+                              <MessageSquare className="w-4 h-4" /> The Script
+                            </h4>
+                            <p className="text-xl font-medium text-foreground italic leading-relaxed">
+                              "{card.script}"
+                            </p>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="absolute top-4 right-4"
+                              onClick={() => onCopy(card.script)}
+                            >
+                              <Copy className="w-3 h-3 mr-2" />
+                              Copy
+                            </Button>
+                          </div>
+
+                          <div>
+                            <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1">
+                              <Lightbulb className="w-4 h-4" /> Key Points
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                              {card.keyPoints.map((point, i) => (
+                                <span key={i} className="text-sm font-medium px-4 py-2 bg-white dark:bg-card border border-border rounded-full text-foreground shadow-sm">
+                                  {point}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </>
+                      )}
+
+                      <Button variant="outline" onClick={() => onToggleReveal(card.id)} className="w-full">
+                        <Lock className="w-4 h-4 mr-2" />
+                        Hide Card
+                      </Button>
+                    </div>
+                  ) : (
+                    /* Card Cover */
+                    <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+                      <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+                        <Lock className="w-10 h-10 text-primary/60" />
+                      </div>
+
+                      <span className="text-sm font-mono text-muted-foreground mb-2">Card #{index + 1}</span>
+                      <h2 className="text-3xl font-bold font-display text-foreground mb-4">{card.title}</h2>
+
+                      <Badge variant="outline" className="mb-4 text-xs font-mono uppercase tracking-wider">
+                        {card.phase}
+                      </Badge>
+
+                      <Badge variant={getBadgeVariant(card.type)} className="mb-8 uppercase tracking-wider text-xs font-bold">
+                        <span className="flex items-center gap-1">
+                          {getIcon(card.type)}
+                          {card.type}
+                        </span>
+                      </Badge>
+
+                      <Button className="bg-primary hover:bg-primary/90" onClick={() => onToggleReveal(card.id)}>
+                        <Eye className="w-4 h-4 mr-2" />
+                        Reveal Card
+                      </Button>
+
+                      <p className="text-sm text-muted-foreground mt-4">Click to see the script and tips</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <div className="flex items-center justify-between px-6 py-4 border-t bg-muted/30">
+          <Button variant="outline" onClick={scrollPrev} className="gap-2">
+            <ChevronLeft className="w-4 h-4" />
+            Previous
+          </Button>
+          <div className="flex gap-1">
+            {cards.slice(0, 10).map((_, i) => (
+              <div
+                key={i}
+                className={`w-2 h-2 rounded-full transition-colors ${i === currentIndex ? "bg-primary" : "bg-muted-foreground/30"}`}
+              />
+            ))}
+            {cards.length > 10 && <span className="text-xs text-muted-foreground ml-1">+{cards.length - 10}</span>}
+          </div>
+          <Button variant="outline" onClick={scrollNext} className="gap-2">
+            Next
+            <ChevronRight className="w-4 h-4" />
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
