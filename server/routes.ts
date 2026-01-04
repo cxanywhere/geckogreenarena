@@ -2082,6 +2082,10 @@ export async function registerRoutes(
         return res.status(400).json({ error: "Chapters not found. Please seed chapters first." });
       }
 
+      // Update chapter cover images
+      await storage.updateChapterCoverImage(ch1.id, "/uploads/chapters/chapter-1-cover.png");
+      await storage.updateChapterCoverImage(ch2.id, "/uploads/chapters/chapter-2-cover.png");
+
       // Define the canonical roleplay data with correct orderIndex, avatar, and chapterId
       const roleplayUpdates = [
         { id: "rp-01", orderIndex: 1, chapterId: ch1.id, avatar: "/uploads/persona-the-rushed-executive-1767319703503.png", phase: "Opening", placement: "First 10 Seconds", passCriteria: "Acknowledge time pressure + set ≤60s container + ask a qualifying control question", failConditions: "Pitches immediately or disengages", winningResponse: "Totally understand — I'll be quick. Give me 60 seconds, and if this doesn't apply I'll head out. Quick question: are you the one who usually handles the lawn here?" },
