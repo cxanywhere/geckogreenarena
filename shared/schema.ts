@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, integer, timestamp, jsonb, real } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, integer, timestamp, jsonb, real, uniqueIndex } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -122,12 +122,15 @@ export const quizQuestions = pgTable("quiz_questions", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   chapterId: varchar("chapter_id").notNull(),
   slideIndex: integer("slide_index").notNull(),
+  questionOrder: integer("question_order").notNull().default(0),
   question: text("question").notNull(),
   options: jsonb("options").$type<string[]>().notNull(),
   correctAnswer: integer("correct_answer").notNull(),
   explanation: text("explanation"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
-});
+}, (table) => [
+  uniqueIndex("quiz_questions_composite_idx").on(table.chapterId, table.slideIndex, table.questionOrder),
+]);
 
 // User quiz attempts and scores
 export const quizAttempts = pgTable("quiz_attempts", {
