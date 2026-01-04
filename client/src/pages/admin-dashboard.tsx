@@ -453,6 +453,7 @@ export default function AdminDashboard() {
             <TabsTrigger value="managers">Managers & Teams</TabsTrigger>
             <TabsTrigger value="reps">All Reps Directory</TabsTrigger>
             <TabsTrigger value="usage">Usage & Billing</TabsTrigger>
+            <TabsTrigger value="system">System</TabsTrigger>
           </TabsList>
 
           <TabsContent value="performance" className="space-y-4">
@@ -1190,6 +1191,53 @@ export default function AdminDashboard() {
                     })}
                   </TableBody>
                 </Table>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="system" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Settings className="h-5 w-5" />
+                  Database Sync
+                </CardTitle>
+                <CardDescription>
+                  Synchronize roleplay data to ensure all training content is properly configured.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Use this button to sync the database with the latest roleplay configurations. This will update chapter assignments, persona avatars, and training content.
+                  </p>
+                  <Button
+                    onClick={async () => {
+                      try {
+                        const res = await apiRequest("POST", "/api/admin/sync-roleplays");
+                        const data = await res.json();
+                        if (data.success) {
+                          toast({
+                            title: "Sync Complete",
+                            description: data.message,
+                          });
+                        } else {
+                          throw new Error(data.error);
+                        }
+                      } catch (error: any) {
+                        toast({
+                          title: "Sync Failed",
+                          description: error.message || "Failed to sync roleplays",
+                          variant: "destructive"
+                        });
+                      }
+                    }}
+                    data-testid="button-sync-roleplays"
+                  >
+                    <Activity className="h-4 w-4 mr-2" />
+                    Sync Roleplay Data
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
