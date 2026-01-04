@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { Menu, LogOut } from "lucide-react";
+import { Menu, LogOut, User } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -128,6 +128,10 @@ export function Nav() {
                 <DropdownMenuContent align="end" className="w-48">
                   <div className="px-2 py-1.5 text-sm font-medium">{user.email}</div>
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => setLocation("/profile")} className="cursor-pointer" data-testid="button-profile">
+                    <User className="mr-2 h-4 w-4" />
+                    My Profile
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => setShowSignOutDialog(true)} className="text-red-600 cursor-pointer" data-testid="button-signout">
                     <LogOut className="mr-2 h-4 w-4" />
                     Sign Out

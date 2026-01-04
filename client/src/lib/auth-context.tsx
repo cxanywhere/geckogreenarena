@@ -8,6 +8,7 @@ interface User {
   status?: string;
   profilePhoto?: string | null;
   warriorAvatar?: string | null;
+  createdAt?: string;
 }
 
 interface AuthContextType {
