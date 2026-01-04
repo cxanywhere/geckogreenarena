@@ -442,14 +442,17 @@ export class DatabaseStorage implements IStorage {
 
   async createQuizQuestions(insertQuestions: InsertQuizQuestion[]): Promise<QuizQuestion[]> {
     if (insertQuestions.length === 0) return [];
-    return await db.insert(quizQuestions).values(insertQuestions).returning();
+    return this.upsertQuizQuestions(insertQuestions);
   }
 
   async upsertQuizQuestions(insertQuestions: InsertQuizQuestion[]): Promise<QuizQuestion[]> {
     if (insertQuestions.length === 0) return [];
     
     const results: QuizQuestion[] = [];
+    
     for (const q of insertQuestions) {
+      const questionOrder = q.questionOrder ?? 0;
+      
       const existing = await db
         .select()
         .from(quizQuestions)
@@ -457,7 +460,7 @@ export class DatabaseStorage implements IStorage {
           and(
             eq(quizQuestions.chapterId, q.chapterId),
             eq(quizQuestions.slideIndex, q.slideIndex),
-            eq(quizQuestions.questionOrder, q.questionOrder ?? 0)
+            eq(quizQuestions.questionOrder, questionOrder)
           )
         );
       
@@ -474,7 +477,10 @@ export class DatabaseStorage implements IStorage {
           .returning();
         results.push(updated);
       } else {
-        const [created] = await db.insert(quizQuestions).values(q).returning();
+        const [created] = await db
+          .insert(quizQuestions)
+          .values({ ...q, questionOrder })
+          .returning();
         results.push(created);
       }
     }
@@ -483,10 +489,13 @@ export class DatabaseStorage implements IStorage {
 
   async getNextQuestionOrder(chapterId: string, slideIndex: number): Promise<number> {
     const existing = await db
-      .select()
+      .select({ maxOrder: quizQuestions.questionOrder })
       .from(quizQuestions)
-      .where(and(eq(quizQuestions.chapterId, chapterId), eq(quizQuestions.slideIndex, slideIndex)));
-    return existing.length;
+      .where(and(eq(quizQuestions.chapterId, chapterId), eq(quizQuestions.slideIndex, slideIndex)))
+      .orderBy(desc(quizQuestions.questionOrder))
+      .limit(1);
+    
+    return existing.length > 0 ? (existing[0].maxOrder + 1) : 0;
   }
 
   // Quiz Attempts
