@@ -89,6 +89,7 @@ export default function ChapterPage() {
   }, [completedRoleplays, params?.id]);
 
   const isChapter1 = chapter?.title === "Sales Foundations";
+  const isChapter2 = chapter?.title === "Field Sales Process";
 
   const pendingContentForSlide = useRef<{ quizzes: boolean; roleplays: PredefinedRoleplay[] } | null>(null);
 
@@ -463,6 +464,14 @@ export default function ChapterPage() {
           {isChapter1 ? (
             <ImageSlideViewer
               slides={Array.from({ length: 31 }, (_, i) => `/training-slides/slide_${String(i + 1).padStart(2, '0')}.png`)}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+              onComplete={handleComplete}
+              onClose={() => setLocation("/dashboard")}
+            />
+          ) : isChapter2 ? (
+            <ImageSlideViewer
+              slides={Array.from({ length: 38 }, (_, i) => `/training-slides-ch2/slide_${String(i + 1).padStart(2, '0')}.png`)}
               currentPage={currentPage}
               onPageChange={handlePageChange}
               onComplete={handleComplete}

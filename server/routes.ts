@@ -164,6 +164,10 @@ export async function registerRoutes(
   // Serve training slides
   const trainingSlidesPath = path.join(process.cwd(), "attached_assets", "training_slides");
   app.use("/training-slides", express.static(trainingSlidesPath));
+  
+  // Serve Chapter 2 training slides
+  const trainingSlidesCh2Path = path.join(process.cwd(), "attached_assets", "training_slides_ch2");
+  app.use("/training-slides-ch2", express.static(trainingSlidesCh2Path));
 
   // Generate chapter cover image using Gemini
   app.post("/api/chapters/:id/generate-image", async (req, res) => {
