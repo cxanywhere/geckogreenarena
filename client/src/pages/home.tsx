@@ -489,7 +489,7 @@ export default function Home() {
         <div className="container mx-auto px-4 text-center">
           <div className="font-display font-bold text-2xl text-primary mb-1">arena ai</div>
           <div className="text-xs text-muted-foreground uppercase tracking-widest mb-4">by gigarev</div>
-          <p className="text-muted-foreground text-sm mb-8">© 2025 GigaRev Industries. All rights reserved. Licensed to GeckoGreen.</p>
+          <p className="text-muted-foreground text-sm mb-8">© 2025 GigaRev Arena AI. All rights reserved. Licensed to GeckoGreen.</p>
         </div>
       </footer>
     </div>
