@@ -89,7 +89,7 @@ export default function ChapterPage() {
   }, [completedRoleplays, params?.id]);
 
   const isChapter1 = chapter?.title === "Sales Foundations";
-  const isChapter2 = chapter?.title === "Field Sales Process";
+  const isChapter2 = chapter?.title === "Field Execution" || chapter?.title === "Field Sales Process";
 
   const pendingContentForSlide = useRef<{ quizzes: boolean; roleplays: PredefinedRoleplay[] } | null>(null);
 
