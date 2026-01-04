@@ -19,6 +19,7 @@ import ReportCardPage from "@/pages/report-card";
 import ManagerDashboard from "@/pages/manager-dashboard";
 import RepDetailsPage from "@/pages/rep-details";
 import AdminDashboard from "@/pages/admin-dashboard";
+import SlidesPreviewPage from "@/pages/slides-preview";
 
 function Router() {
   return (
@@ -85,6 +86,7 @@ function Router() {
           <ReportCardPage />
         </ProtectedRoute>
       </Route>
+      <Route path="/slides-preview" component={SlidesPreviewPage} />
       <Route component={NotFound} />
     </Switch>
   );

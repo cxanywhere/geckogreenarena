@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Training Slides Preview - Chapter 1</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #22c55e;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #6b7280;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .slide-card {
+      background: #1a1a1a;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #333;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .slide-card:hover {
+      transform: scale(1.02);
+      border-color: #22c55e;
+    }
+    .slide-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .slide-info {
+      padding: 12px;
+      text-align: center;
+    }
+    .slide-number {
+      color: #22c55e;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .instructions {
+      text-align: center;
+      color: #9ca3af;
+      margin-top: 30px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Chapter 1 Training Slides</h1>
+  <p class="subtitle">31 Portrait-Mode Slides for Mobile Viewing</p>
+  
+  <div class="grid" id="slides-grid"></div>
+  
+  <p class="instructions">Click any slide to view full size</p>
+
+  <script>
+    const grid = document.getElementById('slides-grid');
+    const basePath = '../attached_assets/training_slides/';
+    
+    for (let i = 1; i <= 31; i++) {
+      const num = String(i).padStart(2, '0');
+      const card = document.createElement('div');
+      card.className = 'slide-card';
+      card.innerHTML = `
+        <a href="${basePath}slide_${num}.png" target="_blank">
+          <img src="${basePath}slide_${num}.png" alt="Slide ${i}" loading="lazy">
+        </a>
+        <div class="slide-info">
+          <span class="slide-number">Slide ${i}</span>
+        </div>
+      `;
+      grid.appendChild(card);
+    }
+  </script>
+</body>
+</html>
