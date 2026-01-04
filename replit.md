@@ -54,6 +54,16 @@ Preferred communication style: Simple, everyday language.
 - Role mapping: rep → /dashboard, manager → /manager-dashboard, admin/director → /admin-dashboard
 - All dashboard and training routes are protected with appropriate allowedRoles
 
+### First-Time User Onboarding
+- Users with status "onboarding" are redirected to `/onboarding` after login
+- Onboarding flow allows users to:
+  1. Edit their name
+  2. Take a photo with camera or upload from device
+  3. Generate a warrior-themed avatar using Gemini AI
+- Original photo and warrior avatar are stored in Cloudinary
+- User status changes to "active" after completing onboarding
+- Warrior avatar is displayed in nav and profile areas
+
 ### Project Structure
 ```
 client/src/       # React frontend application

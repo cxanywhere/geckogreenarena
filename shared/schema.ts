@@ -14,6 +14,8 @@ export const users = pgTable("users", {
   status: text("status").notNull().default("onboarding"),
   avatarInitials: text("avatar_initials"),
   managerId: varchar("manager_id"),
+  profilePhoto: text("profile_photo"),
+  warriorAvatar: text("warrior_avatar"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

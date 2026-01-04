@@ -5,6 +5,9 @@ interface User {
   name: string;
   email: string;
   role: string;
+  status?: string;
+  profilePhoto?: string | null;
+  warriorAvatar?: string | null;
 }
 
 interface AuthContextType {
@@ -12,6 +15,7 @@ interface AuthContextType {
   authToken: string | null;
   login: (user: User, token?: string) => void;
   logout: () => void;
+  updateUser: (user: User) => void;
   isLoading: boolean;
   getAuthHeaders: () => Record<string, string>;
 }
@@ -56,6 +60,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setAuthToken(null);
   };
 
+  const updateUser = (userData: User) => {
+    localStorage.setItem("currentUser", JSON.stringify(userData));
+    localStorage.setItem("user", JSON.stringify(userData));
+    setUser(userData);
+  };
+
   const getAuthHeaders = (): Record<string, string> => {
     const token = authToken || localStorage.getItem("authToken");
     if (token) {
@@ -65,7 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, authToken, login, logout, isLoading, getAuthHeaders }}>
+    <AuthContext.Provider value={{ user, authToken, login, logout, updateUser, isLoading, getAuthHeaders }}>
       {children}
     </AuthContext.Provider>
   );

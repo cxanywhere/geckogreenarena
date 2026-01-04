@@ -29,9 +29,15 @@ export default function LoginPage() {
   
   const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
 
-  // Redirect authenticated users to their dashboard
+  // Redirect authenticated users to their dashboard or onboarding
   useEffect(() => {
     if (!authLoading && user) {
+      // First-time users need to complete onboarding
+      if (user.status === "onboarding") {
+        setLocation("/onboarding");
+        return;
+      }
+      
       if (user.role === "director") {
         setLocation("/admin-dashboard");
       } else if (user.role === "manager") {
@@ -58,10 +64,16 @@ export default function LoginPage() {
     try {
       const { user, authToken } = await api.login(email, password);
       
+      login(user, authToken);
+      
+      // Check if this is a first-time login (user status is "onboarding")
+      if (user.status === "onboarding") {
+        setLocation("/onboarding");
+        return;
+      }
+      
       // Mark that user has logged in before for future visits
       localStorage.setItem("hasLoggedInBefore", "true");
-      
-      login(user, authToken);
       
       if (user.role === "director") {
         setLocation("/admin-dashboard");

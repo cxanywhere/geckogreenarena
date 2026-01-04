@@ -13,8 +13,12 @@ import { getVapiRoleplayConfig, convertRoleplayToVapiConfig, VAPI_ROLEPLAY_CONFI
 import { generateSecurePassword, getAvatarInitials } from "./password-generator";
 import { sendCredentialsEmail } from "./email-service";
 import { sendCredentialsSMS } from "./sms-service";
+import { generateWarriorAvatar } from "./warrior-avatar-service";
+import multer from "multer";
 
 const roleplaySessions = new Map<string, { scenario: RoleplayScenario; history: RoleplayMessage[] }>();
+
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 
 async function ensureDatabaseSeeded() {
   try {
@@ -2023,6 +2027,51 @@ export async function registerRoutes(
     } catch (error: any) {
       console.error("Get org performance error:", error);
       res.status(500).json({ error: error.message || "Failed to get org performance" });
+    }
+  });
+
+  // =====================
+  // Onboarding API
+  // =====================
+  
+  app.post("/api/onboarding/generate-warrior", upload.single("photo"), async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const { name, userId } = req.body;
+      const file = req.file;
+
+      if (!file) {
+        return res.status(400).json({ error: "No photo provided" });
+      }
+
+      if (!userId || userId !== authResult.user.id) {
+        return res.status(403).json({ error: "User ID mismatch" });
+      }
+
+      const { profilePhotoUrl, warriorAvatarUrl } = await generateWarriorAvatar(
+        file.buffer,
+        name || authResult.user.name
+      );
+
+      await storage.updateUser(userId, {
+        name: name || authResult.user.name,
+        profilePhoto: profilePhotoUrl,
+        warriorAvatar: warriorAvatarUrl,
+        status: "active",
+        avatarInitials: getAvatarInitials(name || authResult.user.name),
+      });
+
+      res.json({
+        profilePhoto: profilePhotoUrl,
+        warriorAvatar: warriorAvatarUrl,
+      });
+    } catch (error: any) {
+      console.error("Generate warrior avatar error:", error);
+      res.status(500).json({ error: error.message || "Failed to generate warrior avatar" });
     }
   });
 

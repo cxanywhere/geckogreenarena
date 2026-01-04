@@ -9,6 +9,7 @@ import { ProtectedRoute } from "@/components/protected-route";
 import NotFound from "@/pages/not-found";
 import Dashboard from "@/pages/home";
 import LoginPage from "@/pages/login";
+import OnboardingPage from "@/pages/onboarding";
 import ChatPage from "@/pages/chat";
 import ChapterPage from "@/pages/chapter";
 import ResultsPage from "@/pages/results";
@@ -26,6 +27,11 @@ function Router() {
     <Switch>
       <Route path="/" component={LoginPage} />
       <Route path="/login" component={LoginPage} />
+      <Route path="/onboarding">
+        <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
+          <OnboardingPage />
+        </ProtectedRoute>
+      </Route>
       <Route path="/dashboard">
         <ProtectedRoute allowedRoles={["rep"]}>
           <Dashboard />

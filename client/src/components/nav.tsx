@@ -112,9 +112,17 @@ export function Nav() {
                       <span className="text-sm font-bold leading-none">{user.name}</span>
                       <span className="text-xs text-muted-foreground capitalize">{user.role}</span>
                     </div>
-                    <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20">
-                      {getInitials(user.name)}
-                    </div>
+                    {user.warriorAvatar ? (
+                      <img 
+                        src={user.warriorAvatar} 
+                        alt={user.name} 
+                        className="h-9 w-9 rounded-full object-cover border-2 border-primary shadow-md shadow-primary/20"
+                      />
+                    ) : (
+                      <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20">
+                        {getInitials(user.name)}
+                      </div>
+                    )}
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
@@ -134,9 +142,17 @@ export function Nav() {
         <div className="lg:hidden flex items-center gap-3">
           <ModeToggle />
           {user && (
-            <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20">
-              {getInitials(user.name)}
-            </div>
+            user.warriorAvatar ? (
+              <img 
+                src={user.warriorAvatar} 
+                alt={user.name} 
+                className="h-9 w-9 rounded-full object-cover border-2 border-primary shadow-md shadow-primary/20"
+              />
+            ) : (
+              <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20">
+                {getInitials(user.name)}
+              </div>
+            )
           )}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
@@ -148,9 +164,17 @@ export function Nav() {
               <div className="flex flex-col gap-6 mt-10">
                 {user && (
                   <div className="flex items-center gap-3 pb-4 border-b border-primary/10">
-                    <div className="h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md shadow-primary/20">
-                      {getInitials(user.name)}
-                    </div>
+                    {user.warriorAvatar ? (
+                      <img 
+                        src={user.warriorAvatar} 
+                        alt={user.name} 
+                        className="h-10 w-10 rounded-full object-cover border-2 border-primary shadow-md shadow-primary/20"
+                      />
+                    ) : (
+                      <div className="h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md shadow-primary/20">
+                        {getInitials(user.name)}
+                      </div>
+                    )}
                     <div className="flex flex-col">
                       <span className="text-sm font-bold">{user.name}</span>
                       <span className="text-xs text-muted-foreground">{user.email}</span>
