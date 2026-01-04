@@ -88,6 +88,8 @@ export interface IStorage {
   getQuizQuestionsBySlide(chapterId: string, slideIndex: number): Promise<QuizQuestion[]>;
   createQuizQuestion(question: InsertQuizQuestion): Promise<QuizQuestion>;
   createQuizQuestions(questions: InsertQuizQuestion[]): Promise<QuizQuestion[]>;
+  upsertQuizQuestions(questions: InsertQuizQuestion[]): Promise<QuizQuestion[]>;
+  getNextQuestionOrder(chapterId: string, slideIndex: number): Promise<number>;
   
   // Quiz Attempts
   getUserQuizAttempts(userId: string, chapterId: string): Promise<QuizAttempt[]>;
@@ -441,6 +443,50 @@ export class DatabaseStorage implements IStorage {
   async createQuizQuestions(insertQuestions: InsertQuizQuestion[]): Promise<QuizQuestion[]> {
     if (insertQuestions.length === 0) return [];
     return await db.insert(quizQuestions).values(insertQuestions).returning();
+  }
+
+  async upsertQuizQuestions(insertQuestions: InsertQuizQuestion[]): Promise<QuizQuestion[]> {
+    if (insertQuestions.length === 0) return [];
+    
+    const results: QuizQuestion[] = [];
+    for (const q of insertQuestions) {
+      const existing = await db
+        .select()
+        .from(quizQuestions)
+        .where(
+          and(
+            eq(quizQuestions.chapterId, q.chapterId),
+            eq(quizQuestions.slideIndex, q.slideIndex),
+            eq(quizQuestions.questionOrder, q.questionOrder ?? 0)
+          )
+        );
+      
+      if (existing.length > 0) {
+        const [updated] = await db
+          .update(quizQuestions)
+          .set({
+            question: q.question,
+            options: q.options,
+            correctAnswer: q.correctAnswer,
+            explanation: q.explanation,
+          })
+          .where(eq(quizQuestions.id, existing[0].id))
+          .returning();
+        results.push(updated);
+      } else {
+        const [created] = await db.insert(quizQuestions).values(q).returning();
+        results.push(created);
+      }
+    }
+    return results;
+  }
+
+  async getNextQuestionOrder(chapterId: string, slideIndex: number): Promise<number> {
+    const existing = await db
+      .select()
+      .from(quizQuestions)
+      .where(and(eq(quizQuestions.chapterId, chapterId), eq(quizQuestions.slideIndex, slideIndex)));
+    return existing.length;
   }
 
   // Quiz Attempts

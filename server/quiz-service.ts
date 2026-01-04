@@ -31,7 +31,8 @@ export async function generateQuizQuestionsForSlides(
 
   for (const slide of slidesToGenerate) {
     try {
-      const questions = await generateQuestionsForContent(slide.content, chapterId, slide.index);
+      const startOrder = await storage.getNextQuestionOrder(chapterId, slide.index);
+      const questions = await generateQuestionsForContent(slide.content, chapterId, slide.index, startOrder);
       allQuestions.push(...questions);
     } catch (error) {
       console.error(`Failed to generate questions for slide ${slide.index}:`, error);
@@ -39,7 +40,7 @@ export async function generateQuizQuestionsForSlides(
   }
 
   if (allQuestions.length > 0) {
-    await storage.createQuizQuestions(allQuestions);
+    await storage.upsertQuizQuestions(allQuestions);
   }
 
   return allQuestions;
@@ -48,7 +49,8 @@ export async function generateQuizQuestionsForSlides(
 async function generateQuestionsForContent(
   content: string,
   chapterId: string,
-  slideIndex: number
+  slideIndex: number,
+  startOrder: number = 0
 ): Promise<InsertQuizQuestion[]> {
   if (!content || content.trim().length < 50) {
     return [];
@@ -95,9 +97,10 @@ Rules:
 
     const parsed = JSON.parse(responseContent) as { questions: GeneratedQuestion[] };
     
-    return parsed.questions.map(q => ({
+    return parsed.questions.map((q, index) => ({
       chapterId,
       slideIndex,
+      questionOrder: startOrder + index,
       question: q.question,
       options: q.options,
       correctAnswer: q.correctAnswer,
@@ -123,9 +126,10 @@ export async function getOrGenerateQuizForSlide(
   let questions = await storage.getQuizQuestionsBySlide(chapterId, slideIndex);
   
   if (questions.length === 0 && slideContent && slideContent.length > 50) {
-    const generated = await generateQuestionsForContent(slideContent, chapterId, slideIndex);
+    const startOrder = await storage.getNextQuestionOrder(chapterId, slideIndex);
+    const generated = await generateQuestionsForContent(slideContent, chapterId, slideIndex, startOrder);
     if (generated.length > 0) {
-      questions = await storage.createQuizQuestions(generated);
+      questions = await storage.upsertQuizQuestions(generated);
     }
   }
 
