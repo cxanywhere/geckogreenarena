@@ -448,42 +448,20 @@ export class DatabaseStorage implements IStorage {
   async upsertQuizQuestions(insertQuestions: InsertQuizQuestion[]): Promise<QuizQuestion[]> {
     if (insertQuestions.length === 0) return [];
     
-    const results: QuizQuestion[] = [];
+    const results = await db
+      .insert(quizQuestions)
+      .values(insertQuestions)
+      .onConflictDoUpdate({
+        target: [quizQuestions.chapterId, quizQuestions.slideIndex, quizQuestions.questionOrder],
+        set: {
+          question: sql`EXCLUDED.question`,
+          options: sql`EXCLUDED.options`,
+          correctAnswer: sql`EXCLUDED.correct_answer`,
+          explanation: sql`EXCLUDED.explanation`,
+        },
+      })
+      .returning();
     
-    for (const q of insertQuestions) {
-      const questionOrder = q.questionOrder ?? 0;
-      
-      const existing = await db
-        .select()
-        .from(quizQuestions)
-        .where(
-          and(
-            eq(quizQuestions.chapterId, q.chapterId),
-            eq(quizQuestions.slideIndex, q.slideIndex),
-            eq(quizQuestions.questionOrder, questionOrder)
-          )
-        );
-      
-      if (existing.length > 0) {
-        const [updated] = await db
-          .update(quizQuestions)
-          .set({
-            question: q.question,
-            options: q.options,
-            correctAnswer: q.correctAnswer,
-            explanation: q.explanation,
-          })
-          .where(eq(quizQuestions.id, existing[0].id))
-          .returning();
-        results.push(updated);
-      } else {
-        const [created] = await db
-          .insert(quizQuestions)
-          .values({ ...q, questionOrder })
-          .returning();
-        results.push(created);
-      }
-    }
     return results;
   }
 
