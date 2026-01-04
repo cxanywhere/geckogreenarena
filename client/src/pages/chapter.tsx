@@ -1,6 +1,6 @@
 import { useRoute, Link, useLocation } from "wouter";
 import { Nav } from "@/components/nav";
-import { PDFViewer } from "@/components/pdf-viewer";
+import { ImageSlideViewer } from "@/components/image-slide-viewer";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Download, BookOpen, Presentation, Brain, Loader2, Mic, CheckCircle, Clock, Target, FileText, GraduationCap, ChevronDown, ChevronUp } from "lucide-react";
 import { useEffect, useState, useCallback, useRef } from "react";
@@ -457,11 +457,19 @@ export default function ChapterPage() {
           </div>
         </div>
 
-        {/* PDF Viewer */}
+        {/* Slide Viewer */}
         <div className="flex-1 overflow-hidden">
-          {chapter.pdfUrl ? (
-            <PDFViewer
-              pdfUrl={chapter.pdfUrl}
+          {isChapter1 ? (
+            <ImageSlideViewer
+              slides={Array.from({ length: 31 }, (_, i) => `/training-slides/slide_${String(i + 1).padStart(2, '0')}.png`)}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+              onComplete={handleComplete}
+              onClose={() => setLocation("/dashboard")}
+            />
+          ) : chapter.pdfUrl ? (
+            <ImageSlideViewer
+              slides={chapter.slides?.map((s: any) => s.imageUrl || s) || []}
               currentPage={currentPage}
               onPageChange={handlePageChange}
               onComplete={handleComplete}
