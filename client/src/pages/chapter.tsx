@@ -1,6 +1,7 @@
 import { useRoute, Link, useLocation } from "wouter";
 import { Nav } from "@/components/nav";
 import { ImageSlideViewer } from "@/components/image-slide-viewer";
+import { PDFViewer } from "@/components/pdf-viewer";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Download, BookOpen, Presentation, Brain, Loader2, Mic, CheckCircle, Clock, Target, FileText, GraduationCap, ChevronDown, ChevronUp } from "lucide-react";
 import { useEffect, useState, useCallback, useRef } from "react";
@@ -468,8 +469,8 @@ export default function ChapterPage() {
               onClose={() => setLocation("/dashboard")}
             />
           ) : chapter.pdfUrl ? (
-            <ImageSlideViewer
-              slides={chapter.slides?.map((s: any) => s.imageUrl || s) || []}
+            <PDFViewer
+              pdfUrl={chapter.pdfUrl}
               currentPage={currentPage}
               onPageChange={handlePageChange}
               onComplete={handleComplete}

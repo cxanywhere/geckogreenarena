@@ -85,6 +85,10 @@ export function ImageSlideViewer({
 
   const currentSlideUrl = slides[currentPage - 1];
 
+  useEffect(() => {
+    setIsLoading(true);
+  }, [currentPage]);
+
   return (
     <div 
       ref={containerRef}
