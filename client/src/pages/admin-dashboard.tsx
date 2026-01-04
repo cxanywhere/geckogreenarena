@@ -1200,43 +1200,21 @@ export default function AdminDashboard() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Settings className="h-5 w-5" />
-                  Database Sync
+                  System Settings
                 </CardTitle>
                 <CardDescription>
-                  Synchronize roleplay data to ensure all training content is properly configured.
+                  System configuration and status information.
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <p className="text-sm text-muted-foreground">
-                    Use this button to sync the database with the latest roleplay configurations. This will update chapter assignments, persona avatars, and training content.
+                    Training content and roleplay configurations are automatically synchronized on server startup. No manual intervention is required.
                   </p>
-                  <Button
-                    onClick={async () => {
-                      try {
-                        const res = await apiRequest("POST", "/api/admin/sync-roleplays");
-                        const data = await res.json();
-                        if (data.success) {
-                          toast({
-                            title: "Sync Complete",
-                            description: data.message,
-                          });
-                        } else {
-                          throw new Error(data.error);
-                        }
-                      } catch (error: any) {
-                        toast({
-                          title: "Sync Failed",
-                          description: error.message || "Failed to sync roleplays",
-                          variant: "destructive"
-                        });
-                      }
-                    }}
-                    data-testid="button-sync-roleplays"
-                  >
-                    <Activity className="h-4 w-4 mr-2" />
-                    Sync Roleplay Data
-                  </Button>
+                  <div className="flex items-center gap-2 text-sm text-green-600">
+                    <div className="h-2 w-2 rounded-full bg-green-500" />
+                    Auto-sync enabled
+                  </div>
                 </div>
               </CardContent>
             </Card>

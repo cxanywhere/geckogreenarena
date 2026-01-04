@@ -537,7 +537,7 @@ export class DatabaseStorage implements IStorage {
         chapterId: attempt.chapterId,
         chapterTitle: chapter?.title || "Unknown Chapter",
         questionId: attempt.questionId,
-        questionText: question?.questionText || "Unknown Question",
+        questionText: question?.question || "Unknown Question",
         options: Array.isArray(question?.options) ? question.options : [],
         selectedAnswer: attempt.selectedAnswer,
         correctAnswer: question?.correctAnswer ?? -1,
