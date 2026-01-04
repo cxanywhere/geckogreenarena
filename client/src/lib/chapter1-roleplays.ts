@@ -1,7 +1,7 @@
 export interface PredefinedRoleplay {
   id: string;
   afterSlide: number;
-  roleplayId: string;
+  orderIndex: number;
   objection: string;
   context: string;
   passCriteria: string;
@@ -13,7 +13,7 @@ export const CHAPTER_1_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch1-rp01",
     afterSlide: 7,
-    roleplayId: "rp-01",
+    orderIndex: 1,
     objection: "I'm actually really busy right now.",
     context: "Opening → First 10 Seconds",
     passCriteria: "Acknowledge time pressure + set ≤60s container + ask a qualifying control question",
@@ -23,7 +23,7 @@ export const CHAPTER_1_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch1-rp02",
     afterSlide: 8,
-    roleplayId: "rp-02",
+    orderIndex: 2,
     objection: "Not interested.",
     context: "Opening → Handling Brush-Offs",
     passCriteria: "Acknowledge + reframe to specific issue + redirect",
@@ -33,7 +33,7 @@ export const CHAPTER_1_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch1-rp03",
     afterSlide: 9,
-    roleplayId: "rp-03",
+    orderIndex: 3,
     objection: "No soliciting.",
     context: "Opening → Compliance & Authority",
     passCriteria: "Acknowledge rule + clarify intent + request micro-permission",
@@ -43,7 +43,7 @@ export const CHAPTER_1_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch1-rp04",
     afterSlide: 14,
-    roleplayId: "rp-04",
+    orderIndex: 4,
     objection: "I do my own lawn.",
     context: "Turn & Burn → DIY Pushback",
     passCriteria: "Validate identity + differentiate + regain lead",
@@ -53,7 +53,7 @@ export const CHAPTER_1_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch1-rp05",
     afterSlide: 15,
-    roleplayId: "rp-05",
+    orderIndex: 5,
     objection: "We already have a lawn company.",
     context: "Turn & Burn → Existing Provider",
     passCriteria: "Acknowledge + remove replacement fear + isolate gap",
@@ -63,7 +63,7 @@ export const CHAPTER_1_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch1-rp06",
     afterSlide: 16,
-    roleplayId: "rp-06",
+    orderIndex: 6,
     objection: "Why are you here?",
     context: "Turn & Burn → Purpose Statement",
     passCriteria: "State purpose clearly + direct next action",

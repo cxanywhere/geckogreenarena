@@ -1,7 +1,7 @@
 export interface PredefinedRoleplay {
   id: string;
   afterSlide: number;
-  roleplayId: string;
+  orderIndex: number;
   objection: string;
   context: string;
   passCriteria: string;
@@ -13,7 +13,7 @@ export const CHAPTER_2_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch2-rp07",
     afterSlide: 17,
-    roleplayId: "rp-07",
+    orderIndex: 7,
     objection: "My lawn looks fine.",
     context: "Lawn Walk → Identifying Issues",
     passCriteria: "Validate + isolate specific problem + visually point",
@@ -23,7 +23,7 @@ export const CHAPTER_2_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch2-rp08",
     afterSlide: 18,
-    roleplayId: "rp-08",
+    orderIndex: 8,
     objection: "Weeds don't bother me.",
     context: "Lawn Walk → Educating on Spread",
     passCriteria: "Reframe consequence + keep discovery",
@@ -33,7 +33,7 @@ export const CHAPTER_2_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch2-rp09",
     afterSlide: 19,
-    roleplayId: "rp-09",
+    orderIndex: 9,
     objection: "I don't see the issue.",
     context: "Lawn Walk → Showing, Not Telling",
     passCriteria: "Demonstrate visually, not verbally",
@@ -43,7 +43,7 @@ export const CHAPTER_2_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch2-rp10",
     afterSlide: 27,
-    roleplayId: "rp-10",
+    orderIndex: 10,
     objection: "How much does it cost?",
     context: "Pricing → Before Quoting",
     passCriteria: "Defer price + anchor value first",
@@ -53,7 +53,7 @@ export const CHAPTER_2_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch2-rp11",
     afterSlide: 29,
-    roleplayId: "rp-11",
+    orderIndex: 11,
     objection: "That's expensive.",
     context: "Pricing → Objection Handling",
     passCriteria: "Normalize + re-anchor to outcome",
@@ -63,7 +63,7 @@ export const CHAPTER_2_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch2-rp12",
     afterSlide: 30,
-    roleplayId: "rp-12",
+    orderIndex: 12,
     objection: "Another company is cheaper.",
     context: "Pricing → Competitor Comparison",
     passCriteria: "Reframe to outcome, not price",
@@ -73,7 +73,7 @@ export const CHAPTER_2_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch2-rp13",
     afterSlide: 34,
-    roleplayId: "rp-13",
+    orderIndex: 13,
     objection: "Why do I have to pay now?",
     context: "Close → Payment Explanation",
     passCriteria: "Normalize process + remove risk + maintain close",
@@ -83,7 +83,7 @@ export const CHAPTER_2_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch2-rp14",
     afterSlide: 35,
-    roleplayId: "rp-14",
+    orderIndex: 14,
     objection: "I need to think about it.",
     context: "Close → Handling Stalls",
     passCriteria: "Isolate the concern + advance the decision",
@@ -93,7 +93,7 @@ export const CHAPTER_2_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch2-rp15",
     afterSlide: 36,
-    roleplayId: "rp-15",
+    orderIndex: 15,
     objection: "I'll call you / send me something.",
     context: "Close → Securing Next Step",
     passCriteria: "Clarify decision criteria + regain control of next step",
@@ -103,7 +103,7 @@ export const CHAPTER_2_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch2-rp16",
     afterSlide: 37,
-    roleplayId: "rp-16",
+    orderIndex: 16,
     objection: "Full Conversation Assessment",
     context: "All Phases → Final Certification",
     passCriteria: "Maintain control across ≥3 phases + handle Phase 5 close objection",

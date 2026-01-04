@@ -29,9 +29,24 @@ interface RoleplayResult {
     name: string;
     role: string;
     difficulty: string;
+    orderIndex?: number;
+    chapterId?: string;
   };
   feedback: AIFeedback;
   transcript: TranscriptMessage[];
+}
+
+function markRoleplayCompleted(orderIndex: number, chapterId?: string) {
+  if (!orderIndex || !chapterId) return;
+  
+  const storageKey = `chapter_roleplay_completed_orderindex_${chapterId}`;
+  const saved = localStorage.getItem(storageKey);
+  const currentSet: number[] = saved ? JSON.parse(saved) : [];
+  
+  if (!currentSet.includes(orderIndex)) {
+    currentSet.push(orderIndex);
+    localStorage.setItem(storageKey, JSON.stringify(currentSet));
+  }
 }
 
 export default function ResultsPage() {
@@ -95,6 +110,10 @@ export default function ResultsPage() {
           const data = await response.json();
           setResult(data);
           localStorage.setItem("lastRoleplayResult", JSON.stringify(data));
+          
+          if (data.feedback?.passed && data.scenario?.orderIndex) {
+            markRoleplayCompleted(data.scenario.orderIndex, data.scenario.chapterId);
+          }
         } catch (err: any) {
           console.error("Evaluation error:", err);
           setError(err.message || "Failed to get results");
@@ -105,7 +124,12 @@ export default function ResultsPage() {
         const storedResult = localStorage.getItem("lastRoleplayResult");
         if (storedResult) {
           try {
-            setResult(JSON.parse(storedResult));
+            const data = JSON.parse(storedResult);
+            setResult(data);
+            
+            if (data.feedback?.passed && data.scenario?.orderIndex) {
+              markRoleplayCompleted(data.scenario.orderIndex, data.scenario.chapterId);
+            }
           } catch (e) {
             console.error("Failed to parse result:", e);
           }

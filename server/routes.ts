@@ -1755,7 +1755,9 @@ export async function registerRoutes(
           id: config.id,
           name: config.name,
           role: config.role,
-          difficulty: config.difficulty
+          difficulty: config.difficulty,
+          orderIndex: dbRoleplay?.orderIndex,
+          chapterId: dbRoleplay?.chapterId
         },
         feedback: {
           ...feedback,
