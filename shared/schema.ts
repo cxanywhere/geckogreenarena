@@ -19,6 +19,7 @@ export const users = pgTable("users", {
 
 export const chapters = pgTable("chapters", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").unique(),
   title: text("title").notNull(),
   subtitle: text("subtitle").notNull(),
   description: text("description").notNull(),
@@ -33,6 +34,7 @@ export const chapters = pgTable("chapters", {
 
 export const roleplays = pgTable("roleplays", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").unique(),
   name: text("name").notNull(),
   role: text("role").notNull(),
   description: text("description").notNull(),
