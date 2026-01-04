@@ -11,9 +11,9 @@ export interface PredefinedRoleplay {
 
 export const CHAPTER_2_ROLEPLAYS: PredefinedRoleplay[] = [
   {
-    id: "ch2-rp7",
+    id: "ch2-rp07",
     afterSlide: 17,
-    roleplayId: "rp-7",
+    roleplayId: "rp-07",
     objection: "My lawn looks fine.",
     context: "Lawn Walk → Identifying Issues",
     passCriteria: "Validate + isolate specific problem + visually point",
@@ -21,9 +21,9 @@ export const CHAPTER_2_ROLEPLAYS: PredefinedRoleplay[] = [
     winningResponse: "Overall it does — this spot is what I'm flagging, though. See how it's spreading here?"
   },
   {
-    id: "ch2-rp8",
+    id: "ch2-rp08",
     afterSlide: 18,
-    roleplayId: "rp-8",
+    roleplayId: "rp-08",
     objection: "Weeds don't bother me.",
     context: "Lawn Walk → Educating on Spread",
     passCriteria: "Reframe consequence + keep discovery",
@@ -31,9 +31,9 @@ export const CHAPTER_2_ROLEPLAYS: PredefinedRoleplay[] = [
     winningResponse: "Totally — most don't until it spreads into the healthy grass. That's what I want to prevent here."
   },
   {
-    id: "ch2-rp9",
+    id: "ch2-rp09",
     afterSlide: 19,
-    roleplayId: "rp-9",
+    roleplayId: "rp-09",
     objection: "I don't see the issue.",
     context: "Lawn Walk → Showing, Not Telling",
     passCriteria: "Demonstrate visually, not verbally",
