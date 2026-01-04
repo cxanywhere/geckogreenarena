@@ -11,7 +11,8 @@ import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOrientation } from "@/hooks/useOrientation";
 import { getQuizForSlide, isQuizSlide } from "@/lib/chapter1-quizzes";
-import { getRoleplaysForSlide, isRoleplaySlide, getAllChapter1Roleplays, type PredefinedRoleplay } from "@/lib/chapter1-roleplays";
+import { getRoleplaysForSlide as getCh1Roleplays, isRoleplaySlide as isCh1RoleplaySlide, getAllChapter1Roleplays, type PredefinedRoleplay } from "@/lib/chapter1-roleplays";
+import { getRoleplaysForSlide as getCh2Roleplays, isRoleplaySlide as isCh2RoleplaySlide, getAllChapter2Roleplays } from "@/lib/chapter2-roleplays";
 import { RoleplayPrompt } from "@/components/roleplay-prompt";
 import { Progress } from "@/components/ui/progress";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -142,9 +143,9 @@ export default function ChapterPage() {
   }, [chapter, user, completedQuizPages, isLoadingQuiz, isChapter1]);
 
   const triggerRoleplays = useCallback((pageNumber: number) => {
-    if (!isChapter1) return;
+    if (!isChapter1 && !isChapter2) return;
     
-    const roleplays = getRoleplaysForSlide(pageNumber);
+    const roleplays = isChapter1 ? getCh1Roleplays(pageNumber) : getCh2Roleplays(pageNumber);
     const uncompletedRoleplays = roleplays.filter(rp => !completedRoleplays.has(rp.id));
     
     if (uncompletedRoleplays.length > 0) {
@@ -152,7 +153,7 @@ export default function ChapterPage() {
       setCurrentRoleplayIndex(0);
       setShowRoleplay(true);
     }
-  }, [isChapter1, completedRoleplays]);
+  }, [isChapter1, isChapter2, completedRoleplays]);
 
   const handlePageChange = (page: number, numPages?: number) => {
     setCurrentPage(page);
@@ -162,10 +163,14 @@ export default function ChapterPage() {
       if (isQuizSlide(page) && !completedQuizPages.has(page)) {
         triggerQuiz(page);
         
-        if (isRoleplaySlide(page)) {
-          pendingContentForSlide.current = { quizzes: true, roleplays: getRoleplaysForSlide(page) };
+        if (isCh1RoleplaySlide(page)) {
+          pendingContentForSlide.current = { quizzes: true, roleplays: getCh1Roleplays(page) };
         }
-      } else if (isRoleplaySlide(page)) {
+      } else if (isCh1RoleplaySlide(page)) {
+        triggerRoleplays(page);
+      }
+    } else if (isChapter2) {
+      if (isCh2RoleplaySlide(page)) {
         triggerRoleplays(page);
       }
     } else {
@@ -179,7 +184,7 @@ export default function ChapterPage() {
     const roleplay = currentRoleplays[currentRoleplayIndex];
     if (roleplay) {
       setShowRoleplay(false);
-      setLocation(`/chat/${roleplay.id}`);
+      setLocation(`/chat/${roleplay.roleplayId}`);
     }
   };
 
@@ -287,7 +292,7 @@ export default function ChapterPage() {
 
   const handleStartSkippedRoleplay = (roleplay: PredefinedRoleplay) => {
     setShowEndOfChapter(false);
-    setLocation(`/chat/${roleplay.id}`);
+    setLocation(`/chat/${roleplay.roleplayId}`);
   };
 
   const handleSkipAllRoleplays = () => {
