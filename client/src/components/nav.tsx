@@ -108,21 +108,23 @@ export function Nav() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer" data-testid="button-user-menu">
-                    <div className="hidden xl:flex flex-col items-end">
-                      <span className="text-sm font-bold leading-none">{user.name}</span>
+                    <div className="hidden xl:flex flex-col items-end" onClick={(e) => { e.stopPropagation(); setLocation("/profile"); }}>
+                      <span className="text-sm font-bold leading-none hover:text-primary transition-colors">{user.name}</span>
                       <span className="text-xs text-muted-foreground capitalize">{user.role}</span>
                     </div>
-                    {user.warriorAvatar ? (
-                      <img 
-                        src={user.warriorAvatar} 
-                        alt={user.name} 
-                        className="h-9 w-9 rounded-full object-cover border-2 border-primary shadow-md shadow-primary/20"
-                      />
-                    ) : (
-                      <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20">
-                        {getInitials(user.name)}
-                      </div>
-                    )}
+                    <div onClick={(e) => { e.stopPropagation(); setLocation("/profile"); }}>
+                      {user.warriorAvatar ? (
+                        <img 
+                          src={user.warriorAvatar} 
+                          alt={user.name} 
+                          className="h-9 w-9 rounded-full object-cover border-2 border-primary shadow-md shadow-primary/20 hover:ring-2 hover:ring-primary/50 transition-all"
+                        />
+                      ) : (
+                        <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20 hover:ring-2 hover:ring-primary/50 transition-all">
+                          {getInitials(user.name)}
+                        </div>
+                      )}
+                    </div>
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
@@ -146,17 +148,19 @@ export function Nav() {
         <div className="lg:hidden flex items-center gap-3">
           <ModeToggle />
           {user && (
-            user.warriorAvatar ? (
-              <img 
-                src={user.warriorAvatar} 
-                alt={user.name} 
-                className="h-9 w-9 rounded-full object-cover border-2 border-primary shadow-md shadow-primary/20"
-              />
-            ) : (
-              <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20">
-                {getInitials(user.name)}
-              </div>
-            )
+            <div onClick={() => setLocation("/profile")} className="cursor-pointer">
+              {user.warriorAvatar ? (
+                <img 
+                  src={user.warriorAvatar} 
+                  alt={user.name} 
+                  className="h-9 w-9 rounded-full object-cover border-2 border-primary shadow-md shadow-primary/20 hover:ring-2 hover:ring-primary/50 transition-all"
+                />
+              ) : (
+                <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20 hover:ring-2 hover:ring-primary/50 transition-all">
+                  {getInitials(user.name)}
+                </div>
+              )}
+            </div>
           )}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
@@ -167,7 +171,7 @@ export function Nav() {
             <SheetContent side="right" className="bg-white/95 dark:bg-black/95 backdrop-blur-xl border-l-white/20">
               <div className="flex flex-col gap-6 mt-10">
                 {user && (
-                  <div className="flex items-center gap-3 pb-4 border-b border-primary/10">
+                  <div className="flex items-center gap-3 pb-4 border-b border-primary/10 cursor-pointer" onClick={() => { setIsOpen(false); setLocation("/profile"); }}>
                     {user.warriorAvatar ? (
                       <img 
                         src={user.warriorAvatar} 
@@ -180,7 +184,7 @@ export function Nav() {
                       </div>
                     )}
                     <div className="flex flex-col">
-                      <span className="text-sm font-bold">{user.name}</span>
+                      <span className="text-sm font-bold hover:text-primary transition-colors">{user.name}</span>
                       <span className="text-xs text-muted-foreground">{user.email}</span>
                     </div>
                   </div>
