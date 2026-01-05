@@ -15,6 +15,8 @@ import { sendCredentialsEmail } from "./email-service";
 import { sendCredentialsSMS } from "./sms-service";
 import { generateWarriorAvatar } from "./warrior-avatar-service";
 import multer from "multer";
+import { searchKnowledge, formatKnowledgeForPrompt } from "./knowledge-base";
+import OpenAI from "openai";
 
 const roleplaySessions = new Map<string, { scenario: RoleplayScenario; history: RoleplayMessage[] }>();
 
@@ -2444,6 +2446,75 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Get user stats error:", error);
       res.status(500).json({ error: "Failed to get user stats" });
+    }
+  });
+
+  // Sales Coach - RAG-powered chatbot
+  app.post("/api/coach", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const { question } = req.body;
+      if (!question || typeof question !== "string") {
+        return res.status(400).json({ error: "Question is required" });
+      }
+
+      const relevantEntries = searchKnowledge(question, 5);
+      
+      if (relevantEntries.length === 0) {
+        return res.json({
+          answer: "I couldn't find specific information about that in the training materials. Try asking about door approaches, objection handling, the Gecko Green program, lawn care fundamentals, or prepay strategies.",
+          sources: []
+        });
+      }
+
+      const context = formatKnowledgeForPrompt(relevantEntries);
+
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const systemPrompt = `You are the Arena AI Sales Coach for GeckoGreen lawn care. You help sales reps master door-to-door sales techniques.
+
+IMPORTANT RULES:
+1. ONLY use information from the provided training materials to answer questions
+2. Be practical and actionable - give specific scripts and techniques reps can use immediately
+3. When referencing roleplay scenarios, include the WINNING RESPONSE as an example
+4. Keep answers concise but complete (2-4 paragraphs max)
+5. If the training materials don't cover something, say so honestly
+6. Use a supportive, coaching tone - you're here to help reps succeed
+
+TRAINING MATERIALS:
+${context}`;
+
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: question }
+        ],
+        max_completion_tokens: 1000,
+      });
+
+      const answer = completion.choices[0]?.message?.content || "I couldn't generate a response. Please try again.";
+
+      const sources = relevantEntries.map(entry => ({
+        title: entry.title,
+        chapter: entry.chapter,
+        type: entry.type,
+        category: entry.category,
+        winningResponse: entry.winningResponse,
+        losingResponse: entry.losingResponse
+      }));
+
+      res.json({ answer, sources });
+    } catch (error) {
+      console.error("Coach error:", error);
+      res.status(500).json({ error: "Failed to process question" });
     }
   });
 

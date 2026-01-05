@@ -1,0 +1,769 @@
+import json, os, uuid
+
+base_dir = "/mnt/data"
+
+def write_jsonl(path, records):
+    with open(path, "w", encoding="utf-8") as f:
+        for r in records:
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    return path
+
+def make_id(prefix):
+    return f"{prefix}_{uuid.uuid4().hex[:12]}"
+
+# ---------------- Chapter 1 Slides ----------------
+c1 = []
+def add_c1(slide, title, content, tags=None, phase=None, roleplay_id=None):
+    c1.append({
+        "id": make_id("c1_slide"),
+        "type": "slide",
+        "chapter": 1,
+        "slide_number": slide,
+        "title": title,
+        "content": content.strip(),
+        "tags": tags or [],
+        "phase": phase,
+        "roleplay_id": roleplay_id
+    })
+
+add_c1(1, "Certification 1 – Chapter 1", """Subtitle: Sales Foundations, Lawn Care Fundamentals & the Prepay Mindset (Intro)
+Core outcomes:
+• Master the fundamentals (repeatable behaviors that win at the door)
+• Fuel your sales engine (standards, habits, simple process)
+• Adopt the winning mindset (confidence, control, resilience)""", ["overview","chapter1"])
+
+add_c1(2, "What Chapter 1 Prepares You For", """By the end of Chapter 1, you can:
+1) Execute a strong door approach and opening
+2) Explain lawn care concepts simply (homeowner-friendly)
+3) Explain the Gecko Green program quickly and clearly
+4) Set expectations (seed bank, control vs perfection)
+5) Explain the homeowner partnership responsibilities
+6) Present prepay as the default and understand commission impact""", ["overview","learning_objectives"])
+
+add_c1(3, "Four Pillars of Field Success", """• Timeliness — be where you should be, when you should be there
+• Attitude — mindset drives tone, confidence, outcomes
+• Practice — repetition builds skill (scripts + scenarios)
+• Persistence — more quality doors = more wins""", ["mindset","field_standards"])
+
+add_c1(4, "Winning Sales Mindset", """• Confidence: you offer real value
+• Optimism: “No” is part of the process
+• Personality: people buy from people
+• Endurance: consistency wins the week, month, and season
+Bottom line: Train your mind. Secure the win.""", ["mindset"])
+
+add_c1(5, "First Impressions Start Before You Talk", """Professional appearance checklist:
+• Clean, neat shirt (tucked in)
+• Khaki shorts or pants (no cargo)
+• Clean, presentable tennis shoes
+• Name badge and permits visible
+• Groomed hair and facial hair
+• No visible tattoos/body art; no earrings
+• Remove sunglasses before the door opens
+Key point: Appearance is the first proof of professionalism and trust.""", ["professionalism","door"])
+
+add_c1(6, "Professional Presence at the Door", """Before the door opens:
+• Knock firmly
+• Step back (give space)
+• Do not look through windows
+If you knock again:
+• Stay relaxed
+• Observe the lawn so you can speak specifically
+When the door opens:
+• Light smile, eye contact
+• Relaxed shoulders
+• Calm, confident voice""", ["door","body_language"])
+
+add_c1(7, "ARENA AI Roleplay #1 — “I’m actually really busy right now.”", """Placement: Chapter 1 → Opening → First 10 Seconds
+Pass criteria:
+• Acknowledge time pressure
+• Set a ≤60-second container
+• Ask a qualifying control question
+Fail conditions: Pitches immediately or disengages
+Winning response:
+“Totally understand — I’ll be quick. Give me 60 seconds, and if this doesn’t apply I’ll head out. Quick question: are you the one who usually handles the lawn here?”
+Losing response:
+“This won’t take long… we do fertilization and weed control.”
+Execution notes:
+• Calm tone; ask control question before pitching; move to a visible lawn issue immediately.""", ["roleplay","opening","control"], phase=1, roleplay_id="RP1")
+
+add_c1(8, "ARENA AI Roleplay #2 — “Not interested.”", """Placement: Chapter 1 → Opening → Handling Brush-Offs
+Pass criteria:
+• Acknowledge
+• Reframe to a specific issue
+• Redirect with a control question
+Fail conditions: Argues or accepts rejection immediately
+Winning response:
+“That’s fair — most people weren’t interested either until I pointed out one thing. Are you seeing weeds along the curb here, or is that already handled?”
+Losing response:
+“Okay, no worries.”
+Execution notes:
+• Do not debate; diagnose first; anchor to a visible reference.""", ["roleplay","opening","brush_off"], phase=1, roleplay_id="RP2")
+
+add_c1(9, "ARENA AI Roleplay #3 — “No soliciting.”", """Placement: Chapter 1 → Opening → Compliance & Authority
+Pass criteria:
+• Acknowledge the rule
+• Clarify intent
+• Request micro-permission
+Fail conditions: Debates policy
+Winning response:
+“I get that — I’m not selling at the door. I’m just flagging an issue I noticed on your lawn. Mind if I show you real quick?”
+Losing response:
+“I’m not selling anything…” (keeps talking)
+Execution notes:
+• Respect the sign; ask for a quick show; keep it short and visual.""", ["roleplay","opening","compliance","micro_permission"], phase=1, roleplay_id="RP3")
+
+add_c1(10, "Why Homeowners Buy Lawn Care", """Homeowners buy outcomes, not chemicals:
+• Curb appeal & pride
+• Higher property value
+• Safe space for kids & pets
+• Neighborhood confidence
+• Less stress (time back)""", ["value","buyer_motivation"])
+
+add_c1(11, "Emotion & Logic in Every Sale", """People decide emotionally, then justify with facts.
+Emotion drives action: embarrassment, pride, frustration, relief
+Logic justifies decision: program structure, visit count, price vs value
+Coaching: lead with outcomes; support with facts.""", ["sales_psychology","messaging"])
+
+add_c1(12, "Realized vs Unrealized Needs", """Unrealized need: “They don’t see the problem.” → educate and reveal.
+Realized need: “They know they need help.” → solution + trust.
+Needs:
+• Physical: weeds, thin grass, discoloration
+• Emotional: pride, reduced stress, confidence""", ["discovery","needs"])
+
+add_c1(13, "Trust Comes Before Any Sale", """Without trust, nothing else matters:
+1) Professional appearance
+2) Calm, confident tone
+3) Clear, honest explanations
+4) No overpromising""", ["trust","sales_standards"])
+
+add_c1(14, "ARENA AI Roleplay #4 — “I do my own lawn.”", """Placement: Chapter 1 → Turn & Burn → DIY Pushback
+Pass criteria: validate + differentiate + regain lead
+Fail: tries to convert DIY broadly
+Winning response:
+“That makes sense — most homeowners here do. What I’m seeing is something DIY usually misses, especially this time of year. Can I show you where?”
+Losing response:
+“We help a lot of DIY customers…”""", ["roleplay","turn_and_burn","diy"], phase=2, roleplay_id="RP4")
+
+add_c1(15, "ARENA AI Roleplay #5 — “We already have a lawn company.”", """Placement: Chapter 1 → Turn & Burn → Existing Provider
+Pass criteria: acknowledge + remove replacement fear + isolate gap
+Fail: attacks competitor
+Winning response:
+“Got it — not trying to replace them. Quick check: are they addressing weeds like this along the edge, or is that still showing up?”
+Losing response:
+“We’re better than most companies…”""", ["roleplay","turn_and_burn","existing_provider"], phase=2, roleplay_id="RP5")
+
+add_c1(16, "ARENA AI Roleplay #6 — “Why are you here?”", """Placement: Chapter 1 → Turn & Burn → Purpose Statement
+Pass criteria: purpose clearly + direct next action
+Fail: rambles / over-explains
+Winning response:
+“Fair question. I’m here because we’re fixing this exact weed issue on your street today. Let me show you where it’s starting.”
+Losing response:
+“I’m with Gecko, and what we do is…”""", ["roleplay","turn_and_burn","purpose"], phase=2, roleplay_id="RP6")
+
+add_c1(17, "Know Your Turf", """Common grasses:
+• Bermuda
+• St. Augustine
+• Zoysia
+Rep must: identify likely type; explain different needs (watering/mowing/sun); reinforce professional products appropriate for local turf.""", ["lawn_fundamentals","grass_types"])
+
+add_c1(18, "Weeds 101", """Grassy weeds: nutsedge (yellow/purple), poa annua
+Broadleaf weeds: dandelion, clover, henbit
+Key: category influences product choice and timing.""", ["weeds","lawn_fundamentals"])
+
+add_c1(19, "Why Weeds Keep Coming Back (Seed Bank)", """Annual weeds: one season, drop seeds
+Perennial weeds: return from roots
+Seed bank: dormant seeds in soil can germinate later
+Key message: control and reduction over time, not instant perfection.""", ["weeds","seed_bank","expectations"])
+
+add_c1(20, "Pre-Emergent vs Post-Emergent", """Pre-emergent (prevention): barrier prevents sprouting
+Post-emergent (treatment): targets existing weeds; results often ~10–14 days (varies)""", ["weeds","pre_emergent","post_emergent"])
+
+add_c1(21, "Fertilizer Basics: NPK", """N: color/top growth
+P: roots/establishment
+K: health/stress resistance
+Positioning: fertilizer supports growth; complements weed/soil strategy.""", ["fertilizer","NPK"])
+
+add_c1(22, "Liquid Aeration Benefits (North Texas)", """Benefits:
+• Reduces compaction; improves root depth
+• Improves water absorption/retention; reduces runoff
+• Improves fertilizer uptake; boosts drought/heat resilience
+Advantages: full coverage, no plugs/mess, no sprinkler/cable damage
+Best timing: early spring or fall.""", ["aeration","soil"])
+
+add_c1(23, "Our 10-Visit Lawn Program", """Overview:
+• 10 seasonally spaced visits
+• May include fertilizer, weed control, insect control, disease support (as needed)
+• Includes 1 spring aeration
+• Includes free service calls
+Key: consistency + timing = results.""", ["program","10_visit","service_calls"])
+
+add_c1(24, "Seasonal Application Schedule (High-Level)", """Early Season (Jan–Feb): pre+post
+Spring (Mar–Apr): fertilizer+pre+liquid aeration
+Early Summer (May–Jun): fertilizer+spot treat
+Summer (Jul–Aug): fertilizer+insect
+Fall (Sep–Oct): pre+liquid aeration
+Winter (Nov–Dec): soil conditioner""", ["program","seasonality"])
+
+add_c1(25, "Partnership: We Can’t Do It Alone", """Gecko Green: products, treatments, timing, aeration, program structure
+Homeowner: watering, mowing, traffic, shade limits
+Key: both sides executing consistently produces the best results.""", ["partnership","expectations"])
+
+add_c1(26, "What Makes Gecko Green Different", """Differentiators:
+• Local expertise
+• Customized program
+• Licensed technicians
+• Strong reviews
+• Free service calls
+• Reliable communication""", ["differentiators","value"])
+
+add_c1(27, "Your 30-Second Gecko Green Story", """“We specialize in North Texas lawns. We run a seasonally spaced 10-visit program and include free service calls. Together we get you a lawn you’re proud of.”""", ["pitch","elevator_pitch"])
+
+add_c1(28, "Prepay Matters — The Triple Win", """Win #1 Customer: saves + one payment simplicity
+Win #2 You: higher commissions + fewer cancellations
+Win #3 Gecko Green: stronger commitment + better retention/planning""", ["prepay","value","close"])
+
+add_c1(29, "How Prepay Boosts Your Commission", """Commission structure example:
+• $0–$2,999: base only
+• $3,000–$3,999: 3%
+• $4,000–$4,999: 4%
+• +1% per additional $1,000
+• $9,000+: 9% (no cap)
+Prepay bonus examples: 25% rate (+$7,500); 40% rate (+$8,800)""", ["commission","prepay"])
+
+add_c1(30, "The Non-Negotiable Prepay Mindset", """Core rule: Prepay first. Every time. No exceptions.
+Backup: Autopay.""", ["prepay","mindset"])
+
+add_c1(31, "ARENA AI: Chapter 1 Roleplay Practice", """Practice set:
+1) Busy right now
+2) Not interested
+3) No soliciting
+4) I do my own lawn
+5) Already have a company
+6) Why are you here
+Expectation: repeat until pass criteria are consistent.""", ["arena_ai","practice"])
+
+add_c1(32, "Self-Assessment — Ready for Chapter 2?", """Ready if you can:
+• Execute strong opening + handle RP1–RP6
+• Explain grass types, weeds, pre vs post, fertilizer, aeration
+• Explain 10-visit program + seasonality
+• Explain partnership responsibilities
+• Deliver 30-second story
+• Present prepay as default and explain triple win""", ["assessment","readiness"])
+
+# ---------------- Chapter 2 Slides ----------------
+c2 = []
+def add_c2(slide, title, content, tags=None, phase=None, roleplay_id=None):
+    c2.append({
+        "id": make_id("c2_slide"),
+        "type": "slide",
+        "chapter": 2,
+        "slide_number": slide,
+        "title": title,
+        "content": content.strip(),
+        "tags": tags or [],
+        "phase": phase,
+        "roleplay_id": roleplay_id
+    })
+
+add_c2(1, "Certification 1 – Chapter 2", """Subtitle: Field Sales Process, Objections, Closing & Payment (Prepay Basics)
+Purpose:
+• Turn Chapter 1 knowledge into repeatable field execution
+• Run the 5-phase sales process
+• Handle objections without arguing
+• Close confidently and present payment correctly (prepay first)""", ["overview","chapter2"])
+
+add_c2(2, "What Chapter 2 Prepares You For", """You will learn to execute:
+• 5-phase sales process
+• Turn & Burn (door → lawn)
+• On-lawn presentation (diagnose + advise)
+• Objection handling (framework)
+• Payment presentation (prepay first)
+• Closing (secure commitment cleanly)""", ["learning_objectives"])
+
+add_c2(3, "From Knowledge to Execution", """Chapter 1 = WHAT/WHY (fundamentals, program, prepay concept)
+Chapter 2 = HOW (sequencing, objections, closing, payment)""", ["overview","process"])
+
+add_c2(4, "The 5 Phases of the Gecko Green Sale", """1) Establish rapport at the door
+2) Turn & Burn (door → lawn)
+3) On-lawn presentation (advisor mode)
+4) Objection handling (framework)
+5) Closing, payment & wrap-up
+Self-check: “Which phase am I in—and what is my job right now?”""", ["sales_process"])
+
+add_c2(5, "Phase 1 — Establish Rapport at the Door", """Goals: look professional and safe; lower guard; earn right to look at the lawn
+Reminders: step back; calm voice; eye contact; do not lead with price""", ["door","rapport"], phase=1)
+
+add_c2(6, "Door Intro — Example Script", """“Hey, I’m ___ with Gecko Green. We take care of a lot of lawns in this area, and I noticed you’ve got some weeds and thin spots out front. I’m not here to twist your arm—I just wanted to show you what we’re doing for your neighbors and see if it might make sense for you too.”""", ["script","opening"], phase=1)
+
+add_c2(7, "Door Etiquette & Common Mistakes", """DO: step back; hands visible; look at homeowner
+AVOID: leaning; window staring; fidgeting; talking too fast
+Key: first 5 seconds matter.""", ["door","execution"], phase=1)
+
+add_c2(8, "Handling Initial Brush-Offs", """Common brush-offs: “Not interested”, “We’re fine”, “Busy”
+Example: “Totally understand—I’ll be quick. Let me just show you what we’re doing for your neighbors…”
+Goal: move to Turn & Burn.""", ["objections","opening"], phase=1)
+
+add_c2(9, "Phase 2 — Turn & Burn (Door → Lawn)", """Definition: move the conversation to the lawn to make it visual and reduce debate.
+Goals: stop debating; get them looking; discuss visible issues.""", ["turn_and_burn","field"], phase=2)
+
+add_c2(10, "Natural Transitions (Turn & Burn Lines)", """• “Step out here with me…”
+• “Let me walk you through…”
+• “Let me point out…”
+Walk next to them; gesture to the lawn; keep it natural.""", ["turn_and_burn","scripts"], phase=2)
+
+add_c2(11, "Executing the Move (Do’s & Don’ts)", """DO: comfortable pace; light conversation; stop at problem area
+DON’T: rush; keep talking at the door; long speeches""", ["turn_and_burn","execution"], phase=2)
+
+add_c2(12, "Phase 3 — On-Lawn Presentation", """Goals: show 1–2 issues; explain why; connect to program; set expectations
+Identity: lawn advisor, not just salesperson.""", ["lawn_walk","presentation"], phase=3)
+
+add_c2(13, "The 4-Step Diagnosis (On-Lawn Structure)", """1) Observe & confirm (“Do you see…?”)
+2) Explain the why (brief)
+3) Connect to program
+4) Set expectations + partnership""", ["lawn_walk","framework"], phase=3)
+
+add_c2(14, "Control vs Perfection", """Set expectation: the goal is control and reduction over time.
+Positioning: control weeds + thicken grass so weeds have less room to return.""", ["expectations","weeds"], phase=3)
+
+add_c2(15, "Thickening the Lawn (Thinness & Color)", """Assess grass type and shade. Execute fertilizer + weed control + aeration as appropriate.
+Expectation: bare dirt may require sod/plugs; shade slows growth.""", ["thickness","expectations"], phase=3)
+
+add_c2(16, "Partnership Agreement (Timeline + Roles)", """Timeline: weeks (early wins) → months (thickness) → season (full results)
+Our plays: evaluation, weed control, aeration, seasonal plan
+Your plays: watering, mowing, report issues
+Limits: shade; bare dirt needs sod/plugs; untreated areas won’t improve""", ["partnership","expectations"], phase=3)
+
+add_c2(17, "ARENA AI Roleplay #7 — “My lawn looks fine.”", """Pass: validate + isolate problem + point visually
+Winning: “Overall it does — this spot is what I’m flagging, though. See how it’s spreading here?”
+Losing: “Yeah, it looks okay.”""", ["roleplay","lawn_walk"], phase=3, roleplay_id="RP7")
+
+add_c2(18, "ARENA AI Roleplay #8 — “Weeds don’t bother me.”", """Pass: reframe consequence + keep discovery
+Winning: “Totally — most don’t until it spreads into the healthy grass. That’s what I want to prevent here.”
+Losing: “Okay, that’s fair.”""", ["roleplay","lawn_walk"], phase=3, roleplay_id="RP8")
+
+add_c2(19, "ARENA AI Roleplay #9 — “I don’t see the issue.”", """Pass: show, don’t tell
+Winning: “Let me point it out — right along this edge, that discoloration is the early sign.”
+Losing: “So basically what happens is…”""", ["roleplay","lawn_walk"], phase=3, roleplay_id="RP9")
+
+add_c2(20, "Phase 4 — Objection Handling Mindset", """Objections are normal. Your job: guide, not argue.
+Rule: slow down and run the framework calmly.""", ["objections","mindset"], phase=4)
+
+add_c2(21, "B-P-D-C Framework", """Buffer (acknowledge) → Probe (ask) → Discover (true concern) → Close (tailored close)
+Instruction: discover objections; then close.""", ["objections","framework"], phase=4)
+
+add_c2(22, "The Big 5 (Non-Payment)", """Not interested; DIY; existing company; think about it; talk to spouse
+Note: payment comes later—don’t lead with it.""", ["objections"], phase=4)
+
+add_c2(23, "Quick Response Examples", """Use B-P-D-C language:
+• Buffer: “Totally understand.”
+• Probe: “What are you trying to improve?”
+• Discover: isolate the real concern
+• Close: “Open to a quick look so I can show you what I’m seeing?”""", ["objections","scripts"], phase=4)
+
+add_c2(24, "Phase 5 — Closing & Wrap-Up", """Goals: confirm decision; present payment (prepay first); set expectations (first visit + timeline + partnership)""", ["close","payment"], phase=5)
+
+add_c2(25, "Buying Signals", """Verbal: “How much?”, “When can you start?”, “Does that include…?”
+Non-verbal: nodding, stepping closer, relaxed posture
+Rule: when you see green lights, start closing.""", ["close","signals"], phase=5)
+
+add_c2(26, "Closing Flow (Value → Price → Close)", """1) Recap value
+2) State price
+3) Assume sale / prompt decision""", ["close","sequence"], phase=5)
+
+add_c2(27, "ARENA AI Roleplay #10 — “How much does it cost?”", """Pass: defer price + anchor value
+Winning: “I’ll get there — first let me show you what it would cover, because price only makes sense after that.”
+Losing: “It’s $X per application.”""", ["roleplay","pricing"], phase=4, roleplay_id="RP10")
+
+add_c2(28, "Payment Options — Prepay vs Autopay", """Prepay (default): done for the year; simple; savings incentive (per policy)
+Autopay (backup): pay-as-you-go; card on file
+Instruction: prepay first; autopay backup.""", ["payment","prepay","autopay"], phase=5)
+
+add_c2(29, "ARENA AI Roleplay #11 — “That’s expensive.”", """Pass: normalize + re-anchor outcome
+Winning: “I hear that — most people said that before seeing the results. What mattered was fixing this permanently.”
+Losing: “We can lower it…”""", ["roleplay","pricing"], phase=4, roleplay_id="RP11")
+
+add_c2(30, "ARENA AI Roleplay #12 — “Another company is cheaper.”", """Pass: reframe to outcome, not price
+Winning: “Probably — cheaper usually means fewer treatments. The real question is whether this problem actually gets solved.”
+Losing: “They don’t do it right.”""", ["roleplay","pricing","competitor"], phase=4, roleplay_id="RP12")
+
+add_c2(31, "Pitching Prepay (Present–Protect–Prompt)", """Present: neighbors choose prepay for savings + simplicity
+Protect: refundable framing (risk removal)
+Prompt: choice between prepay and pay-as-you-go""", ["prepay","script","close"], phase=5)
+
+add_c2(32, "Why They Hesitate (Prepay)", """Reasons: money today; want proof first; might move
+Mindset: prepay is best for them; refundable removes risk.""", ["prepay","objections"], phase=5)
+
+add_c2(33, "Overcoming Prepay Concerns", """Money: attempt prepay first; autopay backup if needed
+Trust/results: emphasize correction process + refundable framing
+Moving: unused portion refundable (per policy)
+Return to close.""", ["prepay","handling"], phase=5)
+
+add_c2(34, "ARENA AI Roleplay #13 — “Why do I have to pay now?”", """Pass: normalize + remove risk + maintain close
+Winning: “Good question — everyone starts the same way so we can lock the spot and materials. If it doesn’t work, you’re not stuck — that’s guaranteed.”
+Losing: “That’s just how we do it.”""", ["roleplay","payment"], phase=5, roleplay_id="RP13")
+
+add_c2(35, "ARENA AI Roleplay #14 — “I need to think about it.”", """Pass: isolate concern + advance decision
+Winning: “Totally — what part are you thinking through? Price, timing, or the treatment itself?”
+Losing: “Sure, take your time.”""", ["roleplay","stalls"], phase=5, roleplay_id="RP14")
+
+add_c2(36, "ARENA AI Roleplay #15 — “I’ll call you / send me something.”", """Pass: clarify decision criteria + regain control
+Winning: “Happy to — before I go, what would you be deciding after you look it over?”
+Losing: “I’ll leave my card.”""", ["roleplay","stalls","next_step"], phase=5, roleplay_id="RP15")
+
+add_c2(37, "ARENA AI Roleplay #16 — Final Certification", """Must show control across ≥3 phases, including Phase 5 handling.
+Fail: avoids payment objection, concedes decision, loses control.
+Pass: acknowledges, guides, stays in discovery, closes confidently.""", ["roleplay","certification"], phase=None, roleplay_id="RP16")
+
+add_c2(38, "Chapter 2 Readiness Checklist", """• Memorized door intro
+• Mastered Turn & Burn
+• Know B-P-D-C
+• Pitch prepay correctly""", ["assessment","readiness"])
+
+add_c2(39, "Appendix: Visual Sales Stories", """Reference stories showing Gecko Green process in action (pacing, posture, sequencing).""", ["examples","appendix"])
+
+add_c2(40, "Story 1 Overview: Busy Homeowner", """Busy homeowner; wants results without time. Winning play: quick assessment → show → plan → low-hassle close.""", ["examples","persona"])
+
+add_c2(41, "Story 1 Frame 1: Door Knock", """Approach, knock, step back, smile; calm presence.""", ["examples","door"])
+
+add_c2(42, "Story 1 Frame 2: Brush-Off", """Acknowledge “busy” calmly; no pressure; move to show.""", ["examples","opening"])
+
+add_c2(43, "Story 1 Frame 3: Turn & Burn", """Transition to lawn with a short “show you this” line.""", ["examples","turn_and_burn"])
+
+add_c2(44, "Story 1 Frame 4: On-Lawn", """Point to 1–2 issues; connect to program; avoid lecturing.""", ["examples","lawn_walk"])
+
+add_c2(45, "Story 1 Frame 5: Objection", """Run framework calmly; buffer + probe first.""", ["examples","objections"])
+
+add_c2(46, "Story 1 Frame 6: Resolve", """Discover real concern; resolve; return to close.""", ["examples","objections"])
+
+add_c2(47, "Story 1 Frame 7: Close", """Present prepay correctly; prompt decision.""", ["examples","close","prepay"])
+
+add_c2(48, "Story 1 Frame 8: Closed", """Clean close; confirm expectations and next steps.""", ["examples","close"])
+
+add_c2(49, "Story 2 Overview: Skeptical Homeowner", """Skeptic + price sensitivity. Strategy: credibility, clarity, long-term value; no defensiveness.""", ["examples","persona"])
+
+add_c2(50, "Story 2 Frame 1–2: Non-Defensive Posture", """Roll with resistance; guide calmly; avoid attacking competitors or sounding defensive.""", ["examples","mindset"])
+
+# ---------------- Roleplays ----------------
+roleplays = []
+def add_rp(rp_id, chapter, phase, objection, placement, pass_criteria, fail_conditions, winning_response, losing_response, coaching_notes, tags=None):
+    roleplays.append({
+        "id": rp_id,
+        "type": "roleplay",
+        "chapter": chapter,
+        "phase": phase,
+        "objection": objection,
+        "placement": placement,
+        "pass_criteria": pass_criteria,
+        "fail_conditions": fail_conditions,
+        "winning_response": winning_response,
+        "losing_response": losing_response,
+        "coaching_notes": coaching_notes,
+        "tags": tags or []
+    })
+
+# RP1-6
+add_rp("RP1", 1, 1, "I’m actually really busy right now.", "Chapter 1 → Opening → First 10 Seconds",
+       "Acknowledge time pressure + set ≤60s container + ask a qualifying control question",
+       "Pitches immediately or disengages",
+       "Totally understand — I’ll be quick. Give me 60 seconds, and if this doesn’t apply I’ll head out. Quick question: are you the one who usually handles the lawn here?",
+       "This won’t take long… we do fertilization and weed control.",
+       "Keep tone calm; ask control question before pitching; move to a visible lawn issue immediately.",
+       ["opening","control","time_box"])
+
+add_rp("RP2", 1, 1, "Not interested.", "Chapter 1 → Opening → Handling Brush-Offs",
+       "Acknowledge + reframe to specific issue + redirect",
+       "Argues or accepts rejection",
+       "That’s fair — most people weren’t interested either until I pointed out one thing. Are you seeing weeds along the curb here, or is that already handled?",
+       "Okay, no worries.",
+       "Do not debate. Use a visible, specific issue and an either/or control question.",
+       ["opening","brush_off"])
+
+add_rp("RP3", 1, 1, "No soliciting.", "Chapter 1 → Opening → Compliance & Authority",
+       "Acknowledge rule + clarify intent + request micro-permission",
+       "Debates policy",
+       "I get that — I’m not selling at the door. I’m just flagging an issue I noticed on your lawn. Mind if I show you real quick?",
+       "I’m not selling anything… (keeps talking)",
+       "Respect the sign. Ask micro-permission. Keep it short and visual.",
+       ["opening","compliance","micro_permission"])
+
+add_rp("RP4", 1, 2, "I do my own lawn.", "Chapter 1 → Turn & Burn → DIY Pushback",
+       "Validate identity + differentiate + regain lead",
+       "Tries to convert DIY",
+       "That makes sense — most homeowners here do. What I’m seeing is something DIY usually misses, especially this time of year. Can I show you where?",
+       "We help a lot of DIY customers…",
+       "Validate first; differentiate by timing/seasonality; show a specific issue.",
+       ["turn_and_burn","diy"])
+
+add_rp("RP5", 1, 2, "We already have a lawn company.", "Chapter 1 → Turn & Burn → Existing Provider",
+       "Acknowledge + remove replacement fear + isolate gap",
+       "Attacks competitor",
+       "Got it — not trying to replace them. Quick check: are they addressing weeds like this along the edge, or is that still showing up?",
+       "We’re better than most companies…",
+       "Stay neutral; isolate a visible gap; ask a control question.",
+       ["turn_and_burn","existing_provider"])
+
+add_rp("RP6", 1, 2, "Why are you here?", "Chapter 1 → Turn & Burn → Purpose Statement",
+       "State purpose clearly + direct next action",
+       "Rambles / over-explains",
+       "Fair question. I’m here because we’re fixing this exact weed issue on your street today. Let me show you where it’s starting.",
+       "I’m with Gecko, and what we do is…",
+       "One sentence purpose + immediate visual.",
+       ["turn_and_burn","purpose"])
+
+# RP7-16
+add_rp("RP7", 2, 3, "My lawn looks fine.", "Chapter 2 → Lawn Walk → Identifying Issues",
+       "Validate + isolate specific problem + visually point",
+       "Agrees and moves on",
+       "Overall it does — this spot is what I’m flagging, though. See how it’s spreading here?",
+       "Yeah, it looks okay.",
+       "Validate overall lawn; point to one clear issue and show spread/progression.",
+       ["lawn_walk","visual_proof"])
+
+add_rp("RP8", 2, 3, "Weeds don’t bother me.", "Chapter 2 → Lawn Walk → Educating on Spread",
+       "Reframe consequence + keep discovery",
+       "Accepts apathy",
+       "Totally — most don’t until it spreads into the healthy grass. That’s what I want to prevent here.",
+       "Okay, that’s fair.",
+       "Frame weeds as spread/competition; protect healthy grass.",
+       ["lawn_walk","education"])
+
+add_rp("RP9", 2, 3, "I don’t see the issue.", "Chapter 2 → Lawn Walk → Showing, Not Telling",
+       "Demonstrate visually, not verbally",
+       "Explains abstractly",
+       "Let me point it out — right along this edge, that discoloration is the early sign.",
+       "So basically what happens is…",
+       "Point to a specific sign; confirm they see it before explaining.",
+       ["lawn_walk","show_not_tell"])
+
+add_rp("RP10", 2, 4, "How much does it cost?", "Chapter 2 → Pricing → Before Quoting",
+       "Defer price + anchor value first",
+       "Answers price immediately",
+       "I’ll get there — first let me show you what it would cover, because price only makes sense after that.",
+       "It’s $X per application.",
+       "Keep sequence: value → price → close.",
+       ["pricing","value_anchor"])
+
+add_rp("RP11", 2, 4, "That’s expensive.", "Chapter 2 → Pricing → Objection Handling",
+       "Normalize + re-anchor to outcome",
+       "Discounts",
+       "I hear that — most people said that before seeing the results. What mattered was fixing this permanently.",
+       "We can lower it…",
+       "Don’t discount early; return to outcome and plan.",
+       ["pricing","objection"])
+
+add_rp("RP12", 2, 4, "Another company is cheaper.", "Chapter 2 → Pricing → Competitor Comparison",
+       "Reframe to outcome, not price",
+       "Attacks competitor",
+       "Probably — cheaper usually means fewer treatments. The real question is whether this problem actually gets solved.",
+       "They don’t do it right.",
+       "Neutral tone; compare on outcomes and consistency.",
+       ["competitor","pricing"])
+
+add_rp("RP13", 2, 5, "Why do I have to pay now?", "Chapter 2 → Close → Payment Explanation",
+       "Normalize process + remove risk + maintain close",
+       "Defensive justification",
+       "Good question — everyone starts the same way so we can lock the spot and materials. If it doesn’t work, you’re not stuck — that’s guaranteed.",
+       "That’s just how we do it.",
+       "Standard process + risk removal + return to prompt.",
+       ["payment","close"])
+
+add_rp("RP14", 2, 5, "I need to think about it.", "Chapter 2 → Close → Handling Stalls",
+       "Isolate concern + advance decision",
+       "Accepts stall",
+       "Totally — what part are you thinking through? Price, timing, or the treatment itself?",
+       "Sure, take your time.",
+       "Convert stall into a specific concern; solve; close.",
+       ["stalls","close"])
+
+add_rp("RP15", 2, 5, "I’ll call you / send me something.", "Chapter 2 → Close → Securing Next Step",
+       "Clarify decision criteria + regain control",
+       "Leaves card",
+       "Happy to — before I go, what would you be deciding after you look it over?",
+       "I’ll leave my card.",
+       "Identify decision criteria; set next step or close now.",
+       ["stalls","next_step"])
+
+add_rp("RP16", 2, None, "Final certification (multi-phase objections)", "Post-Training → Final Certification Assessment",
+       "Control across ≥3 phases including Phase 5 handling",
+       "Avoids payment objection, concedes decision, or loses control",
+       "Rep acknowledges, directs next steps, stays in discovery, and confidently handles the forced Phase-5 objection",
+       "Rep pitches early, explains defensively, or exits without resolution",
+       "Include at least one Phase 5 objection; evaluate sequencing and control.",
+       ["certification","assessment"])
+
+# ---------------- Quizzes ----------------
+quizzes = []
+def add_quiz(chapter, quiz_number, placement_after_slide, covers_slides, question, options, correct, rationale, tags=None):
+    quizzes.append({
+        "id": make_id(f"c{chapter}_quiz"),
+        "type": "quiz",
+        "chapter": chapter,
+        "quiz_number": quiz_number,
+        "placement_after_slide": placement_after_slide,
+        "covers_slides": covers_slides,
+        "question": question,
+        "options": options,
+        "correct_answer": correct,
+        "rationale": rationale,
+        "tags": tags or []
+    })
+
+# Chapter 1 quizzes (7)
+add_quiz(1,1,5,"Slides 1–5","What is the primary purpose of professional appearance standards in field sales?",
+         {"A":"To look like other reps in the neighborhood","B":"To increase trust and credibility before speaking","C":"To comply with company policy only","D":"To make the pitch sound more persuasive"},
+         "B","Professional appearance builds trust and credibility before any words are spoken.",["trust","professionalism"])
+
+add_quiz(1,2,10,"Slides 6–10","In the opening “busy right now” scenario, what is the best sequence to keep control?",
+         {"A":"Pitch services quickly → ask if they want to sign up","B":"Apologize → leave a flyer → walk away","C":"Acknowledge → set a ≤60s container → ask a qualifying control question","D":"Explain the 10-visit program in detail immediately"},
+         "C","RP1 requires: acknowledge, time-box, then a control question.",["opening","control"])
+
+add_quiz(1,3,15,"Slides 11–15","When a homeowner says “We already have a lawn company,” what is the correct strategy?",
+         {"A":"Explain why your company is better than theirs","B":"Remove replacement fear and isolate a visible gap with a control question","C":"Offer a discount to win them immediately","D":"Ask them to cancel their current service first"},
+         "B","RP5: acknowledge, avoid competitor attacks, isolate a visible gap, ask a control question.",["existing_provider","objections"])
+
+add_quiz(1,4,20,"Slides 16–20","Which statement best explains why weeds can return even after treatment?",
+         {"A":"The product does not work well in North Texas","B":"Weeds always come back no matter what you do","C":"Soil contains a “seed bank,” and timing/conditions can trigger new germination","D":"Homeowners mow incorrectly 100% of the time"},
+         "C","Seed bank explains ongoing weed pressure; control is a process over time.",["seed_bank","expectations"])
+
+add_quiz(1,5,25,"Slides 21–25","Which pairing is correct?",
+         {"A":"Pre-emergent kills existing weeds; post-emergent prevents weeds from sprouting","B":"Pre-emergent prevents weed emergence; post-emergent targets existing weeds","C":"Fertilizer is mainly for killing weeds; aeration is mainly for mowing improvement","D":"NPK stands for nutrients that only apply to Bermuda grass"},
+         "B","Pre-emergent prevents; post-emergent treats existing weeds.",["weeds","pre_post"])
+
+add_quiz(1,6,30,"Slides 26–30","What is the correct rule for presenting payment options?",
+         {"A":"Autopay first because it sounds easier; prepay only if asked","B":"Prepay first every time; autopay is the backup","C":"Never mention prepay unless the customer requests it","D":"Offer discounts immediately to push prepay"},
+         "B","Prepay is the default framing; autopay is the backup.",["prepay","payment"])
+
+add_quiz(1,7,32,"Slides 31–32","What is the purpose of the ARENA AI practice menu at the end of Chapter 1?",
+         {"A":"To replace live training completely","B":"To ensure reps can execute core objections consistently through repetition","C":"To teach lawn science beyond what techs need","D":"To help reps memorize pricing first"},
+         "B","Practice set builds consistent execution against the core objections.",["practice","arena_ai"])
+
+# Chapter 2 quizzes (10)
+add_quiz(2,1,5,"Slides 1–5","What is the key difference between Chapter 1 and Chapter 2?",
+         {"A":"Chapter 1 is only about pricing; Chapter 2 is only about weeds","B":"Chapter 1 teaches what/why; Chapter 2 teaches how to execute the field process","C":"Chapter 2 removes the need for professionalism at the door","D":"Chapter 2 focuses only on customer service calls"},
+         "B","Chapter 2 turns knowledge into execution: sequencing, objections, closing, payment.",["overview","process"])
+
+add_quiz(2,2,10,"Slides 6–10","What is the main goal of “Turn & Burn”?",
+         {"A":"Increase talking time at the door","B":"Move from the porch to the lawn to reduce debate and make it visual","C":"Quote pricing as quickly as possible","D":"Explain NPK in detail immediately"},
+         "B","Turn & Burn creates motion and visual proof; it reduces debate at the door.",["turn_and_burn"])
+
+add_quiz(2,3,15,"Slides 11–15","What is the correct on-lawn structure a rep should follow?",
+         {"A":"Price → program → weeds → close","B":"Observe/confirm → explain why → connect to program → set expectations/partnership","C":"Program details → competitor comparison → ask for payment","D":"Apologize for the weeds → offer a discount"},
+         "B","Slide 13 defines the 4-step diagnosis sequence.",["lawn_walk","framework"])
+
+add_quiz(2,4,20,"Slides 16–20","In RP9 (“I don’t see the issue”), what is the correct behavior?",
+         {"A":"Explain the full science behind discoloration","B":"Demonstrate visually (“show, don’t tell”) and point to a clear sign","C":"Agree and move on","D":"Jump straight to pricing to regain interest"},
+         "B","RP9 requires visual demonstration before explanation.",["roleplay","lawn_walk"])
+
+add_quiz(2,5,25,"Slides 21–25","In the B-P-D-C framework, what does “P” (Probe) do?",
+         {"A":"States the price","B":"Asks a question to uncover what is really stopping them","C":"Provides a discount to reduce friction","D":"Explains the company history"},
+         "B","Probe uncovers the root issue before you close.",["objections","framework"])
+
+add_quiz(2,6,30,"Slides 26–30","When a homeowner asks, “How much does it cost?”, what is the correct response pattern?",
+         {"A":"Quote price immediately to be transparent","B":"Defer briefly and anchor value first so price makes sense","C":"Avoid answering and change the subject","D":"Offer the cheapest option first"},
+         "B","RP10 requires value-first sequencing.",["pricing","value_anchor"])
+
+add_quiz(2,7,35,"Slides 31–35","In RP13 (“Why do I have to pay now?”), what is the correct strategy?",
+         {"A":"Defensively justify policy","B":"Normalize the process, remove risk, and maintain the close","C":"Ask them to call the office later","D":"Immediately switch to a discount"},
+         "B","RP13: standard process + risk removal + return to the prompt.",["payment","close"])
+
+add_quiz(2,8,40,"Slides 36–40","In RP15 (“I’ll call you / send me something”), what is the best next move?",
+         {"A":"Leave a card and exit","B":"Clarify what they would decide after reviewing, then regain control of next step","C":"Repeat the entire pitch from the beginning","D":"Argue that calling later never works"},
+         "B","RP15 is about decision criteria and controlling the next step.",["stalls","next_step"])
+
+add_quiz(2,9,45,"Slides 41–45","In the “busy homeowner” story frames, what is the consistent winning theme?",
+         {"A":"Talk faster to fit everything in","B":"Move from talking to showing, and keep the process phased","C":"Start with price to save time","D":"Avoid objections by skipping the close"},
+         "B","The story reinforces sequencing, calm control, and visual proof.",["examples","process"])
+
+add_quiz(2,10,50,"Slides 46–50","What is the correct posture when facing skepticism and resistance?",
+         {"A":"Push harder and increase urgency","B":"Roll with resistance calmly, guide with clarity, and avoid defensiveness","C":"Criticize the homeowner’s lawn habits","D":"Attack competitors to build contrast"},
+         "B","Non-defensive confidence builds trust and keeps control.",["mindset","trust"])
+
+# ---------------- Glossary ----------------
+glossary = []
+def add_term(term, definition, tags=None):
+    glossary.append({"id": make_id("term"), "type":"glossary", "term": term, "definition": definition, "tags": tags or []})
+
+add_term("Turn & Burn","A transition technique to move from the door to the lawn so the conversation becomes visual and less debatable. Goal: motion, proof, forward momentum.",["sales_process"])
+add_term("Micro-permission","A short request for permission that reduces resistance (e.g., “Mind if I show you real quick?”).",["opening"])
+add_term("Seed bank","Dormant weed seeds in soil that can germinate later. Explains why weed control is a process and why weeds can reappear.",["weeds","expectations"])
+add_term("Pre-emergent","Prevents weeds from sprouting by creating a barrier that interrupts early development.",["weeds"])
+add_term("Post-emergent","Targets existing visible weeds. Results often become noticeable over ~10–14 days depending on conditions.",["weeds"])
+add_term("NPK","Fertilizer nutrients: Nitrogen (color/top growth), Phosphorus (roots), Potassium (health/stress resistance).",["fertilizer"])
+add_term("Liquid aeration","Soil treatment that reduces compaction and improves water/nutrient movement to roots; helpful in clay-heavy soils.",["soil","aeration"])
+add_term("B-P-D-C","Objection framework: Buffer (acknowledge), Probe (ask), Discover (true concern), Close (tailored close).",["objections"])
+add_term("Value anchoring","Explaining coverage and outcomes before quoting price so price is evaluated in context.",["pricing"])
+add_term("Present–Protect–Prompt","Prepay close pattern: present default, protect with risk removal, prompt a clear choice.",["payment","close"])
+
+# ---------------- Scripts Library ----------------
+scripts = []
+def add_script(name, use_case, script_text, tags=None):
+    scripts.append({"id": make_id("script"), "type":"script", "name": name, "use_case": use_case, "script": script_text, "tags": tags or []})
+
+add_script("60-second container + control question","Busy homeowner at the door (RP1).",
+           "Totally understand — I’ll be quick. Give me 60 seconds, and if this doesn’t apply I’ll head out. Quick question: are you the one who usually handles the lawn here?",
+           ["opening","control"])
+
+add_script("Micro-permission (No soliciting)","Respect the sign and ask for a quick show (RP3).",
+           "I get that — I’m not selling at the door. I’m just flagging an issue I noticed on your lawn. Mind if I show you real quick?",
+           ["opening","compliance"])
+
+add_script("Turn & Burn transition lines","Move from porch to lawn.",
+           "Step out here with me… / Let me walk you through… / Let me point out…",
+           ["turn_and_burn"])
+
+add_script("4-step on-lawn diagnosis","Structure for lawn walk presentation.",
+           "Observe & confirm → Explain why (brief) → Connect to program → Set expectations & partnership",
+           ["lawn_walk","framework"])
+
+add_script("Seed bank explanation (15 seconds)","Set expectations when weeds persist.",
+           "Even after we kill what’s visible, the soil has a seed bank—dormant seeds that can sprout later. That’s why the goal is control and reduction over time with seasonally timed treatments.",
+           ["expectations","weeds"])
+
+add_script("Pre vs Post analogy","Simple weed-control explanation.",
+           "Pre-emergent is like a shield—it blocks weeds before they start. Post-emergent is like medicine—it treats weeds that are already there.",
+           ["weeds"])
+
+add_script("30-second Gecko Green story","Standard elevator pitch.",
+           "We specialize in North Texas lawns. We run a seasonally spaced 10-visit program and include free service calls. Together we get you a lawn you’re proud of.",
+           ["pitch"])
+
+add_script("Value → Price → Close","Prevent price-first quoting.",
+           "I’ll get there — first let me show you what it would cover, because price only makes sense after that.",
+           ["pricing","value_anchor"])
+
+add_script("Prepay Present–Protect–Prompt","Default payment close.",
+           "Most neighbors do the prepay to save and get it done for the year. It’s refundable if you move or change your mind. Do you want to knock that out, or just do the pay-as-you-go?",
+           ["payment","prepay","close"])
+
+add_script("Isolate ‘think about it’","Convert stall to a solvable concern.",
+           "Totally — what part are you thinking through? Price, timing, or the treatment itself?",
+           ["stalls","close"])
+
+add_script("Decision criteria for ‘send me something’","Regain control of next step.",
+           "Happy to — before I go, what would you be deciding after you look it over?",
+           ["stalls","next_step"])
+
+# ---------------- Product Facts ----------------
+product_facts = [
+    {"id": make_id("fact"), "type":"product_fact", "topic":"10-Visit Program",
+     "content":"Gecko Green uses a seasonally spaced 10-visit program. Visits can include fertilizer, weed control, insect control, and disease support (as needed), plus 1 spring aeration and free service calls.",
+     "tags":["program"]},
+    {"id": make_id("fact"), "type":"product_fact", "topic":"Seasonal Timing (High-Level)",
+     "content":"Early Season: pre+post; Spring: fertilizer+pre+liquid aeration; Early Summer: fertilizer+spot treat; Summer: fertilizer+insect; Fall: pre+liquid aeration; Winter: soil conditioner.",
+     "tags":["program","seasonality"]},
+    {"id": make_id("fact"), "type":"product_fact", "topic":"Payment Positioning",
+     "content":"Prepay is presented first as the default option; autopay is a backup. Use Present–Protect–Prompt to remove risk and prompt a decision.",
+     "tags":["payment","prepay"]},
+]
+
+# ---------------- Write files ----------------
+paths = {}
+paths["chapter1_slides.jsonl"] = write_jsonl(os.path.join(base_dir,"chapter1_slides.jsonl"), c1)
+paths["chapter2_slides.jsonl"] = write_jsonl(os.path.join(base_dir,"chapter2_slides.jsonl"), c2)
+paths["roleplays_rp1_rp16.jsonl"] = write_jsonl(os.path.join(base_dir,"roleplays_rp1_rp16.jsonl"), roleplays)
+paths["quizzes_ch1_ch2.jsonl"] = write_jsonl(os.path.join(base_dir,"quizzes_ch1_ch2.jsonl"), quizzes)
+paths["glossary.jsonl"] = write_jsonl(os.path.join(base_dir,"glossary.jsonl"), glossary)
+paths["scripts_library.jsonl"] = write_jsonl(os.path.join(base_dir,"scripts_library.jsonl"), scripts)
+paths["product_facts.jsonl"] = write_jsonl(os.path.join(base_dir,"product_facts.jsonl"), product_facts)
+
+paths
