@@ -22,6 +22,8 @@ import RepDetailsPage from "@/pages/rep-details";
 import AdminDashboard from "@/pages/admin-dashboard";
 import SlidesPreviewPage from "@/pages/slides-preview";
 import ProfilePage from "@/pages/profile";
+import PersonasPage from "@/pages/personas";
+import PersonaDetailPage from "@/pages/persona-detail";
 
 function Router() {
   return (
@@ -86,6 +88,16 @@ function Router() {
       <Route path="/battlecards">
         <ProtectedRoute allowedRoles={["rep"]}>
           <BattlecardsPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/personas">
+        <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
+          <PersonasPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/personas/:slug">
+        <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
+          <PersonaDetailPage />
         </ProtectedRoute>
       </Route>
       <Route path="/report-card">

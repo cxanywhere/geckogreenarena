@@ -1164,7 +1164,11 @@ export async function registerRoutes(
 
   app.get("/api/personas/:slug", async (req, res) => {
     try {
-      const persona = await storage.getBuyerPersonaBySlug(req.params.slug);
+      const { slug } = req.params;
+      if (!slug || typeof slug !== "string" || slug.trim() === "") {
+        return res.status(400).json({ error: "Invalid persona slug" });
+      }
+      const persona = await storage.getBuyerPersonaBySlug(slug);
       if (!persona) {
         return res.status(404).json({ error: "Persona not found" });
       }

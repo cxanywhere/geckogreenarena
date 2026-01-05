@@ -62,6 +62,7 @@ export function Nav() {
     { href: "/dashboard", label: "Arena" },
     { href: "/leaderboard", label: "Leaderboard" },
     { href: "/battlecards", label: "Battlecards" },
+    { href: "/personas", label: "Personas" },
     { href: "/resources", label: "Library" },
   ];
 

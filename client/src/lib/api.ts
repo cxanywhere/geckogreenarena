@@ -52,6 +52,21 @@ export interface Battlecard {
   image?: string;
 }
 
+export interface BuyerPersona {
+  id: string;
+  name: string;
+  slug: string;
+  imageUrl: string | null;
+  summary: string;
+  coreBelief: string;
+  approachStrategy: string;
+  keyPhrases: string[];
+  mistakes: string[];
+  bestPractices: string[];
+  objectionHandling: string[];
+  orderIndex: number;
+}
+
 export interface Resource {
   id: string;
   type: string;
@@ -177,6 +192,15 @@ class APIClient {
   // Battlecards
   async getBattlecards(): Promise<Battlecard[]> {
     return this.request("/api/battlecards");
+  }
+
+  // Buyer Personas
+  async getBuyerPersonas(): Promise<BuyerPersona[]> {
+    return this.request("/api/personas");
+  }
+
+  async getBuyerPersona(slug: string): Promise<BuyerPersona> {
+    return this.request(`/api/personas/${slug}`);
   }
 
   // Resources
