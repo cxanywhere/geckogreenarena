@@ -32,14 +32,25 @@ export default function OnboardingPage() {
   const startCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: "user", width: 640, height: 480 } 
+        video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } } 
       });
       streamRef.current = stream;
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-      }
       setShowCamera(true);
+      
+      // Wait for next render cycle so video element is in DOM
+      setTimeout(async () => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          // Explicitly play the video for mobile browsers
+          try {
+            await videoRef.current.play();
+          } catch (playError) {
+            console.log("Video autoplay handled by browser");
+          }
+        }
+      }, 100);
     } catch (error) {
+      console.error("Camera error:", error);
       toast.error("Could not access camera. Please try uploading a photo instead.");
     }
   };
@@ -54,15 +65,24 @@ export default function OnboardingPage() {
 
   const capturePhoto = () => {
     if (videoRef.current && canvasRef.current) {
-      const ctx = canvasRef.current.getContext("2d");
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      
+      // Check if video has valid dimensions
+      if (video.videoWidth === 0 || video.videoHeight === 0) {
+        toast.error("Camera not ready. Please wait a moment and try again.");
+        return;
+      }
+      
+      const ctx = canvas.getContext("2d");
       if (ctx) {
-        canvasRef.current.width = videoRef.current.videoWidth;
-        canvasRef.current.height = videoRef.current.videoHeight;
-        ctx.drawImage(videoRef.current, 0, 0);
-        const dataUrl = canvasRef.current.toDataURL("image/jpeg", 0.8);
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        ctx.drawImage(video, 0, 0);
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
         setPhotoPreview(dataUrl);
         
-        canvasRef.current.toBlob((blob) => {
+        canvas.toBlob((blob) => {
           if (blob) {
             const file = new File([blob], "camera-photo.jpg", { type: "image/jpeg" });
             setPhotoFile(file);
