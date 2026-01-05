@@ -21,8 +21,8 @@ export default function PersonasPage() {
     const searchLower = searchQuery.toLowerCase();
     return (
       persona.name.toLowerCase().includes(searchLower) ||
-      persona.summary.toLowerCase().includes(searchLower) ||
-      persona.coreBelief.toLowerCase().includes(searchLower)
+      (persona.subtitle?.toLowerCase().includes(searchLower) || false) ||
+      persona.attributes?.some(attr => attr.toLowerCase().includes(searchLower))
     );
   });
 
@@ -51,7 +51,7 @@ export default function PersonasPage() {
             <h1 className="text-3xl font-bold" data-testid="page-title">Buyer Personas</h1>
           </div>
           <p className="text-muted-foreground max-w-2xl">
-            Master how to connect with each homeowner type. Learn their core beliefs, best approach strategies, and what to avoid.
+            Master how to connect with each homeowner type. Learn their motivations, what triggers resistance, and how to win them over.
           </p>
         </div>
 
@@ -79,9 +79,9 @@ export default function PersonasPage() {
                   data-testid={`card-persona-${persona.slug}`}
                 >
                   <div className="relative aspect-square overflow-hidden bg-muted">
-                    {persona.imageUrl ? (
+                    {persona.avatar ? (
                       <img
-                        src={persona.imageUrl}
+                        src={persona.avatar}
                         alt={persona.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
@@ -96,10 +96,10 @@ export default function PersonasPage() {
                       {persona.name}
                     </h3>
                     <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
-                      {persona.summary}
+                      {persona.subtitle}
                     </p>
                     <Badge variant="secondary" className="text-xs">
-                      {persona.keyPhrases?.[0] || "Homeowner"}
+                      {persona.attributes?.[0]?.split(",")[0] || "Homeowner"}
                     </Badge>
                   </CardContent>
                 </Card>

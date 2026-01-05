@@ -2,7 +2,7 @@ import { Nav } from "@/components/nav";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Users, Target, MessageSquare, AlertTriangle, CheckCircle, Loader2, Quote } from "lucide-react";
+import { ArrowLeft, Users, Target, Heart, AlertTriangle, CheckCircle, Loader2, Lightbulb, Zap } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { api, type BuyerPersona } from "@/lib/api";
 import { useParams, useLocation } from "wouter";
@@ -72,9 +72,9 @@ export default function PersonaDetailPage() {
           >
             <Card className="overflow-hidden sticky top-4">
               <div className="aspect-square bg-muted overflow-hidden">
-                {persona.imageUrl ? (
+                {persona.avatar ? (
                   <img
-                    src={persona.imageUrl}
+                    src={persona.avatar}
                     alt={persona.name}
                     className="w-full h-full object-cover"
                     data-testid="img-persona-avatar"
@@ -86,20 +86,19 @@ export default function PersonaDetailPage() {
                 )}
               </div>
               <CardContent className="p-6">
-                <h1 className="text-2xl font-bold mb-3" data-testid="text-persona-name">
+                <h1 className="text-2xl font-bold mb-2" data-testid="text-persona-name">
                   {persona.name}
                 </h1>
                 <p className="text-muted-foreground mb-4">
-                  {persona.summary}
+                  {persona.subtitle}
                 </p>
                 
-                <div className="bg-muted/50 rounded-lg p-4 border-l-4 border-primary">
-                  <div className="flex items-start gap-2">
-                    <Quote className="w-4 h-4 mt-1 text-primary shrink-0" />
-                    <p className="text-sm italic" data-testid="text-core-belief">
-                      "{persona.coreBelief}"
-                    </p>
-                  </div>
+                <div className="flex flex-wrap gap-2">
+                  {persona.attributes?.map((attr, index) => (
+                    <Badge key={index} variant="outline" className="text-xs">
+                      {attr}
+                    </Badge>
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -114,48 +113,16 @@ export default function PersonaDetailPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Target className="w-5 h-5 text-primary" />
-                  Approach Strategy
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground" data-testid="text-approach-strategy">
-                  {persona.approachStrategy}
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5 text-primary" />
-                  Key Phrases to Listen For
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {persona.keyPhrases?.map((phrase, index) => (
-                    <Badge key={index} variant="secondary" className="text-sm" data-testid={`badge-phrase-${index}`}>
-                      "{phrase}"
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
-                  Best Practices
+                  <Heart className="w-5 h-5 text-pink-500" />
+                  What They Care About
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                  {persona.bestPractices?.map((practice, index) => (
+                  {persona.whatTheyCareAbout?.map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <CheckCircle className="w-4 h-4 text-green-600 mt-1 shrink-0" />
-                      <span className="text-muted-foreground" data-testid={`text-practice-${index}`}>{practice}</span>
+                      <Heart className="w-4 h-4 text-pink-500 mt-1 shrink-0" />
+                      <span className="text-muted-foreground" data-testid={`text-care-${index}`}>{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -166,15 +133,15 @@ export default function PersonaDetailPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <AlertTriangle className="w-5 h-5 text-amber-500" />
-                  Common Mistakes to Avoid
+                  What Triggers Resistance
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                  {persona.mistakes?.map((mistake, index) => (
+                  {persona.whatTriggersResistance?.map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <AlertTriangle className="w-4 h-4 text-amber-500 mt-1 shrink-0" />
-                      <span className="text-muted-foreground" data-testid={`text-mistake-${index}`}>{mistake}</span>
+                      <span className="text-muted-foreground" data-testid={`text-trigger-${index}`}>{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -184,18 +151,37 @@ export default function PersonaDetailPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5 text-blue-500" />
-                  Objection Handling Tips
+                  <Target className="w-5 h-5 text-green-600" />
+                  How to Win
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                  {persona.objectionHandling?.map((tip, index) => (
+                  {persona.howToWin?.map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                        <span className="text-xs font-medium text-blue-600">{index + 1}</span>
+                      <CheckCircle className="w-4 h-4 text-green-600 mt-1 shrink-0" />
+                      <span className="text-muted-foreground" data-testid={`text-win-${index}`}>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Zap className="w-5 h-5 text-primary" />
+                  Best Plays
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
+                  {persona.bestPlays?.map((play, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                        <span className="text-xs font-medium text-primary">{index + 1}</span>
                       </div>
-                      <span className="text-muted-foreground" data-testid={`text-objection-${index}`}>{tip}</span>
+                      <span className="text-muted-foreground" data-testid={`text-play-${index}`}>{play}</span>
                     </li>
                   ))}
                 </ul>

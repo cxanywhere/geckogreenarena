@@ -56,14 +56,13 @@ export interface BuyerPersona {
   id: string;
   name: string;
   slug: string;
-  imageUrl: string | null;
-  summary: string;
-  coreBelief: string;
-  approachStrategy: string;
-  keyPhrases: string[];
-  mistakes: string[];
-  bestPractices: string[];
-  objectionHandling: string[];
+  subtitle: string | null;
+  avatar: string | null;
+  attributes: string[];
+  whatTheyCareAbout: string[];
+  whatTriggersResistance: string[];
+  howToWin: string[];
+  bestPlays: string[];
   orderIndex: number;
 }
 
