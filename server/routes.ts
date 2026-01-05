@@ -1151,6 +1151,30 @@ export async function registerRoutes(
     }
   });
 
+  // Buyer Personas routes
+  app.get("/api/personas", async (req, res) => {
+    try {
+      const personas = await storage.getAllBuyerPersonas();
+      res.json(personas);
+    } catch (error) {
+      console.error("Get personas error:", error);
+      res.status(500).json({ error: "Failed to get personas" });
+    }
+  });
+
+  app.get("/api/personas/:slug", async (req, res) => {
+    try {
+      const persona = await storage.getBuyerPersonaBySlug(req.params.slug);
+      if (!persona) {
+        return res.status(404).json({ error: "Persona not found" });
+      }
+      res.json(persona);
+    } catch (error) {
+      console.error("Get persona error:", error);
+      res.status(500).json({ error: "Failed to get persona" });
+    }
+  });
+
   // Resource routes
   app.get("/api/resources", async (req, res) => {
     try {

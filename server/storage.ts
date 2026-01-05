@@ -9,6 +9,7 @@ import {
   quizQuestions,
   quizAttempts,
   usageSessions,
+  buyerPersonas,
   type User,
   type InsertUser,
   type Chapter,
@@ -29,6 +30,7 @@ import {
   type InsertQuizAttempt,
   type UsageSession,
   type InsertUsageSession,
+  type BuyerPersona,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, ne, or, isNull, sql, count } from "drizzle-orm";
@@ -113,6 +115,11 @@ export interface IStorage {
   getRepPerformance(userId: string): Promise<RepPerformance>;
   getTeamPerformance(managerId: string): Promise<TeamPerformance>;
   getOrgPerformance(): Promise<OrgPerformance>;
+  
+  // Buyer Personas
+  getAllBuyerPersonas(): Promise<BuyerPersona[]>;
+  getBuyerPersona(id: string): Promise<BuyerPersona | undefined>;
+  getBuyerPersonaBySlug(slug: string): Promise<BuyerPersona | undefined>;
 }
 
 // Performance metric types
@@ -842,6 +849,21 @@ export class DatabaseStorage implements IStorage {
         avgRoleplayPassRate,
       },
     };
+  }
+
+  // Buyer Personas
+  async getAllBuyerPersonas(): Promise<BuyerPersona[]> {
+    return await db.select().from(buyerPersonas).orderBy(buyerPersonas.orderIndex);
+  }
+
+  async getBuyerPersona(id: string): Promise<BuyerPersona | undefined> {
+    const [persona] = await db.select().from(buyerPersonas).where(eq(buyerPersonas.id, id));
+    return persona || undefined;
+  }
+
+  async getBuyerPersonaBySlug(slug: string): Promise<BuyerPersona | undefined> {
+    const [persona] = await db.select().from(buyerPersonas).where(eq(buyerPersonas.slug, slug));
+    return persona || undefined;
   }
 }
 
