@@ -10,7 +10,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
-import heroBg from "@assets/generated_images/abstract_gecko_green_cybernetics.png";
+const arenaLoginBg = "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1767580244/arena-ai/arena_login_background.jpg";
 import geckoLogo from "@assets/image_1766975682051.png";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
 import arenaLogoLight from "@/assets/arena-logo-light.png";
@@ -240,8 +240,8 @@ export default function LoginPage() {
       <div className="hidden lg:block relative bg-primary/5">
         <div className="absolute inset-0 z-0">
            <img 
-             src={heroBg} 
-             alt="GeckoGreen Abstract" 
+             src={arenaLoginBg} 
+             alt="Arena AI Background" 
              className="w-full h-full object-cover mix-blend-overlay opacity-80" 
            />
            <div className="absolute inset-0 bg-gradient-to-t from-primary/90 to-primary/20 mix-blend-multiply" />
