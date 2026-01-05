@@ -60,6 +60,7 @@ export function Nav() {
 
   const links = [
     { href: "/dashboard", label: "Arena" },
+    { href: "/my-stats", label: "My Stats" },
     { href: "/leaderboard", label: "Leaderboard" },
     { href: "/battlecards", label: "Battlecards" },
     { href: "/personas", label: "Personas" },

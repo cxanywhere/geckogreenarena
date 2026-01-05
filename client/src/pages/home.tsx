@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { api, type Chapter, type Roleplay } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { NudgeBanner } from "@/components/nudge-banner";
 
 export default function Home() {
   const [completedChapters, setCompletedChapters] = useState<string[]>([]);
@@ -167,6 +168,8 @@ export default function Home() {
                 Complete your training to get certified and unlock full commission eligibility.
               </p>
             </motion.div>
+
+            {user && <NudgeBanner userId={user.id} />}
 
             {/* How to Get Certified Guide */}
             <Collapsible open={showCertGuide} onOpenChange={setShowCertGuide}>

@@ -125,6 +125,11 @@ export interface QuizScore {
 }
 
 class APIClient {
+  private getAuthHeaders(): Record<string, string> {
+    const token = localStorage.getItem("authToken");
+    return token ? { "Authorization": `Bearer ${token}` } : {};
+  }
+
   private async request<T>(
     endpoint: string,
     options?: RequestInit
@@ -133,6 +138,7 @@ class APIClient {
       ...options,
       headers: {
         "Content-Type": "application/json",
+        ...this.getAuthHeaders(),
         ...options?.headers,
       },
     });

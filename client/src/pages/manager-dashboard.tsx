@@ -20,7 +20,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Bell, Search, UserPlus, Users, TrendingUp, AlertCircle, Trash2, Copy, Mail, Phone, Check, Loader2, Activity, BarChart3, DollarSign, LogOut, Trophy, Award, Target, GraduationCap, Mic } from "lucide-react";
+import { Bell, Search, UserPlus, Users, TrendingUp, AlertCircle, Trash2, Copy, Mail, Phone, Check, Loader2, Activity, BarChart3, DollarSign, LogOut, Trophy, Award, Target, GraduationCap, Mic, Clock } from "lucide-react";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
 import arenaLogoLight from "@/assets/arena-logo-light.png";
 import geckoLogo from "@assets/image_1766975682051.png";
@@ -162,6 +162,19 @@ export default function ManagerDashboard() {
         headers: authToken ? { "Authorization": `Bearer ${authToken}` } : {}
       });
       if (!response.ok) throw new Error("Failed to fetch usage");
+      return response.json();
+    },
+    enabled: !!managerId,
+  });
+
+  const { data: stalledReps = [] } = useQuery<User[]>({
+    queryKey: ["stalled-reps", managerId],
+    queryFn: async () => {
+      const authToken = localStorage.getItem("authToken");
+      const response = await fetch("/api/stalled-reps?days=3", {
+        headers: authToken ? { "Authorization": `Bearer ${authToken}` } : {}
+      });
+      if (!response.ok) return [];
       return response.json();
     },
     enabled: !!managerId,
@@ -369,6 +382,25 @@ export default function ManagerDashboard() {
       <ManagerHeader />
       
       <main className="container mx-auto px-4 py-8">
+        {stalledReps.length > 0 && (
+          <div className="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+            <div className="flex items-center gap-3">
+              <Clock className="h-5 w-5 text-yellow-500" />
+              <div className="flex-1">
+                <h3 className="font-semibold text-yellow-600 dark:text-yellow-400">Attention Needed</h3>
+                <p className="text-sm text-muted-foreground">
+                  {stalledReps.length} rep{stalledReps.length > 1 ? 's' : ''} haven't trained in 3+ days: {stalledReps.map(r => r.name).join(", ")}
+                </p>
+              </div>
+              <Link href={`/manager/rep/${stalledReps[0]?.id}`}>
+                <Button size="sm" variant="outline" className="text-yellow-600 border-yellow-500/50 hover:bg-yellow-500/10" data-testid="button-view-stalled-rep">
+                  View Rep
+                </Button>
+              </Link>
+            </div>
+          </div>
+        )}
+        
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
             <h1 className="text-3xl font-display font-bold text-foreground mb-1">Team Overview</h1>

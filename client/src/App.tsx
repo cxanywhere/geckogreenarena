@@ -24,6 +24,7 @@ import SlidesPreviewPage from "@/pages/slides-preview";
 import ProfilePage from "@/pages/profile";
 import PersonasPage from "@/pages/personas";
 import PersonaDetailPage from "@/pages/persona-detail";
+import MyStatsPage from "@/pages/my-stats";
 
 function Router() {
   return (
@@ -109,6 +110,11 @@ function Router() {
       <Route path="/profile">
         <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
           <ProfilePage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/my-stats">
+        <ProtectedRoute allowedRoles={["rep"]}>
+          <MyStatsPage />
         </ProtectedRoute>
       </Route>
       <Route component={NotFound} />

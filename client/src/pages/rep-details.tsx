@@ -7,7 +7,12 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ArrowLeft, Brain, Target, Zap, Clock, CheckCircle2, XCircle, Play, Pause, Volume2, ChevronDown, ChevronUp, Award, BookOpen, Loader2 } from "lucide-react";
+import { ArrowLeft, Brain, Target, Zap, Clock, CheckCircle2, XCircle, Play, Pause, Volume2, ChevronDown, ChevronUp, Award, BookOpen, Loader2, MessageSquare, ListTodo, Plus, Send, Calendar } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { api, CoachingNote, CoachingTask } from "@/lib/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
 import arenaLogoLight from "@/assets/arena-logo-light.png";
 import geckoLogo from "@assets/image_1766975682051.png";
@@ -347,6 +352,51 @@ export default function RepDetailsPage() {
     enabled: !!repId,
   });
 
+  const queryClient = useQueryClient();
+
+  const { data: coachingNotes = [] } = useQuery<CoachingNote[]>({
+    queryKey: ["coaching-notes", repId],
+    queryFn: () => api.getCoachingNotes(repId!),
+    enabled: !!repId,
+  });
+
+  const { data: coachingTasks = [] } = useQuery<CoachingTask[]>({
+    queryKey: ["coaching-tasks", repId],
+    queryFn: () => api.getCoachingTasks(repId!),
+    enabled: !!repId,
+  });
+
+  const [newNote, setNewNote] = useState("");
+  const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [newTaskDescription, setNewTaskDescription] = useState("");
+  const [newTaskPriority, setNewTaskPriority] = useState("medium");
+  const [newTaskDueDate, setNewTaskDueDate] = useState("");
+
+  const createNoteMutation = useMutation({
+    mutationFn: (content: string) => api.createCoachingNote({ repId: repId!, content }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["coaching-notes", repId] });
+      setNewNote("");
+    },
+  });
+
+  const createTaskMutation = useMutation({
+    mutationFn: () => api.createCoachingTask({
+      repId: repId!,
+      title: newTaskTitle,
+      description: newTaskDescription || undefined,
+      priority: newTaskPriority,
+      dueDate: newTaskDueDate || undefined,
+    }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["coaching-tasks", repId] });
+      setNewTaskTitle("");
+      setNewTaskDescription("");
+      setNewTaskPriority("medium");
+      setNewTaskDueDate("");
+    },
+  });
+
   const Header = () => (
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -488,7 +538,7 @@ export default function RepDetailsPage() {
         </div>
 
         <Tabs defaultValue="roleplays" className="space-y-6">
-          <TabsList className="grid w-full max-w-md grid-cols-3">
+          <TabsList className="grid w-full max-w-xl grid-cols-4">
             <TabsTrigger value="roleplays" className="flex items-center gap-2" data-testid="tab-roleplays">
               <Zap className="h-4 w-4" /> Roleplays
             </TabsTrigger>
@@ -497,6 +547,9 @@ export default function RepDetailsPage() {
             </TabsTrigger>
             <TabsTrigger value="chapters" className="flex items-center gap-2" data-testid="tab-chapters">
               <BookOpen className="h-4 w-4" /> Chapters
+            </TabsTrigger>
+            <TabsTrigger value="coaching" className="flex items-center gap-2" data-testid="tab-coaching">
+              <MessageSquare className="h-4 w-4" /> Coaching
             </TabsTrigger>
           </TabsList>
 
@@ -628,6 +681,149 @@ export default function RepDetailsPage() {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="coaching" className="space-y-4">
+            <div className="grid gap-6 lg:grid-cols-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <MessageSquare className="w-5 h-5 text-primary" />
+                    Coaching Notes
+                  </CardTitle>
+                  <CardDescription>Private notes about this rep's progress and areas to focus on</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex gap-2">
+                    <Textarea
+                      placeholder="Add a coaching note..."
+                      value={newNote}
+                      onChange={(e) => setNewNote(e.target.value)}
+                      className="min-h-[80px]"
+                      data-testid="input-coaching-note"
+                    />
+                  </div>
+                  <Button
+                    onClick={() => createNoteMutation.mutate(newNote)}
+                    disabled={!newNote.trim() || createNoteMutation.isPending}
+                    className="w-full"
+                    data-testid="button-add-note"
+                  >
+                    <Send className="h-4 w-4 mr-2" />
+                    {createNoteMutation.isPending ? "Adding..." : "Add Note"}
+                  </Button>
+                  
+                  <div className="space-y-3 mt-4">
+                    {coachingNotes.length === 0 ? (
+                      <p className="text-center text-muted-foreground py-4">No coaching notes yet</p>
+                    ) : (
+                      coachingNotes.map((note) => (
+                        <div key={note.id} className="p-3 bg-muted/30 rounded-lg border border-border">
+                          <p className="text-sm whitespace-pre-wrap" data-testid={`text-note-${note.id}`}>{note.content}</p>
+                          <p className="text-xs text-muted-foreground mt-2">
+                            {format(new Date(note.createdAt), "MMM d, yyyy 'at' h:mm a")}
+                          </p>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <ListTodo className="w-5 h-5 text-primary" />
+                    Assigned Tasks
+                  </CardTitle>
+                  <CardDescription>Tasks for this rep to complete</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-3 border border-border rounded-lg p-4 bg-muted/10">
+                    <Input
+                      placeholder="Task title..."
+                      value={newTaskTitle}
+                      onChange={(e) => setNewTaskTitle(e.target.value)}
+                      data-testid="input-task-title"
+                    />
+                    <Textarea
+                      placeholder="Description (optional)"
+                      value={newTaskDescription}
+                      onChange={(e) => setNewTaskDescription(e.target.value)}
+                      className="min-h-[60px]"
+                      data-testid="input-task-description"
+                    />
+                    <div className="flex gap-2">
+                      <Select value={newTaskPriority} onValueChange={setNewTaskPriority}>
+                        <SelectTrigger className="w-[120px]" data-testid="select-task-priority">
+                          <SelectValue placeholder="Priority" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="low">Low</SelectItem>
+                          <SelectItem value="medium">Medium</SelectItem>
+                          <SelectItem value="high">High</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <Input
+                        type="date"
+                        value={newTaskDueDate}
+                        onChange={(e) => setNewTaskDueDate(e.target.value)}
+                        className="flex-1"
+                        data-testid="input-task-due-date"
+                      />
+                    </div>
+                    <Button
+                      onClick={() => createTaskMutation.mutate()}
+                      disabled={!newTaskTitle.trim() || createTaskMutation.isPending}
+                      className="w-full"
+                      data-testid="button-add-task"
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
+                      {createTaskMutation.isPending ? "Adding..." : "Add Task"}
+                    </Button>
+                  </div>
+                  
+                  <div className="space-y-3 mt-4">
+                    {coachingTasks.length === 0 ? (
+                      <p className="text-center text-muted-foreground py-4">No tasks assigned</p>
+                    ) : (
+                      coachingTasks.map((task) => (
+                        <div key={task.id} className={`p-3 rounded-lg border ${task.status === "completed" ? "bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800" : "bg-muted/30 border-border"}`}>
+                          <div className="flex items-start justify-between">
+                            <div className="flex items-start gap-2">
+                              {task.status === "completed" ? (
+                                <CheckCircle2 className="h-5 w-5 text-green-600 mt-0.5" />
+                              ) : (
+                                <div className="h-5 w-5 rounded-full border-2 border-muted-foreground/30 mt-0.5" />
+                              )}
+                              <div>
+                                <p className={`font-medium ${task.status === "completed" ? "line-through text-muted-foreground" : ""}`} data-testid={`text-task-title-${task.id}`}>
+                                  {task.title}
+                                </p>
+                                {task.description && (
+                                  <p className="text-sm text-muted-foreground mt-1">{task.description}</p>
+                                )}
+                                <div className="flex items-center gap-2 mt-2">
+                                  <Badge variant={task.priority === "high" ? "destructive" : task.priority === "medium" ? "default" : "secondary"} className="text-xs">
+                                    {task.priority}
+                                  </Badge>
+                                  {task.dueDate && (
+                                    <span className="text-xs text-muted-foreground flex items-center gap-1">
+                                      <Calendar className="h-3 w-3" />
+                                      Due {format(new Date(task.dueDate), "MMM d")}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
         </Tabs>
       </main>
