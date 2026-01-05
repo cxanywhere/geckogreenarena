@@ -10,6 +10,10 @@ import {
   quizAttempts,
   usageSessions,
   buyerPersonas,
+  certifications,
+  coachingNotes,
+  coachingTasks,
+  progressNudges,
   type User,
   type InsertUser,
   type Chapter,
@@ -31,6 +35,14 @@ import {
   type UsageSession,
   type InsertUsageSession,
   type BuyerPersona,
+  type Certification,
+  type InsertCertification,
+  type CoachingNote,
+  type InsertCoachingNote,
+  type CoachingTask,
+  type InsertCoachingTask,
+  type ProgressNudge,
+  type InsertProgressNudge,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, ne, or, isNull, sql, count } from "drizzle-orm";
@@ -120,6 +132,31 @@ export interface IStorage {
   getAllBuyerPersonas(): Promise<BuyerPersona[]>;
   getBuyerPersona(id: string): Promise<BuyerPersona | undefined>;
   getBuyerPersonaBySlug(slug: string): Promise<BuyerPersona | undefined>;
+  
+  // Certifications
+  getCertification(userId: string): Promise<Certification | undefined>;
+  createCertification(certification: InsertCertification): Promise<Certification>;
+  updateCertificationPdf(id: string, pdfUrl: string): Promise<Certification | undefined>;
+  
+  // Coaching Notes
+  getCoachingNotes(repId: string): Promise<CoachingNote[]>;
+  createCoachingNote(note: InsertCoachingNote): Promise<CoachingNote>;
+  
+  // Coaching Tasks
+  getCoachingTasks(repId: string): Promise<CoachingTask[]>;
+  getPendingCoachingTasks(repId: string): Promise<CoachingTask[]>;
+  createCoachingTask(task: InsertCoachingTask): Promise<CoachingTask>;
+  updateCoachingTask(id: string, updates: Partial<InsertCoachingTask>): Promise<CoachingTask | undefined>;
+  completeCoachingTask(id: string): Promise<CoachingTask | undefined>;
+  
+  // Progress Nudges
+  getUnreadNudges(userId: string): Promise<ProgressNudge[]>;
+  createProgressNudge(nudge: InsertProgressNudge): Promise<ProgressNudge>;
+  markNudgeRead(id: string): Promise<ProgressNudge | undefined>;
+  dismissNudge(id: string): Promise<ProgressNudge | undefined>;
+  
+  // Stalled Progress Detection
+  getStalledReps(daysSinceActivity: number): Promise<User[]>;
 }
 
 // Performance metric types
@@ -864,6 +901,118 @@ export class DatabaseStorage implements IStorage {
   async getBuyerPersonaBySlug(slug: string): Promise<BuyerPersona | undefined> {
     const [persona] = await db.select().from(buyerPersonas).where(eq(buyerPersonas.slug, slug));
     return persona || undefined;
+  }
+
+  // Certifications
+  async getCertification(userId: string): Promise<Certification | undefined> {
+    const [cert] = await db.select().from(certifications).where(eq(certifications.userId, userId));
+    return cert || undefined;
+  }
+
+  async createCertification(certification: InsertCertification): Promise<Certification> {
+    const [created] = await db.insert(certifications).values(certification).returning();
+    return created;
+  }
+
+  async updateCertificationPdf(id: string, pdfUrl: string): Promise<Certification | undefined> {
+    const [updated] = await db.update(certifications).set({ pdfUrl }).where(eq(certifications.id, id)).returning();
+    return updated || undefined;
+  }
+
+  // Coaching Notes
+  async getCoachingNotes(repId: string): Promise<CoachingNote[]> {
+    return await db.select().from(coachingNotes).where(eq(coachingNotes.repId, repId)).orderBy(desc(coachingNotes.createdAt));
+  }
+
+  async createCoachingNote(note: InsertCoachingNote): Promise<CoachingNote> {
+    const [created] = await db.insert(coachingNotes).values(note).returning();
+    return created;
+  }
+
+  // Coaching Tasks
+  async getCoachingTasks(repId: string): Promise<CoachingTask[]> {
+    return await db.select().from(coachingTasks).where(eq(coachingTasks.repId, repId)).orderBy(desc(coachingTasks.createdAt));
+  }
+
+  async getPendingCoachingTasks(repId: string): Promise<CoachingTask[]> {
+    return await db.select().from(coachingTasks)
+      .where(and(eq(coachingTasks.repId, repId), eq(coachingTasks.status, "pending")))
+      .orderBy(coachingTasks.dueDate);
+  }
+
+  async createCoachingTask(task: InsertCoachingTask): Promise<CoachingTask> {
+    const [created] = await db.insert(coachingTasks).values(task).returning();
+    return created;
+  }
+
+  async updateCoachingTask(id: string, updates: Partial<InsertCoachingTask>): Promise<CoachingTask | undefined> {
+    const [updated] = await db.update(coachingTasks).set(updates).where(eq(coachingTasks.id, id)).returning();
+    return updated || undefined;
+  }
+
+  async completeCoachingTask(id: string): Promise<CoachingTask | undefined> {
+    const [updated] = await db.update(coachingTasks)
+      .set({ status: "completed", completedAt: new Date() })
+      .where(eq(coachingTasks.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  // Progress Nudges
+  async getUnreadNudges(userId: string): Promise<ProgressNudge[]> {
+    return await db.select().from(progressNudges)
+      .where(and(eq(progressNudges.userId, userId), eq(progressNudges.dismissed, 0), isNull(progressNudges.readAt)))
+      .orderBy(desc(progressNudges.sentAt));
+  }
+
+  async createProgressNudge(nudge: InsertProgressNudge): Promise<ProgressNudge> {
+    const [created] = await db.insert(progressNudges).values(nudge).returning();
+    return created;
+  }
+
+  async markNudgeRead(id: string): Promise<ProgressNudge | undefined> {
+    const [updated] = await db.update(progressNudges)
+      .set({ readAt: new Date() })
+      .where(eq(progressNudges.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  async dismissNudge(id: string): Promise<ProgressNudge | undefined> {
+    const [updated] = await db.update(progressNudges)
+      .set({ dismissed: 1 })
+      .where(eq(progressNudges.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  // Stalled Progress Detection
+  async getStalledReps(daysSinceActivity: number): Promise<User[]> {
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - daysSinceActivity);
+    
+    const reps = await db.select().from(users).where(eq(users.role, "rep"));
+    const stalledReps: User[] = [];
+    
+    for (const rep of reps) {
+      const recentAttempts = await db.select().from(roleplayAttempts)
+        .where(and(
+          eq(roleplayAttempts.userId, rep.id),
+          sql`${roleplayAttempts.createdAt} > ${cutoffDate}`
+        ));
+      
+      const recentProgress = await db.select().from(userProgress)
+        .where(and(
+          eq(userProgress.userId, rep.id),
+          sql`${userProgress.completedAt} > ${cutoffDate}`
+        ));
+      
+      if (recentAttempts.length === 0 && recentProgress.length === 0) {
+        stalledReps.push(rep);
+      }
+    }
+    
+    return stalledReps;
   }
 }
 

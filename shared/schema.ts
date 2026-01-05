@@ -161,6 +161,57 @@ export const buyerPersonas = pgTable("buyer_personas", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// Certifications for sales reps
+export const certifications = pgTable("certifications", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  certificateNumber: text("certificate_number").unique().notNull(),
+  awardedAt: timestamp("awarded_at").defaultNow().notNull(),
+  chaptersCompleted: integer("chapters_completed").notNull(),
+  roleplaysCompleted: integer("roleplays_completed").notNull(),
+  quizAverage: integer("quiz_average").notNull(),
+  roleplayPassRate: integer("roleplay_pass_rate").notNull(),
+  pdfUrl: text("pdf_url"),
+  status: text("status").default("active"),
+});
+
+// Coaching notes from managers
+export const coachingNotes = pgTable("coaching_notes", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  repId: varchar("rep_id").notNull(),
+  managerId: varchar("manager_id").notNull(),
+  roleplayAttemptId: varchar("roleplay_attempt_id"),
+  content: text("content").notNull(),
+  noteType: text("note_type").default("general"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Coaching tasks assigned by managers
+export const coachingTasks = pgTable("coaching_tasks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  repId: varchar("rep_id").notNull(),
+  managerId: varchar("manager_id").notNull(),
+  title: text("title").notNull(),
+  description: text("description"),
+  dueDate: timestamp("due_date"),
+  status: text("status").default("pending"),
+  priority: text("priority").default("medium"),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Progress nudges/notifications
+export const progressNudges = pgTable("progress_nudges", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  nudgeType: text("nudge_type").notNull(),
+  message: text("message").notNull(),
+  sentVia: text("sent_via").default("in_app"),
+  sentAt: timestamp("sent_at").defaultNow().notNull(),
+  readAt: timestamp("read_at"),
+  dismissed: integer("dismissed").default(0),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ one, many }) => ({
   manager: one(users, {
@@ -276,6 +327,28 @@ export const insertBuyerPersonaSchema = createInsertSchema(buyerPersonas).omit({
   createdAt: true,
 });
 
+export const insertCertificationSchema = createInsertSchema(certifications).omit({
+  id: true,
+  awardedAt: true,
+});
+
+export const insertCoachingNoteSchema = createInsertSchema(coachingNotes).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertCoachingTaskSchema = createInsertSchema(coachingTasks).omit({
+  id: true,
+  createdAt: true,
+  completedAt: true,
+});
+
+export const insertProgressNudgeSchema = createInsertSchema(progressNudges).omit({
+  id: true,
+  sentAt: true,
+  readAt: true,
+});
+
 // Types
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -309,6 +382,18 @@ export type UsageSession = typeof usageSessions.$inferSelect;
 
 export type InsertBuyerPersona = z.infer<typeof insertBuyerPersonaSchema>;
 export type BuyerPersona = typeof buyerPersonas.$inferSelect;
+
+export type InsertCertification = z.infer<typeof insertCertificationSchema>;
+export type Certification = typeof certifications.$inferSelect;
+
+export type InsertCoachingNote = z.infer<typeof insertCoachingNoteSchema>;
+export type CoachingNote = typeof coachingNotes.$inferSelect;
+
+export type InsertCoachingTask = z.infer<typeof insertCoachingTaskSchema>;
+export type CoachingTask = typeof coachingTasks.$inferSelect;
+
+export type InsertProgressNudge = z.infer<typeof insertProgressNudgeSchema>;
+export type ProgressNudge = typeof progressNudges.$inferSelect;
 
 // Export chat models for OpenAI integration
 export * from "./models/chat";
