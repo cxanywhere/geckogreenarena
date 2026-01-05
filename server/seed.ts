@@ -1,7 +1,7 @@
 import { db } from './db';
-import { chapters, roleplays } from '@shared/schema';
+import { chapters, roleplays, buyerPersonas } from '@shared/schema';
 import { eq } from 'drizzle-orm';
-import { CHAPTER_SEED_DATA, ROLEPLAY_SEED_DATA } from './seed-data';
+import { CHAPTER_SEED_DATA, ROLEPLAY_SEED_DATA, BUYER_PERSONA_SEED_DATA } from './seed-data';
 
 export async function seedDatabase(): Promise<void> {
   console.log('Starting idempotent database seed...');
@@ -101,6 +101,44 @@ export async function seedDatabase(): Promise<void> {
           });
         
         console.log(`  Created roleplay: ${roleplayData.role}`);
+      }
+    }
+
+    for (const personaData of BUYER_PERSONA_SEED_DATA) {
+      const existing = await db.select().from(buyerPersonas).where(eq(buyerPersonas.slug, personaData.slug));
+      
+      if (existing.length > 0) {
+        await db.update(buyerPersonas)
+          .set({
+            name: personaData.name,
+            subtitle: personaData.subtitle,
+            avatar: personaData.avatar,
+            attributes: personaData.attributes,
+            whatTheyCareAbout: personaData.whatTheyCareAbout,
+            whatTriggersResistance: personaData.whatTriggersResistance,
+            howToWin: personaData.howToWin,
+            bestPlays: personaData.bestPlays,
+            orderIndex: personaData.orderIndex,
+          })
+          .where(eq(buyerPersonas.slug, personaData.slug));
+        
+        console.log(`  Updated buyer persona: ${personaData.name}`);
+      } else {
+        await db.insert(buyerPersonas)
+          .values({
+            slug: personaData.slug,
+            name: personaData.name,
+            subtitle: personaData.subtitle,
+            avatar: personaData.avatar,
+            attributes: personaData.attributes,
+            whatTheyCareAbout: personaData.whatTheyCareAbout,
+            whatTriggersResistance: personaData.whatTriggersResistance,
+            howToWin: personaData.howToWin,
+            bestPlays: personaData.bestPlays,
+            orderIndex: personaData.orderIndex,
+          });
+        
+        console.log(`  Created buyer persona: ${personaData.name}`);
       }
     }
 
