@@ -87,7 +87,7 @@ export const CHAPTER_SEED_DATA = [
         roleplaySlug: 'rp-confused-homeowner'
       }
     ],
-    slideCount: 7,
+    slideCount: 31,
     orderIndex: 0
   },
   {
@@ -147,7 +147,7 @@ export const CHAPTER_SEED_DATA = [
         }
       }
     ],
-    slideCount: 4,
+    slideCount: 38,
     orderIndex: 1
   }
 ];
