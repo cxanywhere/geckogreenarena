@@ -312,6 +312,203 @@ class APIClient {
   async getPDFInfo(chapterId: string): Promise<{ totalPages: number; pdfUrl: string }> {
     return this.request(`/api/pdf/pages/${chapterId}`);
   }
+
+  // Certifications
+  async getCertification(userId: string): Promise<Certification | null> {
+    return this.request(`/api/certifications/${userId}`);
+  }
+
+  async createCertification(data: {
+    userId: string;
+    certificateNumber: string;
+    chaptersCompleted: number;
+    roleplaysCompleted: number;
+    quizAverage: number;
+    roleplayPassRate: number;
+  }): Promise<Certification> {
+    return this.request("/api/certifications", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  // Coaching Notes
+  async getCoachingNotes(repId: string): Promise<CoachingNote[]> {
+    return this.request(`/api/coaching/notes/${repId}`);
+  }
+
+  async createCoachingNote(data: {
+    repId: string;
+    content: string;
+    roleplayAttemptId?: string;
+    noteType?: string;
+  }): Promise<CoachingNote> {
+    return this.request("/api/coaching/notes", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  // Coaching Tasks
+  async getCoachingTasks(repId: string): Promise<CoachingTask[]> {
+    return this.request(`/api/coaching/tasks/${repId}`);
+  }
+
+  async getPendingCoachingTasks(repId: string): Promise<CoachingTask[]> {
+    return this.request(`/api/coaching/tasks/${repId}/pending`);
+  }
+
+  async createCoachingTask(data: {
+    repId: string;
+    title: string;
+    description?: string;
+    dueDate?: string;
+    priority?: string;
+  }): Promise<CoachingTask> {
+    return this.request("/api/coaching/tasks", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async completeCoachingTask(taskId: string): Promise<CoachingTask> {
+    return this.request(`/api/coaching/tasks/${taskId}/complete`, {
+      method: "PATCH",
+    });
+  }
+
+  // Progress Nudges
+  async getNudges(): Promise<ProgressNudge[]> {
+    return this.request("/api/nudges");
+  }
+
+  async createNudge(data: {
+    userId: string;
+    nudgeType: string;
+    message: string;
+  }): Promise<ProgressNudge> {
+    return this.request("/api/nudges", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async markNudgeRead(nudgeId: string): Promise<ProgressNudge> {
+    return this.request(`/api/nudges/${nudgeId}/read`, {
+      method: "PATCH",
+    });
+  }
+
+  async dismissNudge(nudgeId: string): Promise<ProgressNudge> {
+    return this.request(`/api/nudges/${nudgeId}/dismiss`, {
+      method: "PATCH",
+    });
+  }
+
+  // Stalled Reps
+  async getStalledReps(days?: number): Promise<User[]> {
+    const params = days ? `?days=${days}` : "";
+    return this.request(`/api/stalled-reps${params}`);
+  }
+
+  // User Stats
+  async getUserStats(userId: string): Promise<UserStats> {
+    return this.request(`/api/users/${userId}/stats`);
+  }
+
+  // User Performance
+  async getUserPerformance(userId: string): Promise<RepPerformance> {
+    return this.request(`/api/users/${userId}/performance`);
+  }
+}
+
+// New types for the API
+export interface Certification {
+  id: string;
+  userId: string;
+  certificateNumber: string;
+  chaptersCompleted: number;
+  roleplaysCompleted: number;
+  quizAverage: number;
+  roleplayPassRate: number;
+  pdfUrl: string | null;
+  status: string;
+  awardedAt: string;
+}
+
+export interface CoachingNote {
+  id: string;
+  repId: string;
+  managerId: string;
+  content: string;
+  roleplayAttemptId: string | null;
+  noteType: string;
+  createdAt: string;
+}
+
+export interface CoachingTask {
+  id: string;
+  repId: string;
+  managerId: string;
+  title: string;
+  description: string | null;
+  status: string;
+  priority: string;
+  dueDate: string | null;
+  completedAt: string | null;
+  createdAt: string;
+}
+
+export interface ProgressNudge {
+  id: string;
+  userId: string;
+  nudgeType: string;
+  message: string;
+  dismissed: number;
+  readAt: string | null;
+  sentAt: string;
+}
+
+export interface RepPerformance {
+  userId: string;
+  userName: string;
+  email: string;
+  managerId: string | null;
+  managerName?: string;
+  status: string;
+  chaptersCompleted: number;
+  totalChapters: number;
+  chapterProgress: number;
+  quizAverage: number;
+  quizAttempts: number;
+  roleplaysPassed: number;
+  roleplaysAttempted: number;
+  roleplayPassRate: number;
+  lastActivity: string | null;
+  isCertified: boolean;
+  overallScore: number;
+}
+
+export interface UserStats {
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    profilePhoto: string | null;
+    warriorAvatar: string | null;
+    role: string;
+  };
+  performance: RepPerformance;
+  certification: Certification | null;
+  pendingTasks: CoachingTask[];
+  recentRoleplays: any[];
+  weeklyStats: {
+    roleplaysCompleted: number;
+    roleplaysPassed: number;
+    averageScore: number;
+  };
+  chaptersProgress: any[];
+  totalQuizAttempts: number;
 }
 
 export const api = new APIClient();
