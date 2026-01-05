@@ -448,7 +448,7 @@ export const BUYER_PERSONA_SEED_DATA = [
     slug: "busy-professional",
     name: "The Busy Professional",
     subtitle: "Time-poor, task-saturated decision maker",
-    avatar: `${CLOUDINARY_BASE}/v1767572831/arena-ai/personas/busy-professional_ewlbpq.jpg`,
+    avatar: `${CLOUDINARY_BASE}/v1767646940/arena-ai/personas/persona_the_busy_professional_1767646940115.jpg`,
     attributes: [
       "Time-poor, task-saturated, decision fatigue",
       "Wants a good outcome, minimal friction",
@@ -479,7 +479,7 @@ export const BUYER_PERSONA_SEED_DATA = [
     slug: "brush-off-defender",
     name: "The Brush-Off Defender",
     subtitle: '"Not interested," "Busy," short answers at the door',
-    avatar: `${CLOUDINARY_BASE}/v1767572831/arena-ai/personas/brush-off-defender_abcdef.jpg`,
+    avatar: `${CLOUDINARY_BASE}/v1767646960/arena-ai/personas/persona_the_brush_off_defender_1767646959392.jpg`,
     attributes: [
       "Defensive posture, wants to end the interaction quickly",
       "May not be truly opposed—just protecting time and space"
@@ -505,7 +505,7 @@ export const BUYER_PERSONA_SEED_DATA = [
     slug: "rule-first-homeowner",
     name: 'The Rule-First / "No Soliciting" Homeowner',
     subtitle: "Compliance-oriented, boundary-driven",
-    avatar: `${CLOUDINARY_BASE}/v1767572831/arena-ai/personas/rule-first_ghijkl.jpg`,
+    avatar: `${CLOUDINARY_BASE}/v1767646978/arena-ai/personas/persona_the_rule_first_homeowner_1767646978037.jpg`,
     attributes: [
       "Compliance-oriented, boundary-driven",
       "May be open if they feel respected and safe"
@@ -530,7 +530,7 @@ export const BUYER_PERSONA_SEED_DATA = [
     slug: "proud-diyer",
     name: "The Proud DIYer",
     subtitle: "Identity tied to self-reliance and competence",
-    avatar: `${CLOUDINARY_BASE}/v1767572831/arena-ai/personas/proud-diyer_mnopqr.jpg`,
+    avatar: `${CLOUDINARY_BASE}/v1767646997/arena-ai/personas/persona_the_proud_diyer_1767646996498.jpg`,
     attributes: [
       "Identity tied to self-reliance and competence",
       "Often knowledgeable but missing seasonal/timing nuances"
@@ -556,7 +556,7 @@ export const BUYER_PERSONA_SEED_DATA = [
     slug: "loyal-existing-provider",
     name: "The Loyal Existing-Provider Customer",
     subtitle: "Already paying someone; avoids switching friction",
-    avatar: `${CLOUDINARY_BASE}/v1767572831/arena-ai/personas/loyal-provider_stuvwx.jpg`,
+    avatar: `${CLOUDINARY_BASE}/v1767647017/arena-ai/personas/persona_the_loyal_existing_provider_customer_1767647016967.jpg`,
     attributes: [
       "Already paying someone; avoids switching friction",
       "Often dissatisfied in small ways but not motivated to change"
@@ -582,7 +582,7 @@ export const BUYER_PERSONA_SEED_DATA = [
     slug: "looks-fine-optimist",
     name: 'The "Looks Fine" Optimist',
     subtitle: "Satisfied enough; low urgency",
-    avatar: `${CLOUDINARY_BASE}/v1767572831/arena-ai/personas/looks-fine_yzabcd.jpg`,
+    avatar: `${CLOUDINARY_BASE}/v1767647036/arena-ai/personas/persona_the_looks_fine_optimist_1767647036309.jpg`,
     attributes: [
       "Satisfied enough; low urgency",
       "Doesn't notice early signs"
@@ -608,7 +608,7 @@ export const BUYER_PERSONA_SEED_DATA = [
     slug: "weed-indifferent",
     name: "The Weed-Indifferent Homeowner",
     subtitle: '"Weeds don\'t bother me."',
-    avatar: `${CLOUDINARY_BASE}/v1767572831/arena-ai/personas/weed-indifferent_efghij.jpg`,
+    avatar: `${CLOUDINARY_BASE}/v1767647054/arena-ai/personas/persona_the_weed_indifferent_homeowner_1767647053911.jpg`,
     attributes: [
       "Low aesthetic sensitivity",
       "Might care more about property value, kids/pets safety"
@@ -633,7 +633,7 @@ export const BUYER_PERSONA_SEED_DATA = [
     slug: "skeptic",
     name: 'The Skeptic / "I Don\'t See the Issue"',
     subtitle: "Doubtful, needs proof",
-    avatar: `${CLOUDINARY_BASE}/v1767572831/arena-ai/personas/skeptic_klmnop.jpg`,
+    avatar: `${CLOUDINARY_BASE}/v1767647073/arena-ai/personas/persona_the_skeptic_1767647073173.jpg`,
     attributes: [
       "Doubtful, needs proof",
       "Wants clarity and competence"
@@ -658,7 +658,7 @@ export const BUYER_PERSONA_SEED_DATA = [
     slug: "price-first-shopper",
     name: "The Price-First Shopper",
     subtitle: '"How much is it?" early',
-    avatar: `${CLOUDINARY_BASE}/v1767572831/arena-ai/personas/price-first_qrstuv.jpg`,
+    avatar: `${CLOUDINARY_BASE}/v1767647092/arena-ai/personas/persona_the_price_first_shopper_1767647091980.jpg`,
     attributes: [
       "Leads with cost to control conversation",
       "May be comparison shopping"
@@ -684,7 +684,7 @@ export const BUYER_PERSONA_SEED_DATA = [
     slug: "thats-expensive-reactor",
     name: 'The "That\'s Expensive" Reactor',
     subtitle: "Emotional reaction to price",
-    avatar: `${CLOUDINARY_BASE}/v1767572831/arena-ai/personas/expensive-reactor_wxyzab.jpg`,
+    avatar: `${CLOUDINARY_BASE}/v1767647110/arena-ai/personas/persona_the_expensive_reactor_1767647109863.jpg`,
     attributes: [
       "Emotional reaction to price",
       "Often not rejecting; testing conviction"
@@ -710,7 +710,7 @@ export const BUYER_PERSONA_SEED_DATA = [
     slug: "competitor-price-comparer",
     name: "The Competitor-Price Comparer",
     subtitle: '"Another company is cheaper."',
-    avatar: `${CLOUDINARY_BASE}/v1767572831/arena-ai/personas/price-comparer_cdefgh.jpg`,
+    avatar: `${CLOUDINARY_BASE}/v1767647128/arena-ai/personas/persona_the_competitor_price_comparer_1767647127556.jpg`,
     attributes: [
       "Anchored on price; may be burned before",
       "Wants confidence they're not overpaying"
@@ -736,7 +736,7 @@ export const BUYER_PERSONA_SEED_DATA = [
     slug: "payment-process-resister",
     name: "The Payment-Process Resister",
     subtitle: '"Why do I have to pay now?"',
-    avatar: `${CLOUDINARY_BASE}/v1767572831/arena-ai/personas/payment-resister_ijklmn.jpg`,
+    avatar: `${CLOUDINARY_BASE}/v1767647146/arena-ai/personas/persona_the_payment_process_resister_1767647146010.jpg`,
     attributes: [
       "Risk-sensitive, cautious",
       "Needs reassurance and process clarity"
@@ -762,7 +762,7 @@ export const BUYER_PERSONA_SEED_DATA = [
     slug: "stallers",
     name: "The Stallers",
     subtitle: '"I need to think about it"',
-    avatar: `${CLOUDINARY_BASE}/v1767572831/arena-ai/personas/stallers_opqrst.jpg`,
+    avatar: `${CLOUDINARY_BASE}/v1767647165/arena-ai/personas/persona_the_staller_1767647165193.jpg`,
     attributes: [
       "Avoids saying no; unresolved concern",
       "Needs help clarifying decision criteria"
