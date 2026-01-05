@@ -2137,5 +2137,315 @@ export async function registerRoutes(
     }
   });
 
+  // Certifications routes
+  app.get("/api/certifications/:userId", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const cert = await storage.getCertification(req.params.userId);
+      res.json(cert || null);
+    } catch (error) {
+      console.error("Get certification error:", error);
+      res.status(500).json({ error: "Failed to get certification" });
+    }
+  });
+
+  app.post("/api/certifications", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const { userId, certificateNumber, chaptersCompleted, roleplaysCompleted, quizAverage, roleplayPassRate } = req.body;
+      if (!userId || !certificateNumber) {
+        return res.status(400).json({ error: "userId and certificateNumber are required" });
+      }
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      const existing = await storage.getCertification(userId);
+      if (existing) {
+        return res.json(existing);
+      }
+      const cert = await storage.createCertification({ 
+        userId, 
+        certificateNumber,
+        chaptersCompleted: chaptersCompleted || 0,
+        roleplaysCompleted: roleplaysCompleted || 0,
+        quizAverage: quizAverage || 0,
+        roleplayPassRate: roleplayPassRate || 0,
+      });
+      res.json(cert);
+    } catch (error) {
+      console.error("Create certification error:", error);
+      res.status(500).json({ error: "Failed to create certification" });
+    }
+  });
+
+  // Coaching Notes routes
+  app.get("/api/coaching/notes/:repId", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const notes = await storage.getCoachingNotes(req.params.repId);
+      res.json(notes);
+    } catch (error) {
+      console.error("Get coaching notes error:", error);
+      res.status(500).json({ error: "Failed to get coaching notes" });
+    }
+  });
+
+  app.post("/api/coaching/notes", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const { repId, content, roleplayAttemptId, noteType } = req.body;
+      if (!repId || !content) {
+        return res.status(400).json({ error: "repId and content are required" });
+      }
+      const note = await storage.createCoachingNote({
+        repId,
+        managerId: authResult.user.id,
+        content,
+        roleplayAttemptId: roleplayAttemptId || null,
+        noteType: noteType || "general",
+      });
+      res.json(note);
+    } catch (error) {
+      console.error("Create coaching note error:", error);
+      res.status(500).json({ error: "Failed to create coaching note" });
+    }
+  });
+
+  // Coaching Tasks routes
+  app.get("/api/coaching/tasks/:repId", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const tasks = await storage.getCoachingTasks(req.params.repId);
+      res.json(tasks);
+    } catch (error) {
+      console.error("Get coaching tasks error:", error);
+      res.status(500).json({ error: "Failed to get coaching tasks" });
+    }
+  });
+
+  app.get("/api/coaching/tasks/:repId/pending", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const tasks = await storage.getPendingCoachingTasks(req.params.repId);
+      res.json(tasks);
+    } catch (error) {
+      console.error("Get pending coaching tasks error:", error);
+      res.status(500).json({ error: "Failed to get pending coaching tasks" });
+    }
+  });
+
+  app.post("/api/coaching/tasks", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const { repId, title, description, dueDate, priority } = req.body;
+      if (!repId || !title) {
+        return res.status(400).json({ error: "repId and title are required" });
+      }
+      const task = await storage.createCoachingTask({
+        repId,
+        managerId: authResult.user.id,
+        title,
+        description: description || null,
+        dueDate: dueDate ? new Date(dueDate) : null,
+        priority: priority || "medium",
+        status: "pending",
+      });
+      res.json(task);
+    } catch (error) {
+      console.error("Create coaching task error:", error);
+      res.status(500).json({ error: "Failed to create coaching task" });
+    }
+  });
+
+  app.patch("/api/coaching/tasks/:id/complete", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const task = await storage.completeCoachingTask(req.params.id);
+      if (!task) {
+        return res.status(404).json({ error: "Task not found" });
+      }
+      res.json(task);
+    } catch (error) {
+      console.error("Complete coaching task error:", error);
+      res.status(500).json({ error: "Failed to complete coaching task" });
+    }
+  });
+
+  // Progress Nudges routes
+  app.get("/api/nudges", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const nudges = await storage.getUnreadNudges(authResult.user.id);
+      res.json(nudges);
+    } catch (error) {
+      console.error("Get nudges error:", error);
+      res.status(500).json({ error: "Failed to get nudges" });
+    }
+  });
+
+  app.post("/api/nudges", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user || (authResult.user.role !== "manager" && authResult.user.role !== "director" && authResult.user.role !== "admin")) {
+        return res.status(403).json({ error: "Only managers and admins can send nudges" });
+      }
+      const { userId, nudgeType, message } = req.body;
+      if (!userId || !nudgeType || !message) {
+        return res.status(400).json({ error: "userId, nudgeType, and message are required" });
+      }
+      const nudge = await storage.createProgressNudge({ userId, nudgeType, message });
+      res.json(nudge);
+    } catch (error) {
+      console.error("Create nudge error:", error);
+      res.status(500).json({ error: "Failed to create nudge" });
+    }
+  });
+
+  app.patch("/api/nudges/:id/read", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const nudge = await storage.markNudgeRead(req.params.id);
+      res.json(nudge);
+    } catch (error) {
+      console.error("Mark nudge read error:", error);
+      res.status(500).json({ error: "Failed to mark nudge read" });
+    }
+  });
+
+  app.patch("/api/nudges/:id/dismiss", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const nudge = await storage.dismissNudge(req.params.id);
+      res.json(nudge);
+    } catch (error) {
+      console.error("Dismiss nudge error:", error);
+      res.status(500).json({ error: "Failed to dismiss nudge" });
+    }
+  });
+
+  // Stalled reps detection (for managers)
+  app.get("/api/stalled-reps", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user || (authResult.user.role !== "manager" && authResult.user.role !== "director" && authResult.user.role !== "admin")) {
+        return res.status(403).json({ error: "Access denied" });
+      }
+      const days = parseInt(req.query.days as string) || 3;
+      const stalledReps = await storage.getStalledReps(days);
+      
+      if (authResult.user.role === "manager") {
+        const filtered = stalledReps.filter(r => r.managerId === authResult.user?.id);
+        return res.json(filtered);
+      }
+      res.json(stalledReps);
+    } catch (error) {
+      console.error("Get stalled reps error:", error);
+      res.status(500).json({ error: "Failed to get stalled reps" });
+    }
+  });
+
+  // Personal Stats route (comprehensive stats for a user)
+  app.get("/api/users/:userId/stats", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const { userId } = req.params;
+      const callerRole = authResult.user.role;
+      const callerId = authResult.user.id;
+
+      const targetUser = await storage.getUser(userId);
+      if (!targetUser) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      const isOwnProfile = callerId === userId;
+      const isManagerOfUser = callerRole === "manager" && targetUser.managerId === callerId;
+      const isAdmin = callerRole === "director" || callerRole === "admin";
+
+      if (!isOwnProfile && !isManagerOfUser && !isAdmin) {
+        return res.status(403).json({ error: "Access denied" });
+      }
+
+      const [performance, certification, coachingTasks, roleplayAttemptsList, quizAttemptsList, progress] = await Promise.all([
+        storage.getRepPerformance(userId),
+        storage.getCertification(userId),
+        storage.getPendingCoachingTasks(userId),
+        storage.getUserRoleplayAttempts(userId),
+        storage.getAllUserQuizAttempts(userId),
+        storage.getUserProgress(userId),
+      ]);
+
+      const recentRoleplays = roleplayAttemptsList.slice(0, 5);
+      const weeklyRoleplays = roleplayAttemptsList.filter(r => {
+        const weekAgo = new Date();
+        weekAgo.setDate(weekAgo.getDate() - 7);
+        return new Date(r.createdAt) > weekAgo;
+      });
+
+      res.json({
+        user: {
+          id: targetUser.id,
+          name: targetUser.name,
+          email: targetUser.email,
+          profilePhoto: targetUser.profilePhoto,
+          warriorAvatar: targetUser.warriorAvatar,
+          role: targetUser.role,
+        },
+        performance,
+        certification,
+        pendingTasks: coachingTasks,
+        recentRoleplays,
+        weeklyStats: {
+          roleplaysCompleted: weeklyRoleplays.length,
+          roleplaysPassed: weeklyRoleplays.filter(r => r.passed).length,
+          averageScore: weeklyRoleplays.length > 0 
+            ? Math.round(weeklyRoleplays.reduce((sum, r) => sum + (r.score || 0), 0) / weeklyRoleplays.length)
+            : 0,
+        },
+        chaptersProgress: progress,
+        totalQuizAttempts: quizAttemptsList.length,
+      });
+    } catch (error) {
+      console.error("Get user stats error:", error);
+      res.status(500).json({ error: "Failed to get user stats" });
+    }
+  });
+
   return httpServer;
 }
