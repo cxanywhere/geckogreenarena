@@ -5,7 +5,8 @@ import { useLocation } from "wouter";
 import { useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CalendarDays, Mail, Shield, User } from "lucide-react";
+import { CalendarDays, Mail, Shield, User, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import heroBg from "@assets/generated_images/abstract_bottle_green_glass_tech_shapes.png";
 
 export default function ProfilePage() {
@@ -74,7 +75,16 @@ export default function ProfilePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="text-center mb-8">
+            <div className="text-center mb-8 relative">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute right-0 top-0 text-muted-foreground hover:text-foreground"
+                onClick={() => window.history.back()}
+                data-testid="button-close-profile"
+              >
+                <X className="h-5 w-5" />
+              </Button>
               <h1 className="text-3xl font-bold mb-2" data-testid="text-profile-title">My Profile</h1>
               <p className="text-muted-foreground">Your account information</p>
             </div>
