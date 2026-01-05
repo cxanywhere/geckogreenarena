@@ -12,6 +12,8 @@ interface LeaderboardEntry {
   userId: string;
   name: string;
   avatarInitials: string;
+  warriorAvatar: string | null;
+  profilePhoto: string | null;
   roleplaysCompleted: number;
   passedCount: number;
   avgScore: number;
@@ -109,9 +111,17 @@ export default function LeaderboardPage() {
                           </td>
                           <td className="p-6">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm border border-border">
-                                {entry.avatarInitials}
-                              </div>
+                              {entry.warriorAvatar || entry.profilePhoto ? (
+                                <img 
+                                  src={entry.warriorAvatar || entry.profilePhoto || ""} 
+                                  alt={entry.name}
+                                  className="w-10 h-10 rounded-full object-cover border-2 border-primary/20"
+                                />
+                              ) : (
+                                <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm border border-border">
+                                  {entry.avatarInitials}
+                                </div>
+                              )}
                               <span className={`font-medium ${entry.userId === user?.id ? "text-primary font-bold" : "text-foreground"}`}>
                                 {entry.name} {entry.userId === user?.id && "(You)"}
                               </span>

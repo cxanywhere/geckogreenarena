@@ -37,6 +37,8 @@ interface User {
   role: string;
   status: string;
   avatarInitials: string;
+  warriorAvatar?: string | null;
+  profilePhoto?: string | null;
   managerId?: string | null;
 }
 
@@ -846,9 +848,17 @@ export default function ManagerDashboard() {
                     <TableRow key={rep.id} data-testid={`row-rep-${rep.id}`}>
                       <TableCell>
                         <div className="flex items-center gap-3">
-                          <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
-                            {rep.avatarInitials}
-                          </div>
+                          {rep.warriorAvatar || rep.profilePhoto ? (
+                            <img 
+                              src={rep.warriorAvatar || rep.profilePhoto || ""} 
+                              alt={rep.name}
+                              className="h-9 w-9 rounded-full object-cover border-2 border-primary/20"
+                            />
+                          ) : (
+                            <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                              {rep.avatarInitials}
+                            </div>
+                          )}
                           <div className="flex flex-col">
                             <Link href={`/manager/rep/${rep.id}`} className="font-medium hover:text-primary hover:underline transition-colors cursor-pointer">
                               {rep.name}

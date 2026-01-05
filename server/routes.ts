@@ -364,6 +364,8 @@ export async function registerRoutes(
             userId: stats.userId,
             name: user?.name || "Unknown User",
             avatarInitials: user?.avatarInitials || "??",
+            warriorAvatar: user?.warriorAvatar || null,
+            profilePhoto: user?.profilePhoto || null,
             roleplaysCompleted: stats.attemptCount,
             passedCount: stats.passedCount,
             avgScore: stats.attemptCount > 0 ? Math.round(stats.totalScore / stats.attemptCount) : 0,

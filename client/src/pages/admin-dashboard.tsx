@@ -39,6 +39,8 @@ interface User {
   role: string;
   status: string;
   avatarInitials: string;
+  warriorAvatar?: string | null;
+  profilePhoto?: string | null;
   managerId?: string | null;
 }
 
@@ -952,9 +954,17 @@ export default function AdminDashboard() {
                         <TableRow key={mgr.id} data-testid={`row-manager-${mgr.id}`}>
                           <TableCell>
                             <div className="flex items-center gap-3">
-                              <div className="h-9 w-9 rounded-full bg-purple-100 flex items-center justify-center text-xs font-bold text-purple-600">
-                                {mgr.avatarInitials}
-                              </div>
+                              {mgr.warriorAvatar || mgr.profilePhoto ? (
+                                <img 
+                                  src={mgr.warriorAvatar || mgr.profilePhoto || ""} 
+                                  alt={mgr.name}
+                                  className="h-9 w-9 rounded-full object-cover border-2 border-purple-200"
+                                />
+                              ) : (
+                                <div className="h-9 w-9 rounded-full bg-purple-100 flex items-center justify-center text-xs font-bold text-purple-600">
+                                  {mgr.avatarInitials}
+                                </div>
+                              )}
                               <div className="flex flex-col">
                                 <span className="font-medium">{mgr.name}</span>
                                 <span className="text-xs text-muted-foreground">{mgr.email}</span>
@@ -1024,9 +1034,17 @@ export default function AdminDashboard() {
                           <TableRow key={rep.id} data-testid={`row-rep-${rep.id}`}>
                             <TableCell>
                               <div className="flex items-center gap-3">
-                                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
-                                  {rep.avatarInitials}
-                                </div>
+                                {rep.warriorAvatar || rep.profilePhoto ? (
+                                  <img 
+                                    src={rep.warriorAvatar || rep.profilePhoto || ""} 
+                                    alt={rep.name}
+                                    className="h-8 w-8 rounded-full object-cover border-2 border-primary/20"
+                                  />
+                                ) : (
+                                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                                    {rep.avatarInitials}
+                                  </div>
+                                )}
                                 <div className="flex flex-col">
                                   <Link href={`/admin/rep/${rep.id}`} className="font-medium hover:text-primary hover:underline cursor-pointer">
                                     {rep.name}
