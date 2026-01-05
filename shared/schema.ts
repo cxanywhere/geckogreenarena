@@ -145,6 +145,22 @@ export const quizAttempts = pgTable("quiz_attempts", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// Buyer personas for sales training
+export const buyerPersonas = pgTable("buyer_personas", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").unique().notNull(),
+  name: text("name").notNull(),
+  subtitle: text("subtitle"),
+  avatar: text("avatar"),
+  attributes: jsonb("attributes").$type<string[]>().notNull(),
+  whatTheyCareAbout: jsonb("what_they_care_about").$type<string[]>().notNull(),
+  whatTriggersResistance: jsonb("what_triggers_resistance").$type<string[]>().notNull(),
+  howToWin: jsonb("how_to_win").$type<string[]>().notNull(),
+  bestPlays: jsonb("best_plays").$type<string[]>().notNull(),
+  orderIndex: integer("order_index").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ one, many }) => ({
   manager: one(users, {
@@ -255,6 +271,11 @@ export const insertUsageSessionSchema = createInsertSchema(usageSessions).omit({
   createdAt: true,
 });
 
+export const insertBuyerPersonaSchema = createInsertSchema(buyerPersonas).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -285,6 +306,9 @@ export type QuizAttempt = typeof quizAttempts.$inferSelect;
 
 export type InsertUsageSession = z.infer<typeof insertUsageSessionSchema>;
 export type UsageSession = typeof usageSessions.$inferSelect;
+
+export type InsertBuyerPersona = z.infer<typeof insertBuyerPersonaSchema>;
+export type BuyerPersona = typeof buyerPersonas.$inferSelect;
 
 // Export chat models for OpenAI integration
 export * from "./models/chat";
