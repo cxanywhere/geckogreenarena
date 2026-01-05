@@ -10,11 +10,12 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
-const arenaLoginBg = "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1767580244/arena-ai/arena_login_background.jpg";
 import geckoLogo from "@assets/image_1766975682051.png";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
 import arenaLogoLight from "@/assets/arena-logo-light.png";
 import { useTheme } from "next-themes";
+
+const arenaLoginBg = "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1767580244/arena-ai/arena_login_background.jpg";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
