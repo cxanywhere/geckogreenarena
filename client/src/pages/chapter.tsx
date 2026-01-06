@@ -71,6 +71,7 @@ export default function ChapterPage() {
   const [showEndOfChapter, setShowEndOfChapter] = useState(false);
   const [totalSlides, setTotalSlides] = useState(0);
   const [showObjectives, setShowObjectives] = useState(false);
+  const [pendingNextPage, setPendingNextPage] = useState<number | null>(null);
 
   const storedUser = localStorage.getItem("currentUser");
   const user = storedUser ? JSON.parse(storedUser) : null;
@@ -101,6 +102,7 @@ export default function ChapterPage() {
       localStorage.setItem(`chapter_roleplay_completed_orderindex_${params.id}`, JSON.stringify(Array.from(completedRoleplayOrderIndexes)));
     }
   }, [completedRoleplayOrderIndexes, params?.id]);
+
 
   const isChapter1 = chapter?.title === "Sales Foundations";
   const isChapter2 = chapter?.title === "Field Execution" || chapter?.title === "Field Sales Process";
@@ -169,24 +171,39 @@ export default function ChapterPage() {
   }, [isChapter1, isChapter2, completedRoleplayOrderIndexes]);
 
   const handlePageChange = (page: number, numPages?: number) => {
-    setCurrentPage(page);
     if (numPages) setTotalSlides(numPages);
     
+    const isMovingForward = page > currentPage;
+    const previousPage = currentPage;
+    
+    // When moving forward, check if the CURRENT page (being left) has a roleplay
+    if (isMovingForward && (isChapter1 || isChapter2)) {
+      const hasRoleplay = isChapter1 ? isCh1RoleplaySlide(previousPage) : isCh2RoleplaySlide(previousPage);
+      
+      if (hasRoleplay) {
+        const roleplays = isChapter1 ? getCh1Roleplays(previousPage) : getCh2Roleplays(previousPage);
+        const uncompletedRoleplays = roleplays.filter(rp => !completedRoleplayOrderIndexes.has(rp.orderIndex));
+        
+        if (uncompletedRoleplays.length > 0) {
+          // Store the target page and show roleplay prompt
+          setPendingNextPage(page);
+          setCurrentRoleplays(uncompletedRoleplays);
+          setCurrentRoleplayIndex(0);
+          setShowRoleplay(true);
+          return; // Don't advance yet - wait for roleplay completion
+        }
+      }
+    }
+    
+    // Update the current page
+    setCurrentPage(page);
+    
+    // Handle quizzes (these trigger on arrival at the new page)
     if (isChapter1) {
       if (isQuizSlide(page) && !completedQuizPages.has(page)) {
         triggerQuiz(page);
-        
-        if (isCh1RoleplaySlide(page)) {
-          pendingContentForSlide.current = { quizzes: true, roleplays: getCh1Roleplays(page) };
-        }
-      } else if (isCh1RoleplaySlide(page)) {
-        triggerRoleplays(page);
       }
-    } else if (isChapter2) {
-      if (isCh2RoleplaySlide(page)) {
-        triggerRoleplays(page);
-      }
-    } else {
+    } else if (!isChapter1 && !isChapter2) {
       if (page > 1 && page % QUIZ_INTERVAL === 0 && !completedQuizPages.has(page)) {
         triggerQuiz(page);
       }
@@ -199,6 +216,9 @@ export default function ChapterPage() {
       setShowRoleplay(false);
       const actualId = findRoleplayIdByOrderIndex(roleplay.orderIndex);
       if (actualId) {
+        // Navigate to chat - when user returns, they'll be on the same slide
+        // and will need to click Next again, at which point we'll check if 
+        // there are more uncompleted roleplays
         setLocation(`/chat/${actualId}`);
       } else {
         toast.error("Roleplay not found. Please try again.");
@@ -221,6 +241,12 @@ export default function ChapterPage() {
       setShowRoleplay(false);
       setCurrentRoleplays([]);
       setCurrentRoleplayIndex(0);
+      
+      // Advance to the pending page if there is one
+      if (pendingNextPage !== null) {
+        setCurrentPage(pendingNextPage);
+        setPendingNextPage(null);
+      }
     }
   };
 

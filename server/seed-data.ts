@@ -169,7 +169,7 @@ export const ROLEPLAY_SEED_DATA = [
     failConditions: 'Ignoring time pressure, being pushy, or failing to ask a qualifying question.',
     winningResponse: 'Great job! You acknowledged their time, set expectations, and asked a qualifying question.',
     losingResponse: 'You need to respect their time more and ask qualifying questions earlier.',
-    orderIndex: 0
+    orderIndex: 1
   },
   {
     slug: 'rp-skeptic',
@@ -187,7 +187,7 @@ export const ROLEPLAY_SEED_DATA = [
     failConditions: 'Arguing, being defensive, or giving up too quickly.',
     winningResponse: 'Excellent recovery! You reframed the objection and kept control.',
     losingResponse: 'Work on acknowledging objections before trying to redirect.',
-    orderIndex: 1
+    orderIndex: 2
   },
   {
     slug: 'rp-gatekeeper',
@@ -205,7 +205,7 @@ export const ROLEPLAY_SEED_DATA = [
     failConditions: 'Ignoring the sign, being disrespectful, or pushing too hard.',
     winningResponse: 'Well done! You respected the boundary while creating an opening.',
     losingResponse: 'You need to acknowledge rules and ask for permission more gracefully.',
-    orderIndex: 2
+    orderIndex: 3
   },
   {
     slug: 'rp-diy-pro',
@@ -223,7 +223,7 @@ export const ROLEPLAY_SEED_DATA = [
     failConditions: 'Insulting their work, being condescending, or failing to differentiate.',
     winningResponse: 'Perfect! You validated their effort while showing professional value.',
     losingResponse: 'Remember to compliment their work before showing what professionals add.',
-    orderIndex: 3
+    orderIndex: 4
   },
   {
     slug: 'rp-loyalist',
@@ -241,7 +241,7 @@ export const ROLEPLAY_SEED_DATA = [
     failConditions: 'Bashing competitors, being aggressive, or failing to find the gap.',
     winningResponse: 'Excellent! You planted seeds of doubt without being pushy.',
     losingResponse: 'Never bash competitors. Find gaps in their service instead.',
-    orderIndex: 4
+    orderIndex: 5
   },
   {
     slug: 'rp-confused-homeowner',
@@ -259,7 +259,7 @@ export const ROLEPLAY_SEED_DATA = [
     failConditions: 'Being vague, rambling, or failing to give clear direction.',
     winningResponse: 'Great clarity! You explained your purpose and gave clear next steps.',
     losingResponse: 'Be more direct about why you are there and what you want.',
-    orderIndex: 5
+    orderIndex: 6
   },
   {
     slug: 'rp-denialist',
@@ -277,7 +277,7 @@ export const ROLEPLAY_SEED_DATA = [
     failConditions: 'Arguing, insulting their lawn, or failing to show specific evidence.',
     winningResponse: 'Well done! You showed them the problem without being condescending.',
     losingResponse: 'Always validate first, then show specific visual evidence.',
-    orderIndex: 6
+    orderIndex: 7
   },
   {
     slug: 'rp-apathetic-owner',
@@ -295,7 +295,7 @@ export const ROLEPLAY_SEED_DATA = [
     failConditions: 'Lecturing, being preachy, or failing to connect to their values.',
     winningResponse: 'Great job connecting consequences to what they care about!',
     losingResponse: 'Find what they DO care about and connect the problem to that.',
-    orderIndex: 7
+    orderIndex: 8
   },
   {
     slug: 'rp-visual-skeptic',
@@ -313,7 +313,7 @@ export const ROLEPLAY_SEED_DATA = [
     failConditions: 'Only talking, not showing, or being vague.',
     winningResponse: 'Excellent visual demonstration! Seeing is believing.',
     losingResponse: 'Show, don\'t tell. Walk them to the problem and point.',
-    orderIndex: 8
+    orderIndex: 9
   },
   {
     slug: 'rp-price-shopper',
@@ -331,7 +331,7 @@ export const ROLEPLAY_SEED_DATA = [
     failConditions: 'Giving price immediately without building value.',
     winningResponse: 'Perfect price deferral! Value before price always.',
     losingResponse: 'Never give price before establishing value. Defer and anchor.',
-    orderIndex: 9
+    orderIndex: 10
   },
   {
     slug: 'rp-budget-watcher',
@@ -349,7 +349,7 @@ export const ROLEPLAY_SEED_DATA = [
     failConditions: 'Immediately discounting, being defensive, or agreeing it\'s expensive.',
     winningResponse: 'Great normalization! You reframed price in terms of value.',
     losingResponse: 'Never agree it\'s expensive. Normalize and re-anchor to outcomes.',
-    orderIndex: 10
+    orderIndex: 11
   },
   {
     slug: 'rp-comparison-shopper',
@@ -367,7 +367,7 @@ export const ROLEPLAY_SEED_DATA = [
     failConditions: 'Bashing competitors, matching price, or being defensive.',
     winningResponse: 'Excellent differentiation! You focused on results, not price.',
     losingResponse: 'Don\'t compete on price. Compete on outcomes and guarantees.',
-    orderIndex: 11
+    orderIndex: 12
   },
   {
     slug: 'rp-cautious-buyer',
@@ -385,7 +385,7 @@ export const ROLEPLAY_SEED_DATA = [
     failConditions: 'Being pushy, not explaining the process, or creating more anxiety.',
     winningResponse: 'Well done! You normalized payment and removed risk concerns.',
     losingResponse: 'Explain the process, emphasize guarantees, and remove risk.',
-    orderIndex: 12
+    orderIndex: 13
   },
   {
     slug: 'rp-indecisive-prospect',
@@ -403,7 +403,7 @@ export const ROLEPLAY_SEED_DATA = [
     failConditions: 'Accepting the stall, being pushy, or failing to isolate.',
     winningResponse: 'Great job isolating the real concern and advancing!',
     losingResponse: 'Always ask what specifically they need to think about.',
-    orderIndex: 13
+    orderIndex: 14
   },
   {
     slug: 'rp-defeater',
@@ -421,7 +421,7 @@ export const ROLEPLAY_SEED_DATA = [
     failConditions: 'Accepting the deflection, leaving materials, or losing control.',
     winningResponse: 'Excellent control! You secured a concrete next step.',
     losingResponse: 'Never leave materials. Clarify criteria and set a specific callback.',
-    orderIndex: 14
+    orderIndex: 15
   },
   {
     slug: 'rp-ultimate-test',
@@ -439,7 +439,7 @@ export const ROLEPLAY_SEED_DATA = [
     failConditions: 'Losing control, failing to handle objections, or not closing.',
     winningResponse: 'Congratulations! You have demonstrated mastery across all phases.',
     losingResponse: 'Review all chapters and practice each phase before retrying.',
-    orderIndex: 15
+    orderIndex: 16
   }
 ];
 
