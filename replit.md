@@ -38,6 +38,7 @@ Preferred communication style: Simple, everyday language.
 - **Battlecards**: Quick reference scripts for handling objections
 - **UserProgress**: Tracks chapter completion and roleplay attempts
 - **RoleplayAttempts**: Stores roleplay session results and scores
+- **Experts**: D2D sales coaches with pricing tiers for AI coaching, consultations, call reviews
 
 ### Authentication
 - JWT-based authentication with 7-day token expiry

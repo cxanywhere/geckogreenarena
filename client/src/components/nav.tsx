@@ -65,6 +65,7 @@ export function Nav() {
     { href: "/leaderboard", label: "Leaderboard" },
     { href: "/battlecards", label: "Battlecards" },
     { href: "/personas", label: "Personas" },
+    { href: "/experts", label: "Experts" },
     { href: "/resources", label: "Library" },
   ];
 

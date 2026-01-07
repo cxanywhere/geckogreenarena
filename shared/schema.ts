@@ -212,6 +212,26 @@ export const progressNudges = pgTable("progress_nudges", {
   dismissed: integer("dismissed").default(0),
 });
 
+// Expert coaches for marketplace
+export const experts = pgTable("experts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").unique().notNull(),
+  name: text("name").notNull(),
+  company: text("company").notNull(),
+  location: text("location").notNull(),
+  bio: text("bio").notNull(),
+  avatar: text("avatar"),
+  website: text("website"),
+  specialties: jsonb("specialties").$type<string[]>().notNull(),
+  credentials: jsonb("credentials").$type<string[]>(),
+  aiCoachRate: integer("ai_coach_rate").default(0),
+  consultationRate: integer("consultation_rate").default(0),
+  callReviewRate: integer("call_review_rate").default(0),
+  featured: integer("featured").default(0),
+  orderIndex: integer("order_index").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ one, many }) => ({
   manager: one(users, {
@@ -349,6 +369,11 @@ export const insertProgressNudgeSchema = createInsertSchema(progressNudges).omit
   readAt: true,
 });
 
+export const insertExpertSchema = createInsertSchema(experts).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -394,6 +419,9 @@ export type CoachingTask = typeof coachingTasks.$inferSelect;
 
 export type InsertProgressNudge = z.infer<typeof insertProgressNudgeSchema>;
 export type ProgressNudge = typeof progressNudges.$inferSelect;
+
+export type InsertExpert = z.infer<typeof insertExpertSchema>;
+export type Expert = typeof experts.$inferSelect;
 
 // Export chat models for OpenAI integration
 export * from "./models/chat";

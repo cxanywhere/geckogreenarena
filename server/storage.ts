@@ -14,6 +14,7 @@ import {
   coachingNotes,
   coachingTasks,
   progressNudges,
+  experts,
   type User,
   type InsertUser,
   type Chapter,
@@ -43,6 +44,8 @@ import {
   type InsertCoachingTask,
   type ProgressNudge,
   type InsertProgressNudge,
+  type Expert,
+  type InsertExpert,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, ne, or, isNull, sql, count } from "drizzle-orm";
@@ -157,6 +160,12 @@ export interface IStorage {
   
   // Stalled Progress Detection
   getStalledReps(daysSinceActivity: number): Promise<User[]>;
+  
+  // Experts
+  getAllExperts(): Promise<Expert[]>;
+  getExpert(id: string): Promise<Expert | undefined>;
+  getExpertBySlug(slug: string): Promise<Expert | undefined>;
+  createExpert(expert: InsertExpert): Promise<Expert>;
 }
 
 // Performance metric types
@@ -1013,6 +1022,26 @@ export class DatabaseStorage implements IStorage {
     }
     
     return stalledReps;
+  }
+
+  // Experts
+  async getAllExperts(): Promise<Expert[]> {
+    return await db.select().from(experts).orderBy(experts.orderIndex);
+  }
+
+  async getExpert(id: string): Promise<Expert | undefined> {
+    const [expert] = await db.select().from(experts).where(eq(experts.id, id));
+    return expert || undefined;
+  }
+
+  async getExpertBySlug(slug: string): Promise<Expert | undefined> {
+    const [expert] = await db.select().from(experts).where(eq(experts.slug, slug));
+    return expert || undefined;
+  }
+
+  async createExpert(expert: InsertExpert): Promise<Expert> {
+    const [created] = await db.insert(experts).values(expert).returning();
+    return created;
   }
 }
 

@@ -26,6 +26,7 @@ import PersonasPage from "@/pages/personas";
 import PersonaDetailPage from "@/pages/persona-detail";
 import MyStatsPage from "@/pages/my-stats";
 import CoachPage from "@/pages/coach";
+import ExpertsPage from "@/pages/experts";
 
 function Router() {
   return (
@@ -100,6 +101,11 @@ function Router() {
       <Route path="/personas/:slug">
         <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
           <PersonaDetailPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/experts">
+        <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
+          <ExpertsPage />
         </ProtectedRoute>
       </Route>
       <Route path="/report-card">

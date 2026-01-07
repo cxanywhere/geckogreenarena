@@ -147,6 +147,16 @@ async function ensureDatabaseSeeded() {
           await storage.createResource(resource);
         }
         console.log("✓ Created resources");
+
+        // Seed experts if not already present
+        const existingExperts = await storage.getAllExperts();
+        if (existingExperts.length === 0) {
+          const { EXPERT_SEED_DATA } = await import("./seed-data");
+          for (const expert of EXPERT_SEED_DATA) {
+            await storage.createExpert(expert);
+          }
+          console.log("✓ Created experts");
+        }
       }
 
       console.log("Database seeding complete!");
@@ -350,8 +360,7 @@ export async function registerRoutes(
         }
         userStats[attempt.userId].totalScore += attempt.score;
         userStats[attempt.userId].attemptCount += 1;
-        // Handle both boolean true and numeric 1 for passed field
-        if (attempt.passed === 1 || attempt.passed === true || attempt.passed === "true") {
+        if (attempt.passed === 1) {
           userStats[attempt.userId].passedCount += 1;
         }
       });
@@ -1180,6 +1189,34 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Get persona error:", error);
       res.status(500).json({ error: "Failed to get persona" });
+    }
+  });
+
+  // Expert marketplace routes
+  app.get("/api/experts", async (req, res) => {
+    try {
+      const experts = await storage.getAllExperts();
+      res.json(experts);
+    } catch (error) {
+      console.error("Get experts error:", error);
+      res.status(500).json({ error: "Failed to get experts" });
+    }
+  });
+
+  app.get("/api/experts/:slug", async (req, res) => {
+    try {
+      const { slug } = req.params;
+      if (!slug || typeof slug !== "string" || slug.trim() === "") {
+        return res.status(400).json({ error: "Invalid expert slug" });
+      }
+      const expert = await storage.getExpertBySlug(slug);
+      if (!expert) {
+        return res.status(404).json({ error: "Expert not found" });
+      }
+      res.json(expert);
+    } catch (error) {
+      console.error("Get expert error:", error);
+      res.status(500).json({ error: "Failed to get expert" });
     }
   });
 
