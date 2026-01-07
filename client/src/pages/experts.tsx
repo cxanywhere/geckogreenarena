@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Search, Users, Loader2, MapPin, Star, Sparkles, Calendar, MessageSquare, ExternalLink } from "lucide-react";
+import { Search, Users, Loader2, MapPin, Star, Sparkles, Calendar, MessageSquare, ExternalLink, Lock } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -233,26 +233,28 @@ function ExpertCard({ expert, index, featured = false }: { expert: Expert; index
             <Button 
               variant="outline" 
               size="sm" 
-              className="w-full"
+              className="w-full opacity-60 cursor-not-allowed"
+              disabled
               data-testid={`button-ai-coach-${expert.slug}`}
             >
-              <Sparkles className="w-3 h-3 mr-1" />
+              <Lock className="w-3 h-3 mr-1" />
               AI Coach
             </Button>
             <Button 
-              variant="default" 
+              variant="outline" 
               size="sm" 
-              className="w-full"
+              className="w-full opacity-60 cursor-not-allowed"
+              disabled
               data-testid={`button-consultation-${expert.slug}`}
             >
-              <Calendar className="w-3 h-3 mr-1" />
+              <Lock className="w-3 h-3 mr-1" />
               Book
             </Button>
           </div>
 
-          <div className="flex justify-between text-xs text-muted-foreground mt-3">
-            <span>AI: ${(expert.aiCoachRate / 100).toFixed(2)}/min</span>
-            <span>Consult: ${expert.consultationRate}</span>
+          <div className="flex items-center justify-center gap-1 text-xs text-muted-foreground mt-3">
+            <Lock className="w-3 h-3" />
+            <span>Coming Soon</span>
           </div>
 
           {expert.website && (
