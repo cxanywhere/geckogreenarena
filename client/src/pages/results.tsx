@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useEffect, useState, useRef, useMemo } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface AIFeedback {
   overallScore: number;
@@ -57,6 +58,7 @@ export default function ResultsPage() {
   const mode = searchParams.get("mode");
   const returnTo = searchParams.get("returnTo");
   const returnPage = searchParams.get("returnPage");
+  const queryClient = useQueryClient();
   
   const [result, setResult] = useState<RoleplayResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -84,7 +86,7 @@ export default function ResultsPage() {
     }
   }, [isLoading, loadingMessages.length]);
 
-  const storedUser = localStorage.getItem("user");
+  const storedUser = localStorage.getItem("currentUser");
   const user = storedUser ? JSON.parse(storedUser) : null;
 
   useEffect(() => {
@@ -112,6 +114,11 @@ export default function ResultsPage() {
           const data = await response.json();
           setResult(data);
           localStorage.setItem("lastRoleplayResult", JSON.stringify(data));
+          
+          // Invalidate roleplay status cache so chapter page shows updated attempts
+          if (user?.id) {
+            queryClient.invalidateQueries({ queryKey: ["roleplay-status", user.id] });
+          }
           
           if (data.feedback?.passed && data.scenario?.orderIndex) {
             markRoleplayCompleted(data.scenario.orderIndex, data.scenario.chapterId);

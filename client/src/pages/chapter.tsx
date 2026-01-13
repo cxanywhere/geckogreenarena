@@ -37,10 +37,14 @@ export default function ChapterPage() {
   const user = storedUser ? JSON.parse(storedUser) : null;
 
   // Fetch user's roleplay status (attempts, passed, permanently failed)
+  // refetchOnMount ensures fresh data when returning from roleplay
   const { data: roleplayStatus = {}, refetch: refetchRoleplayStatus } = useQuery({
     queryKey: ["roleplay-status", user?.id],
     queryFn: () => api.getUserRoleplayStatus(user.id),
     enabled: !!user?.id,
+    staleTime: 0, // Always consider data stale
+    refetchOnMount: 'always', // Force refetch when component mounts
+    refetchOnWindowFocus: true, // Refetch when user returns to tab
   });
 
   const chapter = chapters.find(c => c.id === params?.id);
