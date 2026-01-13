@@ -700,7 +700,12 @@ export default function ManagerDashboard() {
                         </TableRow>
                       ) : (
                         (performanceData?.reps || []).map((rep, index) => (
-                          <TableRow key={rep.userId} data-testid={`row-performance-${rep.userId}`} className={rep.isCertified ? "bg-green-50/50 dark:bg-green-900/10" : ""}>
+                          <TableRow 
+                            key={rep.userId} 
+                            data-testid={`row-performance-${rep.userId}`} 
+                            className={`cursor-pointer hover:bg-muted/50 transition-colors ${rep.isCertified ? "bg-green-50/50 dark:bg-green-900/10" : ""}`}
+                            onClick={() => setLocation(`/manager/rep/${rep.userId}`)}
+                          >
                             <TableCell>
                               <div className={`h-8 w-8 rounded-full flex items-center justify-center text-sm font-bold ${
                                 index === 0 ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" :
@@ -717,7 +722,7 @@ export default function ManagerDashboard() {
                                   {rep.userName.split(" ").map(n => n[0]).join("").toUpperCase()}
                                 </div>
                                 <div className="flex flex-col">
-                                  <span className="font-medium">{rep.userName}</span>
+                                  <span className="font-medium text-primary hover:underline">{rep.userName}</span>
                                   <span className="text-xs text-muted-foreground">{rep.email}</span>
                                 </div>
                               </div>

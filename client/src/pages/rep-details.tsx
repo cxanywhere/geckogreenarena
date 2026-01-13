@@ -158,11 +158,16 @@ function AudioPlayer({ url }: { url: string }) {
   );
 }
 
-function RoleplayAttemptCard({ attempt, isExpanded, onToggle }: { 
+function RoleplayAttemptCard({ attempt, isExpanded, onToggle, notes, onAddNote }: { 
   attempt: RoleplayAttemptDetail; 
   isExpanded: boolean;
   onToggle: () => void;
+  notes: CoachingNote[];
+  onAddNote: (content: string) => void;
 }) {
+  const [noteContent, setNoteContent] = useState("");
+  const [showNoteInput, setShowNoteInput] = useState(false);
+  const attemptNotes = notes.filter(n => n.roleplayAttemptId === attempt.id);
   const attemptDate = new Date(attempt.createdAt);
   const formattedDate = format(attemptDate, "MMM d, yyyy 'at' h:mm a");
 
@@ -274,6 +279,76 @@ function RoleplayAttemptCard({ attempt, isExpanded, onToggle }: {
                 </div>
               </div>
             )}
+
+            {/* Manager Coaching Notes Section */}
+            <div className="border-t border-border pt-4 mt-4">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="text-sm font-bold flex items-center gap-2">
+                  <MessageSquare className="h-4 w-4 text-primary" /> Manager Feedback
+                  {attemptNotes.length > 0 && (
+                    <Badge variant="secondary" className="text-xs">{attemptNotes.length}</Badge>
+                  )}
+                </h4>
+                {!showNoteInput && (
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={(e) => { e.stopPropagation(); setShowNoteInput(true); }}
+                    data-testid={`button-add-note-${attempt.id}`}
+                  >
+                    <Plus className="h-3 w-3 mr-1" /> Add Note
+                  </Button>
+                )}
+              </div>
+
+              {showNoteInput && (
+                <div className="space-y-2 mb-4" onClick={(e) => e.stopPropagation()}>
+                  <Textarea
+                    placeholder="Add coaching feedback for this roleplay..."
+                    value={noteContent}
+                    onChange={(e) => setNoteContent(e.target.value)}
+                    className="min-h-[60px] text-sm"
+                    data-testid={`input-note-${attempt.id}`}
+                  />
+                  <div className="flex gap-2">
+                    <Button 
+                      size="sm" 
+                      onClick={() => {
+                        onAddNote(noteContent);
+                        setNoteContent("");
+                        setShowNoteInput(false);
+                      }}
+                      disabled={!noteContent.trim()}
+                      data-testid={`button-save-note-${attempt.id}`}
+                    >
+                      <Send className="h-3 w-3 mr-1" /> Save
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={() => { setShowNoteInput(false); setNoteContent(""); }}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {attemptNotes.length > 0 ? (
+                <div className="space-y-2">
+                  {attemptNotes.map((note) => (
+                    <div key={note.id} className="bg-primary/5 border border-primary/20 rounded-lg p-3">
+                      <p className="text-sm whitespace-pre-wrap">{note.content}</p>
+                      <p className="text-xs text-muted-foreground mt-2">
+                        {format(new Date(note.createdAt), "MMM d, yyyy 'at' h:mm a")}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : !showNoteInput && (
+                <p className="text-xs text-muted-foreground italic">No coaching feedback yet</p>
+              )}
+            </div>
           </div>
         </CollapsibleContent>
       </div>
@@ -377,6 +452,14 @@ export default function RepDetailsPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["coaching-notes", repId] });
       setNewNote("");
+    },
+  });
+
+  const createAttemptNoteMutation = useMutation({
+    mutationFn: ({ attemptId, content }: { attemptId: string; content: string }) => 
+      api.createCoachingNote({ repId: repId!, content, roleplayAttemptId: attemptId, noteType: "roleplay_feedback" }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["coaching-notes", repId] });
     },
   });
 
@@ -575,6 +658,8 @@ export default function RepDetailsPage() {
                         attempt={attempt}
                         isExpanded={expandedRoleplay === attempt.id}
                         onToggle={() => setExpandedRoleplay(expandedRoleplay === attempt.id ? null : attempt.id)}
+                        notes={coachingNotes}
+                        onAddNote={(content) => createAttemptNoteMutation.mutate({ attemptId: attempt.id, content })}
                       />
                     ))}
                   </div>
