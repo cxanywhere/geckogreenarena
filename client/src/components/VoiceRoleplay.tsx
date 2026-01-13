@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Mic, MicOff, Phone, PhoneOff, Volume2, Loader2 } from "lucide-react";
+import { Mic, MicOff, Phone, PhoneOff, Volume2, Loader2, Clock, AlertTriangle } from "lucide-react";
 import Vapi from "@vapi-ai/web";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -17,6 +17,8 @@ interface VapiRoleplayConfig {
   resistanceLevel: number;
   buySignal: number;
   traits: string[];
+  durationSeconds?: number;
+  isCertification?: boolean;
 }
 
 interface TranscriptEntry {
@@ -40,16 +42,80 @@ export function VoiceRoleplay({ roleplayId, config, onComplete, onCancel, userId
   const [volume, setVolume] = useState(0);
   const [transcript, setTranscript] = useState<TranscriptEntry[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [timeRemaining, setTimeRemaining] = useState<number>(config.durationSeconds || 60);
+  const [showTimeWarning, setShowTimeWarning] = useState(false);
   
   const vapiRef = useRef<Vapi | null>(null);
   const callIdRef = useRef<string | null>(null);
   const transcriptContainerRef = useRef<HTMLDivElement>(null);
+  const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (transcriptContainerRef.current) {
       transcriptContainerRef.current.scrollTop = transcriptContainerRef.current.scrollHeight;
     }
   }, [transcript]);
+
+  // Track if timer has already triggered auto-end
+  const hasAutoEndedRef = useRef(false);
+  
+  // Countdown timer effect
+  useEffect(() => {
+    if (status === "active") {
+      // Reset timer when call becomes active
+      setTimeRemaining(config.durationSeconds || 60);
+      setShowTimeWarning(false);
+      hasAutoEndedRef.current = false;
+      
+      timerIntervalRef.current = setInterval(() => {
+        setTimeRemaining(prev => {
+          const newTime = prev - 1;
+          
+          // Show warning at 10 seconds
+          if (newTime === 10) {
+            setShowTimeWarning(true);
+          }
+          
+          // Auto-end call at 0 (only once)
+          if (newTime <= 0 && !hasAutoEndedRef.current) {
+            hasAutoEndedRef.current = true;
+            // Clear interval first
+            if (timerIntervalRef.current) {
+              clearInterval(timerIntervalRef.current);
+              timerIntervalRef.current = null;
+            }
+            // End the call via VAPI
+            if (vapiRef.current) {
+              vapiRef.current.stop();
+            }
+            return 0;
+          }
+          
+          return Math.max(0, newTime);
+        });
+      }, 1000);
+    } else {
+      // Clear timer when not active
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+        timerIntervalRef.current = null;
+      }
+    }
+    
+    return () => {
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+        timerIntervalRef.current = null;
+      }
+    };
+  }, [status, config.durationSeconds]);
+
+  // Format time as MM:SS
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const buildAssistantPrompt = () => {
     const resistanceDescription = config.resistanceLevel > 70 ? "very resistant and skeptical" : 
@@ -289,9 +355,13 @@ CRITICAL RULES:
                     <Phone className="w-10 h-10 text-[#2D5016]" />
                   </div>
                   <h4 className="font-semibold text-lg text-gray-900 mb-2">Ready to Practice?</h4>
-                  <p className="text-gray-600 text-sm max-w-md">
+                  <p className="text-gray-600 text-sm max-w-md mb-3">
                     Click "Start Call" to begin your voice roleplay. You'll speak directly with the AI homeowner who will respond to your pitch in real-time.
                   </p>
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-100 rounded-full text-sm text-gray-600">
+                    <Clock className="w-4 h-4" />
+                    <span>You have <strong>{formatTime(config.durationSeconds || 60)}</strong> to handle this objection</span>
+                  </div>
                 </div>
               </div>
             )}
@@ -397,39 +467,70 @@ CRITICAL RULES:
         )}
 
         {status === "active" && (
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col items-center gap-4">
+            {/* Countdown Timer */}
             <motion.div 
-              className="relative"
-              animate={{ 
-                boxShadow: volume > 0.3 ? `0 0 ${volume * 30}px ${volume * 10}px rgba(132, 204, 22, 0.3)` : "none"
-              }}
-              style={{ borderRadius: "50%" }}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full font-mono text-lg font-bold ${
+                showTimeWarning 
+                  ? "bg-red-100 text-red-700 border-2 border-red-300" 
+                  : "bg-gray-100 text-gray-700"
+              }`}
+              animate={showTimeWarning ? { scale: [1, 1.05, 1] } : {}}
+              transition={{ duration: 0.5, repeat: showTimeWarning ? Infinity : 0 }}
+              data-testid="countdown-timer"
             >
-              <Button
-                variant="outline"
-                size="lg"
-                className={`rounded-full w-14 h-14 ${isMuted ? "bg-red-100 border-red-300" : ""}`}
-                onClick={toggleMute}
-                data-testid="button-mute"
-              >
-                {isMuted ? (
-                  <MicOff className="w-6 h-6 text-red-600" />
-                ) : (
-                  <Mic className="w-6 h-6 text-[#2D5016]" />
-                )}
-              </Button>
+              {showTimeWarning ? (
+                <AlertTriangle className="w-5 h-5 text-red-600" />
+              ) : (
+                <Clock className="w-5 h-5" />
+              )}
+              <span>{formatTime(timeRemaining)}</span>
             </motion.div>
 
-            <Button
-              variant="destructive"
-              size="lg"
-              onClick={endCall}
-              className="px-6"
-              data-testid="button-end-call"
-            >
-              <PhoneOff className="w-4 h-4 mr-2" />
-              End Call
-            </Button>
+            {showTimeWarning && (
+              <motion.p 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-sm text-red-600 font-medium"
+              >
+                Time running out! Wrap up your conversation.
+              </motion.p>
+            )}
+
+            <div className="flex items-center gap-4">
+              <motion.div 
+                className="relative"
+                animate={{ 
+                  boxShadow: volume > 0.3 ? `0 0 ${volume * 30}px ${volume * 10}px rgba(132, 204, 22, 0.3)` : "none"
+                }}
+                style={{ borderRadius: "50%" }}
+              >
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className={`rounded-full w-14 h-14 ${isMuted ? "bg-red-100 border-red-300" : ""}`}
+                  onClick={toggleMute}
+                  data-testid="button-mute"
+                >
+                  {isMuted ? (
+                    <MicOff className="w-6 h-6 text-red-600" />
+                  ) : (
+                    <Mic className="w-6 h-6 text-[#2D5016]" />
+                  )}
+                </Button>
+              </motion.div>
+
+              <Button
+                variant="destructive"
+                size="lg"
+                onClick={endCall}
+                className="px-6"
+                data-testid="button-end-call"
+              >
+                <PhoneOff className="w-4 h-4 mr-2" />
+                End Call
+              </Button>
+            </div>
           </div>
         )}
 
