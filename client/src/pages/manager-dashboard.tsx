@@ -850,7 +850,12 @@ export default function ManagerDashboard() {
                   </TableRow>
                 ) : (
                   filteredReps.map((rep) => (
-                    <TableRow key={rep.id} data-testid={`row-rep-${rep.id}`}>
+                    <TableRow 
+                      key={rep.id} 
+                      data-testid={`row-rep-${rep.id}`}
+                      className="cursor-pointer hover:bg-muted/50 transition-colors"
+                      onClick={() => setLocation(`/manager/rep/${rep.id}`)}
+                    >
                       <TableCell>
                         <div className="flex items-center gap-3">
                           {rep.warriorAvatar || rep.profilePhoto ? (
@@ -865,9 +870,9 @@ export default function ManagerDashboard() {
                             </div>
                           )}
                           <div className="flex flex-col">
-                            <Link href={`/manager/rep/${rep.id}`} className="font-medium hover:text-primary hover:underline transition-colors cursor-pointer">
+                            <span className="font-medium text-primary">
                               {rep.name}
-                            </Link>
+                            </span>
                           </div>
                         </div>
                       </TableCell>
@@ -889,7 +894,7 @@ export default function ManagerDashboard() {
                         {rep.phone || "-"}
                       </TableCell>
                       <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
+                        <div className="flex justify-end gap-2" onClick={(e) => e.stopPropagation()}>
                            <Button 
                              size="sm" 
                              variant="ghost" 
