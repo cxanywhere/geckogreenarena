@@ -482,9 +482,15 @@ export interface DatabaseRoleplay {
   objections?: number;
   resistance?: number;
   traits?: string[];
+  isCertification?: boolean;
 }
 
 export function convertRoleplayToVapiConfig(roleplay: DatabaseRoleplay): VapiRoleplayConfig {
+  // Certification roleplays get 240 seconds (4 min), practice roleplays get 60 seconds (1 min)
+  const isCertification = roleplay.isCertification || 
+    roleplay.name.toLowerCase().includes('certification') ||
+    roleplay.id.includes('certification');
+  
   return {
     id: roleplay.id,
     name: roleplay.name,
@@ -502,7 +508,8 @@ export function convertRoleplayToVapiConfig(roleplay: DatabaseRoleplay): VapiRol
     resistanceLevel: roleplay.resistance ?? 60,
     buySignal: roleplay.buySignal ?? 30,
     traits: roleplay.traits || ["Professional", "Respectful", "Persistence"],
-    durationSeconds: 60
+    durationSeconds: isCertification ? 240 : 60,
+    isCertification
   };
 }
 
