@@ -194,6 +194,14 @@ class APIClient {
     return this.request(`/api/chapters/${chapterId}/roleplays`);
   }
 
+  async getUserRoleplayStatus(userId: string): Promise<Record<string, { 
+    attempts: number; 
+    passed: boolean; 
+    permanentlyFailed: boolean;
+  }>> {
+    return this.request(`/api/users/${userId}/roleplay-status`);
+  }
+
   // Battlecards
   async getBattlecards(): Promise<Battlecard[]> {
     return this.request("/api/battlecards");

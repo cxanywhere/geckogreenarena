@@ -10,6 +10,8 @@ interface RoleplayPromptProps {
   onSkip: () => void;
   queuePosition?: number;
   queueTotal?: number;
+  attemptsUsed?: number;
+  maxAttempts?: number;
 }
 
 export function RoleplayPrompt({ 
@@ -17,8 +19,11 @@ export function RoleplayPrompt({
   onStart, 
   onSkip,
   queuePosition = 1,
-  queueTotal = 1
+  queueTotal = 1,
+  attemptsUsed = 0,
+  maxAttempts = 3
 }: RoleplayPromptProps) {
+  const attemptsRemaining = maxAttempts - attemptsUsed;
   const orientation = useOrientation();
   const isMobile = useIsMobile();
   const isLandscape = orientation === 'landscape';
@@ -45,11 +50,20 @@ export function RoleplayPrompt({
           }`}
         >
           <div className={`p-6 ${isImmersive ? 'p-4' : ''}`}>
-            {queueTotal > 1 && (
-              <div className="text-xs text-gray-400 mb-3" data-testid="roleplay-queue-indicator">
-                Roleplay {queuePosition} of {queueTotal}
-              </div>
-            )}
+            <div className="flex justify-between items-center mb-3">
+              {queueTotal > 1 && (
+                <div className="text-xs text-gray-400" data-testid="roleplay-queue-indicator">
+                  Roleplay {queuePosition} of {queueTotal}
+                </div>
+              )}
+              {attemptsUsed > 0 && (
+                <div className={`text-xs font-medium px-2 py-1 rounded ${
+                  attemptsRemaining === 1 ? 'bg-amber-500/20 text-amber-400' : 'bg-gray-700 text-gray-300'
+                }`} data-testid="roleplay-attempts-indicator">
+                  {attemptsRemaining} attempt{attemptsRemaining !== 1 ? 's' : ''} remaining
+                </div>
+              )}
+            </div>
             
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">

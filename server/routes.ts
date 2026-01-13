@@ -615,6 +615,44 @@ export async function registerRoutes(
     }
   });
 
+  // User roleplay status - get attempts and pass status per roleplay
+  app.get("/api/users/:userId/roleplay-status", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const attempts = await storage.getUserRoleplayAttempts(userId);
+      
+      // Group attempts by roleplayId and calculate status
+      const statusMap: Record<string, { 
+        attempts: number; 
+        passed: boolean; 
+        permanentlyFailed: boolean;
+      }> = {};
+      
+      for (const attempt of attempts) {
+        if (!statusMap[attempt.roleplayId]) {
+          statusMap[attempt.roleplayId] = { attempts: 0, passed: false, permanentlyFailed: false };
+        }
+        statusMap[attempt.roleplayId].attempts++;
+        if (attempt.passed === 1) {
+          statusMap[attempt.roleplayId].passed = true;
+        }
+      }
+      
+      // Mark as permanently failed if 3+ attempts and never passed
+      for (const roleplayId of Object.keys(statusMap)) {
+        const status = statusMap[roleplayId];
+        if (status.attempts >= 3 && !status.passed) {
+          status.permanentlyFailed = true;
+        }
+      }
+      
+      res.json(statusMap);
+    } catch (error) {
+      console.error("Get user roleplay status error:", error);
+      res.status(500).json({ error: "Failed to get roleplay status" });
+    }
+  });
+
   // Roleplay routes
   app.get("/api/roleplays", async (req, res) => {
     try {

@@ -33,6 +33,16 @@ export default function ChapterPage() {
     queryFn: () => api.getRoleplays(),
   });
 
+  const storedUser = localStorage.getItem("currentUser");
+  const user = storedUser ? JSON.parse(storedUser) : null;
+
+  // Fetch user's roleplay status (attempts, passed, permanently failed)
+  const { data: roleplayStatus = {}, refetch: refetchRoleplayStatus } = useQuery({
+    queryKey: ["roleplay-status", user?.id],
+    queryFn: () => api.getUserRoleplayStatus(user.id),
+    enabled: !!user?.id,
+  });
+
   const chapter = chapters.find(c => c.id === params?.id);
   
   const findRoleplayIdByOrderIndex = useCallback((orderIndex: number): string | null => {
@@ -73,9 +83,6 @@ export default function ChapterPage() {
   const [showObjectives, setShowObjectives] = useState(false);
   const [pendingNextPage, setPendingNextPage] = useState<number | null>(null);
 
-  const storedUser = localStorage.getItem("currentUser");
-  const user = storedUser ? JSON.parse(storedUser) : null;
-
   useEffect(() => {
     if (params?.id) {
       localStorage.setItem(`chapter_pdf_progress_${params.id}`, currentPage.toString());
@@ -103,6 +110,12 @@ export default function ChapterPage() {
     }
   }, [completedRoleplayOrderIndexes, params?.id]);
 
+  // Refetch roleplay status when returning from a roleplay (component mounts or URL changes)
+  useEffect(() => {
+    if (user?.id) {
+      refetchRoleplayStatus();
+    }
+  }, [params?.id, user?.id]);
 
   const isChapter1 = chapter?.title === "Sales Foundations";
   const isChapter2 = chapter?.title === "Field Execution" || chapter?.title === "Field Sales Process";
@@ -157,18 +170,33 @@ export default function ChapterPage() {
     }
   }, [chapter, user, completedQuizPages, isLoadingQuiz, isChapter1]);
 
+  // Helper to check if a roleplay should be shown based on DB status
+  const shouldShowRoleplay = useCallback((orderIndex: number): boolean => {
+    const roleplayId = findRoleplayIdByOrderIndex(orderIndex);
+    if (!roleplayId) return true; // If we can't find it, default to showing
+    
+    const status = roleplayStatus[roleplayId];
+    if (!status) return true; // No attempts yet, show it
+    
+    // Don't show if passed or permanently failed (3+ attempts without passing)
+    if (status.passed || status.permanentlyFailed) return false;
+    
+    return true; // Not passed, attempts < 3, show it
+  }, [roleplayStatus, findRoleplayIdByOrderIndex]);
+
   const triggerRoleplays = useCallback((pageNumber: number) => {
     if (!isChapter1 && !isChapter2) return;
     
     const roleplays = isChapter1 ? getCh1Roleplays(pageNumber) : getCh2Roleplays(pageNumber);
-    const uncompletedRoleplays = roleplays.filter(rp => !completedRoleplayOrderIndexes.has(rp.orderIndex));
+    // Filter based on DB status: only show if not passed and attempts < 3
+    const eligibleRoleplays = roleplays.filter(rp => shouldShowRoleplay(rp.orderIndex));
     
-    if (uncompletedRoleplays.length > 0) {
-      setCurrentRoleplays(uncompletedRoleplays);
+    if (eligibleRoleplays.length > 0) {
+      setCurrentRoleplays(eligibleRoleplays);
       setCurrentRoleplayIndex(0);
       setShowRoleplay(true);
     }
-  }, [isChapter1, isChapter2, completedRoleplayOrderIndexes]);
+  }, [isChapter1, isChapter2, shouldShowRoleplay]);
 
   const handlePageChange = (page: number, numPages?: number) => {
     if (numPages) setTotalSlides(numPages);
@@ -182,12 +210,13 @@ export default function ChapterPage() {
       
       if (hasRoleplay) {
         const roleplays = isChapter1 ? getCh1Roleplays(previousPage) : getCh2Roleplays(previousPage);
-        const uncompletedRoleplays = roleplays.filter(rp => !completedRoleplayOrderIndexes.has(rp.orderIndex));
+        // Filter based on DB status: only show if not passed and attempts < 3
+        const eligibleRoleplays = roleplays.filter(rp => shouldShowRoleplay(rp.orderIndex));
         
-        if (uncompletedRoleplays.length > 0) {
+        if (eligibleRoleplays.length > 0) {
           // Store the target page and show roleplay prompt
           setPendingNextPage(page);
-          setCurrentRoleplays(uncompletedRoleplays);
+          setCurrentRoleplays(eligibleRoleplays);
           setCurrentRoleplayIndex(0);
           setShowRoleplay(true);
           return; // Don't advance yet - wait for roleplay completion
@@ -269,11 +298,11 @@ export default function ChapterPage() {
     toast.success("Quiz completed! Keep learning.");
     
     if (pendingContentForSlide.current?.roleplays) {
-      const uncompletedRoleplays = pendingContentForSlide.current.roleplays.filter(
-        rp => !completedRoleplayOrderIndexes.has(rp.orderIndex)
+      const eligibleRoleplays = pendingContentForSlide.current.roleplays.filter(
+        rp => shouldShowRoleplay(rp.orderIndex)
       );
-      if (uncompletedRoleplays.length > 0) {
-        setCurrentRoleplays(uncompletedRoleplays);
+      if (eligibleRoleplays.length > 0) {
+        setCurrentRoleplays(eligibleRoleplays);
         setCurrentRoleplayIndex(0);
         setShowRoleplay(true);
       }
@@ -286,11 +315,11 @@ export default function ChapterPage() {
     setCompletedQuizPages(prev => new Set([...Array.from(prev), currentPage]));
     
     if (pendingContentForSlide.current?.roleplays) {
-      const uncompletedRoleplays = pendingContentForSlide.current.roleplays.filter(
-        rp => !completedRoleplayOrderIndexes.has(rp.orderIndex)
+      const eligibleRoleplays = pendingContentForSlide.current.roleplays.filter(
+        rp => shouldShowRoleplay(rp.orderIndex)
       );
-      if (uncompletedRoleplays.length > 0) {
-        setCurrentRoleplays(uncompletedRoleplays);
+      if (eligibleRoleplays.length > 0) {
+        setCurrentRoleplays(eligibleRoleplays);
         setCurrentRoleplayIndex(0);
         setShowRoleplay(true);
       }
@@ -568,15 +597,22 @@ export default function ChapterPage() {
 
       {/* Roleplay Prompt Overlay */}
       <AnimatePresence>
-        {showRoleplay && currentRoleplays[currentRoleplayIndex] && (
-          <RoleplayPrompt
-            roleplay={currentRoleplays[currentRoleplayIndex]}
-            onStart={handleRoleplayStart}
-            onSkip={handleRoleplaySkip}
-            queuePosition={currentRoleplayIndex + 1}
-            queueTotal={currentRoleplays.length}
-          />
-        )}
+        {showRoleplay && currentRoleplays[currentRoleplayIndex] && (() => {
+          const currentRp = currentRoleplays[currentRoleplayIndex];
+          const roleplayId = findRoleplayIdByOrderIndex(currentRp.orderIndex);
+          const status = roleplayId ? roleplayStatus[roleplayId] : null;
+          return (
+            <RoleplayPrompt
+              roleplay={currentRp}
+              onStart={handleRoleplayStart}
+              onSkip={handleRoleplaySkip}
+              queuePosition={currentRoleplayIndex + 1}
+              queueTotal={currentRoleplays.length}
+              attemptsUsed={status?.attempts || 0}
+              maxAttempts={3}
+            />
+          );
+        })()}
       </AnimatePresence>
 
       {/* End of Chapter Summary */}
