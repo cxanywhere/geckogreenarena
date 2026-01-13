@@ -1,7 +1,7 @@
 import { useRoute, Link, useSearch } from "wouter";
 import { Nav } from "@/components/nav";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Trophy, RefreshCw, Activity, CheckCircle, Target, Lightbulb, Loader2, Award, XCircle, Play, Pause, Volume2 } from "lucide-react";
+import { ArrowLeft, Trophy, RefreshCw, Activity, CheckCircle, Target, Lightbulb, Loader2, Award, XCircle, Play, Pause, Volume2, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -55,6 +55,8 @@ export default function ResultsPage() {
   const searchParams = new URLSearchParams(searchString);
   const callId = searchParams.get("callId");
   const mode = searchParams.get("mode");
+  const returnTo = searchParams.get("returnTo");
+  const returnPage = searchParams.get("returnPage");
   
   const [result, setResult] = useState<RoleplayResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -213,8 +215,8 @@ export default function ResultsPage() {
             </div>
             <h2 className="text-xl font-bold mb-2">Evaluation Failed</h2>
             <p className="text-muted-foreground mb-6">{error}</p>
-            <Link href="/dashboard">
-              <Button>Back to Dashboard</Button>
+            <Link href={returnTo || "/dashboard"}>
+              <Button>{returnTo ? "Continue to Chapter" : "Back to Dashboard"}</Button>
             </Link>
           </div>
         </div>
@@ -230,8 +232,8 @@ export default function ResultsPage() {
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">No Results Found</h1>
             <p className="text-muted-foreground mb-6">Complete a roleplay to see your results here.</p>
-            <Link href="/dashboard">
-              <Button>Back to Dashboard</Button>
+            <Link href={returnTo || "/dashboard"}>
+              <Button>{returnTo ? "Continue to Chapter" : "Back to Dashboard"}</Button>
             </Link>
           </div>
         </div>
@@ -248,12 +250,19 @@ export default function ResultsPage() {
     <div className="min-h-screen bg-muted/20 flex flex-col">
       <Nav />
       <div className="container mx-auto px-4 py-8 flex-1 flex flex-col max-w-6xl">
-        <div className="mb-6">
+        <div className="mb-6 flex items-center justify-between">
           <Link href="/dashboard">
             <Button variant="ghost" className="pl-0 text-muted-foreground hover:text-primary">
               <ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard
             </Button>
           </Link>
+          {returnTo && (
+            <Link href={returnTo}>
+              <Button className="bg-primary hover:bg-primary/90">
+                Continue to Chapter <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          )}
         </div>
 
         <motion.div 

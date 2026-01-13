@@ -1,4 +1,4 @@
-import { useRoute, Link, useLocation } from "wouter";
+import { useRoute, Link, useLocation, useSearch } from "wouter";
 import { Nav } from "@/components/nav";
 import { VoiceRoleplay } from "@/components/VoiceRoleplay";
 import { Button } from "@/components/ui/button";
@@ -24,6 +24,10 @@ interface VapiConfig {
 export default function ChatPage() {
   const [, params] = useRoute("/chat/:id");
   const [, setLocation] = useLocation();
+  const searchString = useSearch();
+  const searchParams = new URLSearchParams(searchString);
+  const returnTo = searchParams.get("returnTo");
+  const returnPage = searchParams.get("returnPage");
   const roleplayId = params?.id;
   
   const storedUser = localStorage.getItem("user");
@@ -46,11 +50,22 @@ export default function ChatPage() {
   });
 
   const handleVoiceComplete = (callId: string) => {
-    setLocation(`/results/${roleplayId}?callId=${callId}&mode=voice`);
+    let resultsUrl = `/results/${roleplayId}?callId=${callId}&mode=voice`;
+    if (returnTo) {
+      resultsUrl += `&returnTo=${encodeURIComponent(returnTo)}`;
+      if (returnPage) {
+        resultsUrl += `&returnPage=${returnPage}`;
+      }
+    }
+    setLocation(resultsUrl);
   };
 
   const handleVoiceCancel = () => {
-    setLocation("/dashboard");
+    if (returnTo) {
+      setLocation(returnTo);
+    } else {
+      setLocation("/dashboard");
+    }
   };
 
   if (isLoading || isLoadingConfig) {

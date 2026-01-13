@@ -216,10 +216,8 @@ export default function ChapterPage() {
       setShowRoleplay(false);
       const actualId = findRoleplayIdByOrderIndex(roleplay.orderIndex);
       if (actualId) {
-        // Navigate to chat - when user returns, they'll be on the same slide
-        // and will need to click Next again, at which point we'll check if 
-        // there are more uncompleted roleplays
-        setLocation(`/chat/${actualId}`);
+        // Navigate to chat with chapter context for return navigation
+        setLocation(`/chat/${actualId}?returnTo=/chapter/${chapter?.id}&returnPage=${currentPage}`);
       } else {
         toast.error("Roleplay not found. Please try again.");
       }
@@ -338,7 +336,7 @@ export default function ChapterPage() {
     setShowEndOfChapter(false);
     const actualId = findRoleplayIdByOrderIndex(roleplay.orderIndex);
     if (actualId) {
-      setLocation(`/chat/${actualId}`);
+      setLocation(`/chat/${actualId}?returnTo=/chapter/${chapter?.id}&returnPage=${currentPage}`);
     } else {
       toast.error("Roleplay not found. Please try again.");
     }
