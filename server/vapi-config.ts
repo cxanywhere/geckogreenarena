@@ -33,7 +33,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 60,
     buySignal: 30,
     traits: ["Time Management", "Control Question", "Respect"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "ch1-rp2",
@@ -50,7 +50,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 80,
     buySignal: 10,
     traits: ["Reframing", "Persistence", "Specifics"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "ch1-rp3",
@@ -67,7 +67,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 90,
     buySignal: 5,
     traits: ["Compliance", "Intent Clarification", "Micro-Permission"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "ch1-rp4",
@@ -84,7 +84,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 70,
     buySignal: 40,
     traits: ["Validation", "Differentiation", "Leadership"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "ch1-rp5",
@@ -101,7 +101,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 85,
     buySignal: 20,
     traits: ["Gap Analysis", "Non-Threatening", "Discovery"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "ch1-rp6",
@@ -118,7 +118,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 40,
     buySignal: 50,
     traits: ["Clarity", "Direction", "Purpose"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "1c1815b2-d01b-4142-811c-66cd7170b5d2",
@@ -135,7 +135,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 65,
     buySignal: 35,
     traits: ["Validation", "Specificity", "Curiosity Building"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "241842f6-a207-404a-a708-dddc732f40d5",
@@ -152,7 +152,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 65,
     buySignal: 35,
     traits: ["Validation", "Specificity", "Curiosity Building"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "ab1c05c0-92c7-42a5-b5dd-6e07b5504abd",
@@ -169,7 +169,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 70,
     buySignal: 25,
     traits: ["Acceptance", "Social Proof", "Permission"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "430ee4af-0306-4a16-aa5b-4b15d8116b00",
@@ -186,7 +186,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 70,
     buySignal: 25,
     traits: ["Acceptance", "Social Proof", "Permission"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "268dffb1-dc31-4402-9d7c-4c36bca77d18",
@@ -203,7 +203,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 50,
     buySignal: 45,
     traits: ["Demonstration", "Specificity", "Movement"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "d64a3cc5-4756-4f73-85dc-7db8517bf32a",
@@ -220,7 +220,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 50,
     buySignal: 45,
     traits: ["Demonstration", "Specificity", "Movement"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "dd97051b-8a35-4166-8e42-89ae0278b838",
@@ -237,7 +237,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 55,
     buySignal: 60,
     traits: ["Value Building", "Deferral", "Assessment"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "4bbdb30a-a264-40b3-a324-7db130b7d995",
@@ -254,7 +254,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 55,
     buySignal: 60,
     traits: ["Value Building", "Deferral", "Assessment"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "866f7d61-1d8a-4890-837a-e451ce860e7e",
@@ -271,7 +271,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 80,
     buySignal: 30,
     traits: ["Cost Breakdown", "Comparison", "Value Demonstration"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "fc76f7e8-ec60-4bbb-a930-04edce68db01",
@@ -288,7 +288,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 80,
     buySignal: 30,
     traits: ["Cost Breakdown", "Comparison", "Value Demonstration"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "b7cffc85-375f-4c7d-852a-969d48ddcc4e",
@@ -305,7 +305,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 65,
     buySignal: 40,
     traits: ["Concern Isolation", "Clarification", "Assistance"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "f14ae08f-fdbc-42b9-a602-5696242272f6",
@@ -322,7 +322,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 65,
     buySignal: 40,
     traits: ["Concern Isolation", "Clarification", "Assistance"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "11eaa8ba-321d-4394-a1f4-8b4ca0028670",
@@ -339,7 +339,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 45,
     buySignal: 55,
     traits: ["Personalization", "Engagement", "Assessment"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "77b99928-e81c-4569-9314-2cd5260b4ccc",
@@ -356,7 +356,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 45,
     buySignal: 55,
     traits: ["Personalization", "Engagement", "Assessment"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "19589ec8-78db-4d72-8d1c-44a2a112d025",
@@ -373,7 +373,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 60,
     buySignal: 45,
     traits: ["Inclusion", "Partnership", "Information Gathering"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "8a68b5cc-8a63-4c96-9b69-258c06a12a92",
@@ -390,7 +390,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 60,
     buySignal: 45,
     traits: ["Inclusion", "Partnership", "Information Gathering"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "eaf4219d-7b9f-463a-a80c-9dd8526593ce",
@@ -407,7 +407,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 50,
     buySignal: 40,
     traits: ["Urgency", "Time Container", "Flexibility"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "8aa1ddda-bb52-405d-b809-7f84ae6415c6",
@@ -424,7 +424,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 50,
     buySignal: 40,
     traits: ["Urgency", "Time Container", "Flexibility"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "c91e5c42-8d5d-4a75-8e08-c272c591bcf3",
@@ -441,7 +441,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 75,
     buySignal: 50,
     traits: ["Differentiation", "Local Advantage", "Personal Service"],
-    durationSeconds: 60
+    durationSeconds: 90
   },
   {
     id: "723e29a3-cc3d-421c-913b-10a76f6b1f7f",
@@ -458,7 +458,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 75,
     buySignal: 50,
     traits: ["Differentiation", "Local Advantage", "Personal Service"],
-    durationSeconds: 60
+    durationSeconds: 90
   }
 ];
 
@@ -486,7 +486,7 @@ export interface DatabaseRoleplay {
 }
 
 export function convertRoleplayToVapiConfig(roleplay: DatabaseRoleplay): VapiRoleplayConfig {
-  // Certification roleplays get 240 seconds (4 min), practice roleplays get 60 seconds (1 min)
+  // Certification roleplays get 240 seconds (4 min), practice roleplays get 90 seconds (1.5 min)
   const isCertification = roleplay.isCertification || 
     roleplay.name.toLowerCase().includes('certification') ||
     roleplay.id.includes('certification');
@@ -508,7 +508,7 @@ export function convertRoleplayToVapiConfig(roleplay: DatabaseRoleplay): VapiRol
     resistanceLevel: roleplay.resistance ?? 60,
     buySignal: roleplay.buySignal ?? 30,
     traits: roleplay.traits || ["Professional", "Respectful", "Persistence"],
-    durationSeconds: isCertification ? 240 : 60,
+    durationSeconds: isCertification ? 240 : 90,
     isCertification
   };
 }
