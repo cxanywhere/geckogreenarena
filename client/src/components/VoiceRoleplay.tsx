@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Mic, MicOff, Phone, PhoneOff, Volume2, Loader2, Clock, AlertTriangle } from "lucide-react";
+import { Mic, MicOff, Phone, PhoneOff, Volume2, Loader2, Clock } from "lucide-react";
 import Vapi from "@vapi-ai/web";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -472,18 +472,12 @@ CRITICAL RULES:
             <motion.div 
               className={`flex items-center gap-2 px-4 py-2 rounded-full font-mono text-lg font-bold ${
                 showTimeWarning 
-                  ? "bg-red-100 text-red-700 border-2 border-red-300" 
+                  ? "bg-amber-50 text-amber-700 border border-amber-200" 
                   : "bg-gray-100 text-gray-700"
               }`}
-              animate={showTimeWarning ? { scale: [1, 1.05, 1] } : {}}
-              transition={{ duration: 0.5, repeat: showTimeWarning ? Infinity : 0 }}
               data-testid="countdown-timer"
             >
-              {showTimeWarning ? (
-                <AlertTriangle className="w-5 h-5 text-red-600" />
-              ) : (
-                <Clock className="w-5 h-5" />
-              )}
+              <Clock className={`w-5 h-5 ${showTimeWarning ? "text-amber-600" : ""}`} />
               <span>{formatTime(timeRemaining)}</span>
             </motion.div>
 
@@ -491,9 +485,9 @@ CRITICAL RULES:
               <motion.p 
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-sm text-red-600 font-medium"
+                className="text-sm text-gray-600 font-medium"
               >
-                Time running out! Wrap up your conversation.
+                Call will disconnect shortly.
               </motion.p>
             )}
 
