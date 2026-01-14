@@ -60,6 +60,7 @@ export interface IStorage {
   getAllUsers(): Promise<User[]>;
   getUsersByRole(role: string): Promise<User[]>;
   getUsersByManagerId(managerId: string): Promise<User[]>;
+  getAllUsersByManagerId(managerId: string): Promise<User[]>;
   getManagers(): Promise<User[]>;
   getReps(): Promise<User[]>;
   
@@ -291,24 +292,41 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getUsersByManagerId(managerId: string): Promise<User[]> {
+    return await db.select().from(users).where(
+      and(eq(users.managerId, managerId), isNull(users.archivedAt))
+    );
+  }
+
+  async getAllUsersByManagerId(managerId: string): Promise<User[]> {
+    // Includes archived users - for billing/usage reports
     return await db.select().from(users).where(eq(users.managerId, managerId));
   }
 
   async deleteUser(id: string): Promise<boolean> {
-    const result = await db.delete(users).where(eq(users.id, id)).returning();
+    // Soft delete - set archivedAt timestamp instead of deleting
+    const result = await db.update(users)
+      .set({ archivedAt: new Date() })
+      .where(eq(users.id, id))
+      .returning();
     return result.length > 0;
   }
 
   async getUsersByRole(role: string): Promise<User[]> {
-    return await db.select().from(users).where(eq(users.role, role));
+    return await db.select().from(users).where(
+      and(eq(users.role, role), isNull(users.archivedAt))
+    );
   }
 
   async getManagers(): Promise<User[]> {
-    return await db.select().from(users).where(eq(users.role, "manager"));
+    return await db.select().from(users).where(
+      and(eq(users.role, "manager"), isNull(users.archivedAt))
+    );
   }
 
   async getReps(): Promise<User[]> {
-    return await db.select().from(users).where(eq(users.role, "rep"));
+    return await db.select().from(users).where(
+      and(eq(users.role, "rep"), isNull(users.archivedAt))
+    );
   }
 
   // Chapters
@@ -682,7 +700,8 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getTeamUsageSessions(managerId: string): Promise<UsageSession[]> {
-    const teamMembers = await this.getUsersByManagerId(managerId);
+    // Use getAllUsersByManagerId to include archived users for accurate billing
+    const teamMembers = await this.getAllUsersByManagerId(managerId);
     const teamUserIds = teamMembers.map(m => m.id);
     
     if (teamUserIds.length === 0) return [];

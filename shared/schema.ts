@@ -17,6 +17,7 @@ export const users = pgTable("users", {
   profilePhoto: text("profile_photo"),
   warriorAvatar: text("warrior_avatar"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  archivedAt: timestamp("archived_at"),
 });
 
 export const chapters = pgTable("chapters", {
