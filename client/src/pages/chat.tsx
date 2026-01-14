@@ -3,9 +3,12 @@ import { Nav } from "@/components/nav";
 import { VoiceRoleplay } from "@/components/VoiceRoleplay";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { ArrowLeft, Info, Loader2, User, Mic } from "lucide-react";
+import { ArrowLeft, Info, Loader2, User, Mic, History, ChevronDown, ChevronUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { api, Roleplay } from "@/lib/api";
+import { RoleplayAttemptHistory } from "@/components/roleplay-attempt-history";
+import { useState } from "react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface VapiConfig {
   id: string;
@@ -29,8 +32,9 @@ export default function ChatPage() {
   const returnTo = searchParams.get("returnTo");
   const returnPage = searchParams.get("returnPage");
   const roleplayId = params?.id;
+  const [showHistory, setShowHistory] = useState(false);
   
-  const storedUser = localStorage.getItem("user");
+  const storedUser = localStorage.getItem("currentUser");
   const user = storedUser ? JSON.parse(storedUser) : { id: "guest", name: "Guest User", email: "guest@test.com" };
 
   const { data: scenario, isLoading, error } = useQuery<Roleplay>({
@@ -48,6 +52,22 @@ export default function ChatPage() {
     },
     enabled: !!roleplayId,
   });
+
+  const { data: roleplayHistory = {} } = useQuery({
+    queryKey: ["roleplay-history", user?.id],
+    queryFn: () => api.getUserRoleplayHistory(user!.id),
+    enabled: !!user?.id && user.id !== "guest",
+    staleTime: 0,
+    refetchOnMount: 'always' as const,
+  });
+
+  const thisRoleplayHistory = roleplayId && roleplayHistory[roleplayId] 
+    ? { [roleplayId]: roleplayHistory[roleplayId] } 
+    : {};
+  
+  const attemptInfo = roleplayId ? roleplayHistory[roleplayId] : null;
+  const attemptNumber = attemptInfo && typeof attemptInfo === 'object' ? attemptInfo.totalAttempts + 1 : 1;
+  const remainingAttempts = attemptInfo && typeof attemptInfo === 'object' ? attemptInfo.remainingAttempts : 3;
 
   const handleVoiceComplete = (callId: string) => {
     let resultsUrl = `/results/${roleplayId}?callId=${callId}&mode=voice`;
@@ -110,7 +130,7 @@ export default function ChatPage() {
   }
 
   const ScenarioStats = () => (
-    <div className="bg-card rounded-xl p-6 border border-border shadow-sm h-full">
+    <div className="bg-card rounded-xl p-6 border border-border shadow-sm h-full overflow-y-auto max-h-[calc(100vh-8rem)]">
       <div className="aspect-square rounded-lg overflow-hidden mb-4 bg-muted flex items-center justify-center">
         {scenario.avatar ? (
           <img src={scenario.avatar} alt={scenario.name} className="w-full h-full object-cover" />
@@ -119,7 +139,28 @@ export default function ChatPage() {
         )}
       </div>
       <h2 className="text-xl font-display font-bold mb-1 text-foreground">"{scenario.name}"</h2>
-      <p className="text-primary font-mono text-sm mb-4">{scenario.role}</p>
+      <p className="text-primary font-mono text-sm mb-2">{scenario.role}</p>
+      
+      {attemptInfo && typeof attemptInfo === 'object' && (
+        <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-4 ${
+          attemptInfo.hasPassed 
+            ? 'bg-green-500/10 text-green-500' 
+            : attemptInfo.permanentlyFailed
+              ? 'bg-red-500/10 text-red-500'
+              : remainingAttempts === 1
+                ? 'bg-amber-500/10 text-amber-500'
+                : 'bg-muted text-muted-foreground'
+        }`}>
+          <span className="text-xs font-medium">
+            {attemptInfo.hasPassed 
+              ? 'Passed' 
+              : attemptInfo.permanentlyFailed
+                ? 'No attempts left'
+                : `Attempt ${attemptNumber} of 3`
+            }
+          </span>
+        </div>
+      )}
       
       <p className="text-sm text-muted-foreground mb-4">{scenario.description}</p>
       
@@ -161,6 +202,26 @@ export default function ChatPage() {
           ))}
         </div>
       </div>
+
+      {Object.keys(thisRoleplayHistory).length > 0 && (
+        <Collapsible open={showHistory} onOpenChange={setShowHistory}>
+          <CollapsibleTrigger asChild>
+            <button className="w-full mt-6 pt-6 border-t border-border flex items-center justify-between text-sm font-medium text-foreground hover:text-primary transition-colors">
+              <span className="flex items-center gap-2">
+                <History className="w-4 h-4" />
+                Past Attempts ({attemptInfo && typeof attemptInfo === 'object' ? attemptInfo.totalAttempts : 0})
+              </span>
+              {showHistory ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="mt-4">
+            <RoleplayAttemptHistory 
+              history={thisRoleplayHistory}
+              showRoleplayHeader={false}
+            />
+          </CollapsibleContent>
+        </Collapsible>
+      )}
     </div>
   );
 

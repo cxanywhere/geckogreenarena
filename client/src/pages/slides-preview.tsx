@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 const TOTAL_SLIDES = 31;
 
@@ -63,6 +64,10 @@ export default function SlidesPreviewPage() {
 
         <Dialog open={selectedSlide !== null} onOpenChange={() => closeSlide()}>
           <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-black border-none overflow-hidden">
+            <VisuallyHidden>
+              <DialogTitle>Slide {selectedSlide} of {TOTAL_SLIDES}</DialogTitle>
+              <DialogDescription>View training slide in full size</DialogDescription>
+            </VisuallyHidden>
             <div className="relative flex items-center justify-center h-[90vh]">
               <Button
                 variant="ghost"

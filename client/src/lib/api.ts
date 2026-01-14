@@ -202,6 +202,33 @@ class APIClient {
     return this.request(`/api/users/${userId}/roleplay-status`);
   }
 
+  async getUserRoleplayHistory(userId: string): Promise<Record<string, {
+    roleplay: {
+      id: string;
+      name: string;
+      role: string;
+      difficulty: string;
+      chapterId: string | null;
+      phase: string | null;
+      orderIndex: number | null;
+    };
+    attempts: Array<{
+      id: string;
+      score: number | null;
+      passed: boolean;
+      createdAt: string | null;
+      feedback: any;
+      recordingUrl: string | null;
+      notes: Array<{ id: string; content: string; createdAt: string | null; managerId: string }>;
+    }>;
+    totalAttempts: number;
+    hasPassed: boolean;
+    remainingAttempts: number;
+    permanentlyFailed: boolean;
+  }>> {
+    return this.request(`/api/users/${userId}/roleplay-history`);
+  }
+
   // Battlecards
   async getBattlecards(): Promise<Battlecard[]> {
     return this.request("/api/battlecards");

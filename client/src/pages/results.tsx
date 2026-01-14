@@ -115,9 +115,10 @@ export default function ResultsPage() {
           setResult(data);
           localStorage.setItem("lastRoleplayResult", JSON.stringify(data));
           
-          // Invalidate roleplay status cache so chapter page shows updated attempts
+          // Invalidate roleplay status and history caches so chapter and stats pages show updated data
           if (user?.id) {
             queryClient.invalidateQueries({ queryKey: ["roleplay-status", user.id] });
+            queryClient.invalidateQueries({ queryKey: ["roleplay-history", user.id] });
           }
           
           if (data.feedback?.passed && data.scenario?.orderIndex) {

@@ -18,20 +18,31 @@ import {
   Clock,
   Award,
   Star,
-  ArrowLeft
+  ArrowLeft,
+  History
 } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
+import { RoleplayAttemptHistory } from "@/components/roleplay-attempt-history";
 
 export default function MyStatsPage() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const [, setLocation] = useLocation();
 
   const { data: stats, isLoading } = useQuery({
     queryKey: ["user-stats", user?.id],
     queryFn: () => api.getUserStats(user!.id),
     enabled: !!user?.id,
+  });
+
+  const { data: roleplayHistory = {} } = useQuery({
+    queryKey: ["roleplay-history", user?.id],
+    queryFn: () => api.getUserRoleplayHistory(user!.id),
+    enabled: !!user?.id,
+    staleTime: 0,
+    refetchOnMount: 'always' as const,
   });
 
   const completeTaskMutation = useMutation({
@@ -40,6 +51,12 @@ export default function MyStatsPage() {
       queryClient.invalidateQueries({ queryKey: ["user-stats", user?.id] });
     },
   });
+
+  const handleTryAgain = (roleplayId: string, chapterId: string | null) => {
+    if (chapterId) {
+      setLocation(`/chat/${roleplayId}?returnTo=/my-stats`);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -277,53 +294,30 @@ export default function MyStatsPage() {
             </div>
           </motion.div>
 
-          {recentRoleplays.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              <Card className="bg-card/80 border-border/50">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-foreground">
-                    <Mic className="h-5 w-5 text-orange-500" />
-                    Recent Roleplay Sessions
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {recentRoleplays.map((rp: any, i: number) => (
-                      <div key={i} className="flex items-center justify-between p-4 bg-background/50 rounded-xl border border-border/30">
-                        <div className="flex items-center gap-3">
-                          <div className={`h-10 w-10 rounded-full flex items-center justify-center ${rp.passed ? 'bg-primary/20' : 'bg-red-500/20'}`}>
-                            {rp.passed ? (
-                              <Trophy className="h-5 w-5 text-primary" />
-                            ) : (
-                              <Target className="h-5 w-5 text-red-400" />
-                            )}
-                          </div>
-                          <div>
-                            <p className="font-medium text-foreground" data-testid={`text-roleplay-name-${i}`}>
-                              {rp.roleplayName || "Roleplay Session"}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              {format(new Date(rp.createdAt), "MMM d, h:mm a")}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <Badge variant={rp.passed ? "default" : "destructive"} className="mb-1">
-                            {rp.passed ? "Passed" : "Failed"}
-                          </Badge>
-                          <p className="text-sm text-muted-foreground">{rp.score}%</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <Card className="bg-card/80 border-border/50">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-foreground">
+                  <History className="h-5 w-5 text-orange-500" />
+                  Roleplay History
+                </CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Review your past attempts, listen to recordings, and see manager feedback
+                </p>
+              </CardHeader>
+              <CardContent>
+                <RoleplayAttemptHistory 
+                  history={roleplayHistory}
+                  onTryAgain={handleTryAgain}
+                  showRoleplayHeader={true}
+                />
+              </CardContent>
+            </Card>
+          </motion.div>
 
           {!performance.isCertified && (
             <motion.div

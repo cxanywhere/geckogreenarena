@@ -653,6 +653,126 @@ export async function registerRoutes(
     }
   });
 
+  // User roleplay history - get all attempts with details, recordings, and manager notes
+  app.get("/api/users/:userId/roleplay-history", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const attempts = await storage.getUserRoleplayAttempts(userId);
+      const allRoleplays = await storage.getAllRoleplays();
+      const coachingNotes = await storage.getCoachingNotes(userId);
+      
+      // Group attempts by roleplayId
+      const roleplayMap: Record<string, {
+        roleplay: {
+          id: string;
+          name: string;
+          role: string;
+          difficulty: string;
+          chapterId: string | null;
+          phase: string | null;
+          orderIndex: number | null;
+        };
+        attempts: Array<{
+          id: string;
+          score: number | null;
+          passed: boolean;
+          createdAt: Date | null;
+          feedback: any;
+          recordingUrl: string | null;
+          notes: Array<{ id: string; content: string; createdAt: Date | null; managerId: string }>;
+        }>;
+        totalAttempts: number;
+        hasPassed: boolean;
+        remainingAttempts: number;
+        permanentlyFailed: boolean;
+      }> = {};
+      
+      for (const attempt of attempts) {
+        const roleplay = allRoleplays.find(r => r.id === attempt.roleplayId);
+        if (!roleplay) continue;
+        
+        if (!roleplayMap[attempt.roleplayId]) {
+          roleplayMap[attempt.roleplayId] = {
+            roleplay: {
+              id: roleplay.id,
+              name: roleplay.name,
+              role: roleplay.role,
+              difficulty: roleplay.difficulty,
+              chapterId: roleplay.chapterId,
+              phase: roleplay.phase,
+              orderIndex: roleplay.orderIndex,
+            },
+            attempts: [],
+            totalAttempts: 0,
+            hasPassed: false,
+            remainingAttempts: 3,
+            permanentlyFailed: false,
+          };
+        }
+        
+        // Parse feedback to get recordingUrl
+        let parsedFeedback = null;
+        let recordingUrl = null;
+        if (attempt.feedback) {
+          try {
+            parsedFeedback = typeof attempt.feedback === 'string' 
+              ? JSON.parse(attempt.feedback) 
+              : attempt.feedback;
+            recordingUrl = parsedFeedback?.recordingUrl || null;
+          } catch (e) {
+            parsedFeedback = null;
+          }
+        }
+        
+        // Get coaching notes for this attempt
+        const attemptNotes = coachingNotes
+          .filter(note => note.roleplayAttemptId === attempt.id)
+          .map(note => ({
+            id: note.id,
+            content: note.content,
+            createdAt: note.createdAt,
+            managerId: note.managerId,
+          }));
+        
+        roleplayMap[attempt.roleplayId].attempts.push({
+          id: attempt.id,
+          score: attempt.score,
+          passed: attempt.passed === 1,
+          createdAt: attempt.createdAt,
+          feedback: parsedFeedback,
+          recordingUrl,
+          notes: attemptNotes,
+        });
+        
+        roleplayMap[attempt.roleplayId].totalAttempts++;
+        if (attempt.passed === 1) {
+          roleplayMap[attempt.roleplayId].hasPassed = true;
+        }
+      }
+      
+      // Calculate remaining attempts and permanently failed status
+      for (const roleplayId of Object.keys(roleplayMap)) {
+        const data = roleplayMap[roleplayId];
+        data.remainingAttempts = Math.max(0, 3 - data.totalAttempts);
+        if (data.totalAttempts >= 3 && !data.hasPassed) {
+          data.permanentlyFailed = true;
+          data.remainingAttempts = 0;
+        }
+        // Sort attempts by date descending (newest first)
+        data.attempts.sort((a, b) => {
+          const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+          const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+          return dateB - dateA;
+        });
+      }
+      
+      res.json(roleplayMap);
+    } catch (error) {
+      console.error("Get user roleplay history error:", error);
+      res.status(500).json({ error: "Failed to get roleplay history" });
+    }
+  });
+
   // Roleplay routes
   app.get("/api/roleplays", async (req, res) => {
     try {
