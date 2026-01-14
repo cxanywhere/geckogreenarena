@@ -166,7 +166,7 @@ export default function OnboardingPage() {
       setStep("complete");
     } catch (error) {
       console.error("Error generating warrior avatar:", error);
-      toast.error("Failed to generate your warrior avatar. Please try again.");
+      toast.error("Failed to generate your Arena Avatar. Please try again.");
       setStep("photo");
     } finally {
       setIsGenerating(false);
@@ -200,8 +200,8 @@ export default function OnboardingPage() {
               <span className="text-xs font-normal text-muted-foreground uppercase tracking-widest">by gigarev</span>
             </div>
           </div>
-          <h1 className="text-2xl font-bold text-foreground mb-2">Welcome, Warrior!</h1>
-          <p className="text-muted-foreground">Let's set up your profile and create your arena avatar</p>
+          <h1 className="text-2xl font-bold text-foreground mb-2">Welcome to Arena!</h1>
+          <p className="text-muted-foreground">Let's set up your profile and create your Arena Avatar</p>
         </div>
 
         <div className="bg-card rounded-2xl border border-border shadow-xl p-6 relative overflow-hidden">
@@ -265,8 +265,8 @@ export default function OnboardingPage() {
                     <span className="text-lg font-bold text-primary">2</span>
                   </div>
                   <div>
-                    <h2 className="font-semibold text-foreground">Your Warrior Photo</h2>
-                    <p className="text-sm text-muted-foreground">Take or upload a photo for your arena avatar</p>
+                    <h2 className="font-semibold text-foreground">Your Photo</h2>
+                    <p className="text-sm text-muted-foreground">Take or upload a photo for your Arena Avatar</p>
                   </div>
                 </div>
 
@@ -356,7 +356,7 @@ export default function OnboardingPage() {
                     size="lg"
                     data-testid="button-generate"
                   >
-                    <Sparkles className="w-4 h-4" /> Generate My Warrior Avatar
+                    <Sparkles className="w-4 h-4" /> Generate My Arena Avatar
                   </Button>
                 )}
               </motion.div>
@@ -377,8 +377,8 @@ export default function OnboardingPage() {
                   </div>
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-foreground mb-2">Forging Your Warrior Avatar</h2>
-                  <p className="text-muted-foreground">Our AI is crafting your arena look...</p>
+                  <h2 className="text-xl font-bold text-foreground mb-2">Creating Your Arena Avatar</h2>
+                  <p className="text-muted-foreground">Our AI is crafting your look...</p>
                 </div>
               </motion.div>
             )}
@@ -394,7 +394,7 @@ export default function OnboardingPage() {
                   {warriorAvatar ? (
                     <img 
                       src={warriorAvatar} 
-                      alt="Your Warrior Avatar" 
+                      alt="Your Arena Avatar" 
                       className="w-full h-full object-cover rounded-full border-4 border-primary shadow-xl"
                     />
                   ) : (
@@ -414,7 +414,7 @@ export default function OnboardingPage() {
                 
                 <div>
                   <h2 className="text-xl font-bold text-foreground mb-2">Welcome to the Arena, {name}!</h2>
-                  <p className="text-muted-foreground">Your warrior avatar is ready. Time to start training!</p>
+                  <p className="text-muted-foreground">Your Arena Avatar is ready. Time to start training!</p>
                 </div>
 
                 <Button 
