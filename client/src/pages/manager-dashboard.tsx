@@ -93,6 +93,7 @@ export default function ManagerDashboard() {
   const [sendingSMS, setSendingSMS] = useState(false);
   const [createdPhone, setCreatedPhone] = useState<string | null>(null);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const [repToDelete, setRepToDelete] = useState<User | null>(null);
   const { resolvedTheme } = useTheme();
   const { user, logout, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
@@ -259,8 +260,15 @@ export default function ManagerDashboard() {
     });
   };
 
-  const handleRemoveRep = (id: string) => {
-    deleteUserMutation.mutate(id);
+  const handleRemoveRep = (rep: User) => {
+    setRepToDelete(rep);
+  };
+
+  const confirmDeleteRep = () => {
+    if (repToDelete) {
+      deleteUserMutation.mutate(repToDelete.id);
+      setRepToDelete(null);
+    }
   };
 
   const handleRemind = (id: string) => {
@@ -908,7 +916,7 @@ export default function ManagerDashboard() {
                             size="sm" 
                             variant="ghost" 
                             className="h-8 w-8 p-0" 
-                            onClick={() => handleRemoveRep(rep.id)} 
+                            onClick={() => handleRemoveRep(rep)} 
                             title="Remove User"
                             data-testid={`button-delete-rep-${rep.id}`}
                           >
@@ -1077,6 +1085,23 @@ export default function ManagerDashboard() {
             <AlertDialogCancel data-testid="button-signout-cancel">Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={confirmLogout} className="bg-red-600 hover:bg-red-700" data-testid="button-signout-confirm">
               Sign Out
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={repToDelete !== null} onOpenChange={(open) => !open && setRepToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Remove team member?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to remove {repToDelete?.name} from your team? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel data-testid="button-delete-rep-cancel">Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDeleteRep} className="bg-red-600 hover:bg-red-700" data-testid="button-delete-rep-confirm">
+              Remove
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
