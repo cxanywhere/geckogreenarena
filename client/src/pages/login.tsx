@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Zap, ArrowRight, Lock, GraduationCap, Info } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Zap, ArrowRight, Lock, GraduationCap } from "lucide-react";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
@@ -189,51 +188,6 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          {/* Demo Credentials Hint - Only for Prototype */}
-          <div className="mt-8 pt-6 border-t border-border">
-            <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
-              <span className="font-semibold uppercase tracking-wider">Demo Credentials</span>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Info className="w-4 h-4 text-muted-foreground/50 hover:text-primary transition-colors" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>In a production app, roles are assigned by the backend.</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-            <div className="grid grid-cols-1 gap-2 text-xs">
-              <button 
-                onClick={() => { setEmail("alex.rivera@geckogreen.com"); setPassword("demo123"); }}
-                className="flex items-center justify-between p-2 rounded bg-muted/50 hover:bg-muted transition-colors text-left group"
-                type="button"
-                data-testid="button-demo-rep"
-              >
-                <span className="font-medium group-hover:text-foreground">Rep Access</span>
-                <span className="font-mono opacity-50">alex.rivera@geckogreen.com</span>
-              </button>
-              <button 
-                onClick={() => { setEmail("sarah.jenkins@geckogreen.com"); setPassword("demo123"); }}
-                className="flex items-center justify-between p-2 rounded bg-muted/50 hover:bg-muted transition-colors text-left group"
-                type="button"
-                data-testid="button-demo-manager"
-              >
-                <span className="font-medium group-hover:text-foreground">Manager Access</span>
-                <span className="font-mono opacity-50">sarah.jenkins@geckogreen.com</span>
-              </button>
-              <button 
-                onClick={() => { setEmail("james.patterson@geckogreen.com"); setPassword("demo123"); }}
-                className="flex items-center justify-between p-2 rounded bg-muted/50 hover:bg-muted transition-colors text-left group"
-                type="button"
-                data-testid="button-demo-director"
-              >
-                <span className="font-medium group-hover:text-foreground">Director Access</span>
-                <span className="font-mono opacity-50">james.patterson@geckogreen.com</span>
-              </button>
-            </div>
-          </div>
         </motion.div>
       </div>
 
