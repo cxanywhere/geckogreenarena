@@ -2,6 +2,7 @@ import { GoogleGenAI } from "@google/genai";
 import { v2 as cloudinary } from "cloudinary";
 import { db } from "../server/db";
 import { comicStories, comicPanels } from "../shared/schema";
+import { eq } from "drizzle-orm";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
@@ -270,7 +271,7 @@ async function seedStoryWithoutImages(story: StoryData): Promise<string> {
 
 async function generateImagesForStory(storyId: string, story: StoryData): Promise<void> {
   const panels = await db.select().from(comicPanels).where(
-    require("drizzle-orm").eq(comicPanels.storyId, storyId)
+    eq(comicPanels.storyId, storyId)
   );
 
   for (const panel of panels) {
@@ -281,7 +282,7 @@ async function generateImagesForStory(storyId: string, story: StoryData): Promis
         await db
           .update(comicPanels)
           .set({ imageUrl })
-          .where(require("drizzle-orm").eq(comicPanels.id, panel.id));
+          .where(eq(comicPanels.id, panel.id));
       }
       await new Promise((resolve) => setTimeout(resolve, 2000));
     }
@@ -309,7 +310,7 @@ async function main() {
       const story = STORY_SCENARIOS[targetStory];
       console.log(`Generating images for story ${targetStory + 1}: ${story.title}`);
       const existingStory = await db.select().from(comicStories).where(
-        require("drizzle-orm").eq(comicStories.roleplayId, story.roleplayId)
+        eq(comicStories.roleplayId, story.roleplayId)
       );
       if (existingStory.length > 0) {
         await generateImagesForStory(existingStory[0].id, story);
