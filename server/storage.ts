@@ -15,6 +15,8 @@ import {
   coachingTasks,
   progressNudges,
   experts,
+  comicStories,
+  comicPanels,
   type User,
   type InsertUser,
   type Chapter,
@@ -46,6 +48,8 @@ import {
   type InsertProgressNudge,
   type Expert,
   type InsertExpert,
+  type ComicStory,
+  type ComicPanel,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, ne, or, isNull, sql, count } from "drizzle-orm";
@@ -167,6 +171,9 @@ export interface IStorage {
   getExpert(id: string): Promise<Expert | undefined>;
   getExpertBySlug(slug: string): Promise<Expert | undefined>;
   createExpert(expert: InsertExpert): Promise<Expert>;
+  
+  // Comic Stories
+  getComicStoriesWithPanels(): Promise<(ComicStory & { panels: ComicPanel[] })[]>;
 }
 
 // Performance metric types
@@ -1061,6 +1068,16 @@ export class DatabaseStorage implements IStorage {
   async createExpert(expert: InsertExpert): Promise<Expert> {
     const [created] = await db.insert(experts).values(expert).returning();
     return created;
+  }
+
+  async getComicStoriesWithPanels(): Promise<(ComicStory & { panels: ComicPanel[] })[]> {
+    const stories = await db.select().from(comicStories).orderBy(comicStories.orderIndex);
+    const allPanels = await db.select().from(comicPanels).orderBy(comicPanels.panelOrder);
+    
+    return stories.map(story => ({
+      ...story,
+      panels: allPanels.filter(panel => panel.storyId === story.id)
+    }));
   }
 }
 

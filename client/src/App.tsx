@@ -27,6 +27,7 @@ import PersonaDetailPage from "@/pages/persona-detail";
 import MyStatsPage from "@/pages/my-stats";
 import CoachPage from "@/pages/coach";
 import ExpertsPage from "@/pages/experts";
+import VictoryPlaybookPage from "@/pages/victory-playbook";
 
 function Router() {
   return (
@@ -127,6 +128,11 @@ function Router() {
       <Route path="/coach">
         <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
           <CoachPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/playbook">
+        <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
+          <VictoryPlaybookPage />
         </ProtectedRoute>
       </Route>
       <Route component={NotFound} />

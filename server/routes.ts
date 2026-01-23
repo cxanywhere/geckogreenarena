@@ -1378,6 +1378,17 @@ export async function registerRoutes(
     }
   });
 
+  // Victory Playbook routes
+  app.get("/api/playbook/stories", async (req, res) => {
+    try {
+      const stories = await storage.getComicStoriesWithPanels();
+      res.json(stories);
+    } catch (error) {
+      console.error("Get playbook stories error:", error);
+      res.status(500).json({ error: "Failed to get playbook stories" });
+    }
+  });
+
   // Resource routes
   app.get("/api/resources", async (req, res) => {
     try {

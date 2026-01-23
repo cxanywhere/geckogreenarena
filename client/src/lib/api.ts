@@ -461,6 +461,11 @@ class APIClient {
   async getUserPerformance(userId: string): Promise<RepPerformance> {
     return this.request(`/api/users/${userId}/performance`);
   }
+
+  // Victory Playbook
+  async getPlaybookStories(): Promise<any[]> {
+    return this.request("/api/playbook/stories");
+  }
 }
 
 // New types for the API

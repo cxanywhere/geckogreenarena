@@ -60,6 +60,7 @@ export function Nav() {
 
   const links = [
     { href: "/dashboard", label: "Arena" },
+    { href: "/playbook", label: "Playbook" },
     { href: "/coach", label: "Coach" },
     { href: "/my-stats", label: "My Stats" },
     { href: "/leaderboard", label: "Leaderboard" },
