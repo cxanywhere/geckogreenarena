@@ -97,7 +97,7 @@ async function generateCharacterPortrait(character: CharacterProfile): Promise<s
   
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash-exp-image-generation",
+      model: "gemini-3-pro-image-preview",
       contents: [{ 
         role: "user", 
         parts: [{ text: character.portraitPrompt }] 
