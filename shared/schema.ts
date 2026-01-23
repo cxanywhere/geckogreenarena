@@ -293,6 +293,45 @@ export const usageSessionsRelations = relations(usageSessions, ({ one }) => ({
   }),
 }));
 
+// Comic stories for Victory Playbook
+export const comicStories = pgTable("comic_stories", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  roleplayId: varchar("roleplay_id").notNull(),
+  title: text("title").notNull(),
+  subtitle: text("subtitle"),
+  phase: text("phase").notNull(),
+  description: text("description"),
+  orderIndex: integer("order_index").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const comicPanels = pgTable("comic_panels", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  storyId: varchar("story_id").notNull(),
+  panelOrder: integer("panel_order").notNull(),
+  imageUrl: text("image_url"),
+  speaker: text("speaker").notNull(),
+  dialogue: text("dialogue").notNull(),
+  setting: text("setting"),
+  emotion: text("emotion"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const comicStoriesRelations = relations(comicStories, ({ one, many }) => ({
+  roleplay: one(roleplays, {
+    fields: [comicStories.roleplayId],
+    references: [roleplays.id],
+  }),
+  panels: many(comicPanels),
+}));
+
+export const comicPanelsRelations = relations(comicPanels, ({ one }) => ({
+  story: one(comicStories, {
+    fields: [comicPanels.storyId],
+    references: [comicStories.id],
+  }),
+}));
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
@@ -375,6 +414,16 @@ export const insertExpertSchema = createInsertSchema(experts).omit({
   createdAt: true,
 });
 
+export const insertComicStorySchema = createInsertSchema(comicStories).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertComicPanelSchema = createInsertSchema(comicPanels).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -423,6 +472,12 @@ export type ProgressNudge = typeof progressNudges.$inferSelect;
 
 export type InsertExpert = z.infer<typeof insertExpertSchema>;
 export type Expert = typeof experts.$inferSelect;
+
+export type InsertComicStory = z.infer<typeof insertComicStorySchema>;
+export type ComicStory = typeof comicStories.$inferSelect;
+
+export type InsertComicPanel = z.infer<typeof insertComicPanelSchema>;
+export type ComicPanel = typeof comicPanels.$inferSelect;
 
 // Export chat models for OpenAI integration
 export * from "./models/chat";
