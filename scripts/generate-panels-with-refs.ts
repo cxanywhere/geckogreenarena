@@ -227,6 +227,10 @@ async function regenerateStoryPanels(roleplayId: string): Promise<void> {
   }
 
   for (const panel of panels) {
+    if (panel.imageUrl) {
+      console.log(`Skipping panel ${panel.panelOrder} (already has image)`);
+      continue;
+    }
     const panelData: PanelData = {
       panelOrder: panel.panelOrder,
       speaker: panel.speaker as "rep" | "homeowner" | "narrator",
