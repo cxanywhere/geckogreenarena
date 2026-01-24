@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, PanInfo } from "framer-motion";
 import { ChevronLeft, ChevronRight, BookOpen, Play, Trophy, Target, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -104,22 +104,16 @@ function ComicPanelView({ panel, panelNumber, totalPanels }: { panel: ComicPanel
   const speakerLabel = speakerLabels[panel.speaker as keyof typeof speakerLabels] || "Narrator";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -50 }}
-      transition={{ duration: 0.3 }}
-      className="flex flex-col h-full"
-    >
-      <div className="flex-1 relative bg-gradient-to-b from-muted/30 to-muted/10 rounded-xl overflow-hidden">
+    <div className="flex flex-col h-full">
+      <div className="relative bg-gradient-to-b from-muted/30 to-muted/10 rounded-xl overflow-hidden">
         {panel.imageUrl ? (
           <img
             src={panel.imageUrl}
             alt={panel.setting}
-            className="w-full h-full object-cover"
+            className="w-full aspect-[4/3] object-cover rounded-xl"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-primary/5">
+          <div className="w-full aspect-[4/3] flex items-center justify-center bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl">
             <div className="text-center p-8">
               <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
                 <BookOpen className="w-12 h-12 text-primary/50" />
@@ -128,108 +122,136 @@ function ComicPanelView({ panel, panelNumber, totalPanels }: { panel: ComicPanel
             </div>
           </div>
         )}
-        <div className="absolute top-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm font-medium">
+        <div className="absolute top-3 right-3 bg-black/60 text-white px-3 py-1 rounded-full text-sm font-medium">
           {panelNumber} / {totalPanels}
         </div>
       </div>
 
-      <div className="mt-4 p-4 bg-card rounded-xl border border-border/50">
-        <div className="flex items-start gap-3">
-          <div className={`px-3 py-1 rounded-full text-xs font-medium ${speakerColor}`}>
+      <div className="mt-3 p-4 bg-card rounded-xl border border-border/50">
+        <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3">
+          <div className={`px-3 py-1 rounded-full text-xs font-medium shrink-0 w-fit ${speakerColor}`}>
             {speakerLabel}
           </div>
-          <p className={`flex-1 text-lg leading-relaxed ${panel.speaker === "narrator" ? "italic text-muted-foreground" : ""}`}>
+          <p className={`text-base sm:text-lg leading-relaxed ${panel.speaker === "narrator" ? "italic text-muted-foreground" : ""}`}>
             {panel.dialogue}
           </p>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 function StoryViewer({ story, onBack }: { story: ComicStory; onBack: () => void }) {
   const [currentPanel, setCurrentPanel] = useState(0);
+  const [direction, setDirection] = useState(0);
   const panels = story.panels?.sort((a, b) => a.panelOrder - b.panelOrder) || [];
 
   const nextPanel = () => {
     if (currentPanel < panels.length - 1) {
+      setDirection(1);
       setCurrentPanel((prev) => prev + 1);
     }
   };
 
   const prevPanel = () => {
     if (currentPanel > 0) {
+      setDirection(-1);
       setCurrentPanel((prev) => prev - 1);
     }
   };
 
+  const handleDragEnd = (_: any, info: PanInfo) => {
+    const threshold = 50;
+    if (info.offset.x < -threshold && currentPanel < panels.length - 1) {
+      nextPanel();
+    } else if (info.offset.x > threshold && currentPanel > 0) {
+      prevPanel();
+    }
+  };
+
+  const progressPercent = panels.length > 1 ? ((currentPanel + 1) / panels.length) * 100 : 100;
+
   return (
-    <div className="flex flex-col h-[calc(100vh-180px)]">
-      <div className="flex items-center justify-between mb-4">
+    <div className="flex flex-col min-h-[calc(100vh-180px)]">
+      <div className="flex items-center justify-between mb-3 gap-2">
         <Button
           variant="ghost"
+          size="sm"
           onClick={onBack}
-          className="gap-2"
+          className="gap-1 px-2"
           data-testid="back-to-stories"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Stories
+          <span className="hidden sm:inline">Back</span>
         </Button>
-        <div className="flex items-center gap-2">
-          <Badge className={`${phaseColors[story.phase] || "bg-muted"} border`}>
+        <div className="flex items-center gap-2 min-w-0">
+          <Badge className={`${phaseColors[story.phase] || "bg-muted"} border shrink-0`}>
             {story.phase}
           </Badge>
-          <h2 className="font-semibold">{story.title}</h2>
+          <h2 className="font-semibold text-sm sm:text-base truncate">{story.title}</h2>
         </div>
       </div>
 
-      <div className="flex-1 min-h-0">
-        <AnimatePresence mode="wait">
-          {panels[currentPanel] && (
-            <ComicPanelView
-              key={panels[currentPanel].id}
-              panel={panels[currentPanel]}
-              panelNumber={currentPanel + 1}
-              totalPanels={panels.length}
-            />
-          )}
+      <motion.div
+        className="flex-1 touch-pan-y"
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.2}
+        onDragEnd={handleDragEnd}
+      >
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={panels[currentPanel]?.id}
+            initial={{ opacity: 0, x: direction * 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -direction * 100 }}
+            transition={{ duration: 0.2 }}
+          >
+            {panels[currentPanel] && (
+              <ComicPanelView
+                panel={panels[currentPanel]}
+                panelNumber={currentPanel + 1}
+                totalPanels={panels.length}
+              />
+            )}
+          </motion.div>
         </AnimatePresence>
-      </div>
+      </motion.div>
 
-      <div className="flex items-center justify-between mt-4 pt-4 border-t border-border/50">
-        <Button
-          variant="outline"
-          onClick={prevPanel}
-          disabled={currentPanel === 0}
-          className="gap-2"
-          data-testid="prev-panel"
-        >
-          <ChevronLeft className="w-4 h-4" />
-          Previous
-        </Button>
-
-        <div className="flex gap-1">
-          {panels.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentPanel(idx)}
-              className={`w-2 h-2 rounded-full transition-colors ${
-                idx === currentPanel ? "bg-primary" : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-              }`}
-              data-testid={`panel-dot-${idx}`}
-            />
-          ))}
+      <div className="mt-3 pt-3 border-t border-border/50">
+        <div className="w-full h-1 bg-muted rounded-full mb-3 overflow-hidden">
+          <motion.div 
+            className="h-full bg-primary rounded-full"
+            initial={false}
+            animate={{ width: `${progressPercent}%` }}
+            transition={{ duration: 0.3 }}
+          />
         </div>
+        
+        <div className="flex items-center justify-between">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={prevPanel}
+            disabled={currentPanel === 0}
+            className="gap-1"
+            data-testid="prev-panel"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            <span className="hidden sm:inline">Previous</span>
+          </Button>
 
-        <Button
-          onClick={nextPanel}
-          disabled={currentPanel === panels.length - 1}
-          className="gap-2"
-          data-testid="next-panel"
-        >
-          Next
-          <ChevronRight className="w-4 h-4" />
-        </Button>
+          <Button
+            size="sm"
+            onClick={nextPanel}
+            disabled={currentPanel === panels.length - 1}
+            className="gap-1"
+            data-testid="next-panel"
+          >
+            <span className="hidden sm:inline">Next</span>
+            <ChevronRight className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
     </div>
   );
