@@ -190,9 +190,21 @@ shared/           # Shared code between frontend/backend
 
 ### Admin Dashboard Features
 - Add new managers with auto-generated passwords
+- **Bulk Add Reps**: Add hundreds of reps at once via text input (name, email per line)
+  - Select manager to assign reps to
+  - Auto-generate secure passwords for each rep
+  - Optional welcome email with login credentials
+  - CSV download of results with passwords
+  - Shows success/failed counts with error reasons
 - View all managers and reps across organization
 - Remove users with confirmation
 - Usage & Billing tab with detailed cost tracking
+
+### Bulk User Creation API
+- `POST /api/users/bulk`: Create multiple reps in one request
+  - Request body: `{ managerId, users: [{name, email}], sendEmails: boolean }`
+  - Validates email format and checks for duplicates
+  - Returns success/failed arrays with passwords and email status
 
 ## Usage Tracking & Billing System
 
