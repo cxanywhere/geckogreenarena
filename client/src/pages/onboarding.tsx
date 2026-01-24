@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Camera, Upload, ArrowRight, Sparkles, Shield, Sword, Check, Loader2 } from "lucide-react";
+import { Camera, Upload, ArrowRight, Sparkles, Shield, Sword, Check, Loader2, LogOut } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
@@ -13,7 +13,7 @@ import { useTheme } from "next-themes";
 
 export default function OnboardingPage() {
   const [, setLocation] = useLocation();
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, logout } = useAuth();
   const { resolvedTheme } = useTheme();
   const [step, setStep] = useState<"name" | "photo" | "generating" | "complete">("name");
   const [name, setName] = useState(user?.name || "");
@@ -183,8 +183,27 @@ export default function OnboardingPage() {
     }
   };
 
+  const handleSignOut = () => {
+    logout();
+    setLocation("/login");
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex items-center justify-center p-4 relative">
+      {/* Sign Out Button - Fixed in top right */}
+      <div className="absolute top-4 right-4 z-10">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleSignOut}
+          className="gap-2 text-muted-foreground hover:text-foreground"
+          data-testid="button-signout"
+        >
+          <LogOut className="w-4 h-4" />
+          <span className="hidden sm:inline">Sign Out</span>
+        </Button>
+      </div>
+      
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
