@@ -1,7 +1,8 @@
 import { db } from './db';
-import { chapters, roleplays, buyerPersonas } from '@shared/schema';
+import { chapters, roleplays, buyerPersonas, comicStories, comicPanels } from '@shared/schema';
 import { eq } from 'drizzle-orm';
 import { CHAPTER_SEED_DATA, ROLEPLAY_SEED_DATA, BUYER_PERSONA_SEED_DATA } from './seed-data';
+import { PLAYBOOK_STORIES_SEED, PLAYBOOK_PANELS_SEED } from './playbook-seed-data';
 
 export async function seedDatabase(): Promise<void> {
   console.log('Starting idempotent database seed...');
@@ -141,6 +142,70 @@ export async function seedDatabase(): Promise<void> {
         console.log(`  Created buyer persona: ${personaData.name}`);
       }
     }
+
+    // Seed Victory Playbook stories and panels
+    for (const storyData of PLAYBOOK_STORIES_SEED) {
+      const existing = await db.select().from(comicStories).where(eq(comicStories.id, storyData.id));
+      
+      if (existing.length > 0) {
+        await db.update(comicStories)
+          .set({
+            roleplayId: storyData.roleplayId,
+            title: storyData.title,
+            subtitle: storyData.subtitle,
+            phase: storyData.phase,
+            description: storyData.description,
+            orderIndex: storyData.orderIndex,
+          })
+          .where(eq(comicStories.id, storyData.id));
+        
+        console.log(`  Updated playbook story: ${storyData.title}`);
+      } else {
+        await db.insert(comicStories)
+          .values({
+            id: storyData.id,
+            roleplayId: storyData.roleplayId,
+            title: storyData.title,
+            subtitle: storyData.subtitle,
+            phase: storyData.phase,
+            description: storyData.description,
+            orderIndex: storyData.orderIndex,
+          });
+        
+        console.log(`  Created playbook story: ${storyData.title}`);
+      }
+    }
+
+    for (const panelData of PLAYBOOK_PANELS_SEED) {
+      const existing = await db.select().from(comicPanels).where(eq(comicPanels.id, panelData.id));
+      
+      if (existing.length > 0) {
+        await db.update(comicPanels)
+          .set({
+            storyId: panelData.storyId,
+            panelOrder: panelData.panelOrder,
+            imageUrl: panelData.imageUrl,
+            speaker: panelData.speaker,
+            dialogue: panelData.dialogue,
+            setting: panelData.setting,
+            emotion: panelData.emotion,
+          })
+          .where(eq(comicPanels.id, panelData.id));
+      } else {
+        await db.insert(comicPanels)
+          .values({
+            id: panelData.id,
+            storyId: panelData.storyId,
+            panelOrder: panelData.panelOrder,
+            imageUrl: panelData.imageUrl,
+            speaker: panelData.speaker,
+            dialogue: panelData.dialogue,
+            setting: panelData.setting,
+            emotion: panelData.emotion,
+          });
+      }
+    }
+    console.log(`  Seeded ${PLAYBOOK_PANELS_SEED.length} playbook panels`);
 
     console.log('Idempotent database seed completed successfully!');
   } catch (error) {
