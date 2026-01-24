@@ -1,0 +1,90 @@
+Rep Name	Manager	Email	Rep Type
+James Byrd	Joshua Couch	jamesbyrdco@gmail.com	New Rep
+Yavier Santiago	Joshua Couch	yaviersantiago82@gmail.com	New Rep
+Cooper Wolf	Joshua Couch	cooper44@ksu.edu	New Rep
+Russell "Rusty" Summit	Joshua Couch	summitrusty@gmail.com	New Rep
+Marcus Hoffman	Joshua Couch	marcushoffman1985@gmail.com	New Rep
+Manda Monk	Joshua Couch	manda.monk02@gmail.com	New Rep
+John Moglia	Joshua Couch	johnpmoglia@gmail.com	New Rep
+Michael Davis	Joshua Couch	michaelddavis.6@gmail.com	New Rep
+Devin Mayes	Joshua Couch	Devin.mayes@gmail.com	New Rep
+Nicholas Wallace	Shawn Singleton	nawallace@yahoo.com	New Rep
+Miguel Garza	Shawn Singleton	maxbrito1995@gmail.com	New Rep
+Trey O'Brien	Shawn Singleton	tmo2388@gmail.com	New Rep
+Alexander Munoz	Shawn Singleton	alexandermunoz0207@icloud.com	New Rep
+Jeffrey Cohen	Shawn Singleton	cohenjeffrey14@gmail.com	New Rep
+Juan "Anthony" Rodriguez	Shawn Singleton	anthony_2011@msn.com	New Rep
+Mikel Rushing	Shawn Singleton	mikelrushing32@gmail.com	New Rep
+Jacob Menchaca	Shawn Singleton	manny.menchaca2021@gmail.com	New Rep
+Shaun Anderson	Shawn Singleton	shaunanderson875@gmail.com	New Rep
+Jose Zapata	Shawn Singleton	jazr7604@gmail.com	New Rep
+Jose "Angel" Cardoso	Shawn Singleton	cardosoj303@gmail.com	New Rep
+Michael Casey	Shawn Singleton	mecasey76@gmail.com	New Rep
+Fred Fleener	Shawn Singleton	sgtfred4@yahoo.com	New Rep
+Tommy Cartee	Shawn Singleton	mecasey76@gmail.com	New Rep
+Armando Avalos	Shawn Singleton	jmando1990@gmail.com	New Rep
+Christopher Trantham	Shawn Singleton	taheezy426@gmail.com	New Rep
+Anthony Harris	Thomas Adams	mackavelli60@gmail.com	New Rep
+Evyn Waller	Thomas Adams	evynwaller0712@gmail.com	New Rep
+Russell Ingram	Thomas Adams	russellingram1999@gmail.com	New Rep
+Joseph Smith	Thomas Adams	josefwilliamsmith@gmail.com	New Rep
+Zane Bennett	Thomas Adams	zane.bennett242@outlook.com	New Rep
+Chrisopher Ramsey	Thomas Greer	christopherramsey92@gmail.com	New Rep
+Kensey Bailey	Thomas Greer	sirbailey7@gmail.com	New Rep
+Wesley Calcote	Thomas Greer	Wescalcote21@gmail.com	New Rep
+Corey Minter	Thomas Greer	coreyminter99@gmail.com	New Rep
+Ricky Jackson	Thomas Greer	Rickymjackson123@yahoo.com	New Rep
+Liam Bayly	Thomas Greer	liamdbayly@gmail.com	New Rep
+Devon Stiles	Thomas Greer	dstiles8@gmail.com	New Rep
+Ricardo Herrera	Thomas Adams	ghtwrt1@gmail.com	Vet
+Jonathan Barnard	Thomas Adams	jnard420@gmail.com	Vet
+Dwight Stewart	Thomas Adams	jordan.stewart59@yahoo.com	Vet
+Jeffrey Mason	Thomas Adams	jmasonweat@gmail.com	Vet
+Rodney Robinson	Thomas Adams	seekingthehighest@gmail.com	Vet
+Kirby Magnes	Thomas Adams	kirbymag@gmail.com	Vet
+Craig Budaj	Thomas Adams	cbudaj@geckogreen.com	Vet
+Aidan Meece	Thomas Adams	aidanmeece@gmail.com	Vet
+Ian Sechrist	Thomas Adams	Iansechrist1989@gmail.com	Vet
+Jeremy Chambers	Thomas Adams	jeremychambers48@gmail.com	Vet
+Jordan Johnston	Thomas Adams	jjohnston@geckogreen.com	Vet
+Bryan Villa	Thomas Adams	bryanvilla45@gmail.com	Vet
+Michael Levisay	Thomas Adams	michaellevisay@gmail.com	Vet
+Jay Haskins	Thomas Adams	janariush@gmail.com	Vet
+Zach Cook	Thomas Adams	zcook@geckogreen.com	Vet
+Slater Wright	Thomas Adams	slaterwright20@gmail.com	Vet
+Ryan Abel	Thomas Adams	rabel@geckogreen.com	Vet
+Andre Baul	Shawn Singleton	ssingleton1231@gmail.com	Vet
+Mike Cieszinski	Shawn Singleton	mike11one@hotmail.com	Vet
+John Sarver	Shawn Singleton	jsarver@geckogreen.com	Vet
+Isaiah Shields	Shawn Singleton	diligence102228@gmail.com	Vet
+Rachid Mirouh	Shawn Singleton	rmirouh@gmail.com	Vet
+Randy Price	Shawn Singleton	randyleep77@gmail.com	Vet
+Tony Marianek	Shawn Singleton	awesom-o1@live.com	Vet
+Clayton Richerson	Thomas Greer	claytonricherson99@gmail.com	Vet
+William Clay	Thomas Greer	wclay@geckogreen.com	Vet
+Quinn Brewton	Joshua Couch	quinnbrewton93@gmail.com	Vet
+Evgeni Bulatov	Joshua Couch	evgeni1996@hotmail.com	Vet
+Samuel Vance	Joshua Couch	sevance77@gmail.com	Vet
+Randy Hindman	Joshua Couch	randallwhindman@gmail.com	Vet
+Kevin Beardsley	Joshua Couch	kevin.t.beardsley@gmail.com	Vet
+Terry Real	Joshua Couch	treal@geckogreen.com	Vet
+Bradley Adams	Joshua Couch	bradleyadams@gmail.com	Vet
+Haitham Al-Madani	Nick Lilljedahl	haithamalmadani1@gmail.com	Vet
+Lloyd Torres	Nick Lilljedahl	pace.setter94@gmail.com	Vet
+Hayden Gilmore	Nick Lilljedahl	happegil24@gmail.com	Vet
+Javon Fooks	Nick Lilljedahl	javonjr03@icloud.com	Vet
+Antoine Banks	Nick Lilljedahl	Antoine.banks.ab@gmail.com	Vet
+Cameron Parra	Nick Lilljedahl	cparra@geckogreen.com	Vet
+Blanton Gunter	Nick Lilljedahl	blahgunter2@gmail.com	Vet
+Gavin Alley	Nick Lilljedahl	gavna11ey@gmail.com	Vet
+Jeremiah Moxley	Nick Lilljedahl	jeremiahmoxley7@gmail.com	Vet
+Ismael (Junior) Oropeza	Nick Lilljedahl	juniororo012@gmail.com	Vet
+Dylan Brown	Clint Brown	dbrown1399@gmail.com	Vet
+Rafael Guerrero	Clint Brown	r.guerreroflaf@gmail.com	Vet
+Alexander Broom	Clint Brown	xanderbroom@gmail.com	Vet
+Brian Mullen	Clint Brown	mullenbrian05@gmail.com	Vet
+Jonathan Hernandez	Clint Brown	jh0859321@icloud.com	Vet
+Devin Weaver	Clint Brown	weadevin@gmail.com	Vet
+Collin McRay	Clint Brown	collin.mcray96@gmail.com	Vet
+Nash Wilson	Clint Brown	nwilson@geckogreen.com	Vet
+Cameron Harford	Clint Brown	camharford14@gmail.com	Vet
