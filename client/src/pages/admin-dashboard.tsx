@@ -18,10 +18,14 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { BILLING_STATS } from "@/lib/mock-data";
-import { UserPlus, Users, TrendingUp, AlertCircle, Search, Trash2, Shield, DollarSign, Activity, BarChart3, Settings, Copy, Mail, Phone, Check, Loader2, LogOut, Trophy, Award, Target, GraduationCap, Mic, ChevronDown, ChevronUp } from "lucide-react";
+import { UserPlus, Users, TrendingUp, AlertCircle, Search, Trash2, Shield, DollarSign, Activity, BarChart3, Settings, Copy, Mail, Phone, Check, Loader2, LogOut, Trophy, Award, Target, GraduationCap, Mic, ChevronDown, ChevronUp, Upload, Download, FileText } from "lucide-react";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
 import arenaLogoLight from "@/assets/arena-logo-light.png";
 import geckoLogo from "@assets/image_1766975682051.png";
@@ -109,6 +113,14 @@ export default function AdminDashboard() {
   const [createdPhone, setCreatedPhone] = useState<string | null>(null);
   const [expandedManagers, setExpandedManagers] = useState<Set<string>>(new Set());
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const [isBulkAddOpen, setIsBulkAddOpen] = useState(false);
+  const [bulkAddInput, setBulkAddInput] = useState("");
+  const [selectedManagerId, setSelectedManagerId] = useState<string>("");
+  const [sendWelcomeEmails, setSendWelcomeEmails] = useState(true);
+  const [bulkAddResults, setBulkAddResults] = useState<{
+    success: Array<{ name: string; email: string; password: string; emailSent: boolean }>;
+    failed: Array<{ name: string; email: string; reason: string }>;
+  } | null>(null);
   const { resolvedTheme } = useTheme();
   const { user, logout, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
@@ -235,6 +247,29 @@ export default function AdminDashboard() {
     },
   });
 
+  const bulkAddMutation = useMutation({
+    mutationFn: async (data: { managerId: string; users: Array<{ name: string; email: string }>; sendEmails: boolean }) => {
+      const response = await apiRequest("POST", "/api/users/bulk", data);
+      return response.json();
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/reps"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/managers"] });
+      setBulkAddResults(data.results);
+      toast({
+        title: "Bulk Add Complete",
+        description: `Successfully created ${data.results.success.length} reps${data.results.failed.length > 0 ? `, ${data.results.failed.length} failed` : ""}.`,
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to add reps",
+        variant: "destructive",
+      });
+    },
+  });
+
   const deleteUserMutation = useMutation({
     mutationFn: async (userId: string) => {
       const response = await apiRequest("DELETE", `/api/users/${userId}`);
@@ -338,6 +373,74 @@ export default function AdminDashboard() {
     setCreatedCredentials(null);
     setCreatedPhone(null);
     setIsAddManagerOpen(false);
+  };
+
+  // Parse bulk input: each line should be "Name, email" or "Name email"
+  const parseBulkInput = (input: string): Array<{ name: string; email: string }> => {
+    const lines = input.split("\n").filter(line => line.trim());
+    return lines.map(line => {
+      // Try comma-separated first
+      let parts = line.split(",").map(p => p.trim());
+      if (parts.length >= 2) {
+        return { name: parts[0], email: parts[1] };
+      }
+      // Try space/tab separated (find the email by pattern)
+      const words = line.trim().split(/[\s\t]+/);
+      const emailIndex = words.findIndex(w => w.includes("@"));
+      if (emailIndex > 0) {
+        const name = words.slice(0, emailIndex).join(" ");
+        const email = words[emailIndex];
+        return { name, email };
+      }
+      // Fallback: first word is name, last is email
+      if (words.length >= 2) {
+        return { name: words.slice(0, -1).join(" "), email: words[words.length - 1] };
+      }
+      return { name: "", email: line.trim() };
+    }).filter(u => u.name && u.email);
+  };
+
+  const handleBulkAdd = () => {
+    if (!selectedManagerId || !bulkAddInput.trim()) return;
+    const users = parseBulkInput(bulkAddInput);
+    if (users.length === 0) {
+      toast({
+        title: "No valid entries",
+        description: "Please enter at least one name and email pair.",
+        variant: "destructive",
+      });
+      return;
+    }
+    bulkAddMutation.mutate({
+      managerId: selectedManagerId,
+      users,
+      sendEmails: sendWelcomeEmails,
+    });
+  };
+
+  const closeBulkAddDialog = () => {
+    setIsBulkAddOpen(false);
+    setBulkAddInput("");
+    setSelectedManagerId("");
+    setBulkAddResults(null);
+  };
+
+  const downloadResultsCSV = () => {
+    if (!bulkAddResults) return;
+    const csvLines = ["Name,Email,Password,Email Sent,Status"];
+    for (const s of bulkAddResults.success) {
+      csvLines.push(`"${s.name}","${s.email}","${s.password}",${s.emailSent ? "Yes" : "No"},Success`);
+    }
+    for (const f of bulkAddResults.failed) {
+      csvLines.push(`"${f.name}","${f.email}","","","Failed: ${f.reason}"`);
+    }
+    const blob = new Blob([csvLines.join("\n")], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `bulk-add-results-${new Date().toISOString().split("T")[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   const AdminHeader = () => (
@@ -917,6 +1020,163 @@ export default function AdminDashboard() {
                       </div>
                       <DialogFooter>
                         <Button onClick={closeCredentialsDialog} data-testid="button-done">
+                          Done
+                        </Button>
+                      </DialogFooter>
+                    </>
+                  )}
+                </DialogContent>
+              </Dialog>
+
+              {/* Bulk Add Reps Dialog */}
+              <Dialog open={isBulkAddOpen} onOpenChange={(open) => {
+                if (!open) closeBulkAddDialog();
+                else setIsBulkAddOpen(true);
+              }}>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="gap-2" data-testid="button-bulk-add-reps">
+                    <Upload className="w-4 h-4" /> Bulk Add Reps
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+                  {!bulkAddResults ? (
+                    <>
+                      <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                          <Upload className="w-5 h-5" />
+                          Bulk Add Sales Reps
+                        </DialogTitle>
+                        <DialogDescription>
+                          Add multiple sales reps at once. Enter one person per line with their name and email.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4 py-4 flex-1 overflow-auto">
+                        <div className="space-y-2">
+                          <Label>Select Manager</Label>
+                          <Select value={selectedManagerId} onValueChange={setSelectedManagerId}>
+                            <SelectTrigger data-testid="select-manager">
+                              <SelectValue placeholder="Choose a manager to assign reps to..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {managers.map((mgr) => (
+                                <SelectItem key={mgr.id} value={mgr.id}>
+                                  {mgr.name} ({mgr.email})
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Rep List</Label>
+                          <p className="text-xs text-muted-foreground mb-2">
+                            Enter one rep per line. Format: <code className="bg-muted px-1 rounded">Name, email</code> or <code className="bg-muted px-1 rounded">Name email@domain.com</code>
+                          </p>
+                          <Textarea
+                            placeholder={`John Smith, jsmith@geckogreen.com
+Jane Doe, jdoe@geckogreen.com
+Mike Johnson mjohnson@geckogreen.com`}
+                            className="min-h-[200px] font-mono text-sm"
+                            value={bulkAddInput}
+                            onChange={(e) => setBulkAddInput(e.target.value)}
+                            data-testid="textarea-bulk-reps"
+                          />
+                          <p className="text-xs text-muted-foreground">
+                            {parseBulkInput(bulkAddInput).length} valid entries detected
+                          </p>
+                        </div>
+                        <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                          <div className="space-y-0.5">
+                            <Label htmlFor="send-emails" className="cursor-pointer">Send Welcome Emails</Label>
+                            <p className="text-xs text-muted-foreground">
+                              Automatically email login credentials to each new rep
+                            </p>
+                          </div>
+                          <Switch
+                            id="send-emails"
+                            checked={sendWelcomeEmails}
+                            onCheckedChange={setSendWelcomeEmails}
+                            data-testid="switch-send-emails"
+                          />
+                        </div>
+                      </div>
+                      <DialogFooter>
+                        <Button variant="outline" onClick={closeBulkAddDialog}>Cancel</Button>
+                        <Button 
+                          onClick={handleBulkAdd} 
+                          disabled={bulkAddMutation.isPending || !selectedManagerId || parseBulkInput(bulkAddInput).length === 0}
+                          className="gap-2"
+                          data-testid="button-submit-bulk-add"
+                        >
+                          {bulkAddMutation.isPending ? (
+                            <><Loader2 className="w-4 h-4 animate-spin" /> Adding {parseBulkInput(bulkAddInput).length} reps...</>
+                          ) : (
+                            <>Add {parseBulkInput(bulkAddInput).length} Reps</>
+                          )}
+                        </Button>
+                      </DialogFooter>
+                    </>
+                  ) : (
+                    <>
+                      <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                          <Check className="w-5 h-5 text-green-500" />
+                          Bulk Add Complete
+                        </DialogTitle>
+                        <DialogDescription>
+                          {bulkAddResults.success.length} reps created successfully
+                          {bulkAddResults.failed.length > 0 && `, ${bulkAddResults.failed.length} failed`}
+                        </DialogDescription>
+                      </DialogHeader>
+                      <ScrollArea className="flex-1 max-h-[400px] -mx-6 px-6">
+                        {bulkAddResults.success.length > 0 && (
+                          <div className="space-y-2 mb-4">
+                            <h4 className="text-sm font-medium text-green-600 flex items-center gap-2">
+                              <Check className="w-4 h-4" /> Successfully Created ({bulkAddResults.success.length})
+                            </h4>
+                            <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 space-y-2">
+                              {bulkAddResults.success.map((user, i) => (
+                                <div key={i} className="flex items-center justify-between text-sm">
+                                  <div>
+                                    <span className="font-medium">{user.name}</span>
+                                    <span className="text-muted-foreground ml-2">{user.email}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <code className="bg-background/50 px-2 py-0.5 rounded text-xs">{user.password}</code>
+                                    {user.emailSent && (
+                                      <Badge variant="secondary" className="text-xs gap-1">
+                                        <Mail className="w-3 h-3" /> Sent
+                                      </Badge>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                        {bulkAddResults.failed.length > 0 && (
+                          <div className="space-y-2">
+                            <h4 className="text-sm font-medium text-red-600 flex items-center gap-2">
+                              <AlertCircle className="w-4 h-4" /> Failed ({bulkAddResults.failed.length})
+                            </h4>
+                            <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-3 space-y-2">
+                              {bulkAddResults.failed.map((user, i) => (
+                                <div key={i} className="flex items-center justify-between text-sm">
+                                  <div>
+                                    <span className="font-medium">{user.name || "(no name)"}</span>
+                                    <span className="text-muted-foreground ml-2">{user.email || "(no email)"}</span>
+                                  </div>
+                                  <span className="text-red-600 text-xs">{user.reason}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </ScrollArea>
+                      <DialogFooter className="flex-row gap-2">
+                        <Button variant="outline" onClick={downloadResultsCSV} className="gap-2" data-testid="button-download-results">
+                          <Download className="w-4 h-4" /> Download CSV
+                        </Button>
+                        <Button onClick={closeBulkAddDialog} data-testid="button-done-bulk">
                           Done
                         </Button>
                       </DialogFooter>

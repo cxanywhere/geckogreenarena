@@ -477,6 +477,98 @@ export async function registerRoutes(
     }
   });
 
+  // Bulk create users (admin/director adds many reps to a manager)
+  app.post("/api/users/bulk", async (req, res) => {
+    try {
+      const { managerId, users: userInputs, sendEmails } = req.body;
+      
+      if (!managerId) {
+        return res.status(400).json({ error: "Manager ID is required" });
+      }
+      
+      if (!userInputs || !Array.isArray(userInputs) || userInputs.length === 0) {
+        return res.status(400).json({ error: "At least one user is required" });
+      }
+
+      // Verify manager exists
+      const manager = await storage.getUser(managerId);
+      if (!manager || manager.role !== "manager") {
+        return res.status(400).json({ error: "Invalid manager ID" });
+      }
+
+      const results: {
+        success: Array<{ name: string; email: string; password: string; emailSent: boolean }>;
+        failed: Array<{ name: string; email: string; reason: string }>;
+      } = {
+        success: [],
+        failed: [],
+      };
+
+      for (const userInput of userInputs) {
+        const { name, email } = userInput;
+        
+        if (!name || !email) {
+          results.failed.push({ name: name || "", email: email || "", reason: "Name and email are required" });
+          continue;
+        }
+
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          results.failed.push({ name, email, reason: "Invalid email format" });
+          continue;
+        }
+
+        try {
+          // Check if email already exists
+          const existingUser = await storage.getUserByEmail(email);
+          if (existingUser) {
+            results.failed.push({ name, email, reason: "Email already exists" });
+            continue;
+          }
+
+          // Generate secure password
+          const generatedPassword = generateSecurePassword();
+          const avatarInitials = getAvatarInitials(name);
+
+          await storage.createUser({
+            name,
+            email,
+            password: generatedPassword,
+            role: "rep",
+            status: "onboarding",
+            avatarInitials,
+            managerId,
+          });
+
+          let emailSent = false;
+          
+          // Send welcome email if requested
+          if (sendEmails) {
+            try {
+              const emailResult = await sendCredentialsEmail(email, name, generatedPassword);
+              emailSent = emailResult.success;
+            } catch (emailError) {
+              console.error(`Failed to send email to ${email}:`, emailError);
+            }
+          }
+
+          results.success.push({ name, email, password: generatedPassword, emailSent });
+        } catch (userError: any) {
+          results.failed.push({ name, email, reason: userError.message || "Failed to create user" });
+        }
+      }
+
+      res.json({
+        message: `Created ${results.success.length} users, ${results.failed.length} failed`,
+        results,
+      });
+    } catch (error) {
+      console.error("Bulk create users error:", error);
+      res.status(500).json({ error: "Failed to bulk create users" });
+    }
+  });
+
   // Send credentials via email
   app.post("/api/send-credentials/email", async (req, res) => {
     try {
