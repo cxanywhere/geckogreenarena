@@ -470,19 +470,30 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {roleplays.map((scenario, i) => {
-              const isPassed = passedRoleplayIds.includes(scenario.id);
-              return (
-                <div key={scenario.id} className="relative group">
-                  <RoleplayCard scenario={scenario} index={i} isLocked={false} />
-                  {isPassed && (
-                    <div className="absolute top-3 right-3 bg-green-500 text-white p-1.5 rounded-full">
-                      <CheckCircle className="w-4 h-4" />
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+            {[...roleplays]
+              .sort((a, b) => {
+                const extractOrder = (id: string) => {
+                  const match = id.match(/ch(\d+)-rp(\d+)/);
+                  if (match) {
+                    return parseInt(match[1]) * 100 + parseInt(match[2]);
+                  }
+                  return 9999;
+                };
+                return extractOrder(a.id) - extractOrder(b.id);
+              })
+              .map((scenario, i) => {
+                const isPassed = passedRoleplayIds.includes(scenario.id);
+                return (
+                  <div key={scenario.id} className="relative group">
+                    <RoleplayCard scenario={scenario} index={i} isLocked={false} />
+                    {isPassed && (
+                      <div className="absolute top-3 right-3 bg-green-500 text-white p-1.5 rounded-full">
+                        <CheckCircle className="w-4 h-4" />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
           </div>
         </div>
       </section>
