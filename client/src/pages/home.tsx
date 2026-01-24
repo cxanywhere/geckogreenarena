@@ -473,9 +473,9 @@ export default function Home() {
             {[...roleplays]
               .sort((a, b) => {
                 const extractOrder = (id: string) => {
-                  const match = id.match(/ch(\d+)-rp(\d+)/);
+                  const match = id.match(/rp-(\d+)/);
                   if (match) {
-                    return parseInt(match[1]) * 100 + parseInt(match[2]);
+                    return parseInt(match[1]);
                   }
                   return 9999;
                 };
