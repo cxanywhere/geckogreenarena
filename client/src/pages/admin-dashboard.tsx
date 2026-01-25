@@ -121,6 +121,11 @@ export default function AdminDashboard() {
     success: Array<{ name: string; email: string; password: string; emailSent: boolean }>;
     failed: Array<{ name: string; email: string; reason: string }>;
   } | null>(null);
+  const [showBillingResetDialog, setShowBillingResetDialog] = useState(false);
+  const [billingResetStep, setBillingResetStep] = useState<'request' | 'verify'>('request');
+  const [billingResetCode, setBillingResetCode] = useState("");
+  const [requestingReset, setRequestingReset] = useState(false);
+  const [confirmingReset, setConfirmingReset] = useState(false);
   const { resolvedTheme } = useTheme();
   const { user, logout, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
@@ -142,6 +147,66 @@ export default function AdminDashboard() {
     handleLogout();
   };
   const queryClient = useQueryClient();
+
+  const handleRequestBillingReset = async () => {
+    setRequestingReset(true);
+    try {
+      const response = await fetch("/api/usage/reset-request", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to request reset");
+      }
+      toast({ title: "Verification code sent", description: "Check tabish@gigarev.com for the 4-digit code." });
+      setBillingResetStep('verify');
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setRequestingReset(false);
+    }
+  };
+
+  const handleConfirmBillingReset = async () => {
+    if (billingResetCode.length !== 4) {
+      toast({ title: "Invalid code", description: "Please enter the 4-digit code.", variant: "destructive" });
+      return;
+    }
+    setConfirmingReset(true);
+    try {
+      const response = await fetch("/api/usage/reset-confirm", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ code: billingResetCode }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to reset billing data");
+      }
+      toast({ title: "Success", description: data.message });
+      setShowBillingResetDialog(false);
+      setBillingResetStep('request');
+      setBillingResetCode("");
+      queryClient.invalidateQueries({ queryKey: ["/api/usage/all"] });
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setConfirmingReset(false);
+    }
+  };
+
+  const closeBillingResetDialog = () => {
+    setShowBillingResetDialog(false);
+    setBillingResetStep('request');
+    setBillingResetCode("");
+  };
   
   const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
 
@@ -1336,6 +1401,20 @@ Mike Johnson mjohnson@geckogreen.com`}
           </TabsContent>
 
           <TabsContent value="usage" className="space-y-4">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="text-lg font-semibold">Usage & Billing</h3>
+                <p className="text-sm text-muted-foreground">Track voice roleplay usage and costs</p>
+              </div>
+              <Button 
+                variant="destructive" 
+                onClick={() => setShowBillingResetDialog(true)}
+                data-testid="button-reset-billing"
+              >
+                <Trash2 className="h-4 w-4 mr-2" />
+                Reset Billing Data
+              </Button>
+            </div>
             <div className="grid gap-4 md:grid-cols-4">
               <Card className="border-primary/10 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -1516,6 +1595,92 @@ Mike Johnson mjohnson@geckogreen.com`}
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <Dialog open={showBillingResetDialog} onOpenChange={closeBillingResetDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <AlertCircle className="h-5 w-5 text-red-500" />
+              Reset Billing Data
+            </DialogTitle>
+            <DialogDescription>
+              {billingResetStep === 'request' 
+                ? "This will permanently delete all usage sessions and reset billing to zero. A verification code will be sent to tabish@gigarev.com."
+                : "Enter the 4-digit verification code sent to tabish@gigarev.com to confirm the reset."}
+            </DialogDescription>
+          </DialogHeader>
+          
+          {billingResetStep === 'request' ? (
+            <div className="py-4">
+              <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900 rounded-lg p-4 text-sm">
+                <p className="font-semibold text-red-700 dark:text-red-400">Warning: This action cannot be undone.</p>
+                <p className="text-red-600 dark:text-red-500 mt-1">All usage sessions and billing history will be permanently deleted.</p>
+              </div>
+            </div>
+          ) : (
+            <div className="py-4 space-y-4">
+              <div className="flex flex-col items-center gap-4">
+                <Label htmlFor="reset-code" className="text-center">Verification Code</Label>
+                <Input
+                  id="reset-code"
+                  type="text"
+                  maxLength={4}
+                  value={billingResetCode}
+                  onChange={(e) => setBillingResetCode(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                  className="w-32 text-center text-2xl tracking-[0.5em] font-mono"
+                  placeholder="0000"
+                  data-testid="input-reset-code"
+                />
+              </div>
+            </div>
+          )}
+          
+          <DialogFooter className="sm:justify-between">
+            <Button variant="outline" onClick={closeBillingResetDialog} data-testid="button-reset-cancel">
+              Cancel
+            </Button>
+            {billingResetStep === 'request' ? (
+              <Button 
+                variant="destructive" 
+                onClick={handleRequestBillingReset}
+                disabled={requestingReset}
+                data-testid="button-send-code"
+              >
+                {requestingReset ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Sending Code...
+                  </>
+                ) : (
+                  <>
+                    <Mail className="h-4 w-4 mr-2" />
+                    Send Verification Code
+                  </>
+                )}
+              </Button>
+            ) : (
+              <Button 
+                variant="destructive" 
+                onClick={handleConfirmBillingReset}
+                disabled={confirmingReset || billingResetCode.length !== 4}
+                data-testid="button-confirm-reset"
+              >
+                {confirmingReset ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Resetting...
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Confirm Reset
+                  </>
+                )}
+              </Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

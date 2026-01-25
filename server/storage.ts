@@ -130,6 +130,7 @@ export interface IStorage {
   getTeamUsageSessions(managerId: string): Promise<UsageSession[]>;
   getAllUsageSessions(): Promise<UsageSession[]>;
   completeUsageSession(id: string, endTime: Date, durationSeconds: number): Promise<UsageSession | undefined>;
+  deleteAllUsageSessions(): Promise<number>;
   
   // Performance Metrics
   getRepPerformance(userId: string): Promise<RepPerformance>;
@@ -742,6 +743,11 @@ export class DatabaseStorage implements IStorage {
       .returning();
     
     return session || undefined;
+  }
+
+  async deleteAllUsageSessions(): Promise<number> {
+    const result = await db.delete(usageSessions).returning();
+    return result.length;
   }
 
   // Performance Metrics

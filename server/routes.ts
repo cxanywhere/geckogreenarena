@@ -11,7 +11,7 @@ import { getOrGenerateQuizForSlide, submitQuizAnswer } from "./quiz-service";
 import { vapiService } from "./vapi-service";
 import { getVapiRoleplayConfig, convertRoleplayToVapiConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
 import { generateSecurePassword, getAvatarInitials } from "./password-generator";
-import { sendCredentialsEmail } from "./email-service";
+import { sendCredentialsEmail, sendBillingResetCode } from "./email-service";
 import { sendCredentialsSMS } from "./sms-service";
 import { generateWarriorAvatar } from "./warrior-avatar-service";
 import multer from "multer";
@@ -2305,6 +2305,95 @@ export async function registerRoutes(
     } catch (error: any) {
       console.error("Get all usage error:", error);
       res.status(500).json({ error: error.message || "Failed to get usage" });
+    }
+  });
+
+  // =====================
+  // Billing Reset API (with email verification)
+  // =====================
+  
+  // Store reset verification codes in memory (expires after 10 minutes)
+  const billingResetCodes: Map<string, { code: string; expiresAt: Date }> = new Map();
+
+  // Request billing reset - generates 4-digit code and emails to tabish@gigarev.com
+  app.post("/api/usage/reset-request", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const callerRole = authResult.user.role;
+      if (callerRole !== "director" && callerRole !== "admin") {
+        return res.status(403).json({ error: "Access denied - directors only" });
+      }
+
+      // Generate 4-digit code
+      const code = Math.floor(1000 + Math.random() * 9000).toString();
+      
+      // Store code with 10-minute expiry
+      const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+      billingResetCodes.set("billing-reset", { code, expiresAt });
+
+      // Send email
+      const emailResult = await sendBillingResetCode(code);
+      if (!emailResult.success) {
+        return res.status(500).json({ error: emailResult.error || "Failed to send verification email" });
+      }
+
+      res.json({ success: true, message: "Verification code sent to tabish@gigarev.com" });
+    } catch (error: any) {
+      console.error("Reset request error:", error);
+      res.status(500).json({ error: error.message || "Failed to request reset" });
+    }
+  });
+
+  // Confirm billing reset with code
+  app.post("/api/usage/reset-confirm", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const callerRole = authResult.user.role;
+      if (callerRole !== "director" && callerRole !== "admin") {
+        return res.status(403).json({ error: "Access denied - directors only" });
+      }
+
+      const { code } = req.body;
+      if (!code) {
+        return res.status(400).json({ error: "Verification code required" });
+      }
+
+      const storedData = billingResetCodes.get("billing-reset");
+      if (!storedData) {
+        return res.status(400).json({ error: "No pending reset request. Please request a new code." });
+      }
+
+      if (new Date() > storedData.expiresAt) {
+        billingResetCodes.delete("billing-reset");
+        return res.status(400).json({ error: "Verification code expired. Please request a new code." });
+      }
+
+      if (storedData.code !== code) {
+        return res.status(400).json({ error: "Invalid verification code" });
+      }
+
+      // Code is valid - delete all usage sessions
+      const deletedCount = await storage.deleteAllUsageSessions();
+      
+      // Clear the used code
+      billingResetCodes.delete("billing-reset");
+
+      res.json({ 
+        success: true, 
+        message: `Billing data reset complete. ${deletedCount} usage sessions deleted.`,
+        deletedCount
+      });
+    } catch (error: any) {
+      console.error("Reset confirm error:", error);
+      res.status(500).json({ error: error.message || "Failed to reset billing data" });
     }
   });
 

@@ -194,3 +194,59 @@ export async function sendPasswordResetEmail(
     return { success: false, error: error.message || 'Failed to send email' };
   }
 }
+
+export async function sendBillingResetCode(
+  code: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const { client, fromEmail } = await getResendClient();
+    const toEmail = 'tabish@gigarev.com';
+
+    await client.emails.send({
+      from: fromEmail || 'Arena AI <arena@updates.gigarev.com>',
+      to: toEmail,
+      subject: 'Arena AI - Billing Reset Verification Code',
+      html: `
+        <div style="font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
+          <div style="background: #0a0a0a; padding: 32px 30px; text-align: center;">
+            <span style="color: #22c55e; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">arena ai</span>
+            <span style="color: #6b7280; font-size: 12px; display: block; text-transform: uppercase; letter-spacing: 2px; margin-top: 2px;">by gigarev</span>
+          </div>
+          
+          <div style="padding: 40px 30px; background: #ffffff; text-align: center;">
+            <h1 style="color: #0a0a0a; margin: 0 0 16px 0; font-size: 24px; font-weight: 600;">Billing Reset Request</h1>
+            <p style="color: #4b5563; line-height: 1.7; font-size: 16px; margin-bottom: 32px;">
+              A request has been made to reset all billing/usage data for Arena AI. Use the verification code below to confirm this action.
+            </p>
+            
+            <div style="background: #f9fafb; padding: 24px; border-radius: 12px; margin: 24px 0; border: 1px solid #e5e7eb;">
+              <p style="color: #6b7280; font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 12px 0; font-weight: 600;">Verification Code</p>
+              <div style="font-size: 48px; font-weight: 700; letter-spacing: 12px; color: #22c55e; font-family: monospace;">
+                ${code}
+              </div>
+            </div>
+            
+            <p style="color: #dc2626; font-size: 14px; margin-top: 24px; font-weight: 500;">
+              ⚠️ This action will permanently delete all usage session data.
+            </p>
+            
+            <p style="color: #9ca3af; font-size: 12px; margin-top: 16px;">
+              If you did not request this reset, please ignore this email.
+            </p>
+          </div>
+          
+          <div style="padding: 24px 30px; background: #0a0a0a; text-align: center;">
+            <p style="color: #6b7280; font-size: 12px; margin: 0;">
+              Arena AI by GigaRev - ${new Date().toLocaleDateString()}
+            </p>
+          </div>
+        </div>
+      `,
+    });
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Send billing reset code error:', error);
+    return { success: false, error: error.message || 'Failed to send verification email' };
+  }
+}
