@@ -126,6 +126,8 @@ export default function AdminDashboard() {
   const [billingResetCode, setBillingResetCode] = useState("");
   const [requestingReset, setRequestingReset] = useState(false);
   const [confirmingReset, setConfirmingReset] = useState(false);
+  const [repToDelete, setRepToDelete] = useState<User | null>(null);
+  const [deletingRep, setDeletingRep] = useState(false);
   const { resolvedTheme } = useTheme();
   const { user, logout, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
@@ -206,6 +208,30 @@ export default function AdminDashboard() {
     setShowBillingResetDialog(false);
     setBillingResetStep('request');
     setBillingResetCode("");
+  };
+
+  const handleDeleteRep = async () => {
+    if (!repToDelete) return;
+    setDeletingRep(true);
+    try {
+      const response = await fetch(`/api/users/${repToDelete.id}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Failed to delete rep");
+      }
+      toast({ title: "Rep deleted", description: `${repToDelete.name} has been removed.` });
+      setRepToDelete(null);
+      queryClient.invalidateQueries({ queryKey: ["/api/reps"] });
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setDeletingRep(false);
+    }
   };
   
   const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
@@ -1386,9 +1412,20 @@ Mike Johnson mjohnson@geckogreen.com`}
                               <span className="text-sm text-muted-foreground">{rep.email}</span>
                             </TableCell>
                             <TableCell>
-                              <Link href={`/admin/rep/${rep.id}`}>
-                                <Button variant="ghost" size="sm">View Details</Button>
-                              </Link>
+                              <div className="flex items-center gap-2">
+                                <Link href={`/admin/rep/${rep.id}`}>
+                                  <Button variant="ghost" size="sm">View Details</Button>
+                                </Link>
+                                <Button 
+                                  variant="ghost" 
+                                  size="sm" 
+                                  onClick={() => setRepToDelete(rep)}
+                                  className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/20"
+                                  data-testid={`button-delete-rep-${rep.id}`}
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
                             </TableCell>
                           </TableRow>
                         ))
@@ -1681,6 +1718,36 @@ Mike Johnson mjohnson@geckogreen.com`}
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <AlertDialog open={!!repToDelete} onOpenChange={(open) => !open && setRepToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Sales Rep?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete <span className="font-semibold">{repToDelete?.name}</span>? 
+              This will permanently remove them from the system. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deletingRep} data-testid="button-delete-cancel">Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleDeleteRep} 
+              className="bg-red-600 hover:bg-red-700"
+              disabled={deletingRep}
+              data-testid="button-delete-confirm"
+            >
+              {deletingRep ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Deleting...
+                </>
+              ) : (
+                "Delete Rep"
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
