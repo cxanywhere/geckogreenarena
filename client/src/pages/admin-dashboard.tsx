@@ -24,7 +24,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { UserPlus, Users, TrendingUp, AlertCircle, Search, Trash2, Shield, DollarSign, Activity, BarChart3, Settings, Copy, Mail, Phone, Check, Loader2, LogOut, Trophy, Award, Target, GraduationCap, Mic, ChevronDown, ChevronUp, Upload, Download, FileText } from "lucide-react";
+import { UserPlus, Users, TrendingUp, AlertCircle, Search, Trash2, Shield, DollarSign, Activity, BarChart3, Settings, Copy, Mail, Phone, Check, Loader2, LogOut, Trophy, Award, Target, GraduationCap, Mic, ChevronDown, ChevronUp, Upload, Download, FileText, Archive, AlertTriangle } from "lucide-react";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
 import arenaLogoLight from "@/assets/arena-logo-light.png";
 import geckoLogo from "@assets/image_1766975682051.png";
@@ -129,6 +129,12 @@ export default function AdminDashboard() {
   const [confirmingReset, setConfirmingReset] = useState(false);
   const [repToDelete, setRepToDelete] = useState<User | null>(null);
   const [deletingRep, setDeletingRep] = useState(false);
+  const [deleteStep, setDeleteStep] = useState<'choose' | 'reassign' | 'hard-verify'>('choose');
+  const [deleteType, setDeleteType] = useState<'soft' | 'hard' | null>(null);
+  const [hardDeleteCode, setHardDeleteCode] = useState("");
+  const [reassignToManagerId, setReassignToManagerId] = useState<string>("");
+  const [requestingHardDelete, setRequestingHardDelete] = useState(false);
+  const [hardDeleteRepCount, setHardDeleteRepCount] = useState(0);
   const { resolvedTheme } = useTheme();
   const { user, logout, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
@@ -211,7 +217,7 @@ export default function AdminDashboard() {
     setBillingResetCode("");
   };
 
-  const handleDeleteRep = async () => {
+  const handleSoftDelete = async () => {
     if (!repToDelete) return;
     setDeletingRep(true);
     try {
@@ -223,16 +229,114 @@ export default function AdminDashboard() {
       });
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || "Failed to delete rep");
+        throw new Error(data.error || "Failed to delete user");
       }
-      toast({ title: "Rep deleted", description: `${repToDelete.name} has been removed.` });
-      setRepToDelete(null);
+      toast({ title: "User archived", description: `${repToDelete.name} has been archived. Their data is preserved.` });
+      closeDeleteDialog();
       queryClient.invalidateQueries({ queryKey: ["/api/reps"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/managers"] });
     } catch (error: any) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     } finally {
       setDeletingRep(false);
     }
+  };
+
+  const handleRequestHardDelete = async () => {
+    if (!repToDelete) return;
+    setRequestingHardDelete(true);
+    try {
+      const response = await fetch(`/api/users/${repToDelete.id}/hard-delete-request`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to request hard delete");
+      }
+      toast({ title: "Verification code sent", description: "Check tabish@gigarev.com for the 4-digit code." });
+      setHardDeleteRepCount(data.repCount || 0);
+      setDeleteStep('hard-verify');
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setRequestingHardDelete(false);
+    }
+  };
+
+  const handleConfirmHardDelete = async () => {
+    if (!repToDelete || !hardDeleteCode) return;
+    setDeletingRep(true);
+    try {
+      const response = await fetch(`/api/users/${repToDelete.id}/hard-delete-confirm`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ code: hardDeleteCode }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to confirm hard delete");
+      }
+      toast({ 
+        title: "Permanently deleted", 
+        description: `Deleted ${data.deletedUsers} user(s) and ${data.deletedSessions} usage session(s).`,
+        variant: "destructive"
+      });
+      closeDeleteDialog();
+      queryClient.invalidateQueries({ queryKey: ["/api/reps"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/managers"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/usage/all"] });
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setDeletingRep(false);
+    }
+  };
+
+  const handleReassignReps = async () => {
+    if (!repToDelete || !reassignToManagerId) return;
+    setDeletingRep(true);
+    try {
+      const response = await fetch(`/api/users/reassign`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          fromManagerId: repToDelete.id, 
+          toManagerId: reassignToManagerId 
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to reassign reps");
+      }
+      toast({ title: "Reps reassigned", description: data.message });
+      queryClient.invalidateQueries({ queryKey: ["/api/reps"] });
+      // Now prompt for what to do with the manager
+      setDeleteStep('choose');
+      setReassignToManagerId("");
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setDeletingRep(false);
+    }
+  };
+
+  const closeDeleteDialog = () => {
+    setRepToDelete(null);
+    setDeleteStep('choose');
+    setDeleteType(null);
+    setHardDeleteCode("");
+    setReassignToManagerId("");
+    setHardDeleteRepCount(0);
   };
   
   const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
@@ -1359,7 +1463,7 @@ Mike Johnson mjohnson@geckogreen.com`}
                             <Button 
                               size="sm" 
                               variant="ghost" 
-                              onClick={() => handleRemoveManager(mgr.id)}
+                              onClick={() => setRepToDelete(mgr)}
                               data-testid={`button-delete-manager-${mgr.id}`}
                             >
                               <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive" />
@@ -1845,35 +1949,156 @@ Mike Johnson mjohnson@geckogreen.com`}
         </DialogContent>
       </Dialog>
 
-      <AlertDialog open={!!repToDelete} onOpenChange={(open) => !open && setRepToDelete(null)}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete Sales Rep?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to delete <span className="font-semibold">{repToDelete?.name}</span>? 
-              This will permanently remove them from the system. This action cannot be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel disabled={deletingRep} data-testid="button-delete-cancel">Cancel</AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={handleDeleteRep} 
-              className="bg-red-600 hover:bg-red-700"
-              disabled={deletingRep}
-              data-testid="button-delete-confirm"
-            >
-              {deletingRep ? (
-                <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Deleting...
-                </>
-              ) : (
-                "Delete Rep"
+      <Dialog open={!!repToDelete} onOpenChange={(open) => !open && closeDeleteDialog()}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Trash2 className="h-5 w-5 text-destructive" />
+              Delete {repToDelete?.role === 'manager' ? 'Manager' : 'Sales Rep'}
+            </DialogTitle>
+            <DialogDescription>
+              {repToDelete?.name} ({repToDelete?.email})
+            </DialogDescription>
+          </DialogHeader>
+
+          {deleteStep === 'choose' && (
+            <div className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                Choose how you want to delete this {repToDelete?.role === 'manager' ? 'manager' : 'sales rep'}:
+              </p>
+              
+              {repToDelete?.role === 'manager' && (
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-3 h-auto py-3"
+                  onClick={() => setDeleteStep('reassign')}
+                  disabled={deletingRep}
+                  data-testid="button-reassign-reps"
+                >
+                  <Users className="h-5 w-5 text-blue-500" />
+                  <div className="text-left">
+                    <p className="font-medium">Reassign Reps First</p>
+                    <p className="text-xs text-muted-foreground">Move their team to another manager before deleting</p>
+                  </div>
+                </Button>
               )}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+
+              <Button
+                variant="outline"
+                className="w-full justify-start gap-3 h-auto py-3"
+                onClick={handleSoftDelete}
+                disabled={deletingRep}
+                data-testid="button-soft-delete"
+              >
+                {deletingRep ? <Loader2 className="h-5 w-5 animate-spin" /> : <Archive className="h-5 w-5 text-amber-500" />}
+                <div className="text-left">
+                  <p className="font-medium">Soft Delete (Archive)</p>
+                  <p className="text-xs text-muted-foreground">Remove from active users but keep all their data</p>
+                </div>
+              </Button>
+
+              <Button
+                variant="outline"
+                className="w-full justify-start gap-3 h-auto py-3 border-destructive/50 hover:border-destructive"
+                onClick={handleRequestHardDelete}
+                disabled={deletingRep || requestingHardDelete}
+                data-testid="button-hard-delete"
+              >
+                {requestingHardDelete ? <Loader2 className="h-5 w-5 animate-spin" /> : <AlertTriangle className="h-5 w-5 text-destructive" />}
+                <div className="text-left">
+                  <p className="font-medium text-destructive">Hard Delete (Permanent)</p>
+                  <p className="text-xs text-muted-foreground">
+                    Permanently delete user{repToDelete?.role === 'manager' ? ', their team,' : ''} and all usage data
+                  </p>
+                </div>
+              </Button>
+            </div>
+          )}
+
+          {deleteStep === 'reassign' && (
+            <div className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                Select a manager to reassign all reps from {repToDelete?.name} to:
+              </p>
+              <Select value={reassignToManagerId} onValueChange={setReassignToManagerId}>
+                <SelectTrigger data-testid="select-reassign-manager">
+                  <SelectValue placeholder="Select a manager" />
+                </SelectTrigger>
+                <SelectContent>
+                  {managers.filter(m => m.id !== repToDelete?.id).map((manager) => (
+                    <SelectItem key={manager.id} value={manager.id}>
+                      {manager.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={() => setDeleteStep('choose')} disabled={deletingRep}>
+                  Back
+                </Button>
+                <Button 
+                  onClick={handleReassignReps} 
+                  disabled={!reassignToManagerId || deletingRep}
+                  data-testid="button-confirm-reassign"
+                >
+                  {deletingRep ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}
+                  Reassign Reps
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {deleteStep === 'hard-verify' && (
+            <div className="space-y-4">
+              <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4">
+                <p className="text-sm font-medium text-destructive flex items-center gap-2">
+                  <AlertTriangle className="h-4 w-4" />
+                  Permanent Deletion Warning
+                </p>
+                <p className="text-sm text-muted-foreground mt-2">
+                  This will permanently delete {repToDelete?.name}
+                  {repToDelete?.role === 'manager' && hardDeleteRepCount > 0 && (
+                    <>, their {hardDeleteRepCount} team member{hardDeleteRepCount > 1 ? 's' : ''}</>
+                  )}
+                  , and all associated usage data. This cannot be undone.
+                </p>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="hard-delete-code">Enter 4-digit verification code</Label>
+                <Input
+                  id="hard-delete-code"
+                  placeholder="Enter code from email"
+                  value={hardDeleteCode}
+                  onChange={(e) => setHardDeleteCode(e.target.value)}
+                  maxLength={4}
+                  data-testid="input-hard-delete-code"
+                />
+                <p className="text-xs text-muted-foreground">Code sent to tabish@gigarev.com (expires in 10 minutes)</p>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={() => setDeleteStep('choose')} disabled={deletingRep}>
+                  Back
+                </Button>
+                <Button 
+                  variant="destructive"
+                  onClick={handleConfirmHardDelete} 
+                  disabled={hardDeleteCode.length !== 4 || deletingRep}
+                  data-testid="button-confirm-hard-delete"
+                >
+                  {deletingRep ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}
+                  Permanently Delete
+                </Button>
+              </div>
+            </div>
+          )}
+
+          <DialogFooter className="sm:justify-start">
+            <Button variant="ghost" onClick={closeDeleteDialog} disabled={deletingRep} data-testid="button-delete-cancel">
+              Cancel
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

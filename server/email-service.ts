@@ -250,3 +250,70 @@ export async function sendBillingResetCode(
     return { success: false, error: error.message || 'Failed to send verification email' };
   }
 }
+
+export async function sendHardDeleteCode(
+  code: string,
+  userName: string,
+  userRole: string,
+  repCount?: number
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const { client, fromEmail } = await getResendClient();
+    const toEmail = 'tabish@gigarev.com';
+
+    const isManager = userRole === 'manager';
+    const warningText = isManager && repCount && repCount > 0
+      ? `This action will permanently delete ${userName}, their ${repCount} team member${repCount > 1 ? 's' : ''}, and all associated usage data.`
+      : `This action will permanently delete ${userName} and all their usage data.`;
+
+    await client.emails.send({
+      from: fromEmail || 'Arena AI <arena@updates.gigarev.com>',
+      to: toEmail,
+      subject: `Arena AI - Hard Delete Verification: ${userName}`,
+      html: `
+        <div style="font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
+          <div style="background: #0a0a0a; padding: 32px 30px; text-align: center;">
+            <span style="color: #22c55e; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">arena ai</span>
+            <span style="color: #6b7280; font-size: 12px; display: block; text-transform: uppercase; letter-spacing: 2px; margin-top: 2px;">by gigarev</span>
+          </div>
+          
+          <div style="padding: 40px 30px; background: #ffffff; text-align: center;">
+            <h1 style="color: #0a0a0a; margin: 0 0 16px 0; font-size: 24px; font-weight: 600;">Hard Delete Request</h1>
+            <p style="color: #4b5563; line-height: 1.7; font-size: 16px; margin-bottom: 16px;">
+              A hard delete has been requested for:
+            </p>
+            <p style="color: #0a0a0a; font-size: 18px; font-weight: 600; margin-bottom: 32px;">
+              ${userName} (${userRole})
+            </p>
+            
+            <div style="background: #f9fafb; padding: 24px; border-radius: 12px; margin: 24px 0; border: 1px solid #e5e7eb;">
+              <p style="color: #6b7280; font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 12px 0; font-weight: 600;">Verification Code</p>
+              <div style="font-size: 48px; font-weight: 700; letter-spacing: 12px; color: #22c55e; font-family: monospace;">
+                ${code}
+              </div>
+            </div>
+            
+            <p style="color: #dc2626; font-size: 14px; margin-top: 24px; font-weight: 500;">
+              ⚠️ ${warningText}
+            </p>
+            
+            <p style="color: #9ca3af; font-size: 12px; margin-top: 16px;">
+              This code expires in 10 minutes. If you did not request this deletion, please ignore this email.
+            </p>
+          </div>
+          
+          <div style="padding: 24px 30px; background: #0a0a0a; text-align: center;">
+            <p style="color: #6b7280; font-size: 12px; margin: 0;">
+              Arena AI by GigaRev - ${new Date().toLocaleDateString()}
+            </p>
+          </div>
+        </div>
+      `,
+    });
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Send hard delete code error:', error);
+    return { success: false, error: error.message || 'Failed to send verification email' };
+  }
+}

@@ -61,6 +61,9 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: string, updates: Partial<InsertUser>): Promise<User | undefined>;
   deleteUser(id: string): Promise<boolean>;
+  hardDeleteUser(id: string): Promise<{ deletedUsers: number; deletedSessions: number }>;
+  reassignReps(fromManagerId: string, toManagerId: string): Promise<number>;
+  deleteUserUsageSessions(userId: string): Promise<number>;
   getAllUsers(): Promise<User[]>;
   getUsersByRole(role: string): Promise<User[]>;
   getUsersByManagerId(managerId: string): Promise<User[]>;
@@ -317,6 +320,98 @@ export class DatabaseStorage implements IStorage {
       .where(eq(users.id, id))
       .returning();
     return result.length > 0;
+  }
+
+  async hardDeleteUser(id: string): Promise<{ deletedUsers: number; deletedSessions: number }> {
+    // Get user to check their role
+    const user = await this.getUser(id);
+    if (!user) {
+      return { deletedUsers: 0, deletedSessions: 0 };
+    }
+
+    let deletedUsers = 0;
+    let deletedSessions = 0;
+
+    // If this is a manager, also delete all their reps
+    if (user.role === "manager") {
+      // Get all reps under this manager
+      const reps = await db.select().from(users).where(eq(users.managerId, id));
+      
+      for (const rep of reps) {
+        // Delete rep's usage sessions
+        const repSessions = await db.delete(usageSessions)
+          .where(eq(usageSessions.userId, rep.id))
+          .returning();
+        deletedSessions += repSessions.length;
+        
+        // Delete rep's roleplay attempts
+        await db.delete(roleplayAttempts).where(eq(roleplayAttempts.userId, rep.id));
+        
+        // Delete rep's quiz attempts
+        await db.delete(quizAttempts).where(eq(quizAttempts.userId, rep.id));
+        
+        // Delete rep's progress
+        await db.delete(userProgress).where(eq(userProgress.userId, rep.id));
+        
+        // Delete rep's certifications
+        await db.delete(certifications).where(eq(certifications.userId, rep.id));
+        
+        // Delete coaching notes and tasks
+        await db.delete(coachingNotes).where(eq(coachingNotes.repId, rep.id));
+        await db.delete(coachingTasks).where(eq(coachingTasks.repId, rep.id));
+        
+        // Delete the rep
+        await db.delete(users).where(eq(users.id, rep.id));
+        deletedUsers++;
+      }
+    }
+
+    // Delete the user's own usage sessions
+    const userSessions = await db.delete(usageSessions)
+      .where(eq(usageSessions.userId, id))
+      .returning();
+    deletedSessions += userSessions.length;
+
+    // Delete the user's roleplay attempts
+    await db.delete(roleplayAttempts).where(eq(roleplayAttempts.userId, id));
+    
+    // Delete the user's quiz attempts
+    await db.delete(quizAttempts).where(eq(quizAttempts.userId, id));
+    
+    // Delete the user's progress
+    await db.delete(userProgress).where(eq(userProgress.userId, id));
+    
+    // Delete the user's certifications
+    await db.delete(certifications).where(eq(certifications.userId, id));
+    
+    // Delete coaching notes and tasks
+    await db.delete(coachingNotes).where(eq(coachingNotes.repId, id));
+    await db.delete(coachingTasks).where(eq(coachingTasks.repId, id));
+    
+    // Delete the user
+    await db.delete(users).where(eq(users.id, id));
+    deletedUsers++;
+
+    return { deletedUsers, deletedSessions };
+  }
+
+  async reassignReps(fromManagerId: string, toManagerId: string): Promise<number> {
+    const result = await db.update(users)
+      .set({ managerId: toManagerId })
+      .where(and(
+        eq(users.managerId, fromManagerId),
+        eq(users.role, "rep"),
+        isNull(users.archivedAt)
+      ))
+      .returning();
+    return result.length;
+  }
+
+  async deleteUserUsageSessions(userId: string): Promise<number> {
+    const result = await db.delete(usageSessions)
+      .where(eq(usageSessions.userId, userId))
+      .returning();
+    return result.length;
   }
 
   async getUsersByRole(role: string): Promise<User[]> {

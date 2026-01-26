@@ -11,7 +11,7 @@ import { getOrGenerateQuizForSlide, submitQuizAnswer } from "./quiz-service";
 import { vapiService } from "./vapi-service";
 import { getVapiRoleplayConfig, convertRoleplayToVapiConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
 import { generateSecurePassword, getAvatarInitials } from "./password-generator";
-import { sendCredentialsEmail, sendBillingResetCode } from "./email-service";
+import { sendCredentialsEmail, sendBillingResetCode, sendHardDeleteCode } from "./email-service";
 import { sendCredentialsSMS } from "./sms-service";
 import { generateWarriorAvatar } from "./warrior-avatar-service";
 import multer from "multer";
@@ -438,7 +438,7 @@ export async function registerRoutes(
     }
   });
 
-  // Delete user
+  // Delete user (soft delete)
   app.delete("/api/users/:id", async (req, res) => {
     try {
       const userId = req.params.id;
@@ -452,6 +452,154 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Delete user error:", error);
       res.status(500).json({ error: "Failed to delete user" });
+    }
+  });
+
+  // Store hard delete verification codes in memory (expires after 10 minutes)
+  const hardDeleteCodes: Map<string, { code: string; expiresAt: Date; userId: string }> = new Map();
+
+  // Request hard delete - generates 4-digit code and emails to tabish@gigarev.com
+  app.post("/api/users/:id/hard-delete-request", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const callerRole = authResult.user.role;
+      if (callerRole !== "director" && callerRole !== "admin") {
+        return res.status(403).json({ error: "Access denied - admins only" });
+      }
+
+      const userId = req.params.id;
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      // Get rep count if manager
+      let repCount = 0;
+      if (user.role === "manager") {
+        const reps = await storage.getUsersByManagerId(userId);
+        repCount = reps.length;
+      }
+
+      // Generate 4-digit code
+      const code = Math.floor(1000 + Math.random() * 9000).toString();
+      
+      // Store code with 10-minute expiry
+      const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+      hardDeleteCodes.set(userId, { code, expiresAt, userId });
+
+      // Send email
+      const emailResult = await sendHardDeleteCode(code, user.name, user.role, repCount);
+      if (!emailResult.success) {
+        return res.status(500).json({ error: emailResult.error || "Failed to send verification email" });
+      }
+
+      res.json({ 
+        success: true, 
+        message: "Verification code sent to tabish@gigarev.com",
+        userName: user.name,
+        userRole: user.role,
+        repCount
+      });
+    } catch (error: any) {
+      console.error("Hard delete request error:", error);
+      res.status(500).json({ error: error.message || "Failed to request hard delete" });
+    }
+  });
+
+  // Confirm hard delete with code
+  app.post("/api/users/:id/hard-delete-confirm", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const callerRole = authResult.user.role;
+      if (callerRole !== "director" && callerRole !== "admin") {
+        return res.status(403).json({ error: "Access denied - admins only" });
+      }
+
+      const userId = req.params.id;
+      const { code } = req.body;
+      if (!code) {
+        return res.status(400).json({ error: "Verification code required" });
+      }
+
+      const storedData = hardDeleteCodes.get(userId);
+      if (!storedData) {
+        return res.status(400).json({ error: "No pending delete request. Please request a new code." });
+      }
+
+      if (new Date() > storedData.expiresAt) {
+        hardDeleteCodes.delete(userId);
+        return res.status(400).json({ error: "Verification code expired. Please request a new code." });
+      }
+
+      if (storedData.code !== code) {
+        return res.status(400).json({ error: "Invalid verification code" });
+      }
+
+      // Code is valid - perform hard delete
+      const result = await storage.hardDeleteUser(userId);
+      
+      // Clear the used code
+      hardDeleteCodes.delete(userId);
+
+      res.json({ 
+        success: true, 
+        message: `Permanently deleted ${result.deletedUsers} user(s) and ${result.deletedSessions} usage session(s)`,
+        deletedUsers: result.deletedUsers,
+        deletedSessions: result.deletedSessions
+      });
+    } catch (error: any) {
+      console.error("Hard delete confirm error:", error);
+      res.status(500).json({ error: error.message || "Failed to confirm hard delete" });
+    }
+  });
+
+  // Reassign reps from one manager to another
+  app.post("/api/users/reassign", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const callerRole = authResult.user.role;
+      if (callerRole !== "director" && callerRole !== "admin") {
+        return res.status(403).json({ error: "Access denied - admins only" });
+      }
+
+      const { fromManagerId, toManagerId } = req.body;
+      if (!fromManagerId || !toManagerId) {
+        return res.status(400).json({ error: "Both fromManagerId and toManagerId are required" });
+      }
+
+      // Verify both managers exist
+      const fromManager = await storage.getUser(fromManagerId);
+      const toManager = await storage.getUser(toManagerId);
+      
+      if (!fromManager) {
+        return res.status(404).json({ error: "Source manager not found" });
+      }
+      if (!toManager) {
+        return res.status(404).json({ error: "Target manager not found" });
+      }
+
+      const reassignedCount = await storage.reassignReps(fromManagerId, toManagerId);
+
+      res.json({ 
+        success: true, 
+        message: `Reassigned ${reassignedCount} rep(s) from ${fromManager.name} to ${toManager.name}`,
+        reassignedCount
+      });
+    } catch (error: any) {
+      console.error("Reassign reps error:", error);
+      res.status(500).json({ error: error.message || "Failed to reassign reps" });
     }
   });
 
