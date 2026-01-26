@@ -24,7 +24,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { BILLING_STATS } from "@/lib/mock-data";
 import { UserPlus, Users, TrendingUp, AlertCircle, Search, Trash2, Shield, DollarSign, Activity, BarChart3, Settings, Copy, Mail, Phone, Check, Loader2, LogOut, Trophy, Award, Target, GraduationCap, Mic, ChevronDown, ChevronUp, Upload, Download, FileText } from "lucide-react";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
 import arenaLogoLight from "@/assets/arena-logo-light.png";
@@ -620,23 +619,22 @@ export default function AdminDashboard() {
               <Activity className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{BILLING_STATS.totalMinutesUsed.toLocaleString()} min</div>
-              <Progress value={(BILLING_STATS.totalMinutesUsed / BILLING_STATS.planLimit) * 100} className="h-2 mt-2" />
+              <div className="text-2xl font-bold">{(usageData?.summary.totalMinutes || 0).toLocaleString()} min</div>
               <p className="text-xs text-muted-foreground mt-2">
-                {Math.round((BILLING_STATS.totalMinutesUsed / BILLING_STATS.planLimit) * 100)}% of plan limit
+                Voice roleplay minutes used
               </p>
             </CardContent>
           </Card>
           
           <Card className="border-primary/10 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Projected Cost</CardTitle>
+              <CardTitle className="text-sm font-medium">Total Cost</CardTitle>
               <DollarSign className="h-4 w-4 text-green-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">${BILLING_STATS.projectedCost.toLocaleString()}</div>
+              <div className="text-2xl font-bold">${usageData?.summary.totalCostDollars || "0.00"}</div>
               <p className="text-xs text-muted-foreground mt-1">
-                Based on ${BILLING_STATS.costPerMinute}/min rate
+                At {usageData?.summary.ratePerMinute || "$0.15"}/min rate
               </p>
             </CardContent>
           </Card>
@@ -656,13 +654,13 @@ export default function AdminDashboard() {
 
            <Card className="border-primary/10 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Simulations</CardTitle>
+              <CardTitle className="text-sm font-medium">Total Sessions</CardTitle>
               <Shield className="h-4 w-4 text-purple-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{BILLING_STATS.totalRoleplays}</div>
+              <div className="text-2xl font-bold">{usageData?.summary.totalSessions || 0}</div>
               <p className="text-xs text-muted-foreground mt-1">
-                Completed this month
+                Voice roleplays completed
               </p>
             </CardContent>
           </Card>
