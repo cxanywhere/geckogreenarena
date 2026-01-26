@@ -828,12 +828,12 @@ export default function AdminDashboard() {
                                       </div>
                                     </TableCell>
                                     <TableCell>
-                                      <div className="flex items-center gap-2">
+                                      <Link href={`/admin/rep/${rep.userId}`} className="flex items-center gap-2 hover:text-primary cursor-pointer">
                                         <div className="h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
                                           {rep.userName.split(" ").map(n => n[0]).join("").toUpperCase()}
                                         </div>
-                                        <span className="font-medium">{rep.userName}</span>
-                                      </div>
+                                        <span className="font-medium hover:underline">{rep.userName}</span>
+                                      </Link>
                                     </TableCell>
                                     <TableCell>
                                       {rep.isCertified ? (
@@ -924,15 +924,15 @@ export default function AdminDashboard() {
                             </div>
                           </TableCell>
                           <TableCell>
-                            <div className="flex items-center gap-2">
+                            <Link href={`/admin/rep/${rep.userId}`} className="flex items-center gap-2 hover:text-primary cursor-pointer">
                               <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
                                 {rep.userName.split(" ").map(n => n[0]).join("").toUpperCase()}
                               </div>
                               <div>
-                                <p className="font-medium">{rep.userName}</p>
+                                <p className="font-medium hover:underline">{rep.userName}</p>
                                 <p className="text-xs text-muted-foreground">{rep.email}</p>
                               </div>
-                            </div>
+                            </Link>
                           </TableCell>
                           <TableCell>
                             <span className="text-sm text-muted-foreground">{rep.managerName || "—"}</span>
