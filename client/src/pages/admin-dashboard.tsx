@@ -107,6 +107,7 @@ export default function AdminDashboard() {
   const [newManager, setNewManager] = useState({ name: "", email: "", phone: "" });
   const [isAddAdminOpen, setIsAddAdminOpen] = useState(false);
   const [newAdmin, setNewAdmin] = useState({ name: "", email: "", phone: "", role: "director" as "director" | "admin" });
+  const [adminCredentials, setAdminCredentials] = useState<CreatedCredentials | null>(null);
   const [createdCredentials, setCreatedCredentials] = useState<CreatedCredentials | null>(null);
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [sendingEmail, setSendingEmail] = useState(false);
@@ -438,8 +439,12 @@ export default function AdminDashboard() {
       if (data.submittedRole === "manager") {
         setNewManager({ name: "", email: "", phone: "" });
       } else if (data.submittedRole === "director" || data.submittedRole === "admin") {
+        setAdminCredentials({
+          email: data.credentials.email,
+          password: data.credentials.password,
+          name: data.user.name,
+        });
         setNewAdmin({ name: "", email: "", phone: "", role: "director" });
-        setIsAddAdminOpen(false);
       }
       
       toast({
@@ -1732,6 +1737,7 @@ Mike Johnson mjohnson@geckogreen.com`}
                   setIsAddAdminOpen(open);
                   if (!open) {
                     setNewAdmin({ name: "", email: "", phone: "", role: "director" });
+                    setAdminCredentials(null);
                   }
                 }}>
                   <DialogTrigger asChild>
@@ -1741,72 +1747,145 @@ Mike Johnson mjohnson@geckogreen.com`}
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                      <DialogTitle>Add New Admin/Director</DialogTitle>
+                      <DialogTitle>{adminCredentials ? "Admin Created Successfully" : "Add New Admin/Director"}</DialogTitle>
                       <DialogDescription>
-                        Create a new administrator or director account with full system access. A secure password will be auto-generated.
+                        {adminCredentials 
+                          ? `${adminCredentials.name} has been created. Copy or send the credentials below.`
+                          : "Create a new administrator or director account with full system access. A secure password will be auto-generated."
+                        }
                       </DialogDescription>
                     </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                      <div className="grid gap-2">
-                        <Label htmlFor="admin-name">Full Name</Label>
-                        <Input 
-                          id="admin-name" 
-                          placeholder="John Smith" 
-                          value={newAdmin.name} 
-                          onChange={(e) => setNewAdmin({...newAdmin, name: e.target.value})}
-                          data-testid="input-admin-name"
-                        />
-                      </div>
-                      <div className="grid gap-2">
-                        <Label htmlFor="admin-email">Email</Label>
-                        <Input 
-                          id="admin-email" 
-                          type="email" 
-                          placeholder="john@company.com" 
-                          value={newAdmin.email}
-                          onChange={(e) => setNewAdmin({...newAdmin, email: e.target.value})}
-                          data-testid="input-admin-email"
-                        />
-                      </div>
-                      <div className="grid gap-2">
-                        <Label htmlFor="admin-phone">Phone (optional)</Label>
-                        <Input 
-                          id="admin-phone" 
-                          type="tel" 
-                          placeholder="+1 (555) 123-4567" 
-                          value={newAdmin.phone}
-                          onChange={(e) => setNewAdmin({...newAdmin, phone: e.target.value})}
-                          data-testid="input-admin-phone"
-                        />
-                      </div>
-                      <div className="grid gap-2">
-                        <Label htmlFor="admin-role">Role</Label>
-                        <Select value={newAdmin.role} onValueChange={(value: "director" | "admin") => setNewAdmin({...newAdmin, role: value})}>
-                          <SelectTrigger data-testid="select-admin-role">
-                            <SelectValue placeholder="Select role" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="director">Director</SelectItem>
-                            <SelectItem value="admin">Admin</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                    <DialogFooter>
-                      <Button 
-                        onClick={handleAddAdmin} 
-                        disabled={createUserMutation.isPending || !newAdmin.name || !newAdmin.email}
-                        data-testid="button-submit-admin"
-                      >
-                        {createUserMutation.isPending ? (
-                          <>
-                            <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Creating...
-                          </>
-                        ) : (
-                          "Create Admin"
-                        )}
-                      </Button>
-                    </DialogFooter>
+                    
+                    {!adminCredentials ? (
+                      <>
+                        <div className="grid gap-4 py-4">
+                          <div className="grid gap-2">
+                            <Label htmlFor="admin-name">Full Name</Label>
+                            <Input 
+                              id="admin-name" 
+                              placeholder="John Smith" 
+                              value={newAdmin.name} 
+                              onChange={(e) => setNewAdmin({...newAdmin, name: e.target.value})}
+                              data-testid="input-admin-name"
+                            />
+                          </div>
+                          <div className="grid gap-2">
+                            <Label htmlFor="admin-email">Email</Label>
+                            <Input 
+                              id="admin-email" 
+                              type="email" 
+                              placeholder="john@company.com" 
+                              value={newAdmin.email}
+                              onChange={(e) => setNewAdmin({...newAdmin, email: e.target.value})}
+                              data-testid="input-admin-email"
+                            />
+                          </div>
+                          <div className="grid gap-2">
+                            <Label htmlFor="admin-phone">Phone (optional)</Label>
+                            <Input 
+                              id="admin-phone" 
+                              type="tel" 
+                              placeholder="+1 (555) 123-4567" 
+                              value={newAdmin.phone}
+                              onChange={(e) => setNewAdmin({...newAdmin, phone: e.target.value})}
+                              data-testid="input-admin-phone"
+                            />
+                          </div>
+                          <div className="grid gap-2">
+                            <Label htmlFor="admin-role">Role</Label>
+                            <Select value={newAdmin.role} onValueChange={(value: "director" | "admin") => setNewAdmin({...newAdmin, role: value})}>
+                              <SelectTrigger data-testid="select-admin-role">
+                                <SelectValue placeholder="Select role" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="director">Director</SelectItem>
+                                <SelectItem value="admin">Admin</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                        <DialogFooter>
+                          <Button 
+                            onClick={handleAddAdmin} 
+                            disabled={createUserMutation.isPending || !newAdmin.name || !newAdmin.email}
+                            data-testid="button-submit-admin"
+                          >
+                            {createUserMutation.isPending ? (
+                              <>
+                                <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Creating...
+                              </>
+                            ) : (
+                              "Create Admin"
+                            )}
+                          </Button>
+                        </DialogFooter>
+                      </>
+                    ) : (
+                      <>
+                        <div className="space-y-4 py-4">
+                          <div className="bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 rounded-lg p-4">
+                            <div className="flex items-center gap-2 text-green-700 dark:text-green-400 font-medium mb-2">
+                              <Check className="h-4 w-4" />
+                              Account Created
+                            </div>
+                            <p className="text-sm text-muted-foreground">
+                              Share these credentials with the new admin. They can change their password after logging in.
+                            </p>
+                          </div>
+                          
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                              <div>
+                                <p className="text-xs text-muted-foreground uppercase font-medium">Email</p>
+                                <p className="font-mono text-sm">{adminCredentials.email}</p>
+                              </div>
+                              <Button 
+                                size="sm" 
+                                variant="ghost" 
+                                onClick={() => copyToClipboard(adminCredentials.email, "Email")}
+                                data-testid="button-copy-admin-email"
+                              >
+                                {copiedField === "Email" ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+                              </Button>
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                              <div>
+                                <p className="text-xs text-muted-foreground uppercase font-medium">Password</p>
+                                <p className="font-mono text-sm font-bold">{adminCredentials.password}</p>
+                              </div>
+                              <Button 
+                                size="sm" 
+                                variant="ghost" 
+                                onClick={() => copyToClipboard(adminCredentials.password, "Password")}
+                                data-testid="button-copy-admin-password"
+                              >
+                                {copiedField === "Password" ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                        <DialogFooter className="flex-col sm:flex-row gap-2">
+                          <Button 
+                            variant="outline"
+                            onClick={() => {
+                              setAdminCredentials(null);
+                            }}
+                            data-testid="button-add-another-admin"
+                          >
+                            Add Another
+                          </Button>
+                          <Button 
+                            onClick={() => {
+                              setIsAddAdminOpen(false);
+                              setAdminCredentials(null);
+                            }}
+                            data-testid="button-done-admin"
+                          >
+                            Done
+                          </Button>
+                        </DialogFooter>
+                      </>
+                    )}
                   </DialogContent>
                 </Dialog>
               </CardHeader>
