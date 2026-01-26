@@ -106,6 +106,8 @@ export default function AdminDashboard() {
   const { toast } = useToast();
   const [isAddManagerOpen, setIsAddManagerOpen] = useState(false);
   const [newManager, setNewManager] = useState({ name: "", email: "", phone: "" });
+  const [isAddAdminOpen, setIsAddAdminOpen] = useState(false);
+  const [newAdmin, setNewAdmin] = useState({ name: "", email: "", phone: "", role: "director" as "director" | "admin" });
   const [createdCredentials, setCreatedCredentials] = useState<CreatedCredentials | null>(null);
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [sendingEmail, setSendingEmail] = useState(false);
@@ -312,7 +314,8 @@ export default function AdminDashboard() {
   const createUserMutation = useMutation({
     mutationFn: async (userData: { name: string; email: string; phone?: string; role: string }) => {
       const response = await apiRequest("POST", "/api/users", userData);
-      return response.json();
+      const json = await response.json();
+      return { ...json, submittedPhone: userData.phone, submittedRole: userData.role };
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/managers"] });
@@ -322,17 +325,29 @@ export default function AdminDashboard() {
         password: data.credentials.password,
         name: data.user.name,
       });
-      setCreatedPhone(newManager.phone || null);
-      setNewManager({ name: "", email: "", phone: "" });
+      setCreatedPhone(data.submittedPhone || null);
+      
+      const roleLabel = data.submittedRole === "director" ? "Director" 
+        : data.submittedRole === "admin" ? "Admin" 
+        : data.submittedRole === "manager" ? "Manager" 
+        : "User";
+      
+      if (data.submittedRole === "manager") {
+        setNewManager({ name: "", email: "", phone: "" });
+      } else if (data.submittedRole === "director" || data.submittedRole === "admin") {
+        setNewAdmin({ name: "", email: "", phone: "", role: "director" });
+        setIsAddAdminOpen(false);
+      }
+      
       toast({
-        title: "Manager Created",
+        title: `${roleLabel} Created`,
         description: "Login credentials have been generated. Copy or send them below.",
       });
     },
     onError: (error: any) => {
       toast({
         title: "Error",
-        description: error.message || "Failed to create manager",
+        description: error.message || "Failed to create user",
         variant: "destructive",
       });
     },
@@ -384,6 +399,16 @@ export default function AdminDashboard() {
       email: newManager.email,
       phone: newManager.phone || undefined,
       role: "manager",
+    });
+  };
+
+  const handleAddAdmin = () => {
+    if (!newAdmin.name || !newAdmin.email) return;
+    createUserMutation.mutate({
+      name: newAdmin.name,
+      email: newAdmin.email,
+      phone: newAdmin.phone || undefined,
+      role: newAdmin.role,
     });
   };
 
@@ -1590,6 +1615,109 @@ Mike Johnson mjohnson@geckogreen.com`}
           </TabsContent>
 
           <TabsContent value="system" className="space-y-4">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle className="flex items-center gap-2">
+                    <Shield className="h-5 w-5" />
+                    Administrators
+                  </CardTitle>
+                  <CardDescription>
+                    Manage admin and director accounts with full system access.
+                  </CardDescription>
+                </div>
+                <Dialog open={isAddAdminOpen} onOpenChange={(open) => {
+                  setIsAddAdminOpen(open);
+                  if (!open) {
+                    setNewAdmin({ name: "", email: "", phone: "", role: "director" });
+                  }
+                }}>
+                  <DialogTrigger asChild>
+                    <Button data-testid="button-add-admin">
+                      <UserPlus className="w-4 h-4 mr-2" /> Add Admin
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Add New Admin/Director</DialogTitle>
+                      <DialogDescription>
+                        Create a new administrator or director account with full system access. A secure password will be auto-generated.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                      <div className="grid gap-2">
+                        <Label htmlFor="admin-name">Full Name</Label>
+                        <Input 
+                          id="admin-name" 
+                          placeholder="John Smith" 
+                          value={newAdmin.name} 
+                          onChange={(e) => setNewAdmin({...newAdmin, name: e.target.value})}
+                          data-testid="input-admin-name"
+                        />
+                      </div>
+                      <div className="grid gap-2">
+                        <Label htmlFor="admin-email">Email</Label>
+                        <Input 
+                          id="admin-email" 
+                          type="email" 
+                          placeholder="john@company.com" 
+                          value={newAdmin.email}
+                          onChange={(e) => setNewAdmin({...newAdmin, email: e.target.value})}
+                          data-testid="input-admin-email"
+                        />
+                      </div>
+                      <div className="grid gap-2">
+                        <Label htmlFor="admin-phone">Phone (optional)</Label>
+                        <Input 
+                          id="admin-phone" 
+                          type="tel" 
+                          placeholder="+1 (555) 123-4567" 
+                          value={newAdmin.phone}
+                          onChange={(e) => setNewAdmin({...newAdmin, phone: e.target.value})}
+                          data-testid="input-admin-phone"
+                        />
+                      </div>
+                      <div className="grid gap-2">
+                        <Label htmlFor="admin-role">Role</Label>
+                        <Select value={newAdmin.role} onValueChange={(value: "director" | "admin") => setNewAdmin({...newAdmin, role: value})}>
+                          <SelectTrigger data-testid="select-admin-role">
+                            <SelectValue placeholder="Select role" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="director">Director</SelectItem>
+                            <SelectItem value="admin">Admin</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button 
+                        onClick={handleAddAdmin} 
+                        disabled={createUserMutation.isPending || !newAdmin.name || !newAdmin.email}
+                        data-testid="button-submit-admin"
+                      >
+                        {createUserMutation.isPending ? (
+                          <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Creating...
+                          </>
+                        ) : (
+                          "Create Admin"
+                        )}
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Admins and directors have full access to all features including user management, billing, and system settings.
+                </p>
+                <div className="text-xs text-muted-foreground bg-muted/50 rounded-lg p-3">
+                  To view existing admins, check the Managers & Teams tab where directors are also displayed.
+                </div>
+              </CardContent>
+            </Card>
+
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
