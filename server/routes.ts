@@ -2546,6 +2546,234 @@ export async function registerRoutes(
   });
 
   // =====================
+  // Usage Audit & Reconcile API
+  // =====================
+
+  // Audit usage sessions against VAPI call data
+  app.post("/api/usage/audit", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const callerRole = authResult.user.role;
+      if (callerRole !== "director" && callerRole !== "admin") {
+        return res.status(403).json({ error: "Access denied - admins only" });
+      }
+
+      const { userId } = req.body; // Optional - if not provided, audit all users
+
+      // Get sessions to audit
+      let sessions;
+      if (userId) {
+        sessions = await storage.getUserUsageSessions(userId);
+      } else {
+        sessions = await storage.getAllUsageSessions();
+      }
+
+      // Filter to only sessions with vapiCallId
+      const sessionsWithCalls = sessions.filter(s => s.vapiCallId);
+      
+      const discrepancies: Array<{
+        sessionId: string;
+        userId: string;
+        userName?: string;
+        vapiCallId: string;
+        sessionDate: string;
+        storedDurationSeconds: number;
+        storedBilledMinutes: number;
+        storedCostCents: number;
+        actualDurationSeconds: number;
+        actualBilledMinutes: number;
+        actualCostCents: number;
+        differenceMinutes: number;
+        differenceCostCents: number;
+        vapiStatus: string;
+      }> = [];
+
+      const errors: Array<{ sessionId: string; vapiCallId: string; error: string }> = [];
+
+      // Check each session against VAPI
+      for (const session of sessionsWithCalls) {
+        try {
+          const vapiData = await vapiService.getCallDuration(session.vapiCallId!);
+          
+          if (!vapiData) {
+            errors.push({
+              sessionId: session.id,
+              vapiCallId: session.vapiCallId!,
+              error: "Could not retrieve VAPI call data"
+            });
+            continue;
+          }
+
+          const actualDurationSeconds = vapiData.durationSeconds;
+          const actualBilledMinutes = Math.ceil(actualDurationSeconds / 60);
+          const actualCostCents = actualBilledMinutes * 15; // $0.15 per minute
+
+          const storedDurationSeconds = session.durationSeconds || 0;
+          const storedBilledMinutes = session.billedMinutes || 0;
+          const storedCostCents = session.costCents || 0;
+
+          // Check for any discrepancy (1+ minute difference catches all billing errors)
+          const differenceMinutes = storedBilledMinutes - actualBilledMinutes;
+          if (Math.abs(differenceMinutes) >= 1) {
+            // Get user name for display
+            const user = await storage.getUser(session.userId);
+            
+            discrepancies.push({
+              sessionId: session.id,
+              userId: session.userId,
+              userName: user?.name,
+              vapiCallId: session.vapiCallId!,
+              sessionDate: new Date(session.startTime).toISOString(),
+              storedDurationSeconds,
+              storedBilledMinutes,
+              storedCostCents,
+              actualDurationSeconds,
+              actualBilledMinutes,
+              actualCostCents,
+              differenceMinutes,
+              differenceCostCents: storedCostCents - actualCostCents,
+              vapiStatus: vapiData.status,
+            });
+          }
+        } catch (err: any) {
+          errors.push({
+            sessionId: session.id,
+            vapiCallId: session.vapiCallId!,
+            error: err.message || "Unknown error"
+          });
+        }
+      }
+
+      // Calculate totals
+      const totalDifferenceMinutes = discrepancies.reduce((sum, d) => sum + d.differenceMinutes, 0);
+      const totalDifferenceCost = discrepancies.reduce((sum, d) => sum + d.differenceCostCents, 0);
+
+      res.json({
+        success: true,
+        summary: {
+          sessionsAudited: sessionsWithCalls.length,
+          discrepanciesFound: discrepancies.length,
+          errorsEncountered: errors.length,
+          totalOverchargedMinutes: totalDifferenceMinutes,
+          totalOverchargedCents: totalDifferenceCost,
+        },
+        discrepancies,
+        errors,
+      });
+    } catch (error: any) {
+      console.error("Audit usage error:", error);
+      res.status(500).json({ error: error.message || "Failed to audit usage" });
+    }
+  });
+
+  // Reconcile (fix) usage session discrepancies - re-fetches VAPI data server-side for security
+  app.post("/api/usage/reconcile", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const callerRole = authResult.user.role;
+      if (callerRole !== "director" && callerRole !== "admin") {
+        return res.status(403).json({ error: "Access denied - admins only" });
+      }
+
+      const { fixes } = req.body;
+      if (!fixes || !Array.isArray(fixes) || fixes.length === 0) {
+        return res.status(400).json({ error: "fixes array is required" });
+      }
+
+      const RATE_CENTS_PER_MINUTE = 15; // $0.15 per minute
+      const results: Array<{ sessionId: string; success: boolean; error?: string; corrected?: { minutes: number; cost: number } }> = [];
+      let totalMinutesFixed = 0;
+      let totalCostFixed = 0;
+
+      for (const fix of fixes) {
+        const { sessionId } = fix;
+        
+        try {
+          // Get the session to find the VAPI call ID
+          const sessions = await storage.getAllUsageSessions();
+          const session = sessions.find(s => s.id === sessionId);
+          
+          if (!session) {
+            results.push({ sessionId, success: false, error: "Session not found" });
+            continue;
+          }
+
+          if (!session.vapiCallId) {
+            results.push({ sessionId, success: false, error: "No VAPI call ID associated with this session" });
+            continue;
+          }
+
+          // Re-fetch VAPI data server-side (don't trust client values)
+          const vapiData = await vapiService.getCallDuration(session.vapiCallId);
+          
+          if (!vapiData) {
+            results.push({ sessionId, success: false, error: "Could not retrieve VAPI call data" });
+            continue;
+          }
+
+          // Calculate correct values server-side
+          const actualDurationSeconds = vapiData.durationSeconds;
+          const actualBilledMinutes = Math.ceil(actualDurationSeconds / 60);
+          const actualCostCents = actualBilledMinutes * RATE_CENTS_PER_MINUTE;
+
+          // Calculate the difference for reporting
+          const oldBilledMinutes = session.billedMinutes || 0;
+          const oldCostCents = session.costCents || 0;
+          const minutesDiff = oldBilledMinutes - actualBilledMinutes;
+          const costDiff = oldCostCents - actualCostCents;
+
+          const updated = await storage.updateUsageSession(sessionId, {
+            durationSeconds: actualDurationSeconds,
+            billedMinutes: actualBilledMinutes,
+            costCents: actualCostCents,
+            status: "reconciled",
+          });
+
+          if (updated) {
+            results.push({ 
+              sessionId, 
+              success: true,
+              corrected: { minutes: minutesDiff, cost: costDiff }
+            });
+            totalMinutesFixed += minutesDiff;
+            totalCostFixed += costDiff;
+          } else {
+            results.push({ sessionId, success: false, error: "Failed to update session" });
+          }
+        } catch (err: any) {
+          results.push({ sessionId, success: false, error: err.message });
+        }
+      }
+
+      const successCount = results.filter(r => r.success).length;
+      const failCount = results.filter(r => !r.success).length;
+
+      res.json({
+        success: true,
+        message: `Reconciled ${successCount} session(s). ${failCount} failed.`,
+        summary: {
+          sessionsFixed: successCount,
+          sessionsFailed: failCount,
+          minutesCorrected: totalMinutesFixed,
+          costCorrectedCents: totalCostFixed,
+        },
+        results,
+      });
+    } catch (error: any) {
+      console.error("Reconcile usage error:", error);
+      res.status(500).json({ error: error.message || "Failed to reconcile usage" });
+    }
+  });
+
+  // =====================
   // Performance Metrics API
   // =====================
 

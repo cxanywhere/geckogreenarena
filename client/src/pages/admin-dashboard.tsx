@@ -136,6 +136,35 @@ export default function AdminDashboard() {
   const [reassignToManagerId, setReassignToManagerId] = useState<string>("");
   const [requestingHardDelete, setRequestingHardDelete] = useState(false);
   const [hardDeleteRepCount, setHardDeleteRepCount] = useState(0);
+  const [auditResults, setAuditResults] = useState<{
+    summary: {
+      sessionsAudited: number;
+      discrepanciesFound: number;
+      errorsEncountered: number;
+      totalOverchargedMinutes: number;
+      totalOverchargedCents: number;
+    };
+    discrepancies: Array<{
+      sessionId: string;
+      userId: string;
+      userName?: string;
+      vapiCallId: string;
+      sessionDate: string;
+      storedDurationSeconds: number;
+      storedBilledMinutes: number;
+      storedCostCents: number;
+      actualDurationSeconds: number;
+      actualBilledMinutes: number;
+      actualCostCents: number;
+      differenceMinutes: number;
+      differenceCostCents: number;
+      vapiStatus: string;
+    }>;
+    errors: Array<{ sessionId: string; vapiCallId: string; error: string }>;
+  } | null>(null);
+  const [isAuditing, setIsAuditing] = useState(false);
+  const [isReconciling, setIsReconciling] = useState(false);
+  const [selectedDiscrepancies, setSelectedDiscrepancies] = useState<Set<string>>(new Set());
   const { resolvedTheme } = useTheme();
   const { user, logout, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
@@ -216,6 +245,105 @@ export default function AdminDashboard() {
     setShowBillingResetDialog(false);
     setBillingResetStep('request');
     setBillingResetCode("");
+  };
+
+  const handleAuditUsage = async () => {
+    setIsAuditing(true);
+    setAuditResults(null);
+    setSelectedDiscrepancies(new Set());
+    try {
+      const response = await fetch("/api/usage/audit", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to audit usage");
+      }
+      setAuditResults(data);
+      if (data.summary.discrepanciesFound > 0) {
+        toast({ 
+          title: "Audit Complete", 
+          description: `Found ${data.summary.discrepanciesFound} discrepancies totaling ${data.summary.totalOverchargedMinutes} minutes overcharged.`,
+          variant: "destructive"
+        });
+      } else {
+        toast({ 
+          title: "Audit Complete", 
+          description: "No significant discrepancies found. Usage data is accurate.",
+        });
+      }
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setIsAuditing(false);
+    }
+  };
+
+  const handleReconcileSelected = async () => {
+    if (selectedDiscrepancies.size === 0) {
+      toast({ title: "No items selected", description: "Please select discrepancies to reconcile.", variant: "destructive" });
+      return;
+    }
+    setIsReconciling(true);
+    try {
+      const fixes = auditResults?.discrepancies
+        .filter(d => selectedDiscrepancies.has(d.sessionId))
+        .map(d => ({
+          sessionId: d.sessionId,
+          actualDurationSeconds: d.actualDurationSeconds,
+          actualBilledMinutes: d.actualBilledMinutes,
+          actualCostCents: d.actualCostCents,
+          differenceMinutes: d.differenceMinutes,
+          differenceCostCents: d.differenceCostCents,
+        })) || [];
+
+      const response = await fetch("/api/usage/reconcile", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ fixes }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to reconcile");
+      }
+      toast({ 
+        title: "Reconciliation Complete", 
+        description: data.message,
+      });
+      setAuditResults(null);
+      setSelectedDiscrepancies(new Set());
+      queryClient.invalidateQueries({ queryKey: ["/api/usage/all"] });
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setIsReconciling(false);
+    }
+  };
+
+  const toggleDiscrepancy = (sessionId: string) => {
+    setSelectedDiscrepancies(prev => {
+      const next = new Set(prev);
+      if (next.has(sessionId)) {
+        next.delete(sessionId);
+      } else {
+        next.add(sessionId);
+      }
+      return next;
+    });
+  };
+
+  const selectAllDiscrepancies = () => {
+    if (!auditResults) return;
+    const all = new Set(auditResults.discrepancies.map(d => d.sessionId));
+    setSelectedDiscrepancies(all);
   };
 
   const handleSoftDelete = async () => {
@@ -1717,6 +1845,163 @@ Mike Johnson mjohnson@geckogreen.com`}
                     })}
                   </TableBody>
                 </Table>
+              </CardContent>
+            </Card>
+
+            <Card className="border-orange-500/20">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <AlertTriangle className="h-5 w-5 text-orange-500" />
+                  Audit & Reconcile
+                </CardTitle>
+                <CardDescription>
+                  Compare stored usage data against VAPI's actual call records to find and fix discrepancies
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <Button 
+                    onClick={handleAuditUsage} 
+                    disabled={isAuditing}
+                    data-testid="button-audit-usage"
+                  >
+                    {isAuditing ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Auditing...
+                      </>
+                    ) : (
+                      <>
+                        <Search className="h-4 w-4 mr-2" />
+                        Run Audit
+                      </>
+                    )}
+                  </Button>
+                  {auditResults && auditResults.discrepancies.length > 0 && (
+                    <>
+                      <Button 
+                        variant="outline" 
+                        onClick={selectAllDiscrepancies}
+                        data-testid="button-select-all-discrepancies"
+                      >
+                        Select All ({auditResults.discrepancies.length})
+                      </Button>
+                      <Button 
+                        variant="destructive" 
+                        onClick={handleReconcileSelected}
+                        disabled={isReconciling || selectedDiscrepancies.size === 0}
+                        data-testid="button-reconcile-selected"
+                      >
+                        {isReconciling ? (
+                          <>
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                            Reconciling...
+                          </>
+                        ) : (
+                          <>
+                            <Check className="h-4 w-4 mr-2" />
+                            Reconcile Selected ({selectedDiscrepancies.size})
+                          </>
+                        )}
+                      </Button>
+                    </>
+                  )}
+                </div>
+
+                {auditResults && (
+                  <div className="space-y-4">
+                    <div className="grid gap-4 md:grid-cols-4">
+                      <div className="p-4 rounded-lg bg-muted">
+                        <p className="text-sm text-muted-foreground">Sessions Audited</p>
+                        <p className="text-2xl font-bold">{auditResults.summary.sessionsAudited}</p>
+                      </div>
+                      <div className="p-4 rounded-lg bg-muted">
+                        <p className="text-sm text-muted-foreground">Discrepancies Found</p>
+                        <p className="text-2xl font-bold text-orange-500">{auditResults.summary.discrepanciesFound}</p>
+                      </div>
+                      <div className="p-4 rounded-lg bg-muted">
+                        <p className="text-sm text-muted-foreground">Overcharged Minutes</p>
+                        <p className="text-2xl font-bold text-red-500">{auditResults.summary.totalOverchargedMinutes}</p>
+                      </div>
+                      <div className="p-4 rounded-lg bg-muted">
+                        <p className="text-sm text-muted-foreground">Overcharged Amount</p>
+                        <p className="text-2xl font-bold text-red-500">${(auditResults.summary.totalOverchargedCents / 100).toFixed(2)}</p>
+                      </div>
+                    </div>
+
+                    {auditResults.discrepancies.length > 0 ? (
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead className="w-12">Fix</TableHead>
+                            <TableHead>User</TableHead>
+                            <TableHead>Date</TableHead>
+                            <TableHead>Stored</TableHead>
+                            <TableHead>Actual</TableHead>
+                            <TableHead>Difference</TableHead>
+                            <TableHead>VAPI Status</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {auditResults.discrepancies.map((d) => (
+                            <TableRow key={d.sessionId} className={selectedDiscrepancies.has(d.sessionId) ? "bg-orange-500/10" : ""}>
+                              <TableCell>
+                                <input
+                                  type="checkbox"
+                                  checked={selectedDiscrepancies.has(d.sessionId)}
+                                  onChange={() => toggleDiscrepancy(d.sessionId)}
+                                  className="h-4 w-4"
+                                  data-testid={`checkbox-discrepancy-${d.sessionId}`}
+                                />
+                              </TableCell>
+                              <TableCell>
+                                <div className="font-medium">{d.userName || d.userId}</div>
+                              </TableCell>
+                              <TableCell>
+                                {new Date(d.sessionDate).toLocaleDateString()}
+                              </TableCell>
+                              <TableCell>
+                                <div>{d.storedBilledMinutes} min</div>
+                                <div className="text-xs text-muted-foreground">${(d.storedCostCents / 100).toFixed(2)}</div>
+                              </TableCell>
+                              <TableCell>
+                                <div>{d.actualBilledMinutes} min</div>
+                                <div className="text-xs text-muted-foreground">${(d.actualCostCents / 100).toFixed(2)}</div>
+                              </TableCell>
+                              <TableCell>
+                                <Badge variant={d.differenceMinutes > 0 ? "destructive" : "default"}>
+                                  {d.differenceMinutes > 0 ? "+" : ""}{d.differenceMinutes} min
+                                </Badge>
+                              </TableCell>
+                              <TableCell>
+                                <Badge variant="outline">{d.vapiStatus}</Badge>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    ) : (
+                      <div className="text-center py-8 text-muted-foreground">
+                        <Check className="h-12 w-12 mx-auto mb-2 text-green-500" />
+                        <p>No significant discrepancies found. Usage data is accurate.</p>
+                      </div>
+                    )}
+
+                    {auditResults.errors.length > 0 && (
+                      <div className="p-4 rounded-lg bg-destructive/10 text-destructive">
+                        <p className="font-medium mb-2">Errors encountered during audit:</p>
+                        <ul className="list-disc list-inside text-sm">
+                          {auditResults.errors.slice(0, 5).map((e, i) => (
+                            <li key={i}>{e.error} (Call: {e.vapiCallId.slice(0, 8)}...)</li>
+                          ))}
+                          {auditResults.errors.length > 5 && (
+                            <li>...and {auditResults.errors.length - 5} more</li>
+                          )}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>

@@ -7,12 +7,22 @@ interface VapiCallResponse {
   id: string;
   orgId: string;
   createdAt: string;
+  startedAt?: string;
+  endedAt?: string;
   status: string;
   type: string;
   webCallUrl?: string;
   transcript?: string;
   recordingUrl?: string;
   summary?: string;
+  costBreakdown?: {
+    total?: number;
+    transport?: number;
+    stt?: number;
+    llm?: number;
+    tts?: number;
+    vapi?: number;
+  };
   messages?: Array<{
     role: string;
     message: string;
@@ -174,6 +184,46 @@ export class VapiService {
     if (!response.ok) {
       const error = await response.text();
       console.error("VAPI end call error:", error);
+    }
+  }
+
+  async getCallDuration(callId: string): Promise<{ durationSeconds: number; status: string; startedAt?: string; endedAt?: string } | null> {
+    try {
+      const callDetails = await this.getCallDetails(callId);
+      
+      if (callDetails.startedAt && callDetails.endedAt) {
+        const startTime = new Date(callDetails.startedAt).getTime();
+        const endTime = new Date(callDetails.endedAt).getTime();
+        const durationSeconds = Math.floor((endTime - startTime) / 1000);
+        
+        return {
+          durationSeconds,
+          status: callDetails.status,
+          startedAt: callDetails.startedAt,
+          endedAt: callDetails.endedAt,
+        };
+      }
+      
+      // If no endedAt, calculate from last message timestamp if available
+      if (callDetails.startedAt && callDetails.messages?.length) {
+        const lastMessage = callDetails.messages[callDetails.messages.length - 1];
+        const durationSeconds = Math.ceil(lastMessage.secondsFromStart);
+        
+        return {
+          durationSeconds,
+          status: callDetails.status,
+          startedAt: callDetails.startedAt,
+        };
+      }
+      
+      return {
+        durationSeconds: 0,
+        status: callDetails.status,
+        startedAt: callDetails.startedAt,
+      };
+    } catch (error) {
+      console.error(`Failed to get call duration for ${callId}:`, error);
+      return null;
     }
   }
 
