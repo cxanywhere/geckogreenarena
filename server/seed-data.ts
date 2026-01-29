@@ -8,7 +8,7 @@ export const CHAPTER_SEED_DATA = [
     description: 'Welcome to the fastest growing locally owned lawn & pest company in Dallas/Fort Worth. Learn who we are, how we operate, what we sell, and how to win.',
     duration: '35 min',
     pdfUrl: '',
-    coverImage: `${CLOUDINARY_BASE}/arena-ai/chapters/chapter-0-cover.png`,
+    coverImage: '/uploads/chapter-covers/chapter-0-cover.png',
     agenda: [
       'Who We Are & Our Mission',
       'Services We Offer',
