@@ -484,7 +484,7 @@ export const CHAPTER_SEED_DATA = [
         }
       }
     ],
-    slideCount: 40,
+    slideCount: 29,
     orderIndex: -1
   },
   {
