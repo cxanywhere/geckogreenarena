@@ -550,7 +550,7 @@ export default function ChapterPage() {
         <div className="flex-1 overflow-hidden">
           {isChapter0 ? (
             <ImageSlideViewer
-              slides={Array.from({ length: 40 }, (_, i) => `/uploads/chapter0-slides/chapter0-slide-${String(i + 1).padStart(2, '0')}.png`)}
+              slides={Array.from({ length: 29 }, (_, i) => `/uploads/chapter0-slides/chapter0-slide-${i + 1}.png`)}
               currentPage={currentPage}
               onPageChange={handlePageChange}
               onComplete={handleComplete}
