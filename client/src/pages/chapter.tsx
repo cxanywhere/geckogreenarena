@@ -121,6 +121,7 @@ export default function ChapterPage() {
     }
   }, [params?.id, user?.id]);
 
+  const isChapter0 = chapter?.title === "Intro to GeckoGreen";
   const isChapter1 = chapter?.title === "Sales Foundations";
   const isChapter2 = chapter?.title === "Field Execution" || chapter?.title === "Field Sales Process";
 
@@ -232,11 +233,12 @@ export default function ChapterPage() {
     setCurrentPage(page);
     
     // Handle quizzes (these trigger on arrival at the new page)
+    // Chapter 0 has embedded quizzes in the slide images, so no overlay quizzes needed
     if (isChapter1) {
       if (isQuizSlide(page) && !completedQuizPages.has(page)) {
         triggerQuiz(page);
       }
-    } else if (!isChapter1 && !isChapter2) {
+    } else if (!isChapter0 && !isChapter1 && !isChapter2) {
       if (page > 1 && page % QUIZ_INTERVAL === 0 && !completedQuizPages.has(page)) {
         triggerQuiz(page);
       }
@@ -546,7 +548,15 @@ export default function ChapterPage() {
 
         {/* Slide Viewer */}
         <div className="flex-1 overflow-hidden">
-          {isChapter1 ? (
+          {isChapter0 ? (
+            <ImageSlideViewer
+              slides={Array.from({ length: 40 }, (_, i) => `/uploads/chapter0-slides/chapter0-slide-${String(i + 1).padStart(2, '0')}.png`)}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+              onComplete={handleComplete}
+              onClose={() => setLocation("/dashboard")}
+            />
+          ) : isChapter1 ? (
             <ImageSlideViewer
               slides={Array.from({ length: 31 }, (_, i) => `/training-slides/slide_${String(i + 1).padStart(2, '0')}.png`)}
               currentPage={currentPage}
