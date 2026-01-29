@@ -34,6 +34,9 @@ Preferred communication style: Simple, everyday language.
 ### Key Data Models
 - **Users**: Sales reps, managers, directors with role-based access
 - **Chapters**: Training modules with slides, quizzes, and embedded roleplays
+  - **Chapter 0 (Intro to GeckoGreen)**: 40 slides covering company intro, services, certification path, professional standards, team culture, lawn care fundamentals, and program details. Uses AI-generated portrait (9:16) images stored in `public/uploads/chapter0-slides/`
+  - **Chapter 1 (Sales Foundations)**: 31 slides with quizzes and roleplays on first impressions and objection handling
+  - **Chapter 2 (Field Execution)**: 38 slides with advanced sales techniques and closing strategies
 - **Roleplays**: AI conversation scenarios with difficulty stats
 - **Battlecards**: Quick reference scripts for handling objections
 - **UserProgress**: Tracks chapter completion and roleplay attempts
