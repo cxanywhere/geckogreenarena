@@ -3026,6 +3026,193 @@ export async function registerRoutes(
     }
   });
 
+  // Cleanup orphaned active sessions - fixes sessions that were started but never completed
+  app.post("/api/usage/cleanup-orphaned", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const callerRole = authResult.user.role;
+      if (callerRole !== "director" && callerRole !== "admin") {
+        return res.status(403).json({ error: "Access denied - admins only" });
+      }
+
+      console.log("[Cleanup] Starting orphaned session cleanup...");
+
+      // Get all active sessions with 0 duration (orphaned)
+      const allSessions = await storage.getAllUsageSessions();
+      const orphanedSessions = allSessions.filter(s => 
+        s.status === "active" && 
+        (s.durationSeconds === 0 || s.durationSeconds === null) &&
+        s.vapiCallId
+      );
+
+      console.log(`[Cleanup] Found ${orphanedSessions.length} orphaned sessions to process`);
+
+      if (orphanedSessions.length === 0) {
+        return res.json({
+          success: true,
+          summary: {
+            sessionsProcessed: 0,
+            sessionsFixed: 0,
+            sessionsCancelled: 0,
+            sessionsErrored: 0,
+            totalMinutesBilled: 0,
+            totalCostCents: 0,
+          },
+          results: [],
+        });
+      }
+
+      const RATE_CENTS_PER_MINUTE = 15;
+      const BATCH_SIZE = 3;
+      const BATCH_DELAY_MS = 500;
+      const VAPI_TIMEOUT_MS = 10000;
+
+      const results: Array<{
+        sessionId: string;
+        vapiCallId: string;
+        action: 'fixed' | 'cancelled' | 'error';
+        durationSeconds?: number;
+        billedMinutes?: number;
+        costCents?: number;
+        error?: string;
+      }> = [];
+
+      let sessionsFixed = 0;
+      let sessionsCancelled = 0;
+      let sessionsErrored = 0;
+      let totalMinutesBilled = 0;
+      let totalCostCents = 0;
+
+      // Process in batches
+      for (let i = 0; i < orphanedSessions.length; i += BATCH_SIZE) {
+        const batch = orphanedSessions.slice(i, i + BATCH_SIZE);
+        
+        await Promise.all(batch.map(async (session) => {
+          try {
+            // Fetch actual VAPI data with timeout
+            const vapiDataPromise = vapiService.getCallDuration(session.vapiCallId!);
+            const timeoutPromise = new Promise((_, reject) => 
+              setTimeout(() => reject(new Error("VAPI request timeout")), VAPI_TIMEOUT_MS)
+            );
+            
+            const vapiData = await Promise.race([vapiDataPromise, timeoutPromise]) as { 
+              durationSeconds: number; 
+              status: string;
+              startedAt?: string;
+              endedAt?: string;
+            } | null;
+            
+            if (!vapiData) {
+              // VAPI call doesn't exist or no data - mark as cancelled
+              await storage.updateUsageSession(session.id, {
+                status: "cancelled",
+                endTime: new Date(),
+                durationSeconds: 0,
+                billedMinutes: 0,
+                costCents: 0,
+              });
+              results.push({
+                sessionId: session.id,
+                vapiCallId: session.vapiCallId!,
+                action: 'cancelled',
+                error: 'VAPI call not found',
+              });
+              sessionsCancelled++;
+              return;
+            }
+
+            // Check if call actually ended
+            if (vapiData.status === 'ended' || vapiData.status === 'completed') {
+              const actualDuration = vapiData.durationSeconds || 0;
+              const billedMinutes = Math.ceil(actualDuration / 60);
+              const costCents = billedMinutes * RATE_CENTS_PER_MINUTE;
+
+              await storage.updateUsageSession(session.id, {
+                status: "completed",
+                endTime: vapiData.endedAt ? new Date(vapiData.endedAt) : new Date(),
+                durationSeconds: actualDuration,
+                billedMinutes,
+                costCents,
+              });
+
+              results.push({
+                sessionId: session.id,
+                vapiCallId: session.vapiCallId!,
+                action: 'fixed',
+                durationSeconds: actualDuration,
+                billedMinutes,
+                costCents,
+              });
+              sessionsFixed++;
+              totalMinutesBilled += billedMinutes;
+              totalCostCents += costCents;
+            } else if (vapiData.status === 'in-progress') {
+              // Call still in progress - skip
+              results.push({
+                sessionId: session.id,
+                vapiCallId: session.vapiCallId!,
+                action: 'error',
+                error: 'Call still in progress',
+              });
+              sessionsErrored++;
+            } else {
+              // Unknown status - mark as cancelled
+              await storage.updateUsageSession(session.id, {
+                status: "cancelled",
+                endTime: new Date(),
+                durationSeconds: 0,
+                billedMinutes: 0,
+                costCents: 0,
+              });
+              results.push({
+                sessionId: session.id,
+                vapiCallId: session.vapiCallId!,
+                action: 'cancelled',
+                error: `Unknown VAPI status: ${vapiData.status}`,
+              });
+              sessionsCancelled++;
+            }
+          } catch (err: any) {
+            results.push({
+              sessionId: session.id,
+              vapiCallId: session.vapiCallId!,
+              action: 'error',
+              error: err.message,
+            });
+            sessionsErrored++;
+          }
+        }));
+
+        // Delay between batches
+        if (i + BATCH_SIZE < orphanedSessions.length) {
+          await new Promise(resolve => setTimeout(resolve, BATCH_DELAY_MS));
+        }
+      }
+
+      console.log(`[Cleanup] Complete: ${sessionsFixed} fixed, ${sessionsCancelled} cancelled, ${sessionsErrored} errors`);
+
+      res.json({
+        success: true,
+        summary: {
+          sessionsProcessed: orphanedSessions.length,
+          sessionsFixed,
+          sessionsCancelled,
+          sessionsErrored,
+          totalMinutesBilled,
+          totalCostCents,
+        },
+        results,
+      });
+    } catch (error: any) {
+      console.error("Cleanup orphaned sessions error:", error);
+      res.status(500).json({ error: error.message || "Failed to cleanup orphaned sessions" });
+    }
+  });
+
   // =====================
   // Performance Metrics API
   // =====================

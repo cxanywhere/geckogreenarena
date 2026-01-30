@@ -24,7 +24,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { UserPlus, Users, TrendingUp, AlertCircle, Search, Trash2, Shield, DollarSign, Activity, BarChart3, Settings, Copy, Mail, Phone, Check, CheckCircle, Loader2, LogOut, Trophy, Award, Target, GraduationCap, Mic, ChevronDown, ChevronUp, Upload, Download, FileText, Archive, AlertTriangle } from "lucide-react";
+import { UserPlus, Users, TrendingUp, AlertCircle, Search, Trash2, Shield, DollarSign, Activity, BarChart3, Settings, Copy, Mail, Phone, Check, CheckCircle, Loader2, LogOut, Trophy, Award, Target, GraduationCap, Mic, ChevronDown, ChevronUp, Upload, Download, FileText, Archive, AlertTriangle, RefreshCw } from "lucide-react";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
 import arenaLogoLight from "@/assets/arena-logo-light.png";
 import geckoLogo from "@assets/image_1766975682051.png";
@@ -165,6 +165,26 @@ export default function AdminDashboard() {
   } | null>(null);
   const [isAuditing, setIsAuditing] = useState(false);
   const [isReconciling, setIsReconciling] = useState(false);
+  const [isCleaningOrphans, setIsCleaningOrphans] = useState(false);
+  const [cleanupResults, setCleanupResults] = useState<{
+    summary: {
+      sessionsProcessed: number;
+      sessionsFixed: number;
+      sessionsCancelled: number;
+      sessionsErrored: number;
+      totalMinutesBilled: number;
+      totalCostCents: number;
+    };
+    results: Array<{
+      sessionId: string;
+      vapiCallId: string;
+      action: 'fixed' | 'cancelled' | 'error';
+      durationSeconds?: number;
+      billedMinutes?: number;
+      costCents?: number;
+      error?: string;
+    }>;
+  } | null>(null);
   const [selectedDiscrepancies, setSelectedDiscrepancies] = useState<Set<string>>(new Set());
   const [singleAuditResult, setSingleAuditResult] = useState<{
     sessionId: string;
@@ -296,6 +316,42 @@ export default function AdminDashboard() {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     } finally {
       setIsAuditing(false);
+    }
+  };
+
+  const handleCleanupOrphans = async () => {
+    setIsCleaningOrphans(true);
+    setCleanupResults(null);
+    try {
+      const response = await fetch("/api/usage/cleanup-orphaned", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to cleanup orphaned sessions");
+      }
+      setCleanupResults(data);
+      if (data.summary.sessionsFixed > 0 || data.summary.sessionsCancelled > 0) {
+        toast({ 
+          title: "Cleanup Complete", 
+          description: `Fixed ${data.summary.sessionsFixed} sessions, cancelled ${data.summary.sessionsCancelled}. Total billed: ${data.summary.totalMinutesBilled} minutes ($${(data.summary.totalCostCents / 100).toFixed(2)})`,
+        });
+        // Refresh usage data
+        queryClient.invalidateQueries({ queryKey: ['usage-all'] });
+      } else if (data.summary.sessionsProcessed === 0) {
+        toast({
+          title: "No Orphaned Sessions",
+          description: "All sessions are properly completed or cancelled.",
+        });
+      }
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setIsCleaningOrphans(false);
     }
   };
 
@@ -1964,6 +2020,24 @@ Mike Johnson mjohnson@geckogreen.com`}
                       </>
                     )}
                   </Button>
+                  <Button 
+                    onClick={handleCleanupOrphans} 
+                    disabled={isCleaningOrphans}
+                    variant="outline"
+                    data-testid="button-cleanup-orphans"
+                  >
+                    {isCleaningOrphans ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Cleaning...
+                      </>
+                    ) : (
+                      <>
+                        <RefreshCw className="h-4 w-4 mr-2" />
+                        Cleanup Orphaned Sessions
+                      </>
+                    )}
+                  </Button>
                   {auditResults && auditResults.discrepancies.length > 0 && (
                     <>
                       <Button 
@@ -2086,6 +2160,61 @@ Mike Johnson mjohnson@geckogreen.com`}
                           )}
                         </ul>
                       </div>
+                    )}
+                  </div>
+                )}
+
+                {cleanupResults && (
+                  <div className="space-y-4 mt-6 pt-6 border-t">
+                    <h4 className="font-semibold flex items-center gap-2">
+                      <RefreshCw className="h-4 w-4" />
+                      Cleanup Results
+                    </h4>
+                    <div className="grid gap-4 md:grid-cols-4">
+                      <div className="p-4 rounded-lg bg-muted">
+                        <p className="text-sm text-muted-foreground">Sessions Processed</p>
+                        <p className="text-2xl font-bold">{cleanupResults.summary.sessionsProcessed}</p>
+                      </div>
+                      <div className="p-4 rounded-lg bg-muted">
+                        <p className="text-sm text-muted-foreground">Fixed</p>
+                        <p className="text-2xl font-bold text-green-500">{cleanupResults.summary.sessionsFixed}</p>
+                      </div>
+                      <div className="p-4 rounded-lg bg-muted">
+                        <p className="text-sm text-muted-foreground">Cancelled</p>
+                        <p className="text-2xl font-bold text-gray-500">{cleanupResults.summary.sessionsCancelled}</p>
+                      </div>
+                      <div className="p-4 rounded-lg bg-muted">
+                        <p className="text-sm text-muted-foreground">Newly Billed</p>
+                        <p className="text-2xl font-bold text-blue-500">
+                          {cleanupResults.summary.totalMinutesBilled} min (${(cleanupResults.summary.totalCostCents / 100).toFixed(2)})
+                        </p>
+                      </div>
+                    </div>
+                    {cleanupResults.results.length > 0 && (
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Session</TableHead>
+                            <TableHead>Action</TableHead>
+                            <TableHead>Duration</TableHead>
+                            <TableHead>Cost</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {cleanupResults.results.slice(0, 20).map((r) => (
+                            <TableRow key={r.sessionId}>
+                              <TableCell className="font-mono text-xs">{r.sessionId.slice(0, 8)}...</TableCell>
+                              <TableCell>
+                                <Badge variant={r.action === 'fixed' ? 'default' : r.action === 'cancelled' ? 'secondary' : 'destructive'}>
+                                  {r.action}
+                                </Badge>
+                              </TableCell>
+                              <TableCell>{r.durationSeconds ? `${Math.round(r.durationSeconds)}s` : '-'}</TableCell>
+                              <TableCell>{r.costCents ? `$${(r.costCents / 100).toFixed(2)}` : '-'}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
                     )}
                   </div>
                 )}
