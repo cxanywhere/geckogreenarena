@@ -72,7 +72,7 @@ export default function Home() {
   
   const allChaptersComplete = chaptersCompleted >= totalChapters && totalChapters > 0;
   const allRoleplaysPassed = uniqueRoleplaysPassed >= totalRoleplays && totalRoleplays > 0;
-  const quizScoreMet = avgQuizScore >= 90;
+  const quizScoreMet = avgQuizScore >= 75;
   const isCertified = allChaptersComplete && allRoleplaysPassed && quizScoreMet;
 
   const progress = {
@@ -127,7 +127,7 @@ export default function Home() {
     if (!quizScoreMet && avgQuizScore > 0) {
       return {
         type: "quiz",
-        message: "Retake quizzes to improve your average score above 90%",
+        message: "Retake quizzes to improve your average score above 75%",
       };
     }
     
@@ -223,11 +223,11 @@ export default function Home() {
                       <div className="bg-card/80 rounded-xl p-4 border border-border/50">
                         <div className="flex items-center gap-3 mb-3">
                           <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center font-bold text-amber-600">3</div>
-                          <h4 className="font-bold">Score 90%+ on Quizzes</h4>
+                          <h4 className="font-bold">Score 75%+ on Quizzes</h4>
                           {quizScoreMet && <CheckCircle className="w-4 h-4 text-green-500 ml-auto" />}
                         </div>
                         <p className="text-sm text-muted-foreground mb-3">
-                          Take the quiz at the end of each chapter and maintain a 90%+ average.
+                          Take the quiz at the end of each chapter and maintain a 75%+ average.
                         </p>
                         <div className="flex items-center gap-2 text-xs">
                           <GraduationCap className="w-3 h-3" />

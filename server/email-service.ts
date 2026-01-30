@@ -112,7 +112,7 @@ export async function sendCredentialsEmail(
               <ul style="color: #15803d; margin: 0; padding-left: 18px; line-height: 1.8; font-size: 14px;">
                 <li><strong>Master the chapters</strong> - Learn winning sales techniques</li>
                 <li><strong>Dominate the roleplays</strong> - Battle AI homeowners until you win</li>
-                <li><strong>Crush the quizzes</strong> - Score 90%+ to prove you're ready</li>
+                <li><strong>Crush the quizzes</strong> - Score 75%+ to prove you're ready</li>
                 <li><strong>Earn your badge</strong> - Become a Certified Sales Champion</li>
               </ul>
             </div>

@@ -788,7 +788,7 @@ export async function registerRoutes(
       const isCertified = 
         completedChapters >= chapters.length && 
         uniquePassedRoleplays >= roleplays.length && 
-        avgQuizScore >= 90;
+        avgQuizScore >= 75;
 
       res.json({
         user: { ...user, password: undefined },

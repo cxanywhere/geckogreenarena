@@ -805,7 +805,7 @@ export default function ManagerDashboard() {
                     <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center">
                       <Check className="h-3 w-3 text-primary" />
                     </div>
-                    <span>Score 90%+ on quizzes</span>
+                    <span>Score 75%+ on quizzes</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center">

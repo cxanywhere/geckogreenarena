@@ -333,7 +333,7 @@ export default function MyStatsPage() {
                   <div className="flex-1">
                     <h3 className="text-lg font-bold text-foreground">Path to Certification</h3>
                     <p className="text-sm text-muted-foreground mt-1">
-                      Complete all chapters, pass all roleplays, and score 90%+ on quizzes to get certified!
+                      Complete all chapters, pass all roleplays, and score 75%+ on quizzes to get certified!
                     </p>
                   </div>
                   <Link href="/">

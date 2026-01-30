@@ -537,7 +537,7 @@ export default function ChapterPage() {
                           {completedQuizPages.size > 0 ? <CheckCircle className="w-3 h-3" /> : <span className="text-xs font-bold">0</span>}
                         </div>
                         <span className={completedQuizPages.size > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-muted-foreground'}>
-                          Complete quizzes (score 90%+)
+                          Complete quizzes (score 75%+)
                         </span>
                       </li>
                       {isChapter1 && (
