@@ -61,6 +61,7 @@ interface RepPerformance {
   quizAverage: number;
   quizAttempts: number;
   roleplaysPassed: number;
+  totalRoleplays: number;
   roleplaysAttempted: number;
   roleplayPassRate: number;
   lastActivity: string | null;
@@ -763,8 +764,8 @@ export default function ManagerDashboard() {
                             </TableCell>
                             <TableCell className="text-center">
                               <div className="flex flex-col items-center">
-                                <span className="font-medium">{rep.roleplaysPassed}/{rep.roleplaysAttempted}</span>
-                                <span className="text-xs text-muted-foreground">{rep.roleplayPassRate}% pass</span>
+                                <span className={`font-medium ${rep.roleplaysPassed >= (rep.totalRoleplays || 16) ? "text-green-600" : ""}`}>{rep.roleplaysPassed}/{rep.totalRoleplays || 16}</span>
+                                <span className="text-xs text-muted-foreground">{rep.roleplaysAttempted} attempts</span>
                               </div>
                             </TableCell>
                             <TableCell className="text-right">

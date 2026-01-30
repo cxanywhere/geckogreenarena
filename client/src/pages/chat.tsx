@@ -3,7 +3,7 @@ import { Nav } from "@/components/nav";
 import { VoiceRoleplay } from "@/components/VoiceRoleplay";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { ArrowLeft, Info, Loader2, User, Mic, History, ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowLeft, Info, Loader2, User, Mic, History, ChevronDown, ChevronUp, AlertTriangle, CheckCircle } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { api, Roleplay } from "@/lib/api";
 import { RoleplayAttemptHistory } from "@/components/roleplay-attempt-history";
@@ -123,6 +123,46 @@ export default function ChatPage() {
           <p className="text-muted-foreground mb-6">This scenario doesn't have voice configuration yet.</p>
           <Link href="/dashboard">
             <Button>Return to Dashboard</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  // Check if roleplay is locked or already passed
+  const isLocked = attemptInfo && typeof attemptInfo === 'object' && attemptInfo.permanentlyFailed;
+  const isPassed = attemptInfo && typeof attemptInfo === 'object' && attemptInfo.hasPassed;
+
+  if (isLocked) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center max-w-md px-4">
+          <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+            <AlertTriangle className="w-10 h-10 text-red-600 dark:text-red-400" />
+          </div>
+          <h1 className="text-2xl font-bold mb-4 text-foreground">Roleplay Locked</h1>
+          <p className="text-muted-foreground mb-2">You have used all 3 attempts for "{scenario.name}" and did not pass.</p>
+          <p className="text-muted-foreground mb-6">This roleplay is now locked. Focus on other roleplays in your training path.</p>
+          <Link href={returnTo || "/dashboard"}>
+            <Button>Return to Training</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (isPassed) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center max-w-md px-4">
+          <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+            <CheckCircle className="w-10 h-10 text-green-600 dark:text-green-400" />
+          </div>
+          <h1 className="text-2xl font-bold mb-4 text-foreground">Roleplay Completed!</h1>
+          <p className="text-muted-foreground mb-2">You've already passed "{scenario.name}".</p>
+          <p className="text-muted-foreground mb-6">Move on to the next roleplay in your certification path.</p>
+          <Link href={returnTo || "/dashboard"}>
+            <Button>Continue Training</Button>
           </Link>
         </div>
       </div>

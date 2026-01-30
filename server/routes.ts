@@ -1709,6 +1709,29 @@ export async function registerRoutes(
   app.post("/api/attempts", async (req, res) => {
     try {
       const validatedData = insertRoleplayAttemptSchema.parse(req.body);
+      
+      // Check 3-attempt limit before creating new attempt
+      const existingAttempts = await storage.getUserRoleplayAttempts(validatedData.userId);
+      const attemptsForThisRoleplay = existingAttempts.filter(a => a.roleplayId === validatedData.roleplayId);
+      const hasPassed = attemptsForThisRoleplay.some(a => a.passed === 1);
+      
+      if (attemptsForThisRoleplay.length >= 3 && !hasPassed) {
+        return res.status(403).json({ 
+          error: "Maximum attempts reached", 
+          message: "You have used all 3 attempts for this roleplay and did not pass. This roleplay is now locked.",
+          locked: true
+        });
+      }
+      
+      // If already passed, allow unlimited practice (optional - remove if you want to lock after passing too)
+      if (hasPassed) {
+        return res.status(403).json({ 
+          error: "Roleplay already passed", 
+          message: "You have already passed this roleplay. Move on to the next one!",
+          passed: true
+        });
+      }
+      
       const attempt = await storage.createRoleplayAttempt(validatedData);
       res.json(attempt);
     } catch (error) {
@@ -1727,6 +1750,27 @@ export async function registerRoutes(
       
       if (!roleplayId || !userId) {
         return res.status(400).json({ error: "roleplayId and userId required" });
+      }
+
+      // Check 3-attempt limit before starting session
+      const existingAttempts = await storage.getUserRoleplayAttempts(userId);
+      const attemptsForThisRoleplay = existingAttempts.filter(a => a.roleplayId === roleplayId);
+      const hasPassed = attemptsForThisRoleplay.some(a => a.passed === 1);
+      
+      if (attemptsForThisRoleplay.length >= 3 && !hasPassed) {
+        return res.status(403).json({ 
+          error: "Maximum attempts reached", 
+          message: "You have used all 3 attempts for this roleplay and did not pass. This roleplay is now locked.",
+          locked: true
+        });
+      }
+      
+      if (hasPassed) {
+        return res.status(403).json({ 
+          error: "Roleplay already passed", 
+          message: "You have already passed this roleplay. Move on to the next one!",
+          passed: true
+        });
       }
 
       const roleplay = await storage.getRoleplay(roleplayId);
@@ -2056,6 +2100,29 @@ export async function registerRoutes(
       const { roleplayId, userId } = req.body;
       if (!roleplayId) {
         return res.status(400).json({ error: "roleplayId is required" });
+      }
+
+      // Check 3-attempt limit before starting voice call
+      if (userId) {
+        const existingAttempts = await storage.getUserRoleplayAttempts(userId);
+        const attemptsForThisRoleplay = existingAttempts.filter(a => a.roleplayId === roleplayId);
+        const hasPassed = attemptsForThisRoleplay.some(a => a.passed === 1);
+        
+        if (attemptsForThisRoleplay.length >= 3 && !hasPassed) {
+          return res.status(403).json({ 
+            error: "Maximum attempts reached", 
+            message: "You have used all 3 attempts for this roleplay and did not pass. This roleplay is now locked.",
+            locked: true
+          });
+        }
+        
+        if (hasPassed) {
+          return res.status(403).json({ 
+            error: "Roleplay already passed", 
+            message: "You have already passed this roleplay. Move on to the next one!",
+            passed: true
+          });
+        }
       }
 
       // First try to get roleplay from database
@@ -3386,7 +3453,7 @@ export async function registerRoutes(
         recentRoleplays,
         weeklyStats: {
           roleplaysCompleted: weeklyRoleplays.length,
-          roleplaysPassed: weeklyRoleplays.filter(r => r.passed).length,
+          roleplaysPassed: new Set(weeklyRoleplays.filter(r => r.passed).map(r => r.roleplayId)).size,
           averageScore: weeklyRoleplays.length > 0 
             ? Math.round(weeklyRoleplays.reduce((sum, r) => sum + (r.score || 0), 0) / weeklyRoleplays.length)
             : 0,

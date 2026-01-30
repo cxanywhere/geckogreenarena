@@ -528,6 +528,7 @@ export interface RepPerformance {
   quizAverage: number;
   quizAttempts: number;
   roleplaysPassed: number;
+  totalRoleplays: number;
   roleplaysAttempted: number;
   roleplayPassRate: number;
   lastActivity: string | null;

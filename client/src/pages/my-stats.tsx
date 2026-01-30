@@ -200,7 +200,7 @@ export default function MyStatsPage() {
                     </div>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">
-                    {performance.roleplaysPassed} passed / {performance.roleplaysAttempted} attempted
+                    {performance.roleplaysPassed}/{performance.totalRoleplays || 16} unique roleplays passed
                   </p>
                 </CardContent>
               </Card>

@@ -78,6 +78,7 @@ interface UserDetails {
     quizAverage: number;
     quizAttempts: number;
     roleplaysPassed: number;
+    totalRoleplays: number;
     roleplaysAttempted: number;
     roleplayPassRate: number;
     isCertified: boolean;
@@ -605,8 +606,8 @@ export default function RepDetailsPage() {
               <CardTitle className="text-sm font-medium text-muted-foreground">Roleplay Pass Rate</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{performance.roleplayPassRate}%</div>
-              <div className="text-xs text-muted-foreground mt-1">{performance.roleplaysPassed}/{performance.roleplaysAttempted} passed</div>
+              <div className="text-3xl font-bold">{performance.roleplaysPassed}/{performance.totalRoleplays || 16}</div>
+              <div className="text-xs text-muted-foreground mt-1">unique roleplays passed ({performance.roleplaysAttempted} attempts)</div>
             </CardContent>
           </Card>
           <Card>

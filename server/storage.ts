@@ -195,6 +195,7 @@ export interface RepPerformance {
   quizAverage: number;
   quizAttempts: number;
   roleplaysPassed: number;
+  totalRoleplays: number;
   roleplaysAttempted: number;
   roleplayPassRate: number;
   lastActivity: Date | null;
@@ -882,9 +883,18 @@ export class DatabaseStorage implements IStorage {
     
     // Get roleplay performance
     const roleplayAttemptsData = await this.getUserRoleplayAttempts(user.id);
+    const allRoleplays = await this.getAllRoleplays();
+    const totalRoleplays = allRoleplays.length;
+    
+    // Count unique roleplays attempted (not attempts)
+    const uniqueRoleplaysAttempted = new Set(roleplayAttemptsData.map(a => a.roleplayId)).size;
+    // Count unique roleplays passed (not attempts)
+    const passedRoleplayIds = roleplayAttemptsData.filter(a => a.passed === 1).map(a => a.roleplayId);
+    const roleplaysPassed = new Set(passedRoleplayIds).size;
+    
+    // For display purposes, keep attempt counts too
     const roleplaysAttempted = roleplayAttemptsData.length;
-    const roleplaysPassed = roleplayAttemptsData.filter(a => a.passed === 1).length;
-    const roleplayPassRate = roleplaysAttempted > 0 ? Math.round((roleplaysPassed / roleplaysAttempted) * 100) : 0;
+    const roleplayPassRate = uniqueRoleplaysAttempted > 0 ? Math.round((roleplaysPassed / totalRoleplays) * 100) : 0;
     
     // Get last activity - most recent attempt or progress update
     let lastActivity: Date | null = null;
@@ -892,11 +902,11 @@ export class DatabaseStorage implements IStorage {
       lastActivity = roleplayAttemptsData[0].createdAt;
     }
     
-    // Certification criteria: all chapters complete, 75%+ quiz average, at least 1 roleplay passed
+    // Certification criteria: all chapters complete, 75%+ quiz average, ALL unique roleplays passed
     const isCertified = chaptersCompleted === totalChapters && 
                         totalChapters > 0 && 
                         quizAverage >= 75 && 
-                        roleplaysPassed >= 1;
+                        roleplaysPassed >= totalRoleplays;
     
     // Overall score: 40% quiz, 30% roleplay, 20% chapter, 10% activity bonus
     const activityBonus = lastActivity && (Date.now() - lastActivity.getTime()) < 7 * 24 * 60 * 60 * 1000 ? 10 : 0;
@@ -927,6 +937,7 @@ export class DatabaseStorage implements IStorage {
       quizAverage,
       quizAttempts: totalQuizAttempts,
       roleplaysPassed,
+      totalRoleplays,
       roleplaysAttempted,
       roleplayPassRate,
       lastActivity,

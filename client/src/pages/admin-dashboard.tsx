@@ -24,7 +24,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { UserPlus, Users, TrendingUp, AlertCircle, Search, Trash2, Shield, DollarSign, Activity, BarChart3, Settings, Copy, Mail, Phone, Check, Loader2, LogOut, Trophy, Award, Target, GraduationCap, Mic, ChevronDown, ChevronUp, Upload, Download, FileText, Archive, AlertTriangle } from "lucide-react";
+import { UserPlus, Users, TrendingUp, AlertCircle, Search, Trash2, Shield, DollarSign, Activity, BarChart3, Settings, Copy, Mail, Phone, Check, CheckCircle, Loader2, LogOut, Trophy, Award, Target, GraduationCap, Mic, ChevronDown, ChevronUp, Upload, Download, FileText, Archive, AlertTriangle } from "lucide-react";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
 import arenaLogoLight from "@/assets/arena-logo-light.png";
 import geckoLogo from "@assets/image_1766975682051.png";
@@ -66,6 +66,7 @@ interface RepPerformance {
   quizAverage: number;
   quizAttempts: number;
   roleplaysPassed: number;
+  totalRoleplays: number;
   roleplaysAttempted: number;
   roleplayPassRate: number;
   lastActivity: string | null;
@@ -1162,7 +1163,7 @@ export default function AdminDashboard() {
                                       </span>
                                     </TableCell>
                                     <TableCell className="text-center">
-                                      <span className="text-sm">{rep.roleplaysPassed}/{rep.roleplaysAttempted}</span>
+                                      <span className={`text-sm font-medium ${rep.roleplaysPassed >= (rep.totalRoleplays || 16) ? "text-green-600" : ""}`}>{rep.roleplaysPassed}/{rep.totalRoleplays || 16}</span>
                                     </TableCell>
                                     <TableCell className="text-right">
                                       <div className={`inline-flex items-center justify-center h-8 w-8 rounded-full text-sm font-bold ${
@@ -1261,7 +1262,7 @@ export default function AdminDashboard() {
                             </span>
                           </TableCell>
                           <TableCell className="text-center">
-                            <span>{rep.roleplaysPassed}/{rep.roleplaysAttempted}</span>
+                            <span className={`font-medium ${rep.roleplaysPassed >= (rep.totalRoleplays || 16) ? "text-green-600" : ""}`}>{rep.roleplaysPassed}/{rep.totalRoleplays || 16}</span>
                           </TableCell>
                           <TableCell className="text-right">
                             <div className={`inline-flex items-center justify-center h-10 w-10 rounded-full font-bold ${
