@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Mic, SkipForward, Target, AlertCircle } from "lucide-react";
+import { Mic, SkipForward, Target, AlertCircle, CheckCircle, XCircle } from "lucide-react";
 import { PredefinedRoleplay } from "@/lib/chapter1-roleplays";
 import { useOrientation, useIsMobile } from "@/hooks/useOrientation";
 
@@ -12,6 +12,8 @@ interface RoleplayPromptProps {
   queueTotal?: number;
   attemptsUsed?: number;
   maxAttempts?: number;
+  hasPassed?: boolean;
+  permanentlyFailed?: boolean;
 }
 
 export function RoleplayPrompt({ 
@@ -21,13 +23,87 @@ export function RoleplayPrompt({
   queuePosition = 1,
   queueTotal = 1,
   attemptsUsed = 0,
-  maxAttempts = 3
+  maxAttempts = 3,
+  hasPassed = false,
+  permanentlyFailed = false
 }: RoleplayPromptProps) {
   const attemptsRemaining = maxAttempts - attemptsUsed;
   const orientation = useOrientation();
   const isMobile = useIsMobile();
   const isLandscape = orientation === 'landscape';
   const isImmersive = isMobile && isLandscape;
+
+  if (permanentlyFailed) {
+    return (
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            className="bg-gradient-to-br from-red-950 to-gray-900 rounded-2xl border border-red-800/50 shadow-2xl w-full max-w-lg p-6"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
+                <XCircle className="w-6 h-6 text-red-400" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-white">Roleplay Locked</h3>
+                <p className="text-sm text-red-400">No attempts remaining</p>
+              </div>
+            </div>
+            <p className="text-gray-300 mb-6">
+              You've used all 3 attempts for this roleplay without passing. Focus on other roleplays to continue your certification path.
+            </p>
+            <Button onClick={onSkip} className="w-full bg-gray-700 hover:bg-gray-600 text-white">
+              Continue
+            </Button>
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+    );
+  }
+
+  if (hasPassed) {
+    return (
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            className="bg-gradient-to-br from-green-950 to-gray-900 rounded-2xl border border-green-700/50 shadow-2xl w-full max-w-lg p-6"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                <CheckCircle className="w-6 h-6 text-green-400" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-white">Already Passed!</h3>
+                <p className="text-sm text-green-400">Great work on this roleplay</p>
+              </div>
+            </div>
+            <p className="text-gray-300 mb-6">
+              You've already passed this roleplay. Keep up the momentum and continue to the next challenge!
+            </p>
+            <Button onClick={onSkip} className="w-full bg-green-600 hover:bg-green-700 text-white">
+              Continue
+            </Button>
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+    );
+  }
 
   return (
     <AnimatePresence>
@@ -73,7 +149,7 @@ export function RoleplayPrompt({
                 <h3 className="text-lg font-bold text-white" data-testid="roleplay-title">
                   Practice Time
                 </h3>
-                <p className="text-sm text-gray-400">{roleplay.phase} • {roleplay.context}</p>
+                <p className="text-sm text-gray-400">{roleplay.context}</p>
               </div>
             </div>
 

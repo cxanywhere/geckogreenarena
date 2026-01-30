@@ -648,6 +648,8 @@ export default function ChapterPage() {
               queueTotal={currentRoleplays.length}
               attemptsUsed={status?.attempts || 0}
               maxAttempts={3}
+              hasPassed={status?.passed || false}
+              permanentlyFailed={status?.permanentlyFailed || false}
             />
           );
         })()}

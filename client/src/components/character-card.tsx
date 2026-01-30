@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Shield, MessageSquare, TrendingUp, Lock, User } from "lucide-react";
+import { Shield, MessageSquare, TrendingUp, Lock, User, CheckCircle, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "wouter";
 
@@ -23,9 +23,70 @@ interface RoleplayCardProps {
   scenario: RoleplayScenario;
   index: number;
   isLocked?: boolean;
+  hasPassed?: boolean;
+  permanentlyFailed?: boolean;
 }
 
-export function RoleplayCard({ scenario, index, isLocked = false }: RoleplayCardProps) {
+export function RoleplayCard({ scenario, index, isLocked = false, hasPassed = false, permanentlyFailed = false }: RoleplayCardProps) {
+  if (permanentlyFailed) {
+    return (
+      <div className="group relative overflow-hidden rounded-2xl bg-red-950/20 border border-red-900/30 h-full flex flex-col opacity-90 cursor-not-allowed">
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-red-950/60 backdrop-blur-[2px]">
+          <div className="flex flex-col items-center gap-2 p-4 rounded-xl bg-red-950/80 border border-red-800/50 shadow-lg">
+            <XCircle className="w-6 h-6 text-red-400" />
+            <span className="text-xs font-bold text-red-400 uppercase tracking-wider">Locked - No Attempts Left</span>
+          </div>
+        </div>
+        <div className="relative h-48 overflow-hidden bg-muted grayscale">
+          {scenario.avatar ? (
+            <img src={scenario.avatar} alt={scenario.name} className="h-full w-full object-cover" />
+          ) : (
+            <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-primary/30">
+              <User className="w-16 h-16 text-primary/30" />
+            </div>
+          )}
+        </div>
+        <div className="p-5">
+          <h3 className="text-xl font-display font-bold text-foreground/50 tracking-wide mb-2">{scenario.name}</h3>
+          <p className="text-sm text-muted-foreground/50 line-clamp-2">{scenario.description}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (hasPassed) {
+    return (
+      <div className="group relative overflow-hidden rounded-2xl bg-green-950/20 border border-green-700/50 h-full flex flex-col cursor-default">
+        <div className="absolute top-3 right-3 z-30 bg-green-500 text-white p-1.5 rounded-full shadow-lg">
+          <CheckCircle className="w-5 h-5" />
+        </div>
+        <div className="relative h-48 overflow-hidden bg-muted">
+          {scenario.avatar ? (
+            <img src={scenario.avatar} alt={scenario.name} className="h-full w-full object-cover" />
+          ) : (
+            <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-green-500/20 to-green-600/30">
+              <User className="w-16 h-16 text-green-500/50" />
+            </div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-green-900/60 to-transparent" />
+          <div className="absolute bottom-3 left-4 z-20">
+            <span className="inline-block px-2 py-1 mb-1 text-xs font-mono font-medium rounded-md bg-green-500/90 text-white">
+              Passed
+            </span>
+            <h3 className="text-xl font-display font-bold text-white tracking-wide">{scenario.name}</h3>
+            <p className="text-white/80 text-xs font-medium">{scenario.role}</p>
+          </div>
+        </div>
+        <div className="p-5 flex flex-col flex-grow bg-card border-t border-green-700/30">
+          <p className="text-sm text-muted-foreground line-clamp-2">{scenario.description}</p>
+          <div className="mt-auto pt-3 text-center">
+            <span className="text-xs text-green-500 font-medium">Completed</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (isLocked) {
     return (
       <div className="group relative overflow-hidden rounded-2xl bg-white/50 border border-border h-full flex flex-col grayscale opacity-80 cursor-not-allowed">
@@ -35,7 +96,6 @@ export function RoleplayCard({ scenario, index, isLocked = false }: RoleplayCard
             <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Chapter Locked</span>
           </div>
         </div>
-        {/* Simplified Locked Content */}
         <div className="relative h-48 overflow-hidden bg-muted">
           {scenario.avatar ? (
             <img

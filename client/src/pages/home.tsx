@@ -67,6 +67,13 @@ export default function Home() {
   const uniqueRoleplaysPassed = Array.from(new Set(passedRoleplayIds)).length;
   const totalRoleplays = roleplays.length;
   
+  const getRoleplayStatus = (roleplayId: string) => {
+    const attempts = roleplayAttempts.filter(a => a.roleplayId === roleplayId);
+    const hasPassed = attempts.some(a => isAttemptPassed(a));
+    const permanentlyFailed = !hasPassed && attempts.length >= 3;
+    return { hasPassed, permanentlyFailed, attemptCount: attempts.length };
+  };
+  
   const quizScores = userProgress.filter((p) => p.quizScore !== null && p.quizScore !== undefined).map((p) => p.quizScore!);
   const avgQuizScore = quizScores.length > 0 ? Math.round(quizScores.reduce((a, b) => a + b, 0) / quizScores.length) : 0;
   
@@ -482,15 +489,16 @@ export default function Home() {
                 return extractOrder(a.id) - extractOrder(b.id);
               })
               .map((scenario, i) => {
-                const isPassed = passedRoleplayIds.includes(scenario.id);
+                const status = getRoleplayStatus(scenario.id);
                 return (
                   <div key={scenario.id} className="relative group">
-                    <RoleplayCard scenario={scenario} index={i} isLocked={false} />
-                    {isPassed && (
-                      <div className="absolute top-3 right-3 bg-green-500 text-white p-1.5 rounded-full">
-                        <CheckCircle className="w-4 h-4" />
-                      </div>
-                    )}
+                    <RoleplayCard 
+                      scenario={scenario} 
+                      index={i} 
+                      isLocked={false}
+                      hasPassed={status.hasPassed}
+                      permanentlyFailed={status.permanentlyFailed}
+                    />
                   </div>
                 );
               })}
