@@ -2549,7 +2549,139 @@ export async function registerRoutes(
   // Usage Audit & Reconcile API
   // =====================
 
-  // Audit usage sessions against VAPI call data
+  // Helper function to process sessions in batches
+  async function processBatch<T, R>(
+    items: T[],
+    batchSize: number,
+    delayMs: number,
+    processor: (item: T) => Promise<R>
+  ): Promise<R[]> {
+    const results: R[] = [];
+    for (let i = 0; i < items.length; i += batchSize) {
+      const batch = items.slice(i, i + batchSize);
+      const batchResults = await Promise.all(batch.map(processor));
+      results.push(...batchResults);
+      // Add delay between batches (except after the last batch)
+      if (i + batchSize < items.length) {
+        await new Promise(resolve => setTimeout(resolve, delayMs));
+      }
+    }
+    return results;
+  }
+
+  // Audit a single usage session against VAPI
+  app.get("/api/usage/audit/:sessionId", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const callerRole = authResult.user.role;
+      if (callerRole !== "director" && callerRole !== "admin") {
+        return res.status(403).json({ error: "Access denied - admins only" });
+      }
+
+      const { sessionId } = req.params;
+      
+      // Get the specific session directly by ID (efficient lookup)
+      const session = await storage.getUsageSessionById(sessionId);
+      
+      if (!session) {
+        return res.status(404).json({ error: "Session not found" });
+      }
+
+      if (!session.vapiCallId) {
+        return res.status(400).json({ error: "Session has no VAPI call ID - cannot audit" });
+      }
+
+      // Get user info
+      const user = await storage.getUser(session.userId);
+
+      // Fetch actual VAPI data with timeout
+      let vapiData;
+      try {
+        vapiData = await Promise.race([
+          vapiService.getCallDuration(session.vapiCallId),
+          new Promise((_, reject) => setTimeout(() => reject(new Error("VAPI request timeout")), 10000))
+        ]) as { durationSeconds: number; status: string; startedAt?: string; endedAt?: string } | null;
+      } catch (err: any) {
+        return res.status(500).json({ 
+          error: `Failed to fetch VAPI data: ${err.message}`,
+          session: {
+            id: session.id,
+            userId: session.userId,
+            userName: user?.name,
+            vapiCallId: session.vapiCallId,
+            storedDurationSeconds: session.durationSeconds || 0,
+            storedBilledMinutes: session.billedMinutes || 0,
+            storedCostCents: session.costCents || 0,
+          }
+        });
+      }
+
+      if (!vapiData) {
+        return res.status(404).json({ 
+          error: "Could not retrieve VAPI call data - call may have expired or been deleted",
+          session: {
+            id: session.id,
+            userId: session.userId,
+            userName: user?.name,
+            vapiCallId: session.vapiCallId,
+            storedDurationSeconds: session.durationSeconds || 0,
+            storedBilledMinutes: session.billedMinutes || 0,
+            storedCostCents: session.costCents || 0,
+          }
+        });
+      }
+
+      const actualDurationSeconds = vapiData.durationSeconds;
+      const actualBilledMinutes = Math.ceil(actualDurationSeconds / 60);
+      const actualCostCents = actualBilledMinutes * 15;
+
+      const storedDurationSeconds = session.durationSeconds || 0;
+      const storedBilledMinutes = session.billedMinutes || 0;
+      const storedCostCents = session.costCents || 0;
+
+      const differenceMinutes = storedBilledMinutes - actualBilledMinutes;
+      const hasDiscrepancy = Math.abs(differenceMinutes) >= 1;
+
+      res.json({
+        success: true,
+        hasDiscrepancy,
+        session: {
+          id: session.id,
+          userId: session.userId,
+          userName: user?.name,
+          vapiCallId: session.vapiCallId,
+          sessionDate: new Date(session.startTime).toISOString(),
+          status: session.status,
+        },
+        stored: {
+          durationSeconds: storedDurationSeconds,
+          billedMinutes: storedBilledMinutes,
+          costCents: storedCostCents,
+        },
+        actual: {
+          durationSeconds: actualDurationSeconds,
+          billedMinutes: actualBilledMinutes,
+          costCents: actualCostCents,
+          vapiStatus: vapiData.status,
+          startedAt: vapiData.startedAt,
+          endedAt: vapiData.endedAt,
+        },
+        difference: {
+          minutes: differenceMinutes,
+          costCents: storedCostCents - actualCostCents,
+        },
+      });
+    } catch (error: any) {
+      console.error("Audit single session error:", error);
+      res.status(500).json({ error: error.message || "Failed to audit session" });
+    }
+  });
+
+  // Audit usage sessions against VAPI call data (batch processing)
   app.post("/api/usage/audit", async (req, res) => {
     try {
       const authResult = await getAuthenticatedUser(req);
@@ -2564,6 +2696,8 @@ export async function registerRoutes(
 
       const { userId } = req.body; // Optional - if not provided, audit all users
 
+      console.log("[Audit] Starting audit...", userId ? `for user ${userId}` : "for all users");
+
       // Get sessions to audit
       let sessions;
       if (userId) {
@@ -2575,6 +2709,23 @@ export async function registerRoutes(
       // Filter to only sessions with vapiCallId
       const sessionsWithCalls = sessions.filter(s => s.vapiCallId);
       
+      console.log(`[Audit] Found ${sessionsWithCalls.length} sessions with VAPI call IDs to audit`);
+
+      if (sessionsWithCalls.length === 0) {
+        return res.json({
+          success: true,
+          summary: {
+            sessionsAudited: 0,
+            discrepanciesFound: 0,
+            errorsEncountered: 0,
+            totalOverchargedMinutes: 0,
+            totalOverchargedCents: 0,
+          },
+          discrepancies: [],
+          errors: [],
+        });
+      }
+
       const discrepancies: Array<{
         sessionId: string;
         userId: string;
@@ -2594,56 +2745,89 @@ export async function registerRoutes(
 
       const errors: Array<{ sessionId: string; vapiCallId: string; error: string }> = [];
 
-      // Check each session against VAPI
-      for (const session of sessionsWithCalls) {
-        try {
-          const vapiData = await vapiService.getCallDuration(session.vapiCallId!);
-          
-          if (!vapiData) {
-            errors.push({
-              sessionId: session.id,
-              vapiCallId: session.vapiCallId!,
-              error: "Could not retrieve VAPI call data"
-            });
-            continue;
-          }
+      // Process sessions in batches of 3 with 500ms delay between batches
+      const BATCH_SIZE = 3;
+      const BATCH_DELAY_MS = 500;
+      const VAPI_TIMEOUT_MS = 10000;
 
-          const actualDurationSeconds = vapiData.durationSeconds;
-          const actualBilledMinutes = Math.ceil(actualDurationSeconds / 60);
-          const actualCostCents = actualBilledMinutes * 15; // $0.15 per minute
-
-          const storedDurationSeconds = session.durationSeconds || 0;
-          const storedBilledMinutes = session.billedMinutes || 0;
-          const storedCostCents = session.costCents || 0;
-
-          // Check for any discrepancy (1+ minute difference catches all billing errors)
-          const differenceMinutes = storedBilledMinutes - actualBilledMinutes;
-          if (Math.abs(differenceMinutes) >= 1) {
-            // Get user name for display
-            const user = await storage.getUser(session.userId);
+      const auditResults = await processBatch(
+        sessionsWithCalls,
+        BATCH_SIZE,
+        BATCH_DELAY_MS,
+        async (session) => {
+          try {
+            // Add timeout to VAPI calls
+            const vapiDataPromise = vapiService.getCallDuration(session.vapiCallId!);
+            const timeoutPromise = new Promise((_, reject) => 
+              setTimeout(() => reject(new Error("VAPI request timeout")), VAPI_TIMEOUT_MS)
+            );
             
-            discrepancies.push({
-              sessionId: session.id,
-              userId: session.userId,
-              userName: user?.name,
-              vapiCallId: session.vapiCallId!,
-              sessionDate: new Date(session.startTime).toISOString(),
-              storedDurationSeconds,
-              storedBilledMinutes,
-              storedCostCents,
-              actualDurationSeconds,
-              actualBilledMinutes,
-              actualCostCents,
-              differenceMinutes,
-              differenceCostCents: storedCostCents - actualCostCents,
-              vapiStatus: vapiData.status,
-            });
+            const vapiData = await Promise.race([vapiDataPromise, timeoutPromise]) as { durationSeconds: number; status: string } | null;
+            
+            if (!vapiData) {
+              return { 
+                type: 'error' as const, 
+                sessionId: session.id, 
+                vapiCallId: session.vapiCallId!, 
+                error: "Could not retrieve VAPI call data" 
+              };
+            }
+
+            const actualDurationSeconds = vapiData.durationSeconds;
+            const actualBilledMinutes = Math.ceil(actualDurationSeconds / 60);
+            const actualCostCents = actualBilledMinutes * 15;
+
+            const storedDurationSeconds = session.durationSeconds || 0;
+            const storedBilledMinutes = session.billedMinutes || 0;
+            const storedCostCents = session.costCents || 0;
+
+            const differenceMinutes = storedBilledMinutes - actualBilledMinutes;
+            
+            if (Math.abs(differenceMinutes) >= 1) {
+              const user = await storage.getUser(session.userId);
+              return {
+                type: 'discrepancy' as const,
+                data: {
+                  sessionId: session.id,
+                  userId: session.userId,
+                  userName: user?.name,
+                  vapiCallId: session.vapiCallId!,
+                  sessionDate: new Date(session.startTime).toISOString(),
+                  storedDurationSeconds,
+                  storedBilledMinutes,
+                  storedCostCents,
+                  actualDurationSeconds,
+                  actualBilledMinutes,
+                  actualCostCents,
+                  differenceMinutes,
+                  differenceCostCents: storedCostCents - actualCostCents,
+                  vapiStatus: vapiData.status,
+                }
+              };
+            }
+            
+            return { type: 'ok' as const };
+          } catch (err: any) {
+            console.error(`[Audit] Error processing session ${session.id}:`, err.message);
+            return { 
+              type: 'error' as const, 
+              sessionId: session.id, 
+              vapiCallId: session.vapiCallId!, 
+              error: err.message || "Unknown error" 
+            };
           }
-        } catch (err: any) {
+        }
+      );
+
+      // Separate results into discrepancies and errors
+      for (const result of auditResults) {
+        if (result.type === 'discrepancy') {
+          discrepancies.push(result.data);
+        } else if (result.type === 'error') {
           errors.push({
-            sessionId: session.id,
-            vapiCallId: session.vapiCallId!,
-            error: err.message || "Unknown error"
+            sessionId: result.sessionId,
+            vapiCallId: result.vapiCallId,
+            error: result.error
           });
         }
       }
@@ -2651,6 +2835,8 @@ export async function registerRoutes(
       // Calculate totals
       const totalDifferenceMinutes = discrepancies.reduce((sum, d) => sum + d.differenceMinutes, 0);
       const totalDifferenceCost = discrepancies.reduce((sum, d) => sum + d.differenceCostCents, 0);
+
+      console.log(`[Audit] Complete. Found ${discrepancies.length} discrepancies, ${errors.length} errors`);
 
       res.json({
         success: true,

@@ -132,6 +132,7 @@ export interface IStorage {
   getUserUsageSessions(userId: string): Promise<UsageSession[]>;
   getTeamUsageSessions(managerId: string): Promise<UsageSession[]>;
   getAllUsageSessions(): Promise<UsageSession[]>;
+  getUsageSessionById(id: string): Promise<UsageSession | undefined>;
   completeUsageSession(id: string, endTime: Date, durationSeconds: number): Promise<UsageSession | undefined>;
   deleteAllUsageSessions(): Promise<number>;
   
@@ -818,6 +819,11 @@ export class DatabaseStorage implements IStorage {
 
   async getAllUsageSessions(): Promise<UsageSession[]> {
     return await db.select().from(usageSessions).orderBy(desc(usageSessions.createdAt));
+  }
+
+  async getUsageSessionById(id: string): Promise<UsageSession | undefined> {
+    const [session] = await db.select().from(usageSessions).where(eq(usageSessions.id, id));
+    return session;
   }
 
   async completeUsageSession(id: string, endTime: Date, durationSeconds: number): Promise<UsageSession | undefined> {

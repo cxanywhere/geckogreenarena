@@ -165,6 +165,20 @@ export default function AdminDashboard() {
   const [isAuditing, setIsAuditing] = useState(false);
   const [isReconciling, setIsReconciling] = useState(false);
   const [selectedDiscrepancies, setSelectedDiscrepancies] = useState<Set<string>>(new Set());
+  const [singleAuditResult, setSingleAuditResult] = useState<{
+    sessionId: string;
+    loading: boolean;
+    fixing?: boolean;
+    error?: string;
+    fixError?: string;
+    data?: {
+      hasDiscrepancy: boolean;
+      session: { id: string; userId: string; userName?: string; vapiCallId: string; sessionDate: string; status: string };
+      stored: { durationSeconds: number; billedMinutes: number; costCents: number };
+      actual: { durationSeconds: number; billedMinutes: number; costCents: number; vapiStatus: string };
+      difference: { minutes: number; costCents: number };
+    };
+  } | null>(null);
   const { resolvedTheme } = useTheme();
   const { user, logout, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
@@ -344,6 +358,61 @@ export default function AdminDashboard() {
     if (!auditResults) return;
     const all = new Set(auditResults.discrepancies.map(d => d.sessionId));
     setSelectedDiscrepancies(all);
+  };
+
+  const handleAuditSingleSession = async (sessionId: string) => {
+    setSingleAuditResult({ sessionId, loading: true });
+    try {
+      const response = await fetch(`/api/usage/audit/${sessionId}`, {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setSingleAuditResult({ sessionId, loading: false, error: data.error || "Failed to audit session" });
+        return;
+      }
+      setSingleAuditResult({ sessionId, loading: false, data });
+    } catch (error: any) {
+      setSingleAuditResult({ sessionId, loading: false, error: error.message || "Failed to audit session" });
+    }
+  };
+
+  const handleFixSingleSession = async () => {
+    if (!singleAuditResult?.data?.hasDiscrepancy) return;
+    const { sessionId, data } = singleAuditResult;
+    
+    setSingleAuditResult(prev => prev ? { ...prev, fixing: true, fixError: undefined } : null);
+    
+    try {
+      const response = await fetch("/api/usage/reconcile", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          fixes: [{
+            sessionId,
+            actualDurationSeconds: data.actual.durationSeconds,
+            actualBilledMinutes: data.actual.billedMinutes,
+            actualCostCents: data.actual.costCents,
+            differenceMinutes: data.difference.minutes,
+            differenceCostCents: data.difference.costCents,
+          }]
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to reconcile");
+      }
+      toast({ title: "Fixed!", description: "Session has been corrected with actual VAPI data." });
+      setSingleAuditResult(null);
+      queryClient.invalidateQueries({ queryKey: ["/api/usage/all"] });
+    } catch (error: any) {
+      setSingleAuditResult(prev => prev ? { ...prev, fixing: false, fixError: error.message } : null);
+    }
   };
 
   const handleSoftDelete = async () => {
@@ -1822,11 +1891,13 @@ Mike Johnson mjohnson@geckogreen.com`}
                       <TableHead>Duration</TableHead>
                       <TableHead>Cost</TableHead>
                       <TableHead>Status</TableHead>
+                      <TableHead className="w-20">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {(usageData?.sessions || []).slice(0, 20).map((session) => {
                       const user = [...managers, ...allReps].find(u => u.id === session.userId);
+                      const isAuditingThis = singleAuditResult?.sessionId === session.id && singleAuditResult?.loading;
                       return (
                         <TableRow key={session.id} data-testid={`row-session-${session.id}`}>
                           <TableCell>
@@ -1839,6 +1910,21 @@ Mike Johnson mjohnson@geckogreen.com`}
                             <Badge variant={session.status === "completed" ? "default" : "secondary"}>
                               {session.status}
                             </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => handleAuditSingleSession(session.id)}
+                              disabled={isAuditingThis}
+                              data-testid={`button-audit-session-${session.id}`}
+                            >
+                              {isAuditingThis ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                              ) : (
+                                <Search className="h-4 w-4" />
+                              )}
+                            </Button>
                           </TableCell>
                         </TableRow>
                       );
@@ -2460,6 +2546,100 @@ Mike Johnson mjohnson@geckogreen.com`}
             <Button variant="ghost" onClick={closeDeleteDialog} disabled={deletingRep} data-testid="button-delete-cancel">
               Cancel
             </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!singleAuditResult && !singleAuditResult.loading} onOpenChange={(open) => !open && setSingleAuditResult(null)}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Search className="h-5 w-5 text-blue-500" />
+              Session Audit Result
+            </DialogTitle>
+            {singleAuditResult?.data && (
+              <DialogDescription>
+                {singleAuditResult.data.session.userName || singleAuditResult.data.session.userId} - {new Date(singleAuditResult.data.session.sessionDate).toLocaleString()}
+              </DialogDescription>
+            )}
+          </DialogHeader>
+
+          {singleAuditResult?.error ? (
+            <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900 rounded-lg p-4">
+              <p className="text-red-700 dark:text-red-400 font-medium">Error fetching VAPI data</p>
+              <p className="text-sm text-red-600 dark:text-red-500 mt-1">{singleAuditResult.error}</p>
+            </div>
+          ) : singleAuditResult?.data ? (
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                {singleAuditResult.data.hasDiscrepancy ? (
+                  <Badge variant="destructive" className="flex items-center gap-1">
+                    <AlertTriangle className="h-3 w-3" />
+                    Discrepancy Found
+                  </Badge>
+                ) : (
+                  <Badge className="bg-green-500 flex items-center gap-1">
+                    <CheckCircle className="h-3 w-3" />
+                    No Issues
+                  </Badge>
+                )}
+                <span className="text-sm text-muted-foreground">VAPI Status: {singleAuditResult.data.actual.vapiStatus}</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-orange-600 dark:text-orange-400">Stored (Our DB)</h4>
+                  <div className="bg-orange-50 dark:bg-orange-950/20 rounded-lg p-3 space-y-1">
+                    <p><span className="text-muted-foreground">Duration:</span> {singleAuditResult.data.stored.durationSeconds}s</p>
+                    <p><span className="text-muted-foreground">Billed:</span> {singleAuditResult.data.stored.billedMinutes} min</p>
+                    <p><span className="text-muted-foreground">Cost:</span> ${(singleAuditResult.data.stored.costCents / 100).toFixed(2)}</p>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-green-600 dark:text-green-400">Actual (VAPI)</h4>
+                  <div className="bg-green-50 dark:bg-green-950/20 rounded-lg p-3 space-y-1">
+                    <p><span className="text-muted-foreground">Duration:</span> {singleAuditResult.data.actual.durationSeconds}s</p>
+                    <p><span className="text-muted-foreground">Billed:</span> {singleAuditResult.data.actual.billedMinutes} min</p>
+                    <p><span className="text-muted-foreground">Cost:</span> ${(singleAuditResult.data.actual.costCents / 100).toFixed(2)}</p>
+                  </div>
+                </div>
+              </div>
+
+              {singleAuditResult.data.hasDiscrepancy && (
+                <div className="bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-900 rounded-lg p-3">
+                  <p className="font-medium text-yellow-700 dark:text-yellow-400">
+                    Overcharged by {singleAuditResult.data.difference.minutes} min (${(singleAuditResult.data.difference.costCents / 100).toFixed(2)})
+                  </p>
+                </div>
+              )}
+
+              {singleAuditResult?.fixError && (
+                <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900 rounded-lg p-3">
+                  <p className="font-medium text-red-700 dark:text-red-400">Fix failed: {singleAuditResult.fixError}</p>
+                </div>
+              )}
+            </div>
+          ) : null}
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setSingleAuditResult(null)} disabled={singleAuditResult?.fixing} data-testid="button-audit-close">
+              Close
+            </Button>
+            {singleAuditResult?.data?.hasDiscrepancy && (
+              <Button 
+                onClick={handleFixSingleSession} 
+                className="bg-green-600 hover:bg-green-700" 
+                disabled={singleAuditResult?.fixing}
+                data-testid="button-audit-fix"
+              >
+                {singleAuditResult?.fixing ? (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <CheckCircle className="h-4 w-4 mr-2" />
+                )}
+                {singleAuditResult?.fixing ? "Fixing..." : "Fix This Session"}
+              </Button>
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>
