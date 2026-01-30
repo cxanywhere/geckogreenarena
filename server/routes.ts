@@ -3041,12 +3041,19 @@ export async function registerRoutes(
 
       console.log("[Cleanup] Starting orphaned session cleanup...");
 
-      // Get all active sessions with 0 duration (orphaned)
+      // Get all sessions that need cleanup:
+      // 1. Active sessions with 0 duration (orphaned/never completed)
+      // 2. Completed sessions with impossibly long durations (> 10 minutes = 600 seconds for roleplays)
       const allSessions = await storage.getAllUsageSessions();
+      const MAX_REASONABLE_DURATION = 600; // 10 minutes max for any roleplay
+      
       const orphanedSessions = allSessions.filter(s => 
-        s.status === "active" && 
-        (s.durationSeconds === 0 || s.durationSeconds === null) &&
-        s.vapiCallId
+        s.vapiCallId && (
+          // Orphaned: active with 0 duration
+          (s.status === "active" && (s.durationSeconds === 0 || s.durationSeconds === null)) ||
+          // Corrupted: completed but with impossible duration
+          (s.status === "completed" && s.durationSeconds && s.durationSeconds > MAX_REASONABLE_DURATION)
+        )
       );
 
       console.log(`[Cleanup] Found ${orphanedSessions.length} orphaned sessions to process`);
