@@ -9,6 +9,7 @@ interface ImageSlideViewerProps {
   onPageChange: (page: number, numPages?: number) => void;
   onComplete?: () => void;
   onClose?: () => void;
+  navigationDisabled?: boolean;
 }
 
 export function ImageSlideViewer({ 
@@ -16,7 +17,8 @@ export function ImageSlideViewer({
   currentPage, 
   onPageChange, 
   onComplete, 
-  onClose 
+  onClose,
+  navigationDisabled = false
 }: ImageSlideViewerProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -31,12 +33,14 @@ export function ImageSlideViewer({
   }, [numPages]);
 
   const goToPrevious = () => {
+    if (navigationDisabled) return;
     if (currentPage > 1) {
       onPageChange(currentPage - 1, numPages);
     }
   };
 
   const goToNext = () => {
+    if (navigationDisabled) return;
     if (currentPage < numPages) {
       onPageChange(currentPage + 1, numPages);
     } else if (onComplete) {
@@ -54,6 +58,7 @@ export function ImageSlideViewer({
   };
 
   const onTouchEnd = () => {
+    if (navigationDisabled) return;
     if (!touchStart || !touchEnd) return;
     
     const distance = touchStart - touchEnd;
@@ -69,6 +74,7 @@ export function ImageSlideViewer({
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (navigationDisabled) return;
       if (e.key === "ArrowLeft") {
         goToPrevious();
       } else if (e.key === "ArrowRight" || e.key === " ") {
@@ -81,7 +87,7 @@ export function ImageSlideViewer({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentPage, numPages]);
+  }, [currentPage, numPages, navigationDisabled]);
 
   const currentSlideUrl = slides[currentPage - 1];
 
@@ -144,7 +150,7 @@ export function ImageSlideViewer({
           variant="outline"
           size="sm"
           onClick={goToPrevious}
-          disabled={currentPage <= 1}
+          disabled={currentPage <= 1 || navigationDisabled}
           className="flex items-center gap-1"
           data-testid="button-prev-slide"
         >
@@ -169,11 +175,14 @@ export function ImageSlideViewer({
               return (
                 <button
                   key={i}
-                  onClick={() => onPageChange(pageNum, numPages)}
+                  onClick={() => !navigationDisabled && onPageChange(pageNum, numPages)}
+                  disabled={navigationDisabled}
                   className={`w-2 h-2 rounded-full transition-all ${
                     pageNum === currentPage 
                       ? 'bg-green-500 w-4' 
-                      : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400'
+                      : navigationDisabled 
+                        ? 'bg-gray-200 dark:bg-gray-700 cursor-not-allowed'
+                        : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400'
                   }`}
                   data-testid={`button-dot-${pageNum}`}
                 />
@@ -189,6 +198,7 @@ export function ImageSlideViewer({
           variant={currentPage === numPages ? "default" : "outline"}
           size="sm"
           onClick={goToNext}
+          disabled={navigationDisabled}
           className={`flex items-center gap-1 ${currentPage === numPages ? 'bg-green-600 hover:bg-green-700' : ''}`}
           data-testid="button-next-slide"
         >

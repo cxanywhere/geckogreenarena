@@ -576,6 +576,7 @@ export default function ChapterPage() {
               onPageChange={handlePageChange}
               onComplete={handleComplete}
               onClose={() => setLocation("/dashboard")}
+              navigationDisabled={showQuiz}
             />
           ) : isChapter1 ? (
             <ImageSlideViewer
@@ -584,6 +585,7 @@ export default function ChapterPage() {
               onPageChange={handlePageChange}
               onComplete={handleComplete}
               onClose={() => setLocation("/dashboard")}
+              navigationDisabled={showQuiz}
             />
           ) : isChapter2 ? (
             <ImageSlideViewer
@@ -592,6 +594,7 @@ export default function ChapterPage() {
               onPageChange={handlePageChange}
               onComplete={handleComplete}
               onClose={() => setLocation("/dashboard")}
+              navigationDisabled={showQuiz}
             />
           ) : chapter.pdfUrl ? (
             <PDFViewer
