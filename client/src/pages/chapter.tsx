@@ -10,7 +10,8 @@ import { api, type QuizQuestion } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOrientation } from "@/hooks/useOrientation";
-import { getQuizForSlide, isQuizSlide } from "@/lib/chapter1-quizzes";
+import { getQuizForSlide as getCh1QuizForSlide, isQuizSlide as isCh1QuizSlide } from "@/lib/chapter1-quizzes";
+import { getQuizForSlide as getCh0QuizForSlide, isQuizSlide as isCh0QuizSlide } from "@/lib/chapter0-quizzes";
 import { getRoleplaysForSlide as getCh1Roleplays, isRoleplaySlide as isCh1RoleplaySlide, getAllChapter1Roleplays, type PredefinedRoleplay } from "@/lib/chapter1-roleplays";
 import { getRoleplaysForSlide as getCh2Roleplays, isRoleplaySlide as isCh2RoleplaySlide, getAllChapter2Roleplays } from "@/lib/chapter2-roleplays";
 import { RoleplayPrompt } from "@/components/roleplay-prompt";
@@ -135,8 +136,25 @@ export default function ChapterPage() {
     
     lastCheckedPage.current = pageNumber;
     
+    if (isChapter0) {
+      const predefinedQuiz = getCh0QuizForSlide(pageNumber);
+      if (predefinedQuiz) {
+        const quizQuestion: QuizQuestion = {
+          id: `ch0-quiz-${pageNumber}`,
+          question: predefinedQuiz.question,
+          options: predefinedQuiz.options,
+          correctAnswer: predefinedQuiz.correctAnswer,
+          explanation: "",
+        };
+        setQuizQuestions([quizQuestion]);
+        setShowQuiz(true);
+        console.log(`Loaded predefined quiz for slide ${pageNumber}`);
+      }
+      return;
+    }
+    
     if (isChapter1) {
-      const predefinedQuiz = getQuizForSlide(pageNumber);
+      const predefinedQuiz = getCh1QuizForSlide(pageNumber);
       if (predefinedQuiz) {
         const quizQuestion: QuizQuestion = {
           id: `ch1-quiz-${pageNumber}`,
@@ -233,9 +251,12 @@ export default function ChapterPage() {
     setCurrentPage(page);
     
     // Handle quizzes (these trigger on arrival at the new page)
-    // Chapter 0 has embedded quizzes in the slide images, so no overlay quizzes needed
-    if (isChapter1) {
-      if (isQuizSlide(page) && !completedQuizPages.has(page)) {
+    if (isChapter0) {
+      if (isCh0QuizSlide(page) && !completedQuizPages.has(page)) {
+        triggerQuiz(page);
+      }
+    } else if (isChapter1) {
+      if (isCh1QuizSlide(page) && !completedQuizPages.has(page)) {
         triggerQuiz(page);
       }
     } else if (!isChapter0 && !isChapter1 && !isChapter2) {
@@ -397,7 +418,7 @@ export default function ChapterPage() {
   }
 
   const slideProgress = totalSlides > 0 ? Math.round((currentPage / totalSlides) * 100) : 0;
-  const allQuizzesDone = completedQuizPages.size >= (isChapter1 ? 5 : Math.floor(totalSlides / QUIZ_INTERVAL));
+  const allQuizzesDone = completedQuizPages.size >= (isChapter0 ? 10 : isChapter1 ? 5 : Math.floor(totalSlides / QUIZ_INTERVAL));
   const allRoleplaysDone = isChapter1 ? completedRoleplayOrderIndexes.size >= getAllChapter1Roleplays().length : true;
 
   return (
