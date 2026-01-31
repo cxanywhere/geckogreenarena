@@ -3026,6 +3026,216 @@ export async function registerRoutes(
     }
   });
 
+  // Preview cleanup - shows what would be fixed without making changes
+  app.get("/api/usage/cleanup-preview", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const callerRole = authResult.user.role;
+      if (callerRole !== "director" && callerRole !== "admin") {
+        return res.status(403).json({ error: "Access denied - admins only" });
+      }
+
+      console.log("[Cleanup Preview] Fetching sessions that need cleanup...");
+
+      // Get all sessions that need cleanup
+      const allSessions = await storage.getAllUsageSessions();
+      const MAX_REASONABLE_DURATION = 600; // 10 minutes max for any roleplay
+      
+      const problematicSessions = allSessions.filter(s => 
+        s.vapiCallId && (
+          (s.status === "active" && (s.durationSeconds === 0 || s.durationSeconds === null)) ||
+          (s.status === "completed" && s.durationSeconds && s.durationSeconds > MAX_REASONABLE_DURATION)
+        )
+      );
+
+      console.log(`[Cleanup Preview] Found ${problematicSessions.length} sessions to preview`);
+
+      if (problematicSessions.length === 0) {
+        return res.json({
+          success: true,
+          sessionsCount: 0,
+          sessions: [],
+        });
+      }
+
+      // Fetch VAPI data for each session (batch processing)
+      const BATCH_SIZE = 3;
+      const BATCH_DELAY_MS = 500;
+      const VAPI_TIMEOUT_MS = 10000;
+
+      const previewResults: Array<{
+        sessionId: string;
+        vapiCallId: string;
+        userId: string;
+        userName?: string;
+        sessionDate: string;
+        currentStatus: string;
+        currentDuration: number;
+        currentBilledMinutes: number;
+        currentCostCents: number;
+        actualDuration: number | null;
+        actualBilledMinutes: number | null;
+        actualCostCents: number | null;
+        vapiStatus: string | null;
+        issue: 'orphaned' | 'corrupted' | 'unknown';
+        action: 'fix' | 'cancel' | 'error';
+        error?: string;
+      }> = [];
+
+      // Get user info map
+      const userMap = new Map<string, string>();
+
+      for (let i = 0; i < problematicSessions.length; i += BATCH_SIZE) {
+        const batch = problematicSessions.slice(i, i + BATCH_SIZE);
+        
+        await Promise.all(batch.map(async (session) => {
+          // Get user name if not cached
+          if (!userMap.has(session.userId)) {
+            const user = await storage.getUser(session.userId);
+            userMap.set(session.userId, user?.name || 'Unknown');
+          }
+
+          const issue: 'orphaned' | 'corrupted' = 
+            session.status === 'active' ? 'orphaned' : 'corrupted';
+
+          try {
+            const vapiDataPromise = vapiService.getCallDuration(session.vapiCallId!);
+            const timeoutPromise = new Promise((_, reject) => 
+              setTimeout(() => reject(new Error("VAPI timeout")), VAPI_TIMEOUT_MS)
+            );
+            
+            const vapiData = await Promise.race([vapiDataPromise, timeoutPromise]) as { 
+              durationSeconds: number; 
+              status: string;
+            } | null;
+
+            const RATE_CENTS_PER_MINUTE = 15;
+            
+            if (!vapiData) {
+              previewResults.push({
+                sessionId: session.id,
+                vapiCallId: session.vapiCallId!,
+                userId: session.userId,
+                userName: userMap.get(session.userId),
+                sessionDate: session.startTime?.toISOString() || '',
+                currentStatus: session.status || 'unknown',
+                currentDuration: session.durationSeconds || 0,
+                currentBilledMinutes: session.billedMinutes || 0,
+                currentCostCents: session.costCents || 0,
+                actualDuration: null,
+                actualBilledMinutes: null,
+                actualCostCents: null,
+                vapiStatus: null,
+                issue,
+                action: 'cancel',
+                error: 'VAPI call not found',
+              });
+            } else if (vapiData.status === 'ended' || vapiData.status === 'completed') {
+              const actualDuration = vapiData.durationSeconds || 0;
+              const actualBilledMinutes = Math.ceil(actualDuration / 60);
+              const actualCostCents = actualBilledMinutes * RATE_CENTS_PER_MINUTE;
+
+              previewResults.push({
+                sessionId: session.id,
+                vapiCallId: session.vapiCallId!,
+                userId: session.userId,
+                userName: userMap.get(session.userId),
+                sessionDate: session.startTime?.toISOString() || '',
+                currentStatus: session.status || 'unknown',
+                currentDuration: session.durationSeconds || 0,
+                currentBilledMinutes: session.billedMinutes || 0,
+                currentCostCents: session.costCents || 0,
+                actualDuration,
+                actualBilledMinutes,
+                actualCostCents,
+                vapiStatus: vapiData.status,
+                issue,
+                action: 'fix',
+              });
+            } else {
+              previewResults.push({
+                sessionId: session.id,
+                vapiCallId: session.vapiCallId!,
+                userId: session.userId,
+                userName: userMap.get(session.userId),
+                sessionDate: session.startTime?.toISOString() || '',
+                currentStatus: session.status || 'unknown',
+                currentDuration: session.durationSeconds || 0,
+                currentBilledMinutes: session.billedMinutes || 0,
+                currentCostCents: session.costCents || 0,
+                actualDuration: null,
+                actualBilledMinutes: null,
+                actualCostCents: null,
+                vapiStatus: vapiData.status,
+                issue,
+                action: 'error',
+                error: `Call status: ${vapiData.status}`,
+              });
+            }
+          } catch (err: any) {
+            previewResults.push({
+              sessionId: session.id,
+              vapiCallId: session.vapiCallId!,
+              userId: session.userId,
+              userName: userMap.get(session.userId),
+              sessionDate: session.startTime?.toISOString() || '',
+              currentStatus: session.status || 'unknown',
+              currentDuration: session.durationSeconds || 0,
+              currentBilledMinutes: session.billedMinutes || 0,
+              currentCostCents: session.costCents || 0,
+              actualDuration: null,
+              actualBilledMinutes: null,
+              actualCostCents: null,
+              vapiStatus: null,
+              issue,
+              action: 'error',
+              error: err.message,
+            });
+          }
+        }));
+
+        // Delay between batches
+        if (i + BATCH_SIZE < problematicSessions.length) {
+          await new Promise(resolve => setTimeout(resolve, BATCH_DELAY_MS));
+        }
+      }
+
+      // Calculate summary stats
+      const fixable = previewResults.filter(r => r.action === 'fix');
+      const cancellable = previewResults.filter(r => r.action === 'cancel');
+      const errored = previewResults.filter(r => r.action === 'error');
+      
+      const totalCurrentMinutes = previewResults.reduce((sum, r) => sum + r.currentBilledMinutes, 0);
+      const totalActualMinutes = fixable.reduce((sum, r) => sum + (r.actualBilledMinutes || 0), 0);
+      const totalCurrentCost = previewResults.reduce((sum, r) => sum + r.currentCostCents, 0);
+      const totalActualCost = fixable.reduce((sum, r) => sum + (r.actualCostCents || 0), 0);
+
+      res.json({
+        success: true,
+        sessionsCount: previewResults.length,
+        summary: {
+          toFix: fixable.length,
+          toCancel: cancellable.length,
+          errored: errored.length,
+          currentTotalMinutes: totalCurrentMinutes,
+          actualTotalMinutes: totalActualMinutes,
+          minutesDifference: totalCurrentMinutes - totalActualMinutes,
+          currentTotalCost: totalCurrentCost,
+          actualTotalCost: totalActualCost,
+          costDifference: totalCurrentCost - totalActualCost,
+        },
+        sessions: previewResults,
+      });
+    } catch (error: any) {
+      console.error("Cleanup preview error:", error);
+      res.status(500).json({ error: error.message || "Failed to preview cleanup" });
+    }
+  });
+
   // Cleanup orphaned active sessions - fixes sessions that were started but never completed
   app.post("/api/usage/cleanup-orphaned", async (req, res) => {
     try {

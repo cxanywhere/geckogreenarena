@@ -166,6 +166,39 @@ export default function AdminDashboard() {
   const [isAuditing, setIsAuditing] = useState(false);
   const [isReconciling, setIsReconciling] = useState(false);
   const [isCleaningOrphans, setIsCleaningOrphans] = useState(false);
+  const [isLoadingCleanupPreview, setIsLoadingCleanupPreview] = useState(false);
+  const [cleanupPreview, setCleanupPreview] = useState<{
+    sessionsCount: number;
+    summary: {
+      toFix: number;
+      toCancel: number;
+      errored: number;
+      currentTotalMinutes: number;
+      actualTotalMinutes: number;
+      minutesDifference: number;
+      currentTotalCost: number;
+      actualTotalCost: number;
+      costDifference: number;
+    };
+    sessions: Array<{
+      sessionId: string;
+      vapiCallId: string;
+      userId: string;
+      userName?: string;
+      sessionDate: string;
+      currentStatus: string;
+      currentDuration: number;
+      currentBilledMinutes: number;
+      currentCostCents: number;
+      actualDuration: number | null;
+      actualBilledMinutes: number | null;
+      actualCostCents: number | null;
+      vapiStatus: string | null;
+      issue: 'orphaned' | 'corrupted' | 'unknown';
+      action: 'fix' | 'cancel' | 'error';
+      error?: string;
+    }>;
+  } | null>(null);
   const [cleanupResults, setCleanupResults] = useState<{
     summary: {
       sessionsProcessed: number;
@@ -319,6 +352,39 @@ export default function AdminDashboard() {
     }
   };
 
+  const handlePreviewCleanup = async () => {
+    setIsLoadingCleanupPreview(true);
+    setCleanupPreview(null);
+    setCleanupResults(null);
+    try {
+      const response = await fetch("/api/usage/cleanup-preview", {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to preview cleanup");
+      }
+      setCleanupPreview(data);
+      if (data.sessionsCount === 0) {
+        toast({
+          title: "No Issues Found",
+          description: "All sessions are properly completed or cancelled.",
+        });
+      } else {
+        toast({ 
+          title: "Preview Ready", 
+          description: `Found ${data.sessionsCount} sessions with issues. Review below before applying.`,
+        });
+      }
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setIsLoadingCleanupPreview(false);
+    }
+  };
+
   const handleCleanupOrphans = async () => {
     setIsCleaningOrphans(true);
     setCleanupResults(null);
@@ -335,6 +401,7 @@ export default function AdminDashboard() {
         throw new Error(data.error || "Failed to cleanup orphaned sessions");
       }
       setCleanupResults(data);
+      setCleanupPreview(null); // Clear preview after applying
       if (data.summary.sessionsFixed > 0 || data.summary.sessionsCancelled > 0) {
         toast({ 
           title: "Cleanup Complete", 
@@ -2021,23 +2088,43 @@ Mike Johnson mjohnson@geckogreen.com`}
                     )}
                   </Button>
                   <Button 
-                    onClick={handleCleanupOrphans} 
-                    disabled={isCleaningOrphans}
+                    onClick={handlePreviewCleanup} 
+                    disabled={isLoadingCleanupPreview}
                     variant="outline"
-                    data-testid="button-cleanup-orphans"
+                    data-testid="button-preview-cleanup"
                   >
-                    {isCleaningOrphans ? (
+                    {isLoadingCleanupPreview ? (
                       <>
                         <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                        Cleaning...
+                        Loading Preview...
                       </>
                     ) : (
                       <>
-                        <RefreshCw className="h-4 w-4 mr-2" />
-                        Cleanup Orphaned Sessions
+                        <Search className="h-4 w-4 mr-2" />
+                        Preview Cleanup
                       </>
                     )}
                   </Button>
+                  {cleanupPreview && cleanupPreview.sessionsCount > 0 && (
+                    <Button 
+                      onClick={handleCleanupOrphans} 
+                      disabled={isCleaningOrphans}
+                      variant="destructive"
+                      data-testid="button-apply-cleanup"
+                    >
+                      {isCleaningOrphans ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Applying...
+                        </>
+                      ) : (
+                        <>
+                          <Check className="h-4 w-4 mr-2" />
+                          Apply Cleanup ({cleanupPreview.summary.toFix + cleanupPreview.summary.toCancel} sessions)
+                        </>
+                      )}
+                    </Button>
+                  )}
                   {auditResults && auditResults.discrepancies.length > 0 && (
                     <>
                       <Button 
@@ -2160,6 +2247,93 @@ Mike Johnson mjohnson@geckogreen.com`}
                           )}
                         </ul>
                       </div>
+                    )}
+                  </div>
+                )}
+
+                {cleanupPreview && cleanupPreview.sessionsCount > 0 && (
+                  <div className="space-y-4 mt-6 pt-6 border-t border-orange-500/30">
+                    <h4 className="font-semibold flex items-center gap-2 text-orange-500">
+                      <AlertTriangle className="h-4 w-4" />
+                      Cleanup Preview - {cleanupPreview.sessionsCount} Sessions with Issues
+                    </h4>
+                    <div className="grid gap-4 md:grid-cols-4">
+                      <div className="p-4 rounded-lg bg-green-500/10 border border-green-500/20">
+                        <p className="text-sm text-muted-foreground">Will Fix</p>
+                        <p className="text-2xl font-bold text-green-500">{cleanupPreview.summary.toFix}</p>
+                      </div>
+                      <div className="p-4 rounded-lg bg-gray-500/10 border border-gray-500/20">
+                        <p className="text-sm text-muted-foreground">Will Cancel</p>
+                        <p className="text-2xl font-bold text-gray-400">{cleanupPreview.summary.toCancel}</p>
+                      </div>
+                      <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20">
+                        <p className="text-sm text-muted-foreground">Current Overcharge</p>
+                        <p className="text-2xl font-bold text-red-500">
+                          ${(cleanupPreview.summary.costDifference / 100).toFixed(2)}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {cleanupPreview.summary.minutesDifference} minutes
+                        </p>
+                      </div>
+                      <div className="p-4 rounded-lg bg-blue-500/10 border border-blue-500/20">
+                        <p className="text-sm text-muted-foreground">Actual Cost After Fix</p>
+                        <p className="text-2xl font-bold text-blue-500">
+                          ${(cleanupPreview.summary.actualTotalCost / 100).toFixed(2)}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {cleanupPreview.summary.actualTotalMinutes} minutes
+                        </p>
+                      </div>
+                    </div>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>User</TableHead>
+                          <TableHead>Date</TableHead>
+                          <TableHead>Issue</TableHead>
+                          <TableHead>Current</TableHead>
+                          <TableHead>Actual</TableHead>
+                          <TableHead>Difference</TableHead>
+                          <TableHead>Action</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {cleanupPreview.sessions.slice(0, 30).map((s) => (
+                          <TableRow key={s.sessionId} className={s.action === 'fix' ? 'bg-green-500/5' : s.action === 'cancel' ? 'bg-gray-500/5' : 'bg-red-500/5'}>
+                            <TableCell className="font-medium">{s.userName || s.userId.slice(0, 8)}</TableCell>
+                            <TableCell className="text-xs">{s.sessionDate ? new Date(s.sessionDate).toLocaleDateString() : '-'}</TableCell>
+                            <TableCell>
+                              <Badge variant={s.issue === 'orphaned' ? 'secondary' : 'destructive'}>
+                                {s.issue}
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="text-red-500">
+                              {s.currentBilledMinutes}min (${(s.currentCostCents / 100).toFixed(2)})
+                            </TableCell>
+                            <TableCell className="text-green-500">
+                              {s.actualBilledMinutes !== null ? `${s.actualBilledMinutes}min ($${((s.actualCostCents || 0) / 100).toFixed(2)})` : '-'}
+                            </TableCell>
+                            <TableCell className="font-bold">
+                              {s.actualBilledMinutes !== null ? (
+                                <span className={s.currentBilledMinutes - s.actualBilledMinutes > 0 ? 'text-red-500' : 'text-gray-500'}>
+                                  -{s.currentBilledMinutes - s.actualBilledMinutes}min
+                                </span>
+                              ) : '-'}
+                            </TableCell>
+                            <TableCell>
+                              <Badge variant={s.action === 'fix' ? 'default' : s.action === 'cancel' ? 'secondary' : 'destructive'}>
+                                {s.action}
+                              </Badge>
+                              {s.error && <span className="text-xs text-muted-foreground ml-1">{s.error}</span>}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                    {cleanupPreview.sessions.length > 30 && (
+                      <p className="text-sm text-muted-foreground text-center">
+                        Showing 30 of {cleanupPreview.sessions.length} sessions
+                      </p>
                     )}
                   </div>
                 )}
