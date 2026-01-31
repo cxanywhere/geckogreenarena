@@ -280,68 +280,38 @@ export default function ResultsPage() {
         >
           <div className="lg:col-span-2 space-y-6">
             
-            {/* Hero Pass/Fail Banner */}
+            {/* Compact Pass/Fail Banner */}
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
+              initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", duration: 0.6 }}
-              className={`relative overflow-hidden rounded-2xl shadow-xl ${
+              transition={{ type: "spring", duration: 0.5 }}
+              className={`relative overflow-hidden rounded-xl shadow-lg ${
                 passed 
-                  ? "bg-gradient-to-br from-green-500 via-green-600 to-emerald-700" 
-                  : "bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600"
+                  ? "bg-gradient-to-r from-green-500 to-emerald-600" 
+                  : "bg-gradient-to-r from-amber-500 to-orange-500"
               }`}
             >
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute inset-0" style={{
-                  backgroundImage: passed 
-                    ? 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.4\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'
-                    : 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.4\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'
-                }} />
-              </div>
-              <div className="relative px-8 py-10 text-center text-white">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.3, type: "spring" }}
-                  className={`mx-auto w-24 h-24 rounded-full flex items-center justify-center mb-4 ${
-                    passed ? "bg-white/20" : "bg-white/20"
-                  }`}
-                >
+              <div className="relative px-6 py-5 flex items-center justify-between text-white">
+                <div className="flex items-center gap-4">
                   {passed ? (
-                    <Trophy className="w-14 h-14 text-white" />
+                    <Trophy className="w-8 h-8 text-white/90" />
                   ) : (
-                    <Target className="w-14 h-14 text-white" />
+                    <Target className="w-8 h-8 text-white/90" />
                   )}
-                </motion.div>
-                <motion.h1
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                  className="text-5xl md:text-6xl font-black tracking-tight mb-2"
-                  data-testid="pass-fail-banner"
-                >
-                  {passed ? "YOU PASSED!" : "KEEP PRACTICING"}
-                </motion.h1>
-                <motion.p
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                  className="text-xl text-white/90 max-w-lg mx-auto"
-                >
-                  {feedback.passFailReason || (passed 
-                    ? "Great job handling this objection! You demonstrated the right technique." 
-                    : "You're getting there! Review the feedback below to nail it next time.")}
-                </motion.p>
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.6 }}
-                  className="mt-6 inline-flex items-center gap-3 px-6 py-3 bg-white/20 rounded-full"
-                >
-                  <span className="text-lg font-medium">Score:</span>
-                  <span className="text-4xl font-black">{feedback.overallScore}</span>
-                  <span className="text-lg">/100</span>
-                </motion.div>
+                  <motion.h1
+                    initial={{ x: -10, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                    className="text-3xl md:text-4xl font-black tracking-tight"
+                    data-testid="pass-fail-banner"
+                  >
+                    {passed ? "YOU PASSED!" : "KEEP PRACTICING"}
+                  </motion.h1>
+                </div>
+                <div className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full">
+                  <span className="text-sm font-medium">Score:</span>
+                  <span className="text-2xl font-black">{feedback.overallScore}</span>
+                </div>
               </div>
             </motion.div>
              
