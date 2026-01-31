@@ -22,6 +22,8 @@ interface VapiConfig {
   resistanceLevel: number;
   buySignal: number;
   traits: string[];
+  scriptHint?: string;
+  isCoachingMode?: boolean;
 }
 
 export default function ChatPage() {
@@ -313,6 +315,8 @@ export default function ChatPage() {
               onComplete={handleVoiceComplete}
               onCancel={handleVoiceCancel}
               userId={user?.id}
+              attemptNumber={attemptNumber}
+              scriptHint={vapiConfig.scriptHint}
             />
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Mic, MicOff, Phone, PhoneOff, Volume2, Loader2, Clock } from "lucide-react";
+import { Mic, MicOff, Phone, PhoneOff, Volume2, Loader2, Clock, Lightbulb, ChevronDown, ChevronUp } from "lucide-react";
 import Vapi from "@vapi-ai/web";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -33,11 +33,14 @@ interface VoiceRoleplayProps {
   onComplete: (callId: string) => void;
   onCancel: () => void;
   userId?: string;
+  attemptNumber?: number;
+  scriptHint?: string;
 }
 
-export function VoiceRoleplay({ roleplayId, config, onComplete, onCancel, userId }: VoiceRoleplayProps) {
+export function VoiceRoleplay({ roleplayId, config, onComplete, onCancel, userId, attemptNumber = 1, scriptHint }: VoiceRoleplayProps) {
   const [status, setStatus] = useState<"idle" | "connecting" | "active" | "ending">("idle");
   const [isMuted, setIsMuted] = useState(false);
+  const [showHint, setShowHint] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [volume, setVolume] = useState(0);
   const [transcript, setTranscript] = useState<TranscriptEntry[]>([]);
@@ -340,6 +343,54 @@ CRITICAL RULES:
           </div>
         </CardContent>
       </Card>
+
+      {/* Hint Section - Shows on 2nd attempt or later */}
+      {attemptNumber >= 2 && scriptHint && status === "idle" && (
+        <Card className="mb-4 border-amber-300 bg-gradient-to-r from-amber-50 to-yellow-50">
+          <CardContent className="p-4">
+            <button
+              onClick={() => setShowHint(!showHint)}
+              className="w-full flex items-center justify-between text-left"
+              data-testid="button-toggle-hint"
+            >
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center">
+                  <Lightbulb className="w-4 h-4 text-amber-600" />
+                </div>
+                <div>
+                  <span className="font-medium text-amber-800">Need Help?</span>
+                  <span className="text-sm text-amber-600 ml-2">This is attempt #{attemptNumber}</span>
+                </div>
+              </div>
+              {showHint ? (
+                <ChevronUp className="w-5 h-5 text-amber-600" />
+              ) : (
+                <ChevronDown className="w-5 h-5 text-amber-600" />
+              )}
+            </button>
+            
+            <AnimatePresence>
+              {showHint && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden"
+                >
+                  <div className="mt-4 p-4 bg-white/80 rounded-lg border border-amber-200" data-testid="hint-content">
+                    <h4 className="font-semibold text-amber-800 mb-2 flex items-center gap-2">
+                      <Lightbulb className="w-4 h-4" />
+                      Script Suggestion
+                    </h4>
+                    <p className="text-sm text-gray-700 whitespace-pre-line">{scriptHint}</p>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </CardContent>
+        </Card>
+      )}
 
       <Card className="flex-1 flex flex-col min-h-0 mb-4">
         <CardContent className="flex-1 flex flex-col p-4 min-h-0">

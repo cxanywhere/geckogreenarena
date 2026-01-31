@@ -13,452 +13,308 @@ export interface VapiRoleplayConfig {
   resistanceLevel: number;
   buySignal: number;
   traits: string[];
-  durationSeconds: number; // 60 for practice, 240 for certification
+  durationSeconds: number;
   isCertification?: boolean;
+  isCoachingMode?: boolean;
+  scriptHint?: string;
 }
 
 export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
   {
-    id: "ch1-rp1",
+    id: "rp-01",
     name: "I'm actually really busy right now.",
-    role: "The Busy Homeowner",
-    phase: "Phase 1",
+    role: "The Rushed Executive",
+    phase: "Chapter 1",
     context: "Opening → First 10 Seconds",
     objection: "I'm actually really busy right now.",
-    passCriteria: "Acknowledge time pressure + set ≤60s container + ask a qualifying control question",
-    failConditions: "Pitches immediately or disengages",
-    winningResponse: "Totally understand — I'll be quick. Give me 60 seconds, and if this doesn't apply I'll head out. Quick question: are you the one who usually handles the lawn here?",
-    losingResponse: "This won't take long… we do fertilization and weed control.",
+    passCriteria: "Acknowledge time pressure, set a time container under 60 seconds, and ask a qualifying control question.",
+    failConditions: "Pitches immediately or disengages without acknowledging their time",
+    winningResponse: "Great job! You acknowledged their time, set expectations, and asked a qualifying question.",
+    losingResponse: "You need to respect their time more and ask qualifying questions earlier.",
     difficulty: "Beginner",
     resistanceLevel: 30,
     buySignal: 60,
     traits: ["Time Management", "Control Question", "Respect"],
-    durationSeconds: 90
+    durationSeconds: 90,
+    isCoachingMode: true,
+    scriptHint: "Try saying: 'Totally understand — I'll be quick. Give me 60 seconds, and if this doesn't apply I'll head out. Quick question: are you the one who usually handles the lawn here?' Key points: 1) Acknowledge their time pressure first, 2) Set a specific time limit (60 seconds), 3) End with a control question to engage them."
   },
   {
-    id: "ch1-rp2",
+    id: "rp-02",
     name: "Not interested.",
-    role: "The Dismissive Prospect",
-    phase: "Phase 1",
+    role: "The Skeptic",
+    phase: "Chapter 1",
     context: "Opening → Handling Brush-Offs",
     objection: "Not interested.",
-    passCriteria: "Acknowledge + reframe to specific issue + redirect",
-    failConditions: "Argues or accepts rejection",
-    winningResponse: "That's fair — most people weren't interested either until I pointed out one thing. Are you seeing weeds along the curb here, or is that already handled?",
-    losingResponse: "Okay, no worries.",
+    passCriteria: "Acknowledge the brush-off, reframe to a specific lawn issue, and redirect the conversation.",
+    failConditions: "Argues or accepts rejection without attempting to redirect",
+    winningResponse: "Excellent recovery! You reframed the objection and kept control.",
+    losingResponse: "Work on acknowledging objections before trying to redirect.",
     difficulty: "Beginner",
     resistanceLevel: 40,
     buySignal: 55,
     traits: ["Reframing", "Persistence", "Specifics"],
-    durationSeconds: 90
+    durationSeconds: 90,
+    isCoachingMode: true,
+    scriptHint: "Try saying: 'That's fair — most people weren't interested either until I pointed out one thing. Are you seeing weeds along the curb here, or is that already handled?' Key points: 1) Don't accept rejection or argue, 2) Pivot to something specific about THEIR lawn, 3) Ask a discovery question to re-engage."
   },
   {
-    id: "ch1-rp3",
+    id: "rp-03",
     name: "No soliciting.",
-    role: "The Rule Follower",
-    phase: "Phase 1",
+    role: "The Gatekeeper",
+    phase: "Chapter 1",
     context: "Opening → Compliance & Authority",
     objection: "No soliciting.",
-    passCriteria: "Acknowledge rule + clarify intent + request micro-permission",
-    failConditions: "Debates policy",
-    winningResponse: "I get that — I'm not selling at the door. I'm just flagging an issue I noticed on your lawn. Mind if I show you real quick?",
-    losingResponse: "I'm not selling anything… (keeps talking)",
+    passCriteria: "Acknowledge the sign/rule, clarify you are a service provider, and request a micro-permission.",
+    failConditions: "Debates policy or ignores the boundary",
+    winningResponse: "Well done! You respected the boundary while creating an opening.",
+    losingResponse: "You need to acknowledge rules and ask for permission more gracefully.",
     difficulty: "Beginner",
     resistanceLevel: 45,
     buySignal: 50,
     traits: ["Compliance", "Intent Clarification", "Micro-Permission"],
-    durationSeconds: 90
+    durationSeconds: 90,
+    isCoachingMode: true,
+    scriptHint: "Try saying: 'I get that — I'm not selling at the door. I'm just flagging an issue I noticed on your lawn. Mind if I show you real quick?' Key points: 1) Acknowledge their rule respectfully, 2) Clarify your intent (not selling, observing), 3) Request permission to show something specific."
   },
   {
-    id: "ch1-rp4",
+    id: "rp-04",
     name: "I do my own lawn.",
-    role: "The DIY Enthusiast",
-    phase: "Phase 2",
+    role: "The DIY Pro",
+    phase: "Chapter 1",
     context: "Turn & Burn → DIY Pushback",
     objection: "I do my own lawn.",
-    passCriteria: "Validate identity + differentiate + regain lead",
-    failConditions: "Tries to convert DIY",
-    winningResponse: "That makes sense — most homeowners here do. What I'm seeing is something DIY usually misses, especially this time of year. Can I show you where?",
-    losingResponse: "We help a lot of DIY customers…",
+    passCriteria: "Validate their effort, differentiate professional-grade service, and regain the lead.",
+    failConditions: "Tries to convert DIY or insults their work",
+    winningResponse: "Perfect! You validated their effort while showing professional value.",
+    losingResponse: "Remember to compliment their work before showing what professionals add.",
     difficulty: "Beginner",
     resistanceLevel: 35,
     buySignal: 65,
     traits: ["Validation", "Differentiation", "Leadership"],
-    durationSeconds: 90
+    durationSeconds: 90,
+    isCoachingMode: true,
+    scriptHint: "Try saying: 'That makes sense — most homeowners here do. What I'm seeing is something DIY usually misses, especially this time of year. Can I show you where?' Key points: 1) Validate their identity as a DIYer, 2) Don't try to convert them, 3) Point to something specific they may have missed."
   },
   {
-    id: "ch1-rp5",
+    id: "rp-05",
     name: "We already have a lawn company.",
     role: "The Loyalist",
-    phase: "Phase 2",
+    phase: "Chapter 1",
     context: "Turn & Burn → Existing Provider",
     objection: "We already have a lawn company.",
-    passCriteria: "Acknowledge + remove replacement fear + isolate gap",
-    failConditions: "Attacks competitor",
-    winningResponse: "Got it — not trying to replace them. Quick check: are they addressing weeds like this along the edge, or is that still showing up?",
-    losingResponse: "We're better than most companies…",
+    passCriteria: "Acknowledge their current provider, remove replacement fear, and find a gap in service.",
+    failConditions: "Attacks competitor or dismisses their choice",
+    winningResponse: "Excellent! You planted seeds of doubt without being pushy.",
+    losingResponse: "Never bash competitors. Find gaps in their service instead.",
     difficulty: "Beginner",
     resistanceLevel: 45,
     buySignal: 55,
     traits: ["Gap Analysis", "Non-Threatening", "Discovery"],
-    durationSeconds: 90
+    durationSeconds: 90,
+    isCoachingMode: true,
+    scriptHint: "Try saying: 'Got it — not trying to replace them. Quick check: are they addressing weeds like this along the edge, or is that still showing up?' Key points: 1) Remove fear of switching, 2) Never attack their current provider, 3) Find a gap in their current service."
   },
   {
-    id: "ch1-rp6",
+    id: "rp-06",
     name: "Why are you here?",
     role: "The Confused Homeowner",
-    phase: "Phase 2",
+    phase: "Chapter 1",
     context: "Turn & Burn → Purpose Statement",
     objection: "Why are you here?",
-    passCriteria: "State purpose clearly + direct next action",
-    failConditions: "Rambles / over-explains",
-    winningResponse: "Fair question. I'm here because we're fixing this exact weed issue on your street today. Let me show you where it's starting.",
-    losingResponse: "I'm with Gecko, and what we do is…",
+    passCriteria: "State your purpose clearly and direct them to the next action.",
+    failConditions: "Rambles or over-explains without being direct",
+    winningResponse: "Great clarity! You explained your purpose and gave clear next steps.",
+    losingResponse: "Be more direct about why you are there and what you want.",
     difficulty: "Beginner",
     resistanceLevel: 30,
     buySignal: 70,
     traits: ["Clarity", "Direction", "Purpose"],
-    durationSeconds: 90
+    durationSeconds: 90,
+    isCoachingMode: true,
+    scriptHint: "Try saying: 'Fair question. I'm here because we're fixing this exact weed issue on your street today. Let me show you where it's starting.' Key points: 1) Be direct and concise, 2) Tie it to something happening in their area, 3) Lead them to a specific next step."
   },
   {
-    id: "1c1815b2-d01b-4142-811c-66cd7170b5d2",
+    id: "rp-07",
     name: "My lawn looks fine.",
     role: "The Denialist",
-    phase: "Phase 2",
-    context: "Turn & Burn → Denial of Problem",
+    phase: "Chapter 2",
+    context: "Lawn Walk → Identifying Issues",
     objection: "My lawn looks fine.",
-    passCriteria: "Validate their view + point to specific visible issue + create curiosity",
+    passCriteria: "Validate their perspective, isolate a specific problem, and point it out visually.",
     failConditions: "Argues or insists they're wrong",
-    winningResponse: "I hear you — it does look pretty good from here. The thing I noticed is right along that edge by the driveway. Mind if I show you what I'm seeing?",
-    losingResponse: "Actually, I can see several problem areas...",
+    winningResponse: "Well done! You showed them the problem without being condescending.",
+    losingResponse: "Always validate first, then show specific visual evidence.",
     difficulty: "Intermediate",
     resistanceLevel: 65,
     buySignal: 35,
     traits: ["Validation", "Specificity", "Curiosity Building"],
-    durationSeconds: 90
+    durationSeconds: 90,
+    isCoachingMode: true,
+    scriptHint: "Try saying: 'I hear you — it does look pretty good from here. The thing I noticed is right along that edge by the driveway. Mind if I show you what I'm seeing?' Key points: 1) Agree with their perspective first, 2) Isolate ONE specific area, 3) Ask permission to show them."
   },
   {
-    id: "241842f6-a207-404a-a708-dddc732f40d5",
-    name: "My lawn looks fine.",
-    role: "The Denialist",
-    phase: "Phase 2",
-    context: "Turn & Burn → Denial of Problem",
-    objection: "My lawn looks fine.",
-    passCriteria: "Validate their view + point to specific visible issue + create curiosity",
-    failConditions: "Argues or insists they're wrong",
-    winningResponse: "I hear you — it does look pretty good from here. The thing I noticed is right along that edge by the driveway. Mind if I show you what I'm seeing?",
-    losingResponse: "Actually, I can see several problem areas...",
-    difficulty: "Intermediate",
-    resistanceLevel: 65,
-    buySignal: 35,
-    traits: ["Validation", "Specificity", "Curiosity Building"],
-    durationSeconds: 90
-  },
-  {
-    id: "ab1c05c0-92c7-42a5-b5dd-6e07b5504abd",
+    id: "rp-08",
     name: "Weeds don't bother me.",
-    role: "The Apathetic Homeowner",
-    phase: "Phase 2",
-    context: "Turn & Burn → Apathy Response",
+    role: "The Apathetic Owner",
+    phase: "Chapter 2",
+    context: "Lawn Walk → Educating on Spread",
     objection: "Weeds don't bother me.",
-    passCriteria: "Acknowledge preference + pivot to neighbor/spread concern + ask permission to show",
+    passCriteria: "Reframe the consequences of inaction and continue discovery.",
     failConditions: "Judges their standards or pushes too hard",
-    winningResponse: "Totally fair — some folks feel that way. The only reason I mention it is these spread fast to neighbors. Can I show you what I mean real quick?",
-    losingResponse: "But weeds will take over your whole lawn...",
+    winningResponse: "Great job connecting consequences to what they care about!",
+    losingResponse: "Find what they DO care about and connect the problem to that.",
     difficulty: "Intermediate",
     resistanceLevel: 70,
     buySignal: 25,
     traits: ["Acceptance", "Social Proof", "Permission"],
-    durationSeconds: 90
+    durationSeconds: 90,
+    scriptHint: "Try saying: 'Totally fair — some folks feel that way. The only reason I mention it is these spread fast to neighbors. Can I show you what I mean real quick?' Key points: 1) Accept their preference without judgment, 2) Pivot to neighbor/community concern, 3) Keep it educational, not pushy."
   },
   {
-    id: "430ee4af-0306-4a16-aa5b-4b15d8116b00",
-    name: "Weeds don't bother me.",
-    role: "The Apathetic Homeowner",
-    phase: "Phase 2",
-    context: "Turn & Burn → Apathy Response",
-    objection: "Weeds don't bother me.",
-    passCriteria: "Acknowledge preference + pivot to neighbor/spread concern + ask permission to show",
-    failConditions: "Judges their standards or pushes too hard",
-    winningResponse: "Totally fair — some folks feel that way. The only reason I mention it is these spread fast to neighbors. Can I show you what I mean real quick?",
-    losingResponse: "But weeds will take over your whole lawn...",
-    difficulty: "Intermediate",
-    resistanceLevel: 70,
-    buySignal: 25,
-    traits: ["Acceptance", "Social Proof", "Permission"],
-    durationSeconds: 90
-  },
-  {
-    id: "268dffb1-dc31-4402-9d7c-4c36bca77d18",
+    id: "rp-09",
     name: "I don't see the issue.",
     role: "The Visual Skeptic",
-    phase: "Phase 2",
-    context: "Turn & Burn → Skepticism",
+    phase: "Chapter 2",
+    context: "Lawn Walk → Showing, Not Telling",
     objection: "I don't see the issue.",
-    passCriteria: "Offer to physically show them + be specific about location + get them moving",
+    passCriteria: "Demonstrate the issue visually rather than just describing it.",
     failConditions: "Describes problem without showing",
-    winningResponse: "Let me show you — it's easier to see up close. Right over here by the curb, see those lighter patches? That's where it's starting.",
-    losingResponse: "Trust me, there are weeds spreading throughout...",
+    winningResponse: "Excellent visual demonstration! Seeing is believing.",
+    losingResponse: "Show, don't tell. Walk them to the problem and point.",
     difficulty: "Beginner",
     resistanceLevel: 50,
     buySignal: 45,
     traits: ["Demonstration", "Specificity", "Movement"],
-    durationSeconds: 90
+    durationSeconds: 90,
+    scriptHint: "Try saying: 'Let me show you — it's easier to see up close. Right over here by the curb, see those lighter patches? That's where it's starting.' Key points: 1) Move physically toward the issue, 2) Be specific about location, 3) Point directly at what you're describing."
   },
   {
-    id: "d64a3cc5-4756-4f73-85dc-7db8517bf32a",
-    name: "I don't see the issue.",
-    role: "The Visual Skeptic",
-    phase: "Phase 2",
-    context: "Turn & Burn → Skepticism",
-    objection: "I don't see the issue.",
-    passCriteria: "Offer to physically show them + be specific about location + get them moving",
-    failConditions: "Describes problem without showing",
-    winningResponse: "Let me show you — it's easier to see up close. Right over here by the curb, see those lighter patches? That's where it's starting.",
-    losingResponse: "Trust me, there are weeds spreading throughout...",
-    difficulty: "Beginner",
-    resistanceLevel: 50,
-    buySignal: 45,
-    traits: ["Demonstration", "Specificity", "Movement"],
-    durationSeconds: 90
-  },
-  {
-    id: "dd97051b-8a35-4166-8e42-89ae0278b838",
+    id: "rp-10",
     name: "How much does it cost?",
     role: "The Price Shopper",
-    phase: "Phase 3",
-    context: "Closing → Price Inquiry",
+    phase: "Chapter 2",
+    context: "Pricing → Before Quoting",
     objection: "How much does it cost?",
-    passCriteria: "Acknowledge question + defer with value build + offer to assess first",
+    passCriteria: "Defer the price question and anchor value first.",
     failConditions: "Gives price immediately without building value",
-    winningResponse: "Great question — it depends on your lawn size and what we find. Let me take a quick look and I can give you an exact number. Fair?",
-    losingResponse: "It starts at $49 per treatment...",
+    winningResponse: "Perfect price deferral! Value before price always.",
+    losingResponse: "Never give price before establishing value. Defer and anchor.",
     difficulty: "Intermediate",
     resistanceLevel: 55,
     buySignal: 60,
     traits: ["Value Building", "Deferral", "Assessment"],
-    durationSeconds: 90
+    durationSeconds: 90,
+    scriptHint: "Try saying: 'Great question — it depends on your lawn size and what we find. Let me take a quick look and I can give you an exact number. Fair?' Key points: 1) Acknowledge the question positively, 2) Defer by needing more info, 3) Offer to assess first before quoting."
   },
   {
-    id: "4bbdb30a-a264-40b3-a324-7db130b7d995",
-    name: "How much does it cost?",
-    role: "The Price Shopper",
-    phase: "Phase 3",
-    context: "Closing → Price Inquiry",
-    objection: "How much does it cost?",
-    passCriteria: "Acknowledge question + defer with value build + offer to assess first",
-    failConditions: "Gives price immediately without building value",
-    winningResponse: "Great question — it depends on your lawn size and what we find. Let me take a quick look and I can give you an exact number. Fair?",
-    losingResponse: "It starts at $49 per treatment...",
-    difficulty: "Intermediate",
-    resistanceLevel: 55,
-    buySignal: 60,
-    traits: ["Value Building", "Deferral", "Assessment"],
-    durationSeconds: 90
-  },
-  {
-    id: "866f7d61-1d8a-4890-837a-e451ce860e7e",
-    name: "That's too expensive.",
+    id: "rp-11",
+    name: "That's expensive.",
     role: "The Budget Watcher",
-    phase: "Phase 3",
-    context: "Closing → Price Objection",
+    phase: "Chapter 2",
+    context: "Pricing → Objection Handling",
     objection: "That's too expensive.",
-    passCriteria: "Acknowledge concern + break down cost + compare to alternatives",
+    passCriteria: "Normalize the price and re-anchor to the outcome value.",
     failConditions: "Immediately offers discount or argues value",
-    winningResponse: "I get it — let me break it down. That's about $8 a week for a lawn that looks great all season. Most folks spend more than that on coffee. What if I showed you what's included?",
-    losingResponse: "Let me see what discount I can get you...",
+    winningResponse: "Great normalization! You reframed price in terms of value.",
+    losingResponse: "Never agree it's expensive. Normalize and re-anchor to outcomes.",
     difficulty: "Advanced",
     resistanceLevel: 80,
     buySignal: 30,
     traits: ["Cost Breakdown", "Comparison", "Value Demonstration"],
-    durationSeconds: 90
+    durationSeconds: 90,
+    scriptHint: "Try saying: 'I get it — let me break it down. That's about $8 a week for a lawn that looks great all season. Most folks spend more than that on coffee. What if I showed you what's included?' Key points: 1) Break down the cost to weekly/daily, 2) Compare to everyday purchases, 3) Offer to show value before discussing discount."
   },
   {
-    id: "fc76f7e8-ec60-4bbb-a930-04edce68db01",
-    name: "That's too expensive.",
-    role: "The Budget Watcher",
-    phase: "Phase 3",
-    context: "Closing → Price Objection",
-    objection: "That's too expensive.",
-    passCriteria: "Acknowledge concern + break down cost + compare to alternatives",
-    failConditions: "Immediately offers discount or argues value",
-    winningResponse: "I get it — let me break it down. That's about $8 a week for a lawn that looks great all season. Most folks spend more than that on coffee. What if I showed you what's included?",
-    losingResponse: "Let me see what discount I can get you...",
-    difficulty: "Advanced",
-    resistanceLevel: 80,
-    buySignal: 30,
-    traits: ["Cost Breakdown", "Comparison", "Value Demonstration"],
-    durationSeconds: 90
-  },
-  {
-    id: "b7cffc85-375f-4c7d-852a-969d48ddcc4e",
-    name: "I need to think about it.",
-    role: "The Indecisive Homeowner",
-    phase: "Phase 3",
-    context: "Closing → Stall Tactic",
-    objection: "I need to think about it.",
-    passCriteria: "Acknowledge + isolate the concern + offer to address it now",
-    failConditions: "Accepts stall or pressures for immediate decision",
-    winningResponse: "Totally fair — what specifically are you weighing? If it's the price, timing, or something else, I might be able to help clarify right now.",
-    losingResponse: "Okay, when should I come back?",
-    difficulty: "Intermediate",
-    resistanceLevel: 65,
-    buySignal: 40,
-    traits: ["Concern Isolation", "Clarification", "Assistance"],
-    durationSeconds: 90
-  },
-  {
-    id: "f14ae08f-fdbc-42b9-a602-5696242272f6",
-    name: "I need to think about it.",
-    role: "The Indecisive Homeowner",
-    phase: "Phase 3",
-    context: "Closing → Stall Tactic",
-    objection: "I need to think about it.",
-    passCriteria: "Acknowledge + isolate the concern + offer to address it now",
-    failConditions: "Accepts stall or pressures for immediate decision",
-    winningResponse: "Totally fair — what specifically are you weighing? If it's the price, timing, or something else, I might be able to help clarify right now.",
-    losingResponse: "Okay, when should I come back?",
-    difficulty: "Intermediate",
-    resistanceLevel: 65,
-    buySignal: 40,
-    traits: ["Concern Isolation", "Clarification", "Assistance"],
-    durationSeconds: 90
-  },
-  {
-    id: "11eaa8ba-321d-4394-a1f4-8b4ca0028670",
-    name: "Can you leave me a quote?",
-    role: "The Document Requester",
-    phase: "Phase 3",
-    context: "Closing → Quote Request",
-    objection: "Can you leave me a quote?",
-    passCriteria: "Acknowledge request + explain quote is personalized + offer walkthrough first",
-    failConditions: "Leaves quote without engagement",
-    winningResponse: "Absolutely — I can do that. The quote is based on your specific lawn though. Mind if I take a quick walk around so I can give you an accurate number?",
-    losingResponse: "Sure, here's a general price sheet...",
-    difficulty: "Beginner",
-    resistanceLevel: 45,
-    buySignal: 55,
-    traits: ["Personalization", "Engagement", "Assessment"],
-    durationSeconds: 90
-  },
-  {
-    id: "77b99928-e81c-4569-9314-2cd5260b4ccc",
-    name: "Can you leave me a quote?",
-    role: "The Document Requester",
-    phase: "Phase 3",
-    context: "Closing → Quote Request",
-    objection: "Can you leave me a quote?",
-    passCriteria: "Acknowledge request + explain quote is personalized + offer walkthrough first",
-    failConditions: "Leaves quote without engagement",
-    winningResponse: "Absolutely — I can do that. The quote is based on your specific lawn though. Mind if I take a quick walk around so I can give you an accurate number?",
-    losingResponse: "Sure, here's a general price sheet...",
-    difficulty: "Beginner",
-    resistanceLevel: 45,
-    buySignal: 55,
-    traits: ["Personalization", "Engagement", "Assessment"],
-    durationSeconds: 90
-  },
-  {
-    id: "19589ec8-78db-4d72-8d1c-44a2a112d025",
-    name: "I need to talk to my spouse.",
-    role: "The Decision Delegator",
-    phase: "Phase 3",
-    context: "Closing → Spouse Objection",
-    objection: "I need to talk to my spouse.",
-    passCriteria: "Acknowledge + offer to include spouse + or get preliminary buy-in",
-    failConditions: "Dismisses spouse involvement or pushes for solo decision",
-    winningResponse: "Makes sense — are they home? I'd be happy to walk through it with both of you. If not, what would they want to know most?",
-    losingResponse: "You seem like the decision maker here...",
-    difficulty: "Intermediate",
-    resistanceLevel: 60,
-    buySignal: 45,
-    traits: ["Inclusion", "Partnership", "Information Gathering"],
-    durationSeconds: 90
-  },
-  {
-    id: "8a68b5cc-8a63-4c96-9b69-258c06a12a92",
-    name: "I need to talk to my spouse.",
-    role: "The Decision Delegator",
-    phase: "Phase 3",
-    context: "Closing → Spouse Objection",
-    objection: "I need to talk to my spouse.",
-    passCriteria: "Acknowledge + offer to include spouse + or get preliminary buy-in",
-    failConditions: "Dismisses spouse involvement or pushes for solo decision",
-    winningResponse: "Makes sense — are they home? I'd be happy to walk through it with both of you. If not, what would they want to know most?",
-    losingResponse: "You seem like the decision maker here...",
-    difficulty: "Intermediate",
-    resistanceLevel: 60,
-    buySignal: 45,
-    traits: ["Inclusion", "Partnership", "Information Gathering"],
-    durationSeconds: 90
-  },
-  {
-    id: "eaf4219d-7b9f-463a-a80c-9dd8526593ce",
-    name: "Can you come back later?",
-    role: "The Rescheduler",
-    phase: "Phase 1",
-    context: "Opening → Timing Objection",
-    objection: "Can you come back later?",
-    passCriteria: "Acknowledge timing + create urgency + offer quick alternative",
-    failConditions: "Immediately agrees to return without attempt",
-    winningResponse: "I can — though I'm only in the neighborhood today. Takes 60 seconds to show you what I found. If it doesn't apply, I'm out of your hair. Fair?",
-    losingResponse: "Sure, when would be a good time?",
-    difficulty: "Beginner",
-    resistanceLevel: 50,
-    buySignal: 40,
-    traits: ["Urgency", "Time Container", "Flexibility"],
-    durationSeconds: 90
-  },
-  {
-    id: "8aa1ddda-bb52-405d-b809-7f84ae6415c6",
-    name: "Can you come back later?",
-    role: "The Rescheduler",
-    phase: "Phase 1",
-    context: "Opening → Timing Objection",
-    objection: "Can you come back later?",
-    passCriteria: "Acknowledge timing + create urgency + offer quick alternative",
-    failConditions: "Immediately agrees to return without attempt",
-    winningResponse: "I can — though I'm only in the neighborhood today. Takes 60 seconds to show you what I found. If it doesn't apply, I'm out of your hair. Fair?",
-    losingResponse: "Sure, when would be a good time?",
-    difficulty: "Beginner",
-    resistanceLevel: 50,
-    buySignal: 40,
-    traits: ["Urgency", "Time Container", "Flexibility"],
-    durationSeconds: 90
-  },
-  {
-    id: "c91e5c42-8d5d-4a75-8e08-c272c591bcf3",
-    name: "What makes you better than TruGreen?",
+    id: "rp-12",
+    name: "Another company is cheaper.",
     role: "The Comparison Shopper",
-    phase: "Phase 3",
-    context: "Closing → Competitor Comparison",
-    objection: "What makes you better than TruGreen?",
-    passCriteria: "Acknowledge competitor + differentiate on service/local + avoid trash-talking",
-    failConditions: "Attacks competitor directly",
-    winningResponse: "Good question. They're a big national company — we're local, so you get my cell and I'm the one who shows up every time. Most folks prefer that direct line. Want me to show you how we handle your specific issues?",
-    losingResponse: "TruGreen uses cheap products and doesn't care about customers...",
+    phase: "Chapter 2",
+    context: "Pricing → Competitor Comparison",
+    objection: "Another company is cheaper.",
+    passCriteria: "Reframe the conversation from price to outcome value.",
+    failConditions: "Attacks competitor or matches price immediately",
+    winningResponse: "Excellent differentiation! You focused on results, not price.",
+    losingResponse: "Don't compete on price. Compete on outcomes and guarantees.",
     difficulty: "Advanced",
     resistanceLevel: 75,
     buySignal: 50,
     traits: ["Differentiation", "Local Advantage", "Personal Service"],
-    durationSeconds: 90
+    durationSeconds: 90,
+    scriptHint: "Try saying: 'Good question. They may be — but the difference is what happens after. We guarantee results, not just treatments. If something doesn't work, I'm back out here to fix it. Want me to show you our guarantee?' Key points: 1) Don't bash competitor, 2) Differentiate on results/guarantee, 3) Offer proof of your value."
   },
   {
-    id: "723e29a3-cc3d-421c-913b-10a76f6b1f7f",
-    name: "What makes you better than TruGreen?",
-    role: "The Comparison Shopper",
-    phase: "Phase 3",
-    context: "Closing → Competitor Comparison",
-    objection: "What makes you better than TruGreen?",
-    passCriteria: "Acknowledge competitor + differentiate on service/local + avoid trash-talking",
-    failConditions: "Attacks competitor directly",
-    winningResponse: "Good question. They're a big national company — we're local, so you get my cell and I'm the one who shows up every time. Most folks prefer that direct line. Want me to show you how we handle your specific issues?",
-    losingResponse: "TruGreen uses cheap products and doesn't care about customers...",
+    id: "rp-13",
+    name: "Why do I have to pay now?",
+    role: "The Cautious Buyer",
+    phase: "Chapter 2",
+    context: "Close → Payment Explanation",
+    objection: "Why do I have to pay now?",
+    passCriteria: "Normalize the payment process, remove risk, and maintain the close.",
+    failConditions: "Gets defensive or fails to remove risk",
+    winningResponse: "Well done! You normalized payment and removed risk concerns.",
+    losingResponse: "Explain the process, emphasize guarantees, and remove risk.",
+    difficulty: "Intermediate",
+    resistanceLevel: 60,
+    buySignal: 45,
+    traits: ["Process Explanation", "Risk Removal", "Close Maintenance"],
+    durationSeconds: 90,
+    scriptHint: "Try saying: 'Great question — it's how we lock in today's rate and schedule your first visit. Plus, if you're not happy after the first treatment, you don't pay. Fair?' Key points: 1) Explain the benefit of paying today, 2) Emphasize the guarantee/risk removal, 3) Keep moving toward the close."
+  },
+  {
+    id: "rp-14",
+    name: "I need to think about it.",
+    role: "The Indecisive Prospect",
+    phase: "Chapter 2",
+    context: "Close → Handling Stalls",
+    objection: "I need to think about it.",
+    passCriteria: "Isolate the real concern and advance the decision.",
+    failConditions: "Accepts stall or pressures for immediate decision",
+    winningResponse: "Great job isolating the real concern and advancing!",
+    losingResponse: "Always ask what specifically they need to think about.",
+    difficulty: "Intermediate",
+    resistanceLevel: 65,
+    buySignal: 40,
+    traits: ["Concern Isolation", "Clarification", "Assistance"],
+    durationSeconds: 90,
+    scriptHint: "Try saying: 'Totally fair — what specifically are you weighing? If it's the price, timing, or something else, I might be able to help clarify right now.' Key points: 1) Acknowledge their need to think, 2) Ask WHAT specifically, 3) Offer to address it immediately."
+  },
+  {
+    id: "rp-15",
+    name: "I'll call you / send me something.",
+    role: "The Defeater",
+    phase: "Chapter 2",
+    context: "Close → Securing Next Step",
+    objection: "I'll call you / send me something.",
+    passCriteria: "Clarify decision criteria and regain control of the next step.",
+    failConditions: "Leaves materials without securing commitment",
+    winningResponse: "Excellent control! You secured a concrete next step.",
+    losingResponse: "Never leave materials. Clarify criteria and set a specific callback.",
+    difficulty: "Intermediate",
+    resistanceLevel: 60,
+    buySignal: 45,
+    traits: ["Control", "Next Step", "Commitment"],
+    durationSeconds: 90,
+    scriptHint: "Try saying: 'Absolutely — I can do that. Just so I know what to include, what would you need to see to feel comfortable moving forward?' Key points: 1) Agree to their request, 2) Ask about their decision criteria, 3) Set a specific follow-up time."
+  },
+  {
+    id: "rp-16",
+    name: "Final Certification Assessment",
+    role: "The Ultimate Test",
+    phase: "Post-Training",
+    context: "Final Certification Assessment",
+    objection: "I need to hear your full pitch.",
+    passCriteria: "Demonstrate control across at least 3 phases including a successful close.",
+    failConditions: "Fails to navigate multiple objections or loses control of conversation",
+    winningResponse: "Congratulations! You have demonstrated mastery across all phases.",
+    losingResponse: "Review all chapters and practice each phase before retrying.",
     difficulty: "Advanced",
-    resistanceLevel: 75,
-    buySignal: 50,
-    traits: ["Differentiation", "Local Advantage", "Personal Service"],
-    durationSeconds: 90
+    resistanceLevel: 85,
+    buySignal: 20,
+    traits: ["Full Pitch", "Multi-Phase Control", "Close Execution"],
+    durationSeconds: 240,
+    isCertification: true,
+    scriptHint: "This is your final assessment. You'll face multiple objections across different phases. Remember: 1) Acknowledge every objection first, 2) Use control questions to guide the conversation, 3) Build value before discussing price, 4) Isolate concerns before closing, 5) Always secure a concrete next step."
   }
 ];
 
@@ -486,30 +342,36 @@ export interface DatabaseRoleplay {
 }
 
 export function convertRoleplayToVapiConfig(roleplay: DatabaseRoleplay): VapiRoleplayConfig {
-  // Certification roleplays get 240 seconds (4 min), practice roleplays get 90 seconds (1.5 min)
   const isCertification = roleplay.isCertification || 
     roleplay.name.toLowerCase().includes('certification') ||
-    roleplay.id.includes('certification');
+    roleplay.id.includes('certification') ||
+    roleplay.id === 'rp-16';
+  
+  const isCoachingMode = ['rp-01', 'rp-02', 'rp-03', 'rp-04', 'rp-05', 'rp-06', 'rp-07'].includes(roleplay.id);
+  
+  const staticConfig = VAPI_ROLEPLAY_CONFIGS.find(c => c.id === roleplay.id);
   
   return {
     id: roleplay.id,
     name: roleplay.name,
     role: roleplay.role,
-    phase: roleplay.phase || "Phase 1",
+    phase: roleplay.phase || staticConfig?.phase || "Phase 1",
     context: roleplay.placement || roleplay.description,
     objection: roleplay.name,
-    passCriteria: roleplay.passCriteria || "Handle the objection professionally and move toward next step",
-    failConditions: roleplay.failConditions || "Being rude, pushy, or giving up too easily",
-    winningResponse: roleplay.winningResponse || "Acknowledge, ask a discovery question, and guide the conversation",
-    losingResponse: roleplay.losingResponse || "Push forward without addressing their concern",
+    passCriteria: roleplay.passCriteria || staticConfig?.passCriteria || "Handle the objection professionally and move toward next step",
+    failConditions: roleplay.failConditions || staticConfig?.failConditions || "Being rude, pushy, or giving up too easily",
+    winningResponse: roleplay.winningResponse || staticConfig?.winningResponse || "Acknowledge, ask a discovery question, and guide the conversation",
+    losingResponse: roleplay.losingResponse || staticConfig?.losingResponse || "Push forward without addressing their concern",
     difficulty: (roleplay.difficulty === "Beginner" || roleplay.difficulty === "Intermediate" || roleplay.difficulty === "Advanced") 
       ? roleplay.difficulty 
       : roleplay.difficulty === "Expert" ? "Advanced" : "Intermediate",
-    resistanceLevel: roleplay.resistance ?? 60,
-    buySignal: roleplay.buySignal ?? 30,
-    traits: roleplay.traits || ["Professional", "Respectful", "Persistence"],
+    resistanceLevel: roleplay.resistance ?? staticConfig?.resistanceLevel ?? 60,
+    buySignal: roleplay.buySignal ?? staticConfig?.buySignal ?? 30,
+    traits: roleplay.traits || staticConfig?.traits || ["Professional", "Respectful", "Persistence"],
     durationSeconds: isCertification ? 240 : 90,
-    isCertification
+    isCertification,
+    isCoachingMode,
+    scriptHint: staticConfig?.scriptHint
   };
 }
 
@@ -520,6 +382,24 @@ export function buildVapiAssistantPrompt(config: VapiRoleplayConfig): string {
   const buySignalDescription = config.buySignal > 50 ? "showing some underlying interest" :
                                config.buySignal > 25 ? "cautiously curious" : "not showing buying interest";
 
+  const coachingInstructions = config.isCoachingMode ? `
+
+COACHING MODE (IMPORTANT - This is a beginner-level training roleplay):
+- Be more patient and give the rep time to respond
+- If they seem stuck or go off track, gently nudge them back with hints like:
+  * "Hmm, I'm still pretty busy though..." (to remind them to address time)
+  * "I don't really see why I should talk to you..." (to prompt them to give a reason)
+  * "What exactly are you trying to show me?" (to help them be more specific)
+- If they're doing well, give them natural openings to continue
+- Don't immediately shut them down on first mistakes - give them a chance to recover
+- If they completely miss the mark, stay in character but make it easier for them to try again
+- The goal is training and learning, not just testing` : `
+
+EVALUATION MODE:
+- Maintain realistic resistance based on your character
+- Don't give extra hints or make it easier
+- Evaluate their technique honestly`;
+
   return `You are playing the role of a homeowner in a door-to-door sales training simulation for Gecko Green lawn care services.
 
 CHARACTER PROFILE:
@@ -529,39 +409,39 @@ CHARACTER PROFILE:
 - Difficulty: ${config.difficulty}
 - You are ${resistanceDescription} (resistance: ${config.resistanceLevel}/100)
 - You are ${buySignalDescription} (buy signal: ${config.buySignal}/100)
+${coachingInstructions}
 
 SCENARIO CONTEXT:
 ${config.context}
 
-BEHAVIOR GUIDELINES:
-1. START the conversation with EXACTLY this objection: "${config.objection}"
-2. Stay in character as this homeowner throughout the entire conversation
-3. React realistically to the sales rep's responses based on how well they handle your objection
-4. If the rep handles your objection well (acknowledges you, doesn't push too hard, asks good questions), gradually become slightly more open
-5. If the rep pushes too hard, ignores your concern, or doesn't listen, become MORE resistant
-6. Use natural, conversational language - you're a real person at your front door, NOT an AI
-7. Keep responses SHORT (1-3 sentences max) - this is a doorstep conversation, not a lecture
-8. You may eventually agree to hear more or let them show you something if they do well
-9. If they do poorly, you may close the door or firmly decline
+YOUR BEHAVIOR GUIDELINES:
+1. Start with your opening objection: "${config.objection}"
+2. Stay in character as a realistic homeowner throughout
+3. React naturally to what the sales rep says
+4. If the rep handles your objection well (${config.passCriteria}), gradually become more open
+5. If the rep handles it poorly (${config.failConditions}), become more resistant or end the conversation
+6. Keep responses concise (1-3 sentences typically) - you're a busy homeowner
 
-WHAT THE REP SHOULD DO TO PASS:
+WHAT SUCCESS LOOKS LIKE:
 ${config.passCriteria}
 
-WHAT WILL MAKE THEM FAIL:
+WHAT FAILURE LOOKS LIKE:
 ${config.failConditions}
 
-EXAMPLE OF A WINNING RESPONSE FROM THE REP:
+EXAMPLE OF A GOOD REP RESPONSE:
 "${config.winningResponse}"
 
-EXAMPLE OF A LOSING RESPONSE FROM THE REP:
+EXAMPLE OF A BAD REP RESPONSE:
 "${config.losingResponse}"
 
-CRITICAL RULES:
-- NEVER break character
-- NEVER reveal you are an AI or part of a training simulation
-- NEVER give the rep direct coaching or hints
-- Respond ONLY as the homeowner would in a real doorstep interaction
-- Your FIRST message MUST be: "${config.objection}"`;
+CONVERSATION FLOW:
+- Be a realistic homeowner, not a robot
+- React to tone and energy, not just words
+- If the rep earns your attention, show increasing interest
+- If the rep loses you, politely (or not so politely) end the conversation
+- The conversation should last 60-90 seconds maximum
+
+Remember: You are training sales reps to be better at their job. Stay in character but be fair.`;
 }
 
 export function buildVapiAssistantConfig(config: VapiRoleplayConfig) {
@@ -588,8 +468,11 @@ export function buildVapiAssistantConfig(config: VapiRoleplayConfig) {
     transcriber: {
       provider: "deepgram",
       model: "nova-2",
-      language: "en"
+      language: "en",
+      endpointing: 500
     },
+    silenceTimeoutSeconds: 30,
+    responseDelaySeconds: 0.8,
     artifactPlan: {
       recordingEnabled: true,
       transcriptPlan: {
