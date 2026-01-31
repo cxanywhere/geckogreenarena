@@ -428,25 +428,36 @@ ${failConditions}
 TRANSCRIPT:
 ${transcript}
 
-Evaluate the sales rep's performance and determine if they PASSED or FAILED based on the criteria above.
+⚠️ IMPORTANT CONTEXT - READ THIS FIRST:
+- This is a TIMED practice session (90 seconds max) that may end abruptly when time runs out
+- The conversation may be cut off mid-sentence - this is NORMAL and expected
+- DO NOT penalize for incomplete conversations, abrupt endings, or unanswered questions at the end
+- DO NOT penalize for not reaching a "close" - most practice sessions are just for the opening/objection handling
+- Focus your evaluation on what the rep DID say, not what they didn't have time to say
 
-EVALUATION CRITERIA:
-1. Did they meet the PASS CRITERIA? This is the primary factor for passing.
-2. Did they trigger any FAIL CONDITIONS? If yes, they fail regardless of other factors.
+SCORING WEIGHTS (CRITICAL):
+- 80% of your evaluation should be based on: Did they correctly handle the opening objection "${scenario.name}"?
+- 20% is for overall technique, professionalism, and listening skills
+- If the rep demonstrated the correct technique for handling this objection, they should PASS even if the conversation was cut short
+
+WHAT "CORRECTLY HANDLING THE OBJECTION" MEANS:
+1. Did they ACKNOWLEDGE the objection first? (Not ignore it)
+2. Did they use the appropriate technique for this specific objection?
+3. Did they stay professional and not get pushy or defensive?
+
+EVALUATION CRITERIA (in order of importance):
+1. Did they meet the PASS CRITERIA? This is 80% of the decision.
+2. Did they trigger any FAIL CONDITIONS? If yes, they fail.
 3. Opening response - Did they acknowledge the objection appropriately?
-4. Frame control - Did they stay in control of the conversation?
-5. Active listening - Did they address what the homeowner actually said?
-6. Objection handling - Did they use proper techniques (acknowledge, isolate, respond)?
-7. Persistence without aggression - Professional but not pushy
-8. Closing attempt - Did they try to move toward a next step?
+4. Technique - Did they use the right approach for this objection type?
+5. Professionalism - Were they respectful and not pushy?
 
 SCORING GUIDE:
-- 80-100: Excellent performance, clearly passed
-- 65-79: Good performance, likely passed
-- 50-64: Borderline, may or may not pass
-- Below 50: Failed to meet criteria
+- 75-100: Demonstrated correct objection handling technique = PASS
+- 60-74: Showed understanding but execution needs work = May pass if core technique was right
+- Below 60: Did not demonstrate the correct technique = FAIL
 
-Be constructive but honest. The "passed" field should be TRUE only if the rep genuinely met the pass criteria without triggering fail conditions.`;
+Be encouraging but honest. The "passed" field should be TRUE if the rep genuinely demonstrated the correct technique for handling this objection, regardless of whether the conversation reached a natural conclusion.`;
 
   try {
     const response = await ai.models.generateContent({
