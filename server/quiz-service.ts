@@ -238,11 +238,21 @@ export async function submitQuizAnswer(
 
   // Always update the quiz score after each attempt
   const score = await storage.getUserQuizScore(userId, chapterId);
-  const progress = await storage.getUserProgressByChapter(userId, chapterId);
-  if (progress) {
-    const quizScore = Math.round((score.correct / Math.max(score.total, 1)) * 100);
-    await storage.updateUserProgress(progress.id, { quizScore });
+  let progress = await storage.getUserProgressByChapter(userId, chapterId);
+  
+  // Create progress record if it doesn't exist
+  if (!progress) {
+    progress = await storage.createUserProgress({
+      userId,
+      chapterId,
+      completed: 0,
+      currentSlide: 0,
+      totalSlides: 0,
+    });
   }
+  
+  const quizScore = Math.round((score.correct / Math.max(score.total, 1)) * 100);
+  await storage.updateUserProgress(progress.id, { quizScore });
 
   return {
     isCorrect,
