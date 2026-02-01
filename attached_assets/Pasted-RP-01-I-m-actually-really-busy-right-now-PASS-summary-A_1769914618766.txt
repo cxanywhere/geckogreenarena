@@ -1,0 +1,262 @@
+RP-01 — “I’m actually really busy right now.”
+
+PASS (summary): Acknowledge time pressure, set a ≤60-second container, then ask a qualifying control question.
+FAIL (summary): Pitch immediately or disengage.
+
+Winning examples they gave:
+
+“Totally understand — I’ll be quick. Give me 60 seconds, and if this doesn’t apply I’ll head out. Quick question: are you the one who usually handles the lawn here?”
+
+“OK, Ill be Quick. Quick Question: Who are you using for lawn care right now? Or are you the one who usually takes care of it?”
+
+“Gotcha, just real quick, do you guys currently have somebody or do you take care of this yourself?”
+
+“I completely understand. I won’t take much of your time at all. Quick question, do you take care of the lawn your self or do you have a service?”
+
+Losing examples they gave:
+
+“This won’t take long… we do fertilization and weed control.”
+
+“Ok, When is a good time for me to come back?”
+
+“Ok well you have my flyer if you need me”
+
+“When will you not be busy”
+
+RP-02 — “Not interested.”
+
+PASS (summary): Acknowledge, reframe to a specific issue, and redirect with a simple qualifier.
+FAIL (summary): Argue or accept the rejection immediately.
+
+Winning examples they gave:
+
+“That’s fair — most people weren’t interested either until I pointed out one thing. Are you seeing weeds along the curb here, or is that already handled?”
+
+“I totally Understand, So do you have another company you're using right now?”
+
+“No problem. A lot of people are very surprised at how affordable it can be. Have you already put something down this year?”
+
+“I understand, Well I noticed this as I was walking by.”
+
+Losing examples they gave:
+
+“Okay, no worries.”
+
+“Gotcha, Can I leave you a card in case you change your mind?”
+
+“Okay well heres my flyer if anything changes”
+
+“Ok. Can I leave you a flyer in case you change your mind?”
+
+RP-03 — “No soliciting.”
+
+PASS (summary): Acknowledge the rule, clarify intent, and ask for micro-permission (brief, respectful).
+FAIL (summary): Debate the policy / technicalities.
+
+Winning examples they gave:
+
+“I get that — I’m not selling at the door. I’m just flagging an issue I noticed on your lawn. Mind if I show you real quick?”
+
+“My apologies, I have been out here working with your neighbors and noticed some issues in the lawn, do you have a second so I can show you?”
+
+“I understand. The last thing I want to do is upset you. I just wanted to introduce myself because we help your neighbor. Do you already have someone that takes care of the weeds and fertilization?”
+
+“Sorry, I was just working with your neighbor and noticed something I wanted to point out really quick.”
+
+Losing examples they gave:
+
+“I’m not selling anything…” (keeps talking)
+
+“I did't See a no soliciting sign”
+
+“Argues technicalities over no soliciting rules”
+
+“I saw it but your lawn needs my help.”
+
+RP-04 — “I do my own lawn.”
+
+PASS (summary): Validate/compliment DIY, differentiate, and regain the lead with permission to show one thing.
+FAIL (summary): Try to “convert” DIY directly or insult their effort.
+
+Winning examples they gave:
+
+“That makes sense — most homeowners here do. What I’m seeing is something DIY usually misses, especially this time of year. Can I show you where?”
+
+“Oh awesome, you're doing a good job. A lot of our best customers started out doing it themselves…”
+
+“Awesome, Im glad you are doing something for the lawn…”
+
+“Awesome, I noticed something was put down. Has it been working?”
+
+Losing examples they gave:
+
+“We help a lot of DIY customers…”
+
+“Well it doesnt look very good./It looks like you need some help”
+
+“Have you started yet?”
+
+“OK, here is a card. Give me a call if you get interested.”
+
+RP-05 — “We already have a lawn company.”
+
+PASS (summary): Acknowledge, remove “replacement fear,” isolate a gap, and ask a control question.
+FAIL (summary): Attack the competitor or immediately go to price.
+
+Winning examples they gave:
+
+“Got it — not trying to replace them. Quick check: are they addressing weeds like this along the edge, or is that still showing up?”
+
+“Oh nice. How long have you been with them, are you happy with your results?…”
+
+“Perfect! I can tell that you care about your lawn…”
+
+“Good to hear, real quick i noticed these weeds…”
+
+Losing examples they gave:
+
+“We’re better than most companies…”
+
+“Theyre not doing a good job...”
+
+“Okay how much are they charging you?”
+
+“I can probably beat their price”
+
+RP-06 — “Why are you here?”
+
+PASS (summary): State purpose clearly and move to a direct next action (show/point + control question).
+FAIL (summary): Ramble or over-explain without direction.
+
+Winning examples they gave:
+
+“Fair question. I’m here because we’re fixing this exact weed issue on your street today. Let me show you where it’s starting.”
+
+“I just wanted to stop by and introduce myself. We do fertilization and weed control for your neighbors. Is that something you typically do yourself or do you hire someone…?”
+
+“Like I said im working with the neighbors, and I wanted to stop by and introduce myself. Do you have anyone doing your lawn care for you?”
+
+Losing examples they gave:
+
+“I’m with Gecko, and what we do is…”
+
+“Repeats Intro”
+
+“Just out here working”
+
+RP-07 — “My lawn looks fine.”
+
+PASS (summary): Validate, isolate one specific problem, and visually point it out.
+FAIL (summary): Agree and move on.
+
+Winning example they gave:
+
+“Overall it does — this spot is what I’m flagging, though. See how it’s spreading here?”
+
+Losing example they gave:
+
+“Yeah, it looks okay.”
+
+RP-08 — “Weeds don’t bother me.”
+
+PASS (summary): Reframe consequences (spread/long-term impact) and keep discovery moving.
+FAIL (summary): Accept apathy and drop it.
+
+Winning example they gave:
+
+“Totally — most don’t until it spreads into the healthy grass. That’s what I want to prevent here.”
+
+Losing example they gave:
+
+“Okay, that’s fair.”
+
+RP-09 — “I don’t see the issue.”
+
+PASS (summary): Demonstrate visually; do not explain abstractly.
+FAIL (summary): “So basically…” explanations.
+
+Winning example they gave:
+
+“Let me point it out — right along this edge, that discoloration is the early sign.”
+
+Losing example they gave:
+
+“So basically what happens is…”
+
+RP-10 — “How much does it cost?”
+
+PASS (summary): Defer price and anchor value first (what it covers, why it matters).
+FAIL (summary): Quote price immediately.
+
+Winning example they gave:
+
+“I’ll get there — first let me show you what it would cover, because price only makes sense after that.”
+
+Losing example they gave:
+
+“It’s $X per application.”
+
+RP-11 — “That’s expensive.”
+
+PASS (summary): Normalize + re-anchor to outcomes/results.
+FAIL (summary): Discount as the first move.
+
+Winning example they gave:
+
+“I hear that — most people said that before seeing the results. What mattered was fixing this permanently.”
+
+Losing example they gave:
+
+“We can lower it…”
+
+RP-12 — “Another company is cheaper.”
+
+PASS (summary): Reframe to outcome/coverage rather than price; stay professional.
+FAIL (summary): Attack competitor.
+
+Winning example they gave:
+
+“Probably — cheaper usually means fewer treatments. The real question is whether this problem actually gets solved.”
+
+Losing example they gave:
+
+“They don’t do it right.”
+
+RP-13 — “Why do I have to pay now?”
+
+PASS (summary): Normalize the process, remove risk, maintain control toward the close.
+FAIL (summary): Defensive justification.
+
+Winning example they gave:
+
+“Good question — everyone starts the same way so we can lock the spot and materials. If it doesn’t work, you’re not stuck — that’s guaranteed.”
+
+Losing example they gave:
+
+“That’s just how we do it.”
+
+RP-14 — “I need to think about it.”
+
+PASS (summary): Isolate what they’re thinking through (price/timing/treatment) and advance a decision step.
+FAIL (summary): Accept the stall.
+
+Winning example they gave:
+
+“Totally — what part are you thinking through? Price, timing, or the treatment itself?”
+
+Losing example they gave:
+
+“Sure, take your time.”
+
+RP-15 — “I’ll call you / send me something.”
+
+PASS (summary): Clarify decision criteria and regain control of the next step.
+FAIL (summary): Leave a card / vague handoff.
+
+Winning example they gave:
+
+“Happy to — before I go, what would you be deciding after you look it over?”
+
+Losing example they gave:
+
+“I’ll leave my card.”
