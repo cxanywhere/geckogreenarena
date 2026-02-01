@@ -7,7 +7,7 @@ import { ArrowLeft, Download, BookOpen, Presentation, Brain, Loader2, Mic, Check
 import { useEffect, useState, useCallback, useRef } from "react";
 import { toast } from "sonner";
 import { api, type QuizQuestion } from "@/lib/api";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOrientation } from "@/hooks/useOrientation";
 import { getQuizForSlide as getCh1QuizForSlide, isQuizSlide as isCh1QuizSlide } from "@/lib/chapter1-quizzes";
@@ -23,6 +23,7 @@ const QUIZ_INTERVAL = 5;
 export default function ChapterPage() {
   const [, params] = useRoute("/chapter/:id");
   const [, setLocation] = useLocation();
+  const queryClient = useQueryClient();
   
   const { data: chapters = [] } = useQuery({
     queryKey: ["chapters"],
@@ -314,6 +315,11 @@ export default function ChapterPage() {
     setQuizSourcePage(null);
     lastCheckedPage.current = 0; // Reset to allow future checks
     toast.success("Quiz completed! Keep learning.");
+    
+    // Invalidate user progress to update dashboard quiz scores
+    if (user?.id) {
+      queryClient.invalidateQueries({ queryKey: ["user-progress", user.id] });
+    }
     
     // Advance to the pending page if there is one (after quiz completion)
     if (pendingNextPage !== null) {
