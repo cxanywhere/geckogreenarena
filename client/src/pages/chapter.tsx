@@ -87,6 +87,7 @@ export default function ChapterPage() {
   const [totalSlides, setTotalSlides] = useState(0);
   const [showObjectives, setShowObjectives] = useState(false);
   const [pendingNextPage, setPendingNextPage] = useState<number | null>(null);
+  const [quizSourcePage, setQuizSourcePage] = useState<number | null>(null);
 
   useEffect(() => {
     if (params?.id) {
@@ -247,23 +248,35 @@ export default function ChapterPage() {
       }
     }
     
-    // Update the current page
-    setCurrentPage(page);
-    
-    // Handle quizzes (these trigger on arrival at the new page)
-    if (isChapter0) {
-      if (isCh0QuizSlide(page) && !completedQuizPages.has(page)) {
-        triggerQuiz(page);
-      }
-    } else if (isChapter1) {
-      if (isCh1QuizSlide(page) && !completedQuizPages.has(page)) {
-        triggerQuiz(page);
-      }
-    } else if (!isChapter0 && !isChapter1 && !isChapter2) {
-      if (page > 1 && page % QUIZ_INTERVAL === 0 && !completedQuizPages.has(page)) {
-        triggerQuiz(page);
+    // Handle quizzes - trigger when LEAVING the slide (after viewing content)
+    // This ensures users see the content before being quizzed on it
+    if (isMovingForward) {
+      if (isChapter0) {
+        if (isCh0QuizSlide(previousPage) && !completedQuizPages.has(previousPage)) {
+          setPendingNextPage(page);
+          setQuizSourcePage(previousPage);
+          triggerQuiz(previousPage);
+          return; // Don't advance yet - wait for quiz completion
+        }
+      } else if (isChapter1) {
+        if (isCh1QuizSlide(previousPage) && !completedQuizPages.has(previousPage)) {
+          setPendingNextPage(page);
+          setQuizSourcePage(previousPage);
+          triggerQuiz(previousPage);
+          return; // Don't advance yet - wait for quiz completion
+        }
+      } else if (!isChapter0 && !isChapter1 && !isChapter2) {
+        if (previousPage > 1 && previousPage % QUIZ_INTERVAL === 0 && !completedQuizPages.has(previousPage)) {
+          setPendingNextPage(page);
+          setQuizSourcePage(previousPage);
+          triggerQuiz(previousPage);
+          return; // Don't advance yet - wait for quiz completion
+        }
       }
     }
+    
+    // Update the current page
+    setCurrentPage(page);
   };
 
   const handleRoleplayStart = () => {
@@ -321,8 +334,18 @@ export default function ChapterPage() {
 
   const handleQuizComplete = () => {
     setShowQuiz(false);
-    setCompletedQuizPages(prev => new Set([...Array.from(prev), currentPage]));
+    // Mark the source page (where the quiz was triggered from) as completed
+    const pageToMark = quizSourcePage ?? currentPage;
+    setCompletedQuizPages(prev => new Set([...Array.from(prev), pageToMark]));
+    setQuizSourcePage(null);
+    lastCheckedPage.current = 0; // Reset to allow future checks
     toast.success("Quiz completed! Keep learning.");
+    
+    // Advance to the pending page if there is one (after quiz completion)
+    if (pendingNextPage !== null) {
+      setCurrentPage(pendingNextPage);
+      setPendingNextPage(null);
+    }
     
     if (pendingContentForSlide.current?.roleplays) {
       const eligibleRoleplays = pendingContentForSlide.current.roleplays.filter(
@@ -339,7 +362,17 @@ export default function ChapterPage() {
 
   const handleQuizSkip = () => {
     setShowQuiz(false);
-    setCompletedQuizPages(prev => new Set([...Array.from(prev), currentPage]));
+    // Mark the source page (where the quiz was triggered from) as completed (skipped counts as completed)
+    const pageToMark = quizSourcePage ?? currentPage;
+    setCompletedQuizPages(prev => new Set([...Array.from(prev), pageToMark]));
+    setQuizSourcePage(null);
+    lastCheckedPage.current = 0; // Reset to allow future checks
+    
+    // Advance to the pending page if there is one (after quiz skip)
+    if (pendingNextPage !== null) {
+      setCurrentPage(pendingNextPage);
+      setPendingNextPage(null);
+    }
     
     if (pendingContentForSlide.current?.roleplays) {
       const eligibleRoleplays = pendingContentForSlide.current.roleplays.filter(
