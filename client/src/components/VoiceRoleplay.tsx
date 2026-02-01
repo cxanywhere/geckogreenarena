@@ -49,7 +49,10 @@ export function VoiceRoleplay({ roleplayId, config, onComplete, onCancel, userId
   const [timeRemaining, setTimeRemaining] = useState<number>(config.durationSeconds || 60);
   const [showTimeWarning, setShowTimeWarning] = useState(false);
   const [audioDevices, setAudioDevices] = useState<MediaDeviceInfo[]>([]);
-  const [selectedDeviceId, setSelectedDeviceId] = useState<string>("");
+  const [selectedDeviceId, setSelectedDeviceId] = useState<string>(() => {
+    // Initialize from localStorage if available
+    return localStorage.getItem("preferredMicrophoneId") || "";
+  });
   
   const vapiRef = useRef<Vapi | null>(null);
   const callIdRef = useRef<string | null>(null);
@@ -61,6 +64,12 @@ export function VoiceRoleplay({ roleplayId, config, onComplete, onCancel, userId
     selectedDeviceIdRef.current = selectedDeviceId;
   }, [selectedDeviceId]);
 
+  // Save to localStorage when user changes microphone selection
+  const handleDeviceChange = (deviceId: string) => {
+    setSelectedDeviceId(deviceId);
+    localStorage.setItem("preferredMicrophoneId", deviceId);
+  };
+
   // Enumerate available audio input devices
   useEffect(() => {
     const enumerateDevices = async () => {
@@ -71,10 +80,24 @@ export function VoiceRoleplay({ roleplayId, config, onComplete, onCancel, userId
         const audioInputs = devices.filter(device => device.kind === "audioinput");
         setAudioDevices(audioInputs);
         
-        // Only set default if no device selected yet (don't overwrite user choice)
-        if (audioInputs.length > 0 && !selectedDeviceIdRef.current) {
+        const savedDeviceId = selectedDeviceIdRef.current;
+        
+        // Check if saved device still exists
+        if (savedDeviceId) {
+          const savedDeviceExists = audioInputs.some(d => d.deviceId === savedDeviceId);
+          if (!savedDeviceExists) {
+            // Saved device no longer available - fall back to default
+            const defaultDevice = audioInputs.find(d => d.deviceId === "default") || audioInputs[0];
+            if (defaultDevice) {
+              setSelectedDeviceId(defaultDevice.deviceId);
+              localStorage.setItem("preferredMicrophoneId", defaultDevice.deviceId);
+            }
+          }
+        } else if (audioInputs.length > 0) {
+          // No saved preference - use default
           const defaultDevice = audioInputs.find(d => d.deviceId === "default") || audioInputs[0];
           setSelectedDeviceId(defaultDevice.deviceId);
+          localStorage.setItem("preferredMicrophoneId", defaultDevice.deviceId);
         }
       } catch (err) {
         console.error("Failed to enumerate audio devices:", err);
@@ -83,7 +106,7 @@ export function VoiceRoleplay({ roleplayId, config, onComplete, onCancel, userId
     
     enumerateDevices();
     
-    // Re-enumerate when devices change (preserves user's selection)
+    // Re-enumerate when devices change (validates saved device still exists)
     navigator.mediaDevices.addEventListener("devicechange", enumerateDevices);
     return () => {
       navigator.mediaDevices.removeEventListener("devicechange", enumerateDevices);
@@ -541,7 +564,7 @@ CRITICAL RULES:
             <Settings className="w-4 h-4" />
             <span>Microphone:</span>
           </div>
-          <Select value={selectedDeviceId} onValueChange={setSelectedDeviceId}>
+          <Select value={selectedDeviceId} onValueChange={handleDeviceChange}>
             <SelectTrigger className="w-[250px]" data-testid="select-microphone">
               <SelectValue placeholder="Select microphone" />
             </SelectTrigger>
