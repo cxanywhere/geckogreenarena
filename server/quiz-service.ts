@@ -236,13 +236,12 @@ export async function submitQuizAnswer(
     isCorrect: isCorrect ? 1 : 0,
   });
 
-  if (isCorrect) {
-    const score = await storage.getUserQuizScore(userId, chapterId);
-    const progress = await storage.getUserProgressByChapter(userId, chapterId);
-    if (progress) {
-      const quizScore = Math.round((score.correct / Math.max(score.total, 1)) * 100);
-      await storage.updateUserProgress(progress.id, { quizScore });
-    }
+  // Always update the quiz score after each attempt
+  const score = await storage.getUserQuizScore(userId, chapterId);
+  const progress = await storage.getUserProgressByChapter(userId, chapterId);
+  if (progress) {
+    const quizScore = Math.round((score.correct / Math.max(score.total, 1)) * 100);
+    await storage.updateUserProgress(progress.id, { quizScore });
   }
 
   return {
