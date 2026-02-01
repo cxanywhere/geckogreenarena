@@ -7,7 +7,7 @@ import { storage } from "./storage";
 import { insertUserProgressSchema, insertRoleplayAttemptSchema } from "@shared/schema";
 import { z } from "zod";
 import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, generateLogoImage, generateBattlecardImage, generateArenaLogo, type RoleplayMessage, type RoleplayScenario } from "./gemini";
-import { getOrGenerateQuizForSlide, submitQuizAnswer } from "./quiz-service";
+import { getOrGenerateQuizForSlide, submitQuizAnswer, ensurePredefinedQuizzesSeeded } from "./quiz-service";
 import { vapiService } from "./vapi-service";
 import { getVapiRoleplayConfig, convertRoleplayToVapiConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
 import { generateSecurePassword, getAvatarInitials } from "./password-generator";
@@ -172,6 +172,7 @@ export async function registerRoutes(
 ): Promise<Server> {
   // Ensure database has demo data on startup (non-blocking)
   ensureDatabaseSeeded().catch(err => console.error("Background seeding failed:", err));
+  ensurePredefinedQuizzesSeeded().catch(err => console.error("Quiz seeding failed:", err));
 
   // Serve static files from public/uploads
   const uploadsPath = path.join(process.cwd(), "public", "uploads");

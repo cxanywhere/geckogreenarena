@@ -137,62 +137,35 @@ export default function ChapterPage() {
     
     lastCheckedPage.current = pageNumber;
     
-    if (isChapter0) {
-      const predefinedQuiz = getCh0QuizForSlide(pageNumber);
-      if (predefinedQuiz) {
-        const quizQuestion: QuizQuestion = {
-          id: `ch0-quiz-${pageNumber}`,
-          question: predefinedQuiz.question,
-          options: predefinedQuiz.options,
-          correctAnswer: predefinedQuiz.correctAnswer,
-          explanation: "",
-        };
-        setQuizQuestions([quizQuestion]);
-        setShowQuiz(true);
-        console.log(`Loaded predefined quiz for slide ${pageNumber}`);
-      }
-      return;
-    }
+    // Check if this slide should have a quiz (for Ch0/Ch1 predefined quizzes)
+    const shouldHaveQuiz = isChapter0 ? isCh0QuizSlide(pageNumber) : 
+                           isChapter1 ? isCh1QuizSlide(pageNumber) : 
+                           (pageNumber > 1 && pageNumber % QUIZ_INTERVAL === 0);
     
-    if (isChapter1) {
-      const predefinedQuiz = getCh1QuizForSlide(pageNumber);
-      if (predefinedQuiz) {
-        const quizQuestion: QuizQuestion = {
-          id: `ch1-quiz-${pageNumber}`,
-          question: predefinedQuiz.question,
-          options: predefinedQuiz.options,
-          correctAnswer: predefinedQuiz.correctAnswer,
-          explanation: "",
-        };
-        setQuizQuestions([quizQuestion]);
-        setShowQuiz(true);
-        console.log(`Loaded predefined quiz for slide ${pageNumber}`);
-      }
-      return;
-    }
+    if (!shouldHaveQuiz) return;
     
     setIsLoadingQuiz(true);
     
     try {
-      console.log(`Generating quiz for page ${pageNumber}...`);
-      const result = await api.getQuizFromContent(chapter.id, pageNumber);
+      console.log(`Fetching quiz for page ${pageNumber}...`);
+      // Use unified API for all chapters - fetches from database with real IDs
+      const result = await api.getQuizForSlide(chapter.id, pageNumber);
       
-      if (result.questions && result.questions.length > 0) {
+      if (result?.questions && result.questions.length > 0) {
         setQuizQuestions(result.questions);
         setShowQuiz(true);
-        console.log(`Got ${result.questions.length} quiz questions`);
+        console.log(`Got ${result.questions.length} quiz questions from database`);
       } else {
-        console.log("No quiz questions generated:", result.message);
+        console.log("No quiz questions found for this slide");
         lastCheckedPage.current = 0;
       }
     } catch (error) {
-      console.error("Failed to generate quiz from PDF:", error);
+      console.error("Failed to fetch quiz:", error);
       lastCheckedPage.current = 0;
-      toast.error("Couldn't load quiz. Try again on the next page.");
     } finally {
       setIsLoadingQuiz(false);
     }
-  }, [chapter, user, completedQuizPages, isLoadingQuiz, isChapter1]);
+  }, [chapter, user, completedQuizPages, isLoadingQuiz, isChapter0, isChapter1]);
 
   // Helper to check if a roleplay should be shown based on DB status
   const shouldShowRoleplay = useCallback((orderIndex: number): boolean => {
