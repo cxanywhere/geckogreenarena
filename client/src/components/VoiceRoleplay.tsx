@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Mic, MicOff, Phone, PhoneOff, Volume2, Loader2, Clock, Lightbulb, ChevronDown, ChevronUp } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Mic, MicOff, Phone, PhoneOff, Volume2, Loader2, Clock, Lightbulb, ChevronDown, ChevronUp, Settings } from "lucide-react";
 import Vapi from "@vapi-ai/web";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -47,11 +48,47 @@ export function VoiceRoleplay({ roleplayId, config, onComplete, onCancel, userId
   const [error, setError] = useState<string | null>(null);
   const [timeRemaining, setTimeRemaining] = useState<number>(config.durationSeconds || 60);
   const [showTimeWarning, setShowTimeWarning] = useState(false);
+  const [audioDevices, setAudioDevices] = useState<MediaDeviceInfo[]>([]);
+  const [selectedDeviceId, setSelectedDeviceId] = useState<string>("");
   
   const vapiRef = useRef<Vapi | null>(null);
   const callIdRef = useRef<string | null>(null);
   const transcriptContainerRef = useRef<HTMLDivElement>(null);
   const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  
+  const selectedDeviceIdRef = useRef(selectedDeviceId);
+  useEffect(() => {
+    selectedDeviceIdRef.current = selectedDeviceId;
+  }, [selectedDeviceId]);
+
+  // Enumerate available audio input devices
+  useEffect(() => {
+    const enumerateDevices = async () => {
+      try {
+        // Request mic permission first to get device labels
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const audioInputs = devices.filter(device => device.kind === "audioinput");
+        setAudioDevices(audioInputs);
+        
+        // Only set default if no device selected yet (don't overwrite user choice)
+        if (audioInputs.length > 0 && !selectedDeviceIdRef.current) {
+          const defaultDevice = audioInputs.find(d => d.deviceId === "default") || audioInputs[0];
+          setSelectedDeviceId(defaultDevice.deviceId);
+        }
+      } catch (err) {
+        console.error("Failed to enumerate audio devices:", err);
+      }
+    };
+    
+    enumerateDevices();
+    
+    // Re-enumerate when devices change (preserves user's selection)
+    navigator.mediaDevices.addEventListener("devicechange", enumerateDevices);
+    return () => {
+      navigator.mediaDevices.removeEventListener("devicechange", enumerateDevices);
+    };
+  }, []);
 
   useEffect(() => {
     if (transcriptContainerRef.current) {
@@ -247,6 +284,15 @@ CRITICAL RULES:
         }
       };
 
+      // Set input device if a specific microphone is selected
+      if (selectedDeviceId && selectedDeviceId !== "default") {
+        try {
+          await vapi.setInputDevicesAsync({ audioDeviceId: selectedDeviceId });
+        } catch (deviceErr) {
+          console.warn("Could not set input device, using default:", deviceErr);
+        }
+      }
+      
       const call = await vapi.start(assistantConfig);
       if (call?.id) {
         callIdRef.current = call.id;
@@ -273,7 +319,7 @@ CRITICAL RULES:
       setError(err.message || "Failed to start voice call");
       setStatus("idle");
     }
-  }, [roleplayId, config, onComplete, userId]);
+  }, [roleplayId, config, onComplete, userId, selectedDeviceId]);
 
   const endCall = useCallback(() => {
     if (vapiRef.current) {
@@ -485,6 +531,28 @@ CRITICAL RULES:
       {error && (
         <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm" data-testid="error-message">
           {error}
+        </div>
+      )}
+
+      {/* Microphone selector - only show when idle and devices available */}
+      {status === "idle" && audioDevices.length > 1 && (
+        <div className="mb-4 flex items-center justify-center gap-3">
+          <div className="flex items-center gap-2 text-sm text-gray-600">
+            <Settings className="w-4 h-4" />
+            <span>Microphone:</span>
+          </div>
+          <Select value={selectedDeviceId} onValueChange={setSelectedDeviceId}>
+            <SelectTrigger className="w-[250px]" data-testid="select-microphone">
+              <SelectValue placeholder="Select microphone" />
+            </SelectTrigger>
+            <SelectContent>
+              {audioDevices.map((device) => (
+                <SelectItem key={device.deviceId} value={device.deviceId}>
+                  {device.label || `Microphone ${audioDevices.indexOf(device) + 1}`}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       )}
 
