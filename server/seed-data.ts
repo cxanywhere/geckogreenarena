@@ -50,6 +50,7 @@ export const CHAPTER_SEED_DATA = [
       { type: 'content', title: 'The Program: Complete Overview', content: 'Year-round care for consistent results.', bullets: ['10 applications/year', 'EasyPay: 50% off first app', 'Prepay: up to 10% discount', 'Licensed specialists, free service calls, local, customized'] }
     ],
     slideCount: 29,
+    orderIndex: 0
   },
   {
     slug: 'sales-foundations',
@@ -138,7 +139,7 @@ export const CHAPTER_SEED_DATA = [
       }
     ],
     slideCount: 31,
-    orderIndex: 0
+    orderIndex: 1
   },
   {
     slug: 'field-execution',
@@ -198,7 +199,7 @@ export const CHAPTER_SEED_DATA = [
       }
     ],
     slideCount: 38,
-    orderIndex: 1
+    orderIndex: 2
   }
 ];
 
