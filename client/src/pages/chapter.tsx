@@ -238,7 +238,8 @@ export default function ChapterPage() {
           triggerQuiz(previousPage);
           return; // Don't advance yet - wait for quiz completion
         }
-      } else if (!isChapter0 && !isChapter1 && !isChapter2) {
+      } else if (!isChapter0 && !isChapter1) {
+        // For Chapter 2 (Field Execution) and other chapters, use QUIZ_INTERVAL
         if (previousPage > 1 && previousPage % QUIZ_INTERVAL === 0 && !completedQuizPages.has(previousPage)) {
           setPendingNextPage(page);
           setQuizSourcePage(previousPage);
