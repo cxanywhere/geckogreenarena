@@ -137,6 +137,9 @@ export default function AdminDashboard() {
   const [reassignToManagerId, setReassignToManagerId] = useState<string>("");
   const [requestingHardDelete, setRequestingHardDelete] = useState(false);
   const [hardDeleteRepCount, setHardDeleteRepCount] = useState(0);
+  const [repToResetCredentials, setRepToResetCredentials] = useState<User | null>(null);
+  const [resettingCredentials, setResettingCredentials] = useState(false);
+  const [resetCredentialsResult, setResetCredentialsResult] = useState<{ password: string; emailSent: boolean; emailError?: string } | null>(null);
   const [auditResults, setAuditResults] = useState<{
     summary: {
       sessionsAudited: number;
@@ -659,6 +662,42 @@ export default function AdminDashboard() {
     setHardDeleteCode("");
     setReassignToManagerId("");
     setHardDeleteRepCount(0);
+  };
+
+  const handleResetCredentials = async () => {
+    if (!repToResetCredentials) return;
+    setResettingCredentials(true);
+    try {
+      const response = await fetch(`/api/users/${repToResetCredentials.id}/reset-credentials`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sendEmail: true }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to reset credentials");
+      }
+      setResetCredentialsResult({
+        password: data.password,
+        emailSent: data.emailSent,
+        emailError: data.emailError,
+      });
+      toast({ 
+        title: "Password Reset", 
+        description: data.emailSent 
+          ? `New credentials sent to ${repToResetCredentials.email}` 
+          : "Password reset successfully. Email delivery pending."
+      });
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setResettingCredentials(false);
+    }
+  };
+
+  const closeResetDialog = () => {
+    setRepToResetCredentials(null);
+    setResetCredentialsResult(null);
   };
   
   const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
@@ -1872,6 +1911,16 @@ Mike Johnson mjohnson@geckogreen.com`}
                                 <Button 
                                   variant="ghost" 
                                   size="sm" 
+                                  onClick={() => setRepToResetCredentials(rep)}
+                                  className="text-blue-500 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-950/20"
+                                  data-testid={`button-reset-credentials-${rep.id}`}
+                                  title="Reset & Resend Credentials"
+                                >
+                                  <RefreshCw className="h-4 w-4" />
+                                </Button>
+                                <Button 
+                                  variant="ghost" 
+                                  size="sm" 
                                   onClick={() => setRepToDelete(rep)}
                                   className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/20"
                                   data-testid={`button-delete-rep-${rep.id}`}
@@ -2942,6 +2991,109 @@ Mike Johnson mjohnson@geckogreen.com`}
                   <CheckCircle className="h-4 w-4 mr-2" />
                 )}
                 {singleAuditResult?.fixing ? "Fixing..." : "Fix This Session"}
+              </Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!repToResetCredentials} onOpenChange={(open) => !open && closeResetDialog()}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <RefreshCw className="h-5 w-5 text-blue-500" />
+              Reset & Resend Credentials
+            </DialogTitle>
+            <DialogDescription>
+              {repToResetCredentials?.name} ({repToResetCredentials?.email})
+            </DialogDescription>
+          </DialogHeader>
+
+          {!resetCredentialsResult ? (
+            <div className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                This will generate a new password for this user and send them an email with their login credentials.
+              </p>
+              <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 rounded-lg p-3">
+                <p className="text-sm text-amber-700 dark:text-amber-400">
+                  The current password will be immediately replaced. Make sure the user knows to check their email.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <div className="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900 rounded-lg p-3">
+                <p className="text-sm text-green-700 dark:text-green-400 font-medium">Password Reset Successfully</p>
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-sm font-medium">New Password</label>
+                <div className="flex items-center gap-2">
+                  <Input 
+                    value={resetCredentialsResult.password} 
+                    readOnly 
+                    className="font-mono"
+                    data-testid="input-reset-password"
+                  />
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => {
+                      navigator.clipboard.writeText(resetCredentialsResult.password);
+                      toast({ title: "Copied", description: "Password copied to clipboard" });
+                    }}
+                    data-testid="button-copy-reset-password"
+                  >
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                {resetCredentialsResult.emailSent ? (
+                  <>
+                    <Mail className="h-4 w-4 text-green-500" />
+                    <span className="text-sm text-green-600 dark:text-green-400">Email sent to {repToResetCredentials?.email}</span>
+                  </>
+                ) : (
+                  <>
+                    <AlertTriangle className="h-4 w-4 text-amber-500" />
+                    <span className="text-sm text-amber-600 dark:text-amber-400">
+                      {resetCredentialsResult.emailError || "Email delivery pending"}
+                    </span>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+
+          <DialogFooter>
+            {!resetCredentialsResult ? (
+              <>
+                <Button variant="ghost" onClick={closeResetDialog} disabled={resettingCredentials}>
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={handleResetCredentials} 
+                  disabled={resettingCredentials}
+                  data-testid="button-confirm-reset-credentials"
+                >
+                  {resettingCredentials ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Resetting...
+                    </>
+                  ) : (
+                    <>
+                      <RefreshCw className="h-4 w-4 mr-2" />
+                      Reset & Send Email
+                    </>
+                  )}
+                </Button>
+              </>
+            ) : (
+              <Button onClick={closeResetDialog} data-testid="button-close-reset-dialog">
+                Done
               </Button>
             )}
           </DialogFooter>

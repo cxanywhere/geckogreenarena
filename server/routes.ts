@@ -762,6 +762,52 @@ export async function registerRoutes(
     }
   });
 
+  // Reset password and resend credentials
+  app.post("/api/users/:userId/reset-credentials", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const { sendEmail = true } = req.body;
+      
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      // Generate new password
+      const newPassword = generateSecurePassword();
+      
+      // Update user password in database
+      await storage.updateUser(userId, { password: newPassword });
+      
+      let emailSent = false;
+      let emailError = null;
+      
+      if (sendEmail && user.email) {
+        try {
+          const emailResult = await sendCredentialsEmail(user.email, user.name, newPassword);
+          emailSent = emailResult.success;
+          if (!emailResult.success) {
+            emailError = emailResult.error;
+          }
+        } catch (e: any) {
+          emailError = e.message;
+        }
+      }
+      
+      res.json({ 
+        success: true, 
+        message: "Password reset successfully",
+        password: newPassword,
+        emailSent,
+        emailError,
+        user: { ...user, password: undefined }
+      });
+    } catch (error) {
+      console.error("Reset credentials error:", error);
+      res.status(500).json({ error: "Failed to reset credentials" });
+    }
+  });
+
   // Get user progress summary (for managers/admins viewing rep progress)
   app.get("/api/users/:userId/progress-summary", async (req, res) => {
     try {
