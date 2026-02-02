@@ -108,11 +108,11 @@ export const BATTLECARDS: Battlecard[] = [
   },
   {
     id: "bc-2",
-    phase: "Opening",
-    title: "Handling 'No Soliciting' Signs",
-    situation: "Homeowner points to a 'No Soliciting' sign.",
-    script: "I saw the sign and I promise I'm not selling magazines or candy. I'm just letting neighbors know we're treating the Smiths' lawn tomorrow.",
-    keyPoints: ["Acknowledge the sign", "Clarify you're a service provider", "Pivot to social proof"],
+    phase: "Objection Handling",
+    title: "Handling 'It's Too Early'",
+    situation: "Homeowner says it's too early in the season.",
+    script: "I can appreciate that, however this is the best time of year to start a program. Many of the issues you will see later on can be prevented by starting early, see what I mean?",
+    keyPoints: ["Reframe timing as advantage", "Emphasize pre-emergent prevention", "Ask for commitment"],
     type: "objection",
     image: noSolicitingImg
   },
@@ -525,13 +525,13 @@ export const ROLEPLAYS: RoleplayScenario[] = [
   },
   {
     id: "rp-3",
-    name: "No soliciting.",
-    role: "The Rule Follower",
-    description: "Chapter 1 → Opening → Compliance & Authority. Acknowledge rule + clarify intent + request micro-permission.",
+    name: "It's too early.",
+    role: "The Procrastinator",
+    description: "Chapter 1 → Objection Handling → Timing Objection. Reframe timing as advantage + emphasize prevention + ask for commitment.",
     avatar: skepticalHomeowner,
-    traits: ["Compliance", "Intent Clarification", "Micro-Permission"],
-    difficulty: "Advanced",
-    stats: { resistance: 90, objections: 10, buy_signal: 5 },
+    traits: ["Reframing", "Education", "Commitment"],
+    difficulty: "Intermediate",
+    stats: { resistance: 55, objections: 45, buy_signal: 45 },
     chapterId: "chap-1"
   },
   // Phase 2: Turn & Burn

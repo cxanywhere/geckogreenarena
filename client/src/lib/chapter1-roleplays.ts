@@ -34,11 +34,11 @@ export const CHAPTER_1_ROLEPLAYS: PredefinedRoleplay[] = [
     id: "ch1-rp03",
     afterSlide: 9,
     orderIndex: 3,
-    objection: "No soliciting.",
-    context: "Opening → Compliance & Authority",
-    passCriteria: "Acknowledge rule + clarify intent + request micro-permission",
-    failConditions: "Debates policy",
-    winningResponse: "I get that — I'm not selling at the door. I'm just flagging an issue I noticed on your lawn. Mind if I show you real quick?"
+    objection: "It's too early.",
+    context: "Objection Handling → Timing Objection",
+    passCriteria: "Reframe timing as advantage + emphasize prevention + ask for commitment",
+    failConditions: "Accepts objection or uses pressure tactics",
+    winningResponse: "I can appreciate that, however this is the best time of year to start a program. Many of the issues you will see later on can be prevented by starting early, see what I mean?"
   },
   {
     id: "ch1-rp04",

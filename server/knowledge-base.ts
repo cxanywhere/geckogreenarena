@@ -163,24 +163,29 @@ Fail conditions: Argues or accepts rejection immediately`,
     losingResponse: "Okay, no worries."
   },
   {
-    id: "rp3_no_soliciting",
+    id: "rp3_too_early",
     type: "roleplay",
     category: "roleplays",
     chapter: 1,
     slideNumber: 9,
-    title: "Roleplay #3 — 'No soliciting.'",
-    content: `Placement: Chapter 1 → Opening → Compliance & Authority
+    title: "Roleplay #3 — 'It's too early.'",
+    content: `Placement: Chapter 1 → Objection Handling → Timing Objection
 Pass criteria:
-• Acknowledge the rule
-• Clarify intent
-• Request micro-permission
-Fail conditions: Debates policy`,
-    tags: ["roleplay", "opening", "compliance", "micro_permission", "no_soliciting"],
-    keywords: ["no soliciting", "sign", "permission", "selling", "compliance"],
+• Reframe timing as an advantage
+• Emphasize pre-emergent prevention
+• Ask for commitment
+Fail conditions: Accepts objection or uses pressure/fear tactics
+
+WRONG approach: "Let me get you on the route and if you change your mind just call me back."
+CLOSE but not correct: "If you don't sign up now, you're going to pay more later!"
+
+RIGHT approach: "I'm sure the lawn isn't at the top of your to-do list right now, but is it ever? Right now is the absolute best time to get down the pre-emergent so we can keep the more troublesome weeds from spreading. Let me get a truck out here to knock these weeds out, OK?"`,
+    tags: ["roleplay", "objection_handling", "timing", "pre_emergent", "too_early"],
+    keywords: ["too early", "timing", "season", "pre-emergent", "prevention", "weeds"],
     roleplayId: "RP3",
     phase: 1,
-    winningResponse: "I get that — I'm not selling at the door. I'm just flagging an issue I noticed on your lawn. Mind if I show you real quick?",
-    losingResponse: "I'm not selling anything… (keeps talking)"
+    winningResponse: "I can appreciate that, however this is the best time of year to start a program. Many of the issues you will see later on can be prevented by starting early, see what I mean?",
+    losingResponse: "Let me get you on the route and if you change your mind just call me back."
   },
 
   // BUYER MOTIVATION
