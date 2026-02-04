@@ -3987,5 +3987,151 @@ ${context}`;
     }
   });
 
+  // Admin: Force reseed quizzes and recalculate scores
+  app.post("/api/admin/restore-quiz-data", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user || (authResult.user.role !== "admin" && authResult.user.role !== "director")) {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+
+      const chapters = await storage.getAllChapters();
+      
+      // Step 1: Force reseed all predefined quizzes
+      const CHAPTER_0_QUIZZES = [
+        { afterSlide: 5, question: 'Which of the following is a Gecko Green service offering?', options: ['Roof replacement', 'Lawn fertilization', 'Pool maintenance', 'Window tinting'], correctAnswer: 1 },
+        { afterSlide: 18, question: 'Which is a key benefit customers get from proper lawn care?', options: ['Lawn becomes maintenance-free', 'A thick, green, weed-free landscape and pride of ownership', 'Grass never goes dormant in winter', 'Weeds disappear instantly after treatment'], correctAnswer: 1 },
+        { afterSlide: 20, question: 'What best describes how Gecko Green delivers results?', options: ['One-time treatment that solves everything', 'Properly timed seasonal treatments across the year', 'Only weed spray when weeds appear', 'Only fertilizer in spring'], correctAnswer: 1 },
+        { afterSlide: 21, question: 'Fertilizer is best described as:', options: ['A weed killer', 'Food for plants that supports health, color, and density', 'A water replacement', 'A product that works the same regardless of season'], correctAnswer: 1 },
+        { afterSlide: 22, question: 'In N-P-K, what does Nitrogen (N) primarily support?', options: ['Stronger roots only', 'Greening and top growth', 'Water regulation only', 'Disease control only'], correctAnswer: 1 },
+        { afterSlide: 23, question: 'Which statement is most accurate regarding fertilizer forms?', options: ['Only liquid fertilizer works', 'Only dry fertilizer works', 'Plants cannot tell the difference between organic vs mineral and liquid vs dry—timing and needs matter', 'Fertilizer choice never changes by season'], correctAnswer: 2 },
+        { afterSlide: 25, question: 'What are the two major weed types referenced in training?', options: ['Summer weeds and winter weeds', 'Tall weeds and short weeds', 'Grassy weeds and broadleaf weeds', 'Root weeds and leaf weeds'], correctAnswer: 2 },
+        { afterSlide: 27, question: 'What is the role of pre-emergent weed control?', options: ['It kills visible weeds on contact', 'It creates a barrier under the soil to stop weeds before they emerge', 'It fertilizes the lawn to prevent weeds', 'It is the same as Round-up'], correctAnswer: 1 },
+        { afterSlide: 28, question: 'After a post-emergent application, what timeline should you generally set for weed response?', options: ['Same day', '24 hours', 'About 2 weeks', '2–3 months'], correctAnswer: 2 },
+        { afterSlide: 29, question: 'Which statement correctly describes the Gecko Green annual program?', options: ['5 applications per year, no aeration included', '10 total applications per year: 9 lawn applications + 1 spring aeration', 'Applications are only done when customers request them', 'Results should be complete after the first application'], correctAnswer: 1 }
+      ];
+
+      const CHAPTER_1_QUIZZES = [
+        { afterSlide: 5, question: 'Which set correctly matches the "Four Pillars of Field Success"?', options: ["Confidence, Optimism, Personality, Endurance", "Timeliness, Attitude, Practice, Persistence", "Product, Price, Pitch, Persistence", "Appearance, Tone, Explanation, Honesty"], correctAnswer: 1 },
+        { afterSlide: 10, question: "In a doorstep sale, what's the correct relationship between emotion and logic?", options: ["Logic drives action; emotion justifies afterward", "Emotion drives action; logic justifies afterward", "They are always equal at the same time", "Only logic matters in lawn care"], correctAnswer: 1 },
+        { afterSlide: 15, question: 'A homeowner says, "My lawn is fine." What is the best next move per the training?', options: ["Present pricing immediately to test seriousness", "Reveal an unrealized issue with a specific, visible observation and a question", "Ask for their email and leave", "Offer a discount to create urgency"], correctAnswer: 1 },
+        { afterSlide: 20, question: "Which statement is TRUE about pre-emergent vs. post-emergent and expectations?", options: ["Pre-emergent kills existing weeds; post-emergent prevents sprouting", "Post-emergent kills existing weeds; pre-emergent prevents sprouting", "Both only work if weeds are already visible", "Both work instantly if watered the same day"], correctAnswer: 1 },
+        { afterSlide: 25, question: 'In the "Partnership" model, which is primarily the homeowner\'s responsibility?', options: ["Seasonal application timing", "Product formulation choices", "Watering and mowing consistency", "Free service calls between visits"], correctAnswer: 2 },
+        { afterSlide: 29, question: 'Which best captures what your "30-second story" must do?', options: ["Explain every treatment ingredient in detail", "Deliver a clear, confident summary of what you do, how you do it, and why it works—fast", "Lead with price to qualify the homeowner", "Compare competitors by name and position against them"], correctAnswer: 1 },
+        { afterSlide: 34, question: 'What is the "Prepay Rule in One Line" the rep should follow?', options: ["Offer prepay only if the homeowner asks", "Prepay first, every time; autopay is the fallback", "Autopay is the default; prepay is optional", "Prepay only for customers with heavy weeds"], correctAnswer: 1 }
+      ];
+
+      let quizzesSeeded = 0;
+      for (const chapter of chapters) {
+        let quizzes: typeof CHAPTER_0_QUIZZES = [];
+        if (chapter.title === "Intro to GeckoGreen") {
+          quizzes = CHAPTER_0_QUIZZES;
+        } else if (chapter.title === "Sales Foundations") {
+          quizzes = CHAPTER_1_QUIZZES;
+        }
+        
+        for (const quiz of quizzes) {
+          await storage.upsertQuizQuestions([{
+            chapterId: chapter.id,
+            slideIndex: quiz.afterSlide,
+            questionOrder: 0,
+            question: quiz.question,
+            options: quiz.options,
+            correctAnswer: quiz.correctAnswer,
+            explanation: null,
+          }]);
+          quizzesSeeded++;
+        }
+      }
+
+      // Step 2: Recalculate quiz scores from existing quiz_attempts
+      const allQuizAttempts = await storage.getAllQuizAttempts();
+      const attemptsByUserAndChapter: Record<string, { correct: number; total: number }> = {};
+      
+      for (const attempt of allQuizAttempts) {
+        const key = `${attempt.userId}:${attempt.chapterId}`;
+        if (!attemptsByUserAndChapter[key]) {
+          attemptsByUserAndChapter[key] = { correct: 0, total: 0 };
+        }
+        attemptsByUserAndChapter[key].total++;
+        if (attempt.isCorrect) {
+          attemptsByUserAndChapter[key].correct++;
+        }
+      }
+
+      let scoresUpdated = 0;
+      for (const [key, stats] of Object.entries(attemptsByUserAndChapter)) {
+        const [userId, chapterId] = key.split(':');
+        const score = Math.round((stats.correct / stats.total) * 100);
+        
+        // Get or create user_progress record
+        const existingProgress = await storage.getUserProgressByChapter(userId, chapterId);
+        if (existingProgress) {
+          await storage.updateUserProgress(existingProgress.id, { quizScore: score });
+        } else {
+          await storage.createUserProgress({
+            userId,
+            chapterId,
+            currentSlide: 0,
+            completed: 0,
+            slidesViewed: [],
+            quizScore: score,
+          });
+        }
+        scoresUpdated++;
+      }
+
+      res.json({
+        success: true,
+        message: "Quiz data restored successfully",
+        quizzesSeeded,
+        scoresUpdated,
+        uniqueUserChapterCombinations: Object.keys(attemptsByUserAndChapter).length,
+      });
+    } catch (error: any) {
+      console.error("Restore quiz data error:", error);
+      res.status(500).json({ error: error.message || "Failed to restore quiz data" });
+    }
+  });
+
+  // Admin: Delete old roleplay and cleanup
+  app.post("/api/admin/cleanup-old-roleplay", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user || (authResult.user.role !== "admin" && authResult.user.role !== "director")) {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+
+      const { roleplaySlug } = req.body;
+      if (!roleplaySlug) {
+        return res.status(400).json({ error: "roleplaySlug is required" });
+      }
+
+      // Find the roleplay by slug
+      const roleplays = await storage.getAllRoleplays();
+      const roleplayToDelete = roleplays.find(r => r.slug === roleplaySlug);
+      
+      if (!roleplayToDelete) {
+        return res.status(404).json({ error: `Roleplay with slug '${roleplaySlug}' not found` });
+      }
+
+      // Delete the roleplay using storage interface
+      await storage.deleteRoleplayBySlug(roleplaySlug);
+
+      res.json({
+        success: true,
+        message: `Roleplay '${roleplayToDelete.name}' deleted successfully`,
+        deletedRoleplay: {
+          id: roleplayToDelete.id,
+          slug: roleplayToDelete.slug,
+          name: roleplayToDelete.name,
+        },
+      });
+    } catch (error: any) {
+      console.error("Cleanup roleplay error:", error);
+      res.status(500).json({ error: error.message || "Failed to cleanup roleplay" });
+    }
+  });
+
   return httpServer;
 }

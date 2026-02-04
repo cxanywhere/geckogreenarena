@@ -83,6 +83,7 @@ export interface IStorage {
   getRoleplaysByChapterId(chapterId: string): Promise<Roleplay[]>;
   createRoleplay(roleplay: InsertRoleplay): Promise<Roleplay>;
   updateRoleplay(id: string, updates: Partial<InsertRoleplay>): Promise<Roleplay | undefined>;
+  deleteRoleplayBySlug(slug: string): Promise<boolean>;
   updateRoleplayAvatar(id: string, avatar: string): Promise<Roleplay | undefined>;
   
   // Battlecards
@@ -119,6 +120,7 @@ export interface IStorage {
   // Quiz Attempts
   getUserQuizAttempts(userId: string, chapterId: string): Promise<QuizAttempt[]>;
   getAllUserQuizAttempts(userId: string): Promise<QuizAttempt[]>;
+  getAllQuizAttempts(): Promise<QuizAttempt[]>;
   createQuizAttempt(attempt: InsertQuizAttempt): Promise<QuizAttempt>;
   getUserQuizScore(userId: string, chapterId: string): Promise<{ correct: number; total: number }>;
   
@@ -478,6 +480,11 @@ export class DatabaseStorage implements IStorage {
     return roleplay || undefined;
   }
 
+  async deleteRoleplayBySlug(slug: string): Promise<boolean> {
+    const result = await db.delete(roleplays).where(eq(roleplays.slug, slug)).returning();
+    return result.length > 0;
+  }
+
   async updateRoleplayAvatar(id: string, avatar: string): Promise<Roleplay | undefined> {
     const [roleplay] = await db.update(roleplays).set({ avatar }).where(eq(roleplays.id, id)).returning();
     return roleplay || undefined;
@@ -688,6 +695,13 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(quizAttempts)
       .where(eq(quizAttempts.userId, userId))
+      .orderBy(desc(quizAttempts.createdAt));
+  }
+
+  async getAllQuizAttempts(): Promise<QuizAttempt[]> {
+    return await db
+      .select()
+      .from(quizAttempts)
       .orderBy(desc(quizAttempts.createdAt));
   }
 
