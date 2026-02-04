@@ -65,6 +65,7 @@ export interface IStorage {
   reassignReps(fromManagerId: string, toManagerId: string): Promise<number>;
   deleteUserUsageSessions(userId: string): Promise<number>;
   getAllUsers(): Promise<User[]>;
+  markCertificationEmailSent(userId: string): Promise<boolean>;
   getUsersByRole(role: string): Promise<User[]>;
   getUsersByManagerId(managerId: string): Promise<User[]>;
   getAllUsersByManagerId(managerId: string): Promise<User[]>;
@@ -304,6 +305,15 @@ export class DatabaseStorage implements IStorage {
 
   async getAllUsers(): Promise<User[]> {
     return await db.select().from(users);
+  }
+
+  async markCertificationEmailSent(userId: string): Promise<boolean> {
+    // Use atomic update with null check to prevent duplicate emails under concurrency
+    const result = await db.update(users)
+      .set({ certificationEmailSentAt: new Date() })
+      .where(and(eq(users.id, userId), isNull(users.certificationEmailSentAt)))
+      .returning({ id: users.id });
+    return result.length > 0;
   }
 
   async getUsersByManagerId(managerId: string): Promise<User[]> {

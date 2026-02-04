@@ -317,3 +317,112 @@ export async function sendHardDeleteCode(
     return { success: false, error: error.message || 'Failed to send verification email' };
   }
 }
+
+export async function sendCertificationEmail(
+  repEmail: string,
+  repName: string,
+  managerEmail: string | null
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const { client, fromEmail } = await getResendClient();
+    
+    const appUrl = 'https://geckogreen.gigarev.com/dashboard';
+    const ccList = managerEmail ? [managerEmail] : [];
+
+    await client.emails.send({
+      from: fromEmail || 'Arena AI <arena@updates.gigarev.com>',
+      to: repEmail,
+      cc: ccList,
+      subject: '🏆 Congratulations! You Are Now a Certified GeckoGreen Sales Champion!',
+      html: `
+        <div style="font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
+          <!-- Header with Trophy -->
+          <div style="background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%); padding: 40px 30px; text-align: center;">
+            <div style="font-size: 64px; margin-bottom: 16px;">🏆</div>
+            <h1 style="color: #22c55e; font-size: 32px; font-weight: 800; margin: 0 0 8px 0; text-transform: uppercase; letter-spacing: 1px;">Certified</h1>
+            <p style="color: #ffffff; font-size: 18px; margin: 0; font-weight: 500;">Sales Champion</p>
+            <div style="margin-top: 20px;">
+              <span style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #ffffff; font-size: 11px; padding: 8px 20px; border-radius: 25px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; display: inline-block; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);">GeckoGreen Elite</span>
+            </div>
+          </div>
+          
+          <!-- Main Content -->
+          <div style="padding: 45px 30px; background: #ffffff;">
+            <h2 style="color: #0a0a0a; margin: 0 0 12px 0; font-size: 28px; font-weight: 700;">Congratulations, ${repName}! 🎉</h2>
+            <p style="color: #22c55e; font-size: 17px; font-weight: 600; margin: 0 0 28px 0;">You've proven yourself in the Arena. Now it's time to dominate the field.</p>
+            
+            <p style="color: #4b5563; line-height: 1.8; font-size: 16px; margin-bottom: 28px;">
+              You've completed every training chapter, mastered 16+ AI roleplay scenarios, and crushed the quizzes. You're no longer a trainee – you're a <strong style="color: #0a0a0a;">Certified GeckoGreen Sales Champion</strong>.
+            </p>
+            
+            <!-- Achievement Card -->
+            <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 28px; border-radius: 16px; margin: 28px 0; border: 2px solid #22c55e; position: relative; overflow: hidden;">
+              <div style="position: absolute; top: -20px; right: -20px; font-size: 80px; opacity: 0.15;">🌿</div>
+              <div style="text-align: center;">
+                <p style="color: #166534; font-size: 13px; font-weight: 700; margin: 0 0 16px 0; text-transform: uppercase; letter-spacing: 2px;">Your Accomplishments</p>
+                <table cellpadding="0" cellspacing="0" border="0" width="100%" style="position: relative; z-index: 1;">
+                  <tr>
+                    <td style="padding: 12px 8px; text-align: center; width: 33%;">
+                      <div style="font-size: 28px; margin-bottom: 6px;">📚</div>
+                      <div style="color: #15803d; font-weight: 700; font-size: 20px;">100%</div>
+                      <div style="color: #166534; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Chapters</div>
+                    </td>
+                    <td style="padding: 12px 8px; text-align: center; width: 33%; border-left: 1px solid #bbf7d0; border-right: 1px solid #bbf7d0;">
+                      <div style="font-size: 28px; margin-bottom: 6px;">🎯</div>
+                      <div style="color: #15803d; font-weight: 700; font-size: 20px;">16+</div>
+                      <div style="color: #166534; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Roleplays</div>
+                    </td>
+                    <td style="padding: 12px 8px; text-align: center; width: 33%;">
+                      <div style="font-size: 28px; margin-bottom: 6px;">✨</div>
+                      <div style="color: #15803d; font-weight: 700; font-size: 20px;">75%+</div>
+                      <div style="color: #166534; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Quiz Avg</div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            
+            <!-- What's Next -->
+            <div style="background: #f9fafb; padding: 24px; border-radius: 12px; margin: 28px 0; border-left: 4px solid #0a0a0a;">
+              <p style="color: #0a0a0a; font-size: 15px; font-weight: 700; margin: 0 0 14px 0;">What's Next?</p>
+              <ul style="color: #4b5563; margin: 0; padding-left: 20px; line-height: 2; font-size: 15px;">
+                <li><strong style="color: #0a0a0a;">Hit the field</strong> – Apply everything you've learned with real homeowners</li>
+                <li><strong style="color: #0a0a0a;">Make lawns green</strong> – Every door is an opportunity to transform a yard</li>
+                <li><strong style="color: #0a0a0a;">Stack those commissions</strong> – Your training investment is about to pay off</li>
+                <li><strong style="color: #0a0a0a;">Lead by example</strong> – Show the rookies how it's done</li>
+              </ul>
+            </div>
+            
+            <!-- Motivational Quote -->
+            <div style="text-align: center; margin: 35px 0; padding: 0 15px;">
+              <p style="color: #0a0a0a; font-size: 20px; font-weight: 600; font-style: italic; margin: 0 0 8px 0; line-height: 1.5;">
+                "The Arena made you ready. The field will make you legendary."
+              </p>
+              <p style="color: #22c55e; font-size: 13px; margin: 0; text-transform: uppercase; letter-spacing: 2px; font-weight: 600;">– GeckoGreen Champions</p>
+            </div>
+            
+            <!-- CTA Button -->
+            <div style="text-align: center; margin-top: 35px;">
+              <a href="${appUrl}" style="display: inline-block; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #ffffff; padding: 18px 50px; text-decoration: none; border-radius: 10px; font-weight: 700; font-size: 16px; box-shadow: 0 6px 20px rgba(34, 197, 94, 0.35); text-transform: uppercase; letter-spacing: 1px;">
+                View Your Dashboard
+              </a>
+            </div>
+          </div>
+          
+          <!-- Footer -->
+          <div style="padding: 28px 30px; background: #0a0a0a; text-align: center;">
+            <p style="color: #22c55e; font-size: 16px; margin: 0 0 6px 0; font-weight: 700;">Now go conquer! 🚀</p>
+            <p style="color: #6b7280; font-size: 13px; margin: 0;">
+              Arena AI by GigaRev • GeckoGreen Certified
+            </p>
+          </div>
+        </div>
+      `,
+    });
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Send certification email error:', error);
+    return { success: false, error: error.message || 'Failed to send certification email' };
+  }
+}

@@ -11,7 +11,7 @@ import { getOrGenerateQuizForSlide, submitQuizAnswer, ensurePredefinedQuizzesSee
 import { vapiService } from "./vapi-service";
 import { getVapiRoleplayConfig, convertRoleplayToVapiConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
 import { generateSecurePassword, getAvatarInitials } from "./password-generator";
-import { sendCredentialsEmail, sendBillingResetCode, sendHardDeleteCode } from "./email-service";
+import { sendCredentialsEmail, sendBillingResetCode, sendHardDeleteCode, sendCertificationEmail } from "./email-service";
 import { sendCredentialsSMS } from "./sms-service";
 import { generateWarriorAvatar } from "./warrior-avatar-service";
 import multer from "multer";
@@ -838,6 +838,32 @@ export async function registerRoutes(
         completedChapters >= chapters.length && 
         uniquePassedRoleplays >= REQUIRED_ROLEPLAYS_FOR_CERTIFICATION && 
         avgQuizScore >= 75;
+
+      // Send certification email if newly certified (atomic claim to prevent duplicates)
+      if (isCertified && !user.certificationEmailSentAt) {
+        try {
+          // Atomically claim the email send (prevents race condition duplicates)
+          const claimed = await storage.markCertificationEmailSent(userId);
+          if (claimed) {
+            let managerEmail: string | null = null;
+            if (user.managerId) {
+              const manager = await storage.getUser(user.managerId);
+              if (manager) {
+                managerEmail = manager.email;
+              }
+            }
+            
+            const emailResult = await sendCertificationEmail(user.email, user.name, managerEmail);
+            if (emailResult.success) {
+              console.log(`Certification email sent to ${user.email}${managerEmail ? ` (cc: ${managerEmail})` : ''}`);
+            } else {
+              console.error('Failed to send certification email:', emailResult.error);
+            }
+          }
+        } catch (emailError) {
+          console.error('Error sending certification email:', emailError);
+        }
+      }
 
       res.json({
         user: { ...user, password: undefined },

@@ -18,6 +18,7 @@ export const users = pgTable("users", {
   warriorAvatar: text("warrior_avatar"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   archivedAt: timestamp("archived_at"),
+  certificationEmailSentAt: timestamp("certification_email_sent_at"),
 });
 
 export const chapters = pgTable("chapters", {
