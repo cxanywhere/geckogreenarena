@@ -77,8 +77,10 @@ export default function Home() {
   const quizScores = userProgress.filter((p) => p.quizScore !== null && p.quizScore !== undefined).map((p) => p.quizScore!);
   const avgQuizScore = quizScores.length > 0 ? Math.round(quizScores.reduce((a, b) => a + b, 0) / quizScores.length) : 0;
   
+  // Certification requires 16+ unique roleplays passed (fair to reps who trained before/after roleplay changes)
+  const REQUIRED_ROLEPLAYS_FOR_CERTIFICATION = 16;
   const allChaptersComplete = chaptersCompleted >= totalChapters && totalChapters > 0;
-  const allRoleplaysPassed = uniqueRoleplaysPassed >= totalRoleplays && totalRoleplays > 0;
+  const allRoleplaysPassed = uniqueRoleplaysPassed >= REQUIRED_ROLEPLAYS_FOR_CERTIFICATION;
   const quizScoreMet = avgQuizScore >= 75;
   const isCertified = allChaptersComplete && allRoleplaysPassed && quizScoreMet;
 

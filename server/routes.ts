@@ -832,9 +832,11 @@ export async function registerRoutes(
         ? Math.round(quizScores.reduce((a, b) => a + b, 0) / quizScores.length) 
         : 0;
 
+      // Certification requires 16+ unique roleplays passed (fair to reps who trained before/after roleplay changes)
+      const REQUIRED_ROLEPLAYS_FOR_CERTIFICATION = 16;
       const isCertified = 
         completedChapters >= chapters.length && 
-        uniquePassedRoleplays >= roleplays.length && 
+        uniquePassedRoleplays >= REQUIRED_ROLEPLAYS_FOR_CERTIFICATION && 
         avgQuizScore >= 75;
 
       res.json({

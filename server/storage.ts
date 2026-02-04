@@ -916,11 +916,13 @@ export class DatabaseStorage implements IStorage {
       lastActivity = roleplayAttemptsData[0].createdAt;
     }
     
-    // Certification criteria: all chapters complete, 75%+ quiz average, ALL unique roleplays passed
+    // Certification criteria: all chapters complete, 75%+ quiz average, 16+ unique roleplays passed
+    // Note: Using 16 as the minimum to be fair to reps who trained before/after roleplay changes
+    const REQUIRED_ROLEPLAYS_FOR_CERTIFICATION = 16;
     const isCertified = chaptersCompleted === totalChapters && 
                         totalChapters > 0 && 
                         quizAverage >= 75 && 
-                        roleplaysPassed >= totalRoleplays;
+                        roleplaysPassed >= REQUIRED_ROLEPLAYS_FOR_CERTIFICATION;
     
     // Overall score: 40% quiz, 30% roleplay, 20% chapter, 10% activity bonus
     const activityBonus = lastActivity && (Date.now() - lastActivity.getTime()) < 7 * 24 * 60 * 60 * 1000 ? 10 : 0;
