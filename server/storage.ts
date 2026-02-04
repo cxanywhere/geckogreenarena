@@ -71,6 +71,8 @@ export interface IStorage {
   getAllUsersByManagerId(managerId: string): Promise<User[]>;
   getManagers(): Promise<User[]>;
   getReps(): Promise<User[]>;
+  getUserByCertificationToken(token: string): Promise<User | undefined>;
+  setCertification(userId: string, token: string): Promise<void>;
   
   // Chapters
   getAllChapters(): Promise<Chapter[]>;
@@ -422,6 +424,20 @@ export class DatabaseStorage implements IStorage {
       ))
       .returning();
     return result.length;
+  }
+
+  async getUserByCertificationToken(token: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.certificationToken, token));
+    return user || undefined;
+  }
+
+  async setCertification(userId: string, token: string): Promise<void> {
+    await db.update(users)
+      .set({ 
+        certificationToken: token,
+        certifiedAt: new Date()
+      })
+      .where(eq(users.id, userId));
   }
 
   async deleteUserUsageSessions(userId: string): Promise<number> {

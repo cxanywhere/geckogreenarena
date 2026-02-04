@@ -28,12 +28,14 @@ import MyStatsPage from "@/pages/my-stats";
 import CoachPage from "@/pages/coach";
 import ExpertsPage from "@/pages/experts";
 import VictoryPlaybookPage from "@/pages/victory-playbook";
+import CertificatePage from "@/pages/certificate";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={LoginPage} />
       <Route path="/login" component={LoginPage} />
+      <Route path="/certificate/:token" component={CertificatePage} />
       <Route path="/onboarding">
         <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
           <OnboardingPage />

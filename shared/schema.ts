@@ -19,6 +19,8 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   archivedAt: timestamp("archived_at"),
   certificationEmailSentAt: timestamp("certification_email_sent_at"),
+  certificationToken: text("certification_token").unique(),
+  certifiedAt: timestamp("certified_at"),
 });
 
 export const chapters = pgTable("chapters", {

@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import express from "express";
 import path from "path";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 import { storage } from "./storage";
 import { insertUserProgressSchema, insertRoleplayAttemptSchema } from "@shared/schema";
 import { z } from "zod";
@@ -762,6 +763,29 @@ export async function registerRoutes(
     }
   });
 
+  // Public certificate page - no auth required
+  app.get("/api/certificate/:token", async (req, res) => {
+    try {
+      const { token } = req.params;
+      
+      const user = await storage.getUserByCertificationToken(token);
+      
+      if (!user || !user.certifiedAt) {
+        return res.status(404).json({ error: "Certificate not found" });
+      }
+
+      res.json({
+        name: user.name,
+        certifiedAt: user.certifiedAt,
+        warriorAvatar: user.warriorAvatar,
+        profilePhoto: user.profilePhoto,
+      });
+    } catch (error) {
+      console.error("Get certificate error:", error);
+      res.status(500).json({ error: "Failed to get certificate" });
+    }
+  });
+
   // Test certification email (admin only)
   app.post("/api/test-certification-email", async (req, res) => {
     try {
@@ -861,6 +885,16 @@ export async function registerRoutes(
         uniquePassedRoleplays >= REQUIRED_ROLEPLAYS_FOR_CERTIFICATION && 
         avgQuizScore >= 75;
 
+      // Generate certification token for any certified user who doesn't have one
+      if (isCertified && !user.certificationToken) {
+        try {
+          const certToken = crypto.randomBytes(16).toString('hex');
+          await storage.setCertification(userId, certToken);
+        } catch (tokenError) {
+          console.error('Error generating certification token:', tokenError);
+        }
+      }
+
       // Send certification email if newly certified (atomic claim to prevent duplicates)
       if (isCertified && !user.certificationEmailSentAt) {
         try {
@@ -887,8 +921,11 @@ export async function registerRoutes(
         }
       }
 
+      // Re-fetch user to get updated certification data
+      const updatedUser = await storage.getUser(userId) || user;
+
       res.json({
-        user: { ...user, password: undefined },
+        user: { ...updatedUser, password: undefined },
         stats: {
           chaptersCompleted: completedChapters,
           totalChapters: chapters.length,
@@ -896,6 +933,8 @@ export async function registerRoutes(
           totalRoleplays: roleplays.length,
           avgQuizScore,
           isCertified,
+          certificationToken: updatedUser.certificationToken || null,
+          certifiedAt: updatedUser.certifiedAt || null,
         },
         progress,
         recentAttempts: attempts.slice(0, 5),
