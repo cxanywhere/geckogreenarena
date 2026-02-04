@@ -762,6 +762,28 @@ export async function registerRoutes(
     }
   });
 
+  // Test certification email (admin only)
+  app.post("/api/test-certification-email", async (req, res) => {
+    try {
+      const { email, name, managerEmail } = req.body;
+      
+      if (!email || !name) {
+        return res.status(400).json({ error: "Email and name required" });
+      }
+
+      const result = await sendCertificationEmail(email, name, managerEmail || null);
+      
+      if (!result.success) {
+        return res.status(500).json({ error: result.error || "Failed to send email" });
+      }
+
+      res.json({ success: true, message: `Test certification email sent to ${email}` });
+    } catch (error) {
+      console.error("Test certification email error:", error);
+      res.status(500).json({ error: "Failed to send test email" });
+    }
+  });
+
   // Reset password and resend credentials
   app.post("/api/users/:userId/reset-credentials", async (req, res) => {
     try {
