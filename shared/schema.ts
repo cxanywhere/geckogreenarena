@@ -479,5 +479,14 @@ export type ComicStory = typeof comicStories.$inferSelect;
 export type InsertComicPanel = z.infer<typeof insertComicPanelSchema>;
 export type ComicPanel = typeof comicPanels.$inferSelect;
 
+// Migrations tracking table - for one-time data migrations
+export const migrations = pgTable("migrations", {
+  id: varchar("id").primaryKey(),
+  name: text("name").notNull(),
+  executedAt: timestamp("executed_at").defaultNow().notNull(),
+});
+
+export type Migration = typeof migrations.$inferSelect;
+
 // Export chat models for OpenAI integration
 export * from "./models/chat";
