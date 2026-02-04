@@ -1,0 +1,433 @@
+Slide — PPC & Shopping: What We Will Do
+
+Objective: Drive profitable growth (ROAS + volume) while building a repeatable experimentation and creative engine.
+
+Scope (managed by a dedicated Senior PPC Manager)
+
+Google Search + Google Shopping (incl. Performance Max where appropriate)
+
+Microsoft Ads (Bing) Search + Microsoft Shopping
+
+Full-funnel measurement and a weekly optimization cadence tied into the Operations Command Center
+
+Principles
+
+Feed quality + landing page speed + accurate measurement = compounding ROAS gains
+
+Continuous testing program (ads, bidding, audiences, landing pages, feed attributes)
+
+Slide — Foundations: Tracking, Measurement, and Feed Readiness
+
+1) Conversion measurement that supports ROAS decisions
+
+Confirm primary conversion events (purchase, checkout start, add-to-cart) and ensure correct revenue capture.
+
+Validate event integrity before scaling budgets.
+
+2) Product feed integrity (Google Merchant Center + Microsoft Merchant Center)
+
+Audit feed attributes and disapprovals; fix root causes.
+
+Maintain accurate price and availability (these are core Merchant Center attributes).
+
+Enforce product identifiers (e.g., GTIN) where required; missing identifiers can reduce eligibility for Shopping features.
+
+3) Microsoft Shopping readiness
+
+Stand up Microsoft Merchant Center store and import/sync feeds from Google where appropriate (Microsoft supports feed import from Google Ads).
+
+Ensure conversion tracking readiness (UET and conversion goals are key prerequisites for Smart Shopping style setups).
+
+Slide — Campaign Architecture (Google + Bing)
+
+Google Search (high intent capture)
+
+Brand protection (defensive + conquest where applicable)
+
+Non-brand “high intent” (category + use-case, e.g., “best blender for smoothies,” “quiet blender,” “commercial blender for café”)
+
+Competitor/comparison intent (with compliant messaging)
+
+Google Shopping
+
+Feed-driven Shopping campaigns + Performance Max (only after measurement and creative assets are stable)
+
+Segment by product line, margin, and intent (e.g., best-sellers vs premium)
+
+Microsoft Ads (Bing) Search + Shopping
+
+Mirror high-performing Google structures
+
+Expand incremental coverage and capture additional high-intent volume
+
+Use Microsoft Merchant Center + Shopping campaigns and optimize with the same discipline as Google.
+
+Slide — Optimization for ROAS + Growth (Weekly Operating System)
+
+Weekly optimization loop
+
+Search terms: negatives, keyword expansion, match type refinement
+
+Bid strategy tuning: value-based bidding where reliable; otherwise staged progression
+
+Audience layering: remarketing, customer match (if available), and high-intent segments
+
+Budget reallocation: move spend toward segments with profitable incremental returns
+
+Shopping-specific levers
+
+Feed health monitoring and disapproval prevention (pricing/availability/identifiers)
+
+Query sculpting via product type segmentation and campaign structure
+
+Asset and listing quality improvements (image quality and attribute completeness)
+
+Slide — Experimentation Program: A/B Tests We Will Run (Google + Bing)
+
+Google Ads testing using Experiments
+
+Use Google Ads Experiments to run side-by-side tests on bidding, campaign settings, and changes without risking the baseline.
+
+Use Performance Max experiments when evaluating incremental lift vs non-PMax approaches.
+
+Example A/B tests (practical)
+
+Bidding strategy test: Maximize conversion value vs tROAS (by category / margin tier)
+
+Campaign structure test: segmented Shopping (by product line) vs consolidated Shopping
+
+Creative test (PMax/Search assets): “Power + Durability” vs “Ease + Cleaning” vs “Recipe ecosystem”
+
+Audience test: new customer acquisition focus vs blended audience optimization
+
+Offer test: bundle vs single SKU emphasis, warranty/shipping messaging variants
+
+Microsoft Ads testing
+
+Mirror the testing discipline (campaign structure, audiences, and ad copy variants) in Microsoft Ads to capture incremental gains (same hypotheses, measured independently).
+
+Slide — Creative Repurposing Using AI Image Models (Faster Iteration)
+
+Why
+
+Creative fatigue is a top ROAS killer in Shopping/PMax; rapid, compliant refresh improves engagement and efficiency.
+
+How we do it
+
+Use Google Merchant Center Product Studio (AI-powered) to create and enhance product visuals: generate scenes, remove backgrounds, increase resolution, and generate product videos.
+
+When needed for programmatic variants, we can leverage Merchant API capabilities (e.g., generate product image backgrounds) to scale asset testing.
+
+Concrete creative examples
+
+Scene variations: Blender in “modern white kitchen,” “post-workout smoothie bar,” “family breakfast counter” (same SKU, different context)
+
+Background swaps: clean neutral studio vs lifestyle environment
+
+Resolution upgrade: improve older assets for ad placements
+
+Video snippets: short “pour + blend + serve” loops for PMax/video inventory
+
+Governance
+
+Brand-safe prompt library; approvals for net-new creative directions; maintain consistent product truth (colors, accessories shown, claims).
+
+Slide — Landing Pages: CRO & A/B Testing (Examples)
+
+Goal
+
+Improve conversion rate so bids can scale profitably (ROAS up + volume up).
+
+Landing page testing approach
+
+Test landing page variants aligned to campaign intent (Search/Shopping/Social referrals).
+
+Examples:
+
+Hero message test: “Power & Performance” vs “Quiet & Easy to Clean”
+
+Module order test: UGC/reviews above fold vs specs above fold
+
+CTA test: “Shop Best Sellers” vs “Find Your Blender” (guided quiz)
+
+Bundle test: highlight bundle value vs highlight flagship blender
+
+Recipe-led landing: “Smoothie Starter Pack” landing tied to top queries
+
+Measurement: conversion rate, AOV, revenue per session, assisted conversions.
+
+Note on rigor
+
+Where possible, use controlled experiment methods (avoid biased allocation) and interpret results with statistical discipline; we will use platform experimentation features where appropriate.
+
+Slide — Shopping Feed Optimization (Core GTM Lever)
+
+We will continuously improve:
+
+Titles and product types (query relevance and clarity)
+
+Identifiers: GTIN/brand/MPN completeness where required
+
+Price/availability freshness and accuracy
+
+Images (Product Studio variants for better CTR and engagement)
+
+Result
+
+Fewer disapprovals, better matching, higher CTR, stronger ROAS.
+
+Slide — Operating Cadence & Reporting (Dedicated Senior PPC Manager)
+
+Weekly
+
+Performance review: ROAS, CAC proxy, conversion rate, AOV, new vs returning, device splits
+
+Feed health review: disapprovals, missing attributes, top offenders
+
+Experiment review: tests running, early reads, next hypotheses
+
+Action plan: budget shifts, creative refresh, landing page changes
+
+Monthly
+
+Strategy refresh: seasonality, promo planning, product priorities, marketplace interplay
+
+Roadmap for additional channels and campaigns (expansion once baseline ROAS and tracking are stable)
+
+Stakeholder visibility
+
+Results roll up into the Operations Command Center dashboard (one place to monitor and decide).
+
+Slide — Arena AI Enablement: What We Deliver in Phase 1
+
+Objective
+Create a repeatable, measurable certification system that improves real-world performance through practice, feedback, and accountability—not just content consumption.
+
+Why roleplay is core
+Roleplay is an “active practice” modality associated with much higher retention than lecture-style training per Association for Talent Development.
+
+Phase 1 deliverables
+
+Blendtec Sales Certification Programs (B2C + B2B/Commercial) for:
+
+Blendtec internal reps
+
+Partners (dealers/distributors/resellers)
+
+Complete training assets: micro-lessons, playbooks, call flows, objection handling
+
+AI roleplays + scoring rubrics + pass/fail criteria
+
+Quizzes + knowledge checks + recertification cadence
+
+Manager dashboards + coaching workflows (who needs help, what to coach next)
+
+Slide — Certification Architecture (Who Gets Certified and On What)
+
+Track 1: B2C Sales Certification (Retail/DTC)
+
+Product knowledge: key models, accessories, positioning, “why Blendtec”
+
+Consumer discovery: use cases (smoothies, soups, family, fitness, gifting)
+
+Objections: price, “too powerful,” noise, cleaning, counter space, warranty
+
+Conversion behaviors: guided selection, bundling, urgency/offer framing (as allowed)
+
+Track 2: B2B/Commercial Certification (Lead-to-Opportunity)
+
+Commercial discovery: volume, duty cycle, menu, environment, service expectations
+
+Solution mapping: model fit, containers, use cases, ROI language (without over-claiming)
+
+“Where to buy” routing: e-tailers and distributor pathways; compliance language
+
+Track 3: Partner Enablement Certification (Dealers/Distributors/Resellers)
+
+Brand standards and messaging consistency
+
+Channel compliance and “authorized selling” norms
+
+Handling competitive comparisons and procurement questions
+
+Escalation and lead handoff rules
+
+Certification levels
+
+Level 1: Product + basics (knowledge + simple scenarios)
+
+Level 2: Objections + scenario mastery (roleplays)
+
+Level 3: Advanced/Commercial (deal complexity, procurement, multi-stakeholder)
+
+Slide — Training Content We Create (Curriculum + Assets)
+
+Curriculum format (microlearning + spaced reinforcement)
+
+Short modules designed to be consumed quickly and revisited frequently
+
+Reinforcement loops: “learn → quiz → roleplay → feedback → retry”
+Microlearning and spaced reinforcement are widely used to support retention and ongoing skill development.
+
+Assets we produce
+
+“Blendtec Sales Playbook” (messaging pillars, talk tracks, do/don’t claims)
+
+Product one-pagers (by model) + comparison sheets
+
+Discovery question banks (B2C and Commercial)
+
+Objection handling library (scripts + principles)
+
+Partner-ready collateral: “how to sell,” “how to demo,” “how to route leads”
+
+Knowledge checks
+
+Quizzes after each module (5–10 questions)
+
+Scenario-based questions (not just recall)
+
+Slide — AI Roleplays: Scenario Library, Realism, and Skill Transfer
+
+Roleplay design principles
+
+Scenarios replicate real pressure: time constraints, skepticism, competitive mentions
+
+Progressive difficulty: beginner → intermediate → advanced
+
+Personalities: rushed buyer, skeptical buyer, price-focused buyer, procurement-driven buyer
+
+Roleplay categories (examples)
+
+B2C:
+
+“I can get a cheaper blender on Amazon.”
+
+“I don’t want something hard to clean.”
+
+“Which model is best for smoothies + nut butters?”
+
+Commercial:
+
+“We need reliability for peak hours—what’s the duty cycle?”
+
+“We buy through approved vendors—how do we source?”
+
+“We’re evaluating multiple brands—why should we switch?”
+
+Partner:
+
+“Customer wants your price matched.”
+
+“How do we stay consistent with Blendtec messaging?”
+
+“How do we handle warranty/service expectations?”
+
+Why this works
+
+Roleplay and active practice are repeatedly emphasized as high-value for skill transfer in enablement.
+
+Slide — Scoring, Pass/Fail Criteria, and Certification Rules
+
+Each roleplay has a rubric (example dimensions)
+
+Discovery quality (asks the right questions)
+
+Accuracy (product claims and fit)
+
+Objection handling technique (acknowledge → clarify → respond → confirm)
+
+Clarity and confidence (structure, tone, next step)
+
+Compliance (channel-safe promises and routing language)
+
+Pass/Fail structure
+
+Must-hit “non-negotiables” (e.g., wrong claim = auto-fail)
+
+Score thresholds (e.g., 80% overall + 100% on compliance items)
+
+Retake logic: targeted remediation modules assigned automatically
+
+Certification rules
+
+Level 1: pass modules + quizzes + 3 roleplays
+
+Level 2: pass 6–10 roleplays + objection mastery threshold
+
+Level 3: commercial scenarios + procurement + handoff flows
+
+Training evaluation framework
+We will report outcomes using a training evaluation approach aligned to the 4 levels (reaction, learning, behavior, results) described by Kirkpatrick Partners.
+
+Slide — Reporting Dashboards and Coaching Workflows
+
+Dashboards (by audience)
+
+Enablement leader dashboard: certification completion, pass rates, time-to-certify
+
+Manager dashboard: rep-level gaps, objection weakness clusters, coaching suggestions
+
+Partner dashboard: partner group compliance progress and readiness heatmap
+
+What we track
+
+Module completion rate, quiz accuracy, roleplay pass/fail rate
+
+Top objections by failure rate (what needs new content)
+
+Practice minutes and improvement trajectory over attempts
+
+Coaching workflows
+
+“Assign roleplay set” → “Review transcript + score” → “Prescribe remediation” → “Retest”
+
+Weekly coaching agenda auto-generated from performance gaps
+
+Slide — Rollout Plan (Phase 1)
+
+Week 1–2: Design
+
+Finalize certification tracks and competencies
+
+Define rubrics, non-negotiables, and compliance rules
+
+Outline module map and quiz blueprint
+
+Week 3–4: Build
+
+Produce training content (modules + quizzes)
+
+Build roleplay scripts and scoring criteria
+
+Configure reporting dashboards
+
+Week 5–6: Pilot
+
+Pilot with internal reps + 1–2 partner cohorts
+
+Collect feedback; tune scenarios for realism and clarity
+
+Week 7–8: Launch
+
+Full rollout to internal team + partner program
+
+Establish recertification cadence and quarterly content updates
+
+Slide — How Phase 1 Enables Phase 2 Agentic Enablement
+
+Phase 1 outputs that power Phase 2
+
+Standardized competencies + rubrics + structured roleplay data
+
+Dashboards that identify “what broke” (e.g., new objections, new competitor mentions)
+
+Content pipeline to update modules and roleplays quickly
+
+Phase 2 vision (enablement agent examples)
+
+“Detect top failing objections this week → generate new micro-module + quiz → deploy to reps → schedule retest”
+
+“Partner region lagging in certification → trigger enablement campaign + assigned roleplays + manager reminders”
+
+“New product launch → auto-build updated certification path and partner kits”
