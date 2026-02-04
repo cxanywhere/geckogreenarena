@@ -321,12 +321,14 @@ export async function sendHardDeleteCode(
 export async function sendCertificationEmail(
   repEmail: string,
   repName: string,
-  managerEmail: string | null
+  managerEmail: string | null,
+  certificationToken: string | null = null
 ): Promise<{ success: boolean; error?: string }> {
   try {
     const { client, fromEmail } = await getResendClient();
     
     const appUrl = 'https://geckogreen.gigarev.com/dashboard';
+    const certificateUrl = certificationToken ? `https://geckogreen.gigarev.com/certificate/${certificationToken}` : null;
     const ccList = managerEmail ? [managerEmail] : [];
 
     await client.emails.send({
@@ -392,6 +394,20 @@ export async function sendCertificationEmail(
                 <li><strong style="color: #0a0a0a;">Lead by example</strong> – Show the rookies how it's done</li>
               </ul>
             </div>
+            
+            ${certificateUrl ? `
+            <!-- Share Your Achievement -->
+            <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 24px; border-radius: 12px; margin: 28px 0; border: 2px solid #f59e0b; text-align: center;">
+              <div style="font-size: 32px; margin-bottom: 8px;">🎖️</div>
+              <p style="color: #92400e; font-size: 15px; font-weight: 700; margin: 0 0 12px 0; text-transform: uppercase; letter-spacing: 1px;">Share Your Achievement</p>
+              <p style="color: #78350f; font-size: 14px; margin: 0 0 16px 0; line-height: 1.6;">
+                Show off your hard work! Share your official GeckoGreen Sales Champion certificate with friends, family, or on LinkedIn.
+              </p>
+              <a href="${certificateUrl}" style="display: inline-block; background: #f59e0b; color: #ffffff; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);">
+                View My Certificate
+              </a>
+            </div>
+            ` : ''}
             
             <!-- Motivational Quote -->
             <div style="text-align: center; margin: 35px 0; padding: 0 15px;">

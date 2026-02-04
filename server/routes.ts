@@ -886,9 +886,10 @@ export async function registerRoutes(
         avgQuizScore >= 75;
 
       // Generate certification token for any certified user who doesn't have one
+      let certToken: string | null = user.certificationToken || null;
       if (isCertified && !user.certificationToken) {
         try {
-          const certToken = crypto.randomBytes(16).toString('hex');
+          certToken = crypto.randomBytes(16).toString('hex');
           await storage.setCertification(userId, certToken);
         } catch (tokenError) {
           console.error('Error generating certification token:', tokenError);
@@ -909,9 +910,9 @@ export async function registerRoutes(
               }
             }
             
-            const emailResult = await sendCertificationEmail(user.email, user.name, managerEmail);
+            const emailResult = await sendCertificationEmail(user.email, user.name, managerEmail, certToken);
             if (emailResult.success) {
-              console.log(`Certification email sent to ${user.email}${managerEmail ? ` (cc: ${managerEmail})` : ''}`);
+              console.log(`Certification email sent to ${user.email}${managerEmail ? ` (cc: ${managerEmail})` : ''} with certificate link`);
             } else {
               console.error('Failed to send certification email:', emailResult.error);
             }
