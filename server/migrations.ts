@@ -11,15 +11,6 @@ interface MigrationDef {
 
 const allMigrations: MigrationDef[] = [
   {
-    id: "delete-no-soliciting-roleplay-2026-02-04",
-    name: "Delete 'No soliciting' roleplay (rp-03) that was added by mistake",
-    run: async () => {
-      console.log("Deleting 'No soliciting' roleplay (rp-03)...");
-      const result = await db.execute(`DELETE FROM roleplays WHERE id = 'rp-03'`);
-      console.log("  Deleted 'No soliciting' roleplay from database");
-    }
-  },
-  {
     id: "restore-quiz-data-2026-02-04",
     name: "Restore quiz data and recalculate scores from quiz_attempts",
     run: async () => {

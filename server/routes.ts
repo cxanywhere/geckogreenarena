@@ -21,6 +21,9 @@ import OpenAI from "openai";
 
 const roleplaySessions = new Map<string, { scenario: RoleplayScenario; history: RoleplayMessage[] }>();
 
+// Roleplays to hide from frontend (keep in DB for historical data, but don't show to new users)
+const HIDDEN_ROLEPLAY_IDS = new Set(['rp-03']);
+
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 
 async function ensureDatabaseSeeded() {
@@ -1153,7 +1156,8 @@ export async function registerRoutes(
   // Roleplay routes
   app.get("/api/roleplays", async (req, res) => {
     try {
-      const roleplays = await storage.getAllRoleplays();
+      const allRoleplays = await storage.getAllRoleplays();
+      const roleplays = allRoleplays.filter(rp => !HIDDEN_ROLEPLAY_IDS.has(rp.id));
       res.json(roleplays);
     } catch (error) {
       console.error("Get roleplays error:", error);
@@ -1178,7 +1182,8 @@ export async function registerRoutes(
 
   app.get("/api/chapters/:chapterId/roleplays", async (req, res) => {
     try {
-      const roleplays = await storage.getRoleplaysByChapterId(req.params.chapterId);
+      const allRoleplays = await storage.getRoleplaysByChapterId(req.params.chapterId);
+      const roleplays = allRoleplays.filter(rp => !HIDDEN_ROLEPLAY_IDS.has(rp.id));
       res.json(roleplays);
     } catch (error) {
       console.error("Get chapter roleplays error:", error);
