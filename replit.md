@@ -189,7 +189,18 @@ shared/           # Shared code between frontend/backend
 - Phone field for SMS (future Twilio integration)
 - Credentials display with copy-to-clipboard
 - Send credentials via email button
+- **Reset Password**: Managers can reset any team member's password via KeyRound icon button
+  - Confirmation dialog before reset
+  - Shows new password with copy-to-clipboard
+  - Send new credentials via email or SMS
+  - Backend enforces manager can only reset their own reps
 - Team filtering by manager ID
+
+### Roleplay Attempt Limits
+- Maximum 3 attempts per roleplay per rep
+- Backend enforced at text roleplay, usage session, and voice call endpoints
+- Frontend shows "LOCKED - NO ATTEMPTS LEFT" on character card when exhausted
+- Locked roleplays display a locked screen if accessed directly
 
 ### Admin Dashboard Features
 - Add new managers with auto-generated passwords

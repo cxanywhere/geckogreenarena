@@ -814,12 +814,26 @@ export async function registerRoutes(
   // Reset password and resend credentials
   app.post("/api/users/:userId/reset-credentials", async (req, res) => {
     try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      }
+
+      const requester = authResult.user;
       const { userId } = req.params;
       const { sendEmail = true } = req.body;
       
       const user = await storage.getUser(userId);
       if (!user) {
         return res.status(404).json({ error: "User not found" });
+      }
+
+      if (requester.role === "manager") {
+        if (user.managerId !== requester.id) {
+          return res.status(403).json({ error: "You can only reset passwords for your own team members" });
+        }
+      } else if (requester.role !== "admin" && requester.role !== "director") {
+        return res.status(403).json({ error: "Insufficient permissions" });
       }
 
       // Generate new password

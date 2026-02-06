@@ -20,7 +20,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Bell, Search, UserPlus, Users, TrendingUp, AlertCircle, Trash2, Copy, Mail, Phone, Check, Loader2, Activity, BarChart3, DollarSign, LogOut, Trophy, Award, Target, GraduationCap, Mic, Clock } from "lucide-react";
+import { Bell, Search, UserPlus, Users, TrendingUp, AlertCircle, Trash2, Copy, Mail, Phone, Check, Loader2, Activity, BarChart3, DollarSign, LogOut, Trophy, Award, Target, GraduationCap, Mic, Clock, KeyRound } from "lucide-react";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
 import arenaLogoLight from "@/assets/arena-logo-light.png";
 import geckoLogo from "@assets/image_1766975682051.png";
@@ -95,6 +95,12 @@ export default function ManagerDashboard() {
   const [createdPhone, setCreatedPhone] = useState<string | null>(null);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [repToDelete, setRepToDelete] = useState<User | null>(null);
+  const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
+  const [resetRep, setResetRep] = useState<User | null>(null);
+  const [resetCredentials, setResetCredentials] = useState<{ email: string; password: string; name: string; phone?: string | null } | null>(null);
+  const [resettingPassword, setResettingPassword] = useState(false);
+  const [sendingResetEmail, setSendingResetEmail] = useState(false);
+  const [sendingResetSMS, setSendingResetSMS] = useState(false);
   const { resolvedTheme } = useTheme();
   const { user, logout, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
@@ -352,6 +358,111 @@ export default function ManagerDashboard() {
     setCreatedCredentials(null);
     setCreatedPhone(null);
     setIsAddOpen(false);
+  };
+
+  const handleResetPassword = async (rep: User) => {
+    setResetRep(rep);
+    setResetCredentials(null);
+    setResetPasswordOpen(true);
+  };
+
+  const confirmResetPassword = async () => {
+    if (!resetRep) return;
+    setResettingPassword(true);
+    try {
+      const response = await apiRequest("POST", `/api/users/${resetRep.id}/reset-credentials`, {
+        sendEmail: false,
+      });
+      const data = await response.json();
+      if (data.success) {
+        setResetCredentials({
+          email: resetRep.email,
+          password: data.password,
+          name: resetRep.name,
+          phone: resetRep.phone,
+        });
+        toast({
+          title: "Password Reset",
+          description: `New password generated for ${resetRep.name}.`,
+        });
+      } else {
+        throw new Error(data.error || "Failed to reset password");
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to reset password",
+        variant: "destructive",
+      });
+      setResetPasswordOpen(false);
+    } finally {
+      setResettingPassword(false);
+    }
+  };
+
+  const handleSendResetEmail = async () => {
+    if (!resetCredentials) return;
+    setSendingResetEmail(true);
+    try {
+      const response = await apiRequest("POST", "/api/send-credentials/email", {
+        email: resetCredentials.email,
+        name: resetCredentials.name,
+        password: resetCredentials.password,
+      });
+      const data = await response.json();
+      if (data.success) {
+        toast({
+          title: "Email Sent",
+          description: `New credentials sent to ${resetCredentials.email}`,
+        });
+      } else {
+        throw new Error(data.error);
+      }
+    } catch (error: any) {
+      toast({
+        title: "Email Failed",
+        description: error.message || "Could not send email",
+        variant: "destructive",
+      });
+    } finally {
+      setSendingResetEmail(false);
+    }
+  };
+
+  const handleSendResetSMS = async () => {
+    if (!resetCredentials || !resetCredentials.phone) return;
+    setSendingResetSMS(true);
+    try {
+      const response = await apiRequest("POST", "/api/send-credentials/sms", {
+        phone: resetCredentials.phone,
+        email: resetCredentials.email,
+        name: resetCredentials.name,
+        password: resetCredentials.password,
+      });
+      const data = await response.json();
+      if (data.success) {
+        toast({
+          title: "SMS Sent",
+          description: `New credentials sent to ${resetCredentials.phone}`,
+        });
+      } else {
+        throw new Error(data.error);
+      }
+    } catch (error: any) {
+      toast({
+        title: "SMS Failed",
+        description: error.message || "Could not send SMS",
+        variant: "destructive",
+      });
+    } finally {
+      setSendingResetSMS(false);
+    }
+  };
+
+  const closeResetDialog = () => {
+    setResetPasswordOpen(false);
+    setResetCredentials(null);
+    setResetRep(null);
   };
 
   const ManagerHeader = () => (
@@ -903,7 +1014,17 @@ export default function ManagerDashboard() {
                         {rep.phone || "-"}
                       </TableCell>
                       <TableCell className="text-right">
-                        <div className="flex justify-end gap-2" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex justify-end gap-1" onClick={(e) => e.stopPropagation()}>
+                          <Button 
+                            size="sm" 
+                            variant="ghost" 
+                            className="h-8 w-8 p-0" 
+                            onClick={() => handleResetPassword(rep)} 
+                            title="Reset Password"
+                            data-testid={`button-reset-password-${rep.id}`}
+                          >
+                            <KeyRound className="h-4 w-4 text-muted-foreground hover:text-amber-500" />
+                          </Button>
                            <Button 
                              size="sm" 
                              variant="ghost" 
@@ -1107,6 +1228,127 @@ export default function ManagerDashboard() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <Dialog open={resetPasswordOpen} onOpenChange={(open) => {
+        if (!open) closeResetDialog();
+      }}>
+        <DialogContent className="max-w-md">
+          {!resetCredentials ? (
+            <>
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-2">
+                  <KeyRound className="w-5 h-5 text-amber-500" />
+                  Reset Password
+                </DialogTitle>
+                <DialogDescription>
+                  Generate a new password for <strong>{resetRep?.name}</strong>. Their current password will stop working immediately.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter className="gap-2 sm:gap-0">
+                <Button variant="outline" onClick={closeResetDialog} data-testid="button-reset-cancel">Cancel</Button>
+                <Button 
+                  onClick={confirmResetPassword}
+                  disabled={resettingPassword}
+                  className="bg-amber-600 hover:bg-amber-700"
+                  data-testid="button-reset-confirm"
+                >
+                  {resettingPassword ? (
+                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Resetting...</>
+                  ) : (
+                    "Reset Password"
+                  )}
+                </Button>
+              </DialogFooter>
+            </>
+          ) : (
+            <>
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-2">
+                  <Check className="w-5 h-5 text-green-500" />
+                  Password Reset Successfully
+                </DialogTitle>
+                <DialogDescription>
+                  Copy the new credentials below or send them directly to {resetCredentials.name}.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4 py-4">
+                <div className="bg-muted/50 rounded-lg p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-xs text-muted-foreground">Email</p>
+                      <p className="font-mono text-sm" data-testid="text-reset-email">{resetCredentials.email}</p>
+                    </div>
+                    <Button 
+                      size="sm" 
+                      variant="ghost" 
+                      className="h-8 w-8 p-0" 
+                      onClick={() => copyToClipboard(resetCredentials.email, "Email")}
+                      data-testid="button-copy-reset-email"
+                    >
+                      {copiedField === "Email" ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+                    </Button>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-xs text-muted-foreground">New Password</p>
+                      <p className="font-mono text-sm font-bold" data-testid="text-reset-password">{resetCredentials.password}</p>
+                    </div>
+                    <Button 
+                      size="sm" 
+                      variant="ghost" 
+                      className="h-8 w-8 p-0" 
+                      onClick={() => copyToClipboard(resetCredentials.password, "Password")}
+                      data-testid="button-copy-reset-password"
+                    >
+                      {copiedField === "Password" ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="flex gap-2">
+                  <Button 
+                    variant="outline" 
+                    className="flex-1 gap-2"
+                    onClick={handleSendResetEmail}
+                    disabled={sendingResetEmail}
+                    data-testid="button-send-reset-email"
+                  >
+                    {sendingResetEmail ? (
+                      <><Loader2 className="w-4 h-4 animate-spin" /> Sending...</>
+                    ) : (
+                      <><Mail className="w-4 h-4" /> Send via Email</>
+                    )}
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="flex-1 gap-2"
+                    onClick={handleSendResetSMS}
+                    disabled={sendingResetSMS || !resetCredentials.phone}
+                    title={!resetCredentials.phone ? "No phone number on file" : "Send via SMS"}
+                    data-testid="button-send-reset-sms"
+                  >
+                    {sendingResetSMS ? (
+                      <><Loader2 className="w-4 h-4 animate-spin" /> Sending...</>
+                    ) : (
+                      <><Phone className="w-4 h-4" /> Send via SMS</>
+                    )}
+                  </Button>
+                </div>
+                {!resetCredentials.phone && (
+                  <p className="text-xs text-muted-foreground text-center">
+                    SMS unavailable — no phone number on file for this rep.
+                  </p>
+                )}
+              </div>
+              <DialogFooter>
+                <Button onClick={closeResetDialog} data-testid="button-reset-done">
+                  Done
+                </Button>
+              </DialogFooter>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
