@@ -196,6 +196,17 @@ shared/           # Shared code between frontend/backend
   - Backend enforces manager can only reset their own reps
 - Team filtering by manager ID
 
+### Quiz Review System
+- **Page**: `/quizzes` - Standalone page for reps to review and complete pending quizzes
+- **API**: `GET /api/users/:userId/quiz-review` - Returns all quiz questions across chapters with per-question status (unanswered/correct/incorrect), chapter scores, and overall score vs 75% threshold
+- Authorization: Requires authenticated user; only self, managers, admins, directors can access
+- Questions are displayed grouped by chapter with expandable sections
+- Reps can retake incorrect or skipped quizzes inline via a quiz modal
+- Quiz question details (options, correct answer) are fetched on-demand when answering, not exposed in the review list
+- Overall score and per-chapter progress bars track certification quiz requirement
+- Navigation: "Quizzes" link in main nav; "Review Quizzes" CTA on dashboard when quiz score needs improvement
+- Quiz system is fully database-driven via `/api/quiz/:chapterId/slides` endpoint
+
 ### Roleplay Attempt Limits
 - Maximum 3 attempts per roleplay per rep
 - Backend enforced at text roleplay, usage session, and voice call endpoints

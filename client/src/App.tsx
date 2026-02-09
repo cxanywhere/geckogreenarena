@@ -29,6 +29,7 @@ import CoachPage from "@/pages/coach";
 import ExpertsPage from "@/pages/experts";
 import VictoryPlaybookPage from "@/pages/victory-playbook";
 import CertificatePage from "@/pages/certificate";
+import QuizReviewPage from "@/pages/quiz-review";
 
 function Router() {
   return (
@@ -135,6 +136,11 @@ function Router() {
       <Route path="/playbook">
         <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
           <VictoryPlaybookPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/quizzes">
+        <ProtectedRoute allowedRoles={["rep"]}>
+          <QuizReviewPage />
         </ProtectedRoute>
       </Route>
       <Route component={NotFound} />

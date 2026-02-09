@@ -278,6 +278,13 @@ export default function Home() {
                       </Button>
                     </Link>
                   )}
+                  {nextAction.type === "quiz" && (
+                    <Link href="/quizzes">
+                      <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90 font-bold shadow-md" data-testid="button-next-action-quiz">
+                        Review Quizzes <ArrowRight className="ml-2 w-4 h-4" />
+                      </Button>
+                    </Link>
+                  )}
                 </div>
               </motion.div>
             )}

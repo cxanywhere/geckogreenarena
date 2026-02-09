@@ -124,6 +124,33 @@ export interface QuizScore {
   total: number;
 }
 
+export interface QuizReviewQuestion {
+  questionId: string;
+  slideIndex: number;
+  question: string;
+  status: "unanswered" | "correct" | "incorrect";
+}
+
+export interface QuizReviewChapter {
+  chapterId: string;
+  chapterTitle: string;
+  chapterOrder: number;
+  totalQuestions: number;
+  correct: number;
+  incorrect: number;
+  unanswered: number;
+  scorePercent: number;
+  questions: QuizReviewQuestion[];
+}
+
+export interface QuizReviewData {
+  overallScore: number;
+  totalCorrect: number;
+  totalQuestions: number;
+  meetsThreshold: boolean;
+  chapters: QuizReviewChapter[];
+}
+
 class APIClient {
   private getAuthHeaders(): Record<string, string> {
     const token = localStorage.getItem("authToken");
@@ -341,6 +368,10 @@ class APIClient {
 
   async getUserQuizScore(userId: string, chapterId: string): Promise<QuizScore> {
     return this.request(`/api/users/${userId}/quiz-score/${chapterId}`);
+  }
+
+  async getUserQuizReview(userId: string): Promise<QuizReviewData> {
+    return this.request(`/api/users/${userId}/quiz-review`);
   }
 
   async getQuizFromContent(chapterId: string, pageNumber: number): Promise<{ 

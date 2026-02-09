@@ -2103,6 +2103,95 @@ export async function registerRoutes(
     }
   });
 
+  app.get("/api/users/:userId/quiz-review", async (req, res) => {
+    try {
+      const { userId } = req.params;
+
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult || authResult.error) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const authUser = authResult.user;
+      if (authUser.id !== userId && authUser.role !== "admin" && authUser.role !== "director" && authUser.role !== "manager") {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+
+      const chapters = await storage.getAllChapters();
+      const allAttempts = await storage.getAllUserQuizAttempts(userId);
+
+      const attemptsByQuestion = new Map<string, number>();
+      for (const a of allAttempts) {
+        const existing = attemptsByQuestion.get(a.questionId);
+        if (existing === undefined || a.isCorrect > existing) {
+          attemptsByQuestion.set(a.questionId, a.isCorrect);
+        }
+      }
+
+      const chapterQuizData = await Promise.all(
+        chapters.map(async (chapter) => {
+          const questions = await storage.getQuizQuestionsByChapter(chapter.id);
+
+          let correct = 0;
+          let incorrect = 0;
+          let unanswered = 0;
+
+          const questionStatuses = questions.map((q) => {
+            const bestResult = attemptsByQuestion.get(q.id);
+            let status: "unanswered" | "correct" | "incorrect";
+            if (bestResult === undefined) {
+              status = "unanswered";
+              unanswered++;
+            } else if (bestResult === 1) {
+              status = "correct";
+              correct++;
+            } else {
+              status = "incorrect";
+              incorrect++;
+            }
+
+            return {
+              questionId: q.id,
+              slideIndex: q.slideIndex,
+              question: q.question,
+              status,
+            };
+          });
+
+          const scorePercent = questions.length > 0 ? Math.round((correct / questions.length) * 100) : 0;
+
+          return {
+            chapterId: chapter.id,
+            chapterTitle: chapter.title,
+            chapterOrder: chapter.orderIndex ?? 0,
+            totalQuestions: questions.length,
+            correct,
+            incorrect,
+            unanswered,
+            scorePercent,
+            questions: questionStatuses,
+          };
+        })
+      );
+
+      chapterQuizData.sort((a, b) => a.chapterOrder - b.chapterOrder);
+
+      const totalQuestions = chapterQuizData.reduce((sum, c) => sum + c.totalQuestions, 0);
+      const totalCorrect = chapterQuizData.reduce((sum, c) => sum + c.correct, 0);
+      const overallPercent = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
+
+      res.json({
+        overallScore: overallPercent,
+        totalCorrect,
+        totalQuestions,
+        meetsThreshold: overallPercent >= 75,
+        chapters: chapterQuizData,
+      });
+    } catch (error) {
+      console.error("Get quiz review error:", error);
+      res.status(500).json({ error: "Failed to get quiz review data" });
+    }
+  });
+
   app.post("/api/quiz/from-pdf", async (req, res) => {
     try {
       const { chapterId, pageNumber } = req.body;
