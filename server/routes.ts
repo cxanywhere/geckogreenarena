@@ -5,7 +5,9 @@ import path from "path";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { storage } from "./storage";
-import { insertUserProgressSchema, insertRoleplayAttemptSchema } from "@shared/schema";
+import { db } from "./db";
+import { insertUserProgressSchema, insertRoleplayAttemptSchema, quizQuestions } from "@shared/schema";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, generateLogoImage, generateBattlecardImage, generateArenaLogo, type RoleplayMessage, type RoleplayScenario } from "./gemini";
 import { getOrGenerateQuizForSlide, submitQuizAnswer, ensurePredefinedQuizzesSeeded } from "./quiz-service";
@@ -2032,6 +2034,20 @@ export async function registerRoutes(
   });
 
   // Quiz routes
+  app.get("/api/quiz/:chapterId/slides", async (req, res) => {
+    try {
+      const { chapterId } = req.params;
+      const results = await db.selectDistinct({ slideIndex: quizQuestions.slideIndex })
+        .from(quizQuestions)
+        .where(eq(quizQuestions.chapterId, chapterId));
+      
+      res.json({ slides: results.map(r => r.slideIndex) });
+    } catch (error) {
+      console.error("Get quiz slides error:", error);
+      res.status(500).json({ error: "Failed to get quiz slides" });
+    }
+  });
+
   app.get("/api/quiz/:chapterId/slide/:slideIndex", async (req, res) => {
     try {
       const { chapterId, slideIndex } = req.params;

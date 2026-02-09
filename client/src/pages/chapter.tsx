@@ -10,15 +10,12 @@ import { api, type QuizQuestion } from "@/lib/api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOrientation } from "@/hooks/useOrientation";
-import { getQuizForSlide as getCh1QuizForSlide, isQuizSlide as isCh1QuizSlide } from "@/lib/chapter1-quizzes";
-import { getQuizForSlide as getCh0QuizForSlide, isQuizSlide as isCh0QuizSlide } from "@/lib/chapter0-quizzes";
 import { getRoleplaysForSlide as getCh1Roleplays, isRoleplaySlide as isCh1RoleplaySlide, getAllChapter1Roleplays, type PredefinedRoleplay } from "@/lib/chapter1-roleplays";
 import { getRoleplaysForSlide as getCh2Roleplays, isRoleplaySlide as isCh2RoleplaySlide, getAllChapter2Roleplays } from "@/lib/chapter2-roleplays";
 import { RoleplayPrompt } from "@/components/roleplay-prompt";
 import { Progress } from "@/components/ui/progress";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
-const QUIZ_INTERVAL = 5;
 
 export default function ChapterPage() {
   const [, params] = useRoute("/chapter/:id");
@@ -128,6 +125,17 @@ export default function ChapterPage() {
   const isChapter1 = chapter?.title === "Sales Foundations";
   const isChapter2 = chapter?.title === "Field Execution" || chapter?.title === "Field Sales Process";
 
+  const { data: dbQuizSlides } = useQuery({
+    queryKey: ["quiz-slides", chapter?.id],
+    queryFn: async () => {
+      if (!chapter?.id) return { slides: [] };
+      return api.getQuizSlides(chapter.id);
+    },
+    enabled: !!chapter?.id,
+    staleTime: Infinity,
+  });
+  const quizSlideSet = new Set(dbQuizSlides?.slides || []);
+
   const pendingContentForSlide = useRef<{ quizzes: boolean; roleplays: PredefinedRoleplay[] } | null>(null);
 
   const triggerQuiz = useCallback(async (pageNumber: number) => {
@@ -138,10 +146,7 @@ export default function ChapterPage() {
     
     lastCheckedPage.current = pageNumber;
     
-    // Check if this slide should have a quiz (for Ch0/Ch1 predefined quizzes)
-    const shouldHaveQuiz = isChapter0 ? isCh0QuizSlide(pageNumber) : 
-                           isChapter1 ? isCh1QuizSlide(pageNumber) : 
-                           (pageNumber > 1 && pageNumber % QUIZ_INTERVAL === 0);
+    const shouldHaveQuiz = quizSlideSet.has(pageNumber);
     
     if (!shouldHaveQuiz) return;
     
@@ -166,7 +171,7 @@ export default function ChapterPage() {
     } finally {
       setIsLoadingQuiz(false);
     }
-  }, [chapter, user, completedQuizPages, isLoadingQuiz, isChapter0, isChapter1]);
+  }, [chapter, user, completedQuizPages, isLoadingQuiz, quizSlideSet.size]);
 
   // Helper to check if a roleplay should be shown based on DB status
   const shouldShowRoleplay = useCallback((orderIndex: number): boolean => {
@@ -224,30 +229,11 @@ export default function ChapterPage() {
     
     // Handle quizzes - trigger when LEAVING the slide (after viewing content)
     // This ensures users see the content before being quizzed on it
-    if (isMovingForward) {
-      if (isChapter0) {
-        if (isCh0QuizSlide(previousPage) && !completedQuizPages.has(previousPage)) {
-          setPendingNextPage(page);
-          setQuizSourcePage(previousPage);
-          triggerQuiz(previousPage);
-          return; // Don't advance yet - wait for quiz completion
-        }
-      } else if (isChapter1) {
-        if (isCh1QuizSlide(previousPage) && !completedQuizPages.has(previousPage)) {
-          setPendingNextPage(page);
-          setQuizSourcePage(previousPage);
-          triggerQuiz(previousPage);
-          return; // Don't advance yet - wait for quiz completion
-        }
-      } else if (!isChapter0 && !isChapter1) {
-        // For Chapter 2 (Field Execution) and other chapters, use QUIZ_INTERVAL
-        if (previousPage > 1 && previousPage % QUIZ_INTERVAL === 0 && !completedQuizPages.has(previousPage)) {
-          setPendingNextPage(page);
-          setQuizSourcePage(previousPage);
-          triggerQuiz(previousPage);
-          return; // Don't advance yet - wait for quiz completion
-        }
-      }
+    if (isMovingForward && quizSlideSet.has(previousPage) && !completedQuizPages.has(previousPage)) {
+      setPendingNextPage(page);
+      setQuizSourcePage(previousPage);
+      triggerQuiz(previousPage);
+      return;
     }
     
     // Update the current page
@@ -431,7 +417,8 @@ export default function ChapterPage() {
   }
 
   const slideProgress = totalSlides > 0 ? Math.round((currentPage / totalSlides) * 100) : 0;
-  const allQuizzesDone = completedQuizPages.size >= (isChapter0 ? 10 : isChapter1 ? 5 : Math.floor(totalSlides / QUIZ_INTERVAL));
+  const totalQuizzesForChapter = quizSlideSet.size;
+  const allQuizzesDone = totalQuizzesForChapter > 0 && completedQuizPages.size >= totalQuizzesForChapter;
   const allRoleplaysDone = isChapter1 ? completedRoleplayOrderIndexes.size >= getAllChapter1Roleplays().length : true;
 
   return (

@@ -318,6 +318,10 @@ class APIClient {
   }
 
   // Quiz
+  async getQuizSlides(chapterId: string): Promise<{ slides: number[] }> {
+    return this.request(`/api/quiz/${chapterId}/slides`);
+  }
+
   async getQuizForSlide(chapterId: string, slideIndex: number, content?: string): Promise<{ questions: QuizQuestion[] }> {
     const params = new URLSearchParams();
     if (content) params.set("content", content);
