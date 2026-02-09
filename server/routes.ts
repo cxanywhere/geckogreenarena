@@ -2108,8 +2108,8 @@ export async function registerRoutes(
       const { userId } = req.params;
 
       const authResult = await getAuthenticatedUser(req);
-      if (!authResult || authResult.error) {
-        return res.status(401).json({ error: "Unauthorized" });
+      if (!authResult?.user) {
+        return res.status(401).json({ error: authResult?.error || "Unauthorized" });
       }
       const authUser = authResult.user;
       if (authUser.id !== userId && authUser.role !== "admin" && authUser.role !== "director" && authUser.role !== "manager") {

@@ -36,10 +36,11 @@ export default function QuizReviewPage() {
   const [submitting, setSubmitting] = useState(false);
   const [loadingQuestion, setLoadingQuestion] = useState<string | null>(null);
 
-  const { data: reviewData, isLoading } = useQuery<QuizReviewData>({
+  const { data: reviewData, isLoading, isError, refetch } = useQuery<QuizReviewData>({
     queryKey: ["quiz-review", user?.id],
     queryFn: () => api.getUserQuizReview(user!.id),
     enabled: !!user?.id,
+    retry: 1,
   });
 
   const handleStartQuiz = async (chapterId: string, question: QuizReviewQuestion) => {
@@ -90,6 +91,24 @@ export default function QuizReviewPage() {
             <div className="h-32 bg-muted rounded" />
             <div className="h-48 bg-muted rounded" />
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Nav />
+        <div className="max-w-2xl mx-auto px-4 pt-20 pb-24 text-center">
+          <GraduationCap className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+          <h2 className="text-lg font-semibold mb-2">Unable to load quiz data</h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            Please try logging out and back in, then return to this page.
+          </p>
+          <Button onClick={() => refetch()} variant="outline" data-testid="button-retry-load">
+            Try Again
+          </Button>
         </div>
       </div>
     );
