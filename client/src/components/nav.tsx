@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { Menu, LogOut, User } from "lucide-react";
+import { Menu, LogOut, User, ChevronDown, Swords, BookOpen, Trophy, GraduationCap, BarChart3, Users, ScrollText, Target, Sparkles, Library, MessageSquare } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -29,10 +29,17 @@ import geckoLogo from "@assets/image_1766975682051.png";
 import arenaLogoDark from "@/assets/arena-logo-dark.png";
 import arenaLogoLight from "@/assets/arena-logo-light.png";
 
+interface NavGroup {
+  label: string;
+  icon: React.ReactNode;
+  items: { href: string; label: string; icon: React.ReactNode; description: string }[];
+}
+
 export function Nav() {
   const [location, setLocation] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [showSignOutDialog, setShowSignOutDialog] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { user, logout } = useAuth();
   const { resolvedTheme } = useTheme();
   
@@ -58,18 +65,42 @@ export function Nav() {
       .slice(0, 2);
   };
 
-  const links = [
-    { href: "/dashboard", label: "Arena" },
-    { href: "/playbook", label: "Playbook" },
-    { href: "/coach", label: "Coach" },
-    { href: "/quizzes", label: "Quizzes" },
-    { href: "/my-stats", label: "My Stats" },
-    { href: "/leaderboard", label: "Leaderboard" },
-    { href: "/battlecards", label: "Battlecards" },
-    { href: "/personas", label: "Personas" },
-    { href: "/experts", label: "Experts" },
-    { href: "/resources", label: "Library" },
+  const navGroups: NavGroup[] = [
+    {
+      label: "Training",
+      icon: <Swords className="h-4 w-4" />,
+      items: [
+        { href: "/dashboard", label: "Arena", icon: <Swords className="h-4 w-4" />, description: "Your training hub" },
+        { href: "/quizzes", label: "Quizzes", icon: <GraduationCap className="h-4 w-4" />, description: "Review & complete quizzes" },
+        { href: "/my-stats", label: "My Stats", icon: <BarChart3 className="h-4 w-4" />, description: "Track your progress" },
+        { href: "/leaderboard", label: "Leaderboard", icon: <Trophy className="h-4 w-4" />, description: "See top performers" },
+      ],
+    },
+    {
+      label: "Resources",
+      icon: <BookOpen className="h-4 w-4" />,
+      items: [
+        { href: "/playbook", label: "Playbook", icon: <ScrollText className="h-4 w-4" />, description: "Winning sales plays" },
+        { href: "/battlecards", label: "Battlecards", icon: <Target className="h-4 w-4" />, description: "Quick objection scripts" },
+        { href: "/personas", label: "Personas", icon: <Users className="h-4 w-4" />, description: "Buyer personality types" },
+        { href: "/resources", label: "Library", icon: <Library className="h-4 w-4" />, description: "Videos & learning materials" },
+      ],
+    },
+    {
+      label: "Support",
+      icon: <MessageSquare className="h-4 w-4" />,
+      items: [
+        { href: "/coach", label: "AI Coach", icon: <Sparkles className="h-4 w-4" />, description: "Get personalized coaching" },
+        { href: "/experts", label: "Experts", icon: <Users className="h-4 w-4" />, description: "Connect with D2D pros" },
+      ],
+    },
   ];
+
+  const allLinks = navGroups.flatMap((g) => g.items);
+
+  const isGroupActive = (group: NavGroup) => {
+    return group.items.some((item) => location === item.href);
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-white/80 backdrop-blur-md dark:bg-black/80">
@@ -93,22 +124,64 @@ export function Nav() {
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center gap-6">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
-                location === link.href
-                  ? "text-primary font-bold"
-                  : "text-muted-foreground"
-              )}
+        <div className="hidden lg:flex items-center gap-1">
+          {navGroups.map((group) => (
+            <DropdownMenu
+              key={group.label}
+              open={openDropdown === group.label}
+              onOpenChange={(open) => setOpenDropdown(open ? group.label : null)}
             >
-              {link.label}
-            </Link>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all",
+                    isGroupActive(group)
+                      ? "text-primary bg-primary/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  )}
+                  data-testid={`nav-group-${group.label.toLowerCase()}`}
+                >
+                  {group.icon}
+                  {group.label}
+                  <ChevronDown className={cn(
+                    "h-3 w-3 transition-transform duration-200",
+                    openDropdown === group.label && "rotate-180"
+                  )} />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="center" className="w-56">
+                {group.items.map((item) => (
+                  <DropdownMenuItem
+                    key={item.href}
+                    onClick={() => { setLocation(item.href); setOpenDropdown(null); }}
+                    className={cn(
+                      "cursor-pointer flex items-start gap-3 py-2.5",
+                      location === item.href && "bg-primary/5"
+                    )}
+                    data-testid={`nav-link-${item.label.toLowerCase().replace(/\s+/g, "-")}`}
+                  >
+                    <span className={cn(
+                      "mt-0.5",
+                      location === item.href ? "text-primary" : "text-muted-foreground"
+                    )}>
+                      {item.icon}
+                    </span>
+                    <div className="flex flex-col">
+                      <span className={cn(
+                        "font-medium",
+                        location === item.href && "text-primary"
+                      )}>
+                        {item.label}
+                      </span>
+                      <span className="text-xs text-muted-foreground">{item.description}</span>
+                    </div>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           ))}
-          <div className="flex items-center gap-3 pl-6 border-l border-primary/10">
+
+          <div className="flex items-center gap-3 pl-4 ml-2 border-l border-primary/10">
             <ModeToggle />
             {user && (
               <DropdownMenu>
@@ -175,9 +248,9 @@ export function Nav() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="bg-white/95 dark:bg-black/95 backdrop-blur-xl border-l-white/20">
-              <div className="flex flex-col gap-6 mt-10">
+              <div className="flex flex-col gap-2 mt-10">
                 {user && (
-                  <div className="flex items-center gap-3 pb-4 border-b border-primary/10 cursor-pointer" onClick={() => { setIsOpen(false); setLocation("/profile"); }}>
+                  <div className="flex items-center gap-3 pb-4 mb-2 border-b border-primary/10 cursor-pointer" onClick={() => { setIsOpen(false); setLocation("/profile"); }}>
                     {user.warriorAvatar ? (
                       <img 
                         src={user.warriorAvatar} 
@@ -195,28 +268,41 @@ export function Nav() {
                     </div>
                   </div>
                 )}
-                {links.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className={cn(
-                      "text-lg font-medium transition-colors",
-                      location === link.href
-                        ? "text-primary"
-                        : "text-muted-foreground"
-                    )}
-                  >
-                    {link.label}
-                  </Link>
+                {navGroups.map((group) => (
+                  <div key={group.label} className="mb-2">
+                    <div className="flex items-center gap-2 px-2 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">
+                      {group.icon}
+                      {group.label}
+                    </div>
+                    <div className="flex flex-col">
+                      {group.items.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className={cn(
+                            "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                            location === item.href
+                              ? "text-primary bg-primary/10"
+                              : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                          )}
+                        >
+                          <span className={location === item.href ? "text-primary" : "text-muted-foreground"}>
+                            {item.icon}
+                          </span>
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 ))}
                 {user && (
                   <button
                     onClick={() => setShowSignOutDialog(true)}
-                    className="flex items-center gap-2 text-lg font-medium text-red-600 mt-4 pt-4 border-t border-primary/10"
+                    className="flex items-center gap-2 text-sm font-medium text-red-600 mt-2 mx-2 pt-4 border-t border-primary/10"
                     data-testid="button-signout-mobile"
                   >
-                    <LogOut className="h-5 w-5" />
+                    <LogOut className="h-4 w-4" />
                     Sign Out
                   </button>
                 )}
