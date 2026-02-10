@@ -126,6 +126,7 @@ export default function Home() {
         body: JSON.stringify({ chapterId }),
       });
       if (res.ok) {
+        localStorage.removeItem(`chapter_pdf_progress_${chapterId}`);
         await queryClient.invalidateQueries({ queryKey: ["user-progress", user?.id] });
         setLocation(`/chapter/${chapterId}`);
       }
