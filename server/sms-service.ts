@@ -79,3 +79,35 @@ export async function sendCredentialsSMS(
     return { success: false, error: error.message || 'Failed to send SMS' };
   }
 }
+
+export async function sendQuizReminderSMS(
+  toPhone: string,
+  name: string,
+  quizScore: number,
+  roleplaysPassed: number
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const client = await getTwilioClient();
+    const fromPhone = await getTwilioFromPhoneNumber();
+
+    if (!fromPhone) {
+      throw new Error('Twilio phone number not configured');
+    }
+
+    const quizzesUrl = 'https://geckogreen.gigarev.com/quizzes';
+    const scoreText = quizScore > 0 ? `Current avg: ${quizScore}%.` : 'No quizzes completed yet.';
+
+    const message = `Hey ${name}! You've passed ${roleplaysPassed} roleplays — you're almost certified! 🔥\n\nComplete your quizzes (need 75%+) to earn your GeckoGreen certification. ${scoreText}\n\nTake quizzes: ${quizzesUrl}`;
+
+    await client.messages.create({
+      body: message,
+      from: fromPhone,
+      to: toPhone
+    });
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Send quiz reminder SMS error:', error);
+    return { success: false, error: error.message || 'Failed to send quiz reminder SMS' };
+  }
+}

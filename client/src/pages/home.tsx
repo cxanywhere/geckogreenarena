@@ -180,6 +180,39 @@ export default function Home() {
 
             {user && <NudgeBanner userId={user.id} />}
 
+            {/* Almost Certified Banner - Roleplays done but quizzes pending */}
+            {allRoleplaysPassed && !quizScoreMet && !isCertified && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl p-5"
+                data-testid="banner-almost-certified"
+              >
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-amber-500/20 rounded-xl shrink-0">
+                      <GraduationCap className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg text-foreground">You're almost certified!</h3>
+                      <p className="text-sm text-muted-foreground mt-0.5">
+                        You've passed your roleplays — now complete your quizzes with a 75%+ average to earn your certification.
+                        {avgQuizScore > 0 && (
+                          <span className="font-medium text-amber-600 dark:text-amber-400"> Current average: {avgQuizScore}%</span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                  <Link href="/quizzes">
+                    <Button className="bg-amber-600 hover:bg-amber-700 text-white shrink-0" data-testid="button-complete-quizzes">
+                      <GraduationCap className="w-4 h-4 mr-2" />
+                      Complete Quizzes
+                    </Button>
+                  </Link>
+                </div>
+              </motion.div>
+            )}
+
             {/* How to Get Certified Guide */}
             <Collapsible open={showCertGuide} onOpenChange={setShowCertGuide}>
               <div className="bg-gradient-to-r from-primary/5 to-blue-500/5 border border-primary/20 rounded-2xl overflow-hidden">

@@ -14,8 +14,8 @@ import { getOrGenerateQuizForSlide, submitQuizAnswer, ensurePredefinedQuizzesSee
 import { vapiService } from "./vapi-service";
 import { getVapiRoleplayConfig, convertRoleplayToVapiConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
 import { generateSecurePassword, getAvatarInitials } from "./password-generator";
-import { sendCredentialsEmail, sendBillingResetCode, sendHardDeleteCode, sendCertificationEmail } from "./email-service";
-import { sendCredentialsSMS } from "./sms-service";
+import { sendCredentialsEmail, sendBillingResetCode, sendHardDeleteCode, sendCertificationEmail, sendQuizReminderEmail } from "./email-service";
+import { sendCredentialsSMS, sendQuizReminderSMS } from "./sms-service";
 import { generateWarriorAvatar } from "./warrior-avatar-service";
 import multer from "multer";
 import { searchKnowledge, formatKnowledgeForPrompt } from "./knowledge-base";
@@ -4344,6 +4344,196 @@ ${context}`;
     } catch (error: any) {
       console.error("Cleanup roleplay error:", error);
       res.status(500).json({ error: error.message || "Failed to cleanup roleplay" });
+    }
+  });
+
+  // Quiz Reminder Endpoints
+  
+  // Get reps who passed roleplays but haven't met quiz threshold (for managers/admins)
+  app.get("/api/quiz-reminders/pending", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const authUser = authResult.user;
+      if (!["manager", "admin", "director"].includes(authUser.role)) {
+        return res.status(403).json({ error: "Only managers and admins can access this" });
+      }
+
+      const allUsers = await storage.getAllUsers();
+      const reps = allUsers.filter(u => {
+        if (u.role !== "rep") return false;
+        if (authUser.role === "manager" && u.managerId !== authUser.id) return false;
+        return true;
+      });
+
+      const REQUIRED_ROLEPLAYS = 16;
+      const repsNeedingReminder = [];
+
+      for (const rep of reps) {
+        const progress = await storage.getUserProgress(rep.id);
+        const attempts = await storage.getUserRoleplayAttempts(rep.id);
+        
+        const uniquePassedRoleplays = Array.from(
+          new Set(attempts.filter(a => a.passed === 1).map(a => a.roleplayId))
+        ).length;
+
+        const quizScores = progress.filter(p => p.quizScore != null).map(p => p.quizScore!);
+        const avgQuizScore = quizScores.length > 0
+          ? Math.round(quizScores.reduce((a, b) => a + b, 0) / quizScores.length)
+          : 0;
+
+        if (uniquePassedRoleplays >= REQUIRED_ROLEPLAYS && avgQuizScore < 75) {
+          repsNeedingReminder.push({
+            id: rep.id,
+            name: rep.name,
+            email: rep.email,
+            phone: rep.phone,
+            roleplaysPassed: uniquePassedRoleplays,
+            quizScore: avgQuizScore,
+            quizAttempts: quizScores.length,
+          });
+        }
+      }
+
+      res.json({ reps: repsNeedingReminder, count: repsNeedingReminder.length });
+    } catch (error: any) {
+      console.error("Quiz reminders pending error:", error);
+      res.status(500).json({ error: error.message || "Failed to get pending quiz reminders" });
+    }
+  });
+
+  // Send quiz reminder to a specific rep (email + SMS)
+  app.post("/api/quiz-reminders/send", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const authUser = authResult.user;
+      if (!["manager", "admin", "director"].includes(authUser.role)) {
+        return res.status(403).json({ error: "Only managers and admins can send reminders" });
+      }
+
+      const { repId } = req.body;
+      if (!repId) {
+        return res.status(400).json({ error: "repId is required" });
+      }
+
+      const rep = await storage.getUser(repId);
+      if (!rep) {
+        return res.status(404).json({ error: "Rep not found" });
+      }
+
+      if (authUser.role === "manager" && rep.managerId !== authUser.id) {
+        return res.status(403).json({ error: "You can only send reminders to your own reps" });
+      }
+
+      const progress = await storage.getUserProgress(rep.id);
+      const attempts = await storage.getUserRoleplayAttempts(rep.id);
+      const uniquePassedRoleplays = Array.from(
+        new Set(attempts.filter(a => a.passed === 1).map(a => a.roleplayId))
+      ).length;
+      const quizScores = progress.filter(p => p.quizScore != null).map(p => p.quizScore!);
+      const avgQuizScore = quizScores.length > 0
+        ? Math.round(quizScores.reduce((a, b) => a + b, 0) / quizScores.length)
+        : 0;
+
+      const results: { email?: { success: boolean; error?: string }; sms?: { success: boolean; error?: string } } = {};
+
+      // Send email
+      results.email = await sendQuizReminderEmail(rep.email, rep.name, avgQuizScore, uniquePassedRoleplays);
+
+      // Send SMS if phone number exists
+      if (rep.phone) {
+        results.sms = await sendQuizReminderSMS(rep.phone, rep.name, avgQuizScore, uniquePassedRoleplays);
+      }
+
+      res.json({ success: true, results });
+    } catch (error: any) {
+      console.error("Send quiz reminder error:", error);
+      res.status(500).json({ error: error.message || "Failed to send quiz reminder" });
+    }
+  });
+
+  // Bulk send quiz reminders to all qualifying reps (manager sends to their team)
+  app.post("/api/quiz-reminders/bulk-send", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const authUser = authResult.user;
+      if (!["manager", "admin", "director"].includes(authUser.role)) {
+        return res.status(403).json({ error: "Only managers and admins can send bulk reminders" });
+      }
+
+      const allUsers = await storage.getAllUsers();
+      const reps = allUsers.filter(u => {
+        if (u.role !== "rep") return false;
+        if (authUser.role === "manager" && u.managerId !== authUser.id) return false;
+        return true;
+      });
+
+      const REQUIRED_ROLEPLAYS = 16;
+      const results: { repId: string; name: string; email: string; emailSent: boolean; smsSent: boolean; error?: string }[] = [];
+
+      for (const rep of reps) {
+        const progress = await storage.getUserProgress(rep.id);
+        const attempts = await storage.getUserRoleplayAttempts(rep.id);
+        
+        const uniquePassedRoleplays = Array.from(
+          new Set(attempts.filter(a => a.passed === 1).map(a => a.roleplayId))
+        ).length;
+
+        const quizScores = progress.filter(p => p.quizScore != null).map(p => p.quizScore!);
+        const avgQuizScore = quizScores.length > 0
+          ? Math.round(quizScores.reduce((a, b) => a + b, 0) / quizScores.length)
+          : 0;
+
+        if (uniquePassedRoleplays >= REQUIRED_ROLEPLAYS && avgQuizScore < 75) {
+          try {
+            const emailResult = await sendQuizReminderEmail(rep.email, rep.name, avgQuizScore, uniquePassedRoleplays);
+            let smsResult = { success: false };
+            if (rep.phone) {
+              smsResult = await sendQuizReminderSMS(rep.phone, rep.name, avgQuizScore, uniquePassedRoleplays);
+            }
+            results.push({
+              repId: rep.id,
+              name: rep.name,
+              email: rep.email,
+              emailSent: emailResult.success,
+              smsSent: smsResult.success,
+            });
+          } catch (err: any) {
+            results.push({
+              repId: rep.id,
+              name: rep.name,
+              email: rep.email,
+              emailSent: false,
+              smsSent: false,
+              error: err.message,
+            });
+          }
+        }
+      }
+
+      const sent = results.filter(r => r.emailSent).length;
+      const failed = results.filter(r => !r.emailSent).length;
+
+      res.json({ 
+        success: true, 
+        totalSent: sent, 
+        totalFailed: failed, 
+        results 
+      });
+    } catch (error: any) {
+      console.error("Bulk quiz reminder error:", error);
+      res.status(500).json({ error: error.message || "Failed to send bulk quiz reminders" });
     }
   });
 

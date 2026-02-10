@@ -501,6 +501,25 @@ class APIClient {
   async getPlaybookStories(): Promise<any[]> {
     return this.request("/api/playbook/stories");
   }
+
+  // Quiz Reminders
+  async getQuizRemindersPending(): Promise<QuizRemindersPending> {
+    return this.request("/api/quiz-reminders/pending");
+  }
+
+  async sendQuizReminder(repId: string): Promise<{ success: boolean; results: any }> {
+    return this.request("/api/quiz-reminders/send", {
+      method: "POST",
+      body: JSON.stringify({ repId }),
+    });
+  }
+
+  async sendBulkQuizReminders(): Promise<BulkQuizReminderResult> {
+    return this.request("/api/quiz-reminders/bulk-send", {
+      method: "POST",
+      body: JSON.stringify({}),
+    });
+  }
 }
 
 // New types for the API
@@ -591,6 +610,35 @@ export interface UserStats {
   };
   chaptersProgress: any[];
   totalQuizAttempts: number;
+}
+
+export interface QuizReminderRep {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  roleplaysPassed: number;
+  quizScore: number;
+  quizAttempts: number;
+}
+
+export interface QuizRemindersPending {
+  reps: QuizReminderRep[];
+  count: number;
+}
+
+export interface BulkQuizReminderResult {
+  success: boolean;
+  totalSent: number;
+  totalFailed: number;
+  results: {
+    repId: string;
+    name: string;
+    email: string;
+    emailSent: boolean;
+    smsSent: boolean;
+    error?: string;
+  }[];
 }
 
 export const api = new APIClient();

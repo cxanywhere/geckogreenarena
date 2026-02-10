@@ -442,3 +442,84 @@ export async function sendCertificationEmail(
     return { success: false, error: error.message || 'Failed to send certification email' };
   }
 }
+
+export async function sendQuizReminderEmail(
+  toEmail: string,
+  name: string,
+  quizScore: number,
+  roleplaysPassed: number
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const { client, fromEmail } = await getResendClient();
+    const quizzesUrl = 'https://geckogreen.gigarev.com/quizzes';
+
+    await client.emails.send({
+      from: fromEmail || 'Arena AI <arena@updates.gigarev.com>',
+      to: toEmail,
+      subject: "You're Almost Certified — Complete Your Quizzes!",
+      html: `
+        <div style="font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
+          <div style="background: #0a0a0a; padding: 32px 30px; text-align: left;">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+              <tr>
+                <td>
+                  <span style="color: #22c55e; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">arena ai</span>
+                  <span style="color: #6b7280; font-size: 12px; display: block; text-transform: uppercase; letter-spacing: 2px; margin-top: 2px;">by gigarev</span>
+                </td>
+              </tr>
+            </table>
+          </div>
+          
+          <div style="padding: 40px 30px; background: #ffffff;">
+            <h1 style="color: #0a0a0a; margin: 0 0 8px 0; font-size: 26px; font-weight: 700;">
+              Hey ${name}, you're so close! 🔥
+            </h1>
+            <p style="color: #4b5563; line-height: 1.7; font-size: 16px; margin-bottom: 24px;">
+              Great news — you've already passed <strong>${roleplaysPassed} roleplays</strong>. That's the hardest part done!
+            </p>
+            
+            <div style="background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); padding: 24px; border-radius: 12px; margin: 24px 0; border: 2px solid #f59e0b;">
+              <p style="color: #92400e; font-size: 14px; font-weight: 700; margin: 0 0 8px 0; text-transform: uppercase; letter-spacing: 1px;">
+                📋 One Step Left
+              </p>
+              <p style="color: #78350f; font-size: 16px; margin: 0; line-height: 1.6;">
+                Score <strong>75% or higher</strong> on your quizzes to earn your GeckoGreen certification.
+                ${quizScore > 0 ? `Your current average is <strong>${quizScore}%</strong>.` : 'You haven\'t completed any quizzes yet.'}
+              </p>
+            </div>
+
+            <h3 style="color: #0a0a0a; margin: 28px 0 12px 0; font-size: 18px;">How to complete your quizzes:</h3>
+            <ol style="color: #4b5563; line-height: 2; font-size: 15px; padding-left: 20px;">
+              <li>Log in to Arena AI</li>
+              <li>Go to the <strong>Quizzes</strong> page</li>
+              <li>Review and answer all pending questions</li>
+              <li>Retake any incorrect answers to boost your score</li>
+            </ol>
+
+            <div style="text-align: center; margin-top: 32px;">
+              <a href="${quizzesUrl}" style="display: inline-block; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #ffffff; padding: 16px 40px; text-decoration: none; border-radius: 10px; font-weight: 700; font-size: 16px; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);">
+                Complete My Quizzes Now
+              </a>
+            </div>
+
+            <p style="color: #9ca3af; font-size: 13px; text-align: center; margin-top: 28px; line-height: 1.5;">
+              The quizzes cover material from your training chapters. You can retake incorrect answers to improve your score.
+            </p>
+          </div>
+          
+          <div style="padding: 24px 30px; background: #0a0a0a; text-align: center;">
+            <p style="color: #22c55e; font-size: 14px; margin: 0 0 4px 0; font-weight: 600;">Finish strong, champ. You've got this! 💪</p>
+            <p style="color: #6b7280; font-size: 12px; margin: 0;">
+              Arena AI by GigaRev
+            </p>
+          </div>
+        </div>
+      `,
+    });
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Send quiz reminder email error:', error);
+    return { success: false, error: error.message || 'Failed to send quiz reminder email' };
+  }
+}

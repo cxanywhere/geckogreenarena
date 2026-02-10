@@ -83,6 +83,137 @@ interface TeamPerformance {
   };
 }
 
+function QuizReminderCard() {
+  const { toast } = useToast();
+  const [sending, setSending] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [results, setResults] = useState<{ totalSent: number; totalFailed: number } | null>(null);
+
+  const { data: pendingData, isLoading } = useQuery({
+    queryKey: ["quiz-reminders-pending"],
+    queryFn: async () => {
+      const res = await fetch("/api/quiz-reminders/pending", {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+      if (!res.ok) throw new Error("Failed to fetch");
+      return res.json() as Promise<{ reps: any[]; count: number }>;
+    },
+  });
+
+  const handleBulkSend = async () => {
+    setSending(true);
+    setShowConfirm(false);
+    try {
+      const res = await fetch("/api/quiz-reminders/bulk-send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+        },
+        body: JSON.stringify({}),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setResults({ totalSent: data.totalSent, totalFailed: data.totalFailed });
+        toast({
+          title: "Reminders sent!",
+          description: `Sent quiz reminders to ${data.totalSent} rep${data.totalSent !== 1 ? "s" : ""}.`,
+        });
+      } else {
+        toast({ title: "Error", description: data.error || "Failed to send reminders", variant: "destructive" });
+      }
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message || "Failed to send reminders", variant: "destructive" });
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const count = pendingData?.count || 0;
+
+  if (isLoading || count === 0) return null;
+
+  return (
+    <>
+      <Card className="border-amber-500/30 bg-gradient-to-r from-amber-500/5 to-orange-500/5" data-testid="card-quiz-reminders">
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <GraduationCap className="h-5 w-5 text-amber-600" />
+            Quiz Completion Reminders
+          </CardTitle>
+          <CardDescription>
+            {count} rep{count !== 1 ? "s have" : " has"} passed roleplays but {count !== 1 ? "haven't" : "hasn't"} completed quizzes yet.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            <div className="flex flex-wrap gap-2">
+              {(pendingData?.reps || []).map((rep: any) => (
+                <Badge key={rep.id} variant="outline" className="bg-amber-50 dark:bg-amber-900/20 border-amber-300 dark:border-amber-700 text-amber-800 dark:text-amber-300">
+                  {rep.name} ({rep.quizScore > 0 ? `${rep.quizScore}%` : "no quizzes"})
+                </Badge>
+              ))}
+            </div>
+            <div className="flex items-center gap-3 pt-2">
+              {results ? (
+                <div className="flex items-center gap-2 text-sm">
+                  <Check className="h-4 w-4 text-green-500" />
+                  <span className="text-green-700 dark:text-green-400 font-medium">
+                    Sent to {results.totalSent} rep{results.totalSent !== 1 ? "s" : ""}
+                    {results.totalFailed > 0 && ` (${results.totalFailed} failed)`}
+                  </span>
+                </div>
+              ) : (
+                <Button
+                  onClick={() => setShowConfirm(true)}
+                  disabled={sending}
+                  className="bg-amber-600 hover:bg-amber-700 text-white"
+                  data-testid="button-bulk-quiz-reminder"
+                >
+                  {sending ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Mail className="h-4 w-4 mr-2" />
+                      Send Quiz Reminders to {count} Rep{count !== 1 ? "s" : ""}
+                    </>
+                  )}
+                </Button>
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Send quiz reminders?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will send an email{pendingData?.reps?.some((r: any) => r.phone) ? " and SMS" : ""} to {count} rep{count !== 1 ? "s" : ""} who passed roleplays but haven't completed their quizzes. The message will include instructions and a link to the quizzes page.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel data-testid="button-cancel-bulk-reminder">Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleBulkSend}
+              className="bg-amber-600 hover:bg-amber-700"
+              data-testid="button-confirm-bulk-reminder"
+            >
+              Send Reminders
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
+  );
+}
+
 export default function ManagerDashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const { toast } = useToast();
@@ -780,6 +911,9 @@ export default function ManagerDashboard() {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Quiz Reminder Nudge Card */}
+            <QuizReminderCard />
 
             {/* Leaderboard */}
             <Card>
