@@ -4,10 +4,10 @@ import { Nav } from "@/components/nav";
 import { RoleplayCard } from "@/components/character-card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ArrowRight, Bot, Target, Trophy, CheckCircle, Lock, BookOpen, Zap, Award, GraduationCap, Info, ChevronDown, ChevronUp, Play, Clock, FileText, Mic } from "lucide-react";
+import { ArrowRight, Bot, Target, Trophy, CheckCircle, Lock, BookOpen, Zap, Award, GraduationCap, Info, ChevronDown, ChevronUp, Play, Clock, FileText, Mic, RotateCcw } from "lucide-react";
 import heroBg from "@assets/generated_images/abstract_bottle_green_glass_tech_shapes.png";
 import { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, type Chapter, type Roleplay } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -17,8 +17,10 @@ export default function Home() {
   const [completedChapters, setCompletedChapters] = useState<string[]>([]);
   const [unlockedRoleplays, setUnlockedRoleplays] = useState<string[]>([]);
   const [showCertGuide, setShowCertGuide] = useState(true);
+  const [resettingChapter, setResettingChapter] = useState<string | null>(null);
   const { user, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
+  const queryClient = useQueryClient();
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -108,6 +110,30 @@ export default function Home() {
     if (index === 0) return true;
     const prevChapter = chapters[index - 1];
     return prevChapter ? isChapterCompleted(prevChapter.id) : true;
+  };
+
+  const handleReviewChapter = async (e: React.MouseEvent, chapterId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setResettingChapter(chapterId);
+    try {
+      const res = await fetch("/api/progress/reset-slides", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+        },
+        body: JSON.stringify({ chapterId }),
+      });
+      if (res.ok) {
+        await queryClient.invalidateQueries({ queryKey: ["user-progress", user?.id] });
+        setLocation(`/chapter/${chapterId}`);
+      }
+    } catch (err) {
+      console.error("Failed to reset slides:", err);
+    } finally {
+      setResettingChapter(null);
+    }
   };
 
   const getNextAction = () => {
@@ -365,7 +391,7 @@ export default function Home() {
                   const isUnlocked = isChapterUnlocked(index);
                   const isNext = !isCompleted && isUnlocked && (index === 0 || isChapterCompleted(chapters[index - 1]?.id));
                   const chapterProgress = getChapterProgress(chapter.id);
-                  const slidesViewed = chapterProgress?.slideProgress || 0;
+                  const slidesViewed = chapterProgress?.slidesViewed?.length || 0;
                   const totalSlides = chapterProgress?.totalSlides || chapter.slideCount || 10;
                   
                   return (
@@ -468,9 +494,22 @@ export default function Home() {
                                         <span className="flex items-center gap-1"><FileText className="w-3 h-3" /> {totalSlides} slides</span>
                                         <span className="flex items-center gap-1"><GraduationCap className="w-3 h-3" /> Quiz included</span>
                                       </div>
-                                      <span className="text-sm font-bold text-primary flex items-center group-hover:translate-x-1 transition-transform">
-                                        {isCompleted ? "Review" : slidesViewed > 0 ? "Continue" : "Start"} <ArrowRight className="ml-1 w-4 h-4" />
-                                      </span>
+                                      <div className="flex items-center gap-2">
+                                        {isCompleted && (
+                                          <button
+                                            onClick={(e) => handleReviewChapter(e, chapter.id)}
+                                            disabled={resettingChapter === chapter.id}
+                                            className="text-xs font-medium text-muted-foreground hover:text-primary flex items-center gap-1 px-2 py-1 rounded-md hover:bg-primary/10 transition-colors"
+                                            data-testid={`button-review-chapter-${chapter.id}`}
+                                          >
+                                            <RotateCcw className={`w-3 h-3 ${resettingChapter === chapter.id ? 'animate-spin' : ''}`} />
+                                            Restart Slides
+                                          </button>
+                                        )}
+                                        <span className="text-sm font-bold text-primary flex items-center group-hover:translate-x-1 transition-transform">
+                                          {isCompleted ? "Review" : slidesViewed > 0 ? "Continue" : "Start"} <ArrowRight className="ml-1 w-4 h-4" />
+                                        </span>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>

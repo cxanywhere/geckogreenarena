@@ -106,6 +106,7 @@ export interface IStorage {
   createUserProgress(progress: InsertUserProgress): Promise<UserProgress>;
   updateUserProgress(id: string, updates: Partial<InsertUserProgress>): Promise<UserProgress | undefined>;
   updateSlideProgress(userId: string, chapterId: string, currentSlide: number, totalSlides: number): Promise<UserProgress>;
+  resetSlideProgress(userId: string, chapterId: string): Promise<UserProgress>;
   
   // Roleplay Attempts
   getUserRoleplayAttempts(userId: string): Promise<RoleplayAttempt[]>;
@@ -608,6 +609,22 @@ export class DatabaseStorage implements IStorage {
         .returning();
       return created;
     }
+  }
+
+  async resetSlideProgress(userId: string, chapterId: string): Promise<UserProgress> {
+    const existing = await this.getUserProgressByChapter(userId, chapterId);
+    if (!existing) {
+      throw new Error("No progress found for this chapter");
+    }
+    const [updated] = await db
+      .update(userProgress)
+      .set({
+        currentSlide: 0,
+        slidesViewed: [],
+      })
+      .where(eq(userProgress.id, existing.id))
+      .returning();
+    return updated;
   }
 
   // Roleplay Attempts

@@ -1853,6 +1853,33 @@ export async function registerRoutes(
     }
   });
 
+  // Reset slide progress for chapter review (keeps quiz/roleplay progress)
+  app.post("/api/progress/reset-slides", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const { chapterId } = req.body;
+      if (!chapterId) {
+        return res.status(400).json({ error: "chapterId is required" });
+      }
+
+      const userId = authResult.user.id;
+      const existing = await storage.getUserProgressByChapter(userId, chapterId);
+      if (!existing) {
+        return res.status(404).json({ error: "No progress found for this chapter" });
+      }
+
+      const updated = await storage.resetSlideProgress(userId, chapterId);
+      res.json(updated);
+    } catch (error) {
+      console.error("Reset slide progress error:", error);
+      res.status(500).json({ error: "Failed to reset slide progress" });
+    }
+  });
+
   // Roleplay attempt routes
   app.get("/api/users/:userId/attempts", async (req, res) => {
     try {
