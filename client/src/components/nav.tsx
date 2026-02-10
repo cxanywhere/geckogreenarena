@@ -108,7 +108,7 @@ export function Nav() {
         <div className="flex items-center gap-4 lg:gap-6">
           <Link href="/dashboard" className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
             <div className="relative h-8 w-8">
-              <img src={arenaLogoDark} alt="Arena AI" className="h-8 w-8 object-contain absolute inset-0 hidden dark:block drop-shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
+              <img src={arenaLogoDark} alt="Arena AI" className="h-8 w-8 object-contain absolute inset-0 hidden dark:block" />
               <img src={arenaLogoLight} alt="Arena AI" className="h-8 w-8 object-contain absolute inset-0 block dark:hidden" />
             </div>
             <div className="flex flex-col leading-none">
