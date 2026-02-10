@@ -191,11 +191,44 @@ function QuizReminderCard() {
       </Card>
 
       <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
-        <AlertDialogContent>
+        <AlertDialogContent className="max-w-lg">
           <AlertDialogHeader>
             <AlertDialogTitle>Send quiz reminders?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This will send an email{pendingData?.reps?.some((r: any) => r.phone) ? " and SMS" : ""} to {count} rep{count !== 1 ? "s" : ""} who passed roleplays but haven't completed their quizzes. The message will include instructions and a link to the quizzes page.
+            <AlertDialogDescription asChild>
+              <div className="space-y-3">
+                <p>The following reps have passed their roleplays but still need to complete quizzes to get certified. Each will receive an email{pendingData?.reps?.some((r: any) => r.phone) ? " and SMS" : ""} with instructions and a link to the quizzes page.</p>
+                <div className="rounded-md border max-h-48 overflow-y-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="text-xs">Rep</TableHead>
+                        <TableHead className="text-xs text-center">Roleplays Passed</TableHead>
+                        <TableHead className="text-xs text-center">Quiz Score</TableHead>
+                        <TableHead className="text-xs text-center">Notify Via</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {(pendingData?.reps || []).map((rep: any) => (
+                        <TableRow key={rep.id}>
+                          <TableCell className="text-xs font-medium py-2">{rep.name}</TableCell>
+                          <TableCell className="text-xs text-center py-2">{rep.roleplaysPassed}/16</TableCell>
+                          <TableCell className="text-xs text-center py-2">
+                            <span className={rep.quizScore > 0 ? "text-amber-600 font-medium" : "text-muted-foreground"}>
+                              {rep.quizScore > 0 ? `${rep.quizScore}%` : "No attempts"}
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-xs text-center py-2">
+                            <div className="flex items-center justify-center gap-1">
+                              <Mail className="h-3 w-3" />
+                              {rep.phone && <Phone className="h-3 w-3" />}
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -205,7 +238,7 @@ function QuizReminderCard() {
               className="bg-amber-600 hover:bg-amber-700"
               data-testid="button-confirm-bulk-reminder"
             >
-              Send Reminders
+              Send to {count} Rep{count !== 1 ? "s" : ""}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
