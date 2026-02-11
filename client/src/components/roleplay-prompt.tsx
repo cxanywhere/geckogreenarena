@@ -23,7 +23,7 @@ export function RoleplayPrompt({
   queuePosition = 1,
   queueTotal = 1,
   attemptsUsed = 0,
-  maxAttempts = 3,
+  maxAttempts = 500,
   hasPassed = false,
   permanentlyFailed = false
 }: RoleplayPromptProps) {
@@ -58,7 +58,7 @@ export function RoleplayPrompt({
               </div>
             </div>
             <p className="text-gray-300 mb-6">
-              You've used all 3 attempts for this roleplay without passing. Focus on other roleplays to continue your certification path.
+              You've used all your attempts for this roleplay without passing. Focus on other roleplays to continue your certification path.
             </p>
             <Button onClick={onSkip} className="w-full bg-gray-700 hover:bg-gray-600 text-white">
               Continue

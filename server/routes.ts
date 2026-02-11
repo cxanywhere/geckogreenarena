@@ -1034,10 +1034,10 @@ export async function registerRoutes(
         }
       }
       
-      // Mark as permanently failed if 3+ attempts and never passed
+      // Mark as permanently failed if 500+ attempts and never passed
       for (const roleplayId of Object.keys(statusMap)) {
         const status = statusMap[roleplayId];
-        if (status.attempts >= 3 && !status.passed) {
+        if (status.attempts >= 500 && !status.passed) {
           status.permanentlyFailed = true;
         }
       }
@@ -1101,7 +1101,7 @@ export async function registerRoutes(
             attempts: [],
             totalAttempts: 0,
             hasPassed: false,
-            remainingAttempts: 3,
+            remainingAttempts: 500,
             permanentlyFailed: false,
           };
         }
@@ -1149,8 +1149,8 @@ export async function registerRoutes(
       // Calculate remaining attempts and permanently failed status
       for (const roleplayId of Object.keys(roleplayMap)) {
         const data = roleplayMap[roleplayId];
-        data.remainingAttempts = Math.max(0, 3 - data.totalAttempts);
-        if (data.totalAttempts >= 3 && !data.hasPassed) {
+        data.remainingAttempts = Math.max(0, 500 - data.totalAttempts);
+        if (data.totalAttempts >= 500 && !data.hasPassed) {
           data.permanentlyFailed = true;
           data.remainingAttempts = 0;
         }
@@ -1895,15 +1895,15 @@ export async function registerRoutes(
     try {
       const validatedData = insertRoleplayAttemptSchema.parse(req.body);
       
-      // Check 3-attempt limit before creating new attempt
+      // Check 500-attempt limit before creating new attempt
       const existingAttempts = await storage.getUserRoleplayAttempts(validatedData.userId);
       const attemptsForThisRoleplay = existingAttempts.filter(a => a.roleplayId === validatedData.roleplayId);
       const hasPassed = attemptsForThisRoleplay.some(a => a.passed === 1);
       
-      if (attemptsForThisRoleplay.length >= 3 && !hasPassed) {
+      if (attemptsForThisRoleplay.length >= 500 && !hasPassed) {
         return res.status(403).json({ 
           error: "Maximum attempts reached", 
-          message: "You have used all 3 attempts for this roleplay and did not pass. This roleplay is now locked.",
+          message: "You have used all 500 attempts for this roleplay and did not pass. This roleplay is now locked.",
           locked: true
         });
       }
@@ -1937,15 +1937,15 @@ export async function registerRoutes(
         return res.status(400).json({ error: "roleplayId and userId required" });
       }
 
-      // Check 3-attempt limit before starting session
+      // Check 500-attempt limit before starting session
       const existingAttempts = await storage.getUserRoleplayAttempts(userId);
       const attemptsForThisRoleplay = existingAttempts.filter(a => a.roleplayId === roleplayId);
       const hasPassed = attemptsForThisRoleplay.some(a => a.passed === 1);
       
-      if (attemptsForThisRoleplay.length >= 3 && !hasPassed) {
+      if (attemptsForThisRoleplay.length >= 500 && !hasPassed) {
         return res.status(403).json({ 
           error: "Maximum attempts reached", 
-          message: "You have used all 3 attempts for this roleplay and did not pass. This roleplay is now locked.",
+          message: "You have used all 500 attempts for this roleplay and did not pass. This roleplay is now locked.",
           locked: true
         });
       }
@@ -2390,16 +2390,16 @@ export async function registerRoutes(
         return res.status(400).json({ error: "roleplayId is required" });
       }
 
-      // Check 3-attempt limit before starting voice call
+      // Check 500-attempt limit before starting voice call
       if (userId) {
         const existingAttempts = await storage.getUserRoleplayAttempts(userId);
         const attemptsForThisRoleplay = existingAttempts.filter(a => a.roleplayId === roleplayId);
         const hasPassed = attemptsForThisRoleplay.some(a => a.passed === 1);
         
-        if (attemptsForThisRoleplay.length >= 3 && !hasPassed) {
+        if (attemptsForThisRoleplay.length >= 500 && !hasPassed) {
           return res.status(403).json({ 
             error: "Maximum attempts reached", 
-            message: "You have used all 3 attempts for this roleplay and did not pass. This roleplay is now locked.",
+            message: "You have used all 500 attempts for this roleplay and did not pass. This roleplay is now locked.",
             locked: true
           });
         }

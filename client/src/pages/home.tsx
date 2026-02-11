@@ -72,7 +72,7 @@ export default function Home() {
   const getRoleplayStatus = (roleplayId: string) => {
     const attempts = roleplayAttempts.filter(a => a.roleplayId === roleplayId);
     const hasPassed = attempts.some(a => isAttemptPassed(a));
-    const permanentlyFailed = !hasPassed && attempts.length >= 3;
+    const permanentlyFailed = !hasPassed && attempts.length >= 500;
     return { hasPassed, permanentlyFailed, attemptCount: attempts.length };
   };
   

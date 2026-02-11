@@ -69,7 +69,7 @@ export default function ChatPage() {
   
   const attemptInfo = roleplayId ? roleplayHistory[roleplayId] : null;
   const attemptNumber = attemptInfo && typeof attemptInfo === 'object' ? attemptInfo.totalAttempts + 1 : 1;
-  const remainingAttempts = attemptInfo && typeof attemptInfo === 'object' ? attemptInfo.remainingAttempts : 3;
+  const remainingAttempts = attemptInfo && typeof attemptInfo === 'object' ? attemptInfo.remainingAttempts : 500;
 
   const handleVoiceComplete = (callId: string) => {
     let resultsUrl = `/results/${roleplayId}?callId=${callId}&mode=voice`;
@@ -143,7 +143,7 @@ export default function ChatPage() {
             <AlertTriangle className="w-10 h-10 text-red-600 dark:text-red-400" />
           </div>
           <h1 className="text-2xl font-bold mb-4 text-foreground">Roleplay Locked</h1>
-          <p className="text-muted-foreground mb-2">You have used all 3 attempts for "{scenario.name}" and did not pass.</p>
+          <p className="text-muted-foreground mb-2">You have used all your attempts for "{scenario.name}" and did not pass.</p>
           <p className="text-muted-foreground mb-6">This roleplay is now locked. Focus on other roleplays in your training path.</p>
           <Link href={returnTo || "/dashboard"}>
             <Button>Return to Training</Button>

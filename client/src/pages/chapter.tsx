@@ -181,10 +181,10 @@ export default function ChapterPage() {
     const status = roleplayStatus[roleplayId];
     if (!status) return true; // No attempts yet, show it
     
-    // Don't show if passed or permanently failed (3+ attempts without passing)
+    // Don't show if passed or permanently failed (500+ attempts without passing)
     if (status.passed || status.permanentlyFailed) return false;
     
-    return true; // Not passed, attempts < 3, show it
+    return true; // Not passed, attempts < 500, show it
   }, [roleplayStatus, findRoleplayIdByOrderIndex]);
 
   const triggerRoleplays = useCallback((pageNumber: number) => {
@@ -647,7 +647,7 @@ export default function ChapterPage() {
               queuePosition={currentRoleplayIndex + 1}
               queueTotal={currentRoleplays.length}
               attemptsUsed={status?.attempts || 0}
-              maxAttempts={3}
+              maxAttempts={500}
               hasPassed={status?.passed || false}
               permanentlyFailed={status?.permanentlyFailed || false}
             />
