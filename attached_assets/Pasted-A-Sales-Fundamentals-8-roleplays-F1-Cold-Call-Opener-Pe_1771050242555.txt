@@ -1,0 +1,147 @@
+A) Sales Fundamentals (8 roleplays)
+
+F1) Cold Call Opener (Permission + Relevance)
+
+Persona: VP Digital / Head of Ecommerce
+
+Goal: Earn 60 seconds and book discovery.
+
+Pass: Clear “why you / why now” in <30 seconds + direct ask.
+
+F2) First Meeting Agenda Control (Avoid “feature tour”)
+
+Scenario: Buyer wants a demo immediately.
+
+Goal: Secure discovery-first agenda and success criteria.
+
+Pass: Buyer agrees to a structured agenda (needs → KPIs → demo).
+
+F3) SPIN Discovery Drill (Situation → Problem → Implication → Need-payoff)
+
+Goal: Build consultative questioning flow.
+
+Pass: Buyer states business impact and desired outcome in their own words.
+
+F4) MEDDIC Qualification Check (Metrics, Economic Buyer, Decision Criteria/Process, Pain, Champion)
+
+Goal: Qualify enterprise deals rigorously.
+
+Pass: Rep identifies missing MEDDIC fields and assigns next actions.
+
+F5) Challenger “Teach–Tailor–Take Control” Commercial Teaching
+
+Goal: Reframe status quo and create constructive urgency.
+
+Pass: Buyer acknowledges risk of inaction + agrees to next step.
+
+F6) Objection Handling Ladder (Acknowledge → Clarify → Reframe → Evidence → Confirm)
+
+Objections: “We already have a tool,” “IT won’t allow,” “Not priority.”
+
+Pass: Objection reduces, and decision path becomes clearer.
+
+F7) Pricing & Procurement (Value framing + Paper Process)
+
+Goal: Prevent discount-first negotiation; navigate procurement steps.
+
+Pass: Rep ties pricing to outcomes and confirms paper process owners (MEDDPICC-style).
+
+F8) Close with Mutual Action Plan (MAP)
+
+Goal: Convert interest into dated plan (stakeholders, security, pilot, decision).
+
+Pass: Confirmed timeline + meeting invites + owners.
+
+B) Monetate Products & Solutions (10 roleplays)
+
+P1) Platform Reposition: “Why unify experience optimization now?”
+
+Goal: Shift conversation from point tools → unified platform (AI + personalization + experimentation).
+
+Pass: Agreement to workshop use cases across suites.
+
+P2) Symphony (Personalization) – 1:1 experiences at scale
+
+Persona: VP Ecommerce / Head of Digital Experience
+
+Pass: Defined 2–3 personalization journeys + measurement plan.
+
+P3) Maestro (Experimentation) – enterprise-grade experimentation across layers
+
+Persona: CRO Lead / Experimentation Director / Product
+
+Pass: Testing governance + first 90-day experiment backlog.
+
+P4) Overture (Search & Discovery) – intent + context beyond keyword search
+
+Persona: Ecommerce Product / Merchandising
+
+Pass: Search audit + “zero-results / conversion” baseline + pilot scope.
+
+P5) Concierge (Services) – “software + expert execution”
+
+Persona: Lean team needing acceleration
+
+Pass: Clear services engagement scope (enablement vs managed execution).
+
+P6) A/B/n Testing – “zero-flicker, omnichannel reach”
+
+Persona: Growth + Engineering
+
+Pass: Agreement on testing locations + guardrails + rollout plan.
+
+P7) Feature Experimentation & Rollouts – “de-risk releases”
+
+Persona: Product + Engineering
+
+Pass: First feature flag test plan + rollback criteria.
+
+P8) Dynamic Testing – AI-optimized allocation to reduce time-to-value
+
+Persona: CRO / Experimentation
+
+Pass: Select 1 journey for dynamic testing + ROI measurement.
+
+P9) Dynamic Bundles – “increase AOV without blanket discounting”
+
+Persona: Merchandising + Growth
+
+Pass: Bundle hypothesis + segments + AOV target and guardrails.
+
+P10) “Suite-to-Roadmap” Packaging Roleplay (Symphony + Maestro + Overture + Concierge)
+
+Scenario: Buyer is unsure what to start with.
+
+Pass: Rep proposes a phased adoption roadmap aligned to outcomes.
+
+C) Verticals & Industry Use Cases (6 roleplays)
+
+Monetate highlights sector-specific value across Commerce & Retail, Travel/Hospitality/Leisure, Financial Services & Insurance, Healthcare & Regulated, and Communications/Media/Technology.
+
+V1) Commerce & Retail – “optimize every cart”
+
+Focus: conversion, basket size, loyalty; combine testing + personalization.
+
+Pass: 90-day roadmap: 3 experiments + 2 personalization launches.
+
+V2) Travel & Hospitality – “intent-driven journeys that lift bookings + loyalty”
+
+Pass: 2 booking-flow experiments + 1 loyalty personalization use case.
+
+V3) Financial Services & Insurance – “trust + compliance while reducing friction”
+
+Pass: Approved pilot path + compliant data boundaries + security stakeholder alignment.
+
+V4) Healthcare & Regulated – “secure, compliant personalization that reduces costs”
+
+Pass: One portal-flow test + one compliant personalization use case.
+
+V5) Communications, Media & Technology – “engagement and retention”
+
+Pass: Trial-to-paid experiment plan + retention personalization test.
+
+V6) Vertical Curveball – “multi-brand / multi-region enterprise complexity”
+
+Scenario: Global org, multiple sites, competing teams, tool sprawl.
+
+Pass: Governance model + phased rollout by region/brand + MAP.

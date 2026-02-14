@@ -1,0 +1,127 @@
+Presentation Chapters and Slide Outline (with theory + roleplays embedded)
+Chapter 1 — Monetate 101: Company, Mission, and “Why We Exist”
+
+Goal: Reps can describe Monetate in one sentence and explain why it matters now.
+Slides
+
+Training outcomes + certification path (what “good” looks like at end)
+
+Monetate elevator pitch (Experience Optimization Platform; trust/loyalty/growth framing)
+
+What problems we solve (relevance, speed to learn, scale, governance)
+
+How Monetate is evolving (unified with SiteSpect; enterprise-grade experimentation + personalization)
+
+High-level “platform map” (Suites + MONET + services layer)
+Roleplay checkpoint: P1 (Platform reposition / “why unify now?”)
+
+Chapter 2 — Buyer Reality & ICP: Personas, KPIs, and Use-Case Language
+
+Goal: Reps speak the customer’s language before pitching.
+Slides
+6. Core buyer personas (Digital/Ecomm, CRO/Experimentation, Product, Merch, Analytics, Engineering, Security)
+7. KPI map by persona (conversion, AOV, retention/LTV, bookings, friction reduction, compliance constraints)
+8. Customer journey moments Monetate influences (search → browse → PDP → cart → checkout → loyalty)
+9. Common triggers (plateaued CRO, tool sprawl, privacy/compliance, speed-to-market, search relevance)
+10. Discovery prompts library (problem-first prompts aligned to Monetate outcomes)
+Roleplay labs: F1 (cold opener), F3 (SPIN), F4 (MEDDIC)
+
+Chapter 3 — Monetate Platform Fundamentals: MONET, Data, Decisioning, Governance
+
+Goal: Reps understand enough platform architecture to be credible and to route correctly to SE/CS.
+Slides
+11. MONET 101 (intelligence engine; unifying real-time decisioning + automation + experimentation)
+12. What “AI-native” means in Monetate context (where AI helps: decisioning, automation, insights)
+13. Data inputs at a conceptual level (behavior, context, customer attributes; why governance matters)
+14. Trust, compliance, and security narrative (esp. regulated verticals)
+15. Operational model (who uses what: marketers, product, engineering, analytics)
+Roleplay checkpoint: F5 (commercial teaching) + F6 (objection ladder: IT/security)
+
+Chapter 4 — Suite Deep Dive 1: Symphony (Personalization)
+
+Goal: Reps can position personalization as “trust/loyalty-building” and define first wins.
+Slides
+16. Symphony overview (1:1 personalization at scale; powered by MONET)
+17. Top personalization plays (home, PDP, cart, offers, messaging; “creepy” guardrails)
+18. Measurement basics (success/guardrail/diagnostic metrics)
+19. Implementation concept (start small → prove lift → expand)
+Roleplay lab: P2 (Symphony pitch + trust/compliance thread)
+
+Chapter 5 — Suite Deep Dive 2: Maestro (Experimentation)
+
+Goal: Reps can sell experimentation as “how enterprises make decisions safely.”
+Slides
+20. Maestro overview (experiment across layers; client-side to secure network-layer)
+21. Experimentation program basics (prioritization, rigor, velocity—what good looks like)
+22. Feature experimentation & rollouts (safe launches; feature flags; rollback)
+23. Regulated environments note (network-layer experimentation / Forte for healthcare-style needs)
+Roleplay labs: P3 (Maestro pitch), P7 (feature experimentation), F2 (agenda control when they demand demo)
+
+Chapter 6 — Suite Deep Dive 3: Overture (Search & Discovery)
+
+Goal: Reps can reframe “search” from keyword matching to intent/context + conversion.
+Slides
+24. Overture overview (AI-powered search & discovery; intent + context)
+25. Common search pain taxonomy (zero results, poor relevance, low conversion, poor discoverability)
+26. How to sell Overture (audit → baseline → pilot → expansion)
+Roleplay lab: P4 (Overture pitch when search is “good enough”)
+
+Chapter 7 — Concierge & Delivery: How Monetate Gets Outcomes
+
+Goal: Reps understand services packaging, acceleration, and post-sale success motion.
+Slides
+27. Concierge overview (expert-led services amplified by MONET; from self-serve to managed)
+28. When Concierge wins (lean teams, migrations, maturity gaps, need velocity)
+29. Implementation model (workshop → pilot → program → governance)
+Roleplay lab: P5 (Concierge pitch)
+
+Chapter 8 — Solution Modules: The Plays That Create Fast Wins
+
+Goal: Reps can attach specific modules to specific outcomes quickly.
+Slides
+30. Module map (recs, bundles, social proof, analytics, experimentation types)
+31. Product recommendations (AOV, conversion, inventory movement)
+32. Dynamic bundles (AOV without blanket discounting)
+33. Experiment types (A/B/n; dynamic testing concepts; where each fits)
+34. Analytics & measurement (unified view; decision support)
+Roleplay labs: P6 (A/B/n), P8 (dynamic testing), P9 (bundles)
+
+Chapter 9 — Vertical Selling: Industry Plays, Proof Points, and “Right Story”
+
+Goal: Reps can switch narratives by vertical and speak to unique constraints/KPIs.
+Slides
+35. How to verticalize the story (same platform, different moments + KPIs)
+36. Commerce & Retail (conversion, basket size, loyalty)
+37. Travel/Hospitality/Leisure (bookings, loyalty, satisfaction)
+38. Financial Services & Insurance (trust, reduce friction, secure/compliant)
+39. Healthcare & Regulated (secure, compliant optimization; reduce costs)
+40. Communications/Media/Tech (engagement, retention, LTV)
+Roleplay labs: V1–V6
+
+Chapter 10 — Competitive & Differentiation (Talk Track Chapter)
+
+Goal: Reps differentiate without trash-talking and defend against “we already have X.”
+Slides
+41. Category framing (experience optimization vs point solutions)
+42. Differentiation pillars (unified suites + enterprise-grade experimentation + AI intelligence + services)
+43. Tool consolidation narrative (reduce sprawl, improve governance, speed learning)
+44. Common displacement patterns (what to probe when they say “we have a tool”)
+Roleplay lab: F6 (tool overlap objection) + V6 (multi-brand complexity)
+
+Chapter 11 — Deal Execution: Qualification, Pricing, Procurement, Close
+
+Goal: Reps run clean enterprise process and avoid “random acts of selling.”
+Slides
+45. MEDDIC in practice (what “qualified” means at Monetate)
+46. Mutual Action Plan template (stakeholders, security, pilot, dates, deliverables)
+47. Pricing conversation principles (value framing; paper process; procurement map)
+48. Pilot packaging (how to scope “first win” and success metrics)
+Roleplay labs: F4, F7, F8, plus P10 (suite-to-roadmap packaging)
+
+Chapter 12 — AI Enablement: Using MONET Assistant & Internal Tools Safely
+
+Goal: Reps learn how to self-serve knowledge without hallucination risk.
+Slides
+49. MONET Assistant overview (LLM-based guide with access to Monetate verified KB; validate before production)
+50. Prompt patterns (ask for: discovery questions, test ideas, vertical KPIs, troubleshooting)
+51. Governance (what not to do; how to verify; when to escalate)
