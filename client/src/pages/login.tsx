@@ -87,22 +87,18 @@ export default function LoginPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex items-center justify-between mb-12">
-            <div className="flex items-center gap-3">
-              <img src={arenaLogoDark} alt="Arena by GigaRev" className="h-10 w-auto object-contain hidden dark:block" />
-              <img src={arenaLogoLight} alt="Arena by GigaRev" className="h-10 w-auto object-contain block dark:hidden" />
-              <div className="h-8 w-px bg-border" />
-              <img src={monetateLogoDark} alt="Monetate" className="h-7 w-auto object-contain hidden dark:block opacity-80" />
-              <img src={monetateLogoLight} alt="Monetate" className="h-7 w-auto object-contain block dark:hidden opacity-80" />
-            </div>
+          <div className="mb-10">
+            <img src={arenaLogoDark} alt="Arena AI by GigaRev" className="h-12 w-auto object-contain hidden dark:block" />
+            <img src={arenaLogoLight} alt="Arena AI by GigaRev" className="h-12 w-auto object-contain block dark:hidden" />
           </div>
 
           <div className="mb-8 p-6 bg-card rounded-2xl border border-border shadow-sm relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
               <Zap className="w-24 h-24 text-magenta rotate-12" />
             </div>
-            <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-3">Sales Enablement Platform</p>
-            <p className="text-lg font-display font-bold text-foreground">AI-Powered Training & Roleplay</p>
+            <p className="text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground mb-4">Authorized Workspace For</p>
+            <img src={monetateLogoDark} alt="Monetate" className="h-8 w-auto object-contain hidden dark:block" />
+            <img src={monetateLogoLight} alt="Monetate" className="h-8 w-auto object-contain block dark:hidden" />
           </div>
 
           <div className="mb-8">

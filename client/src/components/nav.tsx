@@ -104,10 +104,13 @@ export function Nav() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-4 lg:gap-6">
           <Link href="/dashboard" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <img src={arenaLogoDark} alt="Arena by GigaRev" className="h-8 w-auto object-contain" />
-            <div className="h-6 w-px bg-white/20" />
-            <img src={monetateLogoDark} alt="Monetate" className="h-6 w-auto object-contain opacity-80" />
+            <img src={arenaLogoDark} alt="Arena AI by GigaRev" className="h-8 w-auto object-contain" />
           </Link>
+          <div className="h-6 w-px bg-white/20" />
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/50">Client:</span>
+            <img src={monetateLogoDark} alt="Monetate" className="h-6 w-auto object-contain" />
+          </div>
         </div>
 
         <div className="hidden lg:flex items-center gap-1">
