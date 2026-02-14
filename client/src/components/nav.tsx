@@ -26,7 +26,7 @@ import { useAuth } from "@/lib/auth-context";
 import { useTheme } from "next-themes";
 
 import monetateLogoDark from "@/assets/monetate-logo-dark.png";
-import arenaHelmet from "@/assets/arena-helmet.png";
+import arenaHelmetDark from "@/assets/arena-helmet-dark.png";
 
 interface NavGroup {
   label: string;
@@ -104,7 +104,7 @@ export function Nav() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-4 lg:gap-6">
           <Link href="/dashboard" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-            <img src={arenaHelmet} alt="Arena AI" className="h-9 w-auto object-contain" />
+            <img src={arenaHelmetDark} alt="Arena AI" className="h-9 w-auto object-contain" />
             <div className="flex flex-col leading-none">
               <span className="text-[15px] font-bold tracking-wide text-white">arena ai</span>
               <span className="text-[9px] font-mono uppercase tracking-[0.25em] text-white/60">by gigarev</span>

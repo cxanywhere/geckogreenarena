@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import monetateLogoDark from "@/assets/monetate-logo-dark.png";
 import monetateLogoLight from "@/assets/monetate-logo-light.png";
 import arenaHelmet from "@/assets/arena-helmet.png";
+import arenaHelmetDark from "@/assets/arena-helmet-dark.png";
 import { useTheme } from "next-themes";
 
 export default function LoginPage() {
@@ -87,7 +88,8 @@ export default function LoginPage() {
           transition={{ duration: 0.5 }}
         >
           <div className="mb-10 flex items-center gap-3">
-            <img src={arenaHelmet} alt="Arena AI" className="h-14 w-auto object-contain" />
+            <img src={arenaHelmet} alt="Arena AI" className="h-14 w-auto object-contain block dark:hidden" />
+            <img src={arenaHelmetDark} alt="Arena AI" className="h-14 w-auto object-contain hidden dark:block" />
             <div className="flex flex-col leading-none">
               <span className="text-2xl font-bold tracking-wide text-foreground">arena ai</span>
               <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted-foreground">by gigarev</span>
