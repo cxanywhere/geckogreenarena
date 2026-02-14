@@ -6,10 +6,10 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { storage } from "./storage";
 import { db } from "./db";
-import { insertUserProgressSchema, insertRoleplayAttemptSchema, quizQuestions } from "@shared/schema";
+import { insertUserProgressSchema, insertRoleplayAttemptSchema, quizQuestions, chapters } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, generateLogoImage, generateBattlecardImage, generateArenaLogo, type RoleplayMessage, type RoleplayScenario } from "./gemini";
+import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, generateLogoImage, generateBattlecardImage, generateArenaLogo, generateSlideImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
 import { getOrGenerateQuizForSlide, submitQuizAnswer, ensurePredefinedQuizzesSeeded } from "./quiz-service";
 import { vapiService } from "./vapi-service";
 import { getVapiRoleplayConfig, convertRoleplayToVapiConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
@@ -246,6 +246,106 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Generate all chapter images error:", error);
       res.status(500).json({ error: "Failed to generate images" });
+    }
+  });
+
+  // Generate slide images for a specific chapter
+  app.post("/api/chapters/:id/generate-slides", async (req, res) => {
+    try {
+      const chapter = await storage.getChapter(req.params.id);
+      if (!chapter) {
+        return res.status(404).json({ error: "Chapter not found" });
+      }
+
+      const slides = chapter.slides as any[];
+      const results: { slideIndex: number; title: string; success: boolean; imageUrl?: string; error?: string }[] = [];
+      let generated = 0;
+
+      for (let i = 0; i < slides.length; i++) {
+        const slide = slides[i];
+        if (!slide.imagePrompt) {
+          results.push({ slideIndex: i, title: slide.title, success: true, imageUrl: slide.imageUrl || null });
+          continue;
+        }
+        if (slide.imageUrl) {
+          results.push({ slideIndex: i, title: slide.title, success: true, imageUrl: slide.imageUrl });
+          continue;
+        }
+
+        console.log(`Generating slide image ${i + 1}/${slides.length} for chapter: ${chapter.title} - ${slide.title}`);
+        const result = await generateSlideImage(chapter.slug || chapter.id, i, slide.imagePrompt);
+
+        if (result.success && result.imageUrl) {
+          slides[i] = { ...slide, imageUrl: result.imageUrl };
+          generated++;
+          results.push({ slideIndex: i, title: slide.title, success: true, imageUrl: result.imageUrl });
+        } else {
+          results.push({ slideIndex: i, title: slide.title, success: false, error: result.error });
+        }
+
+        // Small delay to avoid rate limiting
+        if (i < slides.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+      }
+
+      // Update chapter slides in database with new imageUrls
+      if (generated > 0) {
+        await db.update(chapters).set({ slides }).where(eq(chapters.id, chapter.id));
+      }
+
+      console.log(`Generated ${generated} slide images for chapter: ${chapter.title}`);
+      res.json({ success: true, chapterId: chapter.id, title: chapter.title, generated, results });
+    } catch (error) {
+      console.error("Generate slide images error:", error);
+      res.status(500).json({ error: "Failed to generate slide images" });
+    }
+  });
+
+  // Generate slide images for ALL chapters (batch)
+  app.post("/api/chapters/generate-all-slides", async (_req, res) => {
+    try {
+      const allChapters = await storage.getAllChapters();
+      const chapterResults: any[] = [];
+
+      for (const chapter of allChapters) {
+        const slides = chapter.slides as any[];
+        let generated = 0;
+        const slideResults: any[] = [];
+
+        for (let i = 0; i < slides.length; i++) {
+          const slide = slides[i];
+          if (!slide.imagePrompt || slide.imageUrl) {
+            slideResults.push({ slideIndex: i, title: slide.title, success: true, imageUrl: slide.imageUrl || null });
+            continue;
+          }
+
+          console.log(`[${chapter.title}] Generating slide ${i + 1}/${slides.length}: ${slide.title}`);
+          const result = await generateSlideImage(chapter.slug || chapter.id, i, slide.imagePrompt);
+
+          if (result.success && result.imageUrl) {
+            slides[i] = { ...slide, imageUrl: result.imageUrl };
+            generated++;
+            slideResults.push({ slideIndex: i, title: slide.title, success: true, imageUrl: result.imageUrl });
+          } else {
+            slideResults.push({ slideIndex: i, title: slide.title, success: false, error: result.error });
+          }
+
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+
+        if (generated > 0) {
+          await db.update(chapters).set({ slides }).where(eq(chapters.id, chapter.id));
+        }
+
+        chapterResults.push({ chapterId: chapter.id, title: chapter.title, generated, slides: slideResults });
+        console.log(`Completed chapter: ${chapter.title} (${generated} new slides generated)`);
+      }
+
+      res.json({ success: true, chapters: chapterResults });
+    } catch (error) {
+      console.error("Generate all slide images error:", error);
+      res.status(500).json({ error: "Failed to generate slide images" });
     }
   });
 

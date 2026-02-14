@@ -582,3 +582,68 @@ The overall feel should be: ${isDark ? "A premium, luminous emblem in darkness -
     return { success: false, error: error.message || "Logo generation failed" };
   }
 }
+
+export async function generateSlideImage(
+  chapterSlug: string,
+  slideIndex: number,
+  imagePrompt: string
+): Promise<GeneratedImage> {
+  const fullPrompt = `${imagePrompt}
+
+CRITICAL STYLE REQUIREMENTS:
+- This is a PRESENTATION SLIDE for a premium sales training platform
+- Dark navy blue (#1A2B8C) background is mandatory
+- White text for titles and body content
+- Magenta/pink (#E84C8A) for accent elements, icons, highlights, and data callouts
+- Professional corporate keynote quality — think McKinsey or Bain presentation deck
+- 16:9 landscape aspect ratio
+- Include the TITLE TEXT clearly visible at the top of the slide
+- Include key data points, diagrams, or visual elements as described
+- Clean typography with generous spacing
+- Subtle gradient effects and modern design elements
+- NO stock photo feel — this should look like a hand-crafted slide design`;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3-pro-image-preview",
+      contents: fullPrompt,
+      config: {
+        responseModalities: ["Text", "Image"],
+      },
+    });
+
+    const parts = response.candidates?.[0]?.content?.parts;
+    if (!parts) {
+      return { success: false, error: "No response parts received" };
+    }
+
+    for (const part of parts) {
+      if (part.inlineData) {
+        const imageData = part.inlineData.data;
+        if (imageData) {
+          const uploadsDir = path.join(process.cwd(), "public", "uploads", "slides");
+          if (!fs.existsSync(uploadsDir)) {
+            fs.mkdirSync(uploadsDir, { recursive: true });
+          }
+
+          const filename = `slide-${chapterSlug}-${slideIndex}-${Date.now()}.png`;
+          const filepath = path.join(uploadsDir, filename);
+
+          const buffer = Buffer.from(imageData, "base64");
+          fs.writeFileSync(filepath, buffer);
+
+          return {
+            success: true,
+            imagePath: filepath,
+            imageUrl: `/uploads/slides/${filename}`,
+          };
+        }
+      }
+    }
+
+    return { success: false, error: "No image data in response" };
+  } catch (error: any) {
+    console.error(`Failed to generate slide image (${chapterSlug} slide ${slideIndex}):`, error);
+    return { success: false, error: error.message || "Slide image generation failed" };
+  }
+}

@@ -1,13 +1,31 @@
 import { db } from './db';
 import { chapters, roleplays, buyerPersonas, comicStories, comicPanels } from '@shared/schema';
-import { eq } from 'drizzle-orm';
-import { CHAPTER_SEED_DATA, ROLEPLAY_SEED_DATA, BUYER_PERSONA_SEED_DATA } from './seed-data';
+import { eq, notInArray } from 'drizzle-orm';
+import { CHAPTER_SEED_DATA, ROLEPLAY_SEED_DATA } from './seed-data-new';
+import { BUYER_PERSONA_SEED_DATA } from './seed-data';
 import { PLAYBOOK_STORIES_SEED, PLAYBOOK_PANELS_SEED } from './playbook-seed-data';
 
 export async function seedDatabase(): Promise<void> {
   console.log('Starting idempotent database seed...');
   
   try {
+    const validChapterSlugs = CHAPTER_SEED_DATA.map(c => c.slug);
+    const validRoleplaySlugs = ROLEPLAY_SEED_DATA.map(r => r.slug);
+
+    const oldChapters = await db.select({ slug: chapters.slug }).from(chapters)
+      .where(notInArray(chapters.slug, validChapterSlugs));
+    if (oldChapters.length > 0) {
+      console.log(`  Removing ${oldChapters.length} outdated chapters: ${oldChapters.map(c => c.slug).join(', ')}`);
+      await db.delete(chapters).where(notInArray(chapters.slug, validChapterSlugs));
+    }
+
+    const oldRoleplays = await db.select({ slug: roleplays.slug }).from(roleplays)
+      .where(notInArray(roleplays.slug, validRoleplaySlugs));
+    if (oldRoleplays.length > 0) {
+      console.log(`  Removing ${oldRoleplays.length} outdated roleplays: ${oldRoleplays.map(r => r.slug).join(', ')}`);
+      await db.delete(roleplays).where(notInArray(roleplays.slug, validRoleplaySlugs));
+    }
+
     const chapterSlugToId = new Map<string, string>();
     
     for (const chapterData of CHAPTER_SEED_DATA) {

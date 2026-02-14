@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, TouchEvent as ReactTouchEvent } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface SlideData {
@@ -8,6 +8,8 @@ interface SlideData {
   title: string;
   content?: string;
   bullets?: string[];
+  imagePrompt?: string;
+  imageUrl?: string | null;
 }
 
 interface TextSlideViewerProps {
@@ -29,6 +31,7 @@ export function TextSlideViewer({
 }: TextSlideViewerProps) {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [imageLoading, setImageLoading] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const numPages = slides.length;
@@ -92,16 +95,17 @@ export function TextSlideViewer({
 
   const isFirstSlide = currentPage === 1;
   const isLastSlide = currentPage === numPages;
+  const hasImage = !!slide.imageUrl;
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full flex flex-col"
+      className="relative w-full h-full flex flex-col bg-[#1A2B8C]"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-hidden relative">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentPage}
@@ -109,66 +113,87 @@ export function TextSlideViewer({
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -30 }}
             transition={{ duration: 0.25 }}
-            className="h-full"
+            className="h-full w-full"
           >
-            <div className="max-w-3xl mx-auto px-6 py-8 md:py-12">
-              <div className="mb-2 flex items-center gap-2">
-                <span className="text-xs font-medium text-magenta/60 uppercase tracking-wider">
-                  Slide {currentPage} of {numPages}
-                </span>
-                {slide.type === "quiz" && (
-                  <span className="px-2 py-0.5 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-xs rounded-full font-medium">
-                    Quiz
-                  </span>
+            {hasImage ? (
+              <div className="h-full w-full flex items-center justify-center relative">
+                {imageLoading && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Loader2 className="w-8 h-8 animate-spin text-magenta" />
+                  </div>
                 )}
-                {slide.type === "roleplay" && (
-                  <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs rounded-full font-medium">
-                    Roleplay
+                <img
+                  src={slide.imageUrl!}
+                  alt={slide.title}
+                  className="w-full h-full object-contain"
+                  onLoad={() => setImageLoading(false)}
+                  onLoadStart={() => setImageLoading(true)}
+                  onError={(e) => {
+                    setImageLoading(false);
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="max-w-3xl mx-auto px-6 py-8 md:py-12">
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="text-xs font-medium text-magenta/60 uppercase tracking-wider">
+                    Slide {currentPage} of {numPages}
                   </span>
+                  {slide.type === "quiz" && (
+                    <span className="px-2 py-0.5 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-xs rounded-full font-medium">
+                      Quiz
+                    </span>
+                  )}
+                  {slide.type === "roleplay" && (
+                    <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs rounded-full font-medium">
+                      Roleplay
+                    </span>
+                  )}
+                </div>
+
+                <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-4 leading-tight">
+                  {slide.title}
+                </h2>
+
+                {slide.content && (
+                  <p className="text-base md:text-lg text-white/70 mb-6 leading-relaxed">
+                    {slide.content}
+                  </p>
+                )}
+
+                {slide.bullets && slide.bullets.length > 0 && (
+                  <ul className="space-y-3">
+                    {slide.bullets.map((bullet, i) => (
+                      <motion.li
+                        key={i}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1 + i * 0.08 }}
+                        className="flex items-start gap-3"
+                      >
+                        <div className="mt-2 w-2 h-2 rounded-full bg-magenta shrink-0" />
+                        <span className="text-sm md:text-base text-white/90 leading-relaxed">
+                          {bullet}
+                        </span>
+                      </motion.li>
+                    ))}
+                  </ul>
                 )}
               </div>
-
-              <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-4 leading-tight">
-                {slide.title}
-              </h2>
-
-              {slide.content && (
-                <p className="text-base md:text-lg text-muted-foreground mb-6 leading-relaxed">
-                  {slide.content}
-                </p>
-              )}
-
-              {slide.bullets && slide.bullets.length > 0 && (
-                <ul className="space-y-3">
-                  {slide.bullets.map((bullet, i) => (
-                    <motion.li
-                      key={i}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.1 + i * 0.08 }}
-                      className="flex items-start gap-3"
-                    >
-                      <div className="mt-2 w-2 h-2 rounded-full bg-magenta shrink-0" />
-                      <span className="text-sm md:text-base text-foreground/90 leading-relaxed">
-                        {bullet}
-                      </span>
-                    </motion.li>
-                  ))}
-                </ul>
-              )}
-            </div>
+            )}
           </motion.div>
         </AnimatePresence>
       </div>
 
-      <div className="border-t border-border bg-card/80 backdrop-blur-sm px-4 py-3">
+      <div className="border-t border-white/10 bg-[#1A2B8C]/90 backdrop-blur-sm px-4 py-3">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <Button
             variant="ghost"
             size="sm"
             onClick={goToPrevious}
             disabled={isFirstSlide || navigationDisabled}
-            className="gap-1"
+            className="gap-1 text-white hover:text-magenta hover:bg-white/10"
             data-testid="button-prev-slide"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -184,7 +209,7 @@ export function TextSlideViewer({
                   className={`h-1.5 rounded-full transition-all ${
                     pageNum <= currentPage
                       ? "w-3 bg-magenta"
-                      : "w-1.5 bg-muted-foreground/20"
+                      : "w-1.5 bg-white/20"
                   }`}
                 />
               );
@@ -196,7 +221,7 @@ export function TextSlideViewer({
             size="sm"
             onClick={goToNext}
             disabled={navigationDisabled}
-            className="gap-1"
+            className={`gap-1 ${isLastSlide ? "bg-magenta hover:bg-magenta/90 text-white" : "text-white hover:text-magenta hover:bg-white/10"}`}
             data-testid="button-next-slide"
           >
             <span className="hidden sm:inline">
