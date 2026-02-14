@@ -17,18 +17,18 @@ export async function generateWarriorAvatar(
 
   const base64Image = photoBuffer.toString("base64");
 
-  const prompt = `Transform this person's photo into an epic warrior avatar for a sales training arena app called "Arena AI". 
+  const prompt = `Transform this person's photo into a professional sales champion avatar for a B2B SaaS sales training platform called "Monetate". 
 
 Requirements:
-- Keep the person's face recognizable but enhance it with warrior aesthetics
-- Add dramatic lighting with green/emerald glows (the brand color)
-- Include subtle warrior elements like armor accents, battle-ready expression, or a subtle shield/sword motif in the background
-- Make it look powerful and confident - like a champion sales warrior
+- Keep the person's face recognizable but enhance it with professional, polished aesthetics
+- Add dramatic lighting with deep blue (#1A2B8C) and magenta (#E84C8A) accent glows (the brand colors)
+- Include subtle professional elements like a confident expression, modern tech-inspired background motifs
+- Make it look powerful and confident - like a top-performing sales professional
 - Keep it professional and suitable for a business app profile picture
-- The overall style should be sleek and modern, not medieval or fantasy
+- The overall style should be sleek, modern, and corporate
 - Maintain the person's identity while making them look like a sales champion
 
-Generate a high-quality warrior avatar portrait.`;
+Generate a high-quality professional avatar portrait.`;
 
   try {
     const response = await genAI.models.generateContent({
@@ -76,7 +76,7 @@ async function uploadToCloudinary(buffer: Buffer, publicId: string): Promise<str
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         public_id: publicId,
-        folder: "arena-ai/avatars",
+        folder: "monetate/avatars",
         transformation: [
           { width: 400, height: 400, crop: "fill", gravity: "face" },
           { quality: "auto", fetch_format: "auto" },

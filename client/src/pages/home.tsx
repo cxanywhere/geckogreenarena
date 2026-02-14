@@ -281,7 +281,7 @@ export default function Home() {
                           {allRoleplaysPassed && <CheckCircle className="w-4 h-4 text-green-500 ml-auto" />}
                         </div>
                         <p className="text-sm text-muted-foreground mb-3">
-                          Practice voice conversations with AI homeowners and pass each scenario.
+                          Practice voice conversations with AI buyers and pass each scenario.
                         </p>
                         <div className="flex items-center gap-2 text-xs">
                           <Mic className="w-3 h-3" />
@@ -550,7 +550,7 @@ export default function Home() {
                 <Mic className="w-6 h-6 text-blue-500" />
                 Voice Roleplays
               </h2>
-              <p className="text-muted-foreground mt-1">Practice real conversations with AI homeowners</p>
+              <p className="text-muted-foreground mt-1">Practice real conversations with AI buyers</p>
             </div>
             <div className="flex items-center gap-2 bg-card border border-border rounded-full px-4 py-2">
               <Progress value={totalRoleplays > 0 ? (uniqueRoleplaysPassed / totalRoleplays) * 100 : 0} className="w-24 h-2" />
@@ -591,9 +591,9 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-primary/5 border-t border-primary/10 py-12">
         <div className="container mx-auto px-4 text-center">
-          <div className="font-display font-bold text-2xl text-primary mb-1">arena ai</div>
-          <div className="text-xs text-muted-foreground uppercase tracking-widest mb-4">by gigarev</div>
-          <p className="text-muted-foreground text-sm mb-8">© 2025 GigaRev Arena AI. All rights reserved. Licensed to GeckoGreen.</p>
+          <div className="font-display font-bold text-2xl text-primary mb-1">Monetate</div>
+          <div className="text-xs text-muted-foreground uppercase tracking-widest mb-4">Sales Enablement</div>
+          <p className="text-muted-foreground text-sm mb-8">© 2025 Monetate Sales Enablement. All rights reserved.</p>
         </div>
       </footer>
     </div>

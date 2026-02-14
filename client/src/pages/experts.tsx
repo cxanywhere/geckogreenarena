@@ -82,7 +82,7 @@ export default function ExpertsPage() {
             <h1 className="text-3xl font-bold text-foreground" data-testid="page-title">Expert Marketplace</h1>
           </div>
           <p className="text-muted-foreground max-w-2xl">
-            Connect with top D2D sales coaches and trainers. Get personalized feedback through AI-powered coaching or book direct consultations with industry leaders.
+            Connect with top sales coaches and trainers. Get personalized feedback through AI-powered coaching or book direct consultations with industry leaders.
           </p>
         </div>
 

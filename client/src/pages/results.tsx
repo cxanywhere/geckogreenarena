@@ -169,16 +169,16 @@ export default function ResultsPage() {
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center max-w-md px-6">
             <motion.div 
-              className="w-28 h-28 mx-auto mb-8 rounded-full bg-gradient-to-br from-[#84CC16]/30 to-[#2D5016]/20 flex items-center justify-center relative"
+              className="w-28 h-28 mx-auto mb-8 rounded-full bg-gradient-to-br from-[#E84C8A]/30 to-[#1A2B8C]/20 flex items-center justify-center relative"
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
               <motion.div 
-                className="absolute inset-0 rounded-full border-4 border-[#84CC16]/30"
+                className="absolute inset-0 rounded-full border-4 border-[#E84C8A]/30"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
               />
-              <Loader2 className="w-14 h-14 text-[#84CC16] animate-spin" />
+              <Loader2 className="w-14 h-14 text-[#E84C8A] animate-spin" />
             </motion.div>
             
             <motion.div
@@ -196,7 +196,7 @@ export default function ResultsPage() {
               {loadingMessages.map((_, idx) => (
                 <motion.div
                   key={idx}
-                  className={`w-2 h-2 rounded-full ${idx === loadingMessageIndex ? 'bg-[#84CC16]' : 'bg-gray-300'}`}
+                  className={`w-2 h-2 rounded-full ${idx === loadingMessageIndex ? 'bg-[#E84C8A]' : 'bg-gray-300'}`}
                   animate={idx === loadingMessageIndex ? { scale: [1, 1.3, 1] } : {}}
                   transition={{ duration: 0.5 }}
                 />
@@ -497,7 +497,7 @@ export default function ResultsPage() {
                           </Avatar>
                           <div className="flex flex-col gap-1 max-w-[85%]">
                             <span className={`text-[10px] font-medium ${isUserMessage ? "text-right" : "text-left"} text-muted-foreground`}>
-                              {isUserMessage ? "You (Sales Rep)" : "Homeowner"}
+                              {isUserMessage ? "You (Sales Rep)" : "Buyer"}
                             </span>
                             <div className={`text-sm p-3 rounded-xl ${
                               isUserMessage 

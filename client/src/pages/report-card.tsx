@@ -6,9 +6,8 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, XCircle, Trophy, Download, Printer, Share2, Award, Star, TrendingUp, Lock, Brain, Target, Loader2 } from "lucide-react";
-import geckoLogo from "@assets/image_1766975682051.png";
-import arenaLogoDark from "@/assets/arena-logo-dark.png";
-import arenaLogoLight from "@/assets/arena-logo-light.png";
+import monetateLogoDark from "@/assets/monetate-logo-dark.png";
+import monetateLogoLight from "@/assets/monetate-logo-light.png";
 import { useTheme } from "next-themes";
 import { Link } from "wouter";
 import { useRef, useEffect, useState } from "react";
@@ -34,7 +33,7 @@ export default function ReportCardPage() {
   const user = storedUser ? JSON.parse(storedUser) : null;
   const { resolvedTheme } = useTheme();
   
-  const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
+  const monetateLogo = resolvedTheme === "dark" ? monetateLogoDark : monetateLogoLight;
 
   const { data: chapters = [], isLoading: chaptersLoading } = useQuery({
     queryKey: ["chapters"],
@@ -341,18 +340,18 @@ export default function ReportCardPage() {
                     <div className="absolute bottom-3 right-3 w-10 h-10 md:w-16 md:h-16 border-b-4 border-r-4 border-[#1e3a8a] pointer-events-none" />
                     
                     <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
-                       <img src={geckoLogo} className="w-2/3 h-2/3 object-contain grayscale" />
+                       <img src={monetateLogo} className="w-2/3 h-2/3 object-contain grayscale" />
                     </div>
 
                     <div className="relative flex flex-col items-center text-center border-2 border-dashed border-gray-200 p-6 md:p-8 h-full">
                       
                       <div className="w-full space-y-4 md:space-y-6">
                          <div className="flex justify-between items-start w-full px-2 md:px-4">
-                            <img src={geckoLogo} alt="Gecko Green" className="h-10 md:h-14 w-auto object-contain" />
+                            <img src={monetateLogo} alt="Monetate" className="h-10 md:h-14 w-auto object-contain" />
                             <div className="flex flex-col items-end">
                                <div className="flex items-center gap-2 opacity-50">
-                                  <img src={arenaLogo} alt="Arena AI" className="h-5 w-5 md:h-6 md:w-6 grayscale" />
-                                  <span className="font-display font-bold uppercase tracking-widest text-[10px] md:text-xs">Arena AI Certified</span>
+                                  <img src={monetateLogo} alt="Monetate" className="h-5 w-5 md:h-6 md:w-6 grayscale" />
+                                  <span className="font-display font-bold uppercase tracking-widest text-[10px] md:text-xs">Monetate Certified</span>
                                </div>
                             </div>
                          </div>
@@ -371,7 +370,7 @@ export default function ReportCardPage() {
 
                       <div className="max-w-2xl mx-auto space-y-4 pt-6 md:pt-8">
                          <p className="text-gray-600 font-serif text-sm md:text-lg leading-relaxed px-4">
-                           Has successfully demonstrated mastery of the <strong className="text-[#1e3a8a]">Gecko Green Sales Methodology</strong>, achieving excellence in Opening, Pitching, Objection Handling, and Closing strategies through rigorous AI-driven simulation training.
+                           Has successfully demonstrated mastery of the <strong className="text-[#1e3a8a]">Monetate Sales Methodology</strong>, achieving excellence in Opening, Pitching, Objection Handling, and Closing strategies through rigorous AI-driven simulation training.
                          </p>
                          
                          <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-bold pt-2">

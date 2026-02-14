@@ -121,7 +121,7 @@ export default function ChapterPage() {
     }
   }, [params?.id, user?.id]);
 
-  const isChapter0 = chapter?.title === "Intro to GeckoGreen";
+  const isChapter0 = chapter?.title === "Intro to Monetate";
   const isChapter1 = chapter?.title === "Sales Foundations";
   const isChapter2 = chapter?.title === "Field Execution" || chapter?.title === "Field Sales Process";
 

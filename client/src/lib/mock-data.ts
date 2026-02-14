@@ -1,17 +1,4 @@
-import busyHomeowner from '@assets/generated_images/busy_homeowner_at_door.png';
-import proudDiyHomeowner from '@assets/generated_images/proud_diy_homeowner_on_lawn.png';
-import skepticalHomeowner from '@assets/generated_images/skeptical_older_homeowner.png';
-import indecisiveHomeowner from '@assets/generated_images/indecisive_homeowner_thinking.png';
-import doorToDoorRep from '@assets/generated_images/door_to_door_sales_rep_knocking.png';
-import lawnCareRep from '@assets/generated_images/sales_rep_talking_to_homeowner_on_lawn.png';
-
-import salesTrainingThumbnail from '@assets/generated_images/sales_training_video_thumbnail.png';
-
-import busyHomeownerImg from '@assets/generated_images/homeowner_opening_door_looking_busy.png';
-import noSolicitingImg from '@assets/generated_images/homeowner_pointing_to_no_soliciting_sign.png';
-import weedPointingImg from '@assets/generated_images/sales_rep_pointing_at_weeds.png';
-import signingTabletImg from '@assets/generated_images/signing_service_agreement_on_tablet.png';
-import doorHangerImg from '@assets/generated_images/door_hanger_on_handle.png';
+const placeholderImg = "";
 
 export interface Resource {
   id: string;
@@ -26,66 +13,63 @@ export interface Resource {
 }
 
 export const TRAINING_RESOURCES: Resource[] = [
-  // Top Sales Calls
   {
     id: "call-1",
     type: "call",
-    title: "Handling the 'Not Interested' at the Door",
-    description: "Listen to how Top Performer Sarah Jenkins turns a quick 'no' into a scheduled appointment using the Pattern Interrupt technique.",
-    learningOutcome: "Learn to stay calm, acknowledge the resistance, and pivot to a control question immediately.",
-    duration: "4:32",
-    author: "Sarah Jenkins",
-    tags: ["Objection Handling", "Opener", "Top 1%"]
+    title: "Handling the 'We Already Have Optimizely' Objection",
+    description: "Listen to how a top performer differentiates Monetate's real-time decisioning engine from Optimizely's testing-first approach with an enterprise VP of Digital.",
+    learningOutcome: "Learn to position Monetate's 1:1 personalization capabilities vs. A/B testing tools without bashing the competitor.",
+    duration: "5:12",
+    author: "Monetate Sales Team",
+    tags: ["Objection Handling", "Competitive", "Top 1%"]
   },
   {
     id: "call-2",
     type: "call",
-    title: "Closing the 'Think About It' Objection",
-    description: "Mike Ross demonstrates the perfect loop to handle a stalling homeowner who wants to talk to their spouse.",
-    learningOutcome: "Master the art of isolating the real objection and creating urgency without being pushy.",
-    duration: "6:15",
-    author: "Mike Ross",
-    tags: ["Closing", "Stalls", "Advanced"]
+    title: "Closing the 'Need to Think About It' Enterprise Deal",
+    description: "A masterclass in isolating the real concern behind a $200K deal stall. Watch how the rep uncovers procurement timeline issues and re-engages the champion.",
+    learningOutcome: "Master the art of isolating the real objection in enterprise deals and creating urgency without being pushy.",
+    duration: "6:45",
+    author: "Monetate Sales Team",
+    tags: ["Closing", "Enterprise", "Advanced"]
   },
   {
     id: "call-3",
     type: "call",
-    title: "Price Objection: 'You Guys Are Too Expensive'",
-    description: "Listen to a masterclass in value anchoring. See how the rep shifts the conversation from price to cost-of-inaction.",
-    learningOutcome: "Learn to agree, validate, and then reframe price in terms of value and long-term savings.",
-    duration: "3:45",
-    author: "Jessica Pearson",
-    tags: ["Pricing", "Value Building"]
+    title: "Price Objection: Justifying Enterprise Platform Investment",
+    description: "Listen to a masterclass in ROI-based value selling. See how the rep shifts the conversation from annual platform cost to incremental revenue lift.",
+    learningOutcome: "Learn to reframe price discussions around measurable business outcomes: conversion lift, AOV increase, and revenue per visitor.",
+    duration: "4:30",
+    author: "VP of Sales",
+    tags: ["Pricing", "Value Selling", "ROI"]
   },
-  
-  // Training Videos
   {
     id: "vid-1",
     type: "video",
-    title: "The Psychology of Door Knocking",
-    description: "A deep dive into body language, distance management, and non-verbal cues that build trust instantly.",
-    learningOutcome: "Understand how your stance and facial expressions impact your conversion rate before you say a word.",
-    duration: "12:30",
-    author: "GigaRev Training Team",
-    thumbnail: salesTrainingThumbnail,
-    tags: ["Psychology", "Foundations"]
+    title: "The Psychology of Enterprise Discovery Calls",
+    description: "A deep dive into building trust with C-suite buyers, reading buying signals, and structuring discovery calls that uncover real business pain.",
+    learningOutcome: "Understand how to establish credibility with VP/C-level buyers and ask questions that reveal budget, timeline, and decision-making authority.",
+    duration: "14:30",
+    author: "Monetate Sales Team",
+    thumbnail: "",
+    tags: ["Discovery", "Psychology", "Foundations"]
   },
   {
     id: "vid-2",
     type: "video",
-    title: "Mastering the B-P-D-C Framework",
-    description: "Step-by-step breakdown of the Build-Problem-Diagnose-Close framework used by all top Gecko Green reps.",
-    learningOutcome: "Learn to structure every interaction for maximum persuasion and control.",
-    duration: "15:45",
+    title: "Mastering the MEDDPICC Framework for Monetate",
+    description: "Step-by-step breakdown of the MEDDPICC qualification methodology tailored for enterprise personalization platform deals.",
+    learningOutcome: "Learn to qualify deals rigorously using Metrics, Economic Buyer, Decision Criteria, Decision Process, Identify Pain, Champion, and Competition.",
+    duration: "18:00",
     author: "VP of Sales",
-    thumbnail: salesTrainingThumbnail,
-    tags: ["Framework", "Process"]
+    thumbnail: "",
+    tags: ["Framework", "Qualification", "MEDDPICC"]
   }
 ];
 
 export interface Battlecard {
   id: string;
-  phase: 'Opening' | 'Pitch' | 'Objection Handling' | 'Closing' | 'Follow-up';
+  phase: 'Discovery' | 'Demo' | 'Objection Handling' | 'Pricing' | 'Closing' | 'Follow-up';
   title: string;
   situation: string;
   script: string;
@@ -95,224 +79,226 @@ export interface Battlecard {
 }
 
 export const BATTLECARDS: Battlecard[] = [
-  // Opening Phase
+  // Discovery Phase
   {
     id: "bc-1",
-    phase: "Opening",
-    title: "The Pattern Interrupt Opener",
-    situation: "Homeowner looks busy or annoyed when opening the door.",
-    script: "Sorry to interrupt—I'm not the pizza guy! I'm just the [Name] with Gecko Green, checking the lawns on [Street Name].",
-    keyPoints: ["Smile immediately", "Step back 3 feet", "Show open hands"],
+    phase: "Discovery",
+    title: "The Executive Discovery Opener",
+    situation: "Opening a cold discovery call with a VP of E-commerce or Digital.",
+    script: "Thanks for making the time today. Before I jump in, I'd love to understand—what's your team's biggest priority this quarter when it comes to your on-site customer experience?",
+    keyPoints: ["Lead with curiosity, not a pitch", "Reference their role specifically", "Let them set the agenda first"],
     type: "script",
-    image: busyHomeownerImg
+    image: ""
   },
   {
     id: "bc-2",
-    phase: "Objection Handling",
-    title: "Handling 'It's Too Early'",
-    situation: "Homeowner says it's too early in the season.",
-    script: "I can appreciate that, however this is the best time of year to start a program. Many of the issues you will see later on can be prevented by starting early, see what I mean?",
-    keyPoints: ["Reframe timing as advantage", "Emphasize pre-emergent prevention", "Ask for commitment"],
-    type: "objection",
-    image: noSolicitingImg
+    phase: "Discovery",
+    title: "The Pain Point Deep-Dive",
+    situation: "Prospect mentions a surface-level challenge like 'we want to improve conversions.'",
+    script: "That's a common goal. Can you help me understand—where specifically are you seeing the biggest drop-off? Is it product discovery, cart abandonment, or something else? And what have you tried so far?",
+    keyPoints: ["Go deeper than surface symptoms", "Ask what they've already tried", "Quantify the impact if possible"],
+    type: "script",
+    image: ""
   },
   {
     id: "bc-3",
-    phase: "Opening",
-    title: "The 'I'm Busy' Defense",
-    situation: "Homeowner says 'I don't have time right now'.",
-    script: "I totally understand, I'll be super quick—literally 30 seconds. I just wanted to ask...",
-    keyPoints: ["Validate their time", "Set a time constraint", "Ask a question immediately"],
-    type: "objection",
-    image: busyHomeownerImg
-  },
-  {
-    id: "bc-4",
-    phase: "Opening",
-    title: "Establishing Authority",
-    situation: "First 10 seconds of interaction.",
-    script: "Hi, I'm [Name], the neighborhood specialist for [Area]. We've been working with a few of your neighbors...",
-    keyPoints: ["Use 'Specialist' title", "Name drop neighbors", "Confident body language"],
+    phase: "Discovery",
+    title: "The Stakeholder Mapping Move",
+    situation: "You need to identify all decision makers and influencers in the buying process.",
+    script: "This sounds like it touches a few teams. Typically with projects like this, we see IT, marketing, and sometimes merchandising involved. Who else on your side would need to weigh in before moving forward?",
+    keyPoints: ["Map the buying committee early", "Use 'typically we see...' to normalize", "Identify the champion vs. economic buyer"],
     type: "tip",
-    image: doorToDoorRep
+    image: ""
   },
 
-  // Pitch Phase
+  // Demo Phase
+  {
+    id: "bc-4",
+    phase: "Demo",
+    title: "The Value-Led Demo Opening",
+    situation: "Starting a product demo with multiple stakeholders on the call.",
+    script: "Before I show you the platform, I want to recap what we heard on our last call. You mentioned three priorities: improving product discovery for new visitors, reducing cart abandonment, and personalizing the homepage. I've built this demo around those exact use cases.",
+    keyPoints: ["Always recap their pain first", "Customize the demo to their priorities", "Show you listened"],
+    type: "script",
+    image: ""
+  },
   {
     id: "bc-5",
-    phase: "Pitch",
-    title: "The Weed Identification Hook",
-    situation: "Identifying visible weeds on the lawn.",
-    script: "Do you see this clover here? It actually spreads roots sideways under the grass, choking it out. That's why this patch is thinning.",
-    keyPoints: ["Point physically", "Explain the 'Why'", "Create problem awareness"],
+    phase: "Demo",
+    title: "The ROI Calculator Drop",
+    situation: "Mid-demo, when showing personalization capabilities.",
+    script: "Let me show you what this looks like in dollars. Based on your current traffic of 5M monthly visits and a 2.3% conversion rate, even a modest 8% lift from personalization would generate an additional $2.4M in annual revenue. That's a 6x return on the platform investment.",
+    keyPoints: ["Use their actual metrics", "Show conservative estimates", "Frame ROI as a multiple of investment"],
     type: "script",
-    image: weedPointingImg
+    image: ""
   },
   {
     id: "bc-6",
-    phase: "Pitch",
-    title: "Building Value: The Guarantee",
-    situation: "Explaining service benefits.",
-    script: "The best part is, if you see any weeds between visits, we come back for free. You literally can't pay for weeds.",
-    keyPoints: ["Risk reversal", "Simple language", "Emphasis on 'Free'"],
+    phase: "Demo",
+    title: "The Social Proof Bridge",
+    situation: "Transitioning between demo sections or when prospect seems skeptical.",
+    script: "This is actually the exact same approach that [Similar Brand] used to increase their revenue per session by 15%. They were in a similar situation—large catalog, diverse audience, and a team that needed to move fast without heavy IT involvement.",
+    keyPoints: ["Reference similar industry/size customers", "Be specific with metrics", "Connect to their situation"],
     type: "script",
-    image: signingTabletImg
-  },
-  {
-    id: "bc-7",
-    phase: "Pitch",
-    title: "Social Proof Transition",
-    situation: "Moving from problem to solution.",
-    script: "The reason the Smiths down the street switched to us was specifically for this crabgrass issue.",
-    keyPoints: ["Reference neighbors", "Connect specific problem to solution", "Create FOMO"],
-    type: "script",
-    image: lawnCareRep
-  },
-  {
-    id: "bc-8",
-    phase: "Pitch",
-    title: "The 'Illusion of Choice'",
-    situation: "Setting up the close.",
-    script: "Are you usually around in the mornings, or do afternoons work better for us to take a look?",
-    keyPoints: ["Two positive options", "Assume the appointment", "Avoid Yes/No questions"],
-    type: "tip",
-    image: signingTabletImg
+    image: ""
   },
 
   // Objection Handling Phase
   {
+    id: "bc-7",
+    phase: "Objection Handling",
+    title: "Handling 'We Built Our Own'",
+    situation: "Prospect says their engineering team built an in-house personalization solution.",
+    script: "That's impressive, and it shows your team values personalization. What we typically see is that in-house solutions work well for basic rules, but struggle with real-time ML decisioning and testing at scale. How much engineering time are you spending on maintenance vs. building new experiences?",
+    keyPoints: ["Validate their investment", "Highlight maintenance burden", "Focus on opportunity cost of engineering time"],
+    type: "objection",
+    image: ""
+  },
+  {
+    id: "bc-8",
+    phase: "Objection Handling",
+    title: "Handling 'We Already Have a Vendor'",
+    situation: "Prospect is currently using a competitor like Dynamic Yield, Optimizely, or Adobe Target.",
+    script: "That's great—it means you already believe in the value of personalization. I'm curious, what's working well with your current setup, and where do you wish it could do more?",
+    keyPoints: ["Don't bash the competitor", "Find the gaps in their current solution", "Position Monetate's unique strengths"],
+    type: "objection",
+    image: ""
+  },
+  {
     id: "bc-9",
     phase: "Objection Handling",
-    title: "'I Do It Myself'",
-    situation: "Homeowner takes pride in DIY lawn care.",
-    script: "That's awesome, honestly most of my best customers started that way. What products are you using for the deep root feeding?",
-    keyPoints: ["Validate their effort", "Ask a technical question", "Highlight professional-grade gap"],
+    title: "Handling 'It's Too Expensive'",
+    situation: "Prospect pushes back on pricing during or after a proposal.",
+    script: "I understand budget is a factor. Let me reframe this—if Monetate generates even a 5% lift in conversion rate on your current revenue, that's $3M in incremental revenue against a $300K investment. The question isn't whether you can afford it—it's whether you can afford not to.",
+    keyPoints: ["Reframe cost as investment", "Use their revenue numbers", "Show cost of inaction"],
     type: "objection",
-    image: proudDiyHomeowner
+    image: ""
   },
   {
     id: "bc-10",
     phase: "Objection Handling",
-    title: "'We Have a Service'",
-    situation: "Homeowner already pays a competitor.",
-    script: "Great, that means you care about the lawn. Who are you using? ... Oh yeah, they're decent. How long have you been with them?",
-    keyPoints: ["Don't bash competitor", "Find the pain/gap", "Plant seed of doubt"],
+    title: "Handling 'Our Team Has No Bandwidth'",
+    situation: "Prospect says their team is too stretched to implement a new platform.",
+    script: "I hear that a lot, and it's actually one of the top reasons teams choose Monetate. Our platform is designed for marketers to self-serve without engineering. Plus, our implementation team handles the heavy lifting during onboarding. Most clients are live within 4-6 weeks.",
+    keyPoints: ["Acknowledge the concern as valid", "Highlight ease of use for non-technical teams", "Emphasize implementation support"],
     type: "objection",
-    image: skepticalHomeowner
+    image: ""
   },
   {
     id: "bc-11",
     phase: "Objection Handling",
-    title: "'Too Expensive'",
-    situation: "Price resistance.",
-    script: "I get that. But think about the cost of re-sodding this patch if the chinch bugs take over. It's $50 now vs $500 later.",
-    keyPoints: ["Reframe as investment", "Cost of inaction", "Break down to daily cost"],
+    title: "Handling 'We Tried Personalization Before'",
+    situation: "Prospect had a bad experience with a previous personalization vendor or initiative.",
+    script: "I appreciate you sharing that. Can you help me understand what went wrong? Was it the technology, the strategy, or the support? Because what we've learned is that personalization fails when it's treated as a feature, not a program. That's why Monetate includes dedicated success managers and a proven playbook.",
+    keyPoints: ["Show empathy for past failure", "Diagnose what went wrong", "Differentiate your approach and support model"],
     type: "objection",
-    image: signingTabletImg
+    image: ""
   },
+
+  // Pricing Phase
   {
     id: "bc-12",
-    phase: "Objection Handling",
-    title: "'I Need to Talk to My Spouse'",
-    situation: "Stalling decision.",
-    script: "Totally fair. Does she usually handle the gardening, or is it more about the budget?",
-    keyPoints: ["Isolate the real objection", "Determine decision maker", "Keep conversation going"],
-    type: "objection",
-    image: indecisiveHomeowner
+    phase: "Pricing",
+    title: "The Value Anchor",
+    situation: "Presenting pricing for the first time in a proposal or follow-up call.",
+    script: "Before I walk through the investment, let's revisit what we've established: your team is leaving approximately $5M on the table from unpersonalized experiences. Our platform investment is a fraction of that potential lift, and every client in your space has seen positive ROI within the first quarter.",
+    keyPoints: ["Always anchor to the value first", "Use their numbers, not yours", "Make the ROI undeniable before showing price"],
+    type: "script",
+    image: ""
   },
   {
     id: "bc-13",
-    phase: "Objection Handling",
-    title: "'Can You Just Leave a Flyer?'",
-    situation: "Brush off.",
-    script: "I can, but the pricing on the flyer isn't the neighborhood discount I can authorize right now while I'm here.",
-    keyPoints: ["Create urgency", "Devalue the flyer", "Highlight 'Now' benefit"],
+    phase: "Pricing",
+    title: "The Package Breakdown",
+    situation: "Prospect asks about different tiers or what's included.",
+    script: "We have three tiers: Essentials covers A/B testing and basic segmentation. Growth adds 1:1 personalization and product recommendations. Enterprise includes everything plus advanced analytics, dedicated support, and custom ML models. Most brands at your scale go with Growth or Enterprise.",
+    keyPoints: ["Explain tiers clearly", "Guide them toward the right fit", "Use 'most brands at your scale' as social proof"],
+    type: "script",
+    image: ""
+  },
+  {
+    id: "bc-14",
+    phase: "Pricing",
+    title: "The Competitive Price Comparison",
+    situation: "Prospect compares Monetate's pricing to a cheaper alternative.",
+    script: "I get it—on the surface, they look cheaper. But let's compare what you're actually getting. With Monetate, you get real-time decisioning, a proven enterprise track record, and a dedicated success team. Many of our current clients switched from that exact vendor because they hit a ceiling on capabilities.",
+    keyPoints: ["Don't compete on price, compete on value", "Highlight what cheaper solutions lack", "Reference switching stories"],
     type: "objection",
-    image: doorHangerImg
+    image: ""
   },
 
   // Closing Phase
   {
-    id: "bc-14",
-    phase: "Closing",
-    title: "The Assumptive Close",
-    situation: "After presenting price.",
-    script: "So, to get that first treatment done and knock out these dandelions, do you want us to start Thursday or Friday?",
-    keyPoints: ["Assume the sale", "Give two options", "Focus on the result"],
-    type: "script",
-    image: signingTabletImg
-  },
-  {
     id: "bc-15",
     phase: "Closing",
-    title: "The Discount Close",
-    situation: "On the fence.",
-    script: "If I can get my manager to wave the first application fee since I'm already treating next door, would that help?",
-    keyPoints: ["Conditional close ('If I can...')", "Limited availability", "Value add"],
+    title: "The Assumptive Close",
+    situation: "After a strong demo where all stakeholders are nodding.",
+    script: "Based on everything we've discussed, it sounds like the Growth tier is the right fit for your team. I'd love to get a kickoff scheduled for next month—does that timeline work on your end?",
+    keyPoints: ["Assume the next step", "Propose a specific timeline", "Make it easy to say yes"],
     type: "script",
-    image: signingTabletImg
+    image: ""
   },
   {
     id: "bc-16",
     phase: "Closing",
-    title: "The Option Close",
-    situation: "Choosing a package.",
-    script: "Most neighbors go with the Gold package for the aeration, but the Silver covers all the basics. Which one fits better?",
-    keyPoints: ["Guide to preferred option", "Simplify choice", "Normalize the upsell"],
-    type: "script",
-    image: signingTabletImg
+    title: "The Multi-Thread Close",
+    situation: "Multiple stakeholders need to align before signing.",
+    script: "I know there are a few folks who need to weigh in. Would it be helpful if I put together a one-page business case your champion can share with the CFO? And I'm happy to join a call with IT to address any integration questions directly.",
+    keyPoints: ["Offer to support the internal sell", "Provide champion with ammo", "Remove friction for each stakeholder"],
+    type: "tip",
+    image: ""
   },
   {
     id: "bc-17",
     phase: "Closing",
-    title: "Securing Payment",
-    situation: "Asking for credit card.",
-    script: "And for that first visit, do you want to put that on a Visa or a Mastercard?",
-    keyPoints: ["Casual tone", "Standard procedure", "Don't pause awkwardly"],
+    title: "The Procurement Navigation",
+    situation: "Deal is stuck in legal or procurement review.",
+    script: "I understand procurement has their process. We've been through this with dozens of enterprise brands and have pre-approved security questionnaires, SOC 2 documentation, and a standard MSA ready to go. Can I send those directly to your procurement contact to speed things up?",
+    keyPoints: ["Normalize the process", "Have compliance docs ready", "Offer to engage procurement directly"],
     type: "tip",
-    image: signingTabletImg
+    image: ""
   },
 
   // Follow-up Phase
   {
     id: "bc-18",
     phase: "Follow-up",
-    title: "The 'Sorry I Missed You' Note",
-    situation: "Leaving a note when no answer.",
-    script: "Sorry I missed you! Just treated the Jones' lawn across the street. Noticed you have some similar clover starting...",
-    keyPoints: ["Personalize it", "Mention specific weed", "Leave cell number"],
+    title: "The Post-Demo Summary Email",
+    situation: "Sending a follow-up email within 2 hours of a demo.",
+    script: "Hi [Name], thanks again for your time today. To recap: we covered how Monetate can address [Pain 1], [Pain 2], and [Pain 3]. I've attached a custom ROI model based on your traffic and conversion data. Next steps: [Action Item]. Looking forward to connecting on [Date].",
+    keyPoints: ["Send within 2 hours", "Recap their pain, not your features", "Include a clear next step and date"],
     type: "script",
-    image: doorHangerImg
+    image: ""
   },
   {
     id: "bc-19",
     phase: "Follow-up",
-    title: "The Text Message Follow-up",
-    situation: "After a conversation with no close.",
-    script: "Hey [Name], this is [Name] from Gecko Green. My manager approved that special rate we talked about. Can I lock it in for you?",
-    keyPoints: ["Short & direct", "Remind of offer", "Call to action"],
+    title: "The Champion Enablement Pack",
+    situation: "Your internal champion needs to sell Monetate to their leadership team.",
+    script: "I put together a one-pager and ROI summary specifically for your leadership review. It covers the business case, expected outcomes, and a comparison to your current approach. Would it be helpful if I also drafted a brief exec summary email you could forward?",
+    keyPoints: ["Make your champion look good", "Provide ready-to-forward materials", "Offer to draft internal communications"],
     type: "script",
-    image: busyHomeownerImg
+    image: ""
   },
   {
     id: "bc-20",
     phase: "Follow-up",
-    title: "Referral Ask",
-    situation: "After a happy close.",
-    script: "Who else on the block do you think would want their lawn looking this good?",
-    keyPoints: ["Strike while hot", "Compliment them", "Ask for specific neighbors"],
+    title: "The Executive Sponsor Outreach",
+    situation: "You need to engage the economic buyer or C-suite sponsor directly.",
+    script: "Hi [Exec Name], I've been working with [Champion Name] on your team on how Monetate can drive measurable revenue lift for [Company]. I'd love 15 minutes to share what we've uncovered and get your perspective on priorities for the coming quarter.",
+    keyPoints: ["Reference the champion by name", "Lead with business impact, not product", "Ask for a specific, short time commitment"],
     type: "script",
-    image: lawnCareRep
+    image: ""
   }
 ];
 
 export interface Slide {
   type: 'content' | 'quiz' | 'roleplay';
   title: string;
-  content?: string; // HTML or text content
+  content?: string;
   bullets?: string[];
   image?: string;
-  roleplayId?: string; // Reference to a ROLEPLAY id
+  roleplayId?: string;
   quiz?: {
     question: string;
     options: string[];
@@ -327,7 +313,7 @@ export interface Chapter {
   description: string;
   duration: string;
   status: 'completed' | 'in-progress' | 'locked';
-  pdfUrl: string; // Keep for download
+  pdfUrl: string;
   coverImage: string;
   agenda: string[];
   slides: Slide[];
@@ -337,144 +323,143 @@ export const CHAPTERS: Chapter[] = [
   {
     id: "chap-1",
     title: "Sales Foundations",
-    subtitle: "Master the Art of the Opener",
-    description: "Learn the psychology behind the first 10 seconds of interaction. This module covers body language, tonality, and the 'Pattern Interrupt' technique that separates top performers from the rest.",
+    subtitle: "Master the Enterprise Sales Cycle",
+    description: "Learn the fundamentals of enterprise B2B SaaS selling. This module covers discovery call frameworks, the MEDDPICC qualification methodology, stakeholder mapping, and building trust with C-suite buyers.",
     duration: "45 min",
     status: "in-progress",
-    pdfUrl: "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1766976787/Gecko_Green_Training_-_Certification_1_Chapter_1_1_-compressed-compressed_hctzzg.pdf",
-    coverImage: doorToDoorRep,
+    pdfUrl: "",
+    coverImage: "",
     agenda: [
-      "The Psychology of First Impressions",
-      "Pattern Interrupts & Breaking the Script", 
-      "Controlling the Frame & Conversation",
-      "Handling Initial Resistance"
+      "The Enterprise Discovery Call Framework",
+      "MEDDPICC Qualification Methodology",
+      "Stakeholder Mapping & Multi-Threading",
+      "Building Trust with C-Suite Buyers"
     ],
     slides: [
       {
         type: 'content',
-        title: "The First 10 Seconds",
-        content: "Your success is determined before you even finish your first sentence. Learn how to command attention instantly.",
+        title: "The Enterprise Discovery Call",
+        content: "Your first call sets the tone for the entire deal. Learn how to run a discovery call that uncovers real business pain and positions Monetate as the solution.",
         bullets: [
-          "Non-verbal communication accounts for 93% of the first impression.",
-          "The 'Pattern Interrupt': Breaking the homeowner's automatic 'No'.",
-          "Distance & Stance: Respecting personal space while showing confidence."
+          "Research the prospect's digital experience before the call—visit their site, note gaps.",
+          "Lead with open-ended questions about their priorities, not your product.",
+          "Map out the buying committee: who influences, who decides, who signs."
         ]
       },
       {
         type: 'content',
-        title: "The Pattern Interrupt",
-        content: "Most homeowners have a script: 'I'm not interested.' You need a script that breaks theirs.",
+        title: "The MEDDPICC Framework",
+        content: "The qualification methodology that separates pipeline dreams from real deals. Every enterprise opportunity must be rigorously qualified.",
         bullets: [
-          "Don't look like a salesperson (no clipboard in hand).",
-          "Start with a question, not a statement.",
-          "Use a casual, neighborly tone."
+          "Metrics: What measurable outcomes does the buyer care about?",
+          "Economic Buyer: Who controls the budget and final sign-off?",
+          "Decision Process: What steps must happen before they can buy?"
         ]
       },
       {
         type: 'roleplay',
-        title: "Practice: The Pattern Interrupt",
-        content: "Put your new skills to the test immediately. Can you handle a busy homeowner without getting shut down?",
-        roleplayId: "rp-1" // The Busy Homeowner
+        title: "Practice: The Discovery Opener",
+        content: "Put your discovery skills to the test. Can you engage a skeptical VP of E-commerce without jumping to a pitch?",
+        roleplayId: "rp-1"
       },
       {
         type: 'quiz',
-        title: "Quick Check: First Impressions",
+        title: "Quick Check: Discovery Fundamentals",
         quiz: {
-          question: "What is the primary goal of the first 10 seconds?",
+          question: "What is the primary goal of an enterprise discovery call?",
           options: [
-            "To sell the lawn care package immediately.",
-            "To break the homeowner's automatic rejection pattern.",
-            "To hand them a flyer.",
-            "To ask for their email address."
+            "To demo the product as quickly as possible.",
+            "To uncover the prospect's business pain and qualify the opportunity.",
+            "To send a pricing proposal.",
+            "To schedule a follow-up meeting."
           ],
           correctAnswer: 1
         }
       },
       {
         type: 'content',
-        title: "Controlling the Frame",
-        content: "Whoever asks the questions controls the conversation. Stop answering questions and start asking them.",
+        title: "Stakeholder Mapping",
+        content: "Enterprise deals are won or lost based on your ability to identify and engage all decision makers. Never rely on a single thread.",
         bullets: [
-          "The 'Illusion of Choice': Giving options that both lead to 'Yes'.",
-          "Answering a question with a question.",
-          "Setting the time constraint: 'I only have a minute...'"
+          "Identify the Champion: Who will sell internally on your behalf?",
+          "Find the Economic Buyer: Who controls the budget?",
+          "Map Technical Influencers: IT, security, and data teams that can block or accelerate."
         ]
       },
-       {
+      {
         type: 'quiz',
-        title: "Quick Check: Frame Control",
+        title: "Quick Check: Stakeholder Mapping",
         quiz: {
-          question: "How do you handle a homeowner asking 'How much is it?' too early?",
+          question: "What should you do when your main contact says 'I can make this decision myself'?",
           options: [
-            "Give them the price immediately to show transparency.",
-            "Ignore the question and keep talking.",
-            "Defer it: 'Great question, I'll get to that in a second, but first...'",
-            "Tell them you don't know."
+            "Take them at their word and send a contract.",
+            "Ignore them and go over their head.",
+            "Trust but verify: ask about procurement, legal, and budget approval processes.",
+            "Assume the deal is closed."
           ],
           correctAnswer: 2
         }
       },
       {
         type: 'roleplay',
-        title: "Practice: Frame Control",
-        content: "The homeowner is going to try to derail you. Keep control of the conversation.",
-        roleplayId: "rp-6" // The Confused Homeowner (Why are you here?)
+        title: "Practice: Stakeholder Discovery",
+        content: "The buyer claims they're the sole decision maker. Uncover the real buying committee without being pushy.",
+        roleplayId: "rp-6"
       }
     ]
   },
   {
     id: "chap-2",
-    title: "Field Execution",
-    subtitle: "Closing the Deal & Handling Objections",
-    description: "Move from 'Maybe' to 'Yes'. This advanced module breaks down the B-P-D-C framework and teaches you how to turn common objections into closing opportunities.",
+    title: "Deal Execution",
+    subtitle: "Closing Enterprise Deals",
+    description: "Move from 'Maybe' to 'Yes'. This advanced module covers objection handling frameworks, procurement navigation, value-based pricing strategies, and multi-stakeholder closing techniques.",
     duration: "60 min",
     status: "locked",
-    pdfUrl: "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1766976616/Gecko_Green_Training_-_Certification_1_Chapter_2_2_-compressed_2_1_hok8bh.pdf",
-    coverImage: lawnCareRep,
+    pdfUrl: "",
+    coverImage: "",
     agenda: [
-      "The B-P-D-C Sales Framework",
-      "Isolating & Overcoming Objections",
-      "Value-Based Pricing Strategies",
-      "Closing Techniques & Securing Payment"
+      "Objection Handling Frameworks",
+      "Value-Based Pricing & ROI Selling",
+      "Procurement & Legal Navigation",
+      "Multi-Stakeholder Closing Techniques"
     ],
     slides: [
       {
         type: 'content',
-        title: "The B-P-D-C Framework",
-        content: "The roadmap to every successful sale. Memorize this structure.",
+        title: "The Objection Handling Framework",
+        content: "Every objection is a buying signal in disguise. Learn to acknowledge, isolate, and resolve concerns systematically.",
         bullets: [
-          "B: Build Rapport - Connect as a human first.",
-          "P: Problem Awareness - Show them what they can't unsee.",
-          "D: Diagnose & Solution - Present the Gecko Green advantage.",
-          "C: Close - Ask for the business confidently."
+          "Acknowledge: Validate the concern before responding.",
+          "Isolate: Make sure it's the real objection, not a smokescreen.",
+          "Resolve & Advance: Address it and move toward the next step."
         ]
       },
       {
         type: 'content',
-        title: "Isolating the Objection",
-        content: "Never answer an objection until you're sure it's the ONLY one.",
+        title: "Value-Based Pricing",
+        content: "Never let price be the conversation. Always anchor to the business value Monetate delivers.",
         bullets: [
-          "Smoke screens vs. Real Objections.",
-          "The 'Magic Question': 'If we could handle [objection], would you be ready to move forward?'",
-          "Looping: Acknowledge -> Respond -> Close again."
+          "Calculate ROI using the prospect's own traffic and conversion data.",
+          "Frame the investment as a fraction of the revenue lift they'll achieve.",
+          "Use customer case studies to prove measurable outcomes."
         ]
       },
       {
         type: 'roleplay',
-        title: "Practice: Isolating Objections",
-        content: "They say 'It's too expensive'. Is it really? Find out.",
-        roleplayId: "rp-11" // The Budget Watcher
+        title: "Practice: Handling Price Objections",
+        content: "The VP says 'It's too expensive.' Is it really about price? Find out.",
+        roleplayId: "rp-11"
       },
       {
         type: 'quiz',
         title: "Quick Check: Objection Handling",
         quiz: {
-          question: "What should you do immediately after a homeowner gives an objection?",
+          question: "What should you do immediately after a buyer raises an objection?",
           options: [
-            "Argue with them why they are wrong.",
-            "Immediately drop the price.",
-            "Acknowledge and Isolate it.",
-            "Walk away to the next house."
+            "Counter with why they're wrong.",
+            "Immediately offer a discount.",
+            "Acknowledge the concern and isolate it as the real blocker.",
+            "End the call and follow up later."
           ],
           correctAnswer: 2
         }
@@ -492,191 +477,187 @@ export interface RoleplayScenario {
   traits: string[];
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
   stats: {
-    resistance: number; // Was Intelligence
-    objections: number; // Was Power
-    buy_signal: number; // Was Speed
+    resistance: number;
+    objections: number;
+    buy_signal: number;
   };
   chapterId: string;
 }
 
 export const ROLEPLAYS: RoleplayScenario[] = [
-  // Phase 1: Opening
+  // Sales Foundations (chap-1) - Discovery and Demo
   {
     id: "rp-1",
-    name: "I'm actually really busy right now.",
-    role: "The Busy Homeowner",
-    description: "Chapter 1 → Opening → First 10 Seconds. Acknowledge time pressure + set ≤60s container + ask a qualifying control question.",
-    avatar: busyHomeowner,
-    traits: ["Time Management", "Control Question", "Respect"],
+    name: "We're not looking at any new vendors right now.",
+    role: "The Gatekeeper VP",
+    description: "Chapter 1 → Discovery → Cold Opener. Acknowledge timing + establish value hypothesis + ask a discovery question.",
+    avatar: "",
+    traits: ["Time Pressure", "Authority", "Skepticism"],
     difficulty: "Beginner",
     stats: { resistance: 60, objections: 20, buy_signal: 30 },
     chapterId: "chap-1"
   },
   {
     id: "rp-2",
-    name: "Not interested.",
-    role: "The Dismissive Prospect",
-    description: "Chapter 1 → Opening → Handling Brush-Offs. Acknowledge + reframe to specific issue + redirect.",
-    avatar: busyHomeowner,
-    traits: ["Reframing", "Persistence", "Specifics"],
+    name: "Just send me an email.",
+    role: "The Dismissive Director",
+    description: "Chapter 1 → Discovery → Brush-Off. Acknowledge + create a reason to stay on the call + redirect to value.",
+    avatar: "",
+    traits: ["Deflection", "Low Interest", "Time-Constrained"],
     difficulty: "Intermediate",
     stats: { resistance: 80, objections: 40, buy_signal: 10 },
     chapterId: "chap-1"
   },
   {
     id: "rp-3",
-    name: "It's too early.",
-    role: "The Procrastinator",
-    description: "Chapter 1 → Objection Handling → Timing Objection. Reframe timing as advantage + emphasize prevention + ask for commitment.",
-    avatar: skepticalHomeowner,
-    traits: ["Reframing", "Education", "Commitment"],
+    name: "We're focused on other priorities this quarter.",
+    role: "The Busy Executive",
+    description: "Chapter 1 → Discovery → Timing Objection. Connect to their priorities + show relevance + ask for a brief meeting.",
+    avatar: "",
+    traits: ["Priority Focused", "Strategic", "Time-Conscious"],
     difficulty: "Intermediate",
     stats: { resistance: 55, objections: 45, buy_signal: 45 },
     chapterId: "chap-1"
   },
-  // Phase 2: Turn & Burn
   {
     id: "rp-4",
-    name: "I do my own lawn.",
-    role: "The DIY Enthusiast",
-    description: "Chapter 1 → Turn & Burn → DIY Pushback. Validate identity + differentiate + regain lead.",
-    avatar: proudDiyHomeowner,
-    traits: ["Validation", "Differentiation", "Leadership"],
+    name: "We built our own personalization engine.",
+    role: "The Technical Buyer",
+    description: "Chapter 1 → Discovery → In-House Solution. Validate their investment + highlight maintenance costs + differentiate.",
+    avatar: "",
+    traits: ["Technical Pride", "Engineering-Focused", "Cost-Sensitive"],
     difficulty: "Intermediate",
     stats: { resistance: 70, objections: 60, buy_signal: 40 },
     chapterId: "chap-1"
   },
   {
     id: "rp-5",
-    name: "We already have a lawn company.",
-    role: "The Loyalist",
-    description: "Chapter 1 → Turn & Burn → Existing Provider. Acknowledge + remove replacement fear + isolate gap.",
-    avatar: skepticalHomeowner,
-    traits: ["Gap Analysis", "Non-Threatening", "Discovery"],
+    name: "We already use Dynamic Yield / Optimizely.",
+    role: "The Incumbent Loyalist",
+    description: "Chapter 1 → Discovery → Competitive Displacement. Acknowledge + find gaps + position differentiation.",
+    avatar: "",
+    traits: ["Vendor Loyalty", "Risk Aversion", "Status Quo Bias"],
     difficulty: "Advanced",
     stats: { resistance: 85, objections: 50, buy_signal: 20 },
     chapterId: "chap-1"
   },
   {
     id: "rp-6",
-    name: "Why are you here?",
-    role: "The Confused Homeowner",
-    description: "Chapter 1 → Turn & Burn → Purpose Statement. State purpose clearly + direct next action.",
-    avatar: busyHomeowner,
-    traits: ["Clarity", "Direction", "Purpose"],
+    name: "What exactly does Monetate do?",
+    role: "The Uninformed Stakeholder",
+    description: "Chapter 1 → Discovery → Value Articulation. Deliver a clear, concise value prop + tailor to their role + ask a qualifying question.",
+    avatar: "",
+    traits: ["Curiosity", "Low Awareness", "Open-Minded"],
     difficulty: "Beginner",
     stats: { resistance: 40, objections: 30, buy_signal: 50 },
     chapterId: "chap-1"
   },
-  // Phase 3: Lawn Walk
+  // Deal Execution (chap-2) - Demo, Pricing, Closing, Certification
   {
     id: "rp-7",
-    name: "My lawn looks fine.",
-    role: "The Denialist",
-    description: "Chapter 2 → Lawn Walk → Identifying Issues. Validate + isolate specific problem + visually point.",
-    avatar: proudDiyHomeowner,
-    traits: ["Visual Proof", "Isolation", "Validation"],
+    name: "Can you show me how this works for our specific use case?",
+    role: "The Demo Challenger",
+    description: "Chapter 2 → Demo → Custom Use Case. Tailor the demo to their scenario + use their data + show measurable impact.",
+    avatar: "",
+    traits: ["Detail-Oriented", "Practical", "Results-Driven"],
     difficulty: "Intermediate",
     stats: { resistance: 60, objections: 70, buy_signal: 30 },
     chapterId: "chap-2"
   },
   {
     id: "rp-8",
-    name: "Weeds don't bother me.",
-    role: "The Apathetic Homeowner",
-    description: "Chapter 2 → Lawn Walk → Educating on Spread. Reframe consequence + keep discovery.",
-    avatar: indecisiveHomeowner,
-    traits: ["Consequence Reframing", "Education", "Discovery"],
+    name: "We tried personalization before and it didn't work.",
+    role: "The Burned Buyer",
+    description: "Chapter 2 → Demo → Past Failure. Show empathy + diagnose what went wrong + differentiate your approach.",
+    avatar: "",
+    traits: ["Skepticism", "Past Pain", "Risk Aversion"],
     difficulty: "Advanced",
     stats: { resistance: 75, objections: 80, buy_signal: 20 },
     chapterId: "chap-2"
   },
   {
     id: "rp-9",
-    name: "I don't see the issue.",
-    role: "The Visual Skeptic",
-    description: "Chapter 2 → Lawn Walk → Showing, Not Telling. Demonstrate visually, not verbally.",
-    avatar: proudDiyHomeowner,
-    traits: ["Demonstration", "Visual Selling", "Clarity"],
+    name: "Our marketing team doesn't have the resources to manage this.",
+    role: "The Resource-Constrained Buyer",
+    description: "Chapter 2 → Demo → Bandwidth Objection. Highlight ease of use + implementation support + show self-serve capabilities.",
+    avatar: "",
+    traits: ["Resource Concerns", "Pragmatic", "Team-Oriented"],
     difficulty: "Intermediate",
     stats: { resistance: 50, objections: 60, buy_signal: 40 },
     chapterId: "chap-2"
   },
-  // Phase 4: Pricing
   {
     id: "rp-10",
-    name: "How much does it cost?",
-    role: "The Price Shopper",
-    description: "Chapter 2 → Pricing → Before Quoting. Defer price + anchor value first.",
-    avatar: skepticalHomeowner,
-    traits: ["Value Anchoring", "Control", "Deferral"],
+    name: "How much does this cost?",
+    role: "The Price-First Buyer",
+    description: "Chapter 2 → Pricing → Before Quoting. Defer price + anchor to value and ROI first.",
+    avatar: "",
+    traits: ["Budget-Conscious", "Direct", "Value-Seeking"],
     difficulty: "Intermediate",
     stats: { resistance: 50, objections: 90, buy_signal: 50 },
     chapterId: "chap-2"
   },
   {
     id: "rp-11",
-    name: "That's expensive.",
-    role: "The Budget Watcher",
-    description: "Chapter 2 → Pricing → Objection Handling. Normalize + re-anchor to outcome.",
-    avatar: skepticalHomeowner,
-    traits: ["Normalization", "Outcome Focus", "Confidence"],
+    name: "That's way over our budget.",
+    role: "The Budget Gatekeeper",
+    description: "Chapter 2 → Pricing → Price Objection. Normalize the investment + reframe as ROI + show cost of inaction.",
+    avatar: "",
+    traits: ["Budget Authority", "ROI-Focused", "Negotiation"],
     difficulty: "Advanced",
     stats: { resistance: 80, objections: 90, buy_signal: 30 },
     chapterId: "chap-2"
   },
   {
     id: "rp-12",
-    name: "Another company is cheaper.",
+    name: "A competitor quoted us half your price.",
     role: "The Comparison Shopper",
-    description: "Chapter 2 → Pricing → Competitor Comparison. Reframe to outcome, not price.",
-    avatar: skepticalHomeowner,
-    traits: ["Differentiation", "Value Selling", "Reframing"],
+    description: "Chapter 2 → Pricing → Competitive Comparison. Differentiate on value, not price + highlight what's missing in cheaper options.",
+    avatar: "",
+    traits: ["Price Sensitivity", "Analytical", "Value Comparison"],
     difficulty: "Advanced",
     stats: { resistance: 85, objections: 85, buy_signal: 25 },
     chapterId: "chap-2"
   },
-  // Phase 5: Closing
   {
     id: "rp-13",
-    name: "Why do I have to pay now?",
-    role: "The Risk Averse",
-    description: "Chapter 2 → Close → Payment Explanation. Normalize process + remove risk + maintain close.",
-    avatar: indecisiveHomeowner,
-    traits: ["Risk Reversal", "Normalization", "Closing"],
+    name: "I need to run this by our procurement team.",
+    role: "The Procurement Handoff",
+    description: "Chapter 2 → Closing → Procurement. Normalize the process + offer compliance docs + maintain momentum.",
+    avatar: "",
+    traits: ["Process-Oriented", "Compliance", "Risk Management"],
     difficulty: "Intermediate",
     stats: { resistance: 60, objections: 70, buy_signal: 60 },
     chapterId: "chap-2"
   },
   {
     id: "rp-14",
-    name: "I need to think about it.",
-    role: "The Staller",
-    description: "Chapter 2 → Close → Handling Stalls. Isolate concern + advance decision.",
-    avatar: indecisiveHomeowner,
-    traits: ["Isolation", "Advancement", "Patience"],
+    name: "I need to think about it and get back to you.",
+    role: "The Stalling Champion",
+    description: "Chapter 2 → Closing → Stall Handling. Isolate the real concern + offer to help address it + set a specific follow-up.",
+    avatar: "",
+    traits: ["Indecision", "Internal Politics", "Risk Aversion"],
     difficulty: "Intermediate",
     stats: { resistance: 50, objections: 50, buy_signal: 50 },
     chapterId: "chap-2"
   },
   {
     id: "rp-15",
-    name: "I'll call you / send me something.",
-    role: "The Deflector",
-    description: "Chapter 2 → Close → Securing Next Step. Clarify decision criteria + regain control.",
-    avatar: busyHomeowner,
-    traits: ["Criteria Clarification", "Control", "Closing"],
+    name: "We'll revisit this next quarter.",
+    role: "The Timeline Pusher",
+    description: "Chapter 2 → Closing → Timeline Objection. Create urgency + show cost of delay + propose a low-commitment next step.",
+    avatar: "",
+    traits: ["Procrastination", "Risk Aversion", "Strategic Delay"],
     difficulty: "Advanced",
     stats: { resistance: 70, objections: 40, buy_signal: 40 },
     chapterId: "chap-2"
   },
-  // Certification
   {
     id: "rp-16",
     name: "Final Certification Assessment",
-    role: "The Final Boss",
-    description: "Post-Training → Final Certification Assessment. Rep must show control across ≥3 phases including successful Phase-5 handling.",
-    avatar: skepticalHomeowner,
+    role: "The Enterprise Deal Simulation",
+    description: "Post-Training → Final Certification. Rep must demonstrate mastery across discovery, demo, objection handling, and closing in a full enterprise deal simulation.",
+    avatar: "",
     traits: ["Mastery", "Endurance", "Consistency"],
     difficulty: "Advanced",
     stats: { resistance: 90, objections: 90, buy_signal: 50 },
@@ -712,10 +693,10 @@ export const PAST_RESULTS: RoleplayResult[] = [
     scenarioId: "rp-1",
     score: 85,
     date: "2025-01-10T14:30:00",
-    feedback: "Great job using the pattern interrupt immediately. You maintained a calm tone, but could have been slightly more assertive when asking the control question.",
+    feedback: "Great job opening with a value hypothesis instead of a product pitch. You maintained a consultative tone, but could have been more assertive when asking the qualifying question.",
     transcript: [
-        { id: '1', sender: 'ai', text: "I'm actually really busy right now.", timestamp: new Date() },
-        { id: '2', sender: 'user', text: "I completely understand, I'll be super brief. I just wanted to ask...", timestamp: new Date() }
+        { id: '1', sender: 'ai', text: "We're not looking at any new vendors right now.", timestamp: new Date() },
+        { id: '2', sender: 'user', text: "I completely understand. I'm not here to pitch—just wanted to share a quick insight about how brands like yours are solving [specific challenge].", timestamp: new Date() }
     ],
     metrics: {
       resistanceHandled: 90,
@@ -726,9 +707,9 @@ export const PAST_RESULTS: RoleplayResult[] = [
       listening: 75
     },
     keyMoments: [
-      { timestamp: "0:05", description: "Successfully used 'Pattern Interrupt' to pause the homeowner's retreat.", impact: 'positive' },
-      { timestamp: "0:15", description: "Slight hesitation when asked for price.", impact: 'negative' },
-      { timestamp: "0:45", description: "Strong closing question used to secure the next step.", impact: 'positive' }
+      { timestamp: "0:05", description: "Successfully acknowledged the timing objection without being pushy.", impact: 'positive' },
+      { timestamp: "0:15", description: "Slight hesitation when asked about specific ROI numbers.", impact: 'negative' },
+      { timestamp: "0:45", description: "Strong discovery question to uncover business pain.", impact: 'positive' }
     ]
   },
   {
@@ -736,7 +717,7 @@ export const PAST_RESULTS: RoleplayResult[] = [
     scenarioId: "rp-6",
     score: 72,
     date: "2025-01-12T09:15:00",
-    feedback: "Good recovery when the homeowner challenged your purpose. Work on pivoting back to the script faster without justifying yourself too much.",
+    feedback: "Good recovery when the stakeholder challenged your value proposition. Work on delivering a crisper elevator pitch without over-explaining features.",
     transcript: [],
     metrics: {
       resistanceHandled: 70,
@@ -747,8 +728,8 @@ export const PAST_RESULTS: RoleplayResult[] = [
       listening: 60
     },
     keyMoments: [
-       { timestamp: "0:10", description: "Missed opportunity to validate the homeowner's confusion.", impact: 'negative' },
-       { timestamp: "0:30", description: "Recovered well by stating the clear purpose of the visit.", impact: 'positive' }
+       { timestamp: "0:10", description: "Missed opportunity to tailor the value prop to the stakeholder's role.", impact: 'negative' },
+       { timestamp: "0:30", description: "Recovered well by connecting Monetate's capabilities to their specific business challenge.", impact: 'positive' }
     ]
   }
 ];
@@ -789,8 +770,8 @@ export const LEADERBOARD_DATA: LeaderboardEntry[] = [
   },
   {
     rank: 4,
-    name: "Paul Wilkerson", // The User
-    avatar: "https://i.pravatar.cc/150?u=paul", // Placeholder
+    name: "Paul Wilkerson",
+    avatar: "https://i.pravatar.cc/150?u=paul",
     score: 85,
     roleplaysCompleted: 12,
     trend: 'up'
@@ -817,7 +798,7 @@ export interface SalesRep {
   name: string;
   email: string;
   status: 'active' | 'inactive' | 'onboarding';
-  progress: number; // 0-100
+  progress: number;
   roleplaysCompleted: number;
   lastActive: string;
   avatarInitials: string;
@@ -828,7 +809,7 @@ export const SALES_REPS: SalesRep[] = [
   {
     id: "rep-1",
     name: "Paul Wilkerson",
-    email: "paul.wilkerson@geckogreen.ai",
+    email: "paul.wilkerson@monetate.com",
     status: "onboarding",
     progress: 17,
     roleplaysCompleted: 3,
@@ -839,7 +820,7 @@ export const SALES_REPS: SalesRep[] = [
   {
     id: "rep-2",
     name: "Michael Chen",
-    email: "michael.chen@geckogreen.ai",
+    email: "michael.chen@monetate.com",
     status: "active",
     progress: 85,
     roleplaysCompleted: 12,
@@ -850,7 +831,7 @@ export const SALES_REPS: SalesRep[] = [
   {
     id: "rep-3",
     name: "Sarah Jones",
-    email: "sarah.jones@geckogreen.ai",
+    email: "sarah.jones@monetate.com",
     status: "active",
     progress: 62,
     roleplaysCompleted: 8,
@@ -861,7 +842,7 @@ export const SALES_REPS: SalesRep[] = [
   {
     id: "rep-4",
     name: "David Smith",
-    email: "david.smith@geckogreen.ai",
+    email: "david.smith@monetate.com",
     status: "inactive",
     progress: 10,
     roleplaysCompleted: 1,
@@ -872,7 +853,7 @@ export const SALES_REPS: SalesRep[] = [
   {
     id: "rep-5",
     name: "Emily White",
-    email: "emily.white@geckogreen.ai",
+    email: "emily.white@monetate.com",
     status: "onboarding",
     progress: 35,
     roleplaysCompleted: 4,
@@ -896,7 +877,7 @@ export const MANAGERS: Manager[] = [
   {
     id: "mgr-1",
     name: "Sarah Jenkins",
-    email: "sarah.jenkins@geckogreen.ai",
+    email: "sarah.jenkins@monetate.com",
     teamSize: 12,
     avgTeamScore: 88,
     topPerformer: "Michael Chen",
@@ -905,7 +886,7 @@ export const MANAGERS: Manager[] = [
   {
     id: "mgr-2",
     name: "David Miller",
-    email: "david.miller@geckogreen.ai",
+    email: "david.miller@monetate.com",
     teamSize: 8,
     avgTeamScore: 82,
     topPerformer: "Paul Wilkerson",
@@ -914,7 +895,7 @@ export const MANAGERS: Manager[] = [
   {
     id: "mgr-3",
     name: "Amanda Ross",
-    email: "amanda.ross@geckogreen.ai",
+    email: "amanda.ross@monetate.com",
     teamSize: 15,
     avgTeamScore: 91,
     topPerformer: "James Wilson",

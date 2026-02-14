@@ -34,7 +34,7 @@ interface ComicStory {
 const phaseColors: Record<string, string> = {
   Opening: "bg-blue-500/20 text-blue-400 border-blue-500/30",
   "Turn & Burn": "bg-orange-500/20 text-orange-400 border-orange-500/30",
-  "Lawn Walk": "bg-green-500/20 text-green-400 border-green-500/30",
+  "Demo": "bg-green-500/20 text-green-400 border-green-500/30",
   Pricing: "bg-purple-500/20 text-purple-400 border-purple-500/30",
   Closing: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
 };
@@ -42,7 +42,7 @@ const phaseColors: Record<string, string> = {
 const phaseIcons: Record<string, React.ReactNode> = {
   Opening: <Play className="w-4 h-4" />,
   "Turn & Burn": <Target className="w-4 h-4" />,
-  "Lawn Walk": <BookOpen className="w-4 h-4" />,
+  "Demo": <BookOpen className="w-4 h-4" />,
   Pricing: <Trophy className="w-4 h-4" />,
   Closing: <Trophy className="w-4 h-4" />,
 };
@@ -90,13 +90,13 @@ function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => voi
 function ComicPanelView({ panel, panelNumber, totalPanels }: { panel: ComicPanel; panelNumber: number; totalPanels: number }) {
   const speakerColors = {
     rep: "bg-primary text-primary-foreground",
-    homeowner: "bg-blue-500 text-white",
+    buyer: "bg-blue-500 text-white",
     narrator: "bg-muted text-muted-foreground italic",
   };
 
   const speakerLabels = {
     rep: "Sales Rep",
-    homeowner: "Homeowner",
+    buyer: "Buyer",
     narrator: "Narrator",
   };
 

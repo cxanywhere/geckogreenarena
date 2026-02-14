@@ -9,12 +9,9 @@ import { Zap, ArrowRight, Lock, GraduationCap } from "lucide-react";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
-import geckoLogo from "@assets/image_1766975682051.png";
-import arenaLogoDark from "@/assets/arena-logo-dark.png";
-import arenaLogoLight from "@/assets/arena-logo-light.png";
+import monetateLogoDark from "@/assets/monetate-logo-dark.png";
+import monetateLogoLight from "@/assets/monetate-logo-light.png";
 import { useTheme } from "next-themes";
-
-const arenaLoginBg = "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1767580244/arena-ai/arena_login_background.jpg";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
@@ -24,15 +21,10 @@ export default function LoginPage() {
   const { user, login, isLoading: authLoading } = useAuth();
   const { resolvedTheme } = useTheme();
   
-  // Check if user has logged in before on this device
   const isReturningUser = localStorage.getItem("hasLoggedInBefore") === "true";
-  
-  const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
 
-  // Redirect authenticated users to their dashboard or onboarding
   useEffect(() => {
     if (!authLoading && user) {
-      // First-time users need to complete onboarding
       if (user.status === "onboarding") {
         setLocation("/onboarding");
         return;
@@ -48,7 +40,6 @@ export default function LoginPage() {
     }
   }, [user, authLoading, setLocation]);
 
-  // Show loading state while checking auth
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -66,13 +57,11 @@ export default function LoginPage() {
       
       login(user, authToken);
       
-      // Check if this is a first-time login (user status is "onboarding")
       if (user.status === "onboarding") {
         setLocation("/onboarding");
         return;
       }
       
-      // Mark that user has logged in before for future visits
       localStorage.setItem("hasLoggedInBefore", "true");
       
       if (user.role === "director") {
@@ -99,16 +88,8 @@ export default function LoginPage() {
         >
           <div className="flex items-center justify-between mb-12">
             <div className="flex items-center gap-2">
-              <div className="relative h-10 w-10">
-                <img src={arenaLogoDark} alt="Arena AI" className="h-10 w-10 object-contain absolute inset-0 hidden dark:block drop-shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
-                <img src={arenaLogoLight} alt="Arena AI" className="h-10 w-10 object-contain absolute inset-0 block dark:hidden drop-shadow-md" />
-              </div>
-              <div className="flex flex-col leading-none">
-                <span className="font-display text-2xl font-bold tracking-tight text-foreground">
-                  arena ai
-                </span>
-                <span className="text-xs font-normal text-muted-foreground uppercase tracking-widest">by gigarev</span>
-              </div>
+              <img src={monetateLogoDark} alt="Monetate" className="h-10 w-auto object-contain hidden dark:block" />
+              <img src={monetateLogoLight} alt="Monetate" className="h-10 w-auto object-contain block dark:hidden" />
             </div>
           </div>
 
@@ -116,10 +97,8 @@ export default function LoginPage() {
             <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
               <Zap className="w-24 h-24 text-primary rotate-12" />
             </div>
-            <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-3">Authorized Workspace For</p>
-            <div className="bg-white/90 p-2 rounded-lg inline-block">
-               <img src={geckoLogo} alt="GeckoGreen" className="h-12 w-auto object-contain" />
-            </div>
+            <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-3">Sales Enablement Platform</p>
+            <p className="text-lg font-display font-bold text-foreground">AI-Powered Training & Roleplay</p>
           </div>
 
           <div className="mb-8">
@@ -127,7 +106,7 @@ export default function LoginPage() {
               {isReturningUser ? "Welcome Back" : "Welcome"}
             </h1>
             <p className="text-muted-foreground">
-              Enter your GeckoGreen credentials to enter the Arena.
+              Sign in to your Monetate training platform.
             </p>
           </div>
 
@@ -137,7 +116,7 @@ export default function LoginPage() {
               <Input 
                 id="email" 
                 type="email" 
-                placeholder="name@geckogreen.com" 
+                placeholder="name@monetate.com" 
                 className="h-12 bg-background border-input focus:border-primary focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -192,21 +171,16 @@ export default function LoginPage() {
       </div>
 
       {/* Right Side - Visual */}
-      <div className="hidden lg:block relative bg-primary/5">
-        <div className="absolute inset-0 z-0">
-           <img 
-             src={arenaLoginBg} 
-             alt="Arena AI Background" 
-             className="w-full h-full object-cover mix-blend-overlay opacity-80" 
-           />
-           <div className="absolute inset-0 bg-gradient-to-t from-primary/90 to-primary/20 mix-blend-multiply" />
-        </div>
+      <div className="hidden lg:block relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1A2B8C] via-[#2a3d9e] to-[#E84C8A]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(232,76,138,0.3),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(26,43,140,0.4),transparent_60%)]" />
         
         <div className="relative z-10 h-full flex flex-col justify-between p-24 text-white">
           <div className="flex justify-end">
             <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-sm font-mono">
               <Lock className="w-3 h-3" />
-              GECKO GREEN TRAINING PORTAL
+              MONETATE SALES ENABLEMENT
             </div>
           </div>
           
@@ -216,11 +190,11 @@ export default function LoginPage() {
             transition={{ duration: 0.7, delay: 0.2 }}
           >
             <h2 className="font-display text-5xl font-bold mb-6 leading-tight">
-              Premier Lawn Care <br />
-              <span className="text-green-300">Sales Enablement</span>
+              Experience Optimization <br />
+              <span className="text-pink-300">Sales Enablement</span>
             </h2>
             <p className="text-white/80 text-lg max-w-md leading-relaxed">
-              Master your pitch with Arena AI by GigaRev. The advanced roleplay platform built exclusively for Gecko Green sales professionals.
+              Master your pitch with AI-powered training. The advanced roleplay platform built exclusively for Monetate sales professionals.
             </p>
           </motion.div>
         </div>

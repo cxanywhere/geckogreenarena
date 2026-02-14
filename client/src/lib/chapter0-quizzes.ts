@@ -7,112 +7,112 @@ export interface PredefinedQuiz {
 
 export const CHAPTER_0_QUIZZES: PredefinedQuiz[] = [
   {
-    afterSlide: 5,
-    question: 'Which of the following is a Gecko Green service offering?',
+    afterSlide: 3,
+    question: 'What is Monetate\'s core product offering?',
     options: [
-      'Roof replacement',
-      'Lawn fertilization',
-      'Pool maintenance',
-      'Window tinting'
+      'Social media management',
+      'Experience optimization and personalization for e-commerce',
+      'Email marketing automation',
+      'Website hosting'
+    ],
+    correctAnswer: 1
+  },
+  {
+    afterSlide: 6,
+    question: 'What does the MONET engine power?',
+    options: [
+      'Website design templates',
+      'AI-powered product recommendations and personalization',
+      'Social media scheduling',
+      'Customer support chatbots'
+    ],
+    correctAnswer: 1
+  },
+  {
+    afterSlide: 8,
+    question: 'What is Monetate\'s ideal customer profile?',
+    options: [
+      'Small businesses with under $1M revenue',
+      'Mid-market to enterprise retailers with $50M+ revenue',
+      'Individual freelancers',
+      'Non-profit organizations'
+    ],
+    correctAnswer: 1
+  },
+  {
+    afterSlide: 10,
+    question: 'Which of these is a key Monetate capability?',
+    options: [
+      'Social media posting',
+      'A/B testing and experimentation',
+      'Payroll processing',
+      'Inventory management'
+    ],
+    correctAnswer: 1
+  },
+  {
+    afterSlide: 12,
+    question: 'What average revenue lift do Monetate customers typically achieve?',
+    options: [
+      '2-3%',
+      '15% with 3x ROI within 12 months',
+      '50% immediately',
+      '100% within 6 months'
+    ],
+    correctAnswer: 1
+  },
+  {
+    afterSlide: 14,
+    question: 'Which competitor is owned by Mastercard?',
+    options: [
+      'Optimizely',
+      'Adobe Target',
+      'Dynamic Yield',
+      'Bloomreach'
+    ],
+    correctAnswer: 2
+  },
+  {
+    afterSlide: 15,
+    question: 'How long does a typical Monetate implementation take?',
+    options: [
+      '1-2 days',
+      '4-8 weeks',
+      '6-12 months',
+      '2+ years'
+    ],
+    correctAnswer: 1
+  },
+  {
+    afterSlide: 17,
+    question: 'What compliance standards does Monetate meet?',
+    options: [
+      'Only PCI-DSS',
+      'SOC 2 Type II, GDPR, and CCPA',
+      'No compliance certifications',
+      'Only HIPAA'
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 18,
-    question: 'Which is a key benefit customers get from proper lawn care?',
+    question: 'What is Monetate\'s pricing model based on?',
     options: [
-      'Lawn becomes maintenance-free',
-      'A thick, green, weed-free landscape and pride of ownership',
-      'Grass never goes dormant in winter',
-      'Weeds disappear instantly after treatment'
+      'Number of employees',
+      'Monthly website sessions/traffic volume',
+      'Fixed annual fee regardless of usage',
+      'Number of products sold'
     ],
     correctAnswer: 1
   },
   {
-    afterSlide: 20,
-    question: 'What best describes how Gecko Green delivers results?',
+    afterSlide: 19,
+    question: 'Which statement best describes Monetate\'s value proposition?',
     options: [
-      'One-time treatment that solves everything',
-      'Properly timed seasonal treatments across the year',
-      'Only weed spray when weeds appear',
-      'Only fertilizer in spring'
-    ],
-    correctAnswer: 1
-  },
-  {
-    afterSlide: 21,
-    question: 'Fertilizer is best described as:',
-    options: [
-      'A weed killer',
-      'Food for plants that supports health, color, and density',
-      'A water replacement',
-      'A product that works the same regardless of season'
-    ],
-    correctAnswer: 1
-  },
-  {
-    afterSlide: 22,
-    question: 'In N-P-K, what does Nitrogen (N) primarily support?',
-    options: [
-      'Stronger roots only',
-      'Greening and top growth',
-      'Water regulation only',
-      'Disease control only'
-    ],
-    correctAnswer: 1
-  },
-  {
-    afterSlide: 23,
-    question: 'Which statement is most accurate regarding fertilizer forms?',
-    options: [
-      'Only liquid fertilizer works',
-      'Only dry fertilizer works',
-      'Plants cannot tell the difference between organic vs mineral and liquid vs dry—timing and needs matter',
-      'Fertilizer choice never changes by season'
-    ],
-    correctAnswer: 2
-  },
-  {
-    afterSlide: 25,
-    question: 'What are the two major weed types referenced in training?',
-    options: [
-      'Summer weeds and winter weeds',
-      'Tall weeds and short weeds',
-      'Grassy weeds and broadleaf weeds',
-      'Root weeds and leaf weeds'
-    ],
-    correctAnswer: 2
-  },
-  {
-    afterSlide: 27,
-    question: 'What is the role of pre-emergent weed control?',
-    options: [
-      'It kills visible weeds on contact',
-      'It creates a barrier under the soil to stop weeds before they emerge',
-      'It fertilizes the lawn to prevent weeds',
-      'It is the same as Round-up'
-    ],
-    correctAnswer: 1
-  },
-  {
-    afterSlide: 28,
-    question: 'After a post-emergent application, what timeline should you generally set for weed response?',
-    options: [
-      'Same day',
-      '24 hours',
-      'About 2 weeks',
-      '2–3 months'
-    ],
-    correctAnswer: 2
-  },
-  {
-    afterSlide: 29,
-    question: 'Which statement correctly describes the Gecko Green annual program?',
-    options: [
-      '5 applications per year, no aeration included',
-      '10 total applications per year: 9 lawn applications + 1 spring aeration',
-      'Applications are only done when customers request them',
-      'Results should be complete after the first application'
+      'The cheapest personalization tool on the market',
+      'Enterprise-grade experience optimization that delivers measurable revenue lift through AI-powered personalization',
+      'A simple website builder with drag-and-drop features',
+      'An email marketing platform with personalization'
     ],
     correctAnswer: 1
   }

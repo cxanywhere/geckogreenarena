@@ -73,7 +73,7 @@ export default function BattlecardsPage() {
     },
   });
 
-  const phases = ["All", "Opening", "Turn & Burn", "Lawn Walk", "Pricing", "Objection Handling", "Close"];
+  const phases = ["All", "Discovery", "Demo", "Objection Handling", "Pricing", "Closing", "Follow-up"];
 
   const filteredCards = battlecards.filter(card => {
     const matchesSearch = card.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -142,7 +142,7 @@ export default function BattlecardsPage() {
                 Battlecards
               </h1>
               <p className="text-xl text-muted-foreground leading-relaxed mb-6">
-                Your pocket playbook for handling every door-to-door situation with confidence. {battlecards.length} field-tested cards ready to go.
+                Your pocket playbook for handling every sales situation with confidence. {battlecards.length} field-tested cards ready to go.
               </p>
 
               {/* Fullscreen Carousel Button */}

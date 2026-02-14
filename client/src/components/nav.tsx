@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { Menu, LogOut, User, ChevronDown, Swords, BookOpen, Trophy, GraduationCap, BarChart3, Users, ScrollText, Target, Sparkles, Library, MessageSquare } from "lucide-react";
+import { Menu, LogOut, User, ChevronDown, LayoutDashboard, BookOpen, Trophy, GraduationCap, BarChart3, Users, ScrollText, Target, Sparkles, Library, MessageSquare } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -25,9 +25,8 @@ import {
 import { useAuth } from "@/lib/auth-context";
 import { useTheme } from "next-themes";
 
-import geckoLogo from "@assets/image_1766975682051.png";
-import arenaLogoDark from "@/assets/arena-logo-dark.png";
-import arenaLogoLight from "@/assets/arena-logo-light.png";
+import monetateLogoDark from "@/assets/monetate-logo-dark.png";
+import monetateLogoLight from "@/assets/monetate-logo-light.png";
 
 interface NavGroup {
   label: string;
@@ -42,8 +41,6 @@ export function Nav() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { user, logout } = useAuth();
   const { resolvedTheme } = useTheme();
-  
-  const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
 
   const handleSignOut = () => {
     logout();
@@ -68,9 +65,9 @@ export function Nav() {
   const navGroups: NavGroup[] = [
     {
       label: "Training",
-      icon: <Swords className="h-4 w-4" />,
+      icon: <LayoutDashboard className="h-4 w-4" />,
       items: [
-        { href: "/dashboard", label: "Arena", icon: <Swords className="h-4 w-4" />, description: "Your training hub" },
+        { href: "/dashboard", label: "Dashboard", icon: <LayoutDashboard className="h-4 w-4" />, description: "Your training hub" },
         { href: "/quizzes", label: "Quizzes", icon: <GraduationCap className="h-4 w-4" />, description: "Review & complete quizzes" },
         { href: "/my-stats", label: "My Stats", icon: <BarChart3 className="h-4 w-4" />, description: "Track your progress" },
         { href: "/leaderboard", label: "Leaderboard", icon: <Trophy className="h-4 w-4" />, description: "See top performers" },
@@ -91,7 +88,7 @@ export function Nav() {
       icon: <MessageSquare className="h-4 w-4" />,
       items: [
         { href: "/coach", label: "AI Coach", icon: <Sparkles className="h-4 w-4" />, description: "Get personalized coaching" },
-        { href: "/experts", label: "Experts", icon: <Users className="h-4 w-4" />, description: "Connect with D2D pros" },
+        { href: "/experts", label: "Experts", icon: <Users className="h-4 w-4" />, description: "Connect with industry experts" },
       ],
     },
   ];
@@ -106,21 +103,10 @@ export function Nav() {
     <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-white/80 backdrop-blur-md dark:bg-black/80">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-4 lg:gap-6">
-          <Link href="/dashboard" className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
-            <div className="relative h-8 w-8">
-              <img src={arenaLogoDark} alt="Arena AI" className="h-8 w-8 object-contain absolute inset-0 hidden dark:block" />
-              <img src={arenaLogoLight} alt="Arena AI" className="h-8 w-8 object-contain absolute inset-0 block dark:hidden" />
-            </div>
-            <div className="flex flex-col leading-none">
-              <span>arena ai</span>
-              <span className="text-[10px] text-foreground/80 font-normal uppercase tracking-wide">by gigarev</span>
-            </div>
+          <Link href="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <img src={monetateLogoDark} alt="Monetate" className="h-8 w-auto object-contain hidden dark:block" />
+            <img src={monetateLogoLight} alt="Monetate" className="h-8 w-auto object-contain block dark:hidden" />
           </Link>
-          
-          <div className="hidden xl:flex items-center gap-2 pl-6 border-l border-primary/10">
-            <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest">Client:</span>
-            <img src={geckoLogo} alt="GeckoGreen" className="h-8 w-auto object-contain" />
-          </div>
         </div>
 
         {/* Desktop Nav */}

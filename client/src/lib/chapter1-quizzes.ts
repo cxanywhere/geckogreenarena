@@ -19,21 +19,21 @@ export const CHAPTER_1_QUIZZES: PredefinedQuiz[] = [
   },
   {
     afterSlide: 10,
-    question: "In a doorstep sale, what's the correct relationship between emotion and logic?",
+    question: "In enterprise selling, what's the correct relationship between emotion and logic?",
     options: [
       "Logic drives action; emotion justifies afterward",
       "Emotion drives action; logic justifies afterward",
       "They are always equal at the same time",
-      "Only logic matters in lawn care"
+      "Only logic matters in enterprise sales"
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 15,
-    question: 'A homeowner says, "My lawn is fine." What is the best next move per the training?',
+    question: 'A buyer says, "Our conversion rates are fine." What is the best next move?',
     options: [
       "Present pricing immediately to test seriousness",
-      "Reveal an unrealized issue with a specific, visible observation and a question",
+      "Reveal an unrealized issue with a specific data point and a question",
       "Ask for their email and leave",
       "Offer a discount to create urgency"
     ],
@@ -41,45 +41,45 @@ export const CHAPTER_1_QUIZZES: PredefinedQuiz[] = [
   },
   {
     afterSlide: 20,
-    question: "Which statement is TRUE about pre-emergent vs. post-emergent and expectations?",
+    question: "What is the best way to handle a multi-stakeholder enterprise deal?",
     options: [
-      "Pre-emergent kills existing weeds; post-emergent prevents sprouting",
-      "Post-emergent kills existing weeds; pre-emergent prevents sprouting",
-      "Both only work if weeds are already visible",
-      "Both work instantly if watered the same day"
+      "Only communicate with the person who took the first meeting",
+      "Multi-thread by building relationships with multiple decision makers and champions",
+      "Wait for one person to get internal alignment on their own",
+      "Send a generic proposal to the entire buying committee at once"
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 25,
-    question: 'In the "Partnership" model, which is primarily the homeowner\'s responsibility?',
+    question: 'In the MEDDPICC framework, what does the "M" stand for?',
     options: [
-      "Seasonal application timing",
-      "Product formulation choices",
-      "Watering and mowing consistency",
-      "Free service calls between visits"
+      "Management",
+      "Metrics",
+      "Marketing",
+      "Methodology"
     ],
-    correctAnswer: 2
+    correctAnswer: 1
   },
   {
     afterSlide: 29,
     question: 'Which best captures what your "30-second story" must do?',
     options: [
-      "Explain every treatment ingredient in detail",
+      "Explain every product feature in detail",
       "Deliver a clear, confident summary of what you do, how you do it, and why it works—fast",
-      "Lead with price to qualify the homeowner",
+      "Lead with price to qualify the buyer",
       "Compare competitors by name and position against them"
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 34,
-    question: 'What is the "Prepay Rule in One Line" the rep should follow?',
+    question: 'What should your closing strategy prioritize?',
     options: [
-      "Offer prepay only if the homeowner asks",
-      "Prepay first, every time; autopay is the fallback",
-      "Autopay is the default; prepay is optional",
-      "Prepay only for customers with heavy weeds"
+      "Offer a discount if the buyer hesitates",
+      "Multi-thread the deal by aligning all stakeholders before asking for commitment",
+      "Only follow up once to avoid being pushy",
+      "Wait for the buyer to bring up next steps"
     ],
     correctAnswer: 1
   }

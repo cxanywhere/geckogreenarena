@@ -2,197 +2,201 @@ const CLOUDINARY_BASE = 'https://res.cloudinary.com/dpxfwxxzi/image/upload';
 
 export const CHAPTER_SEED_DATA = [
   {
-    slug: 'intro-to-geckogreen',
-    title: 'Intro to GeckoGreen',
+    slug: 'intro-to-monetate',
+    title: 'Intro to Monetate',
     subtitle: 'Your Foundation for Success',
-    description: 'Welcome to the fastest growing locally owned lawn & pest company in Dallas/Fort Worth. Learn who we are, how we operate, what we sell, and how to win.',
+    description: 'Welcome to Monetate, the leader in experience optimization for enterprise commerce. Learn our platform, value proposition, competitive landscape, and what makes us win.',
     duration: '35 min',
     pdfUrl: '',
     coverImage: '/uploads/chapter-covers/chapter-0-cover.png',
     agenda: [
       'Who We Are & Our Mission',
-      'Services We Offer',
-      'Your Certification Path',
-      'Professional Standards & Daily Goals',
-      'Team Culture & Partners',
-      'Lawn Care Fundamentals',
-      'Program Details & How to Win'
+      'The Monetate Platform',
+      'Key Products & Capabilities',
+      'Our Ideal Customer Profile',
+      'Competitive Landscape',
+      'Value Proposition & ROI',
+      'Certification Path'
     ],
     slides: [
-      { type: 'content', title: 'Welcome to GeckoGreen', content: 'The fastest growing locally owned lawn & pest company in Dallas/Fort Worth.', bullets: ['Today: who we are, how we operate, what we sell, how to win', 'Next: Arena AI training + certification'] },
-      { type: 'content', title: 'Who We Are', content: 'Locally owned lawn & pest company in DFW', bullets: ['20+ years of experience', 'Superior service focused on exceeding expectations', 'We build winning reps through training, discipline, and teamwork'] },
-      { type: 'content', title: 'Mission & Culture', content: 'Mission: "The most rewarding and fun sales job you\'ve ever had."', bullets: ['Building confidence and communication skills', 'Becoming consistent and professional', 'Earning through performance'] },
-      { type: 'content', title: 'What We Do (Services We Offer)', content: 'Complete lawn and pest care solutions.', bullets: ['Lawn fertilization', 'Weed control', 'Aeration', 'Grub control', 'Fire ant control', 'Tree and shrub care', 'Residential pest control', 'Mosquito control'] },
-      { type: 'content', title: 'Your Certification Path (Arena AI)', content: 'Get certified and start the season ready to perform.', bullets: ['Arena AI Chapter 1: product + fundamentals', 'Arena AI Chapter 2: field execution + objections', 'Quiz: prove you know the essentials', 'Roleplays: prove you can run real conversations'] },
-      { type: 'content', title: 'Kickoff: Introductions', content: 'Introduce yourself and set your goals.', bullets: ['Name + background', 'Your goal this season (income + growth)', 'One skill you want to sharpen'] },
-      { type: 'content', title: 'How You Win (Training Rules)', content: 'Your outcome = effort you put in.', bullets: ['Take notes and treat training like the job', 'Ask questions early', 'Study in spare time', 'Memorize key talk tracks', 'Practice often—roleplay is the fastest path to confidence'] },
-      { type: 'content', title: 'Your Role: Neighborhood Marketing Rep', content: 'You are the face of GeckoGreen at the door.', bullets: ['You make the first impression', 'You set reasonable expectations', 'You represent the brand', 'You grow, develop, and earn through performance', 'You operate as part of a team'] },
-      { type: 'content', title: 'Work Hours & Field Reality', content: 'Pre-season hours vary with weather and sunset.', bullets: ['Spring hours typically afternoon and evening', 'Showing up prepared', 'Staying consistent', 'Keeping pace even when it gets hard'] },
-      { type: 'content', title: 'Professional Standards (Arrive Ready)', content: 'Always Be Training.', bullets: ['Positive attitude', 'Badge + permit', 'Fully charged company phone', 'Clean clothing per company standards', 'Neat overall appearance'] },
-      { type: 'content', title: 'Daily Performance Goals', content: 'Your Scorecard.', bullets: ['Knocks: 125/day', 'Contacts: 30/day', 'Presentations: 15/day', 'Sales: 3/day', 'Call backs: 2/day minimum'] },
-      { type: 'content', title: 'Team Culture (T.E.A.M.)', content: 'Together Everyone Achieves More.', bullets: ['We are more successful together than apart', 'Mutual respect and support makes everyone better', 'We win by doing the basics consistently'] },
-      { type: 'content', title: 'Your Partner: Production Team', content: 'The production team handles treatments.', bullets: ['Start time: 6 AM', '15–25 treatments/day', 'Communicate with customers', 'Handle follow-up service calls', '40+ hours training/year'] },
-      { type: 'content', title: 'Your Partner: Customer Service', content: 'The hub of operations.', bullets: ['Customer support and follow-up', 'Scheduling of services', 'Accounts receivable', 'HR support'] },
-      { type: 'content', title: 'PTO Policy (BambooHR)', content: 'All time-off requests must be submitted via BambooHR.', bullets: ['Call/text your manager after submitting', 'PTO accrues starting day 90', 'PTO can be used after 90 days'] },
-      { type: 'content', title: 'PTO: Sick Time + Vacation', content: 'Know the rules.', bullets: ['Sick time: 1.5 hours notice minimum', 'Vacation: submit 1 week in advance'] },
-      { type: 'content', title: 'Why Lawn Care Matters', content: 'A beautiful lawn provides real value.', bullets: ['Green, thick, beautiful, weed-free landscape', 'Pride of ownership', 'Protects property investment', 'Environmental benefits', 'Safe play area for children'] },
-      { type: 'content', title: 'How GeckoGreen Does It Better', content: 'Our competitive advantages.', bullets: ['Customized approach', 'Licensed and trained specialists', 'Best products available', 'Friendly, helpful customer service'] },
-      { type: 'content', title: 'How We Deliver Results', content: 'Treatment System.', bullets: ['Properly timed treatments', 'Fertilizers', 'Weed controls', 'Insect controls', 'Disease controls', 'Supplemental services'] },
-      { type: 'content', title: 'Fertilizer Basics', content: 'Fertilizer = food for plants.', bullets: ['Improves health and vigor', 'Improves density and color', 'Proper type/amount depends on grass type + season', 'Timing is critical'] },
-      { type: 'content', title: 'N-P-K Explained (30-2-6)', content: 'Understanding fertilizer nutrients.', bullets: ['Nitrogen (N): greening + top growth', 'Phosphorus (P): stronger roots', 'Potassium (K): roots, water, disease resistance'] },
-      { type: 'content', title: 'Fertilizer Types', content: 'What customers ask about.', bullets: ['Organic vs mineral', 'Slow release vs fast release', 'Liquid vs dry', 'Product choice varies by season'] },
-      { type: 'content', title: 'Grass Types in North Texas', content: 'Know the common grass types.', bullets: ['Bermuda: fine texture, full sun, drought-tolerant', 'St. Augustine: wide blades, shade-tolerant', 'Rye: cool-season, winter overseeding'] },
-      { type: 'content', title: 'Weeds: Definition + Categories', content: 'Weeds = plants growing where not wanted.', bullets: ['Grassy weeds vs Broadleaf weeds', 'Seasonal, Annual vs Perennial', 'Controllable vs Non-controllable'] },
-      { type: 'content', title: 'Common Weeds Customers Mention', content: 'Be familiar with common weeds.', bullets: ['Grassy: Blue Stem, Dallisgrass, Crabgrass', 'Broadleaf: Black Medic, Clover, Thistle, Dandelion, Oxalis'] },
-      { type: 'content', title: 'Weed Control: Pre vs Post Emergent', content: 'Best weed control is a thick, healthy lawn.', bullets: ['Pre-emergent: barrier under soil before weeds emerge', 'Post-emergent: selective control after weeds visible', 'We do not use non-selective products like Round-up'] },
-      { type: 'content', title: 'Setting Expectations', content: 'Timelines, diseases, insects.', bullets: ['Post-emergent timeline: ~2 weeks', 'Multiple applications may be needed', 'Diseases driven by environmental stress', 'Insects: early detection is key'] },
-      { type: 'content', title: 'Add-Ons + Homeowner Partnership', content: 'Supplemental services and teamwork.', bullets: ['Aeration: improves air/water/nutrient movement', 'Grub treatment: preventative', 'Fire ant control', 'Homeowner: watering, mowing, traffic management'] },
-      { type: 'content', title: 'The Program: Complete Overview', content: 'Year-round care for consistent results.', bullets: ['10 applications/year', 'EasyPay: 50% off first app', 'Prepay: up to 10% discount', 'Licensed specialists, free service calls, local, customized'] }
+      { type: 'content', title: 'Welcome to Monetate', content: 'The leader in experience optimization for enterprise commerce.', bullets: ['Today: who we are, what we sell, how we win', 'Next: Arena AI training + certification to sharpen your skills'] },
+      { type: 'content', title: 'Who We Are', content: 'Monetate is the enterprise experience optimization platform trusted by the world\'s leading brands.', bullets: ['Founded in 2008 in Philadelphia', 'Acquired by Kibo Commerce in 2020', 'Over 400 enterprise clients worldwide', 'Processing billions of customer interactions annually'] },
+      { type: 'content', title: 'Our Mission', content: 'Mission: "Empower every brand to deliver the right experience to every customer, every time."', bullets: ['We believe personalization is the future of digital commerce', 'Our technology turns data into revenue-driving decisions', 'We help brands move from one-size-fits-all to 1:1 experiences'] },
+      { type: 'content', title: 'The Monetate Platform', content: 'A unified experience optimization platform for enterprise commerce teams.', bullets: ['Intelligent Personalization Engine', 'Testing & Optimization (A/B, multivariate, feature flags)', 'AI-Powered Product Recommendations (MONET)', 'Audience Discovery & Segmentation', 'Real-Time Behavioral Analytics', 'Automated Experience Delivery'] },
+      { type: 'content', title: 'Intelligent Personalization', content: 'Deliver individualized experiences across every touchpoint.', bullets: ['1:1 personalization at scale using machine learning', 'Dynamic content, offers, and messaging based on real-time behavior', 'Omnichannel support: web, mobile, email, in-store', 'No-code experience builder for marketing teams'] },
+      { type: 'content', title: 'Testing & Optimization', content: 'Validate every decision with data-driven experimentation.', bullets: ['A/B testing with statistical rigor', 'Multivariate testing for complex experiences', 'Feature flags for controlled rollouts', 'Server-side and client-side testing capabilities', 'Automated winner selection and deployment'] },
+      { type: 'content', title: 'Product Recommendations (MONET)', content: 'AI-powered product recommendations that drive incremental revenue.', bullets: ['MONET: Monetate\'s proprietary recommendation engine', 'Uses collaborative filtering, content-based, and hybrid algorithms', 'Real-time personalized recommendations across PDP, cart, homepage', 'Proven to increase average order value by 10-15%', 'Self-learning models that improve over time'] },
+      { type: 'content', title: 'Audience Discovery', content: 'Uncover hidden customer segments and behavioral patterns.', bullets: ['AI-driven audience segmentation', 'Behavioral clustering to find high-value micro-segments', 'Predictive analytics for purchase intent', 'Integration with CDPs and data warehouses', 'Actionable insights for merchandising and marketing teams'] },
+      { type: 'content', title: 'Our Ideal Customer Profile', content: 'Who we sell to and who gets the most value.', bullets: ['Mid-market to enterprise retailers and e-commerce brands', 'Annual digital revenue of $50M+', 'At least 1M monthly website visitors', 'Teams with dedicated e-commerce, marketing, or digital roles', 'Industries: retail, fashion, grocery, travel, financial services'] },
+      { type: 'content', title: 'Target Buyer Personas', content: 'Know your buyers and what they care about.', bullets: ['VP of E-Commerce: revenue growth, conversion optimization', 'CMO: customer experience, brand consistency, personalization', 'CTO: integration, scalability, data architecture', 'Director of Digital Marketing: campaign performance, ease of use', 'CFO: ROI, total cost of ownership, risk mitigation'] },
+      { type: 'content', title: 'Common Pain Points We Solve', content: 'Every prospect has at least one of these challenges.', bullets: ['Low conversion rates despite high traffic', 'Generic customer experiences that fail to engage', 'Inability to act on customer data in real-time', 'Fragmented tech stack with siloed personalization efforts', 'Lack of testing culture or experimentation velocity', 'Competitor brands outpacing their digital experience'] },
+      { type: 'content', title: 'Competitive Landscape: Dynamic Yield', content: 'Know how we differentiate against Dynamic Yield (Mastercard).', bullets: ['Dynamic Yield: strong in personalization, acquired by Mastercard', 'Our advantage: deeper testing capabilities and MONET recommendations', 'Our advantage: more flexible integration architecture', 'Our advantage: stronger enterprise support and services model', 'Key talking point: Monetate offers a unified platform vs. point solutions'] },
+      { type: 'content', title: 'Competitive Landscape: Optimizely', content: 'Know how we differentiate against Optimizely.', bullets: ['Optimizely: strong in experimentation, growing in personalization', 'Our advantage: purpose-built for commerce, not generic CMS', 'Our advantage: faster time to value for retail/e-commerce', 'Our advantage: AI-powered recommendations out of the box', 'Key talking point: Monetate understands commerce buyers deeply'] },
+      { type: 'content', title: 'Competitive Landscape: Adobe Target', content: 'Know how we differentiate against Adobe Target.', bullets: ['Adobe Target: part of Adobe Experience Cloud ecosystem', 'Our advantage: does not require full Adobe stack commitment', 'Our advantage: easier to implement and faster to deploy', 'Our advantage: more accessible pricing for mid-market', 'Key talking point: enterprise power without enterprise complexity'] },
+      { type: 'content', title: 'Competitive Landscape: Bloomreach', content: 'Know how we differentiate against Bloomreach.', bullets: ['Bloomreach: strong in search and merchandising', 'Our advantage: deeper personalization and testing capabilities', 'Our advantage: more robust experimentation framework', 'Our advantage: better real-time behavioral targeting', 'Key talking point: Monetate optimizes the full customer journey'] },
+      { type: 'content', title: 'Value Proposition & ROI', content: 'The business case for Monetate is clear and proven.', bullets: ['Average 15% revenue lift within 6 months of deployment', '3x ROI within the first 12 months', '20% improvement in conversion rates', '12% increase in average order value', 'Reduction in customer acquisition costs through better retention'] },
+      { type: 'content', title: 'Customer Success Stories', content: 'Proof points that close deals.', bullets: ['National retailer: 22% increase in online revenue after deploying personalization', 'Fashion brand: 18% lift in conversion rates using MONET recommendations', 'Grocery chain: 35% improvement in email-to-purchase conversion', 'Travel company: 2.5x ROI in first quarter through A/B testing program', 'Use these stories to build credibility in your sales conversations'] },
+      { type: 'content', title: 'How We Deliver Results', content: 'Our engagement model ensures customer success.', bullets: ['Dedicated Customer Success Manager for every account', 'Professional services for implementation and strategy', 'Monetate University for ongoing training and enablement', 'Quarterly Business Reviews with executive sponsors', '24/7 enterprise support with 99.9% uptime SLA'] },
+      { type: 'content', title: 'Your Certification Path', content: 'Get certified and start selling with confidence.', bullets: ['Chapter 0: Intro to Monetate (platform + fundamentals)', 'Chapter 1: Sales Foundations (discovery + demos + MEDDPICC)', 'Chapter 2: Deal Execution (objections + closing + procurement)', 'Quizzes: prove you know the essentials', 'Roleplays: prove you can handle real enterprise conversations'] },
+      { type: 'content', title: 'Key Takeaways', content: 'Remember these fundamentals as you begin your journey.', bullets: ['Monetate is the enterprise leader in experience optimization', 'We sell outcomes (revenue lift, conversion improvement), not features', 'Our ICP is mid-market to enterprise retailers with $50M+ revenue', 'We differentiate on unified platform, AI recommendations, and commerce expertise', 'The average customer sees 15% revenue lift and 3x ROI in 12 months'] }
     ],
-    slideCount: 29,
+    slideCount: 20,
     orderIndex: 0
   },
   {
     slug: 'sales-foundations',
     title: 'Sales Foundations',
-    subtitle: 'Master the Art of the Opener',
-    description: 'Learn the psychology behind the first 10 seconds of interaction. This module covers body language, tonality, and the "Pattern Interrupt" technique that separates top performers from the rest.',
+    subtitle: 'Master the Enterprise Sales Cycle',
+    description: 'Learn the psychology behind enterprise selling. This module covers discovery calls, stakeholder mapping, the MEDDPICC framework, and how to run compelling demos that convert.',
     duration: '45 min',
-    pdfUrl: 'https://res.cloudinary.com/dpxfwxxzi/image/upload/v1766976787/Gecko_Green_Training_-_Certification_1_Chapter_1_1_-compressed-compressed_hctzzg.pdf',
-    coverImage: `${CLOUDINARY_BASE}/arena-ai/chapters/chapter-1-cover.png`,
+    pdfUrl: '',
+    coverImage: '',
     agenda: [
-      'The Psychology of First Impressions',
-      'Pattern Interrupts & Breaking the Script',
-      'Controlling the Frame & Conversation',
-      'Handling Initial Resistance'
+      'Discovery Call Framework',
+      'Stakeholder Mapping & Champions',
+      'MEDDPICC for Monetate',
+      'Running a Compelling Demo'
     ],
     slides: [
       {
         type: 'content',
-        title: 'The First 10 Seconds',
-        content: 'Your success is determined before you even finish your first sentence. Learn how to command attention instantly.',
+        title: 'The Discovery Call Framework',
+        content: 'Discovery is the most critical stage of the enterprise sales cycle. Your job is to understand their world before you prescribe a solution.',
         bullets: [
-          'Non-verbal communication accounts for 93% of the first impression.',
-          'The "Pattern Interrupt": Breaking the homeowner\'s automatic "No".',
-          'Distance & Stance: Respecting personal space while showing confidence.'
+          'Lead with curiosity, not a pitch. Ask open-ended questions about their current state.',
+          'Uncover pain points: "What\'s your biggest challenge with your current personalization approach?"',
+          'Identify metrics they care about: conversion rate, AOV, revenue per visitor, customer lifetime value.',
+          'Map the buying committee early: "Who else would be involved in evaluating a solution like this?"',
+          'Set a clear next step before ending every call.'
         ]
       },
       {
         type: 'content',
-        title: 'The Pattern Interrupt',
-        content: 'Most homeowners have a script: "I\'m not interested." You need a script that breaks theirs.',
+        title: 'The MEDDPICC Framework',
+        content: 'MEDDPICC is the gold standard for qualifying enterprise deals. Use it to ensure you are working winnable opportunities.',
         bullets: [
-          'Don\'t look like a salesperson (no clipboard in hand).',
-          'Start with a question, not a statement.',
-          'Use a casual, neighborly tone.'
+          'Metrics: What quantifiable outcomes does the prospect need? (e.g., 15% conversion lift)',
+          'Economic Buyer: Who has the budget authority to sign off? (typically VP/C-level)',
+          'Decision Criteria: What are they evaluating solutions on? (integration, ease of use, ROI)',
+          'Decision Process: What is their internal buying process and timeline?',
+          'Identify Pain: What specific business pain is driving this initiative?',
+          'Champion: Who inside the org is advocating for your solution?',
+          'Competition: Who else are they evaluating? (Dynamic Yield, Optimizely, Adobe Target)'
         ]
       },
       {
         type: 'roleplay',
-        title: 'Practice: The Pattern Interrupt',
-        content: 'Put your new skills to the test immediately. Can you handle a busy homeowner without getting shut down?',
+        title: 'Practice: Discovery Call',
+        content: 'You have a VP of E-Commerce on the phone who says they only have 5 minutes. Can you qualify the opportunity and set a next step?',
         roleplaySlug: 'rp-rushed-executive'
       },
       {
         type: 'quiz',
-        title: 'Quick Check: First Impressions',
+        title: 'Quick Check: Discovery',
         quiz: {
-          question: 'What is the primary goal of the first 10 seconds?',
+          question: 'What is the primary goal of a discovery call in enterprise sales?',
           options: [
-            'To sell the lawn care package immediately.',
-            'To break the homeowner\'s automatic rejection pattern.',
-            'To hand them a flyer.',
-            'To ask for their email address.'
+            'To demo the product and show all features immediately.',
+            'To understand the prospect\'s pain points, buying process, and decision criteria.',
+            'To negotiate pricing and close the deal on the first call.',
+            'To send a proposal and follow up in two weeks.'
           ],
           correctAnswer: 1
         }
       },
       {
         type: 'content',
-        title: 'Controlling the Frame',
-        content: 'Whoever asks the questions controls the conversation. Stop answering questions and start asking them.',
+        title: 'Stakeholder Mapping',
+        content: 'Enterprise deals are won or lost based on how well you navigate the buying committee. You need a champion, access to the economic buyer, and awareness of blockers.',
         bullets: [
-          'The "Illusion of Choice": Giving options that both lead to "Yes".',
-          'Answering a question with a question.',
-          'Setting the time constraint: "I only have a minute..."'
+          'Champion: The internal advocate who sells for you when you\'re not in the room.',
+          'Economic Buyer: The person with budget authority (CFO, VP, or C-suite).',
+          'Technical Evaluator: IT/Engineering who validates integrations and architecture.',
+          'End Users: Marketing managers and analysts who will use the platform daily.',
+          'Blockers: Procurement, legal, or IT security who can stall or kill deals.',
+          'Multi-thread: Never rely on a single contact. Build relationships across the org.'
         ]
       },
       {
         type: 'quiz',
-        title: 'Quick Check: Frame Control',
+        title: 'Quick Check: Stakeholder Mapping',
         quiz: {
-          question: 'How do you handle a homeowner asking "How much is it?" too early?',
+          question: 'Why is it critical to identify a "Champion" in the buying organization?',
           options: [
-            'Give them the price immediately to show transparency.',
-            'Ignore the question and keep talking.',
-            'Defer it: "Great question, I\'ll get to that in a second, but first..."',
-            'Tell them you don\'t know.'
+            'They give you the best pricing information.',
+            'They sell for you internally when you are not in the room.',
+            'They are always the person who signs the contract.',
+            'They handle the technical implementation after the sale.'
           ],
-          correctAnswer: 2
+          correctAnswer: 1
         }
       },
       {
         type: 'roleplay',
-        title: 'Practice: Frame Control',
-        content: 'The homeowner is going to try to derail you. Keep control of the conversation.',
-        roleplaySlug: 'rp-confused-homeowner'
+        title: 'Practice: Stakeholder Navigation',
+        content: 'A prospect says they don\'t understand how Monetate is different from their current tools. Clarify your value and identify who else needs to be in the conversation.',
+        roleplaySlug: 'rp-confused-buyer'
       }
     ],
     slideCount: 31,
     orderIndex: 1
   },
   {
-    slug: 'field-execution',
-    title: 'Field Execution',
-    subtitle: 'Closing the Deal & Handling Objections',
-    description: 'Move from "Maybe" to "Yes". This advanced module breaks down the B-P-D-C framework and teaches you how to turn common objections into closing opportunities.',
+    slug: 'deal-execution',
+    title: 'Deal Execution',
+    subtitle: 'Closing Enterprise Deals',
+    description: 'Move from pipeline to closed-won. This advanced module covers handling enterprise objections, navigating procurement, multi-threading, and securing executive sponsorship.',
     duration: '60 min',
-    pdfUrl: 'https://res.cloudinary.com/dpxfwxxzi/image/upload/v1766976616/Gecko_Green_Training_-_Certification_1_Chapter_2_2_-compressed_2_1_hok8bh.pdf',
-    coverImage: `${CLOUDINARY_BASE}/arena-ai/chapters/chapter-2-cover.png`,
+    pdfUrl: '',
+    coverImage: '',
     agenda: [
-      'The B-P-D-C Sales Framework',
-      'Isolating & Overcoming Objections',
-      'Value-Based Pricing Strategies',
-      'Closing Techniques & Securing Payment'
+      'Enterprise Objection Handling',
+      'Navigating Procurement',
+      'Value-Based Selling',
+      'Closing Techniques'
     ],
     slides: [
       {
         type: 'content',
-        title: 'The B-P-D-C Framework',
-        content: 'The roadmap to every successful sale. Memorize this structure.',
+        title: 'Enterprise Objection Handling',
+        content: 'In enterprise sales, objections are not rejections—they are requests for more information. Never answer an objection until you isolate whether it is the real concern.',
         bullets: [
-          'B: Build Rapport - Connect as a human first.',
-          'P: Problem Awareness - Show them what they can\'t unsee.',
-          'D: Diagnose & Solution - Present the Gecko Green advantage.',
-          'C: Close - Ask for the business confidently.'
+          'Isolate the objection: "If we could address [concern], would you be ready to move forward?"',
+          'Acknowledge before responding: "That\'s a fair concern. Let me address it directly."',
+          'Common objections: "We already have a solution," "It\'s too expensive," "We need to think about it."',
+          'Looping technique: Acknowledge → Respond with proof/data → Re-close.',
+          'Never discount immediately. Reframe price as investment with measurable ROI.'
         ]
       },
       {
         type: 'content',
-        title: 'Isolating the Objection',
-        content: 'Never answer an objection until you\'re sure it\'s the ONLY one.',
+        title: 'Value-Based Selling',
+        content: 'Enterprise buyers don\'t buy features—they buy outcomes. Your job is to build a business case that makes the ROI undeniable.',
         bullets: [
-          'Smoke screens vs. Real Objections.',
-          'The "Magic Question": "If we could handle [objection], would you be ready to move forward?"',
-          'Looping: Acknowledge -> Respond -> Close again.'
+          'Calculate the cost of inaction: "Every month without personalization costs you $X in missed revenue."',
+          'Use the ROI framework: Current revenue × expected lift % = incremental revenue.',
+          'Build a business case document the champion can share internally.',
+          'Anchor to their metrics: conversion rate, AOV, revenue per visitor, customer retention.',
+          'Reference case studies: "A similar retailer saw 22% revenue lift in 6 months."',
+          'Position Monetate as the lowest-risk path to their goals.'
         ]
       },
       {
         type: 'roleplay',
-        title: 'Practice: Isolating Objections',
-        content: 'They say "It\'s too expensive". Is it really? Find out.',
+        title: 'Practice: Objection Handling',
+        content: 'The CFO says your platform is way over their budget. Can you reframe the conversation from cost to value?',
         roleplaySlug: 'rp-budget-watcher'
       },
       {
         type: 'quiz',
         title: 'Quick Check: Objection Handling',
         quiz: {
-          question: 'What should you do immediately after a homeowner gives an objection?',
+          question: 'What should you do immediately after a prospect raises a pricing objection?',
           options: [
-            'Argue with them why they are wrong.',
-            'Immediately drop the price.',
-            'Acknowledge and Isolate it.',
-            'Walk away to the next house.'
+            'Offer a discount to keep the deal moving.',
+            'Argue that the price is justified by listing features.',
+            'Acknowledge the concern, isolate it, and reframe around ROI and business value.',
+            'End the call and send a revised proposal with lower pricing.'
           ],
           correctAnswer: 2
         }
@@ -206,632 +210,708 @@ export const CHAPTER_SEED_DATA = [
 export const ROLEPLAY_SEED_DATA = [
   {
     slug: 'rp-rushed-executive',
-    name: "I'm actually really busy right now.",
+    name: "I only have 5 minutes.",
     role: 'The Rushed Executive',
-    description: 'Chapter 1 → Opening → First 10 Seconds. Acknowledge time pressure + set ≤60s container + ask a qualifying control question.',
-    avatar: `${CLOUDINARY_BASE}/arena-ai/personas/rp-rushed-executive.jpg`,
-    traits: ['Time Management', 'Control Question', 'Respect'],
+    description: 'Sales Foundations → Discovery → Time-Pressured Executive. Acknowledge time constraint, set a tight agenda, and ask high-impact qualifying questions.',
+    avatar: '',
+    traits: ['Time Management', 'Agenda Setting', 'Qualification'],
     difficulty: 'Beginner',
     stats: { resistance: 60, objections: 20, buy_signal: 30 },
     chapterSlug: 'sales-foundations',
-    phase: 'Opening',
-    placement: 'First 10 Seconds',
-    passCriteria: 'Acknowledge time pressure, set a time container under 60 seconds, and ask a qualifying control question.',
-    failConditions: 'Ignoring time pressure, being pushy, or failing to ask a qualifying question.',
-    winningResponse: 'Great job! You acknowledged their time, set expectations, and asked a qualifying question.',
-    losingResponse: 'You need to respect their time more and ask qualifying questions earlier.',
+    phase: 'Discovery',
+    placement: 'Time-Pressured Executive',
+    passCriteria: 'Acknowledge time pressure, set a focused agenda under 5 minutes, ask at least one qualifying question about their current personalization stack.',
+    failConditions: 'Ignoring time constraint, launching into a full pitch, or failing to ask qualifying questions.',
+    winningResponse: 'Great job! You respected their time, set clear expectations, and uncovered key qualification data.',
+    losingResponse: 'You need to acknowledge their time constraint immediately and lead with high-impact questions, not a product pitch.',
     orderIndex: 1
   },
   {
     slug: 'rp-skeptic',
-    name: 'Not interested.',
+    name: "We've tried personalization before, it didn't work.",
     role: 'The Skeptic',
-    description: 'Chapter 1 → Opening → Handling Brush-Offs. Acknowledge + reframe to specific issue + redirect.',
-    avatar: `${CLOUDINARY_BASE}/arena-ai/personas/rp-skeptic.jpg`,
-    traits: ['Reframing', 'Persistence', 'Specifics'],
+    description: 'Sales Foundations → Discovery → Past Failure Objection. Acknowledge their experience, diagnose what went wrong, and differentiate Monetate\'s approach.',
+    avatar: '',
+    traits: ['Empathy', 'Diagnosis', 'Differentiation'],
     difficulty: 'Intermediate',
     stats: { resistance: 80, objections: 40, buy_signal: 10 },
     chapterSlug: 'sales-foundations',
-    phase: 'Opening',
-    placement: 'Handling Brush-Offs',
-    passCriteria: 'Acknowledge the brush-off, reframe to a specific lawn issue, and redirect the conversation.',
-    failConditions: 'Arguing, being defensive, or giving up too quickly.',
-    winningResponse: 'Excellent recovery! You reframed the objection and kept control.',
-    losingResponse: 'Work on acknowledging objections before trying to redirect.',
+    phase: 'Discovery',
+    placement: 'Past Failure Objection',
+    passCriteria: 'Acknowledge their past experience, ask what specifically didn\'t work, and position Monetate\'s approach as fundamentally different.',
+    failConditions: 'Dismissing their experience, bashing the previous vendor, or failing to diagnose the root cause.',
+    winningResponse: 'Excellent! You validated their concern, diagnosed the past failure, and showed how Monetate addresses those specific issues.',
+    losingResponse: 'Never dismiss past experiences. Ask what specifically failed and show how Monetate\'s approach is different.',
     orderIndex: 2
   },
   {
     slug: 'rp-too-early',
-    name: "It's too early.",
+    name: "We're not ready for this yet.",
     role: 'The Procrastinator',
-    description: 'Chapter 1 → Objection Handling → Timing Objection. Reframe timing as advantage + emphasize prevention + ask for commitment.',
-    avatar: `${CLOUDINARY_BASE}/arena-ai/personas/rp-gatekeeper.jpg`,
-    traits: ['Reframing', 'Education', 'Commitment'],
+    description: 'Sales Foundations → Objection Handling → Timing Objection. Reframe timing, quantify the cost of delay, and establish urgency without pressure.',
+    avatar: '',
+    traits: ['Urgency Creation', 'Cost of Inaction', 'Consultative Approach'],
     difficulty: 'Intermediate',
     stats: { resistance: 55, objections: 45, buy_signal: 45 },
     chapterSlug: 'sales-foundations',
     phase: 'Objection Handling',
     placement: 'Timing Objection',
-    passCriteria: 'Reframe timing as an advantage, emphasize pre-emergent prevention, and ask for commitment.',
-    failConditions: 'Accepting the objection or using pressure/fear tactics.',
-    winningResponse: 'Great job! You reframed timing as an advantage and showed the value of starting now.',
-    losingResponse: 'Remember to explain WHY now is the best time, don\'t just push for a sale.',
+    passCriteria: 'Quantify the cost of delay, reframe readiness as a competitive advantage, and propose a low-commitment next step.',
+    failConditions: 'Accepting the objection at face value, using high-pressure tactics, or failing to establish urgency.',
+    winningResponse: 'Great job! You showed the cost of waiting and positioned starting now as a strategic advantage.',
+    losingResponse: 'Remember to quantify what delaying costs them in missed revenue and competitive positioning.',
     orderIndex: 3
   },
   {
     slug: 'rp-diy-pro',
-    name: 'I do my own lawn.',
-    role: 'The DIY Pro',
-    description: 'Chapter 1 → Turn & Burn → DIY Pushback. Validate identity + differentiate + regain lead.',
-    avatar: `${CLOUDINARY_BASE}/arena-ai/personas/rp-diy-pro.jpg`,
-    traits: ['Validation', 'Differentiation', 'Leadership'],
+    name: 'We built our own solution in-house.',
+    role: 'The DIY Builder',
+    description: 'Sales Foundations → Demo → In-House Solution. Validate their engineering investment, identify gaps in their homegrown solution, and position Monetate\'s platform advantage.',
+    avatar: '',
+    traits: ['Validation', 'Gap Analysis', 'Platform Value'],
     difficulty: 'Intermediate',
     stats: { resistance: 70, objections: 60, buy_signal: 40 },
     chapterSlug: 'sales-foundations',
-    phase: 'Turn & Burn',
-    placement: 'DIY Pushback',
-    passCriteria: 'Validate their effort, differentiate professional-grade service, and regain the lead.',
-    failConditions: 'Insulting their work, being condescending, or failing to differentiate.',
-    winningResponse: 'Perfect! You validated their effort while showing professional value.',
-    losingResponse: 'Remember to compliment their work before showing what professionals add.',
+    phase: 'Demo',
+    placement: 'In-House Solution',
+    passCriteria: 'Validate their engineering investment, identify maintenance/scalability gaps, and show how Monetate frees engineering resources.',
+    failConditions: 'Insulting their engineering team, ignoring the build vs. buy economics, or being dismissive of their solution.',
+    winningResponse: 'Perfect! You respected their investment while showing the total cost of ownership advantage of a purpose-built platform.',
+    losingResponse: 'Acknowledge their engineering effort first, then explore the hidden costs of maintaining a homegrown solution.',
     orderIndex: 4
   },
   {
     slug: 'rp-loyalist',
-    name: 'We already have a lawn company.',
-    role: 'The Loyalist',
-    description: 'Chapter 1 → Turn & Burn → Existing Provider. Acknowledge + remove replacement fear + isolate gap.',
-    avatar: `${CLOUDINARY_BASE}/arena-ai/personas/rp-loyalist.jpg`,
-    traits: ['Gap Analysis', 'Non-Threatening', 'Discovery'],
+    name: 'We already use Dynamic Yield/Optimizely.',
+    role: 'The Incumbent Loyalist',
+    description: 'Sales Foundations → Demo → Existing Vendor. Acknowledge their current investment, identify dissatisfaction signals, and position Monetate\'s unique strengths.',
+    avatar: '',
+    traits: ['Competitive Intelligence', 'Gap Discovery', 'Non-Threatening'],
     difficulty: 'Advanced',
     stats: { resistance: 85, objections: 50, buy_signal: 20 },
     chapterSlug: 'sales-foundations',
-    phase: 'Turn & Burn',
-    placement: 'Existing Provider',
-    passCriteria: 'Acknowledge their current provider, remove replacement fear, and find a gap in service.',
-    failConditions: 'Bashing competitors, being aggressive, or failing to find the gap.',
-    winningResponse: 'Excellent! You planted seeds of doubt without being pushy.',
-    losingResponse: 'Never bash competitors. Find gaps in their service instead.',
+    phase: 'Demo',
+    placement: 'Existing Vendor',
+    passCriteria: 'Acknowledge their current vendor, ask what\'s working and what\'s not, and position Monetate\'s differentiators against specific gaps.',
+    failConditions: 'Bashing the competitor, being aggressive about switching, or failing to find the gap.',
+    winningResponse: 'Excellent! You found the gap in their current solution without attacking the competitor.',
+    losingResponse: 'Never bash competitors directly. Ask what\'s working and what they wish was better, then position against the gaps.',
     orderIndex: 5
   },
   {
-    slug: 'rp-confused-homeowner',
-    name: 'Why are you here?',
-    role: 'The Confused Homeowner',
-    description: 'Chapter 1 → Turn & Burn → Purpose Statement. State purpose clearly + direct next action.',
-    avatar: `${CLOUDINARY_BASE}/arena-ai/personas/rp-confused-homeowner.jpg`,
-    traits: ['Clarity', 'Direction', 'Purpose'],
+    slug: 'rp-confused-buyer',
+    name: "I don't understand how this is different.",
+    role: 'The Confused Buyer',
+    description: 'Sales Foundations → Demo → Differentiation. Simplify the value proposition, use analogies, and clarify Monetate\'s unique position in the market.',
+    avatar: '',
+    traits: ['Clarity', 'Simplification', 'Value Articulation'],
     difficulty: 'Beginner',
     stats: { resistance: 40, objections: 30, buy_signal: 50 },
     chapterSlug: 'sales-foundations',
-    phase: 'Turn & Burn',
-    placement: 'Purpose Statement',
-    passCriteria: 'State your purpose clearly and direct them to the next action.',
-    failConditions: 'Being vague, rambling, or failing to give clear direction.',
-    winningResponse: 'Great clarity! You explained your purpose and gave clear next steps.',
-    losingResponse: 'Be more direct about why you are there and what you want.',
+    phase: 'Demo',
+    placement: 'Differentiation',
+    passCriteria: 'Simplify Monetate\'s value proposition into clear, jargon-free language and connect it to their specific business needs.',
+    failConditions: 'Using too much jargon, overwhelming with features, or failing to connect to their specific situation.',
+    winningResponse: 'Great clarity! You explained our differentiation in terms they could immediately understand.',
+    losingResponse: 'Simplify your message. Focus on the 2-3 things that matter most to THIS buyer and explain them clearly.',
     orderIndex: 6
   },
   {
     slug: 'rp-denialist',
-    name: 'My lawn looks fine.',
+    name: 'Our conversion rates are fine.',
     role: 'The Denialist',
-    description: 'Chapter 2 → Lawn Walk → Identifying Issues. Validate + isolate specific problem + visually point.',
-    avatar: `${CLOUDINARY_BASE}/arena-ai/personas/rp-denialist.jpg`,
-    traits: ['Visual Proof', 'Isolation', 'Validation'],
+    description: 'Deal Execution → Demo → Complacency. Challenge their assumptions with industry benchmarks and show them the revenue they\'re leaving on the table.',
+    avatar: '',
+    traits: ['Benchmarking', 'Data-Driven Challenge', 'Opportunity Framing'],
     difficulty: 'Intermediate',
     stats: { resistance: 60, objections: 70, buy_signal: 30 },
-    chapterSlug: 'field-execution',
-    phase: 'Lawn Walk',
-    placement: 'Identifying Issues',
-    passCriteria: 'Validate their perspective, isolate a specific problem, and point it out visually.',
-    failConditions: 'Arguing, insulting their lawn, or failing to show specific evidence.',
-    winningResponse: 'Well done! You showed them the problem without being condescending.',
-    losingResponse: 'Always validate first, then show specific visual evidence.',
+    chapterSlug: 'deal-execution',
+    phase: 'Demo',
+    placement: 'Complacency Challenge',
+    passCriteria: 'Acknowledge their current performance, introduce relevant industry benchmarks, and quantify the revenue gap.',
+    failConditions: 'Telling them they\'re wrong, being condescending, or failing to use specific data points.',
+    winningResponse: 'Well done! You challenged their complacency with data while keeping the conversation collaborative.',
+    losingResponse: 'Always validate their current state first, then introduce benchmarks to show the opportunity they\'re missing.',
     orderIndex: 7
   },
   {
     slug: 'rp-apathetic-owner',
-    name: "Weeds don't bother me.",
-    role: 'The Apathetic Owner',
-    description: 'Chapter 2 → Lawn Walk → Educating on Spread. Reframe consequence + keep discovery.',
-    avatar: `${CLOUDINARY_BASE}/arena-ai/personas/rp-apathetic-owner.jpg`,
-    traits: ['Consequence Reframing', 'Education', 'Discovery'],
+    name: "Personalization isn't a priority right now.",
+    role: 'The Apathetic Stakeholder',
+    description: 'Deal Execution → Objection Handling → Priority Objection. Connect personalization to their actual priorities and show the cost of inaction.',
+    avatar: '',
+    traits: ['Priority Mapping', 'Strategic Framing', 'Executive Alignment'],
     difficulty: 'Advanced',
     stats: { resistance: 75, objections: 80, buy_signal: 20 },
-    chapterSlug: 'field-execution',
-    phase: 'Lawn Walk',
-    placement: 'Educating on Spread',
-    passCriteria: 'Reframe the consequences of inaction and continue discovery.',
-    failConditions: 'Lecturing, being preachy, or failing to connect to their values.',
-    winningResponse: 'Great job connecting consequences to what they care about!',
-    losingResponse: 'Find what they DO care about and connect the problem to that.',
+    chapterSlug: 'deal-execution',
+    phase: 'Objection Handling',
+    placement: 'Priority Objection',
+    passCriteria: 'Discover what IS a priority, connect personalization to that priority, and show the competitive risk of inaction.',
+    failConditions: 'Arguing that personalization should be a priority, lecturing, or failing to connect to their actual goals.',
+    winningResponse: 'Great job connecting personalization to what they actually care about!',
+    losingResponse: 'Don\'t argue priorities. Find what they DO care about and show how personalization drives that outcome.',
     orderIndex: 8
   },
   {
     slug: 'rp-visual-skeptic',
-    name: "I don't see the issue.",
-    role: 'The Visual Skeptic',
-    description: 'Chapter 2 → Lawn Walk → Showing, Not Telling. Demonstrate visually, not verbally.',
-    avatar: `${CLOUDINARY_BASE}/arena-ai/personas/rp-visual-skeptic.jpg`,
-    traits: ['Demonstration', 'Visual Selling', 'Clarity'],
+    name: 'Show me the actual ROI data.',
+    role: 'The Data Demander',
+    description: 'Deal Execution → Pricing → ROI Proof. Present concrete case studies, industry benchmarks, and a custom ROI model for their business.',
+    avatar: '',
+    traits: ['Data Presentation', 'ROI Modeling', 'Credibility'],
     difficulty: 'Intermediate',
     stats: { resistance: 50, objections: 60, buy_signal: 40 },
-    chapterSlug: 'field-execution',
-    phase: 'Lawn Walk',
-    placement: 'Showing, Not Telling',
-    passCriteria: 'Demonstrate the issue visually rather than just describing it.',
-    failConditions: 'Only talking, not showing, or being vague.',
-    winningResponse: 'Excellent visual demonstration! Seeing is believing.',
-    losingResponse: 'Show, don\'t tell. Walk them to the problem and point.',
+    chapterSlug: 'deal-execution',
+    phase: 'Pricing',
+    placement: 'ROI Proof',
+    passCriteria: 'Present specific case study data, offer to build a custom ROI model, and reference third-party validation.',
+    failConditions: 'Making vague claims, citing unverifiable numbers, or getting defensive about data requests.',
+    winningResponse: 'Excellent! You backed up every claim with specific, verifiable data and offered a custom analysis.',
+    losingResponse: 'Always have 2-3 specific case studies ready with concrete metrics. Offer to build a custom ROI model for their business.',
     orderIndex: 9
   },
   {
     slug: 'rp-price-shopper',
-    name: 'How much does it cost?',
+    name: "What's the annual license cost?",
     role: 'The Price Shopper',
-    description: 'Chapter 2 → Pricing → Before Quoting. Defer price + anchor value first.',
-    avatar: `${CLOUDINARY_BASE}/arena-ai/personas/rp-price-shopper.jpg`,
-    traits: ['Value Anchoring', 'Control', 'Deferral'],
+    description: 'Deal Execution → Pricing → Early Price Request. Defer pricing until value is established and anchor on business outcomes before quoting.',
+    avatar: '',
+    traits: ['Value Anchoring', 'Price Deferral', 'Outcome Framing'],
     difficulty: 'Intermediate',
     stats: { resistance: 50, objections: 90, buy_signal: 50 },
-    chapterSlug: 'field-execution',
+    chapterSlug: 'deal-execution',
     phase: 'Pricing',
-    placement: 'Before Quoting',
-    passCriteria: 'Defer the price question and anchor value first.',
-    failConditions: 'Giving price immediately without building value.',
-    winningResponse: 'Perfect price deferral! Value before price always.',
-    losingResponse: 'Never give price before establishing value. Defer and anchor.',
+    placement: 'Early Price Request',
+    passCriteria: 'Defer the price question briefly, anchor value by discussing expected ROI, then provide a range tied to their specific requirements.',
+    failConditions: 'Giving an exact price without context, dodging the question entirely, or being evasive.',
+    winningResponse: 'Perfect price handling! You established value context before discussing investment levels.',
+    losingResponse: 'Never give a bare price without framing it against the value they\'ll receive. Anchor on ROI first.',
     orderIndex: 10
   },
   {
     slug: 'rp-budget-watcher',
-    name: "That's expensive.",
-    role: 'The Budget Watcher',
-    description: 'Chapter 2 → Pricing → Objection Handling. Normalize + re-anchor to outcome.',
-    avatar: `${CLOUDINARY_BASE}/arena-ai/personas/rp-budget-watcher.jpg`,
-    traits: ['Normalization', 'Outcome Focus', 'Confidence'],
+    name: "That's way over our budget.",
+    role: 'The Budget Blocker',
+    description: 'Deal Execution → Pricing → Budget Objection. Reframe from cost to investment, show ROI math, and explore creative deal structures.',
+    avatar: '',
+    traits: ['ROI Reframing', 'Creative Deal Structuring', 'Executive Engagement'],
     difficulty: 'Advanced',
     stats: { resistance: 80, objections: 90, buy_signal: 30 },
-    chapterSlug: 'field-execution',
+    chapterSlug: 'deal-execution',
     phase: 'Pricing',
-    placement: 'Objection Handling',
-    passCriteria: 'Normalize the price and re-anchor to the outcome value.',
-    failConditions: 'Immediately discounting, being defensive, or agreeing it\'s expensive.',
-    winningResponse: 'Great normalization! You reframed price in terms of value.',
-    losingResponse: 'Never agree it\'s expensive. Normalize and re-anchor to outcomes.',
+    placement: 'Budget Objection',
+    passCriteria: 'Reframe the conversation from cost to ROI, present the payback period, and explore phased or outcome-based pricing.',
+    failConditions: 'Immediately offering a discount, being defensive, or agreeing the price is too high.',
+    winningResponse: 'Great reframing! You showed the investment pays for itself and explored creative deal structures.',
+    losingResponse: 'Never agree it\'s too expensive. Reframe as an investment with a clear payback period and explore phased rollout options.',
     orderIndex: 11
   },
   {
     slug: 'rp-comparison-shopper',
-    name: 'Another company is cheaper.',
+    name: 'Your competitor is 40% cheaper.',
     role: 'The Comparison Shopper',
-    description: 'Chapter 2 → Pricing → Competitor Comparison. Reframe to outcome, not price.',
-    avatar: `${CLOUDINARY_BASE}/arena-ai/personas/rp-comparison-shopper.jpg`,
-    traits: ['Differentiation', 'Value Selling', 'Reframing'],
+    description: 'Deal Execution → Pricing → Competitive Price Pressure. Differentiate on value and outcomes, not price. Highlight total cost of ownership.',
+    avatar: '',
+    traits: ['Competitive Differentiation', 'TCO Analysis', 'Value Selling'],
     difficulty: 'Advanced',
     stats: { resistance: 85, objections: 85, buy_signal: 25 },
-    chapterSlug: 'field-execution',
+    chapterSlug: 'deal-execution',
     phase: 'Pricing',
-    placement: 'Competitor Comparison',
-    passCriteria: 'Reframe the conversation from price to outcome value.',
-    failConditions: 'Bashing competitors, matching price, or being defensive.',
-    winningResponse: 'Excellent differentiation! You focused on results, not price.',
-    losingResponse: 'Don\'t compete on price. Compete on outcomes and guarantees.',
+    placement: 'Competitive Price Pressure',
+    passCriteria: 'Reframe from license cost to total cost of ownership and business outcomes. Highlight what the cheaper solution doesn\'t include.',
+    failConditions: 'Bashing the competitor, matching their price, or being defensive about pricing.',
+    winningResponse: 'Excellent differentiation! You focused on total value and outcomes, not just license price.',
+    losingResponse: 'Don\'t compete on price alone. Highlight total cost of ownership, implementation risk, and the revenue impact difference.',
     orderIndex: 12
   },
   {
     slug: 'rp-cautious-buyer',
-    name: 'Why do I have to pay now?',
+    name: 'We need to run this by legal and procurement.',
     role: 'The Cautious Buyer',
-    description: 'Chapter 2 → Close → Payment Explanation. Normalize process + remove risk + maintain close.',
-    avatar: `${CLOUDINARY_BASE}/arena-ai/personas/rp-cautious-buyer.jpg`,
-    traits: ['Risk Reversal', 'Normalization', 'Closing'],
+    description: 'Deal Execution → Closing → Procurement Navigation. Support their process, provide enablement materials, and maintain deal momentum.',
+    avatar: '',
+    traits: ['Process Navigation', 'Enablement', 'Momentum Maintenance'],
     difficulty: 'Intermediate',
     stats: { resistance: 60, objections: 70, buy_signal: 60 },
-    chapterSlug: 'field-execution',
+    chapterSlug: 'deal-execution',
     phase: 'Closing',
-    placement: 'Payment Explanation',
-    passCriteria: 'Normalize the payment process, remove risk, and maintain the close.',
-    failConditions: 'Being pushy, not explaining the process, or creating more anxiety.',
-    winningResponse: 'Well done! You normalized payment and removed risk concerns.',
-    losingResponse: 'Explain the process, emphasize guarantees, and remove risk.',
+    placement: 'Procurement Navigation',
+    passCriteria: 'Support their internal process, offer to provide security documentation and legal redlines, and set specific timeline milestones.',
+    failConditions: 'Being pushy, not understanding their internal process, or losing control of the timeline.',
+    winningResponse: 'Well done! You supported their process while maintaining deal momentum and clear next steps.',
+    losingResponse: 'Offer to help with procurement requirements proactively. Provide security docs, compliance certifications, and reference customers.',
     orderIndex: 13
   },
   {
     slug: 'rp-indecisive-prospect',
-    name: 'I need to think about it.',
+    name: 'I need to think about it and get back to you.',
     role: 'The Indecisive Prospect',
-    description: 'Chapter 2 → Close → Handling Stalls. Isolate concern + advance decision.',
-    avatar: `${CLOUDINARY_BASE}/arena-ai/personas/rp-indecisive-prospect.jpg`,
-    traits: ['Isolation', 'Advancement', 'Patience'],
+    description: 'Deal Execution → Closing → Stall Handling. Isolate the real concern, quantify the cost of delay, and advance the decision.',
+    avatar: '',
+    traits: ['Concern Isolation', 'Urgency Creation', 'Decision Facilitation'],
     difficulty: 'Intermediate',
     stats: { resistance: 50, objections: 50, buy_signal: 50 },
-    chapterSlug: 'field-execution',
+    chapterSlug: 'deal-execution',
     phase: 'Closing',
-    placement: 'Handling Stalls',
-    passCriteria: 'Isolate the real concern and advance the decision.',
-    failConditions: 'Accepting the stall, being pushy, or failing to isolate.',
-    winningResponse: 'Great job isolating the real concern and advancing!',
-    losingResponse: 'Always ask what specifically they need to think about.',
+    placement: 'Stall Handling',
+    passCriteria: 'Isolate what specifically they need to think about, quantify the cost of delay, and propose a concrete next step with a date.',
+    failConditions: 'Accepting the stall at face value, being pushy, or failing to isolate the real concern.',
+    winningResponse: 'Great job isolating the real concern and creating a path to a decision!',
+    losingResponse: 'Always ask: "What specifically are you thinking through—pricing, timing, or the solution fit?" Then address it directly.',
     orderIndex: 14
   },
   {
     slug: 'rp-defeater',
-    name: "I'll call you / send me something.",
+    name: "Send me a proposal and I'll review it.",
     role: 'The Defeater',
-    description: 'Chapter 2 → Close → Securing Next Step. Clarify decision criteria + regain control.',
-    avatar: `${CLOUDINARY_BASE}/arena-ai/personas/rp-defeater.jpg`,
-    traits: ['Criteria Clarification', 'Control', 'Closing'],
+    description: 'Deal Execution → Closing → Proposal Deflection. Clarify decision criteria before sending anything and secure a review meeting.',
+    avatar: '',
+    traits: ['Criteria Clarification', 'Meeting Commitment', 'Deal Control'],
     difficulty: 'Advanced',
     stats: { resistance: 70, objections: 40, buy_signal: 40 },
-    chapterSlug: 'field-execution',
+    chapterSlug: 'deal-execution',
     phase: 'Closing',
-    placement: 'Securing Next Step',
-    passCriteria: 'Clarify decision criteria and regain control of the next step.',
-    failConditions: 'Accepting the deflection, leaving materials, or losing control.',
-    winningResponse: 'Excellent control! You secured a concrete next step.',
-    losingResponse: 'Never leave materials. Clarify criteria and set a specific callback.',
+    placement: 'Proposal Deflection',
+    passCriteria: 'Clarify what they need in the proposal, confirm decision criteria, and schedule a proposal review meeting before sending.',
+    failConditions: 'Sending a proposal into a black hole, losing control of the process, or failing to schedule a follow-up.',
+    winningResponse: 'Excellent control! You qualified the proposal request and secured a review meeting.',
+    losingResponse: 'Never send a proposal without scheduling a review meeting. Clarify exactly what they need to see and who will review it.',
     orderIndex: 15
   },
   {
     slug: 'rp-ultimate-test',
     name: 'Final Certification Assessment',
     role: 'The Ultimate Test',
-    description: 'Post-Training → Final Certification Assessment. Rep must show control across ≥3 phases including successful Phase-5 handling.',
-    avatar: `${CLOUDINARY_BASE}/arena-ai/personas/rp-ultimate-test.jpg`,
+    description: 'Post-Training → Final Certification Assessment. Demonstrate mastery across discovery, demo, objection handling, and closing in a full enterprise sales simulation.',
+    avatar: '',
     traits: ['Mastery', 'Endurance', 'Consistency'],
     difficulty: 'Advanced',
     stats: { resistance: 90, objections: 90, buy_signal: 50 },
-    chapterSlug: 'field-execution',
+    chapterSlug: 'deal-execution',
     phase: 'Certification',
     placement: 'Final Assessment',
-    passCriteria: 'Demonstrate control across at least 3 phases including a successful close.',
-    failConditions: 'Losing control, failing to handle objections, or not closing.',
-    winningResponse: 'Congratulations! You have demonstrated mastery across all phases.',
-    losingResponse: 'Review all chapters and practice each phase before retrying.',
+    passCriteria: 'Demonstrate control across at least 3 phases of the enterprise sales cycle including a successful close attempt.',
+    failConditions: 'Losing control of the conversation, failing to handle objections, or not attempting to close.',
+    winningResponse: 'Congratulations! You have demonstrated mastery across all phases of the Monetate enterprise sales cycle.',
+    losingResponse: 'Review all chapters and practice each phase before retrying the certification.',
     orderIndex: 16
   }
 ];
 
 export const BUYER_PERSONA_SEED_DATA = [
   {
-    slug: "busy-professional",
-    name: "The Busy Professional",
-    subtitle: "Time-poor, task-saturated decision maker",
-    avatar: `${CLOUDINARY_BASE}/v1767646940/arena-ai/personas/persona_the_busy_professional_1767646940115.jpg`,
+    slug: "vp-ecommerce",
+    name: "The VP of E-Commerce",
+    subtitle: "Revenue-driven, metrics-obsessed digital leader",
+    avatar: "",
     attributes: [
-      "Time-poor, task-saturated, decision fatigue",
-      "Wants a good outcome, minimal friction",
-      "High responsiveness to structure and certainty"
+      "Owns the P&L for the digital channel",
+      "Measured on conversion rate, revenue growth, and AOV",
+      "Reports to CMO or CEO, manages merchandising and digital teams"
     ],
     whatTheyCareAbout: [
-      "Convenience, speed, predictable results",
-      '"Make this easy for me"'
+      "Revenue lift, conversion rate optimization, competitive advantage",
+      "Speed to value and ease of implementation",
+      "Proving ROI to the C-suite to justify continued investment"
     ],
     whatTriggersResistance: [
-      "Long explanations, vague benefits, unclear next steps",
-      'Anything that feels like "a pitch"'
+      "Vague ROI claims without specific data or case studies",
+      "Solutions that require heavy IT involvement or long implementation timelines",
+      "Vendors who don't understand commerce KPIs"
     ],
     howToWin: [
-      "Opening: Use the ≤60-second container and a control question to keep them engaged.",
-      'Turn & Burn: Move quickly to a visible issue—"show, don\'t tell."',
-      "Value frame: Sell the outcome (less stress, pride, time back), not products.",
-      "Close: Offer prepay as the default for simplicity; autopay as backup.",
-      '"We\'re already helping homes on your street with this exact issue."'
+      "Lead with revenue impact: '15% average revenue lift within 6 months.'",
+      "Show case studies from similar retailers with specific metrics.",
+      "Demonstrate the platform with their actual website or a comparable brand.",
+      "Position Monetate as a revenue-generating investment, not a cost center."
     ],
     bestPlays: [
-      "Fast lawn walk: identify one problem area and connect to the program.",
-      'Close with "Present → Protect → Prompt" (standard process + risk removal + decision prompt).'
+      "Custom ROI model based on their traffic and conversion data.",
+      "Offer a proof of concept with measurable success criteria."
     ],
     orderIndex: 1
   },
   {
-    slug: "brush-off-defender",
-    name: "The Brush-Off Defender",
-    subtitle: '"Not interested," "Busy," short answers at the door',
-    avatar: `${CLOUDINARY_BASE}/v1767646960/arena-ai/personas/persona_the_brush_off_defender_1767646959392.jpg`,
+    slug: "cto",
+    name: "The CTO",
+    subtitle: "Technical gatekeeper, integration-focused",
+    avatar: "",
     attributes: [
-      "Defensive posture, wants to end the interaction quickly",
-      "May not be truly opposed—just protecting time and space"
+      "Evaluates architecture, scalability, and security",
+      "Concerned about tech debt and integration complexity",
+      "Manages engineering resources and prioritizes the technical roadmap"
     ],
     whatTheyCareAbout: [
-      "Respect, brevity, control of their doorway"
+      "Clean API architecture, scalable infrastructure, data privacy compliance",
+      "Minimal engineering overhead for implementation and maintenance",
+      "Vendor stability and long-term platform viability"
     ],
     whatTriggersResistance: [
-      "Arguing, pushing, talking faster, ignoring cues"
+      "Heavy client-side JavaScript that impacts site performance",
+      "Lack of server-side rendering or headless commerce support",
+      "Unclear data handling, GDPR/CCPA compliance gaps"
     ],
     howToWin: [
-      "Acknowledge + reframe: don't debate interest; shift to a specific lawn issue.",
-      "Ask an either/or control question tied to what you see (edge weeds, thinning).",
-      'Request micro-permission: "Mind if I show you real quick?"'
+      "Lead with architecture: server-side capabilities, edge delivery, CDN integration.",
+      "Show the API documentation and integration flexibility.",
+      "Address performance impact with concrete latency benchmarks.",
+      "Highlight SOC 2 compliance, data residency options, and privacy controls."
     ],
     bestPlays: [
-      '"Most people weren\'t interested until I pointed out one thing…"',
-      "Move to the lawn immediately; don't stay at the porch."
+      "Technical deep-dive session with Monetate's solutions engineering team.",
+      "Provide sandbox environment for their engineering team to evaluate."
     ],
     orderIndex: 2
   },
   {
-    slug: "rule-first-homeowner",
-    name: 'The Rule-First / "No Soliciting" Homeowner',
-    subtitle: "Compliance-oriented, boundary-driven",
-    avatar: `${CLOUDINARY_BASE}/v1767646978/arena-ai/personas/persona_the_rule_first_homeowner_1767646978037.jpg`,
+    slug: "cmo",
+    name: "The CMO",
+    subtitle: "Brand-conscious, customer experience champion",
+    avatar: "",
     attributes: [
-      "Compliance-oriented, boundary-driven",
-      "May be open if they feel respected and safe"
+      "Owns the brand narrative and customer experience strategy",
+      "Focused on customer lifetime value and brand differentiation",
+      "Reports to CEO, balances growth targets with brand integrity"
     ],
     whatTheyCareAbout: [
-      "Respecting rules, clarity of intent"
+      "Customer experience consistency across all touchpoints",
+      "Brand-safe personalization that doesn't feel intrusive",
+      "Competitive differentiation through superior customer experience"
     ],
     whatTriggersResistance: [
-      "Debating the sign/policy, continuing to talk after being stopped"
+      "Personalization that feels creepy or violates brand guidelines",
+      "Solutions that only optimize for short-term conversion at the expense of brand",
+      "Fragmented customer journeys across channels"
     ],
     howToWin: [
-      "Acknowledge rule + clarify intent + ask micro-permission.",
-      '"I\'m flagging an issue I noticed."'
+      "Frame personalization as brand experience elevation, not just conversion optimization.",
+      "Show omnichannel personalization capabilities across web, email, and mobile.",
+      "Demonstrate audience discovery to find and nurture high-value customer segments.",
+      "Reference premium brands that use Monetate to enhance their customer experience."
     ],
     bestPlays: [
-      '"Not selling at the door" framing, then point to the lawn for 10–20 seconds.',
-      "If denied: exit professionally (protect brand and future conversion)."
+      "Customer journey mapping workshop to show experience gaps.",
+      "Side-by-side comparison of personalized vs. generic experience on their site."
     ],
     orderIndex: 3
   },
   {
-    slug: "proud-diyer",
-    name: "The Proud DIYer",
-    subtitle: "Identity tied to self-reliance and competence",
-    avatar: `${CLOUDINARY_BASE}/v1767646997/arena-ai/personas/persona_the_proud_diyer_1767646996498.jpg`,
+    slug: "cfo",
+    name: "The CFO",
+    subtitle: "ROI-focused, risk-averse budget guardian",
+    avatar: "",
     attributes: [
-      "Identity tied to self-reliance and competence",
-      "Often knowledgeable but missing seasonal/timing nuances"
+      "Focused on financial returns, risk mitigation, and cost control",
+      "Evaluates total cost of ownership and payback period",
+      "Final sign-off on major technology investments"
     ],
     whatTheyCareAbout: [
-      "Respect for their effort, mastery, control"
+      "Clear, measurable ROI with defined payback period",
+      "Total cost of ownership including implementation and ongoing costs",
+      "Contract flexibility and risk mitigation (SLAs, guarantees)"
     ],
     whatTriggersResistance: [
-      'Implying they can\'t do it, "DIY doesn\'t work," jargon'
+      "Vague business cases without specific financial projections",
+      "Long payback periods or unclear path to profitability",
+      "Hidden costs, scope creep, or aggressive multi-year commitments"
     ],
     howToWin: [
-      "Validate identity first.",
-      '"DIY usually misses this time-of-year issue."',
-      "Ask permission to show a specific problem area."
+      "Build a detailed ROI model with conservative assumptions.",
+      "Show the 3x ROI within 12 months with specific customer examples.",
+      "Present flexible contract options: annual, multi-year with discounts, outcome-based.",
+      "Quantify the cost of inaction: 'Every quarter you delay costs $X in missed revenue.'"
     ],
     bestPlays: [
-      "Position Gecko Green as a specialist in timing and consistency.",
-      '"You keep doing X; we handle seasonality and product timing."'
+      "CFO-ready business case document with financial projections.",
+      "Reference calls with CFOs at existing Monetate customers."
     ],
     orderIndex: 4
   },
   {
-    slug: "loyal-existing-provider",
-    name: "The Loyal Existing-Provider Customer",
-    subtitle: "Already paying someone; avoids switching friction",
-    avatar: `${CLOUDINARY_BASE}/v1767647017/arena-ai/personas/persona_the_loyal_existing_provider_customer_1767647016967.jpg`,
+    slug: "director-digital",
+    name: "The Director of Digital Marketing",
+    subtitle: "Hands-on operator, campaign-focused",
+    avatar: "",
     attributes: [
-      "Already paying someone; avoids switching friction",
-      "Often dissatisfied in small ways but not motivated to change"
+      "Manages day-to-day digital marketing campaigns and team",
+      "Hands-on with marketing technology and analytics tools",
+      "Measured on campaign performance, lead generation, and conversion"
     ],
     whatTheyCareAbout: [
-      'Stability, avoiding hassle, "don\'t make me start over"'
+      "Ease of use, speed of campaign execution, self-service capabilities",
+      "Integration with existing martech stack (analytics, CDP, email)",
+      "Ability to run experiments quickly without engineering support"
     ],
     whatTriggersResistance: [
-      "Competitor attacks, replacement pressure"
+      "Complex platforms that require engineering for every change",
+      "Steep learning curves or poor onboarding experience",
+      "Lack of integration with their existing tools"
     ],
     howToWin: [
-      '"Not trying to replace them."',
-      '"Are they addressing weeds along this edge?"',
-      'Offer a "second opinion" vibe: objective, calm, specific.'
+      "Demo the no-code experience builder and show how fast they can launch campaigns.",
+      "Highlight integrations with their specific martech stack.",
+      "Show the testing workflow: hypothesis → experiment → results in days, not weeks.",
+      "Offer Monetate University access for their team's ongoing enablement."
     ],
     bestPlays: [
-      "Outcome comparison (not price): consistency, seasonality, service calls.",
-      "Close toward the problem they still have."
+      "Hands-on trial or sandbox where they can build a campaign themselves.",
+      "Show time-to-launch comparison: Monetate vs. their current workflow."
     ],
     orderIndex: 5
   },
   {
-    slug: "looks-fine-optimist",
-    name: 'The "Looks Fine" Optimist',
-    subtitle: "Satisfied enough; low urgency",
-    avatar: `${CLOUDINARY_BASE}/v1767647036/arena-ai/personas/persona_the_looks_fine_optimist_1767647036309.jpg`,
+    slug: "it-security",
+    name: "The IT Security Lead",
+    subtitle: "Data privacy and compliance watchdog",
+    avatar: "",
     attributes: [
-      "Satisfied enough; low urgency",
-      "Doesn't notice early signs"
+      "Responsible for data security, privacy compliance, and vendor risk",
+      "Evaluates every vendor against security frameworks and policies",
+      "Can block or significantly delay deals with security concerns"
     ],
     whatTheyCareAbout: [
-      "Avoiding unnecessary spending, maintaining status quo"
+      "SOC 2 Type II compliance, GDPR/CCPA adherence, data residency",
+      "Data encryption (at rest and in transit), access controls, audit logs",
+      "Vendor security posture, incident response procedures, penetration testing"
     ],
     whatTriggersResistance: [
-      'Broad claims, "your lawn is bad," abstract explanations'
+      "Inability to provide security documentation promptly",
+      "Vague answers about data handling, storage, or processing locations",
+      "Lack of SSO integration or role-based access controls"
     ],
     howToWin: [
-      '"Overall it does."',
-      '"This is what I\'m flagging…"',
-      "Point to an early signal (edge discoloration, spread line)."
+      "Proactively provide SOC 2 report, security whitepaper, and DPA.",
+      "Address data residency and processing locations clearly.",
+      "Show SSO integration, RBAC, and audit logging capabilities.",
+      "Offer to complete their security questionnaire within a defined timeline."
     ],
     bestPlays: [
-      "Prevention framing: protect healthy grass from spread.",
-      '"Catching it early is cheaper/easier."'
+      "Security-focused call with Monetate's InfoSec team early in the process.",
+      "Pre-fill common security questionnaire responses and share proactively."
     ],
     orderIndex: 6
   },
   {
-    slug: "weed-indifferent",
-    name: "The Weed-Indifferent Homeowner",
-    subtitle: '"Weeds don\'t bother me."',
-    avatar: `${CLOUDINARY_BASE}/v1767647054/arena-ai/personas/persona_the_weed_indifferent_homeowner_1767647053911.jpg`,
+    slug: "data-analyst",
+    name: "The Data Analyst",
+    subtitle: "Evidence-driven, wants proof before commitment",
+    avatar: "",
     attributes: [
-      "Low aesthetic sensitivity",
-      "Might care more about property value, kids/pets safety"
+      "Evaluates solutions based on data quality, statistical rigor, and measurability",
+      "Skeptical of vendor claims without transparent methodology",
+      "Influences technical evaluators and business stakeholders"
     ],
     whatTheyCareAbout: [
-      "Avoiding bigger future problems, protecting what's already good"
+      "Statistical significance in testing, transparent algorithms, data export",
+      "Integration with analytics platforms (GA4, Adobe Analytics, Snowflake)",
+      "Ability to run custom analyses and build dashboards"
     ],
     whatTriggersResistance: [
-      '"It looks ugly" framing'
+      "Black-box algorithms without explainability",
+      "Inflated or cherry-picked metrics in case studies",
+      "Inability to export raw data or connect to their data warehouse"
     ],
     howToWin: [
-      "Reframe consequence: weeds spread and crowd out healthy grass.",
-      '"What matters more—less work, safer yard, resale value?"'
+      "Show the statistical engine behind testing and how it calculates significance.",
+      "Demonstrate data export capabilities and warehouse integrations.",
+      "Provide transparent methodology for ROI calculations and case studies.",
+      "Offer a pilot with pre-agreed success metrics they can independently verify."
     ],
     bestPlays: [
-      "Prevention and protection framing.",
-      "Minimal-hassle program narrative."
+      "Technical demo focused on analytics, reporting, and data integration.",
+      "Share methodology documentation and whitepapers on the MONET algorithm."
     ],
     orderIndex: 7
   },
   {
-    slug: "skeptic",
-    name: 'The Skeptic / "I Don\'t See the Issue"',
-    subtitle: "Doubtful, needs proof",
-    avatar: `${CLOUDINARY_BASE}/v1767647073/arena-ai/personas/persona_the_skeptic_1767647073173.jpg`,
+    slug: "head-product",
+    name: "The Head of Product",
+    subtitle: "User experience advocate, roadmap-focused",
+    avatar: "",
     attributes: [
-      "Doubtful, needs proof",
-      "Wants clarity and competence"
+      "Owns the product roadmap and user experience strategy",
+      "Balances feature requests against technical debt and UX quality",
+      "Collaborates closely with engineering and design teams"
     ],
     whatTheyCareAbout: [
-      'Evidence, directness, not being "sold"'
+      "Impact on site performance, page load times, and Core Web Vitals",
+      "Alignment with product roadmap and long-term platform strategy",
+      "User experience quality and consistency across personalized experiences"
     ],
     whatTriggersResistance: [
-      "Long scientific lectures, abstract talk"
+      "Solutions that introduce performance overhead or layout shifts",
+      "Personalization that creates inconsistent or jarring user experiences",
+      "Vendor lock-in that conflicts with their headless/composable architecture plans"
     ],
     howToWin: [
-      "Show, don't tell: point to one unmistakable sign.",
-      '"Do you see that?"'
+      "Address performance impact with specific latency and CWV data.",
+      "Show server-side personalization that avoids flicker and layout shift.",
+      "Demonstrate compatibility with headless and composable commerce architectures.",
+      "Position Monetate as enhancing their product roadmap, not competing with it."
     ],
     bestPlays: [
-      "4-step diagnosis: observe → why → program tie-in → expectations.",
-      "Close value-first."
+      "Performance benchmark test on a staging environment.",
+      "Architecture review with their engineering team showing integration patterns."
     ],
     orderIndex: 8
   },
   {
-    slug: "price-first-shopper",
-    name: "The Price-First Shopper",
-    subtitle: '"How much is it?" early',
-    avatar: `${CLOUDINARY_BASE}/v1767647092/arena-ai/personas/persona_the_price_first_shopper_1767647091980.jpg`,
+    slug: "procurement-lead",
+    name: "The Procurement Lead",
+    subtitle: "Process-driven, contract negotiator",
+    avatar: "",
     attributes: [
-      "Leads with cost to control conversation",
-      "May be comparison shopping"
+      "Manages vendor evaluation, contract negotiation, and compliance",
+      "Follows structured procurement processes with defined timelines",
+      "Focused on getting the best terms, not necessarily the best solution"
     ],
     whatTheyCareAbout: [
-      "Value clarity, fairness, no surprises"
+      "Competitive pricing, contract flexibility, and favorable payment terms",
+      "Vendor stability, references, and contractual protections",
+      "Clean procurement process with required documentation"
     ],
     whatTriggersResistance: [
-      "Immediate quoting without context"
+      "Inflexible contract terms or aggressive pricing tactics",
+      "Missing procurement documentation (W-9, insurance, certifications)",
+      "Vendors who try to go around procurement to push deals through"
     ],
     howToWin: [
-      "Defer briefly: anchor value before price.",
-      "Explain what the price covers and the outcome path.",
-      "Quote with confidence."
+      "Respect their process and provide all requested documentation promptly.",
+      "Be transparent about pricing structure and offer creative deal options.",
+      "Provide customer references and vendor stability evidence proactively.",
+      "Work with your champion to align procurement timeline with business urgency."
     ],
     bestPlays: [
-      '"Price only makes sense after what it includes…"',
-      "Program structure + service calls + seasonal timing as value anchors."
+      "Pre-prepared procurement package: MSA, DPA, SOC 2, insurance certificates.",
+      "Engage procurement early—don't wait until the end of the sales cycle."
     ],
     orderIndex: 9
   },
   {
-    slug: "thats-expensive-reactor",
-    name: 'The "That\'s Expensive" Reactor',
-    subtitle: "Emotional reaction to price",
-    avatar: `${CLOUDINARY_BASE}/v1767647110/arena-ai/personas/persona_the_expensive_reactor_1767647109863.jpg`,
+    slug: "marketing-manager",
+    name: "The Marketing Manager",
+    subtitle: "Tactical executor, day-to-day user",
+    avatar: "",
     attributes: [
-      "Emotional reaction to price",
-      "Often not rejecting; testing conviction"
+      "Executes campaigns, manages content, and analyzes performance daily",
+      "Will be the primary platform user after purchase",
+      "Influences the buying decision through hands-on evaluation"
     ],
     whatTheyCareAbout: [
-      "Outcomes, permanence, avoiding wasted spend"
+      "Intuitive UI, fast campaign creation, and self-service capabilities",
+      "Training and support resources to get up to speed quickly",
+      "Ability to show quick wins and measurable results to leadership"
     ],
     whatTriggersResistance: [
-      "Discounting immediately, defensive justification"
+      "Clunky interfaces that require technical skills to operate",
+      "Poor onboarding experience or lack of ongoing training",
+      "Tools that promise self-service but still require engineering tickets"
     ],
     howToWin: [
-      '"Most people said that before seeing results."',
-      "Bring back to the problem and solution path.",
-      "Move to autopay only after attempting prepay."
+      "Show the WYSIWYG experience builder and how quickly they can create campaigns.",
+      "Demonstrate pre-built templates and use cases for common scenarios.",
+      "Highlight Monetate University and ongoing customer success support.",
+      "Offer a hands-on trial where they can build and launch a real campaign."
     ],
     bestPlays: [
-      '"Fix this permanently / control and reduction over time."',
-      "Maintain calm and keep closing."
+      "Interactive demo where they drive the platform themselves.",
+      "Quick-win roadmap showing what they can achieve in the first 30 days."
     ],
     orderIndex: 10
   },
   {
-    slug: "competitor-price-comparer",
-    name: "The Competitor-Price Comparer",
-    subtitle: '"Another company is cheaper."',
-    avatar: `${CLOUDINARY_BASE}/v1767647128/arena-ai/personas/persona_the_competitor_price_comparer_1767647127556.jpg`,
+    slug: "cx-director",
+    name: "The CX Director",
+    subtitle: "Customer journey obsessed, omnichannel thinker",
+    avatar: "",
     attributes: [
-      "Anchored on price; may be burned before",
-      "Wants confidence they're not overpaying"
+      "Owns the end-to-end customer experience strategy across all channels",
+      "Focused on NPS, customer satisfaction, and journey consistency",
+      "Champions customer-centric initiatives across the organization"
     ],
     whatTheyCareAbout: [
-      "Getting the problem solved, consistency"
+      "Consistent, personalized experiences across web, mobile, email, and in-store",
+      "Customer journey analytics and experience measurement",
+      "Reducing friction points and improving customer satisfaction scores"
     ],
     whatTriggersResistance: [
-      "Attacking competitor, emotional language"
+      "Solutions that only optimize one channel in isolation",
+      "Personalization that feels manipulative rather than helpful",
+      "Lack of customer journey visibility or cross-channel attribution"
     ],
     howToWin: [
-      "Reframe: cheaper often means fewer treatments.",
-      '"Does the issue actually get solved?"',
-      "Neutral tone, outcome comparison."
+      "Show omnichannel personalization capabilities and cross-channel consistency.",
+      "Demonstrate audience discovery to identify customer journey patterns.",
+      "Connect personalization to NPS improvement and customer satisfaction metrics.",
+      "Frame Monetate as the foundation for a customer-centric digital strategy."
     ],
     bestPlays: [
-      "Compare on: seasonal timing, full program, free service calls.",
-      "Keep it respectful and factual."
+      "Customer journey audit showing gaps that personalization can fill.",
+      "Case study from a CX-focused brand showing satisfaction improvements."
     ],
     orderIndex: 11
   },
   {
-    slug: "payment-process-resister",
-    name: "The Payment-Process Resister",
-    subtitle: '"Why do I have to pay now?"',
-    avatar: `${CLOUDINARY_BASE}/v1767647146/arena-ai/personas/persona_the_payment_process_resister_1767647146010.jpg`,
+    slug: "founder-ceo",
+    name: "The Founder/CEO",
+    subtitle: "Vision-driven, wants strategic impact",
+    avatar: "",
     attributes: [
-      "Risk-sensitive, cautious",
-      "Needs reassurance and process clarity"
+      "Focused on competitive advantage, market positioning, and growth",
+      "Makes decisions based on strategic value and long-term vision",
+      "Limited time, needs concise and compelling narratives"
     ],
     whatTheyCareAbout: [
-      "Fairness, guarantees, not being trapped"
+      "Competitive differentiation and market leadership",
+      "Revenue growth, market share expansion, and strategic positioning",
+      "Innovation that positions the company ahead of competitors"
     ],
     whatTriggersResistance: [
-      '"That\'s just how we do it," defensiveness'
+      "Tactical or feature-level conversations that miss the strategic picture",
+      "Solutions that feel incremental rather than transformational",
+      "Vendors who can't articulate a compelling vision for the future"
     ],
     howToWin: [
-      "Normalize: everyone starts the same way.",
-      "Remove risk: guarantee/refund framing.",
-      "Prompt the decision again."
+      "Lead with strategic vision: 'Personalization is the next competitive moat in commerce.'",
+      "Show how leading brands are using Monetate to pull ahead of competitors.",
+      "Keep the conversation high-level: revenue impact, market positioning, customer loyalty.",
+      "Reference industry trends and analyst reports on the future of digital commerce."
     ],
     bestPlays: [
-      "Present → protect → prompt",
-      "Shift to autopay as backup if needed."
+      "Executive briefing with Monetate leadership (VP/C-level to C-level).",
+      "Strategic roadmap presentation showing the future of personalization."
     ],
     orderIndex: 12
   },
   {
-    slug: "stallers",
-    name: "The Stallers",
-    subtitle: '"I need to think about it"',
-    avatar: `${CLOUDINARY_BASE}/v1767647165/arena-ai/personas/persona_the_staller_1767647165193.jpg`,
+    slug: "innovation-lead",
+    name: "The Innovation Lead",
+    subtitle: "Trend-chaser, early adopter mentality",
+    avatar: "",
     attributes: [
-      "Avoids saying no; unresolved concern",
-      "Needs help clarifying decision criteria"
+      "Evaluates emerging technologies and innovation opportunities",
+      "Champions new initiatives and pilots within the organization",
+      "Influential but may not have direct budget authority"
     ],
     whatTheyCareAbout: [
-      "Confidence, clarity, reducing regret"
+      "Cutting-edge AI/ML capabilities and innovation roadmap",
+      "Being first to market with new customer experience approaches",
+      "Building internal credibility by bringing winning technologies to the org"
     ],
     whatTriggersResistance: [
-      "Accepting the stall and leaving"
+      "Solutions that feel dated or lack a compelling innovation roadmap",
+      "Vendors who can't articulate their AI/ML strategy clearly",
+      "Overly conservative implementation approaches that limit experimentation"
     ],
     howToWin: [
-      "Isolate the concern: price, timing, treatment, trust.",
-      'Convert "send me something" into decision criteria.',
-      "Advance toward a decision on the spot."
+      "Lead with MONET AI and the innovation behind the recommendation engine.",
+      "Share the product roadmap and upcoming AI-powered capabilities.",
+      "Position them as the internal champion who brought in a transformative platform.",
+      "Offer early access to beta features or innovation partnerships."
     ],
     bestPlays: [
-      '"What part are you thinking through—price, timing, or the treatment itself?"',
-      '"Before I go, what would you be deciding after you look it over?"'
+      "Innovation showcase demo highlighting AI/ML capabilities and future roadmap.",
+      "Invite them to a customer advisory board or innovation summit."
     ],
     orderIndex: 13
   }
@@ -839,15 +919,15 @@ export const BUYER_PERSONA_SEED_DATA = [
 
 export const EXPERT_SEED_DATA = [
   {
-    slug: "sam-taggart",
-    name: "Sam Taggart",
-    company: "The D2D Experts",
-    location: "United States",
-    bio: "Founder of The D2D Experts and D2DCon, the largest door-to-door sales training organization. Expert in solar, alarms, pest control, and roofing sales. Specializes in D2D systems, recruiting, and leadership development.",
+    slug: "sarah-chen",
+    name: "Sarah Chen",
+    company: "Enterprise Sales Academy",
+    location: "San Francisco, CA",
+    bio: "B2B SaaS enterprise sales strategist with 15+ years of experience closing seven-figure deals. MEDDPICC certification trainer and former VP of Sales at two unicorn startups. Specializes in complex enterprise sales cycles and multi-stakeholder deal navigation.",
     avatar: "",
-    website: "https://thed2dexperts.com",
-    specialties: ["Solar Sales", "Alarm Sales", "Pest Control", "Roofing", "D2D Systems", "Recruiting", "Leadership"],
-    credentials: ["D2DCon Founder", "Industry Pioneer", "Best-Selling Author"],
+    website: "https://enterprisesalesacademy.com",
+    specialties: ["Enterprise Sales Strategy", "MEDDPICC Framework", "Complex Deal Navigation", "Sales Leadership", "Stakeholder Mapping"],
+    credentials: ["Certified MEDDPICC Trainer", "Former VP Sales at 2 Unicorns", "SaaStr Speaker"],
     aiCoachRate: 15,
     consultationRate: 500,
     callReviewRate: 150,
@@ -855,146 +935,146 @@ export const EXPERT_SEED_DATA = [
     orderIndex: 1
   },
   {
-    slug: "austin-thompson",
-    name: "Austin Thompson",
-    company: "The D2D Experts",
-    location: "United States",
-    bio: "Chief Revenue Officer at The D2D Experts. Expert in training, recruiting, analytics and sales strategy for door-to-door teams.",
+    slug: "marcus-williams",
+    name: "Marcus Williams",
+    company: "SaaS Growth Partners",
+    location: "New York, NY",
+    bio: "Revenue operations and sales methodology expert who has built and scaled sales organizations from $5M to $100M+ ARR. Specializes in sales process design, pipeline analytics, and forecasting for B2B SaaS companies.",
     avatar: "",
-    website: "https://d2dcon.com",
-    specialties: ["Training Systems", "Recruiting", "Sales Analytics", "Sales Strategy", "Team Performance"],
-    credentials: ["CRO at D2D Experts", "D2DCon Speaker"],
+    website: "https://saasgrowthpartners.com",
+    specialties: ["Revenue Operations", "Sales Process Design", "Pipeline Analytics", "Forecasting", "Sales Methodology"],
+    credentials: ["Revenue Operations Certified", "Scaled 3 SaaS Companies to $100M+", "HubSpot Partner"],
     aiCoachRate: 15,
-    consultationRate: 400,
-    callReviewRate: 125,
+    consultationRate: 450,
+    callReviewRate: 140,
     featured: 1,
     orderIndex: 2
   },
   {
-    slug: "danny-kerr",
-    name: "Danny Kerr",
-    company: "Breakthrough Academy",
-    location: "British Columbia, Canada",
-    bio: "Builds systems and coaching programs for home-services and contractor organizations running field sales teams. Expert in operational excellence and scaling door-to-door operations.",
+    slug: "jennifer-park",
+    name: "Jennifer Park",
+    company: "Digital Commerce Advisors",
+    location: "Chicago, IL",
+    bio: "E-commerce technology sales specialist with deep expertise in selling personalization, analytics, and MarTech solutions to enterprise retailers. Former Director of Sales at a leading personalization platform.",
     avatar: "",
-    website: "https://btacademy.com",
-    specialties: ["Home Services", "Contractor Sales", "Systems Building", "Coaching", "Scaling Operations"],
-    credentials: ["Breakthrough Academy Co-Founder", "Operations Expert"],
-    aiCoachRate: 15,
-    consultationRate: 450,
-    callReviewRate: 140,
-    featured: 0,
-    orderIndex: 3
-  },
-  {
-    slug: "elena-mg",
-    name: "Elena",
-    company: "MG Industries",
-    location: "Calgary, Canada",
-    bio: "D2D performance specialist and team trainer. Golden Door Award winner recognized at D2DCon for exceptional door-to-door sales achievements.",
-    avatar: "",
-    website: "https://d2dcon.com",
-    specialties: ["D2D Performance", "Team Training", "Peak Performance", "Sales Coaching"],
-    credentials: ["Golden Door Award Winner", "D2DCon Featured Speaker"],
-    aiCoachRate: 15,
-    consultationRate: 350,
-    callReviewRate: 100,
-    featured: 1,
-    orderIndex: 4
-  },
-  {
-    slug: "duane-richins",
-    name: "Duane Richins",
-    company: "RealD2D",
-    location: "United States",
-    bio: "Pioneer in applying door-to-door techniques to real estate. Creator of proven door-knocking scripts and weekly coaching model for real estate professionals.",
-    avatar: "",
-    website: "https://reald2d.com",
-    specialties: ["Real Estate D2D", "Door Knocking Scripts", "Weekly Coaching", "Real Estate Sales"],
-    credentials: ["RealD2D Founder", "Real Estate D2D Pioneer"],
-    aiCoachRate: 15,
-    consultationRate: 300,
-    callReviewRate: 90,
-    featured: 0,
-    orderIndex: 5
-  },
-  {
-    slug: "taylor-mccarthy",
-    name: "Taylor McCarthy",
-    company: "Knockstar University",
-    location: "United States",
-    bio: "High-volume D2D training specialist with extensive library of training content. Known for P-style coaching and live on-the-doors training sessions.",
-    avatar: "",
-    website: "https://knockstaruniversity.com",
-    specialties: ["High-Volume D2D", "Live Coaching", "On-Doors Training", "P-Style Coaching", "Training Content"],
-    credentials: ["Knockstar University Founder", "High-Volume Sales Expert"],
-    aiCoachRate: 15,
-    consultationRate: 350,
-    callReviewRate: 110,
-    featured: 1,
-    orderIndex: 6
-  },
-  {
-    slug: "shai-ades",
-    name: "Shai Ades",
-    company: "One Call Close Academy",
-    location: "United States",
-    bio: "Home improvement and home services sales expert. Creator of the One Call Close methodology and door-knocking mastery program.",
-    avatar: "",
-    website: "https://onecallcloseacademy.com",
-    specialties: ["Home Improvement", "Home Services", "One Call Close", "Door Knocking Mastery"],
-    credentials: ["One Call Close Academy Founder", "Closing Expert"],
+    website: "https://digitalcommerceadvisors.com",
+    specialties: ["E-Commerce Technology Sales", "Personalization Solutions", "MarTech Sales", "Retail Industry", "Solution Selling"],
+    credentials: ["Former Director of Sales - Personalization Platform", "NRF Speaker", "Commerce Industry Expert"],
     aiCoachRate: 15,
     consultationRate: 400,
     callReviewRate: 125,
     featured: 0,
+    orderIndex: 3
+  },
+  {
+    slug: "david-rodriguez",
+    name: "David Rodriguez",
+    company: "Challenger Sales Institute",
+    location: "Austin, TX",
+    bio: "Challenger Sale methodology trainer and enterprise sales coach. Has trained over 5,000 B2B sales professionals in the art of teaching, tailoring, and taking control of complex sales conversations.",
+    avatar: "",
+    website: "https://challengersalesinstitute.com",
+    specialties: ["Challenger Sale Methodology", "Enterprise Coaching", "Sales Training", "Competitive Selling", "Executive Engagement"],
+    credentials: ["Certified Challenger Sale Trainer", "Trained 5,000+ Sales Professionals", "Author: Modern Enterprise Selling"],
+    aiCoachRate: 15,
+    consultationRate: 475,
+    callReviewRate: 145,
+    featured: 1,
+    orderIndex: 4
+  },
+  {
+    slug: "rachel-turner",
+    name: "Rachel Turner",
+    company: "Deal Strategy Group",
+    location: "Boston, MA",
+    bio: "Complex enterprise deal strategy coach specializing in six and seven-figure SaaS deals. Expert in multi-threading, executive sponsorship, and navigating procurement in Fortune 500 accounts.",
+    avatar: "",
+    website: "https://dealstrategygroup.com",
+    specialties: ["Complex Deal Strategy", "Multi-Threading", "Executive Sponsorship", "Procurement Navigation", "Fortune 500 Sales"],
+    credentials: ["Deal Strategy Certified Coach", "Former Enterprise AE at Salesforce", "20+ Years Enterprise Sales"],
+    aiCoachRate: 15,
+    consultationRate: 525,
+    callReviewRate: 160,
+    featured: 1,
+    orderIndex: 5
+  },
+  {
+    slug: "alex-morrison",
+    name: "Alex Morrison",
+    company: "Revenue Intelligence Co",
+    location: "Seattle, WA",
+    bio: "Sales enablement and coaching expert focused on building high-performing B2B SaaS sales teams. Specializes in creating scalable coaching programs, onboarding systems, and performance frameworks.",
+    avatar: "",
+    website: "https://revenueintelligenceco.com",
+    specialties: ["Sales Enablement", "Coaching Programs", "Onboarding Systems", "Performance Frameworks", "Team Development"],
+    credentials: ["Sales Enablement Society Member", "Built Enablement at 3 Unicorns", "ATD Certified"],
+    aiCoachRate: 15,
+    consultationRate: 375,
+    callReviewRate: 110,
+    featured: 0,
+    orderIndex: 6
+  },
+  {
+    slug: "lisa-nakamura",
+    name: "Lisa Nakamura",
+    company: "MarTech Sales Academy",
+    location: "Los Angeles, CA",
+    bio: "MarTech and personalization sales specialist with deep expertise in the commerce technology landscape. Helps sales teams articulate the value of personalization, testing, and optimization to enterprise buyers.",
+    avatar: "",
+    website: "https://martechsalesacademy.com",
+    specialties: ["MarTech Sales", "Personalization Selling", "Commerce Technology", "Value Messaging", "Demo Excellence"],
+    credentials: ["MarTech Industry Veteran", "Former Sales Leader at Adobe", "Forrester Guest Analyst"],
+    aiCoachRate: 15,
+    consultationRate: 425,
+    callReviewRate: 130,
+    featured: 1,
     orderIndex: 7
   },
   {
-    slug: "becca-switzer",
-    name: "Becca Switzer",
-    company: "Roof Sales Mastery",
-    location: "United States",
-    bio: "Roofing and storm restoration sales specialist. Expert in D2D approach for roofing combined with supplements and claims process mastery.",
+    slug: "james-oconnor",
+    name: "James O'Connor",
+    company: "Pipeline Mastery",
+    location: "Denver, CO",
+    bio: "Pipeline generation and outbound expert for B2B SaaS. Has built outbound engines that generated $500M+ in pipeline across multiple enterprise software companies. Specializes in account-based strategies and multi-channel prospecting.",
     avatar: "",
-    website: "https://roofsalesmastery.com",
-    specialties: ["Roofing Sales", "Storm Restoration", "D2D Roofing", "Insurance Claims", "Supplements Process"],
-    credentials: ["Roof Sales Mastery Founder", "Storm Restoration Expert"],
+    website: "https://pipelinemastery.com",
+    specialties: ["Pipeline Generation", "Outbound Strategy", "Account-Based Marketing", "Multi-Channel Prospecting", "SDR Team Building"],
+    credentials: ["$500M+ Pipeline Generated", "Former VP Demand Gen", "Pipeline Summit Founder"],
     aiCoachRate: 15,
-    consultationRate: 375,
-    callReviewRate: 115,
-    featured: 1,
+    consultationRate: 400,
+    callReviewRate: 120,
+    featured: 0,
     orderIndex: 8
   },
   {
-    slug: "chuck-thokey",
-    name: "Chuck Thokey",
-    company: "Top Rep Training",
-    location: "United States",
-    bio: "Home improvement and roofing sales leadership coach. Provides training and coaching across North America for contractor sales teams.",
+    slug: "priya-sharma",
+    name: "Priya Sharma",
+    company: "Value Selling Partners",
+    location: "Washington, DC",
+    bio: "Value-based selling and ROI modeling expert who helps B2B SaaS companies build compelling business cases. Former management consultant who brings financial rigor to the enterprise sales process.",
     avatar: "",
-    website: "https://topreptraining.com",
-    specialties: ["Home Improvement", "Roofing Sales", "Sales Leadership", "Contractor Training", "Team Coaching"],
-    credentials: ["Top Rep Training Founder", "North America Sales Coach"],
+    website: "https://valuesellingpartners.com",
+    specialties: ["Value-Based Selling", "ROI Modeling", "Business Case Development", "Executive Presentations", "Financial Analysis"],
+    credentials: ["Former McKinsey Consultant", "Value Selling Certified Trainer", "MBA - Wharton"],
     aiCoachRate: 15,
-    consultationRate: 350,
-    callReviewRate: 100,
-    featured: 0,
+    consultationRate: 500,
+    callReviewRate: 155,
+    featured: 1,
     orderIndex: 9
   },
   {
-    slug: "erik-pyper",
-    name: "Erik Pyper",
-    company: "Door Driven",
-    location: "United States",
-    bio: "Telecom and fiber-focused D2D specialist. Expert in mentoring and field sales skill development for telecom and technology sales teams.",
+    slug: "michael-foster",
+    name: "Michael Foster",
+    company: "SaaS Closing Academy",
+    location: "Miami, FL",
+    bio: "Enterprise deal closing specialist with a track record of helping sales teams increase their win rates by 30%+. Expert in negotiation tactics, closing frameworks, and overcoming enterprise procurement hurdles.",
     avatar: "",
-    website: "https://doordriven.com",
-    specialties: ["Telecom Sales", "Fiber Sales", "Field Sales Mentoring", "Technology Sales", "D2D Skill Development"],
-    credentials: ["Door Driven Founder", "Telecom D2D Pioneer"],
+    website: "https://saasclosingacademy.com",
+    specialties: ["Enterprise Closing", "Negotiation Tactics", "Win Rate Optimization", "Procurement Navigation", "Contract Strategy"],
+    credentials: ["SaaS Closing Academy Founder", "30%+ Win Rate Improvements", "Enterprise Sales Veteran"],
     aiCoachRate: 15,
-    consultationRate: 325,
-    callReviewRate: 95,
+    consultationRate: 450,
+    callReviewRate: 135,
     featured: 0,
     orderIndex: 10
   }

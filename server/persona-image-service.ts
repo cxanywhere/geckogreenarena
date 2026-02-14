@@ -18,11 +18,11 @@ export async function generatePersonaAvatar(
 This persona has these characteristics: ${attributes.join(", ")}.
 
 Requirements:
-- Create a realistic, diverse homeowner portrait that represents this buyer type
-- The person should be at their front door or in their yard
+- Create a realistic, diverse enterprise buyer portrait that represents this persona type
+- The person should be in a modern office, conference room, or corporate setting
 - Natural lighting, high quality photo-realistic style
-- Appropriate attire and setting for a homeowner
-- Subtle green/emerald color accent in the background or lighting
+- Professional business attire appropriate for the role
+- Subtle deep blue or magenta color accent in the background or lighting
 - Professional headshot composition
 - The expression and body language should reflect their personality (e.g., busy person looks pressed for time, skeptic looks questioning)
 

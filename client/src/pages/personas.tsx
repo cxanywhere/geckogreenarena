@@ -51,7 +51,7 @@ export default function PersonasPage() {
             <h1 className="text-3xl font-bold" data-testid="page-title">Buyer Personas</h1>
           </div>
           <p className="text-muted-foreground max-w-2xl">
-            Master how to connect with each homeowner type. Learn their motivations, what triggers resistance, and how to win them over.
+            Master how to connect with each buyer type. Learn their motivations, what triggers resistance, and how to win them over.
           </p>
         </div>
 
@@ -99,7 +99,7 @@ export default function PersonasPage() {
                       {persona.subtitle}
                     </p>
                     <Badge variant="secondary" className="text-xs">
-                      {persona.attributes?.[0]?.split(",")[0] || "Homeowner"}
+                      {persona.attributes?.[0]?.split(",")[0] || "Buyer"}
                     </Badge>
                   </CardContent>
                 </Card>

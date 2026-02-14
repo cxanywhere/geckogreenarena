@@ -7,8 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Camera, Upload, ArrowRight, Sparkles, Shield, Sword, Check, Loader2, LogOut } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
-import arenaLogoDark from "@/assets/arena-logo-dark.png";
-import arenaLogoLight from "@/assets/arena-logo-light.png";
+import monetateLogoDark from "@/assets/monetate-logo-dark.png";
+import monetateLogoLight from "@/assets/monetate-logo-light.png";
 import { useTheme } from "next-themes";
 
 export default function OnboardingPage() {
@@ -27,7 +27,7 @@ export default function OnboardingPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
-  const arenaLogo = resolvedTheme === "dark" ? arenaLogoDark : arenaLogoLight;
+  const monetateLogo = resolvedTheme === "dark" ? monetateLogoDark : monetateLogoLight;
 
   const startCamera = async () => {
     try {
@@ -211,12 +211,12 @@ export default function OnboardingPage() {
       >
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <img src={arenaLogo} alt="Arena AI" className="h-12 w-12 object-contain" />
+            <img src={monetateLogo} alt="Monetate" className="h-12 w-12 object-contain" />
             <div className="flex flex-col leading-none">
               <span className="font-display text-3xl font-bold tracking-tight text-foreground">
-                arena ai
+                Monetate
               </span>
-              <span className="text-xs font-normal text-muted-foreground uppercase tracking-widest">by gigarev</span>
+              <span className="text-xs font-normal text-muted-foreground uppercase tracking-widest">Sales Enablement</span>
             </div>
           </div>
           <h1 className="text-2xl font-bold text-foreground mb-2">Welcome to Arena!</h1>

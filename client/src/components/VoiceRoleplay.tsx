@@ -186,7 +186,7 @@ export function VoiceRoleplay({ roleplayId, config, onComplete, onCancel, userId
     const buySignalDescription = config.buySignal > 50 ? "showing some underlying interest" :
                                  config.buySignal > 25 ? "cautiously curious" : "not showing buying interest";
 
-    return `You are playing the role of a homeowner in a door-to-door sales training simulation for Gecko Green lawn care services.
+    return `You are playing the role of a buyer in a sales training simulation for the Monetate platform.
 
 CHARACTER PROFILE:
 - Name: ${config.role}
@@ -201,14 +201,14 @@ ${config.context}
 
 BEHAVIOR GUIDELINES:
 1. START the conversation with EXACTLY this objection: "${config.objection}"
-2. Stay in character as this homeowner throughout the entire conversation
+2. Stay in character as this buyer throughout the entire conversation
 3. React realistically to the sales rep's responses based on how well they handle your objection
 4. If the rep handles your objection well (acknowledges you, doesn't push too hard, asks good questions), gradually become slightly more open
 5. If the rep pushes too hard, ignores your concern, or doesn't listen, become MORE resistant
-6. Use natural, conversational language - you're a real person at your front door, NOT an AI
-7. Keep responses SHORT (1-3 sentences max) - this is a doorstep conversation, not a lecture
+6. Use natural, conversational language - you're a real person in a sales conversation, NOT an AI
+7. Keep responses SHORT (1-3 sentences max) - this is a sales conversation, not a lecture
 8. You may eventually agree to hear more or let them show you something if they do well
-9. If they do poorly, you may close the door or firmly decline
+9. If they do poorly, you may end the conversation or firmly decline
 
 WHAT THE REP SHOULD DO TO PASS:
 ${config.passCriteria}
@@ -217,7 +217,7 @@ CRITICAL RULES:
 - NEVER break character
 - NEVER reveal you are an AI or part of a training simulation
 - NEVER give the rep direct coaching or hints
-- Respond ONLY as the homeowner would in a real doorstep interaction
+- Respond ONLY as the buyer would in a real sales interaction
 - Your FIRST message MUST be: "${config.objection}"`;
   };
 
@@ -381,7 +381,7 @@ CRITICAL RULES:
 
   return (
     <div className="flex flex-col h-full" data-testid="voice-roleplay-container">
-      <Card className="mb-4 border-[#84CC16]/30 bg-gradient-to-r from-[#2D5016]/5 to-[#84CC16]/5">
+      <Card className="mb-4 border-[#E84C8A]/30 bg-gradient-to-r from-[#1A2B8C]/5 to-[#E84C8A]/5">
         <CardContent className="p-4">
           <div className="flex items-start justify-between">
             <div>
@@ -405,7 +405,7 @@ CRITICAL RULES:
 
           <div className="mt-3 flex flex-wrap gap-2">
             {config.traits.map((trait, index) => (
-              <span key={index} className="px-2 py-1 bg-[#84CC16]/10 text-[#2D5016] text-xs rounded-full">
+              <span key={index} className="px-2 py-1 bg-[#E84C8A]/10 text-[#1A2B8C] text-xs rounded-full">
                 {trait}
               </span>
             ))}
@@ -471,12 +471,12 @@ CRITICAL RULES:
             {status === "idle" && transcript.length === 0 && (
               <div className="h-full flex items-center justify-center text-center p-8">
                 <div>
-                  <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-[#84CC16]/20 flex items-center justify-center">
-                    <Phone className="w-10 h-10 text-[#2D5016]" />
+                  <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-[#E84C8A]/20 flex items-center justify-center">
+                    <Phone className="w-10 h-10 text-[#1A2B8C]" />
                   </div>
                   <h4 className="font-semibold text-lg text-gray-900 mb-2">Ready to Practice?</h4>
                   <p className="text-gray-600 text-sm max-w-md mb-3">
-                    Click "Start Call" to begin your voice roleplay. You'll speak directly with the AI homeowner who will respond to your pitch in real-time.
+                    Click "Start Call" to begin your voice roleplay. You'll speak directly with the AI buyer who will respond to your pitch in real-time.
                   </p>
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-100 rounded-full text-sm text-gray-600">
                     <Clock className="w-4 h-4" />
@@ -489,8 +489,8 @@ CRITICAL RULES:
             {status === "connecting" && (
               <div className="h-full flex items-center justify-center">
                 <div className="text-center">
-                  <Loader2 className="w-12 h-12 mx-auto mb-4 text-[#84CC16] animate-spin" />
-                  <p className="text-gray-600">Connecting to homeowner...</p>
+                  <Loader2 className="w-12 h-12 mx-auto mb-4 text-[#E84C8A] animate-spin" />
+                  <p className="text-gray-600">Connecting to buyer...</p>
                 </div>
               </div>
             )}
@@ -506,7 +506,7 @@ CRITICAL RULES:
                   <div 
                     className={`max-w-[80%] p-3 rounded-2xl ${
                       entry.role === "user" 
-                        ? "bg-[#84CC16] text-white rounded-br-md" 
+                        ? "bg-[#E84C8A] text-white rounded-br-md" 
                         : "bg-gray-100 text-gray-800 rounded-bl-md"
                     }`}
                     data-testid={`transcript-${entry.role}-${index}`}
@@ -530,7 +530,7 @@ CRITICAL RULES:
                       {[...Array(3)].map((_, i) => (
                         <motion.div
                           key={i}
-                          className="w-2 h-2 bg-[#84CC16] rounded-full"
+                          className="w-2 h-2 bg-[#E84C8A] rounded-full"
                           animate={{
                             scale: [1, 1.5, 1],
                             opacity: [0.5, 1, 0.5],
@@ -592,7 +592,7 @@ CRITICAL RULES:
             </Button>
             <Button
               onClick={startCall}
-              className="px-8 bg-[#84CC16] hover:bg-[#65a30d] text-white"
+              className="px-8 bg-[#E84C8A] hover:bg-[#C73D75] text-white"
               data-testid="button-start-call"
             >
               <Phone className="w-4 h-4 mr-2" />
@@ -651,7 +651,7 @@ CRITICAL RULES:
                   {isMuted ? (
                     <MicOff className="w-6 h-6 text-red-600" />
                   ) : (
-                    <Mic className="w-6 h-6 text-[#2D5016]" />
+                    <Mic className="w-6 h-6 text-[#1A2B8C]" />
                   )}
                 </Button>
               </motion.div>
@@ -672,7 +672,7 @@ CRITICAL RULES:
 
         {status === "ending" && (
           <div className="text-center">
-            <Loader2 className="w-8 h-8 mx-auto mb-2 text-[#84CC16] animate-spin" />
+            <Loader2 className="w-8 h-8 mx-auto mb-2 text-[#E84C8A] animate-spin" />
             <p className="text-gray-600">Processing your session...</p>
           </div>
         )}

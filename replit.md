@@ -1,8 +1,8 @@
-# Arena AI by GigaRev
+# Monetate Sales Training Platform
 
 ## Overview
 
-Arena AI is an AI-powered sales training and roleplay platform designed for door-to-door sales teams. It enables sales representatives to practice objection handling, complete structured training chapters, and track their performance through interactive roleplays. The platform features role-based dashboards for reps, managers, and directors to monitor team progress, certification status, and training analytics. The business vision is to revolutionize sales training, providing an efficient and scalable solution to improve sales effectiveness and reduce ramp-up time for new hires.
+Monetate Sales Training is an AI-powered B2B SaaS sales training and roleplay platform designed for enterprise sales teams. It enables sales representatives to practice enterprise buyer objection handling, complete structured training chapters on Monetate's experience optimization platform, and track their performance through interactive roleplays. The platform features role-based dashboards for reps, managers, and directors to monitor team progress, certification status, and training analytics. Brand colors: deep blue (#1A2B8C) and magenta (#E84C8A) with a luxury, high-end aesthetic.
 
 ## User Preferences
 
@@ -17,6 +17,7 @@ Preferred communication style: Simple, everyday language.
 - **Styling**: Tailwind CSS v4 with shadcn/ui (New York style)
 - **Animations**: Framer Motion
 - **Build Tool**: Vite
+- **Brand Colors**: Primary deep blue #1A2B8C (HSL 230 68% 33%), magenta accent #E84C8A
 
 ### Backend
 - **Runtime**: Node.js with Express.js
@@ -30,16 +31,24 @@ Preferred communication style: Simple, everyday language.
 
 ### Key Features
 - **Authentication**: JWT-based with role-based access control (Reps, Managers, Directors).
-- **Onboarding**: First-time user flow for name, photo, and AI-generated warrior avatar.
-- **Training Chapters**: Structured modules (e.g., Intro, Sales Foundations, Field Execution) with slides, quizzes, and embedded roleplays.
-- **AI Roleplays**: Interactive AI conversation scenarios with varying difficulty and objection types, supporting both text and voice.
-- **Battlecards**: Quick reference scripts for objection handling.
+- **Onboarding**: First-time user flow for name, photo, and AI-generated professional avatar.
+- **Training Chapters**: Structured modules (Intro to Monetate, Sales Foundations, Deal Execution) with slides, quizzes, and embedded roleplays.
+- **AI Roleplays**: 16 interactive AI conversation scenarios covering enterprise buyer objections (discovery, demo, pricing, closing), supporting both text and voice.
+- **Buyer Personas**: 13 enterprise buyer personas (VP E-Commerce, CTO, CMO, CFO, etc.) with detailed attributes and selling strategies.
+- **Battlecards**: 20 quick reference scripts for enterprise objection handling across Discovery, Demo, Objection Handling, Pricing, Closing, and Follow-up phases.
+- **Knowledge Base**: 55 entries covering Monetate product knowledge, MEDDPICC sales methodology, enterprise objection handling, pricing, and competitive intelligence.
 - **Progress Tracking**: Monitors chapter completion, roleplay attempts, and quiz scores.
 - **User Management**: Creation, deletion, and updates of users with auto-generated passwords and credential delivery via email/SMS.
 - **Manager Dashboard**: Features for adding reps, managing teams, resetting passwords, and viewing team performance.
 - **Admin Dashboard**: Features for bulk user creation, organization-wide user management, and usage/billing oversight.
 - **Quiz System**: Comprehensive quiz review, retake functionality, and a reminder system for certification.
 - **Usage & Billing**: Tracks voice roleplay session duration and calculates costs at $0.15/minute, rounded up to the nearest minute.
+
+### Sales Context
+- **Product**: Monetate experience optimization platform with personalization, A/B testing, AI recommendations (MONET engine), conversion optimization
+- **Target Buyers**: Enterprise B2B SaaS selling to VPs, CTOs, CMOs at e-commerce/retail brands ($50M+ revenue)
+- **Competitors**: Dynamic Yield (Mastercard), Optimizely, Adobe Target, Bloomreach
+- **Value Prop**: 15% average revenue lift, 3x ROI within 12 months
 
 ### Design Patterns
 - **Dashboard Certification Guidance**: Visual panels, CTAs, and progress bars guiding users towards certification.
@@ -63,4 +72,11 @@ Preferred communication style: Simple, everyday language.
 - **Cloudinary**: Image storage for user photos and avatars.
 - **Resend**: Email service for transactional emails.
 - **Twilio**: SMS service for notifications and credential delivery.
-- **Gemini AI**: Used for generating warrior avatars and evaluating roleplay performance.
+- **Gemini AI**: Used for generating professional avatars, chapter images, and evaluating roleplay performance.
+
+## Recent Changes
+- Rebranded from GeckoGreen/Arena AI to Monetate B2B SaaS platform
+- Applied luxury deep blue (#1A2B8C) and magenta (#E84C8A) color scheme
+- Rewrote all training content from lawn care door-to-door to enterprise B2B SaaS sales
+- Updated all 16 roleplays, 13 buyer personas, 20 battlecards, 55 knowledge base entries
+- Updated all AI prompts (Gemini, VAPI) for enterprise buyer context

@@ -21,14 +21,14 @@ Theme: ${chapterTitle}
 Context: ${chapterDescription}
 
 Style requirements:
-- Clean, corporate illustration style with a green color palette (Gecko Green brand colors: deep green #2D5016, lime green #84CC16)
-- Professional lawn care / door-to-door sales theme
+- Clean, corporate illustration style with a deep blue and magenta color palette (Monetate brand colors: deep blue #1A2B8C, magenta #E84C8A)
+- Enterprise B2B SaaS sales training theme
 - Modern, minimalist design suitable for a training platform
 - No text or words in the image
-- Bright, optimistic mood
+- Sophisticated, premium mood with a luxury feel
 - 16:9 aspect ratio suitable for a card header
 
-Create a visually appealing illustration that represents door-to-door sales success, professional interactions with homeowners, and lawn care services.`;
+Create a visually appealing illustration that represents enterprise sales success, technology, data analytics, and experience optimization.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -89,7 +89,7 @@ export async function generatePersonaImage(
   const ageRange = difficulty === "Advanced" ? "45-65 years old" : 
                    difficulty === "Intermediate" ? "35-55 years old" : "30-50 years old";
 
-  const prompt = `Create a photorealistic portrait of a homeowner for a sales training simulation.
+  const prompt = `Create a photorealistic portrait of an enterprise buyer for a sales training simulation.
 
 CHARACTER: "${personaRole}"
 PERSONALITY: ${personalityDescription}
@@ -98,18 +98,18 @@ AGE: ${ageRange}
 
 REQUIREMENTS:
 - Photorealistic, high-quality headshot/portrait
-- Natural lighting, outdoor residential setting (front porch, doorway, or yard)
+- Natural lighting, modern office, conference room, or corporate setting
 - Subject should be looking at camera with expression matching their personality
-- Diverse suburban homeowner - can be any ethnicity, gender
-- Casual home attire (not formal business wear)
+- Diverse enterprise buyer / executive - can be any ethnicity, gender
+- Professional business attire
 - Expression should convey: ${resistanceDesc}
-- Background hints at a residential home with lawn
+- Background hints at a modern corporate office
 - Square portrait format, centered on face
 - Professional photography quality
 - NO text, logos, watermarks, or branding
 - Natural, authentic look - NOT a stock photo feel
 
-The image should look like a real homeowner you might encounter when going door-to-door.`;
+The image should look like a real enterprise buyer you might meet in a sales meeting.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -228,14 +228,14 @@ CONTENT TO DISPLAY:
 - Coach Line: "${coachLine}"
 
 DESIGN REQUIREMENTS:
-- Professional dark green (#1a472a) background with lime green (#84CC16) accents
+- Professional deep blue (#1A2B8C) background with magenta (#E84C8A) accents
 - Clean, modern corporate infographic style
 - All text must be clearly legible and well-organized
 - Use icons/visual elements to represent each section
 - Card number "${battlecardNumber}" in top corner
 - Title prominently at top in large bold white text
 - Organized sections with clear visual hierarchy
-- Gecko Green branding feel (lawn care company)
+- Monetate branding (enterprise SaaS)
 - Include visual icons for "When to Use", "Goal", "Key Points", "Script"
 - Professional sales training document aesthetic
 - Dimensions: Portrait orientation, suitable for mobile viewing
@@ -243,7 +243,7 @@ DESIGN REQUIREMENTS:
 - Quote bubble or script icon for the talk track section
 - Lightbulb or star icon for the coach line
 
-Create a visually stunning, information-rich battlecard that a sales rep could quickly reference in the field.`;
+Create a visually stunning, information-rich battlecard that a B2B SaaS sales rep could quickly reference during enterprise sales calls.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -316,7 +316,7 @@ function buildPersonaPrompt(scenario: RoleplayScenario): string {
   const buySignalLevel = scenario.stats.buy_signal > 50 ? "showing some interest" :
                          scenario.stats.buy_signal > 25 ? "cautiously curious" : "not showing interest";
 
-  return `You are playing the role of a homeowner in a door-to-door sales training simulation for Gecko Green lawn care services.
+  return `You are playing the role of an enterprise buyer in a B2B sales training simulation for Monetate experience optimization platform.
 
 CHARACTER PROFILE:
 - Opening line/objection: "${scenario.name}"
@@ -331,20 +331,20 @@ SCENARIO CONTEXT:
 ${scenario.description}
 
 BEHAVIOR GUIDELINES:
-1. Stay in character as this specific homeowner persona throughout the conversation
+1. Stay in character as this specific enterprise buyer persona throughout the conversation
 2. Start with your opening objection: "${scenario.name}"
 3. React realistically to the sales rep's responses
 4. If they handle objections well, gradually become more open (but maintain your personality)
 5. If they push too hard or don't listen, become more resistant
 6. Use natural, conversational language - you're a real person, not an AI
-7. Keep responses concise (1-3 sentences typically, like a real doorstep conversation)
-8. Eventually, if the rep does well, you may agree to hear more or schedule a follow-up
-9. If the rep does poorly, you may close the door or firmly decline
+7. Keep responses concise (1-3 sentences typically, like a real sales call or meeting)
+8. Eventually, if the rep does well, you may agree to hear more or schedule a follow-up demo
+9. If the rep does poorly, you may end the meeting or firmly decline
 
 IMPORTANT: 
 - Never break character
 - Never reveal you are an AI or part of a training simulation
-- Respond as the homeowner would in a real doorstep interaction
+- Respond as the enterprise buyer would in a real sales meeting
 - Your first message should be your opening objection/statement`;
 }
 
@@ -356,7 +356,7 @@ export async function startRoleplayConversation(scenario: RoleplayScenario): Pro
     config: {
       systemInstruction: systemPrompt,
     },
-    contents: "Start the conversation with your opening line as the homeowner.",
+    contents: "Start the conversation with your opening line as the buyer.",
   });
 
   return response.text || scenario.name;
@@ -405,16 +405,16 @@ export async function evaluateRoleplay(
   history: RoleplayMessage[]
 ): Promise<RoleplayFeedback> {
   const transcript = history.map(msg => 
-    `${msg.role === "user" ? "SALES REP" : "HOMEOWNER"}: ${msg.content}`
+    `${msg.role === "user" ? "SALES REP" : "BUYER"}: ${msg.content}`
   ).join("\n");
 
   // Extract pass criteria and fail conditions from description if available
   const passCriteriaMatch = scenario.description.match(/Pass criteria: ([^.]+\.)/i);
   const failConditionsMatch = scenario.description.match(/Fail conditions: ([^.]+\.)/i);
   const passCriteria = passCriteriaMatch ? passCriteriaMatch[1] : "Handle objections professionally and move toward next step";
-  const failConditions = failConditionsMatch ? failConditionsMatch[1] : "Getting door slammed, being rude, or giving up too easily";
+  const failConditions = failConditionsMatch ? failConditionsMatch[1] : "Buyer ending the meeting, being rude, or giving up too easily";
 
-  const evaluationPrompt = `You are an expert sales coach evaluating a door-to-door sales training roleplay for Gecko Green lawn care.
+  const evaluationPrompt = `You are an expert sales coach evaluating an enterprise B2B sales training roleplay for Monetate.
 
 SCENARIO: ${scenario.name} - ${scenario.description}
 DIFFICULTY: ${scenario.difficulty}
@@ -442,14 +442,14 @@ SCORING WEIGHTS (CRITICAL):
 
 WHAT "CORRECTLY HANDLING THE OBJECTION" MEANS:
 1. Did they ACKNOWLEDGE the objection first? (Not ignore it)
-2. Did they use the appropriate technique for this specific objection?
+2. Did they use the appropriate technique for this specific objection? (discovery calls, demos, enterprise selling)
 3. Did they stay professional and not get pushy or defensive?
 
 EVALUATION CRITERIA (in order of importance):
 1. Did they meet the PASS CRITERIA? This is 80% of the decision.
 2. Did they trigger any FAIL CONDITIONS? If yes, they fail.
 3. Opening response - Did they acknowledge the objection appropriately?
-4. Technique - Did they use the right approach for this objection type?
+4. Technique - Did they use the right approach for this objection type in an enterprise context?
 5. Professionalism - Were they respectful and not pushy?
 
 SCORING GUIDE:
@@ -503,40 +503,40 @@ Be encouraging but honest. The "passed" field should be TRUE if the rep genuinel
 export async function generateArenaLogo(mode: "dark" | "light"): Promise<GeneratedImage> {
   const isDark = mode === "dark";
   
-  const prompt = `Create a striking, modern logo icon for "Arena AI" - a competitive sales training platform.
+  const prompt = `Create a striking, modern logo icon for "Monetate" - an enterprise B2B SaaS experience optimization platform.
 
 DESIGN REQUIREMENTS:
-- A stylized Spartan/gladiator helmet in profile view, facing left
-- Geometric, angular line-art style with clean edges
-- Cyber/tech aesthetic with glitch effects and digital scan lines
-- The helmet should have a prominent mohawk crest/plume
-- IMPORTANT: Add a strong NEON GLOW effect around the helmet outline
+- An abstract "M" letter mark with a data/personalization motif
+- Geometric, clean design with flowing data streams or personalization nodes
+- Sophisticated, luxury tech aesthetic
+- The M should incorporate subtle elements suggesting data analytics, personalization, or optimization
+- IMPORTANT: Add a refined GLOW effect around the logo outline
 
 COLOR SCHEME FOR ${isDark ? "DARK MODE" : "LIGHT MODE"}:
 ${isDark 
-  ? `- Primary color: Bright neon green (#22C55E / #4ADE80) for the helmet outline
-- GLOW EFFECT: Strong green neon glow emanating from the helmet lines (like a neon sign)
-- Accent color: Red/orange (#FF4444) for subtle glitch displacement effects
+  ? `- Primary color: Deep blue (#1A2B8C) for the main logo shape
+- GLOW EFFECT: Magenta/pink (#E84C8A) neon glow emanating from the logo lines
+- Accent color: Magenta (#E84C8A) for highlights and data stream effects
 - Background: Pure black (#000000) - this makes the glow pop
-- The green lines should appear to GLOW and emit light against the dark background`
-  : `- Primary color: Deep forest green (#166534 / #15803D) for the helmet outline  
-- SUBTLE GLOW: Soft green shadow/glow effect around the helmet
-- Accent color: Dark red (#991B1B) for subtle glitch effects
+- The blue and magenta should create a luxurious, high-end feel against the dark background`
+  : `- Primary color: Deep blue (#1A2B8C) for the main logo shape
+- SUBTLE GLOW: Soft magenta (#E84C8A) shadow/glow effect around the logo
+- Accent color: Magenta (#E84C8A) for subtle highlight effects
 - Background: Pure white (#FFFFFF) or very light gray (#F9FAFB)
-- Clean, professional look with subtle depth`
+- Clean, professional, premium look with subtle depth`
 }
 
 STYLE:
-- Line art style with NEON GLOW effects
-- Minimal, clean geometric shapes
-- Tech/cyber aesthetic with digital artifacts and scan lines
-- ${isDark ? "Strong luminous glow like a neon sign at night" : "Clean professional look with subtle shadows"}
-- Professional, bold, intimidating but sleek
+- Clean geometric design with refined GLOW effects
+- Minimal, sophisticated shapes
+- Luxury tech aesthetic with data visualization elements
+- ${isDark ? "Elegant luminous glow - refined and premium" : "Clean professional look with subtle shadows"}
+- Professional, sophisticated, premium but approachable
 - Square format, centered composition
-- NO text, NO words, just the helmet icon
-- The glow effect should make the logo feel alive and energetic
+- NO text, NO words, just the M icon with data motif
+- The glow effect should convey innovation and sophistication
 
-The overall feel should be: ${isDark ? "A glowing neon sign in a dark arena - powerful, electric, elite" : "A clean, professional emblem - sharp, confident, modern"}.`;
+The overall feel should be: ${isDark ? "A premium, luminous emblem in darkness - sophisticated, innovative, enterprise-grade" : "A clean, luxury brand mark - polished, confident, modern"}.`;
 
   try {
     const response = await ai.models.generateContent({

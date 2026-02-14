@@ -57,7 +57,7 @@ export function ChatInterface({ scenario, userId }: ChatInterfaceProps) {
       setMessages([{
         id: "1",
         sender: "ai",
-        text: `*The homeowner answers the door* "${scenario.name}"`,
+        text: `*The buyer joins the call* "${scenario.name}"`,
         timestamp: new Date()
       }]);
     } finally {
@@ -258,7 +258,7 @@ export function ChatInterface({ scenario, userId }: ChatInterfaceProps) {
           </Button>
         </div>
         <p className="text-xs text-muted-foreground text-center mt-2">
-          Type your response as if you're talking to the homeowner at their door
+          Type your response as if you're talking to an enterprise buyer on a sales call
         </p>
       </div>
     </div>

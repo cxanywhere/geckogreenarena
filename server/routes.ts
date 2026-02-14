@@ -35,7 +35,7 @@ async function ensureDatabaseSeeded() {
       console.log("Database empty, seeding with demo data...");
       
       const manager1 = await storage.createUser({
-        email: "sarah.jenkins@geckogreen.com",
+        email: "sarah.jenkins@monetate.com",
         password: "demo123",
         name: "Sarah Jenkins",
         role: "manager",
@@ -44,7 +44,7 @@ async function ensureDatabaseSeeded() {
       });
 
       await storage.createUser({
-        email: "james.patterson@geckogreen.com",
+        email: "james.patterson@monetate.com",
         password: "demo123",
         name: "James Patterson",
         role: "director",
@@ -53,7 +53,7 @@ async function ensureDatabaseSeeded() {
       });
 
       await storage.createUser({
-        email: "alex.rivera@geckogreen.com",
+        email: "alex.rivera@monetate.com",
         password: "demo123",
         name: "Alex Rivera",
         role: "rep",
@@ -63,7 +63,7 @@ async function ensureDatabaseSeeded() {
       });
 
       await storage.createUser({
-        email: "mike.chen@geckogreen.com",
+        email: "mike.chen@monetate.com",
         password: "demo123",
         name: "Mike Chen",
         role: "rep",
@@ -85,8 +85,8 @@ async function ensureDatabaseSeeded() {
           coverImage: "",
           agenda: ["The Psychology of First Impressions", "Pattern Interrupts & Breaking the Script", "Controlling the Frame & Conversation", "Handling Initial Resistance"],
           slides: [
-            { type: 'content', title: "The First 10 Seconds", content: "Your success is determined before you even finish your first sentence.", bullets: ["Non-verbal communication accounts for 93% of the first impression.", "The 'Pattern Interrupt': Breaking the homeowner's automatic 'No'.", "Distance & Stance: Respecting personal space while showing confidence."] },
-            { type: 'content', title: "The Pattern Interrupt", content: "Most homeowners have a script: 'I'm not interested.' You need a script that breaks theirs.", bullets: ["Don't look like a salesperson (no clipboard in hand).", "Start with a question, not a statement.", "Use a casual, neighborly tone."] },
+            { type: 'content', title: "The First 10 Seconds", content: "Your success is determined before you even finish your first sentence.", bullets: ["Non-verbal communication accounts for 93% of the first impression.", "The 'Pattern Interrupt': Breaking the buyer's automatic 'No'.", "Distance & Stance: Respecting personal space while showing confidence."] },
+            { type: 'content', title: "The Pattern Interrupt", content: "Most buyers have a script: 'I'm not interested.' You need a script that breaks theirs.", bullets: ["Don't look like a salesperson (no clipboard in hand).", "Start with a question, not a statement.", "Use a casual, neighborly tone."] },
             { type: 'roleplay', title: "Practice: The Pattern Interrupt", content: "Put your new skills to the test.", roleplayId: "rp-1" },
             { type: 'content', title: "Controlling the Frame", content: "Whoever asks the questions controls the conversation.", bullets: ["The 'Illusion of Choice': Giving options that both lead to 'Yes'.", "Answering a question with a question.", "Setting the time constraint: 'I only have a minute...'"] }
           ],
@@ -102,7 +102,7 @@ async function ensureDatabaseSeeded() {
           coverImage: "",
           agenda: ["The B-P-D-C Sales Framework", "Isolating & Overcoming Objections", "Value-Based Pricing Strategies", "Closing Techniques & Securing Payment"],
           slides: [
-            { type: 'content', title: "The B-P-D-C Framework", content: "The roadmap to every successful sale.", bullets: ["B: Build Rapport - Connect as a human first.", "P: Problem Awareness - Show them what they can't unsee.", "D: Diagnose & Solution - Present the Gecko Green advantage.", "C: Close - Ask for the business confidently."] },
+            { type: 'content', title: "The B-P-D-C Framework", content: "The roadmap to every successful sale.", bullets: ["B: Build Rapport - Connect as a human first.", "P: Problem Awareness - Show them what they can't unsee.", "D: Diagnose & Solution - Present the Monetate advantage.", "C: Close - Ask for the business confidently."] },
             { type: 'content', title: "Isolating the Objection", content: "Never answer an objection until you're sure it's the ONLY one.", bullets: ["Smoke screens vs. Real Objections.", "The 'Magic Question': 'If we could handle [objection], would you be ready to move forward?'", "Looping: Acknowledge -> Respond -> Close again."] }
           ],
           orderIndex: 1
@@ -111,17 +111,17 @@ async function ensureDatabaseSeeded() {
         console.log("✓ Created chapters");
 
         const roleplays = [
-          { name: "I'm actually really busy right now.", role: "The Busy Homeowner", description: "Opening scenario. Acknowledge time pressure + set ≤60s container.", avatar: "", traits: ["Time Management", "Control Question", "Respect"], difficulty: "Beginner", stats: { resistance: 60, objections: 20, buy_signal: 30 }, chapterId: chapter1.id },
+          { name: "I'm actually really busy right now.", role: "The Busy Buyer", description: "Opening scenario. Acknowledge time pressure + set ≤60s container.", avatar: "", traits: ["Time Management", "Control Question", "Respect"], difficulty: "Beginner", stats: { resistance: 60, objections: 20, buy_signal: 30 }, chapterId: chapter1.id },
           { name: "Not interested.", role: "The Dismissive Prospect", description: "Handling Brush-Offs. Acknowledge + reframe to specific issue.", avatar: "", traits: ["Reframing", "Persistence", "Specifics"], difficulty: "Intermediate", stats: { resistance: 80, objections: 40, buy_signal: 10 }, chapterId: chapter1.id },
           { name: "No soliciting.", role: "The Rule Follower", description: "Compliance & Authority. Acknowledge rule + clarify intent.", avatar: "", traits: ["Compliance", "Intent Clarification", "Micro-Permission"], difficulty: "Advanced", stats: { resistance: 90, objections: 10, buy_signal: 5 }, chapterId: chapter1.id },
           { name: "I do my own lawn.", role: "The DIY Enthusiast", description: "DIY Pushback. Validate identity + differentiate.", avatar: "", traits: ["Validation", "Differentiation", "Leadership"], difficulty: "Intermediate", stats: { resistance: 70, objections: 60, buy_signal: 40 }, chapterId: chapter1.id },
           { name: "We already have a lawn company.", role: "The Loyalist", description: "Existing Provider. Acknowledge + remove replacement fear.", avatar: "", traits: ["Gap Analysis", "Non-Threatening", "Discovery"], difficulty: "Advanced", stats: { resistance: 85, objections: 50, buy_signal: 20 }, chapterId: chapter1.id },
-          { name: "Why are you here?", role: "The Confused Homeowner", description: "Purpose Statement. State purpose clearly.", avatar: "", traits: ["Clarity", "Direction", "Purpose"], difficulty: "Beginner", stats: { resistance: 40, objections: 30, buy_signal: 50 }, chapterId: chapter1.id },
+          { name: "Why are you here?", role: "The Confused Buyer", description: "Purpose Statement. State purpose clearly.", avatar: "", traits: ["Clarity", "Direction", "Purpose"], difficulty: "Beginner", stats: { resistance: 40, objections: 30, buy_signal: 50 }, chapterId: chapter1.id },
           { name: "My lawn looks fine.", role: "The Denialist", description: "Identifying Issues. Validate + isolate specific problem.", avatar: "", traits: ["Visual Proof", "Isolation", "Validation"], difficulty: "Intermediate", stats: { resistance: 60, objections: 70, buy_signal: 30 }, chapterId: chapter2.id },
-          { name: "Weeds don't bother me.", role: "The Apathetic Homeowner", description: "Educating on Spread. Reframe consequence.", avatar: "", traits: ["Consequence Reframing", "Education", "Discovery"], difficulty: "Advanced", stats: { resistance: 75, objections: 80, buy_signal: 20 }, chapterId: chapter2.id },
+          { name: "Weeds don't bother me.", role: "The Apathetic Buyer", description: "Educating on Spread. Reframe consequence.", avatar: "", traits: ["Consequence Reframing", "Education", "Discovery"], difficulty: "Advanced", stats: { resistance: 75, objections: 80, buy_signal: 20 }, chapterId: chapter2.id },
           { name: "How much does it cost?", role: "The Price Shopper", description: "Pricing Deferral. Frame price around value.", avatar: "", traits: ["Value Selling", "Deferral", "Control"], difficulty: "Intermediate", stats: { resistance: 65, objections: 75, buy_signal: 35 }, chapterId: chapter2.id },
           { name: "That's too expensive.", role: "The Budget Watcher", description: "Objection Isolation. Isolate + reframe cost.", avatar: "", traits: ["Isolation", "Investment Reframing", "Closing"], difficulty: "Advanced", stats: { resistance: 80, objections: 90, buy_signal: 25 }, chapterId: chapter2.id },
-          { name: "I need to think about it.", role: "The Indecisive Homeowner", description: "Stall Handling. Isolate + create urgency.", avatar: "", traits: ["Isolation", "Urgency", "Closing"], difficulty: "Advanced", stats: { resistance: 70, objections: 85, buy_signal: 30 }, chapterId: chapter2.id },
+          { name: "I need to think about it.", role: "The Indecisive Buyer", description: "Stall Handling. Isolate + create urgency.", avatar: "", traits: ["Isolation", "Urgency", "Closing"], difficulty: "Advanced", stats: { resistance: 70, objections: 85, buy_signal: 30 }, chapterId: chapter2.id },
           { name: "I need to talk to my spouse.", role: "The Decision Delegator", description: "Spouse Objection. Isolate decision maker.", avatar: "", traits: ["Isolation", "Decision Making", "Follow-up"], difficulty: "Advanced", stats: { resistance: 75, objections: 80, buy_signal: 20 }, chapterId: chapter2.id }
         ];
 
@@ -131,12 +131,12 @@ async function ensureDatabaseSeeded() {
         console.log("✓ Created roleplays");
 
         const battlecards = [
-          { phase: "Opening", title: "The Pattern Interrupt Opener", situation: "Homeowner looks busy.", script: "Sorry to interrupt—I'm just [Name] with Gecko Green, checking the lawns on [Street Name].", keyPoints: ["Smile immediately", "Step back 3 feet", "Show open hands"], type: "script", image: "" },
-          { phase: "Objection Handling", title: "Handling 'It's Too Early'", situation: "Homeowner says it's too early in the season.", script: "I can appreciate that, however this is the best time of year to start a program. Many of the issues you will see later on can be prevented by starting early, see what I mean?", keyPoints: ["Reframe timing as advantage", "Emphasize pre-emergent prevention", "Ask for commitment"], type: "objection", image: "" },
-          { phase: "Opening", title: "The 'I'm Busy' Defense", situation: "Homeowner says 'I don't have time'.", script: "I totally understand, I'll be super quick—literally 30 seconds. I just wanted to ask...", keyPoints: ["Validate their time", "Set a time constraint", "Ask a question immediately"], type: "objection", image: "" },
-          { phase: "Objection Handling", title: "'I Do It Myself'", situation: "Homeowner takes pride in DIY.", script: "That's awesome, honestly most of my best customers started that way. What products are you using?", keyPoints: ["Validate their effort", "Ask a technical question", "Highlight professional-grade gap"], type: "objection", image: "" },
-          { phase: "Objection Handling", title: "'Too Expensive'", situation: "Price resistance.", script: "I get that. But think about the cost of re-sodding if the chinch bugs take over. It's $50 now vs $500 later.", keyPoints: ["Reframe as investment", "Cost of inaction", "Break down to daily cost"], type: "objection", image: "" },
-          { phase: "Closing", title: "The Assumptive Close", situation: "After presenting price.", script: "So, to get that first treatment done, do you want us to start Thursday or Friday?", keyPoints: ["Assume the sale", "Give two options", "Focus on the result"], type: "script", image: "" }
+          { phase: "Discovery", title: "The Executive Discovery Opener", situation: "Opening a discovery call with a VP/C-suite buyer.", script: "Thanks for making time. Before we dive in, I'd love to understand what's driving the urgency around personalization for your team right now.", keyPoints: ["Lead with curiosity, not pitch", "Ask about business drivers", "Take notes on metrics they mention"], type: "script", image: "" },
+          { phase: "Objection Handling", title: "Handling 'We Built Our Own'", situation: "Prospect has an in-house solution.", script: "That's impressive—most teams start there. What we typically see is that maintaining and evolving a homegrown solution takes 3-4 engineers full-time. How does that compare to your experience?", keyPoints: ["Validate their effort", "Highlight hidden costs", "Focus on opportunity cost of engineering time"], type: "objection", image: "" },
+          { phase: "Demo", title: "The Value-Led Demo Opening", situation: "Starting a demo with business outcomes.", script: "Before I show you the product, let me share what [similar company] achieved in their first 90 days—a 22% increase in conversion rate.", keyPoints: ["Start with outcomes, not features", "Use relevant customer example", "Set up the 'imagine if' scenario"], type: "script", image: "" },
+          { phase: "Objection Handling", title: "Handling 'It's Too Expensive'", situation: "Price objection from buyer.", script: "I hear you. Let me ask—what would it be worth to your business to see a 15% lift in conversion rate? That's what our customers typically achieve.", keyPoints: ["Reframe cost as investment", "Anchor to ROI", "Break down cost per conversion"], type: "objection", image: "" },
+          { phase: "Pricing", title: "The Value Anchor", situation: "Anchoring price to ROI.", script: "Our Enterprise package runs $150K annually. Based on your traffic, that should deliver 8-12x return within the first year.", keyPoints: ["State price confidently", "Immediately follow with ROI", "Use their specific metrics"], type: "script", image: "" },
+          { phase: "Closing", title: "The Assumptive Close", situation: "After a strong demo.", script: "Based on everything we've discussed, it sounds like the Enterprise tier is the right fit. Shall we put together the paperwork to get started this quarter?", keyPoints: ["Summarize agreed value", "Recommend specific package", "Set timeline expectation"], type: "script", image: "" }
         ];
 
         for (const bc of battlecards) {
@@ -145,8 +145,8 @@ async function ensureDatabaseSeeded() {
         console.log("✓ Created battlecards");
 
         const resources = [
-          { type: "call", title: "Handling the 'Not Interested' at the Door", description: "Listen to how Top Performer Sarah Jenkins turns a quick 'no' into an appointment.", learningOutcome: "Learn to stay calm and pivot.", duration: "4:32", author: "Sarah Jenkins", thumbnail: "", tags: ["Objection Handling", "Opener"] },
-          { type: "video", title: "The Psychology of Door Knocking", description: "Deep dive into body language and non-verbal cues.", learningOutcome: "Understand how stance and facial expressions impact conversion.", duration: "12:30", author: "GigaRev Training Team", thumbnail: "", tags: ["Psychology", "Foundations"] }
+          { type: "call", title: "Handling the 'Not Interested' on a Discovery Call", description: "Listen to how Top Performer Sarah Jenkins turns a quick 'no' into a booked demo.", learningOutcome: "Learn to stay calm and pivot.", duration: "4:32", author: "Sarah Jenkins", thumbnail: "", tags: ["Objection Handling", "Discovery"] },
+          { type: "video", title: "The Psychology of Enterprise Sales", description: "Deep dive into body language and non-verbal cues in executive meetings.", learningOutcome: "Understand how presence and confidence impact conversion.", duration: "12:30", author: "Monetate Training Team", thumbnail: "", tags: ["Psychology", "Foundations"] }
         ];
 
         for (const resource of resources) {
@@ -465,7 +465,7 @@ export async function registerRoutes(
   // Store hard delete verification codes in memory (expires after 10 minutes)
   const hardDeleteCodes: Map<string, { code: string; expiresAt: Date; userId: string }> = new Map();
 
-  // Request hard delete - generates 4-digit code and emails to tabish@gigarev.com
+  // Request hard delete - generates 4-digit code and emails to tabish@monetate.com
   app.post("/api/users/:id/hard-delete-request", async (req, res) => {
     try {
       const authResult = await getAuthenticatedUser(req);
@@ -506,7 +506,7 @@ export async function registerRoutes(
 
       res.json({ 
         success: true, 
-        message: "Verification code sent to tabish@gigarev.com",
+        message: "Verification code sent to tabish@monetate.com",
         userName: user.name,
         userRole: user.role,
         repCount
@@ -1361,244 +1361,244 @@ export async function registerRoutes(
       
       const battlecardsData = [
         {
-          phase: "Opening",
-          title: "Four Pillars Quick-Check (Daily Standard)",
-          situation: "Start of day, before first door, or after a rough streak",
-          script: "Timeliness: be where you should be. Attitude: mindset shapes reality. Practice: skill comes from repetition. Persistence: more doors = more wins.",
-          keyPoints: ["Timeliness - be where you should be", "Attitude - mindset shapes reality", "Practice - skill comes from repetition", "Persistence - more doors = more wins"],
-          type: "tip",
-          image: "",
-          useWhen: "Start of day, before first door, or after a rough streak",
-          goal: "Reset execution before you 'talk yourself out of winning'",
-          coachLine: "Win the next 60 seconds. Then the next."
-        },
-        {
-          phase: "Opening",
-          title: "First 5 Seconds: Look Professional, Feel Safe",
-          situation: "Every first approach at a door",
-          script: "Step back, relaxed shoulders, smile, eye contact, calm voice. Knock firmly, step back, do not stare through windows.",
-          keyPoints: ["Step back 3 feet from door", "Relaxed shoulders, genuine smile", "Eye contact, calm voice", "Avoid leaning on frame or fidgeting", "Never stare through windows"],
-          type: "tip",
-          image: "",
-          useWhen: "Every first approach",
-          goal: "Lower guard, earn the right to talk",
-          coachLine: "Your first impression is made in 5 seconds. Make it count."
-        },
-        {
-          phase: "Opening",
-          title: "Door Intro (Simple, Neighbor-Based)",
-          situation: "Door opens; you need a clean start",
-          script: "We take care of a lot of lawns in this area... noticed weeds/thin spots... wanted to show you what we're doing for your neighbors...",
-          keyPoints: ["Who you are (name + company)", "Mention their lawn + neighbors", "Say 'Not here to twist your arm'", "Invite to quick look"],
+          phase: "Discovery",
+          title: "The Executive Discovery Opener",
+          situation: "Opening a discovery call with a VP/C-suite buyer",
+          script: "Thanks for making time. Before we dive in, I'd love to understand what's driving the urgency around personalization for your team right now.",
+          keyPoints: ["Lead with curiosity, not pitch", "Ask about business drivers", "Take notes on metrics they mention"],
           type: "script",
           image: "",
-          useWhen: "Door opens; you need a clean start",
-          goal: "Sound local, calm, and relevant (not salesy)",
-          coachLine: "Neighbors validate. Reference them early."
+          useWhen: "Opening a discovery call with VP/C-suite buyer",
+          goal: "Understand business drivers before pitching",
+          coachLine: "Curiosity before pitch. Always."
         },
         {
-          phase: "Opening",
-          title: "30-Second Gecko Green Story (Elevator Pitch)",
-          situation: "Who are you? What do you guys do?",
-          script: "We're Gecko Green, a North Texas lawn care company. We run a 10-visit program with free service calls in between. If I show you what's starting right here, you'll know in 30 seconds if it applies.",
-          keyPoints: ["North Texas focus", "10-visit program", "Free service calls", "Results-driven commitment"],
+          phase: "Discovery",
+          title: "The Pain Point Deep-Dive",
+          situation: "Buyer mentions flat conversion rates or stagnant growth",
+          script: "When you say your conversion rates are flat, what does that translate to in lost revenue per quarter?",
+          keyPoints: ["Quantify the pain", "Connect to revenue impact", "Ask 'what happens if you do nothing?'"],
           type: "script",
           image: "",
-          useWhen: "'Who are you?' / 'What do you guys do?'",
-          goal: "Hit the core differentiators fast",
-          coachLine: "Tell the story in 30 seconds or less."
+          useWhen: "Buyer mentions flat metrics or stagnant growth",
+          goal: "Quantify pain in dollars to create urgency",
+          coachLine: "No pain, no deal. Quantify everything."
         },
         {
-          phase: "Opening",
-          title: "Brush-Offs: Turn a 'No' into a 'Maybe'",
-          situation: "Not interested / We're fine / Busy",
-          script: "Totally understand—I'll be quick. Let me show you what we're doing for your neighbors... Step out here with me for 10 seconds.",
-          keyPoints: ["Stay respectful", "Keep it light", "Move to Turn & Burn", "Ask them to step outside"],
+          phase: "Discovery",
+          title: "The Stakeholder Mapping Move",
+          situation: "Need to identify all decision makers early",
+          script: "Who else on the team would need to see value in this before you could move forward?",
+          keyPoints: ["Map the buying committee early", "Identify champion vs economic buyer", "Ask about IT/security involvement"],
+          type: "script",
+          image: "",
+          useWhen: "Early in discovery to map the buying committee",
+          goal: "Identify all stakeholders before investing in demos",
+          coachLine: "Know the committee. Win the deal."
+        },
+        {
+          phase: "Demo",
+          title: "The Value-Led Demo Opening",
+          situation: "Starting a product demo with business outcomes first",
+          script: "Before I show you the product, let me share what [similar company] achieved in their first 90 days—a 22% increase in conversion rate.",
+          keyPoints: ["Start with outcomes, not features", "Use relevant customer example", "Set up the 'imagine if' scenario"],
+          type: "script",
+          image: "",
+          useWhen: "Opening any product demo",
+          goal: "Frame the demo around outcomes, not features",
+          coachLine: "Outcomes first. Features second."
+        },
+        {
+          phase: "Demo",
+          title: "The ROI Calculator Drop",
+          situation: "Showing concrete financial impact during demo",
+          script: "Based on your traffic numbers, even a conservative 10% conversion lift would mean an additional $2.4M in annual revenue.",
+          keyPoints: ["Use their actual numbers", "Be conservative in estimates", "Show the math transparently"],
+          type: "script",
+          image: "",
+          useWhen: "Mid-demo when showing financial impact",
+          goal: "Make the ROI undeniable with their own data",
+          coachLine: "Their numbers. Your math. Undeniable ROI."
+        },
+        {
+          phase: "Demo",
+          title: "The Social Proof Bridge",
+          situation: "Buyer needs validation from similar companies",
+          script: "One of our customers in [their vertical] saw their average order value increase by 18% within the first quarter.",
+          keyPoints: ["Match industry/vertical", "Be specific with metrics", "Offer to connect them with reference"],
+          type: "script",
+          image: "",
+          useWhen: "Buyer needs social proof or reference validation",
+          goal: "Build credibility through relevant customer wins",
+          coachLine: "Proof beats promises. Share real results."
+        },
+        {
+          phase: "Objection Handling",
+          title: "Handling 'We Built Our Own'",
+          situation: "Prospect has an in-house personalization solution",
+          script: "That's impressive—most teams start there. What we typically see is that maintaining and evolving a homegrown solution takes 3-4 engineers full-time. How does that compare to your experience?",
+          keyPoints: ["Validate their effort", "Highlight hidden costs", "Focus on opportunity cost of engineering time"],
           type: "objection",
           image: "",
-          useWhen: "'Not interested' / 'We're fine' / 'Busy'",
-          goal: "Stay respectful, keep it light, move to Turn & Burn",
-          coachLine: "Every 'no' is just 'not yet' in disguise."
+          useWhen: "Prospect mentions in-house or homegrown solution",
+          goal: "Expose hidden costs of build vs buy",
+          coachLine: "Validate, then reveal the hidden cost."
         },
         {
-          phase: "Turn & Burn",
-          title: "Turn & Burn (Door → Lawn Transition)",
-          situation: "Conversation stalling at the door",
-          script: "Step out here with me... Let me walk you through... Let me point out what I'm seeing here...",
-          keyPoints: ["Stop debating at the door", "Get them looking at something real", "Comfortable pace, light conversation", "Stop at visible weed problems", "Don't rush or give long speeches"],
-          type: "script",
-          image: "",
-          useWhen: "You feel the conversation stalling at the door",
-          goal: "Stop debating at the door; get them looking at something real",
-          coachLine: "The lawn sells itself. Get them on it."
-        },
-        {
-          phase: "Lawn Walk",
-          title: "On-Lawn: The 4-Step Diagnosis",
-          situation: "You're on the lawn and need to sound like an advisor",
-          script: "Do you see this? [Observe] This is happening because... [Explain] Our program handles exactly this... [Connect] Here's what to expect... [Set Expectations]",
-          keyPoints: ["Observe & Confirm: 'Do you see...?'", "Explain the Why", "Connect to Program", "Set Expectations & Partnership"],
-          type: "script",
-          image: "",
-          useWhen: "You're on the lawn and need to sound like an advisor",
-          goal: "Show 1–2 real issues, connect to program, set expectations",
-          coachLine: "Diagnose like a doctor. Prescribe like an expert."
-        },
-        {
-          phase: "Lawn Walk",
-          title: "Weeds Conversation: Control vs Perfection",
-          situation: "Why do I still have weeds? I want perfect.",
-          script: "We control the weed population and thicken your grass so weeds have less room to come back. The seed bank means new weeds can appear—our job is reduction and control.",
-          keyPoints: ["Focus on control and reduction", "Explain the seed bank concept", "New weeds can appear", "Thickening grass reduces weed space"],
+          phase: "Objection Handling",
+          title: "Handling 'We Already Have a Vendor'",
+          situation: "Prospect is using an incumbent competitor",
+          script: "Great—so you already see the value of personalization. What I'm curious about is whether you're getting the results you expected when you first signed on.",
+          keyPoints: ["Don't bash competitor", "Find the gap in results", "Position as complement or upgrade"],
           type: "objection",
           image: "",
-          useWhen: "'Why do I still have weeds?' / 'I want perfect'",
-          goal: "Reset expectations without losing confidence",
-          coachLine: "Control, not perfection. Set the right expectation."
+          useWhen: "Prospect mentions existing vendor or competitor",
+          goal: "Find the results gap without bashing competitor",
+          coachLine: "Never bash. Find the gap instead."
         },
         {
-          phase: "Lawn Walk",
-          title: "Thickening the Lawn (Thinness/Color)",
-          situation: "My lawn is thin / not green enough",
-          script: "We'll improve color and thickness through fertilizer, weed control, and aeration. For large bare-dirt areas, we'll be straight about what needs plugs or sod.",
-          keyPoints: ["Assess grass type + shade", "Execute fertilizer + weed control", "Include aeration in plan", "Be honest about sod/plug needs"],
-          type: "script",
+          phase: "Objection Handling",
+          title: "Handling 'It's Too Expensive'",
+          situation: "Price objection from buyer",
+          script: "I hear you. Let me ask—what would it be worth to your business to see a 15% lift in conversion rate? That's what our customers typically achieve.",
+          keyPoints: ["Reframe cost as investment", "Anchor to ROI", "Break down cost per conversion"],
+          type: "objection",
           image: "",
-          useWhen: "'My lawn is thin' / 'Not green enough'",
-          goal: "Be honest, show a realistic path, avoid overpromising",
-          coachLine: "Honesty builds trust. Set realistic expectations."
+          useWhen: "Buyer pushes back on pricing",
+          goal: "Reframe price as investment with clear ROI",
+          coachLine: "Price is only expensive without ROI context."
+        },
+        {
+          phase: "Objection Handling",
+          title: "Handling 'No Bandwidth'",
+          situation: "Buyer says team has no resources for implementation",
+          script: "That's actually why most teams come to us—we handle the heavy lifting. Our implementation team gets you live in 4-6 weeks with minimal engineering time.",
+          keyPoints: ["Position as resource multiplier", "Emphasize managed services", "Share implementation timeline"],
+          type: "objection",
+          image: "",
+          useWhen: "Buyer cites resource constraints or bandwidth issues",
+          goal: "Position Monetate as a resource multiplier, not a burden",
+          coachLine: "We're the solution to bandwidth, not the cause."
+        },
+        {
+          phase: "Objection Handling",
+          title: "Handling 'We Tried Before'",
+          situation: "Buyer had a bad experience with personalization previously",
+          script: "That's valuable context. What specifically didn't work? Because that tells us exactly what to do differently this time.",
+          keyPoints: ["Show genuine curiosity about failure", "Diagnose root cause", "Differentiate your approach"],
+          type: "objection",
+          image: "",
+          useWhen: "Buyer references a past failed personalization initiative",
+          goal: "Turn past failure into a reason to choose Monetate",
+          coachLine: "Past failure = future differentiation."
         },
         {
           phase: "Pricing",
-          title: "10-Visit Program Overview (90-Second Story)",
-          situation: "What do you actually do?",
-          script: "It's a 10-visit lawn program spread across the seasons, with free service calls whenever you need them. It's a year-round plan, not one spray-and-pray visit.",
-          keyPoints: ["10-visit lawn program", "Free service calls included", "Seasonally spaced visits", "Year-round commitment"],
+          title: "The Value Anchor",
+          situation: "Presenting pricing anchored to ROI",
+          script: "Our Enterprise package runs $150K annually. Based on your traffic, that should deliver 8-12x return within the first year.",
+          keyPoints: ["State price confidently", "Immediately follow with ROI", "Use their specific metrics"],
           type: "script",
           image: "",
-          useWhen: "'What do you actually do?'",
-          goal: "Tell a story (not a list); make it feel systematic",
-          coachLine: "It's a program, not a one-time spray."
+          useWhen: "First time presenting pricing",
+          goal: "Anchor price to ROI so it feels like an investment",
+          coachLine: "Price + ROI in the same breath. Always."
         },
         {
           phase: "Pricing",
-          title: "Partnership Agreement (Our Plays vs Your Plays)",
-          situation: "What do I have to do? Will you handle everything?",
-          script: "We treat and guide. You water and mow. That's how we win together. Our part: treatments, timing, products, aeration. Your part: watering, mowing, traffic, shade management.",
-          keyPoints: ["Our part: treatments, timing, products, aeration", "Homeowner part: watering, mowing, traffic, shade", "Collaborative approach", "Clear roles for success"],
+          title: "The Package Breakdown",
+          situation: "Explaining which tier is right for the buyer",
+          script: "There are three tiers. Professional covers testing and basic personalization. Enterprise adds AI recommendations and dedicated support. Let me show you which capabilities map to your specific goals.",
+          keyPoints: ["Tie features to their stated needs", "Guide toward right tier", "Show total cost of ownership"],
           type: "script",
           image: "",
-          useWhen: "'What do I have to do?' or 'Will you handle everything?'",
-          goal: "Collaborative, clear roles",
-          coachLine: "Partnership wins. Solo efforts fail."
+          useWhen: "Buyer asks about packaging or tier differences",
+          goal: "Guide buyer to the right tier based on their goals",
+          coachLine: "Match capabilities to goals. Guide the choice."
         },
         {
-          phase: "Objection Handling",
-          title: "B-P-D-C (Universal Objection Compass)",
-          situation: "Any pushback shows up (door, lawn, price, prepay)",
-          script: "Buffer: 'I understand...' Probe: 'What worries you?' Discover: find the real concern. Close: tailored solution; move forward.",
-          keyPoints: ["Buffer: acknowledge + empathy", "Probe: open-ended question", "Discover: find the real concern", "Close: tailored solution"],
-          type: "tip",
-          image: "",
-          useWhen: "Any pushback shows up (door, lawn, price, prepay)",
-          goal: "Guide, not argue",
-          coachLine: "Buffer → Probe → Discover → Close. Every time."
-        },
-        {
-          phase: "Objection Handling",
-          title: "Objection: 'Not Interested'",
-          situation: "Dismissal without consideration",
-          script: "Totally understand. Is anything about the lawn not meeting expectations? Open to a quick 5-minute assessment?",
-          keyPoints: ["Buffer: 'Totally understand'", "Probe: 'Is anything not meeting expectations?'", "Close: Offer quick assessment"],
+          phase: "Pricing",
+          title: "The Competitive Price Comparison",
+          situation: "Buyer comparing to cheaper alternatives",
+          script: "Yes, there are cheaper options. The question is whether they can deliver the results you need. Our customers who switched from [competitor] saw 2x the lift.",
+          keyPoints: ["Acknowledge price difference", "Shift to results comparison", "Share switching customer stories"],
           type: "objection",
           image: "",
-          useWhen: "Dismissal without consideration",
-          goal: "Reduce friction, isolate one specific issue",
-          coachLine: "'Not interested' means 'tell me more differently.'"
+          useWhen: "Buyer mentions cheaper competitor options",
+          goal: "Shift conversation from price to results",
+          coachLine: "Cheap is expensive when it doesn't work."
         },
         {
-          phase: "Objection Handling",
-          title: "Objection: 'I Do It Myself'",
-          situation: "DIY pride / control",
-          script: "That's great—it shows you care. What's working well and what would you improve? Can I show you one thing I'd change first?",
-          keyPoints: ["Respect: 'That shows you care'", "Probe: 'What would you improve?'", "Upgrade: specialized program beyond standard", "Close: 'Can I show you one thing?'"],
-          type: "objection",
-          image: "",
-          useWhen: "DIY pride / control",
-          goal: "Respect identity; position Gecko as an upgrade, not replacement",
-          coachLine: "Validate their work. Then show the gap."
-        },
-        {
-          phase: "Objection Handling",
-          title: "Objection: 'We Already Have a Company'",
-          situation: "Loyal to existing provider",
-          script: "Totally fair—sounds like you're covered. Are they addressing this issue right here, or is it still showing up? If I can point out one improvement, would you be open to comparing?",
-          keyPoints: ["Buffer: 'Sounds like you're covered'", "Probe: 'Are they addressing this issue?'", "Close: 'Would you be open to comparing?'"],
-          type: "objection",
-          image: "",
-          useWhen: "Loyal to existing provider",
-          goal: "Remove replacement fear; isolate a gap",
-          coachLine: "Find the gap. Exploit it gently."
-        },
-        {
-          phase: "Objection Handling",
-          title: "Objection: 'Let Me Think About It'",
-          situation: "Delay request",
-          script: "Of course. What part do you want to think through—results, timing, or price? If we solve that, are you good to start?",
-          keyPoints: ["Buffer: 'Of course'", "Probe: 'What part—results, timing, or price?'", "Discover: label the real blocker", "Close: 'If we solve that, are you good?'"],
-          type: "objection",
-          image: "",
-          useWhen: "Delay request",
-          goal: "Convert 'delay' into a specific concern you can solve now",
-          coachLine: "'Think about it' means 'convince me now.'"
-        },
-        {
-          phase: "Objection Handling",
-          title: "Objection: 'I Need to Talk to My Spouse'",
-          situation: "Partner consultation needed",
-          script: "100%—makes sense. What do they typically care most about—budget or results? Want me to summarize it so you can repeat it exactly?",
-          keyPoints: ["Buffer: '100%—makes sense'", "Probe: 'What do they care about—budget or results?'", "Close Option 1: 'Summarize for you to repeat'", "Close Option 2: 'When can both of you meet?'"],
-          type: "objection",
-          image: "",
-          useWhen: "Partner consultation needed",
-          goal: "Get alignment without losing momentum",
-          coachLine: "Arm them to sell for you."
-        },
-        {
-          phase: "Close",
-          title: "Buying Signals ('Green Lights')",
-          situation: "You see curiosity/lean-in",
-          script: "When you see green lights, close. Verbal: 'How much is it?' 'When can you start?' 'Does that include...?' Non-verbal: nodding, stepping closer, relaxing posture.",
-          keyPoints: ["Verbal signals: 'How much?' 'When can you start?'", "Non-verbal: nodding, stepping closer", "Relaxing posture means interest", "Transition to closing flow immediately"],
-          type: "tip",
-          image: "",
-          useWhen: "You see curiosity/lean-in",
-          goal: "Transition into closing flow immediately",
-          coachLine: "Green light = stop selling, start closing."
-        },
-        {
-          phase: "Close",
-          title: "The Closing Flow (Value → Price → Close)",
-          situation: "You've diagnosed 1–2 issues and they're engaged",
-          script: "We'll handle weeds and thicken the grass... Normally $X, but today it's $Y for the first one... Does that sound fair? Let's get it started.",
-          keyPoints: ["Recap value first", "State price confidently", "Assume the sale", "Ask 'Does that sound fair?'"],
+          phase: "Closing",
+          title: "The Assumptive Close",
+          situation: "After a strong demo with clear buying signals",
+          script: "Based on everything we've discussed, it sounds like the Enterprise tier is the right fit. Shall we put together the paperwork to get started this quarter?",
+          keyPoints: ["Summarize agreed value", "Recommend specific package", "Set timeline expectation"],
           type: "script",
           image: "",
-          useWhen: "You've diagnosed 1–2 issues and they're engaged",
-          goal: "Close cleanly without rambling",
-          coachLine: "Value → Price → Close. Keep it tight."
+          useWhen: "After a strong demo with clear buying signals",
+          goal: "Move to close confidently without hesitation",
+          coachLine: "If they're ready, ask for the business."
         },
         {
-          phase: "Close",
-          title: "Payment + Prepay (Default) + Hesitation",
-          situation: "It's time to take payment",
-          script: "Most neighbors do prepay to save 5% and get it done for the year. Fully refundable if you move or change your mind. Want to knock that out, or do pay-as-you-go?",
-          keyPoints: ["Prepay first (default): done for year, save 5%", "Autopay backup: pay as you go", "Present: 'Most neighbors do prepay'", "Protect: 'Fully refundable'", "Prompt: 'Prepay or pay-as-you-go?'"],
+          phase: "Closing",
+          title: "The Multi-Thread Close",
+          situation: "Multiple stakeholders need alignment before signing",
+          script: "I know Sarah from engineering had some questions. Would it help if I set up a technical deep-dive with our solutions team while we finalize the business terms?",
+          keyPoints: ["Address each stakeholder's concerns", "Parallel-path technical and business", "Keep momentum"],
           type: "script",
           image: "",
-          useWhen: "It's time to take payment",
-          goal: "Present prepay confidently; protect with refund language; prompt decision",
-          coachLine: "Prepay is the default. Present it that way."
+          useWhen: "Multiple stakeholders need alignment",
+          goal: "Parallel-path all stakeholder concerns to maintain velocity",
+          coachLine: "Multi-thread or lose momentum."
+        },
+        {
+          phase: "Closing",
+          title: "The Procurement Navigation",
+          situation: "Deal moving to procurement and legal review",
+          script: "I've been through this process with dozens of similar companies. Let me send you our standard security questionnaire responses and SOC 2 report upfront—that usually speeds things up by 2-3 weeks.",
+          keyPoints: ["Be proactive with compliance docs", "Offer to join procurement calls", "Set realistic timeline"],
+          type: "script",
+          image: "",
+          useWhen: "Deal enters procurement or legal review",
+          goal: "Accelerate procurement by being proactive",
+          coachLine: "Proactive beats reactive in procurement."
+        },
+        {
+          phase: "Follow-up",
+          title: "The Post-Demo Summary Email",
+          situation: "Following up after a product demo",
+          script: "Subject: Monetate + [Company] — Next Steps. Hi [Name], great conversation today. Here's a summary of what we covered and the specific ROI projections for your team...",
+          keyPoints: ["Send within 2 hours", "Include ROI specific to them", "Propose clear next step"],
+          type: "script",
+          image: "",
+          useWhen: "Within 2 hours after any product demo",
+          goal: "Reinforce value and set clear next steps",
+          coachLine: "Speed wins deals. Send within 2 hours."
+        },
+        {
+          phase: "Follow-up",
+          title: "The Champion Enablement Pack",
+          situation: "Champion needs to sell internally to other stakeholders",
+          script: "I put together a one-pager specifically for your CFO that shows the financial case. Want me to walk you through it so you can present it confidently?",
+          keyPoints: ["Make champion look smart", "Customize for each stakeholder", "Offer to role-play the pitch"],
+          type: "script",
+          image: "",
+          useWhen: "Champion needs to sell internally",
+          goal: "Arm your champion to sell for you internally",
+          coachLine: "Your champion's success is your success."
+        },
+        {
+          phase: "Follow-up",
+          title: "The Executive Sponsor Outreach",
+          situation: "Need to engage C-level sponsor directly",
+          script: "Hi [CxO Name], [Champion] suggested I reach out directly. We've been working with your team on a personalization initiative that could drive $X in additional revenue. Would you have 15 minutes to discuss?",
+          keyPoints: ["Reference the champion", "Lead with business impact", "Keep it brief and specific"],
+          type: "script",
+          image: "",
+          useWhen: "Need executive sponsor engagement to close",
+          goal: "Get executive buy-in with a concise, impactful outreach",
+          coachLine: "Brief, specific, and champion-referenced."
         }
       ];
 
@@ -1631,26 +1631,26 @@ export async function registerRoutes(
       const results = [];
       
       const battlecardMeta: Record<string, { useWhen: string; goal: string; coachLine: string }> = {
-        "Four Pillars Quick-Check (Daily Standard)": { useWhen: "Start of day, before first door, or after a rough streak", goal: "Reset execution before you 'talk yourself out of winning'", coachLine: "Win the next 60 seconds. Then the next." },
-        "First 5 Seconds: Look Professional, Feel Safe": { useWhen: "Every first approach", goal: "Lower guard, earn the right to talk", coachLine: "Your first impression is made in 5 seconds." },
-        "Door Intro (Simple, Neighbor-Based)": { useWhen: "Door opens; you need a clean start", goal: "Sound local, calm, and relevant", coachLine: "Neighbors validate. Reference them early." },
-        "30-Second Gecko Green Story (Elevator Pitch)": { useWhen: "'Who are you?' / 'What do you guys do?'", goal: "Hit the core differentiators fast", coachLine: "Tell the story in 30 seconds or less." },
-        "Brush-Offs: Turn a 'No' into a 'Maybe'": { useWhen: "'Not interested' / 'We're fine' / 'Busy'", goal: "Stay respectful, keep it light, move to Turn & Burn", coachLine: "Every 'no' is just 'not yet' in disguise." },
-        "Turn & Burn (Door → Lawn Transition)": { useWhen: "Conversation stalling at the door", goal: "Get them looking at something real", coachLine: "The lawn sells itself. Get them on it." },
-        "On-Lawn: The 4-Step Diagnosis": { useWhen: "You're on the lawn", goal: "Show 1–2 real issues, connect to program", coachLine: "Diagnose like a doctor. Prescribe like an expert." },
-        "Weeds Conversation: Control vs Perfection": { useWhen: "'Why do I still have weeds?'", goal: "Reset expectations without losing confidence", coachLine: "Control, not perfection." },
-        "Thickening the Lawn (Thinness/Color)": { useWhen: "'My lawn is thin' / 'Not green enough'", goal: "Be honest, avoid overpromising", coachLine: "Honesty builds trust." },
-        "10-Visit Program Overview (90-Second Story)": { useWhen: "'What do you actually do?'", goal: "Tell a story, make it feel systematic", coachLine: "It's a program, not a one-time spray." },
-        "Partnership Agreement (Our Plays vs Your Plays)": { useWhen: "'What do I have to do?'", goal: "Collaborative, clear roles", coachLine: "Partnership wins. Solo efforts fail." },
-        "B-P-D-C (Universal Objection Compass)": { useWhen: "Any pushback shows up", goal: "Guide, not argue", coachLine: "Buffer → Probe → Discover → Close." },
-        "Objection: 'Not Interested'": { useWhen: "Dismissal without consideration", goal: "Reduce friction, isolate one issue", coachLine: "'Not interested' means 'tell me more differently.'" },
-        "Objection: 'I Do It Myself'": { useWhen: "DIY pride / control", goal: "Respect identity; position as upgrade", coachLine: "Validate their work. Then show the gap." },
-        "Objection: 'We Already Have a Company'": { useWhen: "Loyal to existing provider", goal: "Remove replacement fear; isolate a gap", coachLine: "Find the gap. Exploit it gently." },
-        "Objection: 'Let Me Think About It'": { useWhen: "Delay request", goal: "Convert 'delay' into specific concern", coachLine: "'Think about it' means 'convince me now.'" },
-        "Objection: 'I Need to Talk to My Spouse'": { useWhen: "Partner consultation needed", goal: "Get alignment without losing momentum", coachLine: "Arm them to sell for you." },
-        "Buying Signals ('Green Lights')": { useWhen: "You see curiosity/lean-in", goal: "Transition into closing flow", coachLine: "Green light = stop selling, start closing." },
-        "The Closing Flow (Value → Price → Close)": { useWhen: "They're engaged", goal: "Close cleanly without rambling", coachLine: "Value → Price → Close. Keep it tight." },
-        "Payment + Prepay (Default) + Hesitation": { useWhen: "Time to take payment", goal: "Present prepay confidently", coachLine: "Prepay is the default. Present it that way." }
+        "The Executive Discovery Opener": { useWhen: "Opening a discovery call with VP/C-suite buyer", goal: "Understand business drivers before pitching", coachLine: "Curiosity before pitch. Always." },
+        "The Pain Point Deep-Dive": { useWhen: "Buyer mentions flat metrics or stagnant growth", goal: "Quantify pain in dollars to create urgency", coachLine: "No pain, no deal. Quantify everything." },
+        "The Stakeholder Mapping Move": { useWhen: "Early in discovery to map the buying committee", goal: "Identify all stakeholders before investing in demos", coachLine: "Know the committee. Win the deal." },
+        "The Value-Led Demo Opening": { useWhen: "Opening any product demo", goal: "Frame the demo around outcomes, not features", coachLine: "Outcomes first. Features second." },
+        "The ROI Calculator Drop": { useWhen: "Mid-demo when showing financial impact", goal: "Make the ROI undeniable with their own data", coachLine: "Their numbers. Your math. Undeniable ROI." },
+        "The Social Proof Bridge": { useWhen: "Buyer needs social proof or reference validation", goal: "Build credibility through relevant customer wins", coachLine: "Proof beats promises. Share real results." },
+        "Handling 'We Built Our Own'": { useWhen: "Prospect mentions in-house or homegrown solution", goal: "Expose hidden costs of build vs buy", coachLine: "Validate, then reveal the hidden cost." },
+        "Handling 'We Already Have a Vendor'": { useWhen: "Prospect mentions existing vendor or competitor", goal: "Find the results gap without bashing competitor", coachLine: "Never bash. Find the gap instead." },
+        "Handling 'It's Too Expensive'": { useWhen: "Buyer pushes back on pricing", goal: "Reframe price as investment with clear ROI", coachLine: "Price is only expensive without ROI context." },
+        "Handling 'No Bandwidth'": { useWhen: "Buyer cites resource constraints or bandwidth issues", goal: "Position Monetate as a resource multiplier", coachLine: "We're the solution to bandwidth, not the cause." },
+        "Handling 'We Tried Before'": { useWhen: "Buyer references a past failed initiative", goal: "Turn past failure into a reason to choose Monetate", coachLine: "Past failure = future differentiation." },
+        "The Value Anchor": { useWhen: "First time presenting pricing", goal: "Anchor price to ROI so it feels like an investment", coachLine: "Price + ROI in the same breath. Always." },
+        "The Package Breakdown": { useWhen: "Buyer asks about packaging or tier differences", goal: "Guide buyer to the right tier based on their goals", coachLine: "Match capabilities to goals. Guide the choice." },
+        "The Competitive Price Comparison": { useWhen: "Buyer mentions cheaper competitor options", goal: "Shift conversation from price to results", coachLine: "Cheap is expensive when it doesn't work." },
+        "The Assumptive Close": { useWhen: "After a strong demo with clear buying signals", goal: "Move to close confidently without hesitation", coachLine: "If they're ready, ask for the business." },
+        "The Multi-Thread Close": { useWhen: "Multiple stakeholders need alignment", goal: "Parallel-path all stakeholder concerns", coachLine: "Multi-thread or lose momentum." },
+        "The Procurement Navigation": { useWhen: "Deal enters procurement or legal review", goal: "Accelerate procurement by being proactive", coachLine: "Proactive beats reactive in procurement." },
+        "The Post-Demo Summary Email": { useWhen: "Within 2 hours after any product demo", goal: "Reinforce value and set clear next steps", coachLine: "Speed wins deals. Send within 2 hours." },
+        "The Champion Enablement Pack": { useWhen: "Champion needs to sell internally", goal: "Arm your champion to sell for you internally", coachLine: "Your champion's success is your success." },
+        "The Executive Sponsor Outreach": { useWhen: "Need executive sponsor engagement to close", goal: "Get executive buy-in with concise outreach", coachLine: "Brief, specific, and champion-referenced." }
       };
 
       for (let i = 0; i < battlecards.length; i++) {
@@ -1696,7 +1696,7 @@ export async function registerRoutes(
   // Generate Arena logos (dark and light mode)
   app.post("/api/generate-arena-logos", async (req, res) => {
     try {
-      console.log("Generating Arena AI logos...");
+      console.log("Generating Monetate logos...");
       
       // Generate dark mode logo
       console.log("Generating dark mode logo...");
@@ -2818,7 +2818,7 @@ export async function registerRoutes(
   // Store reset verification codes in memory (expires after 10 minutes)
   const billingResetCodes: Map<string, { code: string; expiresAt: Date }> = new Map();
 
-  // Request billing reset - generates 4-digit code and emails to tabish@gigarev.com
+  // Request billing reset - generates 4-digit code and emails to tabish@monetate.com
   app.post("/api/usage/reset-request", async (req, res) => {
     try {
       const authResult = await getAuthenticatedUser(req);
@@ -2844,7 +2844,7 @@ export async function registerRoutes(
         return res.status(500).json({ error: emailResult.error || "Failed to send verification email" });
       }
 
-      res.json({ success: true, message: "Verification code sent to tabish@gigarev.com" });
+      res.json({ success: true, message: "Verification code sent to tabish@monetate.com" });
     } catch (error: any) {
       console.error("Reset request error:", error);
       res.status(500).json({ error: error.message || "Failed to request reset" });
@@ -4176,7 +4176,7 @@ export async function registerRoutes(
       
       if (relevantEntries.length === 0) {
         return res.json({
-          answer: "I couldn't find specific information about that in the training materials. Try asking about door approaches, objection handling, the Gecko Green program, lawn care fundamentals, or prepay strategies.",
+          answer: "I couldn't find specific information about that in the training materials. Try asking about discovery techniques, objection handling, the Monetate platform, enterprise sales fundamentals, or pricing strategies.",
           sources: []
         });
       }
@@ -4188,7 +4188,7 @@ export async function registerRoutes(
         baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
       });
 
-      const systemPrompt = `You are the Arena AI Sales Coach for GeckoGreen lawn care. You help sales reps master door-to-door sales techniques.
+      const systemPrompt = `You are the Monetate Sales Coach. You help sales reps master enterprise B2B sales techniques.
 
 IMPORTANT RULES:
 1. ONLY use information from the provided training materials to answer questions
@@ -4240,32 +4240,32 @@ ${context}`;
       
       // Step 1: Force reseed all predefined quizzes
       const CHAPTER_0_QUIZZES = [
-        { afterSlide: 5, question: 'Which of the following is a Gecko Green service offering?', options: ['Roof replacement', 'Lawn fertilization', 'Pool maintenance', 'Window tinting'], correctAnswer: 1 },
-        { afterSlide: 18, question: 'Which is a key benefit customers get from proper lawn care?', options: ['Lawn becomes maintenance-free', 'A thick, green, weed-free landscape and pride of ownership', 'Grass never goes dormant in winter', 'Weeds disappear instantly after treatment'], correctAnswer: 1 },
-        { afterSlide: 20, question: 'What best describes how Gecko Green delivers results?', options: ['One-time treatment that solves everything', 'Properly timed seasonal treatments across the year', 'Only weed spray when weeds appear', 'Only fertilizer in spring'], correctAnswer: 1 },
+        { afterSlide: 5, question: 'Which of the following is a Monetate platform capability?', options: ['Email marketing', 'Personalization and testing', 'Social media management', 'Payroll processing'], correctAnswer: 1 },
+        { afterSlide: 18, question: 'Which is a key benefit customers get from the Monetate platform?', options: ['Site becomes maintenance-free', 'Higher conversion rates and increased revenue through personalization', 'Traffic never drops seasonally', 'Results appear instantly after deployment'], correctAnswer: 1 },
+        { afterSlide: 20, question: 'What best describes how Monetate delivers results?', options: ['One-time setup that solves everything', 'Continuous optimization through testing and personalization across the customer journey', 'Only A/B testing when metrics drop', 'Only personalization on the homepage'], correctAnswer: 1 },
         { afterSlide: 21, question: 'Fertilizer is best described as:', options: ['A weed killer', 'Food for plants that supports health, color, and density', 'A water replacement', 'A product that works the same regardless of season'], correctAnswer: 1 },
         { afterSlide: 22, question: 'In N-P-K, what does Nitrogen (N) primarily support?', options: ['Stronger roots only', 'Greening and top growth', 'Water regulation only', 'Disease control only'], correctAnswer: 1 },
         { afterSlide: 23, question: 'Which statement is most accurate regarding fertilizer forms?', options: ['Only liquid fertilizer works', 'Only dry fertilizer works', 'Plants cannot tell the difference between organic vs mineral and liquid vs dry—timing and needs matter', 'Fertilizer choice never changes by season'], correctAnswer: 2 },
         { afterSlide: 25, question: 'What are the two major weed types referenced in training?', options: ['Summer weeds and winter weeds', 'Tall weeds and short weeds', 'Grassy weeds and broadleaf weeds', 'Root weeds and leaf weeds'], correctAnswer: 2 },
         { afterSlide: 27, question: 'What is the role of pre-emergent weed control?', options: ['It kills visible weeds on contact', 'It creates a barrier under the soil to stop weeds before they emerge', 'It fertilizes the lawn to prevent weeds', 'It is the same as Round-up'], correctAnswer: 1 },
         { afterSlide: 28, question: 'After a post-emergent application, what timeline should you generally set for weed response?', options: ['Same day', '24 hours', 'About 2 weeks', '2–3 months'], correctAnswer: 2 },
-        { afterSlide: 29, question: 'Which statement correctly describes the Gecko Green annual program?', options: ['5 applications per year, no aeration included', '10 total applications per year: 9 lawn applications + 1 spring aeration', 'Applications are only done when customers request them', 'Results should be complete after the first application'], correctAnswer: 1 }
+        { afterSlide: 29, question: 'Which statement correctly describes the Monetate enterprise platform?', options: ['Basic testing only, no personalization included', 'Full-stack personalization with AI-driven recommendations, testing, and analytics', 'Features are only available when customers request them', 'Results should be complete after the first deployment'], correctAnswer: 1 }
       ];
 
       const CHAPTER_1_QUIZZES = [
         { afterSlide: 5, question: 'Which set correctly matches the "Four Pillars of Field Success"?', options: ["Confidence, Optimism, Personality, Endurance", "Timeliness, Attitude, Practice, Persistence", "Product, Price, Pitch, Persistence", "Appearance, Tone, Explanation, Honesty"], correctAnswer: 1 },
-        { afterSlide: 10, question: "In a doorstep sale, what's the correct relationship between emotion and logic?", options: ["Logic drives action; emotion justifies afterward", "Emotion drives action; logic justifies afterward", "They are always equal at the same time", "Only logic matters in lawn care"], correctAnswer: 1 },
-        { afterSlide: 15, question: 'A homeowner says, "My lawn is fine." What is the best next move per the training?', options: ["Present pricing immediately to test seriousness", "Reveal an unrealized issue with a specific, visible observation and a question", "Ask for their email and leave", "Offer a discount to create urgency"], correctAnswer: 1 },
+        { afterSlide: 10, question: "In an enterprise sale, what's the correct relationship between emotion and logic?", options: ["Logic drives action; emotion justifies afterward", "Emotion drives action; logic justifies afterward", "They are always equal at the same time", "Only logic matters in enterprise sales"], correctAnswer: 1 },
+        { afterSlide: 15, question: 'A buyer says, "We\'re fine with our current setup." What is the best next move per the training?', options: ["Present pricing immediately to test seriousness", "Reveal an unrealized issue with a specific, visible observation and a question", "Ask for their email and leave", "Offer a discount to create urgency"], correctAnswer: 1 },
         { afterSlide: 20, question: "Which statement is TRUE about pre-emergent vs. post-emergent and expectations?", options: ["Pre-emergent kills existing weeds; post-emergent prevents sprouting", "Post-emergent kills existing weeds; pre-emergent prevents sprouting", "Both only work if weeds are already visible", "Both work instantly if watered the same day"], correctAnswer: 1 },
-        { afterSlide: 25, question: 'In the "Partnership" model, which is primarily the homeowner\'s responsibility?', options: ["Seasonal application timing", "Product formulation choices", "Watering and mowing consistency", "Free service calls between visits"], correctAnswer: 2 },
-        { afterSlide: 29, question: 'Which best captures what your "30-second story" must do?', options: ["Explain every treatment ingredient in detail", "Deliver a clear, confident summary of what you do, how you do it, and why it works—fast", "Lead with price to qualify the homeowner", "Compare competitors by name and position against them"], correctAnswer: 1 },
-        { afterSlide: 34, question: 'What is the "Prepay Rule in One Line" the rep should follow?', options: ["Offer prepay only if the homeowner asks", "Prepay first, every time; autopay is the fallback", "Autopay is the default; prepay is optional", "Prepay only for customers with heavy weeds"], correctAnswer: 1 }
+        { afterSlide: 25, question: 'In the "Partnership" model, which is primarily the buyer\'s responsibility?', options: ["Seasonal application timing", "Product formulation choices", "Watering and mowing consistency", "Free service calls between visits"], correctAnswer: 2 },
+        { afterSlide: 29, question: 'Which best captures what your "30-second story" must do?', options: ["Explain every treatment ingredient in detail", "Deliver a clear, confident summary of what you do, how you do it, and why it works—fast", "Lead with price to qualify the buyer", "Compare competitors by name and position against them"], correctAnswer: 1 },
+        { afterSlide: 34, question: 'What is the "Prepay Rule in One Line" the rep should follow?', options: ["Offer prepay only if the buyer asks", "Prepay first, every time; autopay is the fallback", "Autopay is the default; prepay is optional", "Prepay only for customers with heavy weeds"], correctAnswer: 1 }
       ];
 
       let quizzesSeeded = 0;
       for (const chapter of chapters) {
         let quizzes: typeof CHAPTER_0_QUIZZES = [];
-        if (chapter.title === "Intro to GeckoGreen") {
+        if (chapter.title === "Intro to Monetate") {
           quizzes = CHAPTER_0_QUIZZES;
         } else if (chapter.title === "Sales Foundations") {
           quizzes = CHAPTER_1_QUIZZES;

@@ -54,91 +54,83 @@
 }
 
 :root {
-  /* GigaRev Core: White & Bottle Green */
-  --bottle-green-50: 152 70% 97%;
-  --bottle-green-100: 152 60% 92%;
-  --bottle-green-500: 158 85% 30%; /* Core Bottle Green */
-  --bottle-green-700: 160 84% 22%; /* Deep Bottle Green */
-  --bottle-green-900: 160 85% 15%; /* Darkest Green */
-  
-  --background: 0 0% 100%; /* Pure White */
-  --foreground: 160 85% 10%; /* Very dark green text */
+  --background: 0 0% 100%;
+  --foreground: 230 60% 12%;
   
   --card: 0 0% 100%;
-  --card-foreground: 160 85% 15%;
+  --card-foreground: 230 60% 15%;
   
   --popover: 0 0% 100%;
-  --popover-foreground: 160 85% 15%;
+  --popover-foreground: 230 60% 15%;
   
-  --primary: 158 85% 30%; /* Bottle Green */
+  --primary: 230 68% 33%;
   --primary-foreground: 0 0% 100%;
   
-  --secondary: 152 60% 92%; /* Light Green Tint */
-  --secondary-foreground: 160 85% 22%;
+  --secondary: 230 40% 95%;
+  --secondary-foreground: 230 68% 28%;
   
-  --muted: 150 20% 96%;
-  --muted-foreground: 160 30% 40%;
+  --muted: 228 20% 96%;
+  --muted-foreground: 230 20% 42%;
   
-  --accent: 152 70% 97%;
-  --accent-foreground: 160 85% 22%;
+  --accent: 230 45% 97%;
+  --accent-foreground: 230 68% 28%;
   
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
   
-  --border: 152 20% 90%;
-  --input: 152 20% 90%;
-  --ring: 158 85% 30%;
+  --border: 228 20% 90%;
+  --input: 228 20% 90%;
+  --ring: 230 68% 33%;
   
   --radius: 0.75rem;
   
   --sidebar: 0 0% 99%;
-  --sidebar-foreground: 160 85% 20%;
-  --sidebar-primary: 158 85% 30%;
+  --sidebar-foreground: 230 60% 20%;
+  --sidebar-primary: 230 68% 33%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 152 60% 95%;
-  --sidebar-accent-foreground: 160 85% 20%;
-  --sidebar-border: 152 20% 92%;
-  --sidebar-ring: 158 85% 30%;
+  --sidebar-accent: 230 40% 95%;
+  --sidebar-accent-foreground: 230 60% 20%;
+  --sidebar-border: 228 20% 92%;
+  --sidebar-ring: 230 68% 33%;
 }
 
 .dark {
-  /* Future Dark Mode Support - Deep Bottle Green Theme */
-  --background: 160 85% 5%;
-  --foreground: 152 60% 95%;
+  --background: 230 50% 6%;
+  --foreground: 228 40% 95%;
   
-  --card: 160 85% 8%;
-  --card-foreground: 152 60% 95%;
+  --card: 230 50% 9%;
+  --card-foreground: 228 40% 95%;
   
-  --popover: 160 85% 8%;
-  --popover-foreground: 152 60% 95%;
+  --popover: 230 50% 9%;
+  --popover-foreground: 228 40% 95%;
   
-  --primary: 158 70% 45%; /* Lighter green for dark mode */
-  --primary-foreground: 160 85% 5%;
+  --primary: 228 60% 58%;
+  --primary-foreground: 0 0% 100%;
   
-  --secondary: 160 60% 15%;
-  --secondary-foreground: 152 60% 95%;
+  --secondary: 230 40% 16%;
+  --secondary-foreground: 228 40% 95%;
   
-  --muted: 160 60% 15%;
-  --muted-foreground: 150 20% 70%;
+  --muted: 230 40% 16%;
+  --muted-foreground: 228 20% 70%;
   
-  --accent: 160 60% 15%;
-  --accent-foreground: 152 60% 95%;
+  --accent: 230 40% 16%;
+  --accent-foreground: 228 40% 95%;
   
   --destructive: 0 62% 30%;
   --destructive-foreground: 0 0% 98%;
   
-  --border: 160 60% 15%;
-  --input: 160 60% 15%;
-  --ring: 158 70% 45%;
+  --border: 230 40% 16%;
+  --input: 230 40% 16%;
+  --ring: 228 60% 58%;
   
-  --sidebar: 160 85% 4%;
-  --sidebar-foreground: 152 60% 95%;
-  --sidebar-primary: 158 70% 45%;
-  --sidebar-primary-foreground: 160 85% 5%;
-  --sidebar-accent: 160 60% 15%;
-  --sidebar-accent-foreground: 152 60% 95%;
-  --sidebar-border: 160 60% 15%;
-  --sidebar-ring: 158 70% 45%;
+  --sidebar: 230 50% 5%;
+  --sidebar-foreground: 228 40% 95%;
+  --sidebar-primary: 228 60% 58%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 230 40% 16%;
+  --sidebar-accent-foreground: 228 40% 95%;
+  --sidebar-border: 230 40% 16%;
+  --sidebar-ring: 228 60% 58%;
 }
 
 @layer base {
@@ -164,7 +156,6 @@
   }
 }
 
-/* Custom Glassmorphism Utilities */
 @utility glass {
   @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-sm;
 }
@@ -174,5 +165,5 @@
 }
 
 @utility text-glow {
-  text-shadow: 0 0 20px rgba(0, 200, 100, 0.5);
+  text-shadow: 0 0 20px rgba(26, 43, 140, 0.5);
 }

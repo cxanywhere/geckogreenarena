@@ -154,7 +154,7 @@ export function RoleplayPrompt({
             </div>
 
             <div className="bg-gray-800/50 rounded-xl p-4 mb-4 border border-gray-700">
-              <p className="text-sm text-gray-400 mb-2">The homeowner says:</p>
+              <p className="text-sm text-gray-400 mb-2">The buyer says:</p>
               <p className="text-xl font-semibold text-white italic" data-testid="roleplay-objection">
                 "{roleplay.objection}"
               </p>
