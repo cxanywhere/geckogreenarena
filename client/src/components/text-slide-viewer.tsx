@@ -159,14 +159,14 @@ export function TextSlideViewer({
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full flex flex-col bg-[#1A2B8C]"
+      className="relative w-full h-full flex flex-col bg-[#1A2B8C] overflow-hidden"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
       {hasImage ? (
         <>
-          <div className="flex-1 min-h-0 flex items-center justify-center relative px-12 py-3">
+          <div className="flex-1 min-h-0 flex items-center justify-center relative px-12 py-3 overflow-hidden">
             {imageLoading && (
               <div className="absolute inset-0 flex items-center justify-center z-10">
                 <Loader2 className="w-8 h-8 animate-spin text-magenta" />

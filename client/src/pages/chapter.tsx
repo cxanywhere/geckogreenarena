@@ -425,10 +425,10 @@ export default function ChapterPage() {
   const allRoleplaysDone = isChapter1 ? completedRoleplayOrderIndexes.size >= getAllChapter1Roleplays().length : true;
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="h-screen bg-background flex flex-col overflow-hidden">
       <Nav />
       
-      <div className="flex-1 flex flex-col max-h-[calc(100vh-64px)]">
+      <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
         {/* Header with Learning Objectives */}
         <div className="border-b border-border bg-card/50 backdrop-blur-sm">
           <div className="container mx-auto px-4 py-3">
@@ -571,7 +571,7 @@ export default function ChapterPage() {
         </div>
 
         {/* Slide Viewer */}
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 min-h-0 overflow-hidden">
           {hasTextSlides ? (
             <TextSlideViewer
               slides={chapter.slides as any[]}
