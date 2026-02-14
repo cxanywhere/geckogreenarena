@@ -11,8 +11,7 @@ import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
 import monetateLogoDark from "@/assets/monetate-logo-dark.png";
 import monetateLogoLight from "@/assets/monetate-logo-light.png";
-import arenaLogoDark from "@/assets/arena-logo-dark.png";
-import arenaLogoLight from "@/assets/arena-logo-light.png";
+import arenaHelmet from "@/assets/arena-helmet.png";
 import { useTheme } from "next-themes";
 
 export default function LoginPage() {
@@ -87,9 +86,12 @@ export default function LoginPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="mb-10">
-            <img src={arenaLogoDark} alt="Arena AI by GigaRev" className="h-12 w-auto object-contain hidden dark:block" />
-            <img src={arenaLogoLight} alt="Arena AI by GigaRev" className="h-12 w-auto object-contain block dark:hidden" />
+          <div className="mb-10 flex items-center gap-3">
+            <img src={arenaHelmet} alt="Arena AI" className="h-14 w-auto object-contain" />
+            <div className="flex flex-col leading-none">
+              <span className="text-2xl font-bold tracking-wide text-foreground">arena ai</span>
+              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted-foreground">by gigarev</span>
+            </div>
           </div>
 
           <div className="mb-8 p-6 bg-card rounded-2xl border border-border shadow-sm relative overflow-hidden group">
