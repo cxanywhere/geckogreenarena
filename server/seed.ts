@@ -35,8 +35,12 @@ export async function seedDatabase(): Promise<void> {
         const existingSlides = (existing[0].slides as any[]) || [];
         const mergedSlides = chapterData.slides.map((newSlide: any, idx: number) => {
           const existingSlide = existingSlides[idx];
-          if (existingSlide?.imageUrl && !newSlide.imageUrl) {
-            return { ...newSlide, imageUrl: existingSlide.imageUrl };
+          if (existingSlide) {
+            const merged = { ...newSlide };
+            if (existingSlide.imageUrl && !newSlide.imageUrl) merged.imageUrl = existingSlide.imageUrl;
+            if (existingSlide.narrationScript) merged.narrationScript = existingSlide.narrationScript;
+            if (existingSlide.narrationAudioUrl) merged.narrationAudioUrl = existingSlide.narrationAudioUrl;
+            return merged;
           }
           return newSlide;
         });

@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import { GoogleGenAI } from "@google/genai";
+import { MsEdgeTTS, OUTPUT_FORMAT } from "msedge-tts";
 import fs from "fs";
 import path from "path";
 import { Buffer } from "node:buffer";
@@ -103,33 +104,51 @@ export async function generateNarrationAudio(
   slideIndex: number,
   script: string
 ): Promise<string> {
-  const filename = `narration-${chapterSlug}-${slideIndex}-${Date.now()}.wav`;
+  const filename = `narration-${chapterSlug}-${slideIndex}-${Date.now()}.mp3`;
   const filepath = path.join(NARRATION_DIR, filename);
 
-  const ttsPrompt = `Read the following sales training narration in a confident, professional, and engaging tone. Speak clearly at a moderate pace, as if presenting to a team of enterprise sales professionals:\n\n${script}`;
+  try {
+    const ttsPrompt = `Read the following sales training narration in a confident, professional, and engaging tone. Speak clearly at a moderate pace, as if presenting to a team of enterprise sales professionals:\n\n${script}`;
 
-  const response = await geminiAi.models.generateContent({
-    model: "gemini-2.5-flash-preview-tts",
-    contents: [{ parts: [{ text: ttsPrompt }] }],
-    config: {
-      responseModalities: ["AUDIO"],
-      speechConfig: {
-        voiceConfig: {
-          prebuiltVoiceConfig: { voiceName: "Orus" },
+    const response = await geminiAi.models.generateContent({
+      model: "gemini-2.5-flash-preview-tts",
+      contents: [{ parts: [{ text: ttsPrompt }] }],
+      config: {
+        responseModalities: ["AUDIO"],
+        speechConfig: {
+          voiceConfig: {
+            prebuiltVoiceConfig: { voiceName: "Orus" },
+          },
         },
       },
-    },
-  });
+    });
 
-  const audioData = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-  if (!audioData) {
-    throw new Error("No audio data returned from Gemini TTS");
+    const audioData = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+    if (!audioData) {
+      throw new Error("No audio data returned from Gemini TTS");
+    }
+
+    const wavFilename = filename.replace('.mp3', '.wav');
+    const wavFilepath = path.join(NARRATION_DIR, wavFilename);
+    const pcmBuffer = Buffer.from(audioData, "base64");
+    writeWavFile(wavFilepath, pcmBuffer);
+    return `/uploads/narration/${wavFilename}`;
+  } catch (geminiError: any) {
+    console.log(`[Narration] Gemini TTS failed (${geminiError?.status || 'unknown'}), falling back to Edge TTS`);
+    
+    const tts = new MsEdgeTTS();
+    await tts.setMetadata("en-US-GuyNeural", OUTPUT_FORMAT.AUDIO_24KHZ_96KBITRATE_MONO_MP3);
+    const tempDir = path.join(NARRATION_DIR, `temp-${Date.now()}`);
+    fs.mkdirSync(tempDir, { recursive: true });
+    await tts.toFile(tempDir, script);
+    const tempFile = path.join(tempDir, "audio.mp3");
+    if (fs.existsSync(tempFile)) {
+      fs.renameSync(tempFile, filepath);
+      fs.rmdirSync(tempDir);
+    }
+
+    return `/uploads/narration/${filename}`;
   }
-
-  const pcmBuffer = Buffer.from(audioData, "base64");
-  writeWavFile(filepath, pcmBuffer);
-
-  return `/uploads/narration/${filename}`;
 }
 
 export async function generateChapterNarration(

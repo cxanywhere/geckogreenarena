@@ -418,7 +418,6 @@ export default function ChapterPage() {
     }
 
     setIsGeneratingNarration(true);
-    toast.info("Generating AI narration for this chapter... This may take a minute.");
 
     try {
       const checkRes = await fetch(`/api/chapters/${chapter.id}/narration`);
@@ -427,23 +426,12 @@ export default function ChapterPage() {
       if (checkData.success && checkData.allReady) {
         setNarrationData(checkData.narration);
         setShowPresentMode(true);
-        setIsGeneratingNarration(false);
-        return;
-      }
-
-      const genRes = await fetch(`/api/chapters/${chapter.id}/generate-narration`, { method: "POST" });
-      const genData = await genRes.json();
-
-      if (genData.success) {
-        setNarrationData(genData.narration);
-        setShowPresentMode(true);
-        toast.success("Narration ready! Starting presentation...");
       } else {
-        toast.error("Failed to generate narration. Please try again.");
+        toast.error("Narration is not available for this chapter yet.");
       }
     } catch (error) {
       console.error("Present mode error:", error);
-      toast.error("Failed to prepare presentation. Please try again.");
+      toast.error("Failed to load presentation. Please try again.");
     } finally {
       setIsGeneratingNarration(false);
     }
@@ -532,27 +520,25 @@ export default function ChapterPage() {
                   )}
                 </div>
                 
-                {(chapter as any).slug === 'monetate-101' && (
-                  <Button
-                    size="sm"
-                    className="bg-magenta hover:bg-magenta/90 text-white text-xs gap-1.5"
-                    onClick={handleLaunchPresentMode}
-                    disabled={isGeneratingNarration}
-                    data-testid="button-present-mode"
-                  >
-                    {isGeneratingNarration ? (
-                      <>
-                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                        <span className="hidden sm:inline">Preparing...</span>
-                      </>
-                    ) : (
-                      <>
-                        <PlayCircle className="w-3.5 h-3.5" />
-                        <span className="hidden sm:inline">AI Present</span>
-                      </>
-                    )}
-                  </Button>
-                )}
+                <Button
+                  size="sm"
+                  className="bg-magenta hover:bg-magenta/90 text-white text-xs gap-1.5"
+                  onClick={handleLaunchPresentMode}
+                  disabled={isGeneratingNarration}
+                  data-testid="button-present-mode"
+                >
+                  {isGeneratingNarration ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span className="hidden sm:inline">Loading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <PlayCircle className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">AI Present</span>
+                    </>
+                  )}
+                </Button>
                 <Button 
                   variant="ghost" 
                   size="sm" 
