@@ -138,7 +138,7 @@ export const CHAPTER_SEED_DATA = [
         roleplaySlug: 'rp-confused-buyer'
       }
     ],
-    slideCount: 31,
+    slideCount: 7,
     orderIndex: 1
   },
   {
@@ -202,7 +202,7 @@ export const CHAPTER_SEED_DATA = [
         }
       }
     ],
-    slideCount: 38,
+    slideCount: 4,
     orderIndex: 2
   }
 ];

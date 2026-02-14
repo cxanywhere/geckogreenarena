@@ -1,6 +1,7 @@
 import { useRoute, Link, useLocation } from "wouter";
 import { Nav } from "@/components/nav";
 import { ImageSlideViewer } from "@/components/image-slide-viewer";
+import { TextSlideViewer } from "@/components/text-slide-viewer";
 import { PDFViewer } from "@/components/pdf-viewer";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Download, BookOpen, Presentation, Brain, Loader2, Mic, CheckCircle, Clock, Target, FileText, GraduationCap, ChevronDown, ChevronUp } from "lucide-react";
@@ -123,7 +124,9 @@ export default function ChapterPage() {
 
   const isChapter0 = chapter?.title === "Intro to Monetate";
   const isChapter1 = chapter?.title === "Sales Foundations";
-  const isChapter2 = chapter?.title === "Field Execution" || chapter?.title === "Field Sales Process";
+  const isChapter2 = chapter?.title === "Deal Execution";
+
+  const hasTextSlides = chapter?.slides && Array.isArray(chapter.slides) && chapter.slides.length > 0;
 
   const { data: dbQuizSlides } = useQuery({
     queryKey: ["quiz-slides", chapter?.id],
@@ -569,27 +572,9 @@ export default function ChapterPage() {
 
         {/* Slide Viewer */}
         <div className="flex-1 overflow-hidden">
-          {isChapter0 ? (
-            <ImageSlideViewer
-              slides={Array.from({ length: 29 }, (_, i) => `/uploads/chapter0-slides/chapter0-slide-${i + 1}.png`)}
-              currentPage={currentPage}
-              onPageChange={handlePageChange}
-              onComplete={handleComplete}
-              onClose={() => setLocation("/dashboard")}
-              navigationDisabled={showQuiz}
-            />
-          ) : isChapter1 ? (
-            <ImageSlideViewer
-              slides={Array.from({ length: 31 }, (_, i) => `/training-slides/slide_${String(i + 1).padStart(2, '0')}.png`)}
-              currentPage={currentPage}
-              onPageChange={handlePageChange}
-              onComplete={handleComplete}
-              onClose={() => setLocation("/dashboard")}
-              navigationDisabled={showQuiz}
-            />
-          ) : isChapter2 ? (
-            <ImageSlideViewer
-              slides={Array.from({ length: 38 }, (_, i) => `/training-slides-ch2/slide_${String(i + 1).padStart(2, '0')}.png`)}
+          {hasTextSlides ? (
+            <TextSlideViewer
+              slides={chapter.slides as any[]}
               currentPage={currentPage}
               onPageChange={handlePageChange}
               onComplete={handleComplete}
