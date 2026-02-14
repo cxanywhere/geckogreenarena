@@ -113,7 +113,7 @@ export function TextSlideViewer({
           >
             <div className="max-w-3xl mx-auto px-6 py-8 md:py-12">
               <div className="mb-2 flex items-center gap-2">
-                <span className="text-xs font-medium text-primary/60 uppercase tracking-wider">
+                <span className="text-xs font-medium text-magenta/60 uppercase tracking-wider">
                   Slide {currentPage} of {numPages}
                 </span>
                 {slide.type === "quiz" && (
@@ -148,7 +148,7 @@ export function TextSlideViewer({
                       transition={{ delay: 0.1 + i * 0.08 }}
                       className="flex items-start gap-3"
                     >
-                      <div className="mt-2 w-2 h-2 rounded-full bg-primary shrink-0" />
+                      <div className="mt-2 w-2 h-2 rounded-full bg-magenta shrink-0" />
                       <span className="text-sm md:text-base text-foreground/90 leading-relaxed">
                         {bullet}
                       </span>
@@ -183,7 +183,7 @@ export function TextSlideViewer({
                   key={i}
                   className={`h-1.5 rounded-full transition-all ${
                     pageNum <= currentPage
-                      ? "w-3 bg-primary"
+                      ? "w-3 bg-magenta"
                       : "w-1.5 bg-muted-foreground/20"
                   }`}
                 />

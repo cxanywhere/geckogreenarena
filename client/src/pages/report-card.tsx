@@ -153,21 +153,21 @@ export default function ReportCardPage() {
       <div className="min-h-screen bg-background">
         <Nav />
         <div className="flex items-center justify-center h-[60vh]">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          <Loader2 className="w-8 h-8 animate-spin text-magenta" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background font-sans selection:bg-primary/20 pb-20">
+    <div className="min-h-screen bg-background font-sans selection:bg-magenta/20 pb-20">
       <Nav />
 
       <main className="container mx-auto px-4 pt-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
              <Link href="/dashboard">
-              <Button variant="ghost" className="pl-0 mb-2 text-muted-foreground hover:text-primary">
+              <Button variant="ghost" className="pl-0 mb-2 text-muted-foreground hover:text-magenta">
                 ← Back to Dashboard
               </Button>
             </Link>
@@ -191,13 +191,13 @@ export default function ReportCardPage() {
           {/* Left Column - Stats */}
           <div className="lg:col-span-1 space-y-6">
             {/* Overall Score Card */}
-            <Card className="overflow-hidden border-primary/20 shadow-lg shadow-primary/5">
-              <CardHeader className="bg-primary/5 pb-8 text-center">
-                <CardTitle className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4 text-primary">
+            <Card className="overflow-hidden border-magenta/20 shadow-lg shadow-magenta/5">
+              <CardHeader className="bg-magenta/5 pb-8 text-center">
+                <CardTitle className="mx-auto w-12 h-12 bg-magenta/10 rounded-full flex items-center justify-center mb-4 text-magenta">
                   <Award className="w-6 h-6" />
                 </CardTitle>
                 <div className="space-y-1">
-                  <h3 className="text-4xl font-display font-bold text-primary">{overallScore}%</h3>
+                  <h3 className="text-4xl font-display font-bold text-magenta">{overallScore}%</h3>
                   <p className="font-medium text-muted-foreground uppercase tracking-wider text-xs">Overall Score</p>
                 </div>
               </CardHeader>
@@ -312,7 +312,7 @@ export default function ReportCardPage() {
                            >
                              {rp.passed ? "PASSED" : "FAILED"}
                            </Badge>
-                           <span className="text-xs font-bold text-primary">{rp.score}%</span>
+                           <span className="text-xs font-bold text-magenta">{rp.score}%</span>
                          </div>
                       </div>
                       <p className="text-xs text-muted-foreground italic">"{rp.feedback}"</p>

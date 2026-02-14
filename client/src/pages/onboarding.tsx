@@ -189,7 +189,7 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex items-center justify-center p-4 relative">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-magenta/5 flex items-center justify-center p-4 relative">
       {/* Sign Out Button - Fixed in top right */}
       <div className="absolute top-4 right-4 z-10">
         <Button
@@ -225,7 +225,7 @@ export default function OnboardingPage() {
 
         <div className="bg-card rounded-2xl border border-border shadow-xl p-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 opacity-5">
-            <Shield className="w-32 h-32 text-primary" />
+            <Shield className="w-32 h-32 text-magenta" />
           </div>
 
           <AnimatePresence mode="wait">
@@ -238,8 +238,8 @@ export default function OnboardingPage() {
                 className="space-y-6"
               >
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <span className="text-lg font-bold text-primary">1</span>
+                  <div className="w-10 h-10 rounded-full bg-magenta/10 flex items-center justify-center">
+                    <span className="text-lg font-bold text-magenta">1</span>
                   </div>
                   <div>
                     <h2 className="font-semibold text-foreground">Confirm Your Name</h2>
@@ -280,8 +280,8 @@ export default function OnboardingPage() {
                 className="space-y-6"
               >
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <span className="text-lg font-bold text-primary">2</span>
+                  <div className="w-10 h-10 rounded-full bg-magenta/10 flex items-center justify-center">
+                    <span className="text-lg font-bold text-magenta">2</span>
                   </div>
                   <div>
                     <h2 className="font-semibold text-foreground">Your Photo</h2>
@@ -333,11 +333,11 @@ export default function OnboardingPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <button
                       onClick={startCamera}
-                      className="aspect-square rounded-xl border-2 border-dashed border-border hover:border-primary hover:bg-primary/5 transition-all flex flex-col items-center justify-center gap-3 group"
+                      className="aspect-square rounded-xl border-2 border-dashed border-border hover:border-magenta hover:bg-magenta/5 transition-all flex flex-col items-center justify-center gap-3 group"
                       data-testid="button-camera"
                     >
-                      <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                        <Camera className="w-8 h-8 text-primary" />
+                      <div className="w-16 h-16 rounded-full bg-magenta/10 flex items-center justify-center group-hover:bg-magenta/20 transition-colors">
+                        <Camera className="w-8 h-8 text-magenta" />
                       </div>
                       <span className="font-medium text-foreground">Take Photo</span>
                       <span className="text-xs text-muted-foreground">Use your camera</span>
@@ -345,11 +345,11 @@ export default function OnboardingPage() {
 
                     <button
                       onClick={() => fileInputRef.current?.click()}
-                      className="aspect-square rounded-xl border-2 border-dashed border-border hover:border-primary hover:bg-primary/5 transition-all flex flex-col items-center justify-center gap-3 group"
+                      className="aspect-square rounded-xl border-2 border-dashed border-border hover:border-magenta hover:bg-magenta/5 transition-all flex flex-col items-center justify-center gap-3 group"
                       data-testid="button-upload"
                     >
-                      <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                        <Upload className="w-8 h-8 text-primary" />
+                      <div className="w-16 h-16 rounded-full bg-magenta/10 flex items-center justify-center group-hover:bg-magenta/20 transition-colors">
+                        <Upload className="w-8 h-8 text-magenta" />
                       </div>
                       <span className="font-medium text-foreground">Upload Photo</span>
                       <span className="text-xs text-muted-foreground">From your device</span>
@@ -389,10 +389,10 @@ export default function OnboardingPage() {
                 className="py-12 text-center space-y-6"
               >
                 <div className="relative mx-auto w-32 h-32">
-                  <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-pulse" />
-                  <div className="absolute inset-2 rounded-full border-4 border-t-primary border-transparent animate-spin" />
+                  <div className="absolute inset-0 rounded-full border-4 border-magenta/20 animate-pulse" />
+                  <div className="absolute inset-2 rounded-full border-4 border-t-magenta border-transparent animate-spin" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <Sword className="w-12 h-12 text-primary animate-pulse" />
+                    <Sword className="w-12 h-12 text-magenta animate-pulse" />
                   </div>
                 </div>
                 <div>
@@ -414,11 +414,11 @@ export default function OnboardingPage() {
                     <img 
                       src={warriorAvatar} 
                       alt="Your Arena Avatar" 
-                      className="w-full h-full object-cover rounded-full border-4 border-primary shadow-xl"
+                      className="w-full h-full object-cover rounded-full border-4 border-magenta shadow-xl"
                     />
                   ) : (
-                    <div className="w-full h-full rounded-full bg-primary/10 flex items-center justify-center">
-                      <Shield className="w-16 h-16 text-primary" />
+                    <div className="w-full h-full rounded-full bg-magenta/10 flex items-center justify-center">
+                      <Shield className="w-16 h-16 text-magenta" />
                     </div>
                   )}
                   <motion.div
@@ -454,9 +454,9 @@ export default function OnboardingPage() {
                 key={s}
                 className={`w-2 h-2 rounded-full transition-colors ${
                   step === s || (step === "generating" && s === "photo")
-                    ? "bg-primary"
+                    ? "bg-magenta"
                     : i < ["name", "photo", "complete"].indexOf(step === "generating" ? "photo" : step)
-                    ? "bg-primary/50"
+                    ? "bg-magenta/50"
                     : "bg-muted"
                 }`}
               />

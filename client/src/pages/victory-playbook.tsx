@@ -55,14 +55,14 @@ function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => voi
       transition={{ type: "spring", stiffness: 400, damping: 20 }}
     >
       <Card
-        className="cursor-pointer bg-card/50 border-border/50 hover:border-primary/50 transition-all overflow-hidden group"
+        className="cursor-pointer bg-card/50 border-border/50 hover:border-magenta/50 transition-all overflow-hidden group"
         onClick={onSelect}
         data-testid={`story-card-${story.roleplayId}`}
       >
-        <div className="relative h-32 bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center overflow-hidden">
+        <div className="relative h-32 bg-gradient-to-br from-magenta/20 to-magenta/5 flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%2322c55e%22%20fill-opacity%3D%220.08%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-50" />
           <div className="relative z-10 flex flex-col items-center gap-2">
-            <div className="text-4xl font-bold text-primary/30 group-hover:text-primary/50 transition-colors">
+            <div className="text-4xl font-bold text-magenta/30 group-hover:text-magenta/50 transition-colors">
               #{story.orderIndex}
             </div>
             <Badge className={`${phaseColors[story.phase] || "bg-muted"} border`}>
@@ -79,7 +79,7 @@ function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => voi
           <p className="text-xs text-muted-foreground">{story.description}</p>
           <div className="mt-3 flex items-center justify-between text-xs text-muted-foreground">
             <span>{story.panels?.length || 0} panels</span>
-            <span className="text-primary group-hover:underline">View Story →</span>
+            <span className="text-magenta group-hover:underline">View Story →</span>
           </div>
         </CardContent>
       </Card>
@@ -89,7 +89,7 @@ function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => voi
 
 function ComicPanelView({ panel, panelNumber, totalPanels }: { panel: ComicPanel; panelNumber: number; totalPanels: number }) {
   const speakerColors = {
-    rep: "bg-primary text-primary-foreground",
+    rep: "bg-magenta text-primary-foreground",
     buyer: "bg-blue-500 text-white",
     narrator: "bg-muted text-muted-foreground italic",
   };
@@ -113,10 +113,10 @@ function ComicPanelView({ panel, panelNumber, totalPanels }: { panel: ComicPanel
             className="w-full aspect-[4/3] object-cover rounded-xl"
           />
         ) : (
-          <div className="w-full aspect-[4/3] flex items-center justify-center bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl">
+          <div className="w-full aspect-[4/3] flex items-center justify-center bg-gradient-to-br from-magenta/10 to-magenta/5 rounded-xl">
             <div className="text-center p-8">
-              <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
-                <BookOpen className="w-12 h-12 text-primary/50" />
+              <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-magenta/10 flex items-center justify-center">
+                <BookOpen className="w-12 h-12 text-magenta/50" />
               </div>
               <p className="text-sm text-muted-foreground max-w-md">{panel.setting}</p>
             </div>
@@ -221,7 +221,7 @@ function StoryViewer({ story, onBack }: { story: ComicStory; onBack: () => void 
       <div className="mt-3 pt-3 border-t border-border/50">
         <div className="w-full h-1 bg-muted rounded-full mb-3 overflow-hidden">
           <motion.div 
-            className="h-full bg-primary rounded-full"
+            className="h-full bg-magenta rounded-full"
             initial={false}
             animate={{ width: `${progressPercent}%` }}
             transition={{ duration: 0.3 }}

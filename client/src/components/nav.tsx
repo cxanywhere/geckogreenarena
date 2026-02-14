@@ -26,7 +26,6 @@ import { useAuth } from "@/lib/auth-context";
 import { useTheme } from "next-themes";
 
 import monetateLogoDark from "@/assets/monetate-logo-dark.png";
-import monetateLogoLight from "@/assets/monetate-logo-light.png";
 
 interface NavGroup {
   label: string;
@@ -100,16 +99,14 @@ export function Nav() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-white/80 backdrop-blur-md dark:bg-black/80">
+    <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-navy text-navy-foreground">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-4 lg:gap-6">
           <Link href="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <img src={monetateLogoDark} alt="Monetate" className="h-8 w-auto object-contain hidden dark:block" />
-            <img src={monetateLogoLight} alt="Monetate" className="h-8 w-auto object-contain block dark:hidden" />
+            <img src={monetateLogoDark} alt="Monetate" className="h-8 w-auto object-contain" />
           </Link>
         </div>
 
-        {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-1">
           {navGroups.map((group) => (
             <DropdownMenu
@@ -122,8 +119,8 @@ export function Nav() {
                   className={cn(
                     "flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all",
                     isGroupActive(group)
-                      ? "text-primary bg-primary/10"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                      ? "text-magenta bg-white/10"
+                      : "text-white/70 hover:text-white hover:bg-white/10"
                   )}
                   data-testid={`nav-group-${group.label.toLowerCase()}`}
                 >
@@ -142,20 +139,20 @@ export function Nav() {
                     onClick={() => { setLocation(item.href); setOpenDropdown(null); }}
                     className={cn(
                       "cursor-pointer flex items-start gap-3 py-2.5",
-                      location === item.href && "bg-primary/5"
+                      location === item.href && "bg-magenta/10"
                     )}
                     data-testid={`nav-link-${item.label.toLowerCase().replace(/\s+/g, "-")}`}
                   >
                     <span className={cn(
                       "mt-0.5",
-                      location === item.href ? "text-primary" : "text-muted-foreground"
+                      location === item.href ? "text-magenta" : "text-muted-foreground"
                     )}>
                       {item.icon}
                     </span>
                     <div className="flex flex-col">
                       <span className={cn(
                         "font-medium",
-                        location === item.href && "text-primary"
+                        location === item.href && "text-magenta"
                       )}>
                         {item.label}
                       </span>
@@ -167,25 +164,25 @@ export function Nav() {
             </DropdownMenu>
           ))}
 
-          <div className="flex items-center gap-3 pl-4 ml-2 border-l border-primary/10">
+          <div className="flex items-center gap-3 pl-4 ml-2 border-l border-white/20">
             <ModeToggle />
             {user && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer" data-testid="button-user-menu">
                     <div className="hidden xl:flex flex-col items-end" onClick={(e) => { e.stopPropagation(); setLocation("/profile"); }}>
-                      <span className="text-sm font-bold leading-none hover:text-primary transition-colors">{user.name}</span>
-                      <span className="text-xs text-muted-foreground capitalize">{user.role}</span>
+                      <span className="text-sm font-bold leading-none text-white hover:text-magenta transition-colors">{user.name}</span>
+                      <span className="text-xs text-white/60 capitalize">{user.role}</span>
                     </div>
                     <div onClick={(e) => { e.stopPropagation(); setLocation("/profile"); }}>
                       {user.warriorAvatar ? (
                         <img 
                           src={user.warriorAvatar} 
                           alt={user.name} 
-                          className="h-9 w-9 rounded-full object-cover border-2 border-primary shadow-md shadow-primary/20 hover:ring-2 hover:ring-primary/50 transition-all"
+                          className="h-9 w-9 rounded-full object-cover border-2 border-magenta shadow-md shadow-magenta/20 hover:ring-2 hover:ring-magenta/50 transition-all"
                         />
                       ) : (
-                        <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20 hover:ring-2 hover:ring-primary/50 transition-all">
+                        <div className="h-9 w-9 rounded-full bg-magenta text-white flex items-center justify-center font-bold text-xs shadow-md shadow-magenta/20 hover:ring-2 hover:ring-magenta/50 transition-all">
                           {getInitials(user.name)}
                         </div>
                       )}
@@ -209,7 +206,6 @@ export function Nav() {
           </div>
         </div>
 
-        {/* Mobile Nav */}
         <div className="lg:hidden flex items-center gap-3">
           <ModeToggle />
           {user && (
@@ -218,10 +214,10 @@ export function Nav() {
                 <img 
                   src={user.warriorAvatar} 
                   alt={user.name} 
-                  className="h-9 w-9 rounded-full object-cover border-2 border-primary shadow-md shadow-primary/20 hover:ring-2 hover:ring-primary/50 transition-all"
+                  className="h-9 w-9 rounded-full object-cover border-2 border-magenta shadow-md shadow-magenta/20 hover:ring-2 hover:ring-magenta/50 transition-all"
                 />
               ) : (
-                <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20 hover:ring-2 hover:ring-primary/50 transition-all">
+                <div className="h-9 w-9 rounded-full bg-magenta text-white flex items-center justify-center font-bold text-xs shadow-md shadow-magenta/20 hover:ring-2 hover:ring-magenta/50 transition-all">
                   {getInitials(user.name)}
                 </div>
               )}
@@ -229,34 +225,34 @@ export function Nav() {
           )}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-white/95 dark:bg-black/95 backdrop-blur-xl border-l-white/20">
+            <SheetContent side="right" className="bg-navy/95 text-white backdrop-blur-xl border-l-white/10">
               <div className="flex flex-col gap-2 mt-10">
                 {user && (
-                  <div className="flex items-center gap-3 pb-4 mb-2 border-b border-primary/10 cursor-pointer" onClick={() => { setIsOpen(false); setLocation("/profile"); }}>
+                  <div className="flex items-center gap-3 pb-4 mb-2 border-b border-white/10 cursor-pointer" onClick={() => { setIsOpen(false); setLocation("/profile"); }}>
                     {user.warriorAvatar ? (
                       <img 
                         src={user.warriorAvatar} 
                         alt={user.name} 
-                        className="h-10 w-10 rounded-full object-cover border-2 border-primary shadow-md shadow-primary/20"
+                        className="h-10 w-10 rounded-full object-cover border-2 border-magenta shadow-md shadow-magenta/20"
                       />
                     ) : (
-                      <div className="h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md shadow-primary/20">
+                      <div className="h-10 w-10 rounded-full bg-magenta text-white flex items-center justify-center font-bold text-sm shadow-md shadow-magenta/20">
                         {getInitials(user.name)}
                       </div>
                     )}
                     <div className="flex flex-col">
-                      <span className="text-sm font-bold hover:text-primary transition-colors">{user.name}</span>
-                      <span className="text-xs text-muted-foreground">{user.email}</span>
+                      <span className="text-sm font-bold hover:text-magenta transition-colors">{user.name}</span>
+                      <span className="text-xs text-white/60">{user.email}</span>
                     </div>
                   </div>
                 )}
                 {navGroups.map((group) => (
                   <div key={group.label} className="mb-2">
-                    <div className="flex items-center gap-2 px-2 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">
+                    <div className="flex items-center gap-2 px-2 py-1.5 text-xs font-semibold uppercase tracking-wider text-white/40">
                       {group.icon}
                       {group.label}
                     </div>
@@ -269,11 +265,11 @@ export function Nav() {
                           className={cn(
                             "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                             location === item.href
-                              ? "text-primary bg-primary/10"
-                              : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                              ? "text-magenta bg-white/10"
+                              : "text-white/70 hover:text-white hover:bg-white/10"
                           )}
                         >
-                          <span className={location === item.href ? "text-primary" : "text-muted-foreground"}>
+                          <span className={location === item.href ? "text-magenta" : "text-white/50"}>
                             {item.icon}
                           </span>
                           {item.label}
@@ -285,7 +281,7 @@ export function Nav() {
                 {user && (
                   <button
                     onClick={() => setShowSignOutDialog(true)}
-                    className="flex items-center gap-2 text-sm font-medium text-red-600 mt-2 mx-2 pt-4 border-t border-primary/10"
+                    className="flex items-center gap-2 text-sm font-medium text-red-400 mt-2 mx-2 pt-4 border-t border-white/10"
                     data-testid="button-signout-mobile"
                   >
                     <LogOut className="h-4 w-4" />

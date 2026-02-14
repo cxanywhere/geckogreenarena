@@ -58,7 +58,7 @@ export default function LeaderboardPage() {
           <div className="flex items-center gap-4 bg-card px-4 py-2 rounded-xl border border-border shadow-sm">
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-muted-foreground">Your Rank:</span>
-              <span className="text-xl font-bold text-primary">#{currentUserRank}</span>
+              <span className="text-xl font-bold text-magenta">#{currentUserRank}</span>
             </div>
             <div className="h-8 w-[1px] bg-border" />
             <div className="flex items-center gap-2">
@@ -70,8 +70,8 @@ export default function LeaderboardPage() {
 
         <Tabs defaultValue="leaderboard" className="w-full">
           <TabsList className="bg-card border border-border p-1 rounded-xl mb-8 w-full max-w-md mx-auto grid grid-cols-2">
-            <TabsTrigger value="leaderboard" className="rounded-lg data-[state=active]:bg-primary/10 data-[state=active]:text-primary font-bold">Global Leaderboard</TabsTrigger>
-            <TabsTrigger value="history" className="rounded-lg data-[state=active]:bg-primary/10 data-[state=active]:text-primary font-bold">My Roleplay History</TabsTrigger>
+            <TabsTrigger value="leaderboard" className="rounded-lg data-[state=active]:bg-magenta/10 data-[state=active]:text-magenta font-bold">Global Leaderboard</TabsTrigger>
+            <TabsTrigger value="history" className="rounded-lg data-[state=active]:bg-magenta/10 data-[state=active]:text-magenta font-bold">My Roleplay History</TabsTrigger>
           </TabsList>
 
           <TabsContent value="leaderboard">
@@ -115,14 +115,14 @@ export default function LeaderboardPage() {
                                 <img 
                                   src={entry.warriorAvatar || entry.profilePhoto || ""} 
                                   alt={entry.name}
-                                  className="w-10 h-10 rounded-full object-cover border-2 border-primary/20"
+                                  className="w-10 h-10 rounded-full object-cover border-2 border-magenta/20"
                                 />
                               ) : (
-                                <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm border border-border">
+                                <div className="w-10 h-10 rounded-full bg-magenta/10 text-magenta flex items-center justify-center font-bold text-sm border border-border">
                                   {entry.avatarInitials}
                                 </div>
                               )}
-                              <span className={`font-medium ${entry.userId === user?.id ? "text-primary font-bold" : "text-foreground"}`}>
+                              <span className={`font-medium ${entry.userId === user?.id ? "text-magenta font-bold" : "text-foreground"}`}>
                                 {entry.name} {entry.userId === user?.id && "(You)"}
                               </span>
                             </div>
@@ -203,7 +203,7 @@ export default function LeaderboardPage() {
                           <Button variant="outline" size="sm" className="w-full">View Analysis</Button>
                         </Link>
                         <Link href={`/chat/${attempt.roleplayId}`} className="flex-1">
-                          <Button size="sm" className="w-full bg-primary/10 text-primary hover:bg-primary/20 border-transparent shadow-none">Retry</Button>
+                          <Button size="sm" className="w-full bg-magenta/10 text-magenta hover:bg-magenta/20 border-transparent shadow-none">Retry</Button>
                         </Link>
                       </div>
                     </div>

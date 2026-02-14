@@ -21,10 +21,10 @@ export default function ResourcesPage() {
 
         <Tabs defaultValue="calls" className="w-full">
           <TabsList className="bg-white border border-border p-1 rounded-xl mb-8 w-full max-w-md mx-auto grid grid-cols-2">
-            <TabsTrigger value="calls" className="rounded-lg data-[state=active]:bg-primary/10 data-[state=active]:text-primary font-bold flex items-center justify-center gap-2">
+            <TabsTrigger value="calls" className="rounded-lg data-[state=active]:bg-magenta/10 data-[state=active]:text-magenta font-bold flex items-center justify-center gap-2">
               <Headphones className="w-4 h-4" /> Top Sales Calls
             </TabsTrigger>
-            <TabsTrigger value="videos" className="rounded-lg data-[state=active]:bg-primary/10 data-[state=active]:text-primary font-bold flex items-center justify-center gap-2">
+            <TabsTrigger value="videos" className="rounded-lg data-[state=active]:bg-magenta/10 data-[state=active]:text-magenta font-bold flex items-center justify-center gap-2">
               <Film className="w-4 h-4" /> Training Videos
             </TabsTrigger>
           </TabsList>
@@ -32,16 +32,16 @@ export default function ResourcesPage() {
           <TabsContent value="calls">
             <div className="grid grid-cols-1 gap-4">
               {calls.map((resource) => (
-                <div key={resource.id} className="bg-white rounded-2xl border border-border p-6 shadow-sm hover:border-primary/50 transition-all group">
+                <div key={resource.id} className="bg-white rounded-2xl border border-border p-6 shadow-sm hover:border-magenta/50 transition-all group">
                   <div className="flex flex-col md:flex-row gap-6">
                     <div className="flex-shrink-0">
-                      <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                      <div className="w-16 h-16 rounded-full bg-magenta/10 flex items-center justify-center text-magenta group-hover:scale-110 transition-transform">
                         <PlayCircle className="w-8 h-8" />
                       </div>
                     </div>
                     <div className="flex-1">
                       <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-2">
-                        <h3 className="text-lg font-bold font-display text-foreground group-hover:text-primary transition-colors">
+                        <h3 className="text-lg font-bold font-display text-foreground group-hover:text-magenta transition-colors">
                           {resource.title}
                         </h3>
                         <div className="flex items-center gap-3 text-xs text-muted-foreground">
@@ -105,7 +105,7 @@ export default function ResourcesPage() {
                   </div>
                   
                   <div className="p-5 flex flex-col h-full">
-                    <h3 className="font-bold text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+                    <h3 className="font-bold text-lg mb-2 line-clamp-2 group-hover:text-magenta transition-colors">
                       {resource.title}
                     </h3>
                     
@@ -123,7 +123,7 @@ export default function ResourcesPage() {
                         </div>
                       </div>
                     
-                    <Button variant="outline" className="w-full group-hover:border-primary group-hover:text-primary">Watch Training</Button>
+                    <Button variant="outline" className="w-full group-hover:border-magenta group-hover:text-magenta">Watch Training</Button>
                   </div>
                 </div>
               ))}

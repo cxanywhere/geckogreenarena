@@ -111,7 +111,7 @@ function AttemptCard({ attempt, attemptNumber }: { attempt: Attempt; attemptNumb
         </div>
         <div className="flex items-center gap-2">
           {attempt.notes.length > 0 && (
-            <div className="flex items-center gap-1 px-2 py-1 bg-primary/10 rounded text-xs text-primary">
+            <div className="flex items-center gap-1 px-2 py-1 bg-magenta/10 rounded text-xs text-magenta">
               <MessageSquare className="w-3 h-3" />
               {attempt.notes.length} note{attempt.notes.length !== 1 ? 's' : ''}
             </div>
@@ -200,13 +200,13 @@ function AttemptCard({ attempt, attemptNumber }: { attempt: Attempt; attemptNumb
 
               {attempt.notes.length > 0 && (
                 <div className="border-t border-border pt-4">
-                  <h4 className="text-sm font-medium text-primary mb-2 flex items-center gap-1">
+                  <h4 className="text-sm font-medium text-magenta mb-2 flex items-center gap-1">
                     <MessageSquare className="w-4 h-4" />
                     Manager Coaching Notes
                   </h4>
                   <div className="space-y-2">
                     {attempt.notes.map((note) => (
-                      <div key={note.id} className="bg-primary/5 rounded-lg p-3 border border-primary/10">
+                      <div key={note.id} className="bg-magenta/5 rounded-lg p-3 border border-magenta/10">
                         <p className="text-sm text-foreground">{note.content}</p>
                         {note.createdAt && (
                           <p className="text-xs text-muted-foreground mt-1">

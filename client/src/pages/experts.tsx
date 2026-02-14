@@ -63,7 +63,7 @@ export default function ExpertsPage() {
         <Nav />
         <div className="flex-1 flex items-center justify-center">
           <div className="flex flex-col items-center gap-4">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <Loader2 className="w-8 h-8 animate-spin text-magenta" />
             <p className="text-muted-foreground">Loading experts...</p>
           </div>
         </div>
@@ -78,7 +78,7 @@ export default function ExpertsPage() {
       <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full">
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <Users className="w-8 h-8 text-primary" />
+            <Users className="w-8 h-8 text-magenta" />
             <h1 className="text-3xl font-bold text-foreground" data-testid="page-title">Expert Marketplace</h1>
           </div>
           <p className="text-muted-foreground max-w-2xl">
@@ -118,10 +118,10 @@ export default function ExpertsPage() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl p-6 mb-8 border border-primary/20">
+        <div className="bg-gradient-to-r from-magenta/10 to-magenta/5 rounded-xl p-6 mb-8 border border-magenta/20">
           <div className="flex items-start gap-4">
-            <div className="p-3 bg-primary/20 rounded-lg">
-              <Sparkles className="w-6 h-6 text-primary" />
+            <div className="p-3 bg-magenta/20 rounded-lg">
+              <Sparkles className="w-6 h-6 text-magenta" />
             </div>
             <div>
               <h2 className="text-lg font-semibold text-foreground mb-1">Two Ways to Learn</h2>
@@ -177,16 +177,16 @@ function ExpertCard({ expert, index, featured = false }: { expert: Expert; index
       transition={{ delay: index * 0.05 }}
     >
       <Card 
-        className={`overflow-hidden h-full ${featured ? 'ring-2 ring-primary/30' : ''} bg-card border-border`}
+        className={`overflow-hidden h-full ${featured ? 'ring-2 ring-magenta/30' : ''} bg-card border-border`}
         data-testid={`card-expert-${expert.slug}`}
       >
         <CardContent className="p-6">
           <div className="flex items-start gap-4 mb-4">
-            <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 overflow-hidden">
+            <div className="w-16 h-16 rounded-full bg-magenta/20 flex items-center justify-center flex-shrink-0 overflow-hidden">
               {expert.avatar ? (
                 <img src={expert.avatar} alt={expert.name} className="w-full h-full object-cover" />
               ) : (
-                <span className="text-xl font-bold text-primary">
+                <span className="text-xl font-bold text-magenta">
                   {expert.name.split(' ').map(n => n[0]).join('')}
                 </span>
               )}
@@ -198,7 +198,7 @@ function ExpertCard({ expert, index, featured = false }: { expert: Expert; index
                 </h3>
                 {featured && <Star className="w-4 h-4 text-yellow-500 flex-shrink-0" />}
               </div>
-              <p className="text-sm text-primary font-medium">{expert.company}</p>
+              <p className="text-sm text-magenta font-medium">{expert.company}</p>
               <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
                 <MapPin className="w-3 h-3" />
                 {expert.location}
@@ -262,7 +262,7 @@ function ExpertCard({ expert, index, featured = false }: { expert: Expert; index
               href={expert.website} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="flex items-center gap-1 text-xs text-primary hover:underline mt-2"
+              className="flex items-center gap-1 text-xs text-magenta hover:underline mt-2"
             >
               <ExternalLink className="w-3 h-3" />
               Website

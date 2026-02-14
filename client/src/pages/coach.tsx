@@ -121,8 +121,8 @@ export default function CoachPage() {
         <div className="flex flex-col h-[calc(100vh-120px)]">
           <div className="mb-6">
             <div className="flex items-center gap-3 mb-2">
-              <div className="p-2 rounded-xl bg-primary/10">
-                <Bot className="h-6 w-6 text-primary" />
+              <div className="p-2 rounded-xl bg-magenta/10">
+                <Bot className="h-6 w-6 text-magenta" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-foreground">Sales Coach</h1>
@@ -137,8 +137,8 @@ export default function CoachPage() {
             <ScrollArea className="flex-1 p-4" ref={scrollRef}>
               {messages.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center py-8">
-                  <div className="p-4 rounded-full bg-primary/10 mb-4">
-                    <Sparkles className="h-8 w-8 text-primary" />
+                  <div className="p-4 rounded-full bg-magenta/10 mb-4">
+                    <Sparkles className="h-8 w-8 text-magenta" />
                   </div>
                   <h2 className="text-lg font-semibold text-foreground mb-2">
                     How can I help you today?
@@ -151,10 +151,10 @@ export default function CoachPage() {
                       <button
                         key={i}
                         onClick={() => handleSuggestionClick(suggestion.text)}
-                        className="flex items-center gap-3 p-3 rounded-xl bg-background border border-border hover:border-primary/50 hover:bg-primary/5 transition-all text-left group"
+                        className="flex items-center gap-3 p-3 rounded-xl bg-background border border-border hover:border-magenta/50 hover:bg-magenta/5 transition-all text-left group"
                         data-testid={`suggestion-${i}`}
                       >
-                        <suggestion.icon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
+                        <suggestion.icon className="h-5 w-5 text-muted-foreground group-hover:text-magenta transition-colors flex-shrink-0" />
                         <span className="text-sm text-foreground">{suggestion.text}</span>
                       </button>
                     ))}
@@ -172,14 +172,14 @@ export default function CoachPage() {
                         className={`flex gap-3 ${message.role === "user" ? "justify-end" : "justify-start"}`}
                       >
                         {message.role === "assistant" && (
-                          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                            <Bot className="h-4 w-4 text-primary" />
+                          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-magenta/10 flex items-center justify-center">
+                            <Bot className="h-4 w-4 text-magenta" />
                           </div>
                         )}
                         <div
                           className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                             message.role === "user"
-                              ? "bg-primary text-primary-foreground"
+                              ? "bg-magenta text-primary-foreground"
                               : "bg-muted"
                           }`}
                         >
@@ -210,7 +210,7 @@ export default function CoachPage() {
                           )}
                         </div>
                         {message.role === "user" && (
-                          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-magenta flex items-center justify-center">
                             <User className="h-4 w-4 text-primary-foreground" />
                           </div>
                         )}
@@ -223,8 +223,8 @@ export default function CoachPage() {
                       animate={{ opacity: 1, y: 0 }}
                       className="flex gap-3"
                     >
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                        <Bot className="h-4 w-4 text-primary" />
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-magenta/10 flex items-center justify-center">
+                        <Bot className="h-4 w-4 text-magenta" />
                       </div>
                       <div className="bg-muted rounded-2xl px-4 py-3">
                         <div className="flex items-center gap-2">

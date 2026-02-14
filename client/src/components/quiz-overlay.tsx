@@ -75,8 +75,8 @@ export function QuizOverlay({ questions, chapterId, userId, onComplete, onSkip }
           <CardHeader className="pb-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Brain className="w-5 h-5 text-primary" />
+                <div className="w-10 h-10 rounded-full bg-magenta/10 flex items-center justify-center">
+                  <Brain className="w-5 h-5 text-magenta" />
                 </div>
                 <div>
                   <CardTitle className="text-lg">Knowledge Check</CardTitle>
@@ -110,8 +110,8 @@ export function QuizOverlay({ questions, chapterId, userId, onComplete, onSkip }
                         : isWrongAnswer
                         ? "border-red-500 bg-red-50 dark:bg-red-900/20"
                         : isSelected
-                        ? "border-primary bg-primary/5"
-                        : "border-border hover:border-primary/50 hover:bg-muted/50"
+                        ? "border-magenta bg-magenta/5"
+                        : "border-border hover:border-magenta/50 hover:bg-muted/50"
                     }`}
                     whileTap={{ scale: result ? 1 : 0.98 }}
                     data-testid={`button-option-${index}`}
@@ -123,7 +123,7 @@ export function QuizOverlay({ questions, chapterId, userId, onComplete, onSkip }
                           : isWrongAnswer
                           ? "bg-red-500 text-white"
                           : isSelected
-                          ? "bg-primary text-primary-foreground"
+                          ? "bg-magenta text-primary-foreground"
                           : "bg-muted text-muted-foreground"
                       }`}>
                         {isCorrectAnswer ? (
@@ -191,9 +191,9 @@ export function QuizOverlay({ questions, chapterId, userId, onComplete, onSkip }
                   key={idx}
                   className={`w-2 h-2 rounded-full transition-colors ${
                     idx === currentIndex
-                      ? "bg-primary"
+                      ? "bg-magenta"
                       : idx < currentIndex
-                      ? "bg-primary/40"
+                      ? "bg-magenta/40"
                       : "bg-muted"
                   }`}
                 />

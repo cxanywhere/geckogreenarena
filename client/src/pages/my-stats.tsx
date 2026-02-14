@@ -83,7 +83,7 @@ export default function MyStatsPage() {
   const { performance, certification, pendingTasks, weeklyStats, recentRoleplays } = stats;
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20">
+    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-magenta/20">
       <Nav />
       
       <section className="relative overflow-hidden pt-6 pb-12 md:pt-12 md:pb-20">
@@ -100,7 +100,7 @@ export default function MyStatsPage() {
                 </Button>
               </Link>
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono font-bold mb-2">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-magenta/10 border border-magenta/20 text-magenta text-xs font-mono font-bold mb-2">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
@@ -121,13 +121,13 @@ export default function MyStatsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
             >
-              <div className="bg-gradient-to-r from-primary/10 to-amber-500/10 border border-primary/30 rounded-2xl p-5 mb-8">
+              <div className="bg-gradient-to-r from-magenta/10 to-amber-500/10 border border-magenta/30 rounded-2xl p-5 mb-8">
                 <div className="flex items-center gap-4">
-                  <div className="p-3 bg-primary/10 rounded-xl">
-                    <Award className="h-8 w-8 text-primary" />
+                  <div className="p-3 bg-magenta/10 rounded-xl">
+                    <Award className="h-8 w-8 text-magenta" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-primary" data-testid="text-certification-status">Certified Sales Warrior</h3>
+                    <h3 className="text-lg font-bold text-magenta" data-testid="text-certification-status">Certified Sales Warrior</h3>
                     <p className="text-sm text-muted-foreground">
                       Certificate #{certification.certificateNumber} - Awarded {format(new Date(certification.awardedAt), "MMM d, yyyy")}
                     </p>
@@ -150,8 +150,8 @@ export default function MyStatsPage() {
                 <CardContent>
                   <div className="flex items-center justify-between">
                     <p className="text-3xl font-bold text-foreground" data-testid="text-overall-score">{performance.overallScore}%</p>
-                    <div className="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center">
-                      <TrendingUp className="h-6 w-6 text-primary" />
+                    <div className="h-12 w-12 rounded-full bg-magenta/20 flex items-center justify-center">
+                      <TrendingUp className="h-6 w-6 text-magenta" />
                     </div>
                   </div>
                 </CardContent>
@@ -216,7 +216,7 @@ export default function MyStatsPage() {
               <Card className="bg-card/80 border-border/50">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-foreground">
-                    <Calendar className="h-5 w-5 text-primary" />
+                    <Calendar className="h-5 w-5 text-magenta" />
                     This Week
                   </CardTitle>
                 </CardHeader>
@@ -227,7 +227,7 @@ export default function MyStatsPage() {
                       <p className="text-xs text-muted-foreground">Roleplays</p>
                     </div>
                     <div className="text-center p-4 bg-background/50 rounded-xl border border-border/30">
-                      <p className="text-2xl font-bold text-primary" data-testid="text-weekly-passed">{weeklyStats.roleplaysPassed}</p>
+                      <p className="text-2xl font-bold text-magenta" data-testid="text-weekly-passed">{weeklyStats.roleplaysPassed}</p>
                       <p className="text-xs text-muted-foreground">Passed</p>
                     </div>
                     <div className="text-center p-4 bg-background/50 rounded-xl border border-border/30">
@@ -282,7 +282,7 @@ export default function MyStatsPage() {
                 <Card className="bg-card/80 border-border/50">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-foreground">
-                      <CheckCircle2 className="h-5 w-5 text-primary" />
+                      <CheckCircle2 className="h-5 w-5 text-magenta" />
                       All Tasks Complete
                     </CardTitle>
                   </CardHeader>
@@ -325,10 +325,10 @@ export default function MyStatsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              <div className="bg-gradient-to-r from-primary/5 to-blue-500/5 border border-primary/20 rounded-2xl p-6 mt-8">
+              <div className="bg-gradient-to-r from-magenta/5 to-blue-500/5 border border-magenta/20 rounded-2xl p-6 mt-8">
                 <div className="flex items-center gap-4">
-                  <div className="p-3 bg-primary/10 rounded-xl">
-                    <Star className="h-8 w-8 text-primary" />
+                  <div className="p-3 bg-magenta/10 rounded-xl">
+                    <Star className="h-8 w-8 text-magenta" />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-lg font-bold text-foreground">Path to Certification</h3>
@@ -337,7 +337,7 @@ export default function MyStatsPage() {
                     </p>
                   </div>
                   <Link href="/">
-                    <Button className="bg-primary hover:bg-primary/90" data-testid="button-continue-training">
+                    <Button className="bg-magenta hover:bg-magenta/90" data-testid="button-continue-training">
                       Continue Training
                     </Button>
                   </Link>

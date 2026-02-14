@@ -127,7 +127,7 @@ export function RoleplayCard({ scenario, index, isLocked = false, hasPassed = fa
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: index * 0.1, duration: 0.4 }}
-        className="group relative cursor-pointer overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-primary/10 h-full flex flex-col"
+        className="group relative cursor-pointer overflow-hidden rounded-2xl bg-card border border-border hover:border-magenta/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-magenta/10 h-full flex flex-col"
       >
         {/* Image Header */}
         <div className="relative h-48 overflow-hidden bg-muted">
@@ -139,8 +139,8 @@ export function RoleplayCard({ scenario, index, isLocked = false, hasPassed = fa
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
           ) : (
-            <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/40">
-              <User className="w-20 h-20 text-primary/40" />
+            <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-magenta/20 to-magenta/40">
+              <User className="w-20 h-20 text-magenta/40" />
             </div>
           )}
           <div className="absolute bottom-3 left-4 z-20">
@@ -168,31 +168,31 @@ export function RoleplayCard({ scenario, index, isLocked = false, hasPassed = fa
           {/* Stats */}
           <div className="grid grid-cols-3 gap-2 py-4 border-t border-border/50">
             <div className="flex flex-col items-center gap-1">
-              <Shield className="w-4 h-4 text-primary/70" />
+              <Shield className="w-4 h-4 text-magenta/70" />
               <span className="text-xs font-mono text-muted-foreground">RES</span>
               <div className="h-1 w-full bg-secondary rounded-full overflow-hidden">
                 <div 
-                  className="h-full bg-primary" 
+                  className="h-full bg-magenta" 
                   style={{ width: `${scenario.stats.resistance}%` }} 
                 />
               </div>
             </div>
             <div className="flex flex-col items-center gap-1">
-              <MessageSquare className="w-4 h-4 text-primary/70" />
+              <MessageSquare className="w-4 h-4 text-magenta/70" />
               <span className="text-xs font-mono text-muted-foreground">OBJ</span>
               <div className="h-1 w-full bg-secondary rounded-full overflow-hidden">
                 <div 
-                  className="h-full bg-primary" 
+                  className="h-full bg-magenta" 
                   style={{ width: `${scenario.stats.objections}%` }} 
                 />
               </div>
             </div>
             <div className="flex flex-col items-center gap-1">
-              <TrendingUp className="w-4 h-4 text-primary/70" />
+              <TrendingUp className="w-4 h-4 text-magenta/70" />
               <span className="text-xs font-mono text-muted-foreground">BUY</span>
               <div className="h-1 w-full bg-secondary rounded-full overflow-hidden">
                 <div 
-                  className="h-full bg-primary" 
+                  className="h-full bg-magenta" 
                   style={{ width: `${scenario.stats.buy_signal}%` }} 
                 />
               </div>
@@ -203,7 +203,7 @@ export function RoleplayCard({ scenario, index, isLocked = false, hasPassed = fa
             {scenario.traits.map((trait) => (
               <span 
                 key={trait} 
-                className="text-[10px] uppercase tracking-wider font-bold text-primary/80 bg-secondary/50 px-2 py-1 rounded-sm"
+                className="text-[10px] uppercase tracking-wider font-bold text-magenta/80 bg-secondary/50 px-2 py-1 rounded-sm"
               >
                 {trait}
               </span>
@@ -212,7 +212,7 @@ export function RoleplayCard({ scenario, index, isLocked = false, hasPassed = fa
         </div>
 
         {/* Hover Effect Line */}
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-magenta transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
       </motion.div>
     </Link>
   );

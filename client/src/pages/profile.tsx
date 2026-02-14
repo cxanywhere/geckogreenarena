@@ -22,7 +22,7 @@ export default function ProfilePage() {
   if (authLoading || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-magenta"></div>
       </div>
     );
   }
@@ -54,7 +54,7 @@ export default function ProfilePage() {
       case "manager":
         return "bg-blue-500/10 text-blue-500 border-blue-500/20";
       default:
-        return "bg-primary/10 text-primary border-primary/20";
+        return "bg-magenta/10 text-magenta border-magenta/20";
     }
   };
 
@@ -67,7 +67,7 @@ export default function ProfilePage() {
           className="absolute inset-0 bg-cover bg-center opacity-10"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-magenta/5 via-transparent to-background" />
         
         <div className="relative max-w-4xl mx-auto px-4 py-12">
           <motion.div
@@ -89,19 +89,19 @@ export default function ProfilePage() {
               <p className="text-muted-foreground">Your account information</p>
             </div>
 
-            <Card className="border-primary/10 shadow-xl">
+            <Card className="border-magenta/10 shadow-xl">
               <CardHeader className="pb-4">
                 <div className="flex flex-col sm:flex-row items-center gap-6">
                   {user.warriorAvatar ? (
                     <img 
                       src={user.warriorAvatar} 
                       alt={user.name}
-                      className="h-32 w-32 rounded-full object-cover border-4 border-primary shadow-lg shadow-primary/20"
+                      className="h-32 w-32 rounded-full object-cover border-4 border-magenta shadow-lg shadow-magenta/20"
                       data-testid="img-profile-avatar"
                     />
                   ) : (
                     <div 
-                      className="h-32 w-32 rounded-full bg-primary text-white flex items-center justify-center font-bold text-3xl shadow-lg shadow-primary/20"
+                      className="h-32 w-32 rounded-full bg-magenta text-white flex items-center justify-center font-bold text-3xl shadow-lg shadow-magenta/20"
                       data-testid="img-profile-initials"
                     >
                       {getInitials(user.name)}
@@ -123,8 +123,8 @@ export default function ProfilePage() {
               <CardContent className="space-y-6">
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/50">
-                    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Mail className="h-5 w-5 text-primary" />
+                    <div className="h-10 w-10 rounded-full bg-magenta/10 flex items-center justify-center">
+                      <Mail className="h-5 w-5 text-magenta" />
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Email</p>
@@ -133,8 +133,8 @@ export default function ProfilePage() {
                   </div>
 
                   <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/50">
-                    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <CalendarDays className="h-5 w-5 text-primary" />
+                    <div className="h-10 w-10 rounded-full bg-magenta/10 flex items-center justify-center">
+                      <CalendarDays className="h-5 w-5 text-magenta" />
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Joined</p>

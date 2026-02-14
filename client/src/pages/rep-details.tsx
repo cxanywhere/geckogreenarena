@@ -284,7 +284,7 @@ function RoleplayAttemptCard({ attempt, isExpanded, onToggle, notes, onAddNote }
             <div className="border-t border-border pt-4 mt-4">
               <div className="flex items-center justify-between mb-3">
                 <h4 className="text-sm font-bold flex items-center gap-2">
-                  <MessageSquare className="h-4 w-4 text-primary" /> Manager Feedback
+                  <MessageSquare className="h-4 w-4 text-magenta" /> Manager Feedback
                   {attemptNotes.length > 0 && (
                     <Badge variant="secondary" className="text-xs">{attemptNotes.length}</Badge>
                   )}
@@ -337,7 +337,7 @@ function RoleplayAttemptCard({ attempt, isExpanded, onToggle, notes, onAddNote }
               {attemptNotes.length > 0 ? (
                 <div className="space-y-2">
                   {attemptNotes.map((note) => (
-                    <div key={note.id} className="bg-primary/5 border border-primary/20 rounded-lg p-3">
+                    <div key={note.id} className="bg-magenta/5 border border-magenta/20 rounded-lg p-3">
                       <p className="text-sm whitespace-pre-wrap">{note.content}</p>
                       <p className="text-xs text-muted-foreground mt-2">
                         {format(new Date(note.createdAt), "MMM d, yyyy 'at' h:mm a")}
@@ -484,14 +484,14 @@ export default function RepDetailsPage() {
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-6">
-          <Link href={backUrl} className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
+          <Link href={backUrl} className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-magenta hover:opacity-80 transition-opacity">
               <img src={monetateLogo} alt="Monetate" className="h-8 w-8 object-contain" />
               <div className="flex flex-col leading-none">
                 <span>Monetate</span>
                 <span className={`text-[10px] font-normal uppercase tracking-wide ${isAdmin ? 'text-destructive font-bold' : 'text-foreground/80'}`}>{portalName}</span>
               </div>
           </Link>
-          <div className="hidden md:flex items-center gap-2 pl-6 border-l border-primary/10">
+          <div className="hidden md:flex items-center gap-2 pl-6 border-l border-magenta/10">
             <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest">Client:</span>
             <img src={monetateLogo} alt="Monetate" className="h-8 w-auto object-contain" />
           </div>
@@ -509,7 +509,7 @@ export default function RepDetailsPage() {
       <div className="min-h-screen bg-muted/20 font-sans">
         <Header />
         <div className="flex items-center justify-center h-[60vh]">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <Loader2 className="h-8 w-8 animate-spin text-magenta" />
         </div>
       </div>
     );
@@ -521,7 +521,7 @@ export default function RepDetailsPage() {
         <Header />
         <div className="container mx-auto px-4 py-8">
           <Link href={backUrl}>
-            <Button variant="ghost" className="pl-0 text-muted-foreground hover:text-primary mb-4">
+            <Button variant="ghost" className="pl-0 text-muted-foreground hover:text-magenta mb-4">
               <ArrowLeft className="mr-2 h-4 w-4" /> Back to Team
             </Button>
           </Link>
@@ -552,14 +552,14 @@ export default function RepDetailsPage() {
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <Link href={backUrl}>
-            <Button variant="ghost" className="pl-0 text-muted-foreground hover:text-primary mb-4" data-testid="button-back">
+            <Button variant="ghost" className="pl-0 text-muted-foreground hover:text-magenta mb-4" data-testid="button-back">
               <ArrowLeft className="mr-2 h-4 w-4" /> Back to Team
             </Button>
           </Link>
           
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div className="flex items-center gap-4">
-              <div className="h-16 w-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xl font-bold text-2xl shadow-xl shadow-primary/20">
+              <div className="h-16 w-16 rounded-full bg-magenta text-primary-foreground flex items-center justify-center text-xl font-bold text-2xl shadow-xl shadow-magenta/20">
                 {initials}
               </div>
               <div>
@@ -587,7 +587,7 @@ export default function RepDetailsPage() {
               <CardTitle className="text-sm font-medium text-muted-foreground">Overall Score</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-primary" data-testid="text-overall-score">{performance.overallScore}%</div>
+              <div className="text-3xl font-bold text-magenta" data-testid="text-overall-score">{performance.overallScore}%</div>
               <Progress value={performance.overallScore} className="h-2 mt-2" />
             </CardContent>
           </Card>
@@ -640,7 +640,7 @@ export default function RepDetailsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-primary" />
+                  <Zap className="w-5 h-5 text-magenta" />
                   Roleplay Performance History
                 </CardTitle>
                 <CardDescription>All roleplay attempts with recordings and detailed feedback</CardDescription>
@@ -672,7 +672,7 @@ export default function RepDetailsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Brain className="w-5 h-5 text-primary" />
+                  <Brain className="w-5 h-5 text-magenta" />
                   Quiz Results
                 </CardTitle>
                 <CardDescription>All quiz attempts showing right and wrong answers</CardDescription>
@@ -687,7 +687,7 @@ export default function RepDetailsPage() {
                     {Object.entries(groupedQuizAttempts).map(([chapterId, { title, attempts }]) => (
                       <div key={chapterId}>
                         <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
-                          <BookOpen className="h-5 w-5 text-primary" />
+                          <BookOpen className="h-5 w-5 text-magenta" />
                           {title}
                           <Badge variant="outline" className="ml-2">
                             {attempts.filter(a => a.isCorrect).length}/{attempts.length} correct
@@ -710,7 +710,7 @@ export default function RepDetailsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-primary" />
+                  <BookOpen className="w-5 h-5 text-magenta" />
                   Chapter Progress
                 </CardTitle>
                 <CardDescription>Training progress across all chapters</CardDescription>
@@ -773,7 +773,7 @@ export default function RepDetailsPage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <MessageSquare className="w-5 h-5 text-primary" />
+                    <MessageSquare className="w-5 h-5 text-magenta" />
                     Coaching Notes
                   </CardTitle>
                   <CardDescription>Private notes about this rep's progress and areas to focus on</CardDescription>
@@ -818,7 +818,7 @@ export default function RepDetailsPage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <ListTodo className="w-5 h-5 text-primary" />
+                    <ListTodo className="w-5 h-5 text-magenta" />
                     Assigned Tasks
                   </CardTitle>
                   <CardDescription>Tasks for this rep to complete</CardDescription>

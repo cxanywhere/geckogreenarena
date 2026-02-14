@@ -43,7 +43,7 @@ export default function LoginPage() {
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="h-8 w-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+        <div className="h-8 w-8 border-4 border-magenta/30 border-t-magenta rounded-full animate-spin" />
       </div>
     );
   }
@@ -79,7 +79,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2 bg-background font-sans overflow-hidden">
-      {/* Left Side - Form */}
       <div className="flex flex-col justify-center px-8 sm:px-12 lg:px-24 xl:px-32 z-10 bg-card/50 backdrop-blur-sm">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -95,7 +94,7 @@ export default function LoginPage() {
 
           <div className="mb-8 p-6 bg-card rounded-2xl border border-border shadow-sm relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
-              <Zap className="w-24 h-24 text-primary rotate-12" />
+              <Zap className="w-24 h-24 text-magenta rotate-12" />
             </div>
             <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-3">Sales Enablement Platform</p>
             <p className="text-lg font-display font-bold text-foreground">AI-Powered Training & Roleplay</p>
@@ -117,7 +116,7 @@ export default function LoginPage() {
                 id="email" 
                 type="email" 
                 placeholder="name@monetate.com" 
-                className="h-12 bg-background border-input focus:border-primary focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
+                className="h-12 bg-background border-input focus:border-magenta focus:ring-magenta/20 transition-all text-foreground placeholder:text-muted-foreground"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -127,7 +126,7 @@ export default function LoginPage() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password" className="text-foreground">Password</Label>
-                <a href="#" className="text-sm font-medium text-primary hover:underline">
+                <a href="#" className="text-sm font-medium text-magenta hover:underline">
                   Forgot password?
                 </a>
               </div>
@@ -135,7 +134,7 @@ export default function LoginPage() {
                 id="password" 
                 type="password" 
                 placeholder="••••••••" 
-                className="h-12 bg-background border-input focus:border-primary focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
+                className="h-12 bg-background border-input focus:border-magenta focus:ring-magenta/20 transition-all text-foreground placeholder:text-muted-foreground"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -143,7 +142,7 @@ export default function LoginPage() {
             </div>
 
             <div className="flex items-center space-x-2">
-              <Checkbox id="remember" className="border-input data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground" />
+              <Checkbox id="remember" className="border-input data-[state=checked]:bg-magenta data-[state=checked]:text-white" />
               <Label htmlFor="remember" className="font-normal text-muted-foreground cursor-pointer">
                 Remember this device for 30 days
               </Label>
@@ -151,7 +150,7 @@ export default function LoginPage() {
 
             <Button 
               type="submit" 
-              className="w-full h-12 text-base font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all hover:-translate-y-0.5"
+              className="w-full h-12 text-base font-medium btn-gradient shadow-lg shadow-magenta/25 hover:shadow-magenta/40 transition-all"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -170,11 +169,10 @@ export default function LoginPage() {
         </motion.div>
       </div>
 
-      {/* Right Side - Visual */}
       <div className="hidden lg:block relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1A2B8C] via-[#2a3d9e] to-[#E84C8A]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(232,76,138,0.3),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(26,43,140,0.4),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0B1340] via-[#1A2B8C] to-[#0B1340]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(232,76,138,0.4),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(26,43,140,0.5),transparent_60%)]" />
         
         <div className="relative z-10 h-full flex flex-col justify-between p-24 text-white">
           <div className="flex justify-end">
@@ -191,11 +189,23 @@ export default function LoginPage() {
           >
             <h2 className="font-display text-5xl font-bold mb-6 leading-tight">
               Experience Optimization <br />
-              <span className="text-pink-300">Sales Enablement</span>
+              <span className="text-[#E84C8A]">Sales Enablement</span>
             </h2>
             <p className="text-white/80 text-lg max-w-md leading-relaxed">
               Master your pitch with AI-powered training. The advanced roleplay platform built exclusively for Monetate sales professionals.
             </p>
+            
+            <div className="flex gap-3 mt-8">
+              <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
+                <span className="text-[#E84C8A] font-bold">16</span> <span className="text-white/70">AI Roleplays</span>
+              </div>
+              <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
+                <span className="text-[#E84C8A] font-bold">13</span> <span className="text-white/70">Buyer Personas</span>
+              </div>
+              <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
+                <span className="text-[#E84C8A] font-bold">20</span> <span className="text-white/70">Battlecards</span>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>

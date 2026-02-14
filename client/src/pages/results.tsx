@@ -260,7 +260,7 @@ export default function ResultsPage() {
       <div className="container mx-auto px-4 py-8 flex-1 flex flex-col max-w-6xl">
         <div className="mb-6 flex items-center justify-between">
           <Link href="/dashboard">
-            <Button variant="ghost" className="pl-0 text-muted-foreground hover:text-primary">
+            <Button variant="ghost" className="pl-0 text-muted-foreground hover:text-magenta">
               <ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard
             </Button>
           </Link>
@@ -319,7 +319,7 @@ export default function ResultsPage() {
               <div className="flex items-center justify-between mb-8">
                 <div>
                   <h1 className="text-2xl font-display font-bold text-foreground">Performance Analysis</h1>
-                  <p className="text-muted-foreground">Scenario: <span className="font-semibold text-primary">"{scenario.name}"</span></p>
+                  <p className="text-muted-foreground">Scenario: <span className="font-semibold text-magenta">"{scenario.name}"</span></p>
                   <p className="text-sm text-muted-foreground">{scenario.role} - {scenario.difficulty}</p>
                 </div>
                 <div className="text-right">
@@ -390,7 +390,7 @@ export default function ResultsPage() {
             {feedback.recordingUrl && (
               <div className="bg-card rounded-2xl shadow-sm border border-border p-6">
                 <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                  <Volume2 className="w-5 h-5 text-primary" /> Call Recording
+                  <Volume2 className="w-5 h-5 text-magenta" /> Call Recording
                 </h3>
                 <div className="flex items-center gap-4">
                   <Button
@@ -421,13 +421,13 @@ export default function ResultsPage() {
 
             <div className="bg-card rounded-2xl shadow-sm border border-border p-6">
               <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                <Activity className="w-5 h-5 text-primary" /> Key Moments
+                <Activity className="w-5 h-5 text-magenta" /> Key Moments
               </h3>
               <div className="space-y-3">
                 {feedback.keyMoments.map((moment, i) => (
                   <div key={i} className="flex gap-4 p-4 rounded-xl bg-muted/30 border border-border">
                     <div className="flex-shrink-0 mt-1">
-                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                      <div className="w-6 h-6 rounded-full bg-magenta/10 flex items-center justify-center text-xs font-bold text-magenta">
                         {i + 1}
                       </div>
                     </div>

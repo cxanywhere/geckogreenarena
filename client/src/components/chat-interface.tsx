@@ -133,12 +133,12 @@ export function ChatInterface({ scenario, userId }: ChatInterfaceProps) {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100dvh-10rem)] lg:h-[80vh] landscape:h-[calc(100dvh-6rem)] bg-card rounded-xl overflow-hidden border border-border shadow-2xl shadow-primary/5">
+    <div className="flex flex-col h-[calc(100dvh-10rem)] lg:h-[80vh] landscape:h-[calc(100dvh-6rem)] bg-card rounded-xl overflow-hidden border border-border shadow-2xl shadow-magenta/5">
       {/* Header */}
       <div className="p-4 border-b border-border bg-muted/20 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="relative">
-            <Avatar className="h-10 w-10 border-2 border-primary/20">
+            <Avatar className="h-10 w-10 border-2 border-magenta/20">
               <AvatarImage src={scenario.avatar} />
               <AvatarFallback>{scenario.name[0]}</AvatarFallback>
             </Avatar>
@@ -146,11 +146,11 @@ export function ChatInterface({ scenario, userId }: ChatInterfaceProps) {
           </div>
           <div>
             <h3 className="font-display font-bold text-foreground leading-none">{scenario.role}</h3>
-            <span className="text-xs text-primary font-mono">{scenario.difficulty} // ONLINE</span>
+            <span className="text-xs text-magenta font-mono">{scenario.difficulty} // ONLINE</span>
           </div>
         </div>
         <div className="flex gap-2">
-            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
+            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-magenta">
               <Volume2 className="h-5 w-5" />
             </Button>
             <Button 
@@ -179,7 +179,7 @@ export function ChatInterface({ scenario, userId }: ChatInterfaceProps) {
         <div className="flex flex-col gap-4 pb-4">
           {isStarting && (
             <div className="flex items-center justify-center py-8">
-              <Loader2 className="h-6 w-6 animate-spin text-primary mr-2" />
+              <Loader2 className="h-6 w-6 animate-spin text-magenta mr-2" />
               <span className="text-muted-foreground">Connecting to scenario...</span>
             </div>
           )}
@@ -192,21 +192,21 @@ export function ChatInterface({ scenario, userId }: ChatInterfaceProps) {
                 className={`flex gap-3 ${msg.sender === "user" ? "flex-row-reverse" : "flex-row"}`}
               >
                 {msg.sender === "ai" && (
-                  <Avatar className="h-8 w-8 mt-1 border border-primary/20">
+                  <Avatar className="h-8 w-8 mt-1 border border-magenta/20">
                     <AvatarImage src={scenario.avatar} />
                     <AvatarFallback>{scenario.name[0]}</AvatarFallback>
                   </Avatar>
                 )}
                 {msg.sender === "user" && (
-                  <div className="h-8 w-8 mt-1 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
-                    <User className="h-4 w-4 text-primary" />
+                  <div className="h-8 w-8 mt-1 rounded-full bg-magenta/10 flex items-center justify-center border border-magenta/20">
+                    <User className="h-4 w-4 text-magenta" />
                   </div>
                 )}
                 
                 <div
                   className={`max-w-[80%] p-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
                     msg.sender === "user"
-                      ? "bg-primary text-primary-foreground rounded-tr-none"
+                      ? "bg-magenta text-primary-foreground rounded-tr-none"
                       : "bg-card border border-border text-foreground rounded-tl-none"
                   }`}
                 >
@@ -220,7 +220,7 @@ export function ChatInterface({ scenario, userId }: ChatInterfaceProps) {
                 animate={{ opacity: 1, y: 0 }}
                 className="flex gap-3"
               >
-                <Avatar className="h-8 w-8 mt-1 border border-primary/20">
+                <Avatar className="h-8 w-8 mt-1 border border-magenta/20">
                   <AvatarImage src={scenario.avatar} />
                   <AvatarFallback>{scenario.name[0]}</AvatarFallback>
                 </Avatar>
@@ -251,7 +251,7 @@ export function ChatInterface({ scenario, userId }: ChatInterfaceProps) {
           <Button
             onClick={handleSend}
             disabled={!inputValue.trim() || isLoading || isStarting || isEnding}
-            className="bg-primary"
+            className="bg-magenta"
             data-testid="button-send-message"
           >
             {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}

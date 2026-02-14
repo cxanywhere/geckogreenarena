@@ -1194,14 +1194,14 @@ export default function AdminDashboard() {
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-6">
-          <Link href="/admin-dashboard" className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
+          <Link href="/admin-dashboard" className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-magenta hover:opacity-80 transition-opacity">
               <img src={monetateLogo} alt="Monetate" className="h-8 w-8 object-contain" />
               <div className="flex flex-col leading-none">
                 <span>Monetate</span>
                 <span className="text-[10px] text-destructive font-bold uppercase tracking-wide">Admin / Director Portal</span>
               </div>
           </Link>
-          <div className="hidden md:flex items-center gap-2 pl-6 border-l border-primary/10">
+          <div className="hidden md:flex items-center gap-2 pl-6 border-l border-magenta/10">
             <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest">Org:</span>
             <img src={monetateLogo} alt="Monetate" className="h-8 w-auto object-contain" />
           </div>
@@ -1213,7 +1213,7 @@ export default function AdminDashboard() {
               <span className="text-sm font-bold leading-none">Robert Fox</span>
               <span className="text-xs text-muted-foreground">VP of Sales</span>
             </div>
-            <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20 ring-2 ring-primary/20">
+            <div className="h-9 w-9 rounded-full bg-magenta text-white flex items-center justify-center font-bold text-xs shadow-md shadow-magenta/20 ring-2 ring-magenta/20">
               RF
             </div>
             <Button variant="ghost" size="icon" onClick={() => setShowLogoutDialog(true)} title="Sign out" data-testid="button-logout">
@@ -1245,10 +1245,10 @@ export default function AdminDashboard() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="border-primary/10 shadow-sm bg-gradient-to-br from-card to-primary/5">
+          <Card className="border-magenta/10 shadow-sm bg-gradient-to-br from-card to-magenta/5">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Monthly Usage</CardTitle>
-              <Activity className="h-4 w-4 text-primary" />
+              <Activity className="h-4 w-4 text-magenta" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{(usageData?.summary.totalMinutes || 0).toLocaleString()} min</div>
@@ -1258,7 +1258,7 @@ export default function AdminDashboard() {
             </CardContent>
           </Card>
           
-          <Card className="border-primary/10 shadow-sm">
+          <Card className="border-magenta/10 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Cost</CardTitle>
               <DollarSign className="h-4 w-4 text-green-600" />
@@ -1271,7 +1271,7 @@ export default function AdminDashboard() {
             </CardContent>
           </Card>
 
-          <Card className="border-primary/10 shadow-sm">
+          <Card className="border-magenta/10 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Active Reps</CardTitle>
               <Users className="h-4 w-4 text-blue-500" />
@@ -1284,7 +1284,7 @@ export default function AdminDashboard() {
             </CardContent>
           </Card>
 
-           <Card className="border-primary/10 shadow-sm">
+           <Card className="border-magenta/10 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Sessions</CardTitle>
               <Shield className="h-4 w-4 text-purple-500" />
@@ -1310,7 +1310,7 @@ export default function AdminDashboard() {
           <TabsContent value="performance" className="space-y-4">
             {/* Org Performance Summary Cards */}
             <div className="grid gap-4 md:grid-cols-4">
-              <Card className="border-primary/10 shadow-sm bg-gradient-to-br from-card to-green-500/5">
+              <Card className="border-magenta/10 shadow-sm bg-gradient-to-br from-card to-green-500/5">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Certified Reps</CardTitle>
                   <Award className="h-4 w-4 text-green-500" />
@@ -1323,7 +1323,7 @@ export default function AdminDashboard() {
                 </CardContent>
               </Card>
 
-              <Card className="border-primary/10 shadow-sm">
+              <Card className="border-magenta/10 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Avg Quiz Score</CardTitle>
                   <GraduationCap className="h-4 w-4 text-blue-500" />
@@ -1334,7 +1334,7 @@ export default function AdminDashboard() {
                 </CardContent>
               </Card>
 
-              <Card className="border-primary/10 shadow-sm">
+              <Card className="border-magenta/10 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Roleplay Pass Rate</CardTitle>
                   <Mic className="h-4 w-4 text-purple-500" />
@@ -1345,7 +1345,7 @@ export default function AdminDashboard() {
                 </CardContent>
               </Card>
 
-              <Card className="border-primary/10 shadow-sm">
+              <Card className="border-magenta/10 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Total Managers</CardTitle>
                   <Users className="h-4 w-4 text-amber-500" />
@@ -1460,8 +1460,8 @@ export default function AdminDashboard() {
                                       </div>
                                     </TableCell>
                                     <TableCell>
-                                      <Link href={`/admin/rep/${rep.userId}`} className="flex items-center gap-2 hover:text-primary cursor-pointer">
-                                        <div className="h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                                      <Link href={`/admin/rep/${rep.userId}`} className="flex items-center gap-2 hover:text-magenta cursor-pointer">
+                                        <div className="h-7 w-7 rounded-full bg-magenta/10 flex items-center justify-center text-xs font-bold text-magenta">
                                           {rep.userName.split(" ").map(n => n[0]).join("").toUpperCase()}
                                         </div>
                                         <span className="font-medium hover:underline">{rep.userName}</span>
@@ -1516,7 +1516,7 @@ export default function AdminDashboard() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Target className="h-5 w-5 text-primary" />
+                  <Target className="h-5 w-5 text-magenta" />
                   Top Performers (All Reps)
                 </CardTitle>
                 <CardDescription>
@@ -1556,8 +1556,8 @@ export default function AdminDashboard() {
                             </div>
                           </TableCell>
                           <TableCell>
-                            <Link href={`/admin/rep/${rep.userId}`} className="flex items-center gap-2 hover:text-primary cursor-pointer">
-                              <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                            <Link href={`/admin/rep/${rep.userId}`} className="flex items-center gap-2 hover:text-magenta cursor-pointer">
+                              <div className="h-8 w-8 rounded-full bg-magenta/10 flex items-center justify-center text-xs font-bold text-magenta">
                                 {rep.userName.split(" ").map(n => n[0]).join("").toUpperCase()}
                               </div>
                               <div>
@@ -2045,15 +2045,15 @@ Mike Johnson mjohnson@monetate.com`}
                                   <img 
                                     src={rep.warriorAvatar || rep.profilePhoto || ""} 
                                     alt={rep.name}
-                                    className="h-8 w-8 rounded-full object-cover border-2 border-primary/20"
+                                    className="h-8 w-8 rounded-full object-cover border-2 border-magenta/20"
                                   />
                                 ) : (
-                                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                                  <div className="h-8 w-8 rounded-full bg-magenta/10 flex items-center justify-center text-xs font-bold text-magenta">
                                     {rep.avatarInitials}
                                   </div>
                                 )}
                                 <div className="flex flex-col">
-                                  <Link href={`/admin/rep/${rep.id}`} className="font-medium hover:text-primary hover:underline cursor-pointer">
+                                  <Link href={`/admin/rep/${rep.id}`} className="font-medium hover:text-magenta hover:underline cursor-pointer">
                                     {rep.name}
                                   </Link>
                                 </div>
@@ -2119,7 +2119,7 @@ Mike Johnson mjohnson@monetate.com`}
               </Button>
             </div>
             <div className="grid gap-4 md:grid-cols-4">
-              <Card className="border-primary/10 shadow-sm">
+              <Card className="border-magenta/10 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Total Sessions</CardTitle>
                   <Activity className="h-4 w-4 text-blue-500" />
@@ -2130,7 +2130,7 @@ Mike Johnson mjohnson@monetate.com`}
                 </CardContent>
               </Card>
 
-              <Card className="border-primary/10 shadow-sm">
+              <Card className="border-magenta/10 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Total Minutes</CardTitle>
                   <BarChart3 className="h-4 w-4 text-green-500" />
@@ -2141,7 +2141,7 @@ Mike Johnson mjohnson@monetate.com`}
                 </CardContent>
               </Card>
 
-              <Card className="border-primary/10 shadow-sm">
+              <Card className="border-magenta/10 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Total Cost</CardTitle>
                   <DollarSign className="h-4 w-4 text-amber-500" />
@@ -2152,7 +2152,7 @@ Mike Johnson mjohnson@monetate.com`}
                 </CardContent>
               </Card>
 
-              <Card className="border-primary/10 shadow-sm">
+              <Card className="border-magenta/10 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Active Users</CardTitle>
                   <Users className="h-4 w-4 text-purple-500" />
@@ -2193,7 +2193,7 @@ Mike Johnson mjohnson@monetate.com`}
                           <TableRow key={userId} data-testid={`row-usage-${userId}`}>
                             <TableCell>
                               <div className="flex items-center gap-3">
-                                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                                <div className="h-8 w-8 rounded-full bg-magenta/10 flex items-center justify-center text-xs font-bold text-magenta">
                                   {user?.avatarInitials || "?"}
                                 </div>
                                 <div className="flex flex-col">

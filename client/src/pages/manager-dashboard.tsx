@@ -632,14 +632,14 @@ export default function ManagerDashboard() {
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-6">
-          <Link href="/manager-dashboard" className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
+          <Link href="/manager-dashboard" className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-magenta hover:opacity-80 transition-opacity">
               <img src={monetateLogo} alt="Monetate" className="h-8 w-8 object-contain" />
               <div className="flex flex-col leading-none">
                 <span>Monetate</span>
                 <span className="text-[10px] text-foreground/80 font-normal uppercase tracking-wide">Manager Portal</span>
               </div>
           </Link>
-          <div className="hidden md:flex items-center gap-2 pl-6 border-l border-primary/10">
+          <div className="hidden md:flex items-center gap-2 pl-6 border-l border-magenta/10">
             <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest">Client:</span>
             <img src={monetateLogo} alt="Monetate" className="h-8 w-auto object-contain" />
           </div>
@@ -651,7 +651,7 @@ export default function ManagerDashboard() {
               <span className="text-sm font-bold leading-none">{currentUser?.name || "Sarah Jenkins"}</span>
               <span className="text-xs text-muted-foreground">Sales Manager</span>
             </div>
-            <div className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-md shadow-primary/20">
+            <div className="h-9 w-9 rounded-full bg-magenta text-white flex items-center justify-center font-bold text-xs shadow-md shadow-magenta/20">
               {currentUser?.avatarInitials || "SJ"}
             </div>
             <Button variant="ghost" size="icon" onClick={() => setShowLogoutDialog(true)} title="Sign out" data-testid="button-logout">
@@ -700,7 +700,7 @@ export default function ManagerDashboard() {
             }
           }}>
             <DialogTrigger asChild>
-              <Button className="gap-2 shadow-lg shadow-primary/20" data-testid="button-add-rep">
+              <Button className="gap-2 shadow-lg shadow-magenta/20" data-testid="button-add-rep">
                 <UserPlus className="w-4 h-4" /> Add New Rep
               </Button>
             </DialogTrigger>
@@ -849,7 +849,7 @@ export default function ManagerDashboard() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="border-primary/10 shadow-sm">
+          <Card className="border-magenta/10 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Active Reps</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
@@ -861,7 +861,7 @@ export default function ManagerDashboard() {
               </p>
             </CardContent>
           </Card>
-          <Card className="border-primary/10 shadow-sm">
+          <Card className="border-magenta/10 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Active Reps</CardTitle>
               <TrendingUp className="h-4 w-4 text-green-500" />
@@ -873,7 +873,7 @@ export default function ManagerDashboard() {
               </p>
             </CardContent>
           </Card>
-          <Card className="border-primary/10 shadow-sm">
+          <Card className="border-magenta/10 shadow-sm">
              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Pending Onboarding</CardTitle>
               <AlertCircle className="h-4 w-4 text-yellow-500" />
@@ -897,7 +897,7 @@ export default function ManagerDashboard() {
           <TabsContent value="performance" className="space-y-4">
             {/* Team Performance Summary Cards */}
             <div className="grid gap-4 md:grid-cols-4">
-              <Card className="border-primary/10 shadow-sm">
+              <Card className="border-magenta/10 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Certified Reps</CardTitle>
                   <Award className="h-4 w-4 text-green-500" />
@@ -910,7 +910,7 @@ export default function ManagerDashboard() {
                 </CardContent>
               </Card>
 
-              <Card className="border-primary/10 shadow-sm">
+              <Card className="border-magenta/10 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Avg Quiz Score</CardTitle>
                   <GraduationCap className="h-4 w-4 text-blue-500" />
@@ -921,7 +921,7 @@ export default function ManagerDashboard() {
                 </CardContent>
               </Card>
 
-              <Card className="border-primary/10 shadow-sm">
+              <Card className="border-magenta/10 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Roleplay Pass Rate</CardTitle>
                   <Mic className="h-4 w-4 text-purple-500" />
@@ -932,7 +932,7 @@ export default function ManagerDashboard() {
                 </CardContent>
               </Card>
 
-              <Card className="border-primary/10 shadow-sm">
+              <Card className="border-magenta/10 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Team Score</CardTitle>
                   <Trophy className="h-4 w-4 text-amber-500" />
@@ -1004,11 +1004,11 @@ export default function ManagerDashboard() {
                             </TableCell>
                             <TableCell>
                               <div className="flex items-center gap-3">
-                                <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                                <div className="h-9 w-9 rounded-full bg-magenta/10 flex items-center justify-center text-xs font-bold text-magenta">
                                   {rep.userName.split(" ").map(n => n[0]).join("").toUpperCase()}
                                 </div>
                                 <div className="flex flex-col">
-                                  <span className="font-medium text-primary hover:underline">{rep.userName}</span>
+                                  <span className="font-medium text-magenta hover:underline">{rep.userName}</span>
                                   <span className="text-xs text-muted-foreground">{rep.email}</span>
                                 </div>
                               </div>
@@ -1064,30 +1064,30 @@ export default function ManagerDashboard() {
             </Card>
 
             {/* Certification Requirements Info */}
-            <Card className="border-primary/10">
+            <Card className="border-magenta/10">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium flex items-center gap-2">
-                  <Target className="h-4 w-4 text-primary" />
+                  <Target className="h-4 w-4 text-magenta" />
                   Certification Requirements
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                   <div className="flex items-center gap-2">
-                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Check className="h-3 w-3 text-primary" />
+                    <div className="h-6 w-6 rounded-full bg-magenta/10 flex items-center justify-center">
+                      <Check className="h-3 w-3 text-magenta" />
                     </div>
                     <span>Complete all chapters</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Check className="h-3 w-3 text-primary" />
+                    <div className="h-6 w-6 rounded-full bg-magenta/10 flex items-center justify-center">
+                      <Check className="h-3 w-3 text-magenta" />
                     </div>
                     <span>Score 75%+ on quizzes</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Check className="h-3 w-3 text-primary" />
+                    <div className="h-6 w-6 rounded-full bg-magenta/10 flex items-center justify-center">
+                      <Check className="h-3 w-3 text-magenta" />
                     </div>
                     <span>Pass at least 1 roleplay</span>
                   </div>
@@ -1148,15 +1148,15 @@ export default function ManagerDashboard() {
                             <img 
                               src={rep.warriorAvatar || rep.profilePhoto || ""} 
                               alt={rep.name}
-                              className="h-9 w-9 rounded-full object-cover border-2 border-primary/20"
+                              className="h-9 w-9 rounded-full object-cover border-2 border-magenta/20"
                             />
                           ) : (
-                            <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                            <div className="h-9 w-9 rounded-full bg-magenta/10 flex items-center justify-center text-xs font-bold text-magenta">
                               {rep.avatarInitials}
                             </div>
                           )}
                           <div className="flex flex-col">
-                            <span className="font-medium text-primary">
+                            <span className="font-medium text-magenta">
                               {rep.name}
                             </span>
                           </div>
@@ -1198,7 +1198,7 @@ export default function ManagerDashboard() {
                              onClick={() => handleRemind(rep.id)} 
                              title="Send Reminder"
                            >
-                            <Bell className="h-4 w-4 text-muted-foreground hover:text-primary" />
+                            <Bell className="h-4 w-4 text-muted-foreground hover:text-magenta" />
                           </Button>
                           <Button 
                             size="sm" 
@@ -1223,7 +1223,7 @@ export default function ManagerDashboard() {
 
           <TabsContent value="usage" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-4">
-              <Card className="border-primary/10 shadow-sm">
+              <Card className="border-magenta/10 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Team Sessions</CardTitle>
                   <Activity className="h-4 w-4 text-blue-500" />
@@ -1234,7 +1234,7 @@ export default function ManagerDashboard() {
                 </CardContent>
               </Card>
 
-              <Card className="border-primary/10 shadow-sm">
+              <Card className="border-magenta/10 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Total Minutes</CardTitle>
                   <BarChart3 className="h-4 w-4 text-green-500" />
@@ -1245,7 +1245,7 @@ export default function ManagerDashboard() {
                 </CardContent>
               </Card>
 
-              <Card className="border-primary/10 shadow-sm">
+              <Card className="border-magenta/10 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Team Cost</CardTitle>
                   <DollarSign className="h-4 w-4 text-amber-500" />
@@ -1256,7 +1256,7 @@ export default function ManagerDashboard() {
                 </CardContent>
               </Card>
 
-              <Card className="border-primary/10 shadow-sm">
+              <Card className="border-magenta/10 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Active Reps</CardTitle>
                   <Users className="h-4 w-4 text-purple-500" />
@@ -1297,7 +1297,7 @@ export default function ManagerDashboard() {
                           <TableRow key={userId} data-testid={`row-usage-${userId}`}>
                             <TableCell>
                               <div className="flex items-center gap-3">
-                                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                                <div className="h-8 w-8 rounded-full bg-magenta/10 flex items-center justify-center text-xs font-bold text-magenta">
                                   {user?.avatarInitials || "?"}
                                 </div>
                                 <div className="flex flex-col">

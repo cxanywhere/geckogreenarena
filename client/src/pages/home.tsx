@@ -189,16 +189,16 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono font-bold mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-magenta/10 border border-magenta/20 text-magenta text-xs font-mono font-bold mb-6">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-magenta opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-magenta"></span>
                 </span>
                 TRAINEE DASHBOARD
               </div>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight tracking-tight mb-4 text-foreground">
-                Welcome, <span className="text-primary transparent-text-stroke">{user?.name || "Sales Rep"}</span>.
+                Welcome, <span className="text-magenta">{user?.name || "Sales Rep"}</span>.
               </h1>
               <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mb-8">
                 Complete your training to get certified and unlock full commission eligibility.
@@ -242,11 +242,11 @@ export default function Home() {
 
             {/* How to Get Certified Guide */}
             <Collapsible open={showCertGuide} onOpenChange={setShowCertGuide}>
-              <div className="bg-gradient-to-r from-primary/5 to-blue-500/5 border border-primary/20 rounded-2xl overflow-hidden">
-                <CollapsibleTrigger className="w-full p-5 flex items-center justify-between hover:bg-primary/5 transition-colors" data-testid="button-toggle-cert-guide">
+              <div className="bg-gradient-to-r from-navy/5 to-magenta/5 border border-magenta/20 rounded-2xl overflow-hidden">
+                <CollapsibleTrigger className="w-full p-5 flex items-center justify-between hover:bg-magenta/5 transition-colors" data-testid="button-toggle-cert-guide">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-primary/10 rounded-xl">
-                      <Info className="w-5 h-5 text-primary" />
+                    <div className="p-2 bg-magenta/10 rounded-xl">
+                      <Info className="w-5 h-5 text-magenta" />
                     </div>
                     <div className="text-left">
                       <h3 className="font-bold text-lg">How to Get Certified</h3>
@@ -261,7 +261,7 @@ export default function Home() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div className="bg-card/80 rounded-xl p-4 border border-border/50">
                         <div className="flex items-center gap-3 mb-3">
-                          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary">1</div>
+                          <div className="w-8 h-8 rounded-full bg-magenta/20 flex items-center justify-center font-bold text-magenta">1</div>
                           <h4 className="font-bold">Complete All Chapters</h4>
                           {allChaptersComplete && <CheckCircle className="w-4 h-4 text-green-500 ml-auto" />}
                         </div>
@@ -276,7 +276,7 @@ export default function Home() {
                       
                       <div className="bg-card/80 rounded-xl p-4 border border-border/50">
                         <div className="flex items-center gap-3 mb-3">
-                          <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center font-bold text-blue-600">2</div>
+                          <div className="w-8 h-8 rounded-full bg-navy/20 flex items-center justify-center font-bold text-navy dark:text-blue-400">2</div>
                           <h4 className="font-bold">Pass All Roleplays</h4>
                           {allRoleplaysPassed && <CheckCircle className="w-4 h-4 text-green-500 ml-auto" />}
                         </div>
@@ -291,7 +291,7 @@ export default function Home() {
                       
                       <div className="bg-card/80 rounded-xl p-4 border border-border/50">
                         <div className="flex items-center gap-3 mb-3">
-                          <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center font-bold text-amber-600">3</div>
+                          <div className="w-8 h-8 rounded-full bg-magenta/10 flex items-center justify-center font-bold text-magenta">3</div>
                           <h4 className="font-bold">Score 75%+ on Quizzes</h4>
                           {quizScoreMet && <CheckCircle className="w-4 h-4 text-green-500 ml-auto" />}
                         </div>
@@ -315,7 +315,7 @@ export default function Home() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 }}
-                className="bg-gradient-to-r from-primary to-green-600 rounded-2xl p-6 text-white shadow-lg"
+                className="bg-gradient-to-r from-navy to-magenta rounded-2xl p-6 text-white shadow-lg shadow-magenta/20"
               >
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                   <div className="flex items-center gap-4">
@@ -354,7 +354,7 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl p-6 text-white shadow-lg"
+                className="bg-gradient-to-r from-magenta to-navy rounded-2xl p-6 text-white shadow-lg shadow-magenta/20"
               >
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-white/20 rounded-xl">
@@ -375,7 +375,7 @@ export default function Home() {
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h2 className="text-2xl font-display font-bold flex items-center gap-2">
-                    <BookOpen className="w-6 h-6 text-primary" />
+                    <BookOpen className="w-6 h-6 text-magenta" />
                     Training Path
                   </h2>
                   <p className="text-muted-foreground mt-1">Complete each chapter in order to progress</p>
@@ -409,9 +409,9 @@ export default function Home() {
                             isCompleted 
                               ? 'bg-green-500 border-green-500 text-white' 
                               : isNext 
-                                ? 'bg-primary border-primary text-white animate-pulse' 
+                                ? 'bg-magenta border-magenta text-white animate-pulse' 
                                 : isUnlocked 
-                                  ? 'bg-card border-primary/50 text-primary' 
+                                  ? 'bg-card border-magenta/50 text-magenta' 
                                   : 'bg-muted border-muted-foreground/30 text-muted-foreground'
                           }`}>
                             {isCompleted ? <CheckCircle className="w-6 h-6" /> : !isUnlocked ? <Lock className="w-5 h-5" /> : index + 1}
@@ -429,8 +429,8 @@ export default function Home() {
                                 isCompleted 
                                   ? 'border-green-200 bg-green-50/30 dark:bg-green-950/20' 
                                   : isNext 
-                                    ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10 hover:shadow-xl' 
-                                    : 'border-border bg-card hover:border-primary/50 hover:shadow-lg'
+                                    ? 'border-magenta bg-magenta/5 shadow-lg shadow-magenta/10 hover:shadow-xl' 
+                                    : 'border-border bg-card hover:border-magenta/50 hover:shadow-lg'
                               }`}>
                                 <div className="flex flex-col md:flex-row">
                                   {/* Chapter Image */}
@@ -441,7 +441,7 @@ export default function Home() {
                                     <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent md:bg-gradient-to-t" />
                                     
                                     {isNext && (
-                                      <div className="absolute top-3 left-3 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold uppercase flex items-center gap-1 animate-pulse">
+                                      <div className="absolute top-3 left-3 bg-magenta text-white px-3 py-1 rounded-full text-xs font-bold uppercase flex items-center gap-1 animate-pulse">
                                         <Play className="w-3 h-3" /> Start Here
                                       </div>
                                     )}
@@ -457,7 +457,7 @@ export default function Home() {
                                     <div className="flex items-start justify-between mb-2">
                                       <div>
                                         <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider mb-1">Chapter {index + 1}</p>
-                                        <h3 className="font-display font-bold text-xl group-hover:text-primary transition-colors">{chapter.title}</h3>
+                                        <h3 className="font-display font-bold text-xl group-hover:text-magenta transition-colors">{chapter.title}</h3>
                                       </div>
                                       <div className="flex items-center gap-1 text-xs text-muted-foreground bg-muted px-2 py-1 rounded-full">
                                         <Clock className="w-3 h-3" />
@@ -473,7 +473,7 @@ export default function Home() {
                                         <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">What you'll learn:</p>
                                         <div className="flex flex-wrap gap-2">
                                           {chapter.agenda.slice(0, 3).map((item, i) => (
-                                            <span key={i} className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">{item}</span>
+                                            <span key={i} className="text-xs bg-magenta/10 text-magenta px-2 py-1 rounded-full">{item}</span>
                                           ))}
                                         </div>
                                       </div>
@@ -507,7 +507,7 @@ export default function Home() {
                                             Restart Slides
                                           </button>
                                         )}
-                                        <span className="text-sm font-bold text-primary flex items-center group-hover:translate-x-1 transition-transform">
+                                        <span className="text-sm font-bold text-magenta flex items-center group-hover:translate-x-1 transition-transform">
                                           {isCompleted ? "Review" : slidesViewed > 0 ? "Continue" : "Start"} <ArrowRight className="ml-1 w-4 h-4" />
                                         </span>
                                       </div>
@@ -547,7 +547,7 @@ export default function Home() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-2xl font-display font-bold flex items-center gap-2">
-                <Mic className="w-6 h-6 text-blue-500" />
+                <Mic className="w-6 h-6 text-magenta" />
                 Voice Roleplays
               </h2>
               <p className="text-muted-foreground mt-1">Practice real conversations with AI buyers</p>
@@ -589,11 +589,11 @@ export default function Home() {
       </section>
       
       {/* Footer */}
-      <footer className="bg-primary/5 border-t border-primary/10 py-12">
+      <footer className="bg-navy text-white py-12">
         <div className="container mx-auto px-4 text-center">
-          <div className="font-display font-bold text-2xl text-primary mb-1">Monetate</div>
-          <div className="text-xs text-muted-foreground uppercase tracking-widest mb-4">Sales Enablement</div>
-          <p className="text-muted-foreground text-sm mb-8">© 2025 Monetate Sales Enablement. All rights reserved.</p>
+          <div className="font-display font-bold text-2xl text-magenta mb-1">Monetate</div>
+          <div className="text-xs text-white/60 uppercase tracking-widest mb-4">Sales Enablement</div>
+          <p className="text-white/40 text-sm mb-8">© 2025 Monetate Sales Enablement. All rights reserved.</p>
         </div>
       </footer>
     </div>

@@ -148,7 +148,7 @@ export default function BattlecardsPage() {
               {/* Fullscreen Carousel Button */}
               <Button 
                 onClick={() => openCarousel(0)} 
-                className="mb-6 bg-primary hover:bg-primary/90"
+                className="mb-6 bg-magenta hover:bg-magenta/90"
                 data-testid="button-open-carousel"
               >
                 <Layers className="w-4 h-4 mr-2" />
@@ -158,7 +158,7 @@ export default function BattlecardsPage() {
               {/* What Are Battlecards */}
               <div className="bg-white/80 dark:bg-card/80 backdrop-blur-sm rounded-2xl p-6 border border-border shadow-sm">
                 <h2 className="text-lg font-bold text-foreground mb-3 flex items-center gap-2">
-                  <ShieldAlert className="w-5 h-5 text-primary" />
+                  <ShieldAlert className="w-5 h-5 text-magenta" />
                   What Are Battlecards?
                 </h2>
                 <p className="text-muted-foreground leading-relaxed">
@@ -176,7 +176,7 @@ export default function BattlecardsPage() {
               </h3>
               
               <div className="grid gap-3">
-                <div className="bg-white dark:bg-card p-4 rounded-xl border border-border shadow-sm flex gap-4 items-start hover:border-primary/30 transition-colors">
+                <div className="bg-white dark:bg-card p-4 rounded-xl border border-border shadow-sm flex gap-4 items-start hover:border-magenta/30 transition-colors">
                   <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
                     <MessageSquare className="w-5 h-5 text-green-600 dark:text-green-400" />
                   </div>
@@ -186,7 +186,7 @@ export default function BattlecardsPage() {
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-card p-4 rounded-xl border border-border shadow-sm flex gap-4 items-start hover:border-primary/30 transition-colors">
+                <div className="bg-white dark:bg-card p-4 rounded-xl border border-border shadow-sm flex gap-4 items-start hover:border-magenta/30 transition-colors">
                   <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center flex-shrink-0">
                     <ShieldAlert className="w-5 h-5 text-red-600 dark:text-red-400" />
                   </div>
@@ -196,7 +196,7 @@ export default function BattlecardsPage() {
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-card p-4 rounded-xl border border-border shadow-sm flex gap-4 items-start hover:border-primary/30 transition-colors">
+                <div className="bg-white dark:bg-card p-4 rounded-xl border border-border shadow-sm flex gap-4 items-start hover:border-magenta/30 transition-colors">
                   <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0">
                     <Zap className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                   </div>
@@ -206,7 +206,7 @@ export default function BattlecardsPage() {
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-card p-4 rounded-xl border border-border shadow-sm flex gap-4 items-start hover:border-primary/30 transition-colors">
+                <div className="bg-white dark:bg-card p-4 rounded-xl border border-border shadow-sm flex gap-4 items-start hover:border-magenta/30 transition-colors">
                   <div className="w-10 h-10 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center flex-shrink-0">
                     <Lightbulb className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
                   </div>
@@ -264,7 +264,7 @@ export default function BattlecardsPage() {
                 transition={{ duration: 0.2, delay: index * 0.05 }}
               >
                 <Card 
-                  className="h-full border border-border hover:border-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden flex flex-col cursor-pointer"
+                  className="h-full border border-border hover:border-magenta/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden flex flex-col cursor-pointer"
                   onClick={() => setSelectedCard(card)}
                   data-testid={`card-battlecard-${card.id}`}
                 >
@@ -326,7 +326,7 @@ export default function BattlecardsPage() {
                           </Badge>
                           <span className="text-xs text-muted-foreground font-mono uppercase tracking-widest ml-auto">{card.phase}</span>
                         </div>
-                        <CardTitle className="text-xl font-bold font-display leading-tight group-hover:text-primary transition-colors">
+                        <CardTitle className="text-xl font-bold font-display leading-tight group-hover:text-magenta transition-colors">
                           {card.title}
                         </CardTitle>
                       </CardHeader>
@@ -341,8 +341,8 @@ export default function BattlecardsPage() {
                           </p>
                         </div>
                         
-                        <div className="bg-primary/5 p-4 rounded-xl border border-primary/10 relative group/script flex-1">
-                          <h4 className="text-xs font-bold text-primary uppercase tracking-wider mb-2 flex items-center gap-1">
+                        <div className="bg-magenta/5 p-4 rounded-xl border border-magenta/10 relative group/script flex-1">
+                          <h4 className="text-xs font-bold text-magenta uppercase tracking-wider mb-2 flex items-center gap-1">
                             <MessageSquare className="w-3 h-3" /> The Play
                           </h4>
                           <p className="text-base font-medium text-foreground italic leading-relaxed">
@@ -351,7 +351,7 @@ export default function BattlecardsPage() {
                           <Button 
                             variant="ghost" 
                             size="icon" 
-                            className="absolute top-2 right-2 opacity-0 group-hover/script:opacity-100 transition-all bg-white shadow-sm hover:bg-primary hover:text-white"
+                            className="absolute top-2 right-2 opacity-0 group-hover/script:opacity-100 transition-all bg-white shadow-sm hover:bg-magenta hover:text-white"
                             onClick={(e) => { e.stopPropagation(); copyToClipboard(card.script); }}
                           >
                             <Copy className="w-3 h-3" />
@@ -386,17 +386,17 @@ export default function BattlecardsPage() {
                     )
                   ) : (
                     /* Card Cover - Not Yet Revealed */
-                    <div className="aspect-[3/4] bg-gradient-to-br from-primary/10 via-primary/5 to-yellow-50/50 dark:from-primary/20 dark:via-background dark:to-background flex flex-col items-center justify-center p-6 text-center relative">
+                    <div className="aspect-[3/4] bg-gradient-to-br from-magenta/10 via-magenta/5 to-yellow-50/50 dark:from-magenta/20 dark:via-background dark:to-background flex flex-col items-center justify-center p-6 text-center relative">
                       {/* Card Number */}
                       <div className="absolute top-4 left-4">
-                        <span className="bg-primary/10 text-primary text-sm font-bold px-3 py-1.5 rounded-full border border-primary/20">
+                        <span className="bg-magenta/10 text-magenta text-sm font-bold px-3 py-1.5 rounded-full border border-magenta/20">
                           #{index + 1}
                         </span>
                       </div>
 
                       {/* Lock Icon */}
-                      <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                        <Lock className="w-8 h-8 text-primary/60" />
+                      <div className="w-16 h-16 rounded-full bg-magenta/10 flex items-center justify-center mb-4">
+                        <Lock className="w-8 h-8 text-magenta/60" />
                       </div>
 
                       {/* Card Title */}
@@ -419,7 +419,7 @@ export default function BattlecardsPage() {
 
                       {/* Reveal Button */}
                       <Button 
-                        className="bg-primary hover:bg-primary/90 text-white font-bold shadow-lg"
+                        className="bg-magenta hover:bg-magenta/90 text-white font-bold shadow-lg"
                         onClick={(e) => toggleReveal(card.id, e)}
                         data-testid={`button-reveal-${card.id}`}
                       >

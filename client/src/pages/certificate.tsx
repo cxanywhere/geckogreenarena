@@ -27,7 +27,7 @@ export default function CertificatePage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="animate-pulse text-primary text-xl">Loading certificate...</div>
+        <div className="animate-pulse text-magenta text-xl">Loading certificate...</div>
       </div>
     );
   }
@@ -59,27 +59,27 @@ export default function CertificatePage() {
         transition={{ duration: 0.5 }}
         className="w-full max-w-2xl"
       >
-        <div className="relative bg-gradient-to-br from-gray-900 to-black border-2 border-primary/50 rounded-3xl p-8 md:p-12 shadow-2xl shadow-primary/20">
+        <div className="relative bg-gradient-to-br from-gray-900 to-black border-2 border-magenta/50 rounded-3xl p-8 md:p-12 shadow-2xl shadow-magenta/20">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1)_0%,transparent_70%)] rounded-3xl" />
           
           <div className="relative z-10">
             <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-full px-4 py-1.5 mb-6">
-                <span className="text-primary text-sm font-medium tracking-wider uppercase">Official Certificate</span>
+              <div className="inline-flex items-center gap-2 bg-magenta/10 border border-magenta/30 rounded-full px-4 py-1.5 mb-6">
+                <span className="text-magenta text-sm font-medium tracking-wider uppercase">Official Certificate</span>
               </div>
               
               <div className="text-6xl mb-4">🏆</div>
               
-              <h2 className="text-primary text-sm font-semibold tracking-[0.3em] uppercase mb-2">This Certifies That</h2>
+              <h2 className="text-magenta text-sm font-semibold tracking-[0.3em] uppercase mb-2">This Certifies That</h2>
               
               <div className="flex justify-center mb-6">
                 {(certificate.warriorAvatar || certificate.profilePhoto) && (
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary to-blue-400 rounded-full blur-md opacity-50" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-magenta to-blue-400 rounded-full blur-md opacity-50" />
                     <img
                       src={certificate.warriorAvatar || certificate.profilePhoto || ''}
                       alt={certificate.name}
-                      className="relative w-24 h-24 rounded-full object-cover border-3 border-primary"
+                      className="relative w-24 h-24 rounded-full object-cover border-3 border-magenta"
                     />
                   </div>
                 )}
@@ -93,11 +93,11 @@ export default function CertificatePage() {
                 Has successfully completed all requirements and is hereby recognized as a
               </p>
               
-              <div className="bg-gradient-to-r from-primary/20 via-blue-400/30 to-primary/20 rounded-2xl p-6 mb-8 border border-primary/30">
-                <h3 className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-300 tracking-tight">
+              <div className="bg-gradient-to-r from-magenta/20 via-blue-400/30 to-magenta/20 rounded-2xl p-6 mb-8 border border-magenta/30">
+                <h3 className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-magenta to-blue-300 tracking-tight">
                   Certified Sales Champion
                 </h3>
-                <p className="text-primary/80 text-sm mt-2 font-medium tracking-wider uppercase">Monetate Elite</p>
+                <p className="text-magenta/80 text-sm mt-2 font-medium tracking-wider uppercase">Monetate Elite</p>
               </div>
               
               <div className="grid grid-cols-3 gap-4 mb-8">
@@ -128,7 +128,7 @@ export default function CertificatePage() {
             
             <div className="border-t border-white/10 pt-6 mt-6">
               <div className="flex items-center justify-center gap-3">
-                <span className="text-primary font-bold text-xl tracking-tight">Monetate</span>
+                <span className="text-magenta font-bold text-xl tracking-tight">Monetate</span>
                 <span className="text-gray-600">•</span>
                 <span className="text-gray-400 font-medium">Sales Enablement</span>
               </div>
@@ -138,16 +138,16 @@ export default function CertificatePage() {
             </div>
           </div>
           
-          <div className="absolute top-4 left-4 w-16 h-16 border-l-2 border-t-2 border-primary/30 rounded-tl-xl" />
-          <div className="absolute top-4 right-4 w-16 h-16 border-r-2 border-t-2 border-primary/30 rounded-tr-xl" />
-          <div className="absolute bottom-4 left-4 w-16 h-16 border-l-2 border-b-2 border-primary/30 rounded-bl-xl" />
-          <div className="absolute bottom-4 right-4 w-16 h-16 border-r-2 border-b-2 border-primary/30 rounded-br-xl" />
+          <div className="absolute top-4 left-4 w-16 h-16 border-l-2 border-t-2 border-magenta/30 rounded-tl-xl" />
+          <div className="absolute top-4 right-4 w-16 h-16 border-r-2 border-t-2 border-magenta/30 rounded-tr-xl" />
+          <div className="absolute bottom-4 left-4 w-16 h-16 border-l-2 border-b-2 border-magenta/30 rounded-bl-xl" />
+          <div className="absolute bottom-4 right-4 w-16 h-16 border-r-2 border-b-2 border-magenta/30 rounded-br-xl" />
         </div>
         
         <div className="text-center mt-6">
           <p className="text-gray-600 text-sm">
             Verify this certificate at{" "}
-            <span className="text-primary">monetate.com</span>
+            <span className="text-magenta">monetate.com</span>
           </p>
         </div>
       </motion.div>

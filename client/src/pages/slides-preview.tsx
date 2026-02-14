@@ -33,7 +33,7 @@ export default function SlidesPreviewPage() {
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-primary mb-2">Chapter 1 Training Slides</h1>
+          <h1 className="text-3xl font-bold text-magenta mb-2">Chapter 1 Training Slides</h1>
           <p className="text-muted-foreground">31 Portrait-Mode Slides for Mobile Viewing</p>
           <p className="text-sm text-muted-foreground mt-2">Click any slide to view full size</p>
         </div>
@@ -43,7 +43,7 @@ export default function SlidesPreviewPage() {
             <div
               key={num}
               onClick={() => openSlide(num)}
-              className="group relative bg-card rounded-xl overflow-hidden border border-border hover:border-primary transition-all cursor-pointer hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10"
+              className="group relative bg-card rounded-xl overflow-hidden border border-border hover:border-magenta transition-all cursor-pointer hover:scale-[1.02] hover:shadow-lg hover:shadow-magenta/10"
               data-testid={`slide-preview-${num}`}
             >
               <img

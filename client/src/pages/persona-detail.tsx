@@ -170,7 +170,7 @@ export default function PersonaDetailPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-primary" />
+                  <Zap className="w-5 h-5 text-magenta" />
                   Best Plays
                 </CardTitle>
               </CardHeader>
@@ -178,8 +178,8 @@ export default function PersonaDetailPage() {
                 <ul className="space-y-3">
                   {persona.bestPlays?.map((play, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                        <span className="text-xs font-medium text-primary">{index + 1}</span>
+                      <div className="w-6 h-6 rounded-full bg-magenta/10 flex items-center justify-center shrink-0">
+                        <span className="text-xs font-medium text-magenta">{index + 1}</span>
                       </div>
                       <span className="text-muted-foreground" data-testid={`text-play-${index}`}>{play}</span>
                     </li>

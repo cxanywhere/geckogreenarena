@@ -411,7 +411,7 @@ export default function ChapterPage() {
         <Nav />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <div className="h-8 w-8 border-2 border-magenta border-t-transparent rounded-full animate-spin mx-auto mb-4" />
             <p className="text-muted-foreground">Loading chapter...</p>
           </div>
         </div>
@@ -504,13 +504,13 @@ export default function ChapterPage() {
                   {/* What You'll Learn */}
                   <div>
                     <h3 className="text-sm font-bold mb-2 flex items-center gap-2">
-                      <Target className="w-4 h-4 text-primary" />
+                      <Target className="w-4 h-4 text-magenta" />
                       What You'll Learn
                     </h3>
                     <ul className="space-y-1.5">
                       {(chapter.agenda || []).slice(0, 4).map((item, i) => (
                         <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-magenta mt-1.5 shrink-0" />
                           {item}
                         </li>
                       ))}
@@ -722,15 +722,15 @@ function PDFQuizOverlay({
         }`}
       >
         {/* Header - compact in landscape */}
-        <div className={`bg-primary/5 border-border shrink-0 ${
+        <div className={`bg-magenta/5 border-border shrink-0 ${
           isLandscape 
             ? 'w-48 border-r p-3 flex flex-col justify-between' 
             : 'border-b p-3'
         }`}>
           <div className={`flex items-center ${isLandscape ? 'flex-col text-center gap-2' : 'justify-between'}`}>
             <div className={`flex items-center ${isLandscape ? 'flex-col' : 'gap-2'}`}>
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                <Brain className="w-4 h-4 text-primary" />
+              <div className="w-8 h-8 rounded-full bg-magenta/10 flex items-center justify-center">
+                <Brain className="w-4 h-4 text-magenta" />
               </div>
               <div className={isLandscape ? 'mt-2' : ''}>
                 <h3 className="font-bold text-sm">Knowledge Check</h3>
@@ -753,7 +753,7 @@ function PDFQuizOverlay({
                 <div
                   key={idx}
                   className={`w-2 h-2 rounded-full transition-colors ${
-                    idx === currentIndex ? "bg-primary" : idx < currentIndex ? "bg-primary/40" : "bg-muted"
+                    idx === currentIndex ? "bg-magenta" : idx < currentIndex ? "bg-magenta/40" : "bg-muted"
                   }`}
                 />
               ))}
@@ -792,8 +792,8 @@ function PDFQuizOverlay({
                       : isWrongAnswer
                       ? "border-red-500 bg-red-50 dark:bg-red-900/20"
                       : isSelected
-                      ? "border-primary bg-primary/5"
-                      : "border-border hover:border-primary/50"
+                      ? "border-magenta bg-magenta/5"
+                      : "border-border hover:border-magenta/50"
                   }`}
                   data-testid={`button-option-${index}`}
                 >
@@ -804,7 +804,7 @@ function PDFQuizOverlay({
                         : isWrongAnswer
                         ? "bg-red-500 text-white"
                         : isSelected
-                        ? "bg-primary text-primary-foreground"
+                        ? "bg-magenta text-primary-foreground"
                         : "bg-muted text-muted-foreground"
                     }`}>
                       {String.fromCharCode(65 + index)}
@@ -860,7 +860,7 @@ function PDFQuizOverlay({
                 <div
                   key={idx}
                   className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                    idx === currentIndex ? "bg-primary" : idx < currentIndex ? "bg-primary/40" : "bg-muted"
+                    idx === currentIndex ? "bg-magenta" : idx < currentIndex ? "bg-magenta/40" : "bg-muted"
                   }`}
                 />
               ))}
@@ -903,8 +903,8 @@ function EndOfChapterSummary({
       >
         <div className="p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-              <CheckCircle className="w-6 h-6 text-primary" />
+            <div className="w-12 h-12 rounded-full bg-magenta/10 flex items-center justify-center">
+              <CheckCircle className="w-6 h-6 text-magenta" />
             </div>
             <div>
               <h3 className="text-xl font-bold" data-testid="text-chapter-complete">

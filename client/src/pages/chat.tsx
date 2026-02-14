@@ -181,7 +181,7 @@ export default function ChatPage() {
         )}
       </div>
       <h2 className="text-xl font-display font-bold mb-1 text-foreground">"{scenario.name}"</h2>
-      <p className="text-primary font-mono text-sm mb-2">{scenario.role}</p>
+      <p className="text-magenta font-mono text-sm mb-2">{scenario.role}</p>
       
       {attemptInfo && typeof attemptInfo === 'object' && (
         <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-4 ${
@@ -248,7 +248,7 @@ export default function ChatPage() {
       {Object.keys(thisRoleplayHistory).length > 0 && (
         <Collapsible open={showHistory} onOpenChange={setShowHistory}>
           <CollapsibleTrigger asChild>
-            <button className="w-full mt-6 pt-6 border-t border-border flex items-center justify-between text-sm font-medium text-foreground hover:text-primary transition-colors">
+            <button className="w-full mt-6 pt-6 border-t border-border flex items-center justify-between text-sm font-medium text-foreground hover:text-magenta transition-colors">
               <span className="flex items-center gap-2">
                 <History className="w-4 h-4" />
                 Past Attempts ({attemptInfo && typeof attemptInfo === 'object' ? attemptInfo.totalAttempts : 0})
@@ -273,7 +273,7 @@ export default function ChatPage() {
       <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4 md:py-8 flex-1 flex flex-col landscape:py-2">
         <div className="flex items-center justify-between mb-2 sm:mb-4 md:mb-6 landscape:mb-2">
           <Link href="/dashboard">
-            <Button variant="ghost" size="sm" className="pl-0 hover:pl-2 transition-all text-muted-foreground hover:text-primary">
+            <Button variant="ghost" size="sm" className="pl-0 hover:pl-2 transition-all text-muted-foreground hover:text-magenta">
               <ArrowLeft className="mr-1 sm:mr-2 h-4 w-4" /> <span className="hidden sm:inline">Back to Arena</span><span className="sm:hidden">Back</span>
             </Button>
           </Link>

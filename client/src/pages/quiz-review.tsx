@@ -128,8 +128,8 @@ export default function QuizReviewPage() {
         </Link>
 
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-            <GraduationCap className="w-5 h-5 text-primary" />
+          <div className="w-10 h-10 rounded-xl bg-magenta/10 flex items-center justify-center">
+            <GraduationCap className="w-5 h-5 text-magenta" />
           </div>
           <div>
             <h1 className="text-xl font-bold" data-testid="text-quiz-review-title">Quiz Review</h1>
@@ -143,11 +143,11 @@ export default function QuizReviewPage() {
 
         {reviewData && (
           <>
-            <Card className="mb-6 border-primary/20">
+            <Card className="mb-6 border-magenta/20">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <Trophy className="w-4 h-4 text-primary" />
+                    <Trophy className="w-4 h-4 text-magenta" />
                     <span className="text-sm font-medium">Overall Quiz Score</span>
                   </div>
                   <span
@@ -356,11 +356,11 @@ export default function QuizReviewPage() {
               className="bg-card border border-border rounded-xl shadow-2xl w-full max-w-lg max-h-[90dvh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="bg-primary/5 border-b border-border p-4">
+              <div className="bg-magenta/5 border-b border-border p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Brain className="w-4 h-4 text-primary" />
+                    <div className="w-8 h-8 rounded-full bg-magenta/10 flex items-center justify-center">
+                      <Brain className="w-4 h-4 text-magenta" />
                     </div>
                     <div>
                       <h3 className="font-bold text-sm">
@@ -409,8 +409,8 @@ export default function QuizReviewPage() {
                             : isWrongAnswer
                             ? "border-red-500 bg-red-50 dark:bg-red-900/20"
                             : isSelected
-                            ? "border-primary bg-primary/5"
-                            : "border-border hover:border-primary/50"
+                            ? "border-magenta bg-magenta/5"
+                            : "border-border hover:border-magenta/50"
                         }`}
                         data-testid={`button-quiz-option-${index}`}
                       >
@@ -422,7 +422,7 @@ export default function QuizReviewPage() {
                                 : isWrongAnswer
                                 ? "bg-red-500 text-white"
                                 : isSelected
-                                ? "bg-primary text-primary-foreground"
+                                ? "bg-magenta text-primary-foreground"
                                 : "bg-muted text-muted-foreground"
                             }`}
                           >
