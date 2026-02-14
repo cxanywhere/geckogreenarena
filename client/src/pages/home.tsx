@@ -591,9 +591,9 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-navy text-white py-12">
         <div className="container mx-auto px-4 text-center">
-          <div className="font-display font-bold text-2xl text-magenta mb-1">Monetate</div>
-          <div className="text-xs text-white/60 uppercase tracking-widest mb-4">Sales Enablement</div>
-          <p className="text-white/40 text-sm mb-8">© 2025 Monetate Sales Enablement. All rights reserved.</p>
+          <div className="font-display font-bold text-2xl text-magenta mb-1">Arena</div>
+          <div className="text-xs text-white/60 uppercase tracking-widest mb-4">by GigaRev</div>
+          <p className="text-white/40 text-sm mb-8">© 2025 Arena by GigaRev. All rights reserved.</p>
         </div>
       </footer>
     </div>

@@ -11,6 +11,8 @@ import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
 import monetateLogoDark from "@/assets/monetate-logo-dark.png";
 import monetateLogoLight from "@/assets/monetate-logo-light.png";
+import arenaLogoDark from "@/assets/arena-logo-dark.png";
+import arenaLogoLight from "@/assets/arena-logo-light.png";
 import { useTheme } from "next-themes";
 
 export default function LoginPage() {
@@ -86,9 +88,12 @@ export default function LoginPage() {
           transition={{ duration: 0.5 }}
         >
           <div className="flex items-center justify-between mb-12">
-            <div className="flex items-center gap-2">
-              <img src={monetateLogoDark} alt="Monetate" className="h-10 w-auto object-contain hidden dark:block" />
-              <img src={monetateLogoLight} alt="Monetate" className="h-10 w-auto object-contain block dark:hidden" />
+            <div className="flex items-center gap-3">
+              <img src={arenaLogoDark} alt="Arena by GigaRev" className="h-10 w-auto object-contain hidden dark:block" />
+              <img src={arenaLogoLight} alt="Arena by GigaRev" className="h-10 w-auto object-contain block dark:hidden" />
+              <div className="h-8 w-px bg-border" />
+              <img src={monetateLogoDark} alt="Monetate" className="h-7 w-auto object-contain hidden dark:block opacity-80" />
+              <img src={monetateLogoLight} alt="Monetate" className="h-7 w-auto object-contain block dark:hidden opacity-80" />
             </div>
           </div>
 
@@ -105,7 +110,7 @@ export default function LoginPage() {
               {isReturningUser ? "Welcome Back" : "Welcome"}
             </h1>
             <p className="text-muted-foreground">
-              Sign in to your Monetate training platform.
+              Sign in to your Arena training platform.
             </p>
           </div>
 
@@ -178,7 +183,7 @@ export default function LoginPage() {
           <div className="flex justify-end">
             <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-sm font-mono">
               <Lock className="w-3 h-3" />
-              MONETATE SALES ENABLEMENT
+              ARENA BY GIGAREV
             </div>
           </div>
           
@@ -192,7 +197,7 @@ export default function LoginPage() {
               <span className="text-[#E84C8A]">Sales Enablement</span>
             </h2>
             <p className="text-white/80 text-lg max-w-md leading-relaxed">
-              Master your pitch with AI-powered training. The advanced roleplay platform built exclusively for Monetate sales professionals.
+              Master your pitch with AI-powered training. Arena by GigaRev — built exclusively for Monetate sales professionals.
             </p>
             
             <div className="flex gap-3 mt-8">

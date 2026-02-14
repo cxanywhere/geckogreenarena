@@ -1,8 +1,8 @@
-# Monetate Sales Training Platform
+# Arena by GigaRev — Monetate Sales Training Platform
 
 ## Overview
 
-Monetate Sales Training is an AI-powered B2B SaaS sales training and roleplay platform designed for enterprise sales teams. It enables sales representatives to practice enterprise buyer objection handling, complete structured training chapters on Monetate's experience optimization platform, and track their performance through interactive roleplays. The platform features role-based dashboards for reps, managers, and directors to monitor team progress, certification status, and training analytics. Brand colors: deep blue (#1A2B8C) and magenta (#E84C8A) with a luxury, high-end aesthetic.
+Arena by GigaRev is an AI-powered B2B SaaS sales training and roleplay platform, customized for Monetate (the client). It enables sales representatives to practice enterprise buyer objection handling, complete structured training chapters on Monetate's experience optimization platform, and track their performance through interactive roleplays. The platform features role-based dashboards for reps, managers, and directors to monitor team progress, certification status, and training analytics. Brand colors: deep blue (#1A2B8C) and magenta (#E84C8A) with a luxury, high-end aesthetic. The app name is "Arena" by "GigaRev", deployed for client "Monetate". The top nav displays both logos: Arena (primary) and Monetate (client).
 
 ## User Preferences
 
