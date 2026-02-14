@@ -3,8 +3,9 @@ import { Nav } from "@/components/nav";
 import { ImageSlideViewer } from "@/components/image-slide-viewer";
 import { TextSlideViewer } from "@/components/text-slide-viewer";
 import { PDFViewer } from "@/components/pdf-viewer";
+import { PresentMode } from "@/components/present-mode";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Download, BookOpen, Presentation, Brain, Loader2, Mic, CheckCircle, Clock, Target, FileText, GraduationCap, ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowLeft, Download, BookOpen, Presentation, Brain, Loader2, Mic, CheckCircle, Clock, Target, FileText, GraduationCap, ChevronDown, ChevronUp, PlayCircle } from "lucide-react";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { toast } from "sonner";
 import { api, type QuizQuestion } from "@/lib/api";
@@ -87,6 +88,9 @@ export default function ChapterPage() {
   const [showObjectives, setShowObjectives] = useState(false);
   const [pendingNextPage, setPendingNextPage] = useState<number | null>(null);
   const [quizSourcePage, setQuizSourcePage] = useState<number | null>(null);
+  const [showPresentMode, setShowPresentMode] = useState(false);
+  const [isGeneratingNarration, setIsGeneratingNarration] = useState(false);
+  const [narrationData, setNarrationData] = useState<any[] | null>(null);
 
   useEffect(() => {
     if (params?.id) {
@@ -405,6 +409,46 @@ export default function ChapterPage() {
     completeChapter();
   };
 
+  const handleLaunchPresentMode = async () => {
+    if (!chapter) return;
+
+    if (narrationData && narrationData.length > 0) {
+      setShowPresentMode(true);
+      return;
+    }
+
+    setIsGeneratingNarration(true);
+    toast.info("Generating AI narration for this chapter... This may take a minute.");
+
+    try {
+      const checkRes = await fetch(`/api/chapters/${chapter.id}/narration`);
+      const checkData = await checkRes.json();
+
+      if (checkData.success && checkData.allReady) {
+        setNarrationData(checkData.narration);
+        setShowPresentMode(true);
+        setIsGeneratingNarration(false);
+        return;
+      }
+
+      const genRes = await fetch(`/api/chapters/${chapter.id}/generate-narration`, { method: "POST" });
+      const genData = await genRes.json();
+
+      if (genData.success) {
+        setNarrationData(genData.narration);
+        setShowPresentMode(true);
+        toast.success("Narration ready! Starting presentation...");
+      } else {
+        toast.error("Failed to generate narration. Please try again.");
+      }
+    } catch (error) {
+      console.error("Present mode error:", error);
+      toast.error("Failed to prepare presentation. Please try again.");
+    } finally {
+      setIsGeneratingNarration(false);
+    }
+  };
+
   if (!chapter) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
@@ -427,6 +471,15 @@ export default function ChapterPage() {
   return (
     <div className="h-screen bg-background flex flex-col overflow-hidden">
       <Nav />
+
+      {showPresentMode && narrationData && (
+        <PresentMode
+          slides={chapter.slides as any[]}
+          narration={narrationData}
+          chapterTitle={chapter.title}
+          onClose={() => setShowPresentMode(false)}
+        />
+      )}
       
       <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
         {/* Header with Learning Objectives */}
@@ -479,6 +532,27 @@ export default function ChapterPage() {
                   )}
                 </div>
                 
+                {(chapter as any).slug === 'monetate-101' && (
+                  <Button
+                    size="sm"
+                    className="bg-magenta hover:bg-magenta/90 text-white text-xs gap-1.5"
+                    onClick={handleLaunchPresentMode}
+                    disabled={isGeneratingNarration}
+                    data-testid="button-present-mode"
+                  >
+                    {isGeneratingNarration ? (
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        <span className="hidden sm:inline">Preparing...</span>
+                      </>
+                    ) : (
+                      <>
+                        <PlayCircle className="w-3.5 h-3.5" />
+                        <span className="hidden sm:inline">AI Present</span>
+                      </>
+                    )}
+                  </Button>
+                )}
                 <Button 
                   variant="ghost" 
                   size="sm" 

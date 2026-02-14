@@ -19,6 +19,7 @@ import { sendCredentialsSMS, sendQuizReminderSMS } from "./sms-service";
 import { generateWarriorAvatar } from "./warrior-avatar-service";
 import multer from "multer";
 import { searchKnowledge, formatKnowledgeForPrompt } from "./knowledge-base";
+import { generateChapterNarration, generateNarrationScript, generateNarrationAudio } from "./narration-service";
 import OpenAI from "openai";
 
 const roleplaySessions = new Map<string, { scenario: RoleplayScenario; history: RoleplayMessage[] }>();
@@ -386,6 +387,125 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Generate all slide images error:", error);
       res.status(500).json({ error: "Failed to generate slide images" });
+    }
+  });
+
+  // ==================== NARRATION / PRESENT MODE ====================
+
+  app.post("/api/chapters/:id/generate-narration", async (req, res) => {
+    try {
+      const chapter = await storage.getChapter(req.params.id);
+      if (!chapter) {
+        return res.status(404).json({ error: "Chapter not found" });
+      }
+
+      const slides = chapter.slides as any[];
+      const chapterSlug = chapter.slug || chapter.id;
+
+      const slidesNeedingNarration = slides
+        .map((s: any, i: number) => ({ slide: s, index: i }))
+        .filter(({ slide }) => !slide.narrationScript || !slide.narrationAudioUrl);
+
+      if (slidesNeedingNarration.length === 0) {
+        const narrationData = slides.map((s: any, i: number) => ({
+          slideIndex: i,
+          title: s.title,
+          script: s.narrationScript,
+          audioUrl: s.narrationAudioUrl,
+        }));
+        return res.json({ success: true, narration: narrationData, cached: true });
+      }
+
+      console.log(`[Narration] Generating narration for ${slidesNeedingNarration.length}/${slides.length} slides in: ${chapter.title}`);
+
+      const results: any[] = [];
+      for (const { slide, index } of slidesNeedingNarration) {
+        console.log(`[Narration] Generating script for slide ${index + 1}/${slides.length}: ${slide.title}`);
+        const script = await generateNarrationScript(chapter.title, index, slide);
+        console.log(`[Narration] Script generated (${script.length} chars). Generating audio...`);
+        const audioUrl = await generateNarrationAudio(chapterSlug, index, script);
+        console.log(`[Narration] Audio saved: ${audioUrl}`);
+
+        slides[index] = { ...slides[index], narrationScript: script, narrationAudioUrl: audioUrl };
+        results.push({ slideIndex: index, title: slide.title, script, audioUrl });
+
+        if (results.length < slidesNeedingNarration.length) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+      }
+
+      await db.update(chapters).set({ slides }).where(eq(chapters.id, chapter.id));
+
+      const narrationData = slides.map((s: any, i: number) => ({
+        slideIndex: i,
+        title: s.title,
+        script: s.narrationScript,
+        audioUrl: s.narrationAudioUrl,
+      }));
+
+      console.log(`[Narration] Completed narration for ${chapter.title}: ${results.length} new slides narrated`);
+      res.json({ success: true, narration: narrationData });
+    } catch (error: any) {
+      console.error("[Narration] Error:", error);
+      res.status(500).json({ error: "Failed to generate narration", details: error.message });
+    }
+  });
+
+  app.post("/api/chapters/:id/generate-narration/:slideIndex", async (req, res) => {
+    try {
+      const chapter = await storage.getChapter(req.params.id);
+      if (!chapter) {
+        return res.status(404).json({ error: "Chapter not found" });
+      }
+
+      const slideIndex = parseInt(req.params.slideIndex);
+      const slides = chapter.slides as any[];
+
+      if (slideIndex < 0 || slideIndex >= slides.length) {
+        return res.status(400).json({ error: "Invalid slide index" });
+      }
+
+      const slide = slides[slideIndex];
+      const chapterSlug = chapter.slug || chapter.id;
+
+      console.log(`[Narration] Generating narration for slide ${slideIndex + 1}: ${slide.title}`);
+
+      const script = await generateNarrationScript(chapter.title, slideIndex, slide);
+      const audioUrl = await generateNarrationAudio(chapterSlug, slideIndex, script);
+
+      slides[slideIndex] = { ...slide, narrationScript: script, narrationAudioUrl: audioUrl };
+      await db.update(chapters).set({ slides }).where(eq(chapters.id, chapter.id));
+
+      res.json({ success: true, slideIndex, title: slide.title, script, audioUrl });
+    } catch (error: any) {
+      console.error("[Narration] Single slide error:", error);
+      res.status(500).json({ error: "Failed to generate narration", details: error.message });
+    }
+  });
+
+  app.get("/api/chapters/:id/narration", async (req, res) => {
+    try {
+      const chapter = await storage.getChapter(req.params.id);
+      if (!chapter) {
+        return res.status(404).json({ error: "Chapter not found" });
+      }
+
+      const slides = chapter.slides as any[];
+      const narration = slides
+        .map((slide: any, i: number) => ({
+          slideIndex: i,
+          title: slide.title,
+          script: slide.narrationScript || null,
+          audioUrl: slide.narrationAudioUrl || null,
+          hasNarration: !!(slide.narrationScript && slide.narrationAudioUrl),
+        }));
+
+      const allReady = narration.every((n: any) => n.hasNarration);
+
+      res.json({ success: true, allReady, narration });
+    } catch (error: any) {
+      console.error("[Narration] Get narration error:", error);
+      res.status(500).json({ error: "Failed to get narration data" });
     }
   });
 
