@@ -249,6 +249,46 @@ export async function registerRoutes(
     }
   });
 
+  // Generate a single slide image for a specific chapter and slide index
+  app.post("/api/chapters/:id/generate-slide/:slideIndex", async (req, res) => {
+    try {
+      const chapter = await storage.getChapter(req.params.id);
+      if (!chapter) {
+        return res.status(404).json({ error: "Chapter not found" });
+      }
+
+      const slideIndex = parseInt(req.params.slideIndex);
+      const slides = chapter.slides as any[];
+      
+      if (slideIndex < 0 || slideIndex >= slides.length) {
+        return res.status(400).json({ error: "Invalid slide index" });
+      }
+
+      const slide = slides[slideIndex];
+      if (!slide.imagePrompt) {
+        return res.json({ success: true, skipped: true, reason: "No image prompt" });
+      }
+      if (slide.imageUrl) {
+        return res.json({ success: true, skipped: true, imageUrl: slide.imageUrl, reason: "Already generated" });
+      }
+
+      console.log(`Generating slide ${slideIndex + 1}/${slides.length} for ${chapter.title}: ${slide.title}`);
+      const result = await generateSlideImage(chapter.slug || chapter.id, slideIndex, slide.imagePrompt);
+
+      if (result.success && result.imageUrl) {
+        slides[slideIndex] = { ...slide, imageUrl: result.imageUrl };
+        await db.update(chapters).set({ slides }).where(eq(chapters.id, chapter.id));
+        console.log(`Saved slide ${slideIndex + 1} for ${chapter.title}: ${result.imageUrl}`);
+        res.json({ success: true, imageUrl: result.imageUrl, title: slide.title });
+      } else {
+        res.json({ success: false, error: result.error, title: slide.title });
+      }
+    } catch (error: any) {
+      console.error("Generate single slide error:", error);
+      res.status(500).json({ error: "Failed to generate slide image" });
+    }
+  });
+
   // Generate slide images for a specific chapter
   app.post("/api/chapters/:id/generate-slides", async (req, res) => {
     try {

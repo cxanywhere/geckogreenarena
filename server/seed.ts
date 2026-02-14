@@ -32,6 +32,15 @@ export async function seedDatabase(): Promise<void> {
       const existing = await db.select().from(chapters).where(eq(chapters.slug, chapterData.slug));
       
       if (existing.length > 0) {
+        const existingSlides = (existing[0].slides as any[]) || [];
+        const mergedSlides = chapterData.slides.map((newSlide: any, idx: number) => {
+          const existingSlide = existingSlides[idx];
+          if (existingSlide?.imageUrl && !newSlide.imageUrl) {
+            return { ...newSlide, imageUrl: existingSlide.imageUrl };
+          }
+          return newSlide;
+        });
+
         await db.update(chapters)
           .set({
             title: chapterData.title,
@@ -39,9 +48,9 @@ export async function seedDatabase(): Promise<void> {
             description: chapterData.description,
             duration: chapterData.duration,
             pdfUrl: chapterData.pdfUrl,
-            coverImage: chapterData.coverImage,
+            coverImage: existing[0].coverImage || chapterData.coverImage,
             agenda: chapterData.agenda,
-            slides: chapterData.slides,
+            slides: mergedSlides,
             slideCount: chapterData.slideCount,
             orderIndex: chapterData.orderIndex,
           })

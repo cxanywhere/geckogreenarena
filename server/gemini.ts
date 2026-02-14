@@ -603,47 +603,60 @@ CRITICAL STYLE REQUIREMENTS:
 - Subtle gradient effects and modern design elements
 - NO stock photo feel — this should look like a hand-crafted slide design`;
 
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3-pro-image-preview",
-      contents: fullPrompt,
-      config: {
-        responseModalities: ["Text", "Image"],
-      },
-    });
+  const maxRetries = 3;
+  
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      const response = await ai.models.generateContent({
+        model: "gemini-3-pro-image-preview",
+        contents: fullPrompt,
+        config: {
+          responseModalities: ["Text", "Image"],
+        },
+      });
 
-    const parts = response.candidates?.[0]?.content?.parts;
-    if (!parts) {
-      return { success: false, error: "No response parts received" };
-    }
+      const parts = response.candidates?.[0]?.content?.parts;
+      if (!parts) {
+        return { success: false, error: "No response parts received" };
+      }
 
-    for (const part of parts) {
-      if (part.inlineData) {
-        const imageData = part.inlineData.data;
-        if (imageData) {
-          const uploadsDir = path.join(process.cwd(), "public", "uploads", "slides");
-          if (!fs.existsSync(uploadsDir)) {
-            fs.mkdirSync(uploadsDir, { recursive: true });
+      for (const part of parts) {
+        if (part.inlineData) {
+          const imageData = part.inlineData.data;
+          if (imageData) {
+            const uploadsDir = path.join(process.cwd(), "public", "uploads", "slides");
+            if (!fs.existsSync(uploadsDir)) {
+              fs.mkdirSync(uploadsDir, { recursive: true });
+            }
+
+            const filename = `slide-${chapterSlug}-${slideIndex}-${Date.now()}.png`;
+            const filepath = path.join(uploadsDir, filename);
+
+            const buffer = Buffer.from(imageData, "base64");
+            fs.writeFileSync(filepath, buffer);
+
+            return {
+              success: true,
+              imagePath: filepath,
+              imageUrl: `/uploads/slides/${filename}`,
+            };
           }
-
-          const filename = `slide-${chapterSlug}-${slideIndex}-${Date.now()}.png`;
-          const filepath = path.join(uploadsDir, filename);
-
-          const buffer = Buffer.from(imageData, "base64");
-          fs.writeFileSync(filepath, buffer);
-
-          return {
-            success: true,
-            imagePath: filepath,
-            imageUrl: `/uploads/slides/${filename}`,
-          };
         }
       }
-    }
 
-    return { success: false, error: "No image data in response" };
-  } catch (error: any) {
-    console.error(`Failed to generate slide image (${chapterSlug} slide ${slideIndex}):`, error);
-    return { success: false, error: error.message || "Slide image generation failed" };
+      return { success: false, error: "No image data in response" };
+    } catch (error: any) {
+      const isRetryable = error.status === 503 || error.status === 429 || error.message?.includes('UNAVAILABLE');
+      if (isRetryable && attempt < maxRetries) {
+        const delay = Math.pow(2, attempt + 1) * 5000;
+        console.log(`  Retrying slide ${slideIndex} in ${delay / 1000}s (attempt ${attempt + 1}/${maxRetries})...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        continue;
+      }
+      console.error(`Failed to generate slide image (${chapterSlug} slide ${slideIndex}):`, error);
+      return { success: false, error: error.message || "Slide image generation failed" };
+    }
   }
+
+  return { success: false, error: "Max retries exceeded" };
 }
