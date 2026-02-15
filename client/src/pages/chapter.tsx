@@ -4,8 +4,9 @@ import { ImageSlideViewer } from "@/components/image-slide-viewer";
 import { TextSlideViewer } from "@/components/text-slide-viewer";
 import { PDFViewer } from "@/components/pdf-viewer";
 import { PresentMode } from "@/components/present-mode";
+import { VoiceQA } from "@/components/voice-qa";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Download, BookOpen, Presentation, Brain, Loader2, Mic, CheckCircle, Clock, Target, FileText, GraduationCap, ChevronDown, ChevronUp, PlayCircle } from "lucide-react";
+import { ArrowLeft, Download, BookOpen, Presentation, Brain, Loader2, Mic, CheckCircle, Clock, Target, FileText, GraduationCap, ChevronDown, ChevronUp, PlayCircle, MessageCircleQuestion } from "lucide-react";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { toast } from "sonner";
 import { api, type QuizQuestion } from "@/lib/api";
@@ -89,6 +90,7 @@ export default function ChapterPage() {
   const [pendingNextPage, setPendingNextPage] = useState<number | null>(null);
   const [quizSourcePage, setQuizSourcePage] = useState<number | null>(null);
   const [showPresentMode, setShowPresentMode] = useState(false);
+  const [showVoiceQA, setShowVoiceQA] = useState(false);
   const [isGeneratingNarration, setIsGeneratingNarration] = useState(false);
   const [narrationData, setNarrationData] = useState<any[] | null>(null);
 
@@ -468,6 +470,18 @@ export default function ChapterPage() {
           onClose={() => setShowPresentMode(false)}
         />
       )}
+
+      <AnimatePresence>
+        {showVoiceQA && (
+          <VoiceQA
+            chapterId={params?.id || ""}
+            chapterTitle={chapter.title}
+            currentSlideIndex={currentPage - 1}
+            currentSlideTitle={(chapter.slides as any[])?.[currentPage - 1]?.title || `Slide ${currentPage}`}
+            onClose={() => setShowVoiceQA(false)}
+          />
+        )}
+      </AnimatePresence>
       
       <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
         {/* Header with Learning Objectives */}
@@ -535,9 +549,19 @@ export default function ChapterPage() {
                   ) : (
                     <>
                       <PlayCircle className="w-3.5 h-3.5" />
-                      <span className="hidden sm:inline">AI Present</span>
+                      <span className="hidden sm:inline">Auto Present</span>
                     </>
                   )}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-xs gap-1.5 border-magenta/30 text-magenta hover:bg-magenta/10"
+                  onClick={() => setShowVoiceQA(!showVoiceQA)}
+                  data-testid="button-ask-question"
+                >
+                  <MessageCircleQuestion className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Ask a Question</span>
                 </Button>
                 <Button 
                   variant="ghost" 

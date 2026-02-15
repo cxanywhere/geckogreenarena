@@ -4824,5 +4824,83 @@ ${context}`;
     }
   });
 
+  app.get("/api/chapters/:id/qa-context", async (req, res) => {
+    try {
+      const chapter = await storage.getChapter(req.params.id);
+      if (!chapter) {
+        return res.status(404).json({ error: "Chapter not found" });
+      }
+
+      const allChapters = await storage.getAllChapters();
+      const allBattlecards = await storage.getAllBattlecards();
+      const allRoleplays = await storage.getAllRoleplays();
+
+      const slides = (chapter.slides as any[]) || [];
+      const currentChapterContent = slides.map((s: any, i: number) => {
+        const bullets = s.bullets ? s.bullets.join("\n  - ") : "";
+        return `Slide ${i + 1}: ${s.title}\n  ${s.content || ""}\n  - ${bullets}`;
+      }).join("\n\n");
+
+      const otherChaptersSummary = allChapters
+        .filter(c => c.id !== chapter.id)
+        .map(c => {
+          const cSlides = (c.slides as any[]) || [];
+          const slideTitles = cSlides.map((s: any) => s.title).join(", ");
+          return `${c.title}: ${c.description}. Slides: ${slideTitles}`;
+        }).join("\n");
+
+      const battlecardsSummary = allBattlecards.map(bc => {
+        return `${bc.title} (${bc.phase}): ${bc.script || ""}`;
+      }).join("\n");
+
+      const roleplaysSummary = allRoleplays.map(rp => {
+        return `${rp.role} — ${rp.name}: ${rp.description}. Pass criteria: ${rp.passCriteria || "N/A"}`;
+      }).join("\n");
+
+      const systemPrompt = `You are a friendly, knowledgeable sales training coach for the Monetate experience optimization platform. You are part of the "Arena by GigaRev" training program.
+
+The user is currently studying chapter "${chapter.title}" — ${chapter.description}.
+
+CURRENT CHAPTER SLIDES:
+${currentChapterContent}
+
+OTHER CHAPTERS IN THE PROGRAM:
+${otherChaptersSummary}
+
+BATTLECARDS (Quick Reference Scripts):
+${battlecardsSummary}
+
+ROLEPLAY SCENARIOS:
+${roleplaysSummary}
+
+CONVERSATION GUIDELINES:
+1. Answer questions about the current chapter content with specific detail and examples
+2. If asked about other chapters or general training topics, use the broader knowledge above
+3. Be conversational, encouraging, and coach-like — think of yourself as a helpful mentor
+4. Keep answers focused and practical — under 60 seconds of speaking time
+5. When explaining concepts, use real-world enterprise sales examples
+6. If the user asks something outside the training scope, politely redirect to the training content
+7. Encourage the user and acknowledge good questions
+8. Reference specific slide content when relevant: "On slide 3, we covered..."
+9. Never say you are an AI — you are "your Arena training coach"
+
+MONETATE CONTEXT:
+- Monetate is an experience optimization platform with personalization (Symphony), experimentation (Maestro), search (Overture), and delivery services (Concierge)
+- Target buyers: Enterprise VPs, CTOs, CMOs at $50M+ revenue companies
+- Key value props: 15% average revenue lift, 3x ROI within 12 months
+- Competitors: Dynamic Yield (Mastercard), Optimizely, Adobe Target, Bloomreach
+- Sales methodology: MEDDPICC`;
+
+      res.json({
+        systemPrompt,
+        chapterTitle: chapter.title,
+        slideCount: slides.length,
+      });
+    } catch (error) {
+      console.error("Get QA context error:", error);
+      res.status(500).json({ error: "Failed to get QA context" });
+    }
+  });
+
   return httpServer;
 }
