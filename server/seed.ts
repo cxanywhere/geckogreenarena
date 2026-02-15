@@ -95,7 +95,7 @@ export async function seedDatabase(): Promise<void> {
             name: roleplayData.name,
             role: roleplayData.role,
             description: roleplayData.description,
-            avatar: roleplayData.avatar,
+            avatar: existing[0].avatar || roleplayData.avatar,
             traits: roleplayData.traits,
             difficulty: roleplayData.difficulty,
             stats: roleplayData.stats,
@@ -144,7 +144,7 @@ export async function seedDatabase(): Promise<void> {
           .set({
             name: personaData.name,
             subtitle: personaData.subtitle,
-            avatar: personaData.avatar,
+            avatar: existing[0].avatar || personaData.avatar,
             attributes: personaData.attributes,
             whatTheyCareAbout: personaData.whatTheyCareAbout,
             whatTriggersResistance: personaData.whatTriggersResistance,
