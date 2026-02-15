@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { Play, Pause, SkipForward, SkipBack, X, Volume2, VolumeX, Loader2 } from "lucide-react";
+import { Play, Pause, SkipForward, SkipBack, X, Volume2, VolumeX, Loader2, MessageCircleQuestion } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { VoiceQA } from "@/components/voice-qa";
 
 interface SlideNarration {
   slideIndex: number;
@@ -20,10 +21,11 @@ interface PresentModeProps {
   }>;
   narration: SlideNarration[];
   chapterTitle: string;
+  chapterId: string;
   onClose: () => void;
 }
 
-export function PresentMode({ slides, narration, chapterTitle, onClose }: PresentModeProps) {
+export function PresentMode({ slides, narration, chapterTitle, chapterId, onClose }: PresentModeProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -32,8 +34,11 @@ export function PresentMode({ slides, narration, chapterTitle, onClose }: Presen
   const [showScript, setShowScript] = useState(false);
   const [autoAdvance, setAutoAdvance] = useState(true);
   const [audioReady, setAudioReady] = useState(false);
+  const [showQA, setShowQA] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const progressInterval = useRef<NodeJS.Timeout | null>(null);
+  const wasPlayingBeforeQARef = useRef(false);
+  const prevShowQARef = useRef(false);
 
   const currentNarration = narration.find(n => n.slideIndex === currentSlide);
   const slide = slides[currentSlide];
@@ -130,6 +135,24 @@ export function PresentMode({ slides, narration, chapterTitle, onClose }: Presen
 
   const togglePlay = useCallback(() => {
     setIsPlaying(prev => !prev);
+  }, []);
+
+  useEffect(() => {
+    if (showQA && !prevShowQARef.current) {
+      wasPlayingBeforeQARef.current = isPlaying;
+      if (isPlaying) {
+        setIsPlaying(false);
+      }
+    } else if (!showQA && prevShowQARef.current) {
+      if (wasPlayingBeforeQARef.current) {
+        setIsPlaying(true);
+      }
+    }
+    prevShowQARef.current = showQA;
+  }, [showQA]);
+
+  const toggleQA = useCallback(() => {
+    setShowQA(prev => !prev);
   }, []);
 
   const goToSlide = useCallback((index: number) => {
@@ -341,7 +364,17 @@ export function PresentMode({ slides, narration, chapterTitle, onClose }: Presen
             </Button>
           </div>
 
-          <div className="flex items-center gap-3 min-w-[80px] justify-end">
+          <div className="flex items-center gap-2 min-w-[120px] justify-end">
+            <Button
+              variant="ghost"
+              size="sm"
+              className={`text-xs gap-1.5 rounded-full px-3 h-8 ${showQA ? "bg-magenta/20 text-magenta border border-magenta/40" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+              onClick={toggleQA}
+              data-testid="button-present-ask-question"
+            >
+              <MessageCircleQuestion className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">Ask</span>
+            </Button>
             <Button
               variant="ghost"
               size="icon"
@@ -374,6 +407,18 @@ export function PresentMode({ slides, narration, chapterTitle, onClose }: Presen
           />
         ))}
       </div>
+
+      <AnimatePresence>
+        {showQA && (
+          <VoiceQA
+            chapterId={chapterId}
+            chapterTitle={chapterTitle}
+            currentSlideIndex={currentSlide}
+            currentSlideTitle={slide?.title || `Slide ${currentSlide + 1}`}
+            onClose={() => setShowQA(false)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

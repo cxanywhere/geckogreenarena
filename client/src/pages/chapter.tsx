@@ -467,6 +467,7 @@ export default function ChapterPage() {
           slides={chapter.slides as any[]}
           narration={narrationData}
           chapterTitle={chapter.title}
+          chapterId={params?.id || ""}
           onClose={() => setShowPresentMode(false)}
         />
       )}
