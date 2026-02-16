@@ -13,8 +13,7 @@ import { api, type QuizQuestion } from "@/lib/api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOrientation } from "@/hooks/useOrientation";
-import { getRoleplaysForSlide as getCh1Roleplays, isRoleplaySlide as isCh1RoleplaySlide, getAllChapter1Roleplays, type PredefinedRoleplay } from "@/lib/chapter1-roleplays";
-import { getRoleplaysForSlide as getCh2Roleplays, isRoleplaySlide as isCh2RoleplaySlide, getAllChapter2Roleplays } from "@/lib/chapter2-roleplays";
+import { type PredefinedRoleplay } from "@/lib/chapter1-roleplays";
 import { RoleplayPrompt } from "@/components/roleplay-prompt";
 import { Progress } from "@/components/ui/progress";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -58,6 +57,35 @@ export default function ChapterPage() {
     );
     return roleplay?.id || null;
   }, [allRoleplays, params?.id]);
+
+  const findRoleplayBySlug = useCallback((slug: string): any | null => {
+    return allRoleplays.find((rp: any) => rp.slug === slug) || null;
+  }, [allRoleplays]);
+
+  const getChapterRoleplaySlugs = useCallback((): string[] => {
+    if (!chapter?.slides || !Array.isArray(chapter.slides)) return [];
+    return (chapter.slides as any[])
+      .filter((s: any) => s.type === 'roleplay' && s.roleplaySlug)
+      .map((s: any) => s.roleplaySlug);
+  }, [chapter?.slides]);
+
+  const getRoleplayForSlide = useCallback((slideIndex: number): PredefinedRoleplay | null => {
+    if (!chapter?.slides || !Array.isArray(chapter.slides)) return null;
+    const slide = (chapter.slides as any[])[slideIndex - 1];
+    if (!slide || slide.type !== 'roleplay' || !slide.roleplaySlug) return null;
+    const dbRoleplay = findRoleplayBySlug(slide.roleplaySlug);
+    if (!dbRoleplay) return null;
+    return {
+      id: dbRoleplay.id,
+      afterSlide: slideIndex,
+      orderIndex: dbRoleplay.orderIndex ?? 0,
+      objection: dbRoleplay.name || '',
+      context: dbRoleplay.description || slide.content || '',
+      passCriteria: dbRoleplay.passCriteria || '',
+      failConditions: dbRoleplay.failConditions || '',
+      winningResponse: dbRoleplay.winningResponse || '',
+    };
+  }, [chapter?.slides, findRoleplayBySlug]);
   
   const [currentPage, setCurrentPage] = useState(() => {
     if (!params?.id) return 1;
@@ -128,9 +156,7 @@ export default function ChapterPage() {
     }
   }, [params?.id, user?.id]);
 
-  const isChapter0 = chapter?.title === "Intro to Monetate";
-  const isChapter1 = chapter?.title === "Sales Foundations";
-  const isChapter2 = chapter?.title === "Deal Execution";
+  const chapterHasRoleplays = getChapterRoleplaySlugs().length > 0;
 
   const hasTextSlides = chapter?.slides && Array.isArray(chapter.slides) && chapter.slides.length > 0;
 
@@ -197,18 +223,15 @@ export default function ChapterPage() {
   }, [roleplayStatus, findRoleplayIdByOrderIndex]);
 
   const triggerRoleplays = useCallback((pageNumber: number) => {
-    if (!isChapter1 && !isChapter2) return;
+    const roleplay = getRoleplayForSlide(pageNumber);
+    if (!roleplay) return;
     
-    const roleplays = isChapter1 ? getCh1Roleplays(pageNumber) : getCh2Roleplays(pageNumber);
-    // Filter based on DB status: only show if not passed and attempts < 3
-    const eligibleRoleplays = roleplays.filter(rp => shouldShowRoleplay(rp.orderIndex));
+    if (!shouldShowRoleplay(roleplay.orderIndex)) return;
     
-    if (eligibleRoleplays.length > 0) {
-      setCurrentRoleplays(eligibleRoleplays);
-      setCurrentRoleplayIndex(0);
-      setShowRoleplay(true);
-    }
-  }, [isChapter1, isChapter2, shouldShowRoleplay]);
+    setCurrentRoleplays([roleplay]);
+    setCurrentRoleplayIndex(0);
+    setShowRoleplay(true);
+  }, [getRoleplayForSlide, shouldShowRoleplay]);
 
   const handlePageChange = (page: number, numPages?: number) => {
     if (numPages) setTotalSlides(numPages);
@@ -216,23 +239,14 @@ export default function ChapterPage() {
     const isMovingForward = page > currentPage;
     const previousPage = currentPage;
     
-    // When moving forward, check if the CURRENT page (being left) has a roleplay
-    if (isMovingForward && (isChapter1 || isChapter2)) {
-      const hasRoleplay = isChapter1 ? isCh1RoleplaySlide(previousPage) : isCh2RoleplaySlide(previousPage);
-      
-      if (hasRoleplay) {
-        const roleplays = isChapter1 ? getCh1Roleplays(previousPage) : getCh2Roleplays(previousPage);
-        // Filter based on DB status: only show if not passed and attempts < 3
-        const eligibleRoleplays = roleplays.filter(rp => shouldShowRoleplay(rp.orderIndex));
-        
-        if (eligibleRoleplays.length > 0) {
-          // Store the target page and show roleplay prompt
-          setPendingNextPage(page);
-          setCurrentRoleplays(eligibleRoleplays);
-          setCurrentRoleplayIndex(0);
-          setShowRoleplay(true);
-          return; // Don't advance yet - wait for roleplay completion
-        }
+    if (isMovingForward) {
+      const roleplay = getRoleplayForSlide(previousPage);
+      if (roleplay && shouldShowRoleplay(roleplay.orderIndex)) {
+        setPendingNextPage(page);
+        setCurrentRoleplays([roleplay]);
+        setCurrentRoleplayIndex(0);
+        setShowRoleplay(true);
+        return;
       }
     }
     
@@ -365,7 +379,7 @@ export default function ChapterPage() {
   const handleComplete = () => {
     if (!chapter) return;
     
-    if (isChapter1 && skippedRoleplays.length > 0) {
+    if (chapterHasRoleplays && skippedRoleplays.length > 0) {
       setShowEndOfChapter(true);
       return;
     }
@@ -456,7 +470,9 @@ export default function ChapterPage() {
   const slideProgress = totalSlides > 0 ? Math.round((currentPage / totalSlides) * 100) : 0;
   const totalQuizzesForChapter = quizSlideSet.size;
   const allQuizzesDone = totalQuizzesForChapter > 0 && completedQuizPages.size >= totalQuizzesForChapter;
-  const allRoleplaysDone = isChapter1 ? completedRoleplayOrderIndexes.size >= getAllChapter1Roleplays().length : true;
+  const chapterRoleplaySlugs = getChapterRoleplaySlugs();
+  const totalChapterRoleplays = chapterRoleplaySlugs.length;
+  const allRoleplaysDone = totalChapterRoleplays > 0 ? completedRoleplayOrderIndexes.size >= totalChapterRoleplays : true;
 
   return (
     <div className="h-screen bg-background flex flex-col overflow-hidden">
@@ -526,10 +542,10 @@ export default function ChapterPage() {
                     {completedQuizPages.size} quiz{completedQuizPages.size !== 1 ? 'zes' : ''}
                     {allQuizzesDone && <CheckCircle className="w-3 h-3" />}
                   </div>
-                  {isChapter1 && (
+                  {chapterHasRoleplays && (
                     <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${completedRoleplayOrderIndexes.size > 0 ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-muted text-muted-foreground'}`}>
                       <Mic className="w-3 h-3" />
-                      {completedRoleplayOrderIndexes.size} roleplay{completedRoleplayOrderIndexes.size !== 1 ? 's' : ''}
+                      {completedRoleplayOrderIndexes.size}/{totalChapterRoleplays} roleplay{totalChapterRoleplays !== 1 ? 's' : ''}
                       {allRoleplaysDone && <CheckCircle className="w-3 h-3" />}
                     </div>
                   )}
@@ -628,13 +644,13 @@ export default function ChapterPage() {
                           Complete quizzes (score 75%+)
                         </span>
                       </li>
-                      {isChapter1 && (
+                      {chapterHasRoleplays && (
                         <li className="flex items-center gap-2 text-sm">
                           <div className={`w-5 h-5 rounded-full flex items-center justify-center ${completedRoleplayOrderIndexes.size > 0 ? 'bg-blue-500 text-white' : 'bg-muted border border-border'}`}>
                             {completedRoleplayOrderIndexes.size > 0 ? <CheckCircle className="w-3 h-3" /> : <span className="text-xs font-bold">0</span>}
                           </div>
                           <span className={completedRoleplayOrderIndexes.size > 0 ? 'text-blue-600 dark:text-blue-400' : 'text-muted-foreground'}>
-                            Practice voice roleplays
+                            Practice voice roleplays ({completedRoleplayOrderIndexes.size}/{totalChapterRoleplays})
                           </span>
                         </li>
                       )}
@@ -731,7 +747,19 @@ export default function ChapterPage() {
           <EndOfChapterSummary
             skippedRoleplays={skippedRoleplays}
             completedRoleplayOrderIndexes={completedRoleplayOrderIndexes}
-            allRoleplays={getAllChapter1Roleplays()}
+            allRoleplays={chapterRoleplaySlugs.map((slug, i) => {
+              const dbRp = findRoleplayBySlug(slug);
+              return {
+                id: dbRp?.id || slug,
+                afterSlide: i + 1,
+                orderIndex: dbRp?.orderIndex ?? i,
+                objection: dbRp?.name || '',
+                context: dbRp?.description || '',
+                passCriteria: dbRp?.passCriteria || '',
+                failConditions: dbRp?.failConditions || '',
+                winningResponse: dbRp?.winningResponse || '',
+              };
+            })}
             onStartRoleplay={handleStartSkippedRoleplay}
             onComplete={handleSkipAllRoleplays}
           />
