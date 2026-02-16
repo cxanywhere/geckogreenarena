@@ -429,7 +429,7 @@ TRANSCRIPT:
 ${transcript}
 
 ⚠️ IMPORTANT CONTEXT - READ THIS FIRST:
-- This is a TIMED practice session (90 seconds max) that may end abruptly when time runs out
+- This is a TIMED practice session (5 minutes max) that may end abruptly when time runs out
 - The conversation may be cut off mid-sentence - this is NORMAL and expected
 - DO NOT penalize for incomplete conversations, abrupt endings, or unanswered questions at the end
 - DO NOT penalize for not reaching a "close" - most practice sessions are just for the opening/objection handling

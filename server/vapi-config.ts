@@ -52,7 +52,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 30,
     buySignal: 60,
     traits: ["Time Management", "Discovery Questions", "Executive Presence"],
-    durationSeconds: 90,
+    durationSeconds: 300,
     isCoachingMode: true,
     scriptHint: "Try saying: 'Completely respect that — let me make the most of your 5 minutes. Quick question: what's your current approach to personalizing the customer experience across your e-commerce channels?' Key points: 1) Acknowledge the time constraint immediately, 2) Set a focused agenda, 3) Ask a high-value discovery question that qualifies the opportunity and gets them talking about their business.",
     lawnIssues: ["declining conversion rates on product pages", "high bounce rates from paid traffic"]
@@ -85,7 +85,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 40,
     buySignal: 55,
     traits: ["Empathy", "Diagnostic Discovery", "Differentiation"],
-    durationSeconds: 90,
+    durationSeconds: 300,
     isCoachingMode: true,
     scriptHint: "Try saying: 'That's actually really common — and honestly, most personalization implementations fail for a few specific reasons. Can I ask what you tried? Was it rules-based, or were you doing algorithmic testing?' Key points: 1) Validate their experience — don't dismiss it, 2) Ask diagnostic questions to understand the root cause, 3) Position yourself as someone who can help them avoid the same mistakes.",
     lawnIssues: ["previous personalization tool had poor adoption", "lack of measurable ROI from past initiatives"]
@@ -118,7 +118,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 55,
     buySignal: 45,
     traits: ["Cost of Inaction", "Diagnostic Questions", "Consultative Urgency"],
-    durationSeconds: 90,
+    durationSeconds: 300,
     isCoachingMode: true,
     scriptHint: "Try saying: 'That's fair — can I ask, what would need to change for you to be ready? Is it a resource question, a budget cycle thing, or something else entirely?' Key points: 1) Don't accept 'not ready' at face value, 2) Ask what specifically needs to change, 3) Quantify the cost of waiting, 4) Position the evaluation process as something that takes time and should start now.",
     lawnIssues: ["losing market share to competitors with better digital experiences", "upcoming board review on digital transformation progress"]
@@ -151,7 +151,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 35,
     buySignal: 65,
     traits: ["Respect", "TCO Analysis", "Strategic Positioning"],
-    durationSeconds: 90,
+    durationSeconds: 300,
     isCoachingMode: true,
     scriptHint: "Try saying: 'That's impressive — building in-house takes real commitment. Can I ask, how much engineering time goes into maintaining and evolving it?' Key points: 1) Genuinely respect their engineering investment, 2) Ask about maintenance burden and velocity, 3) Position the conversation around opportunity cost — should engineers build personalization or core product?",
     lawnIssues: ["engineering team spending 30% of sprints maintaining personalization code", "inability to run multivariate tests at scale"]
@@ -184,7 +184,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 45,
     buySignal: 55,
     traits: ["Competitive Intelligence", "Gap Analysis", "Consultative Selling"],
-    durationSeconds: 90,
+    durationSeconds: 300,
     isCoachingMode: true,
     scriptHint: "Try saying: 'Got it — Dynamic Yield is a solid platform. How's it working for you? Specifically, are you getting the level of strategic support and optimization guidance you need?' Key points: 1) Never bash the competitor, 2) Ask about satisfaction and specific capability gaps, 3) Probe areas where Monetate differentiates (server-side, strategic services, full-funnel optimization).",
     lawnIssues: ["slow page load times from client-side personalization", "limited strategic support from current vendor"]
@@ -217,7 +217,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 30,
     buySignal: 70,
     traits: ["Active Listening", "Targeted Messaging", "Consultative Approach"],
-    durationSeconds: 90,
+    durationSeconds: 300,
     isCoachingMode: true,
     scriptHint: "Try saying: 'Great question — can you walk me through what your current stack does for personalization today? That way I can focus on where we actually add incremental value.' Key points: 1) Don't do a feature dump, 2) Ask what they currently have so you can position the delta, 3) Focus on 2-3 differentiators that map to their specific situation.",
     lawnIssues: ["inability to run tests without engineering support", "lack of real-time behavioral targeting"]
@@ -250,7 +250,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 65,
     buySignal: 35,
     traits: ["Benchmarking", "Data-Driven Selling", "Opportunity Framing"],
-    durationSeconds: 90,
+    durationSeconds: 300,
     isCoachingMode: true,
     scriptHint: "Try saying: 'That's great — can I ask, what's your current site-wide conversion rate? We typically see brands in your vertical convert between 3-5%, and most find a meaningful gap between best and worst segments.' Key points: 1) Never tell them they're wrong, 2) Use benchmark data to create a reference point, 3) Shift from 'fixing broken' to 'unlocking opportunity.'",
     lawnIssues: ["20% gap between best and worst performing customer segments", "cart abandonment rate above industry average"]
@@ -283,7 +283,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 70,
     buySignal: 25,
     traits: ["Priority Alignment", "Strategic Framing", "Business Acumen"],
-    durationSeconds: 90,
+    durationSeconds: 300,
     scriptHint: "Try saying: 'Completely understand — what is the top priority right now? Personalization often isn't a standalone initiative; it's a lever that accelerates whatever you're already focused on.' Key points: 1) Accept their priorities without arguing, 2) Ask what IS a priority, 3) Connect personalization as an enabler of their existing goals, not a separate project.",
     lawnIssues: ["rising customer acquisition costs with flat conversion rates", "board pressure to improve digital revenue per visitor"]
   },
@@ -315,7 +315,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 50,
     buySignal: 45,
     traits: ["Data Fluency", "Business Case Building", "Credibility"],
-    durationSeconds: 90,
+    durationSeconds: 300,
     scriptHint: "Try saying: 'Absolutely — let me share three data points...' and reference specific customer outcomes. Key points: 1) Lead with specific numbers and named customer categories, 2) Offer to build a custom business case with their actual metrics, 3) Have 2-3 proof points ready at all times — this objection is an opportunity, not a threat.",
     lawnIssues: ["need to justify technology spend to the CFO", "previous vendor failed to deliver promised ROI"]
   },
@@ -347,7 +347,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 55,
     buySignal: 60,
     traits: ["Value Anchoring", "Price Deferral", "Business Case Framing"],
-    durationSeconds: 90,
+    durationSeconds: 300,
     scriptHint: "Try saying: 'Great question — pricing depends on your traffic volume, channels, and support level. Before I quote you, can I understand your use case better so I can give you a number that maps to the value you'd get?' Key points: 1) Don't dodge the question — acknowledge it, 2) Explain what drives pricing, 3) Tie price to value by understanding their business first.",
     lawnIssues: ["unclear budget ownership between marketing and IT", "upcoming budget planning cycle"]
   },
@@ -379,7 +379,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 80,
     buySignal: 30,
     traits: ["ROI Reframing", "Creative Deal Structuring", "Executive Selling"],
-    durationSeconds: 90,
+    durationSeconds: 300,
     scriptHint: "Try saying: 'I hear you. If I could show you that Monetate would generate 5-8x return on that investment, would that change the conversation? The real question isn't what it costs — it's what it returns.' Key points: 1) Never discount immediately, 2) Reframe from cost to investment/ROI, 3) Explore phased deployments or creative structuring, 4) Offer to build a CFO-ready business case.",
     lawnIssues: ["budget allocated to other digital transformation projects", "CFO requiring detailed ROI justification for any new SaaS spend"]
   },
@@ -411,7 +411,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 75,
     buySignal: 50,
     traits: ["Value Selling", "TCO Analysis", "Competitive Differentiation"],
-    durationSeconds: 90,
+    durationSeconds: 300,
     scriptHint: "Try saying: 'That's a meaningful difference. Can I ask which competitor? 40% cheaper usually means different scope, different support model, or different performance. I want to make sure you're comparing apples to apples.' Key points: 1) Don't bash the competitor or match price, 2) Ask what's included in the competitive quote, 3) Reframe around total value, not just license cost, 4) Share a 'switched from competitor' story if you have one.",
     lawnIssues: ["risk of choosing lowest-cost option and getting poor results", "hidden costs of implementation and re-platforming later"]
   },
@@ -443,7 +443,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 60,
     buySignal: 45,
     traits: ["Process Navigation", "Multi-Threading", "Deal Acceleration"],
-    durationSeconds: 90,
+    durationSeconds: 300,
     scriptHint: "Try saying: 'Absolutely — that's standard for enterprise deals. Let me help: I can provide a redlined MSA, security docs, and compliance materials upfront. Who in legal and procurement should I be working with?' Key points: 1) Normalize procurement as expected, not a setback, 2) Offer specific materials proactively, 3) Get names and timelines to maintain control, 4) Multi-thread by connecting with procurement directly.",
     lawnIssues: ["complex security review process with 6-8 week timeline", "multiple stakeholders required for vendor approval"]
   },
@@ -475,7 +475,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 65,
     buySignal: 40,
     traits: ["Concern Isolation", "Stakeholder Mapping", "Deal Progression"],
-    durationSeconds: 90,
+    durationSeconds: 300,
     scriptHint: "Try saying: 'Totally fair — can I ask, what specifically are you weighing? Is it the ROI case, implementation timeline, internal alignment, or something else? If I can address it now, it might save some back-and-forth.' Key points: 1) Acknowledge their need to think, 2) Ask WHAT specifically, 3) If it's stakeholder alignment, offer to help build the internal business case, 4) Always set a specific follow-up date.",
     lawnIssues: ["internal stakeholder alignment needed across marketing, IT, and finance", "competing priorities on the digital roadmap"]
   },
@@ -507,7 +507,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 60,
     buySignal: 45,
     traits: ["Qualification", "Process Control", "Stakeholder Engagement"],
-    durationSeconds: 90,
+    durationSeconds: 300,
     scriptHint: "Try saying: 'Happy to put something together. What would you need to see in the proposal to feel confident moving forward? And let's book a review session so I can walk you through it live.' Key points: 1) Agree to the proposal request, 2) Qualify their decision criteria, 3) Always schedule a live review meeting, 4) Ask who else will review to identify additional stakeholders.",
     lawnIssues: ["multiple decision makers who need to be aligned", "internal business case needed for budget approval"]
   },
@@ -537,7 +537,7 @@ export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
     resistanceLevel: 85,
     buySignal: 20,
     traits: ["Full Sales Cycle", "MEDDPICC Mastery", "Executive Selling", "Multi-Threading"],
-    durationSeconds: 240,
+    durationSeconds: 300,
     isCertification: true,
     scriptHint: "This is your final assessment. You'll face multiple objections across the entire enterprise sales cycle. Remember: 1) Lead with discovery — ask before you tell, 2) Use MEDDPICC to qualify the opportunity, 3) Anchor value before discussing price, 4) Multi-thread by identifying and engaging multiple stakeholders, 5) Always secure a concrete next step with a specific date and attendees.",
     lawnIssues: ["declining conversion rates across channels", "competitive pressure from digitally-native brands", "CFO scrutiny on MarTech spend", "internal alignment challenges across marketing, IT, and merchandising"]
@@ -597,7 +597,7 @@ export function convertRoleplayToVapiConfig(roleplay: DatabaseRoleplay): VapiRol
     resistanceLevel: roleplay.resistance ?? staticConfig?.resistanceLevel ?? 60,
     buySignal: roleplay.buySignal ?? staticConfig?.buySignal ?? 30,
     traits: roleplay.traits || staticConfig?.traits || ["Professional", "Respectful", "Persistence"],
-    durationSeconds: isCertification ? 240 : 90,
+    durationSeconds: 300,
     isCertification,
     isCoachingMode,
     scriptHint: staticConfig?.scriptHint,
@@ -709,7 +709,7 @@ CONVERSATION FLOW:
 - React to tone, confidence, and business acumen, not just words
 - If the rep earns your attention with strong discovery or insights, show increasing interest
 - If the rep loses you with generic pitching or poor listening, politely (or firmly) end the conversation
-- The conversation should last 60-90 seconds maximum
+- The conversation should last up to 5 minutes maximum
 - You do NOT need to use the full time - if the rep succeeds early, give them the success cue
 
 Remember: You are training enterprise SaaS sales reps to be better at their job. Stay in character but be fair.`;
