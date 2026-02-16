@@ -102,18 +102,18 @@ export function Nav() {
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-navy text-navy-foreground">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <div className="flex items-center gap-4 lg:gap-6">
-          <Link href="/dashboard" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-            <img src={arenaHelmetDark} alt="Arena AI" className="h-9 w-auto object-contain" />
-            <div className="flex flex-col leading-none">
+        <div className="flex items-center gap-2 sm:gap-4 lg:gap-6 min-w-0">
+          <Link href="/dashboard" className="flex items-center gap-1.5 sm:gap-2.5 hover:opacity-80 transition-opacity shrink-0">
+            <img src={arenaHelmetDark} alt="Arena AI" className="h-7 sm:h-9 w-auto object-contain" />
+            <div className="hidden sm:flex flex-col leading-none">
               <span className="text-[15px] font-bold tracking-wide text-white">arena ai</span>
               <span className="text-[9px] font-mono uppercase tracking-[0.25em] text-white/60">by gigarev</span>
             </div>
           </Link>
-          <div className="h-6 w-px bg-white/20" />
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/50">Client:</span>
-            <img src={monetateLogoDark} alt="Monetate" className="h-6 w-auto object-contain" />
+          <div className="h-5 sm:h-6 w-px bg-white/20 shrink-0" />
+          <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+            <span className="hidden sm:inline text-[10px] font-mono uppercase tracking-[0.2em] text-white/50">Client:</span>
+            <img src={monetateLogoDark} alt="Monetate" className="h-5 sm:h-6 w-auto object-contain" />
           </div>
         </div>
 
