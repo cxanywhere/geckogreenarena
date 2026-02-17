@@ -166,7 +166,7 @@ export function TextSlideViewer({
     >
       {hasImage ? (
         <>
-          <div className="flex-1 min-h-0 flex items-center justify-center relative px-12 py-3 overflow-hidden">
+          <div className="flex-1 min-h-0 flex items-center justify-center relative px-8 sm:px-12 py-3 overflow-hidden">
             {imageLoading && (
               <div className="absolute inset-0 flex items-center justify-center z-10">
                 <Loader2 className="w-8 h-8 animate-spin text-magenta" />
@@ -221,13 +221,13 @@ export function TextSlideViewer({
             </Button>
           </div>
 
-          <div className="border-t border-white/10 bg-[#0f1b5c] px-4 py-2.5 shrink-0">
-            <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3 min-w-0">
+          <div className="border-t border-white/10 bg-[#0f1b5c] px-2 sm:px-4 py-2 sm:py-2.5 shrink-0">
+            <div className="max-w-4xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                 <span className="text-white/50 text-xs font-medium whitespace-nowrap">
-                  {currentPage} / {numPages}
+                  {currentPage}/{numPages}
                 </span>
-                <h3 className="text-white text-sm font-medium truncate">
+                <h3 className="text-white text-xs sm:text-sm font-medium truncate">
                   {slide.title}
                 </h3>
                 {slide.type === "roleplay" && (

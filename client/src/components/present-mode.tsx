@@ -258,16 +258,16 @@ export function PresentMode({ slides, narration, chapterTitle, chapterId, onClos
                 data-testid={`present-slide-image-${currentSlide}`}
               />
             ) : (
-              <div className="max-w-3xl w-full bg-[#1A2B8C] rounded-2xl p-12 shadow-2xl">
-                <h2 className="text-3xl font-bold text-white mb-6">{slide?.title}</h2>
+              <div className="max-w-3xl w-full bg-[#1A2B8C] rounded-2xl p-5 sm:p-8 md:p-12 shadow-2xl mx-2">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-3 sm:mb-6">{slide?.title}</h2>
                 {slide?.content && (
-                  <p className="text-white/80 text-lg mb-6 leading-relaxed">{slide.content}</p>
+                  <p className="text-white/80 text-sm sm:text-base md:text-lg mb-4 sm:mb-6 leading-relaxed">{slide.content}</p>
                 )}
                 {slide?.bullets && (
-                  <ul className="space-y-3">
+                  <ul className="space-y-2 sm:space-y-3">
                     {slide.bullets.map((bullet, i) => (
-                      <li key={i} className="text-white/70 text-base flex items-start gap-3">
-                        <span className="text-magenta mt-1.5 text-xs">●</span>
+                      <li key={i} className="text-white/70 text-sm sm:text-base flex items-start gap-2 sm:gap-3">
+                        <span className="text-magenta mt-1 sm:mt-1.5 text-xs">●</span>
                         <span>{bullet}</span>
                       </li>
                     ))}
@@ -282,9 +282,9 @@ export function PresentMode({ slides, narration, chapterTitle, chapterId, onClos
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="absolute bottom-24 left-1/2 -translate-x-1/2 max-w-2xl w-full mx-4"
+            className="absolute bottom-24 left-1/2 -translate-x-1/2 max-w-2xl w-[calc(100%-2rem)] sm:w-full"
           >
-            <div className="bg-black/80 backdrop-blur-md rounded-xl p-4 text-white/90 text-sm leading-relaxed max-h-32 overflow-y-auto">
+            <div className="bg-black/80 backdrop-blur-md rounded-xl p-3 sm:p-4 text-white/90 text-xs sm:text-sm leading-relaxed max-h-24 sm:max-h-32 overflow-y-auto">
               {currentNarration.script}
             </div>
           </motion.div>
@@ -308,8 +308,8 @@ export function PresentMode({ slides, narration, chapterTitle, chapterId, onClos
         )}
       </div>
 
-      <div className="bg-black/60 backdrop-blur-md border-t border-white/10 px-6 py-3">
-        <div className="w-full mb-3 cursor-pointer group" onClick={(e) => {
+      <div className="bg-black/60 backdrop-blur-md border-t border-white/10 px-3 sm:px-6 py-2 sm:py-3">
+        <div className="w-full mb-2 sm:mb-3 cursor-pointer group" onClick={(e) => {
           if (audioRef.current && duration > 0) {
             const rect = e.currentTarget.getBoundingClientRect();
             const pct = (e.clientX - rect.left) / rect.width;
@@ -326,72 +326,72 @@ export function PresentMode({ slides, narration, chapterTitle, chapterId, onClos
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1 text-white/50 text-sm min-w-[80px]">
+          <div className="hidden sm:flex items-center gap-1 text-white/50 text-sm min-w-[80px]">
             {duration > 0 ? `${formatTime(currentTime)} / ${formatTime(duration)}` : "--:--"}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             <Button
               variant="ghost"
               size="icon"
-              className="text-white/70 hover:text-white hover:bg-white/10 rounded-full h-9 w-9"
+              className="text-white/70 hover:text-white hover:bg-white/10 rounded-full h-8 w-8 sm:h-9 sm:w-9"
               onClick={skipBack}
               disabled={currentSlide === 0}
               data-testid="button-skip-back"
             >
-              <SkipBack className="h-4 w-4" />
+              <SkipBack className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </Button>
 
             <Button
               variant="ghost"
               size="icon"
-              className="text-white hover:text-white hover:bg-magenta/20 rounded-full h-12 w-12 border border-white/20"
+              className="text-white hover:text-white hover:bg-magenta/20 rounded-full h-10 w-10 sm:h-12 sm:w-12 border border-white/20"
               onClick={togglePlay}
               data-testid="button-play-pause"
             >
-              {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
+              {isPlaying ? <Pause className="h-4 w-4 sm:h-5 sm:w-5" /> : <Play className="h-4 w-4 sm:h-5 sm:w-5 ml-0.5" />}
             </Button>
 
             <Button
               variant="ghost"
               size="icon"
-              className="text-white/70 hover:text-white hover:bg-white/10 rounded-full h-9 w-9"
+              className="text-white/70 hover:text-white hover:bg-white/10 rounded-full h-8 w-8 sm:h-9 sm:w-9"
               onClick={skipForward}
               disabled={currentSlide === totalSlides - 1}
               data-testid="button-skip-forward"
             >
-              <SkipForward className="h-4 w-4" />
+              <SkipForward className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </Button>
           </div>
 
-          <div className="flex items-center gap-2 min-w-[120px] justify-end">
+          <div className="flex items-center gap-1 sm:gap-2 justify-end">
             <Button
               variant="ghost"
               size="sm"
-              className={`text-xs gap-1.5 rounded-full px-3 h-8 ${showQA ? "bg-magenta/20 text-magenta border border-magenta/40" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+              className={`text-xs gap-1 sm:gap-1.5 rounded-full px-2 sm:px-3 h-7 sm:h-8 ${showQA ? "bg-magenta/20 text-magenta border border-magenta/40" : "text-white/70 hover:text-white hover:bg-white/10"}`}
               onClick={toggleQA}
               data-testid="button-present-ask-question"
             >
-              <MessageCircleQuestion className="h-3.5 w-3.5" />
+              <MessageCircleQuestion className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
               <span className="hidden sm:inline">Ask</span>
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="text-white/70 hover:text-white hover:bg-white/10 rounded-full h-8 w-8"
+              className="text-white/70 hover:text-white hover:bg-white/10 rounded-full h-7 w-7 sm:h-8 sm:w-8"
               onClick={() => setIsMuted(prev => !prev)}
               data-testid="button-mute"
             >
-              {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+              {isMuted ? <VolumeX className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> : <Volume2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />}
             </Button>
-            <span className="text-white/50 text-sm">
-              {currentSlide + 1} / {totalSlides}
+            <span className="text-white/50 text-xs sm:text-sm whitespace-nowrap">
+              {currentSlide + 1}/{totalSlides}
             </span>
           </div>
         </div>
       </div>
 
-      <div className="bg-black/40 px-6 py-2 flex gap-1 overflow-x-auto">
+      <div className="bg-black/40 px-3 sm:px-6 py-1.5 sm:py-2 flex gap-1 overflow-x-auto">
         {slides.map((s, i) => (
           <button
             key={i}

@@ -529,8 +529,7 @@ export default function ChapterPage() {
                 </div>
               </div>
               
-              <div className="flex items-center gap-3 shrink-0">
-                {/* Progress Checklist Pills */}
+              <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
                 <div className="hidden md:flex items-center gap-2">
                   <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${slideProgress >= 100 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-muted text-muted-foreground'}`}>
                     <FileText className="w-3 h-3" />
@@ -553,7 +552,7 @@ export default function ChapterPage() {
                 
                 <Button
                   size="sm"
-                  className="bg-magenta hover:bg-magenta/90 text-white text-xs gap-1.5"
+                  className="bg-magenta hover:bg-magenta/90 text-white text-xs gap-1 sm:gap-1.5 px-2 sm:px-3 h-8"
                   onClick={handleLaunchPresentMode}
                   disabled={isGeneratingNarration}
                   data-testid="button-present-mode"
@@ -573,18 +572,18 @@ export default function ChapterPage() {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="text-xs gap-1.5 border-magenta/30 text-magenta hover:bg-magenta/10"
+                  className="text-xs gap-1 sm:gap-1.5 border-magenta/30 text-magenta hover:bg-magenta/10 px-2 sm:px-3 h-8"
                   onClick={() => setShowVoiceQA(!showVoiceQA)}
                   data-testid="button-ask-question"
                 >
                   <MessageCircleQuestion className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Ask a Question</span>
+                  <span className="hidden sm:inline">Ask</span>
                 </Button>
                 <Button 
                   variant="ghost" 
                   size="sm" 
                   onClick={() => setShowObjectives(!showObjectives)}
-                  className="text-xs"
+                  className="text-xs px-2 sm:px-3 h-8"
                   data-testid="button-toggle-objectives"
                 >
                   {showObjectives ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
