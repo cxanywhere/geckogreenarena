@@ -14,37 +14,72 @@ interface PredefinedQuiz {
   correctAnswer: number;
 }
 
-const CHAPTER_0_QUIZZES: PredefinedQuiz[] = [
-  { afterSlide: 3, question: 'What is Monetate\'s core product offering?', options: ['Social media management', 'Experience optimization and personalization for e-commerce', 'Email marketing automation', 'Website hosting'], correctAnswer: 1 },
-  { afterSlide: 6, question: 'What does the MONET engine power?', options: ['Website design templates', 'AI-powered product recommendations and personalization', 'Social media scheduling', 'Customer support chatbots'], correctAnswer: 1 },
-  { afterSlide: 8, question: 'What is Monetate\'s ideal customer profile?', options: ['Small businesses with under $1M revenue', 'Mid-market to enterprise retailers with $50M+ revenue', 'Individual freelancers', 'Non-profit organizations'], correctAnswer: 1 },
-  { afterSlide: 10, question: 'Which of these is a key Monetate capability?', options: ['Social media posting', 'A/B testing and experimentation', 'Payroll processing', 'Inventory management'], correctAnswer: 1 },
-  { afterSlide: 12, question: 'What average revenue lift do Monetate customers typically achieve?', options: ['2-3%', '15% with 3x ROI within 12 months', '50% immediately', '100% within 6 months'], correctAnswer: 1 },
-  { afterSlide: 14, question: 'Which competitor is owned by Mastercard?', options: ['Optimizely', 'Adobe Target', 'Dynamic Yield', 'Bloomreach'], correctAnswer: 2 },
-  { afterSlide: 15, question: 'How long does a typical Monetate implementation take?', options: ['1-2 days', '4-8 weeks', '6-12 months', '2+ years'], correctAnswer: 1 },
-  { afterSlide: 17, question: 'What compliance standards does Monetate meet?', options: ['Only PCI-DSS', 'SOC 2 Type II, GDPR, and CCPA', 'No compliance certifications', 'Only HIPAA'], correctAnswer: 1 },
-  { afterSlide: 18, question: 'What is Monetate\'s pricing model based on?', options: ['Number of employees', 'Monthly website sessions/traffic volume', 'Fixed annual fee regardless of usage', 'Number of products sold'], correctAnswer: 1 },
-  { afterSlide: 19, question: 'Which statement best describes Monetate\'s value proposition?', options: ['The cheapest personalization tool on the market', 'Enterprise-grade experience optimization that delivers measurable revenue lift through AI-powered personalization', 'A simple website builder with drag-and-drop features', 'An email marketing platform with personalization'], correctAnswer: 1 }
-];
-
-const CHAPTER_1_QUIZZES: PredefinedQuiz[] = [
-  { afterSlide: 5, question: 'Which set correctly matches the "Four Pillars of Field Success"?', options: ["Confidence, Optimism, Personality, Endurance", "Timeliness, Attitude, Practice, Persistence", "Product, Price, Pitch, Persistence", "Appearance, Tone, Explanation, Honesty"], correctAnswer: 1 },
-  { afterSlide: 10, question: "In enterprise selling, what's the correct relationship between emotion and logic?", options: ["Logic drives action; emotion justifies afterward", "Emotion drives action; logic justifies afterward", "They are always equal at the same time", "Only logic matters in enterprise sales"], correctAnswer: 1 },
-  { afterSlide: 15, question: 'A buyer says, "Our conversion rates are fine." What is the best next move?', options: ["Present pricing immediately to test seriousness", "Reveal an unrealized issue with a specific data point and a question", "Ask for their email and leave", "Offer a discount to create urgency"], correctAnswer: 1 },
-  { afterSlide: 20, question: "Which statement is TRUE about pre-emergent vs. post-emergent and expectations?", options: ["Pre-emergent kills existing weeds; post-emergent prevents sprouting", "Post-emergent kills existing weeds; pre-emergent prevents sprouting", "Both only work if weeds are already visible", "Both work instantly if watered the same day"], correctAnswer: 1 },
-  { afterSlide: 25, question: 'In the MEDDPICC framework, what does the "M" stand for?', options: ["Management", "Metrics", "Marketing", "Methodology"], correctAnswer: 1 },
-  { afterSlide: 29, question: 'Which best captures what your "30-second elevator pitch" must do?', options: ["Explain every treatment ingredient in detail", "Deliver a clear, confident summary of what you do, how you do it, and why it works—fast", "Lead with price to qualify the buyer", "Compare competitors by name and position against them"], correctAnswer: 1 },
-  { afterSlide: 34, question: 'What should your closing strategy prioritize?', options: ["Offer a discount if the buyer hesitates", "Multi-thread the deal by aligning all stakeholders before asking for commitment", "Only follow up once to avoid being pushy", "Wait for the buyer to bring up next steps"], correctAnswer: 1 }
-];
+const CHAPTER_QUIZZES: Record<string, PredefinedQuiz[]> = {
+  "Monetate 101": [
+    { afterSlide: 2, question: 'What best describes the Monetate elevator pitch?', options: ['A cheap testing tool for small businesses', 'An experience optimization platform that helps enterprise brands deliver the right experience to every customer', 'A social media analytics suite', 'An email marketing automation platform'], correctAnswer: 1 },
+    { afterSlide: 3, question: 'What is the primary job of a Monetate sales rep during discovery?', options: ['Present pricing as early as possible', 'Identify which of the four core challenges are most painful and connect them to Monetate capabilities', 'Demo every feature of the platform', 'Focus only on competitors\' weaknesses'], correctAnswer: 1 },
+    { afterSlide: 5, question: 'How is Monetate\'s platform organized?', options: ['Three standalone products with separate dashboards', 'Four Suites powered by MONET (the AI engine) and supported by Concierge services', 'A single monolithic application', 'Individual plugins that customers install separately'], correctAnswer: 1 },
+  ],
+  "Buyer Reality & ICP": [
+    { afterSlide: 2, question: 'Why is it important to map KPIs by persona?', options: ['It helps you memorize product features faster', 'Speaking to their specific KPIs positions you as a strategic partner instead of a vendor', 'KPIs are only relevant for internal reporting', 'It allows you to skip the discovery process'], correctAnswer: 1 },
+    { afterSlide: 4, question: 'What creates urgency and opens deals in enterprise sales?', options: ['Offering discounts right away', 'Business problems and buying triggers the prospect is already experiencing', 'Sending more marketing emails', 'Waiting for the prospect to contact you'], correctAnswer: 1 },
+    { afterSlide: 5, question: 'What should great sellers prioritize before pitching?', options: ['Memorizing the entire product catalog', 'Discovery — using problem-first prompts to uncover real pain', 'Preparing a 60-minute demo presentation', 'Sharing customer logos and case studies'], correctAnswer: 1 },
+  ],
+  "Platform Fundamentals": [
+    { afterSlide: 1, question: 'What is MONET\'s role in the Monetate platform?', options: ['It handles billing and invoicing', 'It\'s the AI intelligence engine that unifies decisioning, automation, experimentation, and learning', 'It manages user passwords and security', 'It\'s a third-party integration layer'], correctAnswer: 1 },
+    { afterSlide: 3, question: 'What are the three categories of data that MONET ingests?', options: ['Social media, email, and chat data', 'Behavioral, contextual, and business data for intelligent decisions', 'Only first-party cookie data', 'Competitor pricing, market trends, and stock data'], correctAnswer: 1 },
+    { afterSlide: 4, question: 'Why is trust and compliance critical in enterprise sales conversations?', options: ['It\'s optional and rarely comes up', 'Security and compliance are often the first conversation with IT, legal, and procurement', 'Only healthcare companies care about compliance', 'It\'s only important after the deal is closed'], correctAnswer: 1 },
+  ],
+  "Symphony: Personalization": [
+    { afterSlide: 1, question: 'How does Symphony deliver personalization differently from rule-based tools?', options: ['It requires manual segments for every audience', 'It uses AI (MONET) to deliver individualized experiences without requiring rules or manual segments', 'It only personalizes email campaigns', 'It uses basic A/B testing to personalize'], correctAnswer: 1 },
+    { afterSlide: 3, question: 'What three types of metrics should every personalization initiative track?', options: ['Revenue, profit, and market share', 'Success metrics, guardrail metrics, and diagnostic metrics', 'Page views, bounce rate, and session duration', 'NPS, CSAT, and CES only'], correctAnswer: 1 },
+    { afterSlide: 4, question: 'What is the recommended approach for deploying Monetate personalization?', options: ['Launch everything at once across all channels', 'Start small with quick wins, prove lift, then expand', 'Wait 12 months before measuring any results', 'Only deploy during peak shopping seasons'], correctAnswer: 1 },
+  ],
+  "Maestro: Experimentation": [
+    { afterSlide: 1, question: 'What makes Maestro the most complete experimentation platform?', options: ['It only supports A/B testing', 'It enables A/B/n, multivariate, feature flags, and dynamic testing across client-side, server-side, and network-layer', 'It requires no statistical knowledge to use', 'It only works for mobile apps'], correctAnswer: 1 },
+    { afterSlide: 2, question: 'What framework should be used to prioritize experiment ideas instead of HiPPO decisions?', options: ['SWOT Analysis', 'ICE framework — Impact, Confidence, and Ease', 'Random selection', 'Alphabetical ordering by test name'], correctAnswer: 1 },
+    { afterSlide: 4, question: 'Why is Monetate\'s network-layer architecture important for regulated industries?', options: ['It makes pages load faster', 'Experiments happen at the network level with no JavaScript injection, keeping PII secure and passing strict security reviews', 'It reduces the cost of experiments', 'It only works with Chrome browsers'], correctAnswer: 1 },
+  ],
+  "Overture: Search & Discovery": [
+    { afterSlide: 1, question: 'How does Overture go beyond traditional keyword search?', options: ['It adds more search filters', 'It uses AI to understand customer intent and context, delivering results optimized for conversion', 'It only searches product titles', 'It requires manual curation of every search result'], correctAnswer: 1 },
+    { afterSlide: 2, question: 'What are the four common search pain categories to probe in discovery?', options: ['Speed, design, color, and font issues', 'Zero results, poor relevance, no merchandising control, and no conversion optimization', 'Server errors, downtime, caching, and latency', 'Mobile, desktop, tablet, and smart TV issues'], correctAnswer: 1 },
+    { afterSlide: 3, question: 'What is the proven sales process for selling Overture?', options: ['Demo → Close → Implement', 'Audit → Baseline → Pilot → Expansion', 'Cold call → Discount → Contract', 'Send proposal → Follow up weekly'], correctAnswer: 1 },
+  ],
+  "Concierge & Delivery": [
+    { afterSlide: 1, question: 'What role does Concierge play in the Monetate platform?', options: ['It\'s the billing department', 'It\'s the expert-led services layer that bridges the gap between buying the platform and getting results', 'It\'s a chatbot for customer complaints', 'It only handles technical support tickets'], correctAnswer: 1 },
+    { afterSlide: 2, question: 'When should you lead with Concierge in a sales conversation?', options: ['Never — it reduces deal size', 'When it\'s the difference between winning and losing competitive deals, especially with resource-constrained teams', 'Only after the deal is closed', 'Only for enterprise deals over $1M'], correctAnswer: 1 },
+    { afterSlide: 3, question: 'What is the correct implementation model for Concierge engagements?', options: ['Install → Train → Leave', 'Workshop → Pilot → Program → Governance', 'Sign contract → Wait 6 months → Check in', 'Self-service only with documentation'], correctAnswer: 1 },
+  ],
+  "Solution Modules": [
+    { afterSlide: 2, question: 'What three outcomes do MONET-powered product recommendations drive?', options: ['More page views, longer sessions, and lower bounce rate', 'Higher AOV, better conversion, and improved inventory movement', 'More social shares, more followers, and more likes', 'Faster page loads, better SEO, and more backlinks'], correctAnswer: 1 },
+    { afterSlide: 3, question: 'How do dynamic bundles increase AOV without hurting margins?', options: ['By offering blanket discounts on everything', 'MONET intelligently pairs products customers are likely to buy together with smart pricing that protects margins', 'By forcing customers to buy more items', 'By hiding individual product prices'], correctAnswer: 1 },
+    { afterSlide: 5, question: 'What does Monetate\'s unified analytics layer provide?', options: ['Only basic page view counts', 'A single source of truth for experiment results, audience insights, and business impact across all teams', 'Social media engagement metrics only', 'Competitor analysis dashboards'], correctAnswer: 1 },
+  ],
+  "Vertical Selling": [
+    { afterSlide: 1, question: 'Why does the Monetate story need to change across verticals?', options: ['The platform is different for each industry', 'Different industries have different moments, KPIs, compliance requirements, and proof points', 'It doesn\'t — use the same pitch everywhere', 'Only regulated industries need a different story'], correctAnswer: 1 },
+    { afterSlide: 4, question: 'What should you lead with when selling to financial services buyers?', options: ['Aggressive growth projections', 'Trust, security, and friction reduction — then show how personalization drives growth within compliance guardrails', 'Feature comparisons with competitors', 'Discount offers to close quickly'], correctAnswer: 1 },
+    { afterSlide: 5, question: 'Why is Monetate often the ONLY option for healthcare clients?', options: ['It\'s the cheapest platform available', 'Its network-layer architecture passes HIPAA security review without JavaScript injection or PII exposure', 'It was specifically built for healthcare', 'Healthcare companies get special pricing'], correctAnswer: 1 },
+  ],
+  "Competitive & Differentiation": [
+    { afterSlide: 1, question: 'How should Monetate be positioned in the market?', options: ['As the cheapest personalization tool', 'As defining the Experience Optimization category — unifying personalization, testing, and optimization', 'As a testing-only platform', 'As a Dynamic Yield alternative'], correctAnswer: 1 },
+    { afterSlide: 2, question: 'What are the four differentiation pillars that work against every competitor?', options: ['Price, speed, support, and integrations', 'AI-native architecture, unified platform, network-layer testing, and expert services', 'More features, more users, more regions, and more awards', 'Free trial, lower price, faster setup, and no contract'], correctAnswer: 1 },
+    { afterSlide: 3, question: 'Why is the tool consolidation narrative powerful with CFOs?', options: ['CFOs like hearing about new features', 'Consolidating 3-4 tools saves money, reduces complexity, and improves governance', 'CFOs don\'t care about tools — only revenue', 'It only works with small companies'], correctAnswer: 1 },
+  ],
+  "Deal Execution": [
+    { afterSlide: 1, question: 'In MEDDIC, when is a deal truly "qualified" at Monetate?', options: ['When the prospect agrees to a demo', 'When you can answer every MEDDIC element with confidence — it\'s a living framework, not a checklist', 'When you have their email address', 'When procurement sends an RFP'], correctAnswer: 1 },
+    { afterSlide: 3, question: 'How should pricing conversations be framed?', options: ['Lead with the lowest possible price', 'Never lead with price — always frame in context of value, ROI, and business outcomes', 'Match competitor pricing exactly', 'Avoid discussing pricing until contract stage'], correctAnswer: 1 },
+    { afterSlide: 4, question: 'What makes a well-scoped pilot the fastest path to a closed deal?', options: ['Making the pilot free with no commitments', 'Clear success metrics, a tight timeline, and an explicit decision point at the end', 'Running the pilot for 12+ months', 'Including every product feature in the pilot'], correctAnswer: 1 },
+  ],
+  "AI Enablement": [
+    { afterSlide: 1, question: 'What is MONET Assistant and how should sellers use it?', options: ['A replacement for human sales skills', 'An LLM-based knowledge guide for self-serve answers — but always validate before using in production conversations', 'A customer-facing chatbot on the website', 'An automated email writer'], correctAnswer: 1 },
+    { afterSlide: 2, question: 'What determines the quality of answers from MONET Assistant?', options: ['The time of day you use it', 'The quality of your prompts — using structured prompt patterns gets the most useful outputs', 'How fast your internet connection is', 'The number of times you\'ve logged in'], correctAnswer: 1 },
+    { afterSlide: 3, question: 'What is a critical governance rule when using MONET Assistant?', options: ['Share all outputs directly with prospects', 'Know the limitations, verify outputs, and escalate to human experts when needed', 'Never use it for competitive intelligence', 'Only managers should have access'], correctAnswer: 1 },
+  ],
+};
 
 async function seedPredefinedQuizzesForChapter(chapterId: string, chapterTitle: string): Promise<number> {
-  let quizzes: PredefinedQuiz[] = [];
-  
-  if (chapterTitle === "Intro to Monetate" || chapterTitle === "Intro to GeckoGreen") {
-    quizzes = CHAPTER_0_QUIZZES;
-  } else if (chapterTitle === "Sales Foundations") {
-    quizzes = CHAPTER_1_QUIZZES;
-  } else {
+  const quizzes = CHAPTER_QUIZZES[chapterTitle];
+  if (!quizzes || quizzes.length === 0) {
     return 0;
   }
   
