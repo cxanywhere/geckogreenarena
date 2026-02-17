@@ -5,7 +5,7 @@ import path from "path";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { storage } from "./storage";
-import { db } from "./db";
+import { db, withRetry } from "./db";
 import { insertUserProgressSchema, insertRoleplayAttemptSchema, quizQuestions, chapters } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
@@ -547,7 +547,7 @@ export async function registerRoutes(
   // User routes
   app.get("/api/users/:id", async (req, res) => {
     try {
-      const user = await storage.getUser(req.params.id);
+      const user = await withRetry(() => storage.getUser(req.params.id));
       
       if (!user) {
         return res.status(404).json({ error: "User not found" });
@@ -562,7 +562,7 @@ export async function registerRoutes(
 
   app.get("/api/users", async (req, res) => {
     try {
-      const users = await storage.getAllUsers();
+      const users = await withRetry(() => storage.getAllUsers());
       res.json(users.map(u => ({ ...u, password: undefined })));
     } catch (error) {
       console.error("Get users error:", error);
@@ -1248,7 +1248,7 @@ export async function registerRoutes(
   // Chapter routes
   app.get("/api/chapters", async (req, res) => {
     try {
-      const chapters = await storage.getAllChapters();
+      const chapters = await withRetry(() => storage.getAllChapters());
       res.json(chapters);
     } catch (error) {
       console.error("Get chapters error:", error);
@@ -1258,7 +1258,7 @@ export async function registerRoutes(
 
   app.get("/api/chapters/:id", async (req, res) => {
     try {
-      const chapter = await storage.getChapter(req.params.id);
+      const chapter = await withRetry(() => storage.getChapter(req.params.id));
       
       if (!chapter) {
         return res.status(404).json({ error: "Chapter not found" });
@@ -1275,9 +1275,8 @@ export async function registerRoutes(
   app.get("/api/users/:userId/roleplay-status", async (req, res) => {
     try {
       const { userId } = req.params;
-      const attempts = await storage.getUserRoleplayAttempts(userId);
+      const attempts = await withRetry(() => storage.getUserRoleplayAttempts(userId));
       
-      // Group attempts by roleplayId and calculate status
       const statusMap: Record<string, { 
         attempts: number; 
         passed: boolean; 
@@ -1432,7 +1431,7 @@ export async function registerRoutes(
   // Roleplay routes
   app.get("/api/roleplays", async (req, res) => {
     try {
-      const allRoleplays = await storage.getAllRoleplays();
+      const allRoleplays = await withRetry(() => storage.getAllRoleplays());
       const roleplays = allRoleplays.filter(rp => !HIDDEN_ROLEPLAY_IDS.has(rp.id));
       res.json(roleplays);
     } catch (error) {
@@ -1568,7 +1567,7 @@ export async function registerRoutes(
   // Battlecard routes
   app.get("/api/battlecards", async (req, res) => {
     try {
-      const battlecards = await storage.getAllBattlecards();
+      const battlecards = await withRetry(() => storage.getAllBattlecards());
       res.json(battlecards);
     } catch (error) {
       console.error("Get battlecards error:", error);
@@ -2039,7 +2038,7 @@ export async function registerRoutes(
   // Victory Playbook routes
   app.get("/api/playbook/stories", async (req, res) => {
     try {
-      const stories = await storage.getComicStoriesWithPanels();
+      const stories = await withRetry(() => storage.getComicStoriesWithPanels());
       res.json(stories);
     } catch (error) {
       console.error("Get playbook stories error:", error);
@@ -2061,7 +2060,7 @@ export async function registerRoutes(
   // Progress routes
   app.get("/api/users/:userId/progress", async (req, res) => {
     try {
-      const progress = await storage.getUserProgress(req.params.userId);
+      const progress = await withRetry(() => storage.getUserProgress(req.params.userId));
       res.json(progress);
     } catch (error) {
       console.error("Get user progress error:", error);
@@ -2105,7 +2104,7 @@ export async function registerRoutes(
         return res.status(400).json({ error: "userId, chapterId, currentSlide, and totalSlides are required" });
       }
       
-      const progress = await storage.updateSlideProgress(userId, chapterId, currentSlide, totalSlides);
+      const progress = await withRetry(() => storage.updateSlideProgress(userId, chapterId, currentSlide, totalSlides));
       res.json(progress);
     } catch (error) {
       console.error("Update slide progress error:", error);
@@ -2143,7 +2142,7 @@ export async function registerRoutes(
   // Roleplay attempt routes
   app.get("/api/users/:userId/attempts", async (req, res) => {
     try {
-      const attempts = await storage.getUserRoleplayAttempts(req.params.userId);
+      const attempts = await withRetry(() => storage.getUserRoleplayAttempts(req.params.userId));
       res.json(attempts);
     } catch (error) {
       console.error("Get user attempts error:", error);
@@ -4275,7 +4274,7 @@ export async function registerRoutes(
       if (!authResult?.user) {
         return res.status(401).json({ error: "Unauthorized" });
       }
-      const nudges = await storage.getUnreadNudges(authResult.user.id);
+      const nudges = await withRetry(() => storage.getUnreadNudges(authResult.user.id));
       res.json(nudges);
     } catch (error) {
       console.error("Get nudges error:", error);
