@@ -13,8 +13,8 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { api, CoachingNote, CoachingTask } from "@/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import monetateLogoDark from "@/assets/monetate-logo-dark.png";
-import monetateLogoLight from "@/assets/monetate-logo-light.png";
+import marketstarLogoDark from "@/assets/monetate-logo-dark.png";
+import marketstarLogoLight from "@/assets/monetate-logo-light.png";
 import { useTheme } from "next-themes";
 import { ModeToggle } from "@/components/mode-toggle";
 import { format } from "date-fns";
@@ -413,7 +413,7 @@ export default function RepDetailsPage() {
   const { resolvedTheme } = useTheme();
   const [expandedRoleplay, setExpandedRoleplay] = useState<string | null>(null);
   
-  const monetateLogo = resolvedTheme === "dark" ? monetateLogoDark : monetateLogoLight;
+  const marketstarLogo = resolvedTheme === "dark" ? marketstarLogoDark : marketstarLogoLight;
   const backUrl = isAdmin ? "/admin-dashboard" : "/manager-dashboard";
   const portalName = isAdmin ? "Admin / Director Portal" : "Manager Portal";
 
@@ -485,15 +485,15 @@ export default function RepDetailsPage() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-6">
           <Link href={backUrl} className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-magenta hover:opacity-80 transition-opacity">
-              <img src={monetateLogo} alt="Monetate" className="h-8 w-8 object-contain" />
+              <img src={marketstarLogo} alt="MarketStar" className="h-8 w-8 object-contain" />
               <div className="flex flex-col leading-none">
-                <span>Monetate</span>
+                <span>MarketStar</span>
                 <span className={`text-[10px] font-normal uppercase tracking-wide ${isAdmin ? 'text-destructive font-bold' : 'text-foreground/80'}`}>{portalName}</span>
               </div>
           </Link>
           <div className="hidden md:flex items-center gap-2 pl-6 border-l border-magenta/10">
             <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest">Client:</span>
-            <img src={monetateLogo} alt="Monetate" className="h-8 w-auto object-contain" />
+            <img src={marketstarLogo} alt="MarketStar" className="h-8 w-auto object-contain" />
           </div>
         </div>
 

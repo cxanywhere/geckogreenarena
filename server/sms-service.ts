@@ -63,9 +63,9 @@ export async function sendCredentialsSMS(
 
     const appUrl = process.env.REPLIT_DEV_DOMAIN 
       ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-      : 'https://monetate-training.replit.app';
+      : 'https://marketstar-training.replit.app';
 
-    const message = `Welcome to Monetate Sales Training, ${name}!\n\nYour login credentials:\nEmail: ${email}\nPassword: ${password}\n\nLogin at: ${appUrl}`;
+    const message = `Welcome to MarketStar Sales Training, ${name}!\n\nYour login credentials:\nEmail: ${email}\nPassword: ${password}\n\nLogin at: ${appUrl}`;
 
     await client.messages.create({
       body: message,
@@ -96,10 +96,10 @@ export async function sendQuizReminderSMS(
 
     const quizzesUrl = process.env.REPLIT_DEV_DOMAIN 
       ? `https://${process.env.REPLIT_DEV_DOMAIN}/quizzes`
-      : 'https://monetate-training.replit.app/quizzes';
+      : 'https://marketstar-training.replit.app/quizzes';
     const scoreText = quizScore > 0 ? `Current avg: ${quizScore}%.` : 'No quizzes completed yet.';
 
-    const message = `Hey ${name}! You've passed ${roleplaysPassed} roleplays — you're almost certified! 🔥\n\nComplete your quizzes (need 75%+) to earn your Monetate certification. ${scoreText}\n\nTake quizzes: ${quizzesUrl}`;
+    const message = `Hey ${name}! You've passed ${roleplaysPassed} roleplays — you're almost certified! 🔥\n\nComplete your quizzes (need 75%+) to earn your MarketStar certification. ${scoreText}\n\nTake quizzes: ${quizzesUrl}`;
 
     await client.messages.create({
       body: message,

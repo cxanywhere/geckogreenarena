@@ -8,43 +8,43 @@ export interface PredefinedQuiz {
 export const CHAPTER_0_QUIZZES: PredefinedQuiz[] = [
   {
     afterSlide: 3,
-    question: 'What is Monetate\'s core product offering?',
+    question: 'What is MarketStar\'s core business?',
     options: [
-      'Social media management',
-      'Experience optimization and personalization for e-commerce',
-      'Email marketing automation',
-      'Website hosting'
+      'Consumer software development',
+      'B2B sales outsourcing and revenue acceleration',
+      'Digital advertising agency',
+      'HR consulting and staffing'
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 6,
-    question: 'What does the MONET engine power?',
+    question: 'What does Nytro.ai power for MarketStar\'s sales teams?',
     options: [
-      'Website design templates',
-      'AI-powered product recommendations and personalization',
-      'Social media scheduling',
-      'Customer support chatbots'
+      'Website design and hosting',
+      'AI-driven pitch intelligence, coaching, and sales enablement',
+      'Social media content scheduling',
+      'Customer support ticket management'
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 8,
-    question: 'What is Monetate\'s ideal customer profile?',
+    question: 'What is MarketStar\'s ideal customer profile?',
     options: [
-      'Small businesses with under $1M revenue',
-      'Mid-market to enterprise retailers with $50M+ revenue',
-      'Individual freelancers',
-      'Non-profit organizations'
+      'Small local businesses with under 10 employees',
+      'B2B companies needing to scale sales without building internal teams — typically mid-market to enterprise',
+      'Individual freelancers and solopreneurs',
+      'Non-profit organizations and government agencies'
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 10,
-    question: 'Which of these is a key Monetate capability?',
+    question: 'Which of these is a core MarketStar solution?',
     options: [
-      'Social media posting',
-      'A/B testing and experimentation',
+      'Social media management',
+      'Pipeline Generation and SDR/BDR outsourcing',
       'Payroll processing',
       'Inventory management'
     ],
@@ -52,32 +52,32 @@ export const CHAPTER_0_QUIZZES: PredefinedQuiz[] = [
   },
   {
     afterSlide: 12,
-    question: 'What average revenue lift do Monetate customers typically achieve?',
+    question: 'How long has MarketStar been in the sales outsourcing industry?',
     options: [
-      '2-3%',
-      '15% with 3x ROI within 12 months',
-      '50% immediately',
-      '100% within 6 months'
+      '5 years',
+      '35+ years as a PEAK Matrix® Leader in sales outsourcing',
+      '2 years',
+      '50+ years'
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 14,
-    question: 'Which competitor is owned by Mastercard?',
+    question: 'Which engagement model does MarketStar offer for flexible, modular sales outsourcing?',
     options: [
-      'Optimizely',
-      'Adobe Target',
-      'Dynamic Yield',
-      'Bloomreach'
+      'Staff Augmentation Only',
+      'Sales as a Service®',
+      'Project-Based Consulting',
+      'Franchise Model'
     ],
-    correctAnswer: 2
+    correctAnswer: 1
   },
   {
     afterSlide: 15,
-    question: 'How long does a typical Monetate implementation take?',
+    question: 'How quickly can MarketStar typically stand up an outsourced sales team?',
     options: [
       '1-2 days',
-      '4-8 weeks',
+      '4-8 weeks with full ramp and enablement',
       '6-12 months',
       '2+ years'
     ],
@@ -85,34 +85,34 @@ export const CHAPTER_0_QUIZZES: PredefinedQuiz[] = [
   },
   {
     afterSlide: 17,
-    question: 'What compliance standards does Monetate meet?',
+    question: 'Which of the following is a MarketStar solution area?',
     options: [
-      'Only PCI-DSS',
-      'SOC 2 Type II, GDPR, and CCPA',
-      'No compliance certifications',
-      'Only HIPAA'
+      'Only Pipeline Generation',
+      'Partner Channel Services including PAM programs and ecosystem management',
+      'Only Account Management',
+      'Only Customer Support'
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 18,
-    question: 'What is Monetate\'s pricing model based on?',
+    question: 'What is MarketStar\'s pricing model based on?',
     options: [
-      'Number of employees',
-      'Monthly website sessions/traffic volume',
-      'Fixed annual fee regardless of usage',
-      'Number of products sold'
+      'Number of office locations',
+      'Team size, engagement scope, and Sales as a Service® modules selected',
+      'Fixed annual fee regardless of scope',
+      'Per-transaction commission only'
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 19,
-    question: 'Which statement best describes Monetate\'s value proposition?',
+    question: 'Which statement best describes MarketStar\'s value proposition?',
     options: [
-      'The cheapest personalization tool on the market',
-      'Enterprise-grade experience optimization that delivers measurable revenue lift through AI-powered personalization',
-      'A simple website builder with drag-and-drop features',
-      'An email marketing platform with personalization'
+      'The cheapest staffing agency on the market',
+      'Outsourced sales teams that accelerate revenue through dedicated reps, proven playbooks, and AI-powered enablement via Nytro.ai',
+      'A simple CRM tool with automation features',
+      'An email marketing platform with lead scoring'
     ],
     correctAnswer: 1
   }

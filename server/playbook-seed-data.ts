@@ -244,7 +244,7 @@ export const PLAYBOOK_PANELS_SEED = [
     "panelOrder": 2,
     "imageUrl": "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1769226656/arena-ai/playbook/rp-ext-03_panel_2.jpg",
     "speaker": "rep",
-    "dialogue": "Hey there! Looks like you're a hands-on guy. I'm Marcus with Monetate.",
+    "dialogue": "Hey there! Looks like you're a hands-on guy. I'm Marcus with MarketStar.",
     "setting": "Rep approaching casually",
     "emotion": "friendly",
     "createdAt": "2026-01-24T03:15:56.749Z"
@@ -662,7 +662,7 @@ export const PLAYBOOK_PANELS_SEED = [
     "panelOrder": 2,
     "imageUrl": "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1769155963/arena-ai/playbook/rp-02_panel_2.jpg",
     "speaker": "rep",
-    "dialogue": "Good afternoon! I'm with Monetate—",
+    "dialogue": "Good afternoon! I'm with MarketStar—",
     "setting": "Rep at door, smiling",
     "emotion": "friendly",
     "createdAt": "2026-01-23T07:17:40.601Z"
@@ -783,7 +783,7 @@ export const PLAYBOOK_PANELS_SEED = [
     "panelOrder": 2,
     "imageUrl": "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1769225609/arena-ai/playbook/rp-ext-02_panel_2.jpg",
     "speaker": "rep",
-    "dialogue": "Good afternoon! I'm Marcus with Monetate. Beautiful home you have here.",
+    "dialogue": "Good afternoon! I'm Marcus with MarketStar. Beautiful home you have here.",
     "setting": "At front door, professional and warm",
     "emotion": "friendly",
     "createdAt": "2026-01-24T03:15:56.602Z"
@@ -1146,7 +1146,7 @@ export const PLAYBOOK_PANELS_SEED = [
     "panelOrder": 2,
     "imageUrl": "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1769224668/arena-ai/playbook/rp-ext-01_panel_2.jpg",
     "speaker": "rep",
-    "dialogue": "Good morning! I'm Marcus with Monetate. We're working with companies in your area today.",
+    "dialogue": "Good morning! I'm Marcus with MarketStar. We're working with companies in your area today.",
     "setting": "At the front door, professional posture, friendly smile",
     "emotion": "friendly",
     "createdAt": "2026-01-24T03:15:56.414Z"
@@ -1487,7 +1487,7 @@ export const PLAYBOOK_PANELS_SEED = [
     "panelOrder": 2,
     "imageUrl": "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1769156328/arena-ai/playbook/rp-05_panel_2.jpg",
     "speaker": "rep",
-    "dialogue": "Hi! I'm with Monetate. We're working on a few sites in the neighborhood today.",
+    "dialogue": "Hi! I'm with MarketStar. We're working on a few sites in the neighborhood today.",
     "setting": "Rep at door, professional",
     "emotion": "friendly",
     "createdAt": "2026-01-23T07:17:40.645Z"
@@ -1861,7 +1861,7 @@ export const PLAYBOOK_PANELS_SEED = [
     "panelOrder": 1,
     "imageUrl": "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1769155072/arena-ai/playbook/rp-01_panel_1.jpg",
     "speaker": "narrator",
-    "dialogue": "A sunny afternoon in a nice suburban neighborhood. A Monetate rep walks up a well-maintained driveway.",
+    "dialogue": "A sunny afternoon in a nice suburban neighborhood. A MarketStar rep walks up a well-maintained driveway.",
     "setting": "Suburban driveway, nice house, site visible",
     "emotion": "confident",
     "createdAt": "2026-01-23T07:17:40.547Z"
@@ -1872,7 +1872,7 @@ export const PLAYBOOK_PANELS_SEED = [
     "panelOrder": 2,
     "imageUrl": "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1769155096/arena-ai/playbook/rp-01_panel_2.jpg",
     "speaker": "rep",
-    "dialogue": "Hi there! I'm with Monetate—we're working with companies in your area today.",
+    "dialogue": "Hi there! I'm with MarketStar—we're working with companies in your area today.",
     "setting": "At the front door, professional posture",
     "emotion": "friendly",
     "createdAt": "2026-01-23T07:17:40.551Z"

@@ -186,7 +186,7 @@ export function VoiceRoleplay({ roleplayId, config, onComplete, onCancel, userId
     const buySignalDescription = config.buySignal > 50 ? "showing some underlying interest" :
                                  config.buySignal > 25 ? "cautiously curious" : "not showing buying interest";
 
-    return `You are playing the role of a buyer in a sales training simulation for the Monetate platform.
+    return `You are playing the role of a buyer in a sales training simulation for the MarketStar platform.
 
 CHARACTER PROFILE:
 - Name: ${config.role}

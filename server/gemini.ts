@@ -21,14 +21,14 @@ Theme: ${chapterTitle}
 Context: ${chapterDescription}
 
 Style requirements:
-- Clean, corporate illustration style with a deep blue and magenta color palette (Monetate brand colors: deep blue #1A2B8C, magenta #E84C8A)
-- Enterprise B2B SaaS sales training theme
+- Clean, corporate illustration style with a deep blue and teal color palette (MarketStar brand colors: deep blue #1A2B5C, teal #00B4D8)
+- B2B sales outsourcing training theme
 - Modern, minimalist design suitable for a training platform
 - No text or words in the image
 - Sophisticated, premium mood with a luxury feel
 - 16:9 aspect ratio suitable for a card header
 
-Create a visually appealing illustration that represents enterprise sales success, technology, data analytics, and experience optimization.`;
+Create a visually appealing illustration that represents B2B sales outsourcing success, pipeline generation, revenue growth, and sales enablement.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -228,14 +228,14 @@ CONTENT TO DISPLAY:
 - Coach Line: "${coachLine}"
 
 DESIGN REQUIREMENTS:
-- Professional deep blue (#1A2B8C) background with magenta (#E84C8A) accents
+- Professional deep blue (#1A2B5C) background with teal (#00B4D8) accents
 - Clean, modern corporate infographic style
 - All text must be clearly legible and well-organized
 - Use icons/visual elements to represent each section
 - Card number "${battlecardNumber}" in top corner
 - Title prominently at top in large bold white text
 - Organized sections with clear visual hierarchy
-- Monetate branding (enterprise SaaS)
+- MarketStar branding (B2B sales outsourcing)
 - Include visual icons for "When to Use", "Goal", "Key Points", "Script"
 - Professional sales training document aesthetic
 - Dimensions: Portrait orientation, suitable for mobile viewing
@@ -243,7 +243,7 @@ DESIGN REQUIREMENTS:
 - Quote bubble or script icon for the talk track section
 - Lightbulb or star icon for the coach line
 
-Create a visually stunning, information-rich battlecard that a B2B SaaS sales rep could quickly reference during enterprise sales calls.`;
+Create a visually stunning, information-rich battlecard that a B2B sales outsourcing rep could quickly reference during enterprise sales calls.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -316,7 +316,7 @@ function buildPersonaPrompt(scenario: RoleplayScenario): string {
   const buySignalLevel = scenario.stats.buy_signal > 50 ? "showing some interest" :
                          scenario.stats.buy_signal > 25 ? "cautiously curious" : "not showing interest";
 
-  return `You are playing the role of an enterprise buyer in a B2B sales training simulation for Monetate experience optimization platform.
+  return `You are playing the role of an enterprise buyer in a B2B sales training simulation for MarketStar, a leading B2B sales outsourcing company.
 
 CHARACTER PROFILE:
 - Opening line/objection: "${scenario.name}"
@@ -414,7 +414,7 @@ export async function evaluateRoleplay(
   const passCriteria = passCriteriaMatch ? passCriteriaMatch[1] : "Handle objections professionally and move toward next step";
   const failConditions = failConditionsMatch ? failConditionsMatch[1] : "Buyer ending the meeting, being rude, or giving up too easily";
 
-  const evaluationPrompt = `You are an expert sales coach evaluating an enterprise B2B sales training roleplay for Monetate.
+  const evaluationPrompt = `You are an expert sales coach evaluating an enterprise B2B sales training roleplay for MarketStar.
 
 SCENARIO: ${scenario.name} - ${scenario.description}
 DIFFICULTY: ${scenario.difficulty}
@@ -442,7 +442,7 @@ SCORING WEIGHTS (CRITICAL):
 
 WHAT "CORRECTLY HANDLING THE OBJECTION" MEANS:
 1. Did they ACKNOWLEDGE the objection first? (Not ignore it)
-2. Did they use the appropriate technique for this specific objection? (discovery calls, demos, enterprise selling)
+2. Did they use the appropriate technique for this specific objection? (discovery calls, demos, B2B sales outsourcing selling)
 3. Did they stay professional and not get pushy or defensive?
 
 EVALUATION CRITERIA (in order of importance):
@@ -503,25 +503,25 @@ Be encouraging but honest. The "passed" field should be TRUE if the rep genuinel
 export async function generateArenaLogo(mode: "dark" | "light"): Promise<GeneratedImage> {
   const isDark = mode === "dark";
   
-  const prompt = `Create a striking, modern logo icon for "Monetate" - an enterprise B2B SaaS experience optimization platform.
+  const prompt = `Create a striking, modern logo icon for "MarketStar" - a leading B2B sales outsourcing company.
 
 DESIGN REQUIREMENTS:
-- An abstract "M" letter mark with a data/personalization motif
-- Geometric, clean design with flowing data streams or personalization nodes
-- Sophisticated, luxury tech aesthetic
-- The M should incorporate subtle elements suggesting data analytics, personalization, or optimization
+- An abstract "M" letter mark with a sales growth/star motif
+- Geometric, clean design with flowing growth lines or star elements
+- Sophisticated, professional tech aesthetic
+- The M should incorporate subtle elements suggesting sales growth, pipeline, or star imagery
 - IMPORTANT: Add a refined GLOW effect around the logo outline
 
 COLOR SCHEME FOR ${isDark ? "DARK MODE" : "LIGHT MODE"}:
 ${isDark 
-  ? `- Primary color: Deep blue (#1A2B8C) for the main logo shape
-- GLOW EFFECT: Magenta/pink (#E84C8A) neon glow emanating from the logo lines
-- Accent color: Magenta (#E84C8A) for highlights and data stream effects
+  ? `- Primary color: Deep blue (#1A2B5C) for the main logo shape
+- GLOW EFFECT: Teal (#00B4D8) neon glow emanating from the logo lines
+- Accent color: Teal (#00B4D8) for highlights and growth effects
 - Background: Pure black (#000000) - this makes the glow pop
-- The blue and magenta should create a luxurious, high-end feel against the dark background`
-  : `- Primary color: Deep blue (#1A2B8C) for the main logo shape
-- SUBTLE GLOW: Soft magenta (#E84C8A) shadow/glow effect around the logo
-- Accent color: Magenta (#E84C8A) for subtle highlight effects
+- The blue and teal should create a professional, high-end feel against the dark background`
+  : `- Primary color: Deep blue (#1A2B5C) for the main logo shape
+- SUBTLE GLOW: Soft teal (#00B4D8) shadow/glow effect around the logo
+- Accent color: Teal (#00B4D8) for subtle highlight effects
 - Background: Pure white (#FFFFFF) or very light gray (#F9FAFB)
 - Clean, professional, premium look with subtle depth`
 }
@@ -529,11 +529,11 @@ ${isDark
 STYLE:
 - Clean geometric design with refined GLOW effects
 - Minimal, sophisticated shapes
-- Luxury tech aesthetic with data visualization elements
+- Professional tech aesthetic with sales growth elements
 - ${isDark ? "Elegant luminous glow - refined and premium" : "Clean professional look with subtle shadows"}
 - Professional, sophisticated, premium but approachable
 - Square format, centered composition
-- NO text, NO words, just the M icon with data motif
+- NO text, NO words, just the M icon with star/growth motif
 - The glow effect should convey innovation and sophistication
 
 The overall feel should be: ${isDark ? "A premium, luminous emblem in darkness - sophisticated, innovative, enterprise-grade" : "A clean, luxury brand mark - polished, confident, modern"}.`;
@@ -592,9 +592,9 @@ export async function generateSlideImage(
 
 CRITICAL STYLE REQUIREMENTS:
 - This is a PRESENTATION SLIDE for a premium sales training platform
-- Dark navy blue (#1A2B8C) background is mandatory
+- Dark navy blue (#1A2B5C) background is mandatory
 - White text for titles and body content
-- Magenta/pink (#E84C8A) for accent elements, icons, highlights, and data callouts
+- Teal (#00B4D8) for accent elements, icons, highlights, and data callouts
 - Professional corporate keynote quality — think McKinsey or Bain presentation deck
 - 16:9 landscape aspect ratio
 - Include the TITLE TEXT clearly visible at the top of the slide

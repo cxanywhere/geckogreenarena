@@ -25,7 +25,7 @@ import {
 import { useAuth } from "@/lib/auth-context";
 import { useTheme } from "next-themes";
 
-import monetateLogoDark from "@/assets/monetate-logo-dark.png";
+import marketstarLogoDark from "@/assets/monetate-logo-dark.png";
 import arenaHelmetDark from "@/assets/arena-helmet-dark.png";
 
 interface NavGroup {
@@ -113,7 +113,7 @@ export function Nav() {
           <div className="h-5 sm:h-6 w-px bg-white/20 shrink-0" />
           <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
             <span className="hidden sm:inline text-[10px] font-mono uppercase tracking-[0.2em] text-white/50">Client:</span>
-            <img src={monetateLogoDark} alt="Monetate" className="h-5 sm:h-6 w-auto object-contain" />
+            <img src={marketstarLogoDark} alt="MarketStar" className="h-5 sm:h-6 w-auto object-contain" />
           </div>
         </div>
 

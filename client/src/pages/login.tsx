@@ -9,8 +9,8 @@ import { Zap, ArrowRight, Lock, GraduationCap } from "lucide-react";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
-import monetateLogoDark from "@/assets/monetate-logo-dark.png";
-import monetateLogoLight from "@/assets/monetate-logo-light.png";
+import marketstarLogoDark from "@/assets/monetate-logo-dark.png";
+import marketstarLogoLight from "@/assets/monetate-logo-light.png";
 import arenaHelmet from "@/assets/arena-helmet.png";
 import arenaHelmetDark from "@/assets/arena-helmet-dark.png";
 import { useTheme } from "next-themes";
@@ -101,8 +101,8 @@ export default function LoginPage() {
               <Zap className="w-24 h-24 text-magenta rotate-12" />
             </div>
             <p className="text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground mb-4">Authorized Workspace For</p>
-            <img src={monetateLogoDark} alt="Monetate" className="h-8 w-auto object-contain hidden dark:block" />
-            <img src={monetateLogoLight} alt="Monetate" className="h-8 w-auto object-contain block dark:hidden" />
+            <img src={marketstarLogoDark} alt="MarketStar" className="h-8 w-auto object-contain hidden dark:block" />
+            <img src={marketstarLogoLight} alt="MarketStar" className="h-8 w-auto object-contain block dark:hidden" />
           </div>
 
           <div className="mb-8">
@@ -120,7 +120,7 @@ export default function LoginPage() {
               <Input 
                 id="email" 
                 type="email" 
-                placeholder="name@monetate.com" 
+                placeholder="name@marketstar.com" 
                 className="h-12 bg-background border-input focus:border-magenta focus:ring-magenta/20 transition-all text-foreground placeholder:text-muted-foreground"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -193,11 +193,11 @@ export default function LoginPage() {
             transition={{ duration: 0.7, delay: 0.2 }}
           >
             <h2 className="font-display text-5xl font-bold mb-6 leading-tight">
-              Experience Optimization <br />
+              B2B Sales Outsourcing <br />
               <span className="text-[#E84C8A]">Sales Enablement</span>
             </h2>
             <p className="text-white/80 text-lg max-w-md leading-relaxed">
-              Master your pitch with AI-powered training. Arena by GigaRev — built exclusively for Monetate sales professionals.
+              Master your pitch with AI-powered training. Arena by GigaRev — built exclusively for MarketStar sales professionals.
             </p>
             
             <div className="flex gap-3 mt-8">

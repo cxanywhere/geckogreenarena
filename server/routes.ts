@@ -36,7 +36,7 @@ async function ensureDatabaseSeeded() {
       console.log("Database empty, seeding with demo data...");
       
       const manager1 = await storage.createUser({
-        email: "sarah.jenkins@monetate.com",
+        email: "sarah.jenkins@marketstar.com",
         password: "demo123",
         name: "Sarah Jenkins",
         role: "manager",
@@ -45,7 +45,7 @@ async function ensureDatabaseSeeded() {
       });
 
       await storage.createUser({
-        email: "james.patterson@monetate.com",
+        email: "james.patterson@marketstar.com",
         password: "demo123",
         name: "James Patterson",
         role: "director",
@@ -54,7 +54,7 @@ async function ensureDatabaseSeeded() {
       });
 
       await storage.createUser({
-        email: "alex.rivera@monetate.com",
+        email: "alex.rivera@marketstar.com",
         password: "demo123",
         name: "Alex Rivera",
         role: "rep",
@@ -64,7 +64,7 @@ async function ensureDatabaseSeeded() {
       });
 
       await storage.createUser({
-        email: "mike.chen@monetate.com",
+        email: "mike.chen@marketstar.com",
         password: "demo123",
         name: "Mike Chen",
         role: "rep",
@@ -103,7 +103,7 @@ async function ensureDatabaseSeeded() {
           coverImage: "",
           agenda: ["The B-P-D-C Sales Framework", "Isolating & Overcoming Objections", "Value-Based Pricing Strategies", "Closing Techniques & Securing Payment"],
           slides: [
-            { type: 'content', title: "The B-P-D-C Framework", content: "The roadmap to every successful sale.", bullets: ["B: Build Rapport - Connect as a human first.", "P: Problem Awareness - Show them what they can't unsee.", "D: Diagnose & Solution - Present the Monetate advantage.", "C: Close - Ask for the business confidently."] },
+            { type: 'content', title: "The B-P-D-C Framework", content: "The roadmap to every successful sale.", bullets: ["B: Build Rapport - Connect as a human first.", "P: Problem Awareness - Show them what they can't unsee.", "D: Diagnose & Solution - Present the MarketStar advantage.", "C: Close - Ask for the business confidently."] },
             { type: 'content', title: "Isolating the Objection", content: "Never answer an objection until you're sure it's the ONLY one.", bullets: ["Smoke screens vs. Real Objections.", "The 'Magic Question': 'If we could handle [objection], would you be ready to move forward?'", "Looping: Acknowledge -> Respond -> Close again."] }
           ],
           orderIndex: 1
@@ -147,7 +147,7 @@ async function ensureDatabaseSeeded() {
 
         const resources = [
           { type: "call", title: "Handling the 'Not Interested' on a Discovery Call", description: "Listen to how Top Performer Sarah Jenkins turns a quick 'no' into a booked demo.", learningOutcome: "Learn to stay calm and pivot.", duration: "4:32", author: "Sarah Jenkins", thumbnail: "", tags: ["Objection Handling", "Discovery"] },
-          { type: "video", title: "The Psychology of Enterprise Sales", description: "Deep dive into body language and non-verbal cues in executive meetings.", learningOutcome: "Understand how presence and confidence impact conversion.", duration: "12:30", author: "Monetate Training Team", thumbnail: "", tags: ["Psychology", "Foundations"] }
+          { type: "video", title: "The Psychology of Enterprise Sales", description: "Deep dive into body language and non-verbal cues in executive meetings.", learningOutcome: "Understand how presence and confidence impact conversion.", duration: "12:30", author: "MarketStar Training Team", thumbnail: "", tags: ["Psychology", "Foundations"] }
         ];
 
         for (const resource of resources) {
@@ -725,7 +725,7 @@ export async function registerRoutes(
   // Store hard delete verification codes in memory (expires after 10 minutes)
   const hardDeleteCodes: Map<string, { code: string; expiresAt: Date; userId: string }> = new Map();
 
-  // Request hard delete - generates 4-digit code and emails to tabish@monetate.com
+  // Request hard delete - generates 4-digit code and emails to tabish@marketstar.com
   app.post("/api/users/:id/hard-delete-request", async (req, res) => {
     try {
       const authResult = await getAuthenticatedUser(req);
@@ -766,7 +766,7 @@ export async function registerRoutes(
 
       res.json({ 
         success: true, 
-        message: "Verification code sent to tabish@monetate.com",
+        message: "Verification code sent to tabish@marketstar.com",
         userName: user.name,
         userRole: user.role,
         repCount
@@ -1736,19 +1736,19 @@ export async function registerRoutes(
           type: "objection",
           image: "",
           useWhen: "Buyer cites resource constraints or bandwidth issues",
-          goal: "Position Monetate as a resource multiplier, not a burden",
+          goal: "Position MarketStar as a resource multiplier, not a burden",
           coachLine: "We're the solution to bandwidth, not the cause."
         },
         {
           phase: "Objection Handling",
           title: "Handling 'We Tried Before'",
-          situation: "Buyer had a bad experience with personalization previously",
+          situation: "Buyer had a bad experience with outsourcing previously",
           script: "That's valuable context. What specifically didn't work? Because that tells us exactly what to do differently this time.",
           keyPoints: ["Show genuine curiosity about failure", "Diagnose root cause", "Differentiate your approach"],
           type: "objection",
           image: "",
-          useWhen: "Buyer references a past failed personalization initiative",
-          goal: "Turn past failure into a reason to choose Monetate",
+          useWhen: "Buyer references a past failed outsourcing initiative",
+          goal: "Turn past failure into a reason to choose MarketStar",
           coachLine: "Past failure = future differentiation."
         },
         {
@@ -1827,7 +1827,7 @@ export async function registerRoutes(
           phase: "Follow-up",
           title: "The Post-Demo Summary Email",
           situation: "Following up after a product demo",
-          script: "Subject: Monetate + [Company] — Next Steps. Hi [Name], great conversation today. Here's a summary of what we covered and the specific ROI projections for your team...",
+          script: "Subject: MarketStar + [Company] — Next Steps. Hi [Name], great conversation today. Here's a summary of what we covered and the specific ROI projections for your team...",
           keyPoints: ["Send within 2 hours", "Include ROI specific to them", "Propose clear next step"],
           type: "script",
           image: "",
@@ -1899,8 +1899,8 @@ export async function registerRoutes(
         "Handling 'We Built Our Own'": { useWhen: "Prospect mentions in-house or homegrown solution", goal: "Expose hidden costs of build vs buy", coachLine: "Validate, then reveal the hidden cost." },
         "Handling 'We Already Have a Vendor'": { useWhen: "Prospect mentions existing vendor or competitor", goal: "Find the results gap without bashing competitor", coachLine: "Never bash. Find the gap instead." },
         "Handling 'It's Too Expensive'": { useWhen: "Buyer pushes back on pricing", goal: "Reframe price as investment with clear ROI", coachLine: "Price is only expensive without ROI context." },
-        "Handling 'No Bandwidth'": { useWhen: "Buyer cites resource constraints or bandwidth issues", goal: "Position Monetate as a resource multiplier", coachLine: "We're the solution to bandwidth, not the cause." },
-        "Handling 'We Tried Before'": { useWhen: "Buyer references a past failed initiative", goal: "Turn past failure into a reason to choose Monetate", coachLine: "Past failure = future differentiation." },
+        "Handling 'No Bandwidth'": { useWhen: "Buyer cites resource constraints or bandwidth issues", goal: "Position MarketStar as a resource multiplier", coachLine: "We're the solution to bandwidth, not the cause." },
+        "Handling 'We Tried Before'": { useWhen: "Buyer references a past failed initiative", goal: "Turn past failure into a reason to choose MarketStar", coachLine: "Past failure = future differentiation." },
         "The Value Anchor": { useWhen: "First time presenting pricing", goal: "Anchor price to ROI so it feels like an investment", coachLine: "Price + ROI in the same breath. Always." },
         "The Package Breakdown": { useWhen: "Buyer asks about packaging or tier differences", goal: "Guide buyer to the right tier based on their goals", coachLine: "Match capabilities to goals. Guide the choice." },
         "The Competitive Price Comparison": { useWhen: "Buyer mentions cheaper competitor options", goal: "Shift conversation from price to results", coachLine: "Cheap is expensive when it doesn't work." },
@@ -1955,7 +1955,7 @@ export async function registerRoutes(
   // Generate Arena logos (dark and light mode)
   app.post("/api/generate-arena-logos", async (req, res) => {
     try {
-      console.log("Generating Monetate logos...");
+      console.log("Generating MarketStar logos...");
       
       // Generate dark mode logo
       console.log("Generating dark mode logo...");
@@ -3077,7 +3077,7 @@ export async function registerRoutes(
   // Store reset verification codes in memory (expires after 10 minutes)
   const billingResetCodes: Map<string, { code: string; expiresAt: Date }> = new Map();
 
-  // Request billing reset - generates 4-digit code and emails to tabish@monetate.com
+  // Request billing reset - generates 4-digit code and emails to tabish@marketstar.com
   app.post("/api/usage/reset-request", async (req, res) => {
     try {
       const authResult = await getAuthenticatedUser(req);
@@ -3103,7 +3103,7 @@ export async function registerRoutes(
         return res.status(500).json({ error: emailResult.error || "Failed to send verification email" });
       }
 
-      res.json({ success: true, message: "Verification code sent to tabish@monetate.com" });
+      res.json({ success: true, message: "Verification code sent to tabish@marketstar.com" });
     } catch (error: any) {
       console.error("Reset request error:", error);
       res.status(500).json({ error: error.message || "Failed to request reset" });
@@ -4435,7 +4435,7 @@ export async function registerRoutes(
       
       if (relevantEntries.length === 0) {
         return res.json({
-          answer: "I couldn't find specific information about that in the training materials. Try asking about discovery techniques, objection handling, the Monetate platform, enterprise sales fundamentals, or pricing strategies.",
+          answer: "I couldn't find specific information about that in the training materials. Try asking about discovery techniques, objection handling, MarketStar solutions, enterprise sales fundamentals, or pricing strategies.",
           sources: []
         });
       }
@@ -4447,7 +4447,7 @@ export async function registerRoutes(
         baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
       });
 
-      const systemPrompt = `You are the Monetate Sales Coach. You help sales reps master enterprise B2B sales techniques.
+      const systemPrompt = `You are the MarketStar Sales Coach. You help sales reps master enterprise B2B sales outsourcing techniques.
 
 IMPORTANT RULES:
 1. ONLY use information from the provided training materials to answer questions
@@ -4499,16 +4499,16 @@ ${context}`;
       
       // Step 1: Force reseed all predefined quizzes
       const CHAPTER_0_QUIZZES = [
-        { afterSlide: 5, question: 'Which of the following is a Monetate platform capability?', options: ['Email marketing', 'Personalization and testing', 'Social media management', 'Payroll processing'], correctAnswer: 1 },
-        { afterSlide: 18, question: 'Which is a key benefit customers get from the Monetate platform?', options: ['Site becomes maintenance-free', 'Higher conversion rates and increased revenue through personalization', 'Traffic never drops seasonally', 'Results appear instantly after deployment'], correctAnswer: 1 },
-        { afterSlide: 20, question: 'What best describes how Monetate delivers results?', options: ['One-time setup that solves everything', 'Continuous optimization through testing and personalization across the customer journey', 'Only A/B testing when metrics drop', 'Only personalization on the homepage'], correctAnswer: 1 },
+        { afterSlide: 5, question: 'Which of the following is a MarketStar core solution?', options: ['Email marketing', 'B2B sales outsourcing and pipeline generation', 'Social media management', 'Payroll processing'], correctAnswer: 1 },
+        { afterSlide: 18, question: 'Which is a key benefit clients get from MarketStar?', options: ['Site becomes maintenance-free', 'Faster revenue growth through dedicated outsourced sales teams', 'Traffic never drops seasonally', 'Results appear instantly after deployment'], correctAnswer: 1 },
+        { afterSlide: 20, question: 'What best describes how MarketStar delivers results?', options: ['One-time setup that solves everything', 'Continuous sales optimization through dedicated teams, AI coaching via Nytro.ai, and data-driven RevOps', 'Only outbound calling when metrics drop', 'Only SDR services for startups'], correctAnswer: 1 },
         { afterSlide: 21, question: 'Fertilizer is best described as:', options: ['A weed killer', 'Food for plants that supports health, color, and density', 'A water replacement', 'A product that works the same regardless of season'], correctAnswer: 1 },
         { afterSlide: 22, question: 'In N-P-K, what does Nitrogen (N) primarily support?', options: ['Stronger roots only', 'Greening and top growth', 'Water regulation only', 'Disease control only'], correctAnswer: 1 },
         { afterSlide: 23, question: 'Which statement is most accurate regarding fertilizer forms?', options: ['Only liquid fertilizer works', 'Only dry fertilizer works', 'Plants cannot tell the difference between organic vs mineral and liquid vs dry—timing and needs matter', 'Fertilizer choice never changes by season'], correctAnswer: 2 },
         { afterSlide: 25, question: 'What are the two major weed types referenced in training?', options: ['Summer weeds and winter weeds', 'Tall weeds and short weeds', 'Grassy weeds and broadleaf weeds', 'Root weeds and leaf weeds'], correctAnswer: 2 },
         { afterSlide: 27, question: 'What is the role of pre-emergent weed control?', options: ['It kills visible weeds on contact', 'It creates a barrier under the soil to stop weeds before they emerge', 'It fertilizes the lawn to prevent weeds', 'It is the same as Round-up'], correctAnswer: 1 },
         { afterSlide: 28, question: 'After a post-emergent application, what timeline should you generally set for weed response?', options: ['Same day', '24 hours', 'About 2 weeks', '2–3 months'], correctAnswer: 2 },
-        { afterSlide: 29, question: 'Which statement correctly describes the Monetate enterprise platform?', options: ['Basic testing only, no personalization included', 'Full-stack personalization with AI-driven recommendations, testing, and analytics', 'Features are only available when customers request them', 'Results should be complete after the first deployment'], correctAnswer: 1 }
+        { afterSlide: 29, question: 'Which statement correctly describes MarketStar\'s Sales as a Service® model?', options: ['Basic staffing only, no managed services included', 'Full-lifecycle outsourced sales with dedicated teams, AI coaching via Nytro.ai, and RevOps support', 'Services are only available for enterprise clients', 'Results should be complete after the first month'], correctAnswer: 1 }
       ];
 
       const CHAPTER_1_QUIZZES = [
@@ -4524,7 +4524,7 @@ ${context}`;
       let quizzesSeeded = 0;
       for (const chapter of chapters) {
         let quizzes: typeof CHAPTER_0_QUIZZES = [];
-        if (chapter.title === "Intro to Monetate") {
+        if (chapter.title === "MarketStar 101") {
           quizzes = CHAPTER_0_QUIZZES;
         } else if (chapter.title === "Sales Foundations") {
           quizzes = CHAPTER_1_QUIZZES;
@@ -4856,7 +4856,7 @@ ${context}`;
         return `${rp.role} — ${rp.name}: ${rp.description}. Pass criteria: ${rp.passCriteria || "N/A"}`;
       }).join("\n");
 
-      const systemPrompt = `You are a friendly, knowledgeable sales training coach for the Monetate experience optimization platform. You are part of the "Arena by GigaRev" training program.
+      const systemPrompt = `You are a friendly, knowledgeable sales training coach for MarketStar's B2B sales outsourcing solutions. You are part of the "Arena" training program.
 
 The user is currently studying chapter "${chapter.title}" — ${chapter.description}.
 
@@ -4883,11 +4883,12 @@ CONVERSATION GUIDELINES:
 8. Reference specific slide content when relevant: "On slide 3, we covered..."
 9. Never say you are an AI — you are "your Arena training coach"
 
-MONETATE CONTEXT:
-- Monetate is an experience optimization platform with personalization (Symphony), experimentation (Maestro), search (Overture), and delivery services (Concierge)
-- Target buyers: Enterprise VPs, CTOs, CMOs at $50M+ revenue companies
-- Key value props: 15% average revenue lift, 3x ROI within 12 months
-- Competitors: Dynamic Yield (Mastercard), Optimizely, Adobe Target, Bloomreach
+MARKETSTAR CONTEXT:
+- MarketStar is the global leader in B2B sales outsourcing with 35+ years of experience and PEAK Matrix® Leader recognition
+- Core solutions: Sales Solutions (Pipeline Generation, New Business Acquisition, Account Management), Partner Channel Services, Customer Success, Revenue Operations, Sales as a Service®, Nytro.ai
+- Target buyers: VP Sales, CRO, CEO, VP Partnerships, VP CS, CFO at $50M-$5B B2B tech companies
+- Key value props: $10B+ revenue delivered for clients, 6-8 week ramp, 1600+ employees across 8 countries
+- Competitors: Accenture, TTEC, Teleperformance, Concentrix, internal hiring
 - Sales methodology: MEDDPICC`;
 
       res.json({

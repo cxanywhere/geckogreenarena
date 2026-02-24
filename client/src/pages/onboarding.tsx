@@ -7,8 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Camera, Upload, ArrowRight, Sparkles, Shield, Sword, Check, Loader2, LogOut } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
-import monetateLogoDark from "@/assets/monetate-logo-dark.png";
-import monetateLogoLight from "@/assets/monetate-logo-light.png";
+import marketstarLogoDark from "@/assets/monetate-logo-dark.png";
+import marketstarLogoLight from "@/assets/monetate-logo-light.png";
 import { useTheme } from "next-themes";
 
 export default function OnboardingPage() {
@@ -27,7 +27,7 @@ export default function OnboardingPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
-  const monetateLogo = resolvedTheme === "dark" ? monetateLogoDark : monetateLogoLight;
+  const marketstarLogo = resolvedTheme === "dark" ? marketstarLogoDark : marketstarLogoLight;
 
   const startCamera = async () => {
     try {
@@ -211,10 +211,10 @@ export default function OnboardingPage() {
       >
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <img src={monetateLogo} alt="Monetate" className="h-12 w-12 object-contain" />
+            <img src={marketstarLogo} alt="MarketStar" className="h-12 w-12 object-contain" />
             <div className="flex flex-col leading-none">
               <span className="font-display text-3xl font-bold tracking-tight text-foreground">
-                Monetate
+                MarketStar
               </span>
               <span className="text-xs font-normal text-muted-foreground uppercase tracking-widest">Sales Enablement</span>
             </div>

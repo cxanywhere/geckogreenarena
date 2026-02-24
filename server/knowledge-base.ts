@@ -15,7 +15,7 @@ export interface KnowledgeEntry {
 }
 
 export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
-  // ============ CHAPTER 0: PRODUCT KNOWLEDGE ============
+  // ============ CHAPTER 0: MARKETSTAR OVERVIEW & SOLUTIONS ============
 
   {
     id: "p_platform_overview",
@@ -23,216 +23,242 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     category: "product",
     chapter: 0,
     slideNumber: 1,
-    title: "Monetate Platform Overview",
-    content: `Monetate is an enterprise-grade experience optimization platform purpose-built for e-commerce and retail brands.
+    title: "MarketStar Overview",
+    content: `MarketStar is a global B2B sales outsourcing company and Everest Group PEAK Matrix® Leader, purpose-built to help technology and SaaS companies accelerate revenue growth through outsourced sales teams.
 
-Core capabilities:
-• 1:1 Personalization — deliver individualized experiences across web, mobile, email, and app
-• A/B Testing & Experimentation — run rigorous tests with statistical confidence
-• AI-Powered Product Recommendations — the MONET engine (Machine Optimization Network for E-commerce Technology) drives real-time, ML-based recommendations
-• Audience Discovery & Segmentation — identify high-value segments automatically
-• Real-Time Decisioning — make millions of personalization decisions per second
-• Analytics & Reporting — unified dashboard for revenue attribution and experience performance
+Core Solutions:
+• Sales Solutions — Pipeline Generation (SDR/BDR), New Business Acquisition (AE), Account Management
+• Partner Channel Services — PAM recruitment, onboarding, enablement, performance management for resellers, VARs, MSPs, ISVs
+• Customer Success — retention, engagement, lifetime value optimization
+• Revenue Operations — playbooks, CRM/CPQ admin, content management, real-time rep enablement
+• Sales as a Service® — flagship modular delivery model (Capability + Global Execution + Intelligent Scale™)
+• Nytro.ai — AI-powered pitch intelligence platform for onboarding & readiness (acquired 2023)
 
-Monetate processes billions of data points daily for the world's leading retail brands, driving measurable lifts in conversion rate, average order value (AOV), and revenue per visitor (RPV).`,
-    tags: ["overview", "platform", "monetate", "capabilities"],
-    keywords: ["monetate", "platform", "overview", "personalization", "testing", "recommendations", "analytics", "e-commerce"]
+Founded in 1988, MarketStar has 35+ years of experience, 1,600+ employees, and operates globally from offices in Ogden (Utah HQ), Canada, Mexico, Uruguay, Ireland, Bulgaria, Philippines, and Australia. We have delivered $10B+ in revenue for clients, manage 1M+ accounts, and support 35+ languages.`,
+    tags: ["overview", "platform", "marketstar", "capabilities"],
+    keywords: ["marketstar", "platform", "overview", "sales outsourcing", "B2B", "SDR", "BDR", "partner channel", "customer success", "revenue operations"]
   },
   {
-    id: "p_personalization_engine",
+    id: "p_sales_solutions",
     type: "slide",
     category: "product",
     chapter: 0,
     slideNumber: 2,
-    title: "Intelligent Personalization Engine",
-    content: `Monetate's personalization engine enables true 1:1 experiences at scale.
+    title: "Sales Solutions — Pipeline Generation, New Business, Account Management",
+    content: `MarketStar's Sales Solutions provide end-to-end outsourced sales capabilities across the full revenue cycle.
 
-Key features:
-• Dynamic Content — swap hero banners, CTAs, promotions, and navigation based on visitor context
-• Audience Targeting — target by behavior, geography, device, referral source, weather, loyalty status, and 150+ attributes
-• Behavioral Triggers — respond to cart abandonment, browse patterns, scroll depth, and exit intent in real time
-• Individualized Experiences — move beyond segments to true 1:1 personalization using ML models
-• Omnichannel Orchestration — coordinate personalization across web, mobile web, native app, email, and in-store kiosks
+Pipeline Generation (SDR/BDR):
+• Dedicated outbound SDR/BDR teams trained on your ICP, messaging, and tech stack
+• Multi-channel prospecting: phone, email, LinkedIn, social selling
+• Lead qualification using BANT, MEDDPICC, or custom frameworks
+• CRM hygiene and data enrichment included
+• Typical results: 30-50% increase in qualified pipeline within 90 days
 
-How it works:
-1. Monetate tag collects visitor signals (clicks, views, cart, purchase history)
-2. Decision engine evaluates rules + ML models in <50ms
-3. Personalized experience renders seamlessly — no page flicker, no latency
-4. Results feed back into the learning loop for continuous optimization
+New Business Acquisition (AE):
+• Full-cycle Account Executives who demo, negotiate, and close
+• Ramp-ready in 4-6 weeks vs 6-9 months for internal hires
+• Quota-carrying reps with performance-based incentives aligned to client goals
+• Supported by MarketStar's sales enablement, coaching, and Nytro.ai platform
 
-Typical results: 8-15% lift in conversion rate within the first 90 days.`,
-    tags: ["personalization", "engine", "1:1", "dynamic_content", "targeting"],
-    keywords: ["personalization", "1:1", "dynamic content", "targeting", "behavioral", "triggers", "omnichannel", "individualized"]
+Account Management:
+• Dedicated account managers for install base growth, renewals, and cross-sell/upsell
+• Proactive outreach programs to increase adoption and expansion revenue
+• Churn prevention through health scoring and early intervention
+• Typical results: 15-25% increase in net revenue retention
+
+Key differentiator: MarketStar reps are W-2 employees (not contractors), fully embedded in your brand, using your tools and processes.`,
+    tags: ["sales", "pipeline", "SDR", "BDR", "AE", "account_management", "new_business"],
+    keywords: ["sales solutions", "pipeline generation", "SDR", "BDR", "account executive", "new business", "account management", "outbound", "prospecting"]
   },
   {
-    id: "p_ab_testing",
+    id: "p_partner_channel",
     type: "slide",
     category: "product",
     chapter: 0,
     slideNumber: 3,
-    title: "A/B Testing & Experimentation",
-    content: `Monetate provides enterprise-grade experimentation capabilities for data-driven decision making.
+    title: "Partner Channel Services",
+    content: `MarketStar's Partner Channel Services build, manage, and scale indirect sales ecosystems for technology companies.
 
-Testing types:
-• A/B Testing — compare two or more variants with statistical rigor
-• Multivariate Testing (MVT) — test multiple elements simultaneously to find optimal combinations
-• Feature Flags — safely roll out new features with percentage-based traffic allocation
-• Server-Side Testing — test backend logic, pricing, and API responses without client-side dependencies
-• Redirect Tests — test entirely different page layouts or flows
+Core capabilities:
+• Partner Recruitment — identify, qualify, and recruit new resellers, VARs, MSPs, ISVs, and alliance partners
+• Partner Onboarding — structured onboarding programs that accelerate partner time-to-first-deal
+• Partner Enablement — training, certification, co-selling playbooks, and deal registration support
+• Partner Account Management (PAM) — dedicated PAMs who drive partner engagement, pipeline, and revenue
+• Performance Management — scorecards, QBRs, tier management, and incentive program administration
 
-Key differentiators:
-• Bayesian & Frequentist statistical engines — choose the right approach for your test
-• Auto-allocation (Multi-Armed Bandit) — automatically shift traffic to winning variants
-• Mutual exclusion groups — run multiple tests without interference
-• Segment-level results — see how different audiences respond to each variant
-• Revenue attribution — tie test results directly to dollars, not just clicks
+How it works:
+1. MarketStar assesses your current partner ecosystem and identifies gaps
+2. We recruit and onboard new partners aligned to your ICP and go-to-market strategy
+3. Dedicated PAMs engage partners daily — co-selling, deal support, and enablement
+4. Data-driven performance management drives accountability and ROI visibility
 
-Best practice: Run tests for a minimum of 2 full business cycles (typically 2 weeks) before declaring a winner.`,
-    tags: ["testing", "experimentation", "ab_test", "mvt", "feature_flags"],
-    keywords: ["a/b testing", "experimentation", "multivariate", "feature flags", "server-side", "statistical", "optimization"]
+Key differentiator: MarketStar manages partner ecosystems for some of the world's largest tech companies. Our PAMs are trained in partner psychology, co-selling, and ecosystem development — not just account management.
+
+Typical results: 40-60% increase in partner-sourced pipeline within 6 months.`,
+    tags: ["partner", "channel", "PAM", "reseller", "VAR", "MSP", "ISV", "ecosystem"],
+    keywords: ["partner channel", "PAM", "partner account manager", "reseller", "VAR", "MSP", "ISV", "recruitment", "enablement", "onboarding"]
   },
   {
-    id: "p_monet_engine",
+    id: "p_customer_success",
     type: "slide",
     category: "product",
     chapter: 0,
     slideNumber: 4,
-    title: "Product Recommendations — MONET Engine",
-    content: `MONET (Machine Optimization Network for E-commerce Technology) is Monetate's proprietary AI recommendation engine.
+    title: "Customer Success Services",
+    content: `MarketStar's Customer Success practice helps technology companies retain customers, drive adoption, and maximize lifetime value.
 
-Recommendation strategies:
-• Collaborative Filtering — "customers who bought X also bought Y"
-• Content-Based — recommend based on product attributes (color, category, price range)
-• Trending / Popular — surface items gaining momentum across the site
-• Recently Viewed — re-engage shoppers with items they browsed
-• Personalized Rankings — reorder category and search results based on individual affinity
-• Cart-Based Cross-Sell — intelligent recommendations based on current cart contents
-• Post-Purchase — recommend complementary items in order confirmation and email
+Core capabilities:
+• Onboarding & Adoption — structured programs to drive time-to-value and reduce time-to-first-success
+• Health Scoring & Monitoring — proactive identification of at-risk accounts using data-driven health models
+• Renewal Management — dedicated renewal teams that protect and grow recurring revenue
+• Expansion & Upsell — identify and execute cross-sell/upsell opportunities within the install base
+• Advocacy Programs — NPS management, reference cultivation, and customer advisory board facilitation
 
-MONET differentiators:
-• Self-learning models that improve with every interaction — no manual rule tuning required
-• Handles cold-start problem for new visitors using contextual signals
-• Supports catalog sizes from 1,000 to 10M+ SKUs
-• Real-time model updates (not batch overnight processing)
-• Built-in A/B testing to measure recommendation strategy performance
+Engagement models:
+• High-Touch CSM — dedicated Customer Success Managers for strategic accounts (1:20-50 ratio)
+• Mid-Touch — pooled CSM model for mid-market accounts with proactive outreach cadences
+• Tech-Touch — automated, scalable engagement for long-tail accounts using digital playbooks
 
-Typical results: 15-30% of total e-commerce revenue influenced by MONET recommendations.`,
-    tags: ["recommendations", "monet", "ai", "machine_learning", "product_discovery"],
-    keywords: ["MONET", "recommendations", "product recommendations", "AI", "machine learning", "collaborative filtering", "cross-sell", "upsell"]
+Key metrics we impact:
+• Net Revenue Retention (NRR): typical improvement of 10-20 points
+• Gross Retention Rate (GRR): reduce churn by 15-30%
+• Time-to-Value: compress onboarding by 40-60%
+• Customer Health Score: improve portfolio health from yellow/red to green
+
+MarketStar CSMs are trained in customer success methodology, product adoption science, and outcome-based engagement.`,
+    tags: ["customer_success", "retention", "adoption", "NRR", "churn", "renewal"],
+    keywords: ["customer success", "retention", "adoption", "churn", "NRR", "renewal", "health score", "onboarding", "lifetime value", "expansion"]
   },
   {
-    id: "p_audience_segmentation",
+    id: "p_revenue_operations",
     type: "slide",
     category: "product",
     chapter: 0,
     slideNumber: 5,
-    title: "Audience Discovery & Segmentation",
-    content: `Monetate's audience tools help teams move beyond basic demographics to behavior-driven segmentation.
+    title: "Revenue Operations Services",
+    content: `MarketStar's Revenue Operations practice provides the operational backbone that enables high-performing sales teams.
 
-Capabilities:
-• Automatic Audience Discovery — ML identifies high-value segments you didn't know existed
-• Custom Segment Builder — combine 150+ attributes with AND/OR logic
-• Predictive Segments — target visitors likely to convert, churn, or reach a spending threshold
-• Lifecycle Segments — new visitor, returning, loyal, lapsed, win-back
-• Real-Time Segment Membership — visitors are classified on every page load, not in batch
+Core capabilities:
+• Sales Playbook Development — build, maintain, and optimize playbooks for every sales motion (outbound, inbound, partner, expansion)
+• CRM & CPQ Administration — Salesforce, HubSpot, Dynamics 365 administration, customization, and data hygiene
+• Content Management — sales collateral organization, version control, and enablement asset management
+• Real-Time Rep Enablement — in-the-moment coaching, battle cards, competitive intel, and objection handling resources
+• Reporting & Analytics — pipeline analytics, forecasting models, conversion funnel analysis, and rep performance dashboards
+• Process Optimization — sales process mapping, stage definitions, handoff protocols, and SLA management
 
-Segmentation attributes include:
-• Behavioral: pages viewed, search queries, cart value, purchase frequency
-• Contextual: device, browser, time of day, day of week, weather, location
-• CRM/CDP: loyalty tier, lifetime value, last purchase date, email engagement
-• Custom: any first-party data passed via tag or API
+How it integrates:
+RevOps is the connective tissue across MarketStar's sales, partner, and CS teams. Every engagement includes RevOps support to ensure:
+• Data flows correctly between systems
+• Reps have the right content at the right time
+• Leadership has visibility into pipeline health and team performance
+• Processes are documented, repeatable, and scalable
 
-Use case: A fashion retailer discovered that mobile visitors from Instagram who viewed 3+ products had a 4x higher conversion rate when shown social proof messaging — a segment they never would have manually created.`,
-    tags: ["audience", "segmentation", "discovery", "targeting", "predictive"],
-    keywords: ["audience", "segmentation", "discovery", "targeting", "predictive", "segments", "behavioral", "lifecycle"]
+Key differentiator: Most outsourced sales providers hand you reps. MarketStar provides the entire operating system — people, process, technology, and data — so teams perform from day one.`,
+    tags: ["revops", "revenue_operations", "CRM", "playbook", "enablement", "analytics"],
+    keywords: ["revenue operations", "RevOps", "CRM", "Salesforce", "HubSpot", "playbook", "enablement", "analytics", "process", "reporting"]
   },
   {
-    id: "p_realtime_decisioning",
+    id: "p_sales_as_a_service",
     type: "slide",
     category: "product",
     chapter: 0,
     slideNumber: 6,
-    title: "Real-Time Decisioning",
-    content: `Monetate's decisioning engine processes millions of personalization decisions per second with sub-50ms latency.
+    title: "Sales as a Service® — Flagship Delivery Model",
+    content: `Sales as a Service® is MarketStar's flagship modular delivery model that combines three pillars to deliver scalable, intelligent revenue growth.
 
-How it works:
-• Every visitor interaction triggers a real-time evaluation against active experiences, tests, and recommendation models
-• Decisions consider current session behavior, historical data, and contextual signals simultaneously
-• No page flicker — decisions are made and rendered before the visitor sees the page
-• Server-side decisioning available for headless and API-first architectures
+The Three Pillars:
 
-Key capabilities:
-• Priority-based experience resolution — when multiple experiences qualify, the highest-priority one wins
-• Frequency capping — control how often a visitor sees a specific experience
-• Geo-targeting with IP and GPS precision
-• Weather-based triggers — promote relevant products based on local conditions
-• Inventory-aware decisioning — suppress recommendations for out-of-stock items
-• Dynamic pricing triggers — adjust messaging based on margin or clearance status
+1. Capability — the right skills and expertise
+• Trained, certified sales professionals (SDRs, AEs, PAMs, CSMs)
+• Industry-specific knowledge and vertical expertise
+• Continuous coaching, QA, and performance management
+• Nytro.ai-powered onboarding that gets reps productive 50% faster
 
-Scale: Monetate handles 100B+ decisions annually across its customer base.`,
-    tags: ["decisioning", "real-time", "latency", "personalization"],
-    keywords: ["real-time", "decisioning", "latency", "speed", "server-side", "priority", "frequency", "geo-targeting"]
+2. Global Execution — the right presence everywhere
+• 8 global delivery centers across Americas, EMEA, and APAC
+• 35+ language capabilities for multi-market coverage
+• Follow-the-sun support models for 24/7 engagement
+• Local market knowledge combined with global best practices
+
+3. Intelligent Scale™ — the right data and technology
+• AI-driven performance optimization using Nytro.ai
+• Predictive analytics for pipeline health and conversion forecasting
+• Dynamic capacity planning that scales up/down with demand
+• Real-time dashboards and KPI visibility for clients
+
+Why Sales as a Service® wins:
+• Speed: Launch a fully operational sales team in 4-8 weeks (vs 6-12 months internally)
+• Flexibility: Scale headcount up or down without the cost of hiring/firing
+• Predictability: Fixed cost per rep with transparent SLAs and KPIs
+• Expertise: Access 35+ years of sales execution best practices on day one
+
+Sales as a Service® is not staff augmentation — it's an outcome-oriented engagement model with built-in management, enablement, technology, and continuous optimization.`,
+    tags: ["sales_as_a_service", "delivery_model", "capability", "global_execution", "intelligent_scale"],
+    keywords: ["Sales as a Service", "delivery model", "capability", "global execution", "Intelligent Scale", "modular", "outsourcing", "scalable"]
   },
   {
-    id: "p_analytics",
+    id: "p_nytro_ai",
     type: "slide",
     category: "product",
     chapter: 0,
     slideNumber: 7,
-    title: "Analytics & Reporting Dashboard",
-    content: `Monetate provides a unified analytics dashboard that connects personalization activities directly to revenue outcomes.
+    title: "Nytro.ai — AI-Powered Pitch Intelligence Platform",
+    content: `Nytro.ai is MarketStar's proprietary AI-powered pitch intelligence and readiness platform, acquired in 2023.
 
-Core reports:
-• Experience Performance — see conversion lift, revenue impact, and statistical confidence for every experience
-• Revenue Attribution — understand how much incremental revenue each personalization drives
-• Audience Insights — analyze segment behavior, size, and monetization potential
-• Recommendation Performance — track click-through rate, add-to-cart rate, and revenue per recommendation widget
-• Funnel Analysis — identify drop-off points and optimize the path to purchase
-• Custom Dashboards — build role-specific views for marketing, merchandising, and executive teams
+Core capabilities:
+• Pitch Scoring — AI analyzes sales pitches (live or recorded) and scores them on clarity, persuasiveness, objection handling, and structure
+• Onboarding Acceleration — new reps practice against AI-simulated buyer personas and receive instant feedback
+• Readiness Certification — reps must pass AI-graded pitch assessments before going live with clients
+• Coaching Intelligence — managers get data-driven insights on rep strengths and development areas
+• Continuous Improvement — ongoing pitch analysis identifies skill gaps across the team and triggers targeted training
 
-Key metrics tracked:
-• Conversion Rate (CR)
-• Average Order Value (AOV)
-• Revenue Per Visitor (RPV)
-• Click-Through Rate (CTR)
-• Items Per Order
-• Return Visitor Rate
+How Nytro.ai works:
+1. Rep delivers a pitch (live call, recorded, or practice session)
+2. AI engine analyzes voice, content, structure, objection handling, and engagement signals
+3. Scorecard generated with specific feedback and improvement recommendations
+4. Results feed into coaching dashboards for managers and enablement teams
+5. Learning paths auto-adjust based on individual rep performance data
 
-Data export: Integrate with BI tools via API, data feeds, or native connectors to Snowflake, BigQuery, and Looker.`,
-    tags: ["analytics", "reporting", "dashboard", "revenue", "attribution"],
-    keywords: ["analytics", "reporting", "dashboard", "revenue", "attribution", "conversion", "AOV", "RPV", "metrics"]
+Key differentiator: Most sales outsourcing firms rely on manual QA and coaching. Nytro.ai provides objective, data-driven assessment at scale — ensuring every MarketStar rep meets quality standards before engaging with client prospects.
+
+Impact: Reps onboarded with Nytro.ai reach full productivity 50% faster and achieve 25% higher conversion rates in their first 90 days.`,
+    tags: ["nytro", "ai", "pitch_intelligence", "onboarding", "readiness", "coaching"],
+    keywords: ["Nytro.ai", "AI", "pitch intelligence", "onboarding", "readiness", "coaching", "certification", "pitch scoring", "machine learning"]
   },
   {
-    id: "p_integration",
+    id: "p_global_footprint",
     type: "slide",
     category: "product",
     chapter: 0,
     slideNumber: 8,
-    title: "Integration Architecture",
-    content: `Monetate is designed to integrate seamlessly with modern e-commerce technology stacks.
+    title: "Global Footprint & Delivery Centers",
+    content: `MarketStar operates from 8 global delivery centers strategically positioned to serve clients across every major market.
 
-Integration methods:
-• JavaScript Tag — lightweight tag deployed via tag manager (Google Tag Manager, Tealium, Ensighten) or direct placement. Fastest path to deployment.
-• REST APIs — server-side integration for headless commerce, native apps, and custom implementations
-• SDKs — native iOS and Android SDKs for mobile app personalization
-• Edge Delivery — CDN-level integration for fastest possible rendering (Akamai, Cloudflare, Fastly)
+Americas:
+• Ogden, Utah (Global HQ) — primary delivery center for North American clients
+• Canada — bilingual (English/French) delivery for Canadian market
+• Mexico — Spanish-language delivery center for Latin America
+• Uruguay — South American hub for Spanish and Portuguese markets
 
-Platform connectors:
-• Shopify Plus — native app with one-click install
-• Salesforce Commerce Cloud (SFCC) — cartridge-based integration
-• SAP Commerce (Hybris) — certified extension
-• Adobe Commerce (Magento) — module-based integration
-• Custom / Headless — full API support for any architecture
+EMEA:
+• Ireland — English-language hub for European enterprise clients
+• Bulgaria — multilingual European delivery center (20+ European languages)
 
-Data integrations:
-• CDP: Segment, mParticle, Tealium AudienceStream
-• Email: Klaviyo, Braze, Salesforce Marketing Cloud
-• Analytics: Google Analytics 4, Adobe Analytics
-• CRM: Salesforce CRM, HubSpot
+APAC:
+• Philippines — large-scale delivery center for APAC and global English-language programs
+• Australia — local delivery for ANZ market
 
-Typical deployment: Tag-based implementation takes 2-4 weeks. Full API integration takes 4-8 weeks.`,
-    tags: ["integration", "api", "sdk", "tag", "platforms"],
-    keywords: ["integration", "API", "SDK", "tag", "Shopify", "Salesforce", "SAP", "Adobe", "headless", "CDP", "implementation"]
+Language capabilities: 35+ languages supported across all delivery centers
+
+Deployment models:
+• Onshore — same-country delivery for cultural alignment and compliance
+• Nearshore — adjacent time zone delivery for cost optimization with proximity
+• Offshore — global delivery for cost efficiency with 24/7 coverage
+• Hybrid — blended models that combine onshore, nearshore, and offshore resources
+
+Key message: MarketStar provides global coverage with local expertise. Our delivery centers aren't call centers — they're sales offices with trained professionals, management infrastructure, and technology platforms.`,
+    tags: ["global", "delivery_centers", "locations", "languages", "onshore", "nearshore", "offshore"],
+    keywords: ["global", "delivery centers", "Ogden", "Utah", "Ireland", "Bulgaria", "Philippines", "Australia", "languages", "nearshore", "offshore"]
   },
   {
     id: "p_implementation_timeline",
@@ -240,31 +266,32 @@ Typical deployment: Tag-based implementation takes 2-4 weeks. Full API integrati
     category: "product",
     chapter: 0,
     slideNumber: 9,
-    title: "Implementation Timeline",
-    content: `Monetate implementations follow a proven methodology designed to deliver value quickly.
+    title: "Implementation & Launch Timeline",
+    content: `MarketStar engagements follow a proven launch methodology designed to deliver pipeline within the first 30 days of going live.
 
 Typical timeline (4-8 weeks):
-• Week 1-2: Kickoff, tag deployment, data validation, and QA
-• Week 3-4: First experiences live (quick wins — hero banners, social proof, exit intent)
-• Week 5-6: Recommendation widgets deployed, audience segments configured
-• Week 7-8: Advanced personalization, A/B testing program launched, team training complete
+• Week 1-2: Kickoff, ICP definition, messaging framework, tool access, CRM setup
+• Week 3-4: Rep recruitment, hiring, and initial training on product, market, and sales process
+• Week 5-6: Nytro.ai pitch certification, practice calls, QA review, and coaching ramp
+• Week 7-8: Go-live with full prospecting cadence, first qualified meetings delivered
 
-What's included:
-• Dedicated Implementation Manager
-• Technical Solutions Architect
-• Custom onboarding playbook tailored to your tech stack
-• Hands-on training for marketing, merchandising, and analytics teams
-• Launch readiness review and go-live support
+What's included in every engagement:
+• Dedicated Program Manager (client-facing)
+• Team Lead / Sales Manager for day-to-day coaching and performance management
+• Revenue Operations support (CRM admin, reporting, playbook development)
+• Nytro.ai onboarding and readiness certification
+• Weekly and monthly performance reporting with KPI dashboards
+• Quarterly Business Reviews (QBRs) with executive stakeholders
 
 Success factors:
-• Tag deployed in the <head> for optimal performance
-• Product catalog feed connected (for recommendations)
-• Key stakeholders identified and engaged from day one
-• 3-5 quick-win experiences prioritized for launch
+• Client provides product training materials and access to subject matter experts
+• CRM and sales tool access provisioned before Week 3
+• Stakeholders engaged for ICP and messaging alignment in Week 1
+• 3-5 target account lists prioritized for initial outreach
 
-Post-launch: Transition to Customer Success Manager for ongoing optimization support.`,
-    tags: ["implementation", "timeline", "onboarding", "deployment"],
-    keywords: ["implementation", "timeline", "deployment", "onboarding", "weeks", "launch", "quick wins", "training"]
+Post-launch: Continuous optimization through coaching cycles, A/B message testing, and performance analytics.`,
+    tags: ["implementation", "timeline", "onboarding", "launch", "deployment"],
+    keywords: ["implementation", "timeline", "launch", "onboarding", "weeks", "ramp", "training", "go-live", "deployment"]
   },
   {
     id: "p_security_compliance",
@@ -272,150 +299,162 @@ Post-launch: Transition to Customer Success Manager for ongoing optimization sup
     category: "product",
     chapter: 0,
     slideNumber: 10,
-    title: "Platform Security & Compliance",
-    content: `Monetate meets the highest standards of security and data privacy for enterprise customers.
+    title: "Security, Compliance & Data Protection",
+    content: `MarketStar meets enterprise-grade security and compliance requirements for handling sensitive client data and prospect information.
 
 Certifications & compliance:
 • SOC 2 Type II certified — annual audit by independent third party
-• GDPR compliant — full support for EU data protection requirements
+• GDPR compliant — full support for EU data protection requirements across European operations
 • CCPA compliant — California Consumer Privacy Act ready
-• PCI DSS Level 1 — payment card data handling (for relevant integrations)
 • ISO 27001 aligned security practices
+• PCI DSS compliant where required for payment-related programs
 
 Data handling:
-• All data encrypted in transit (TLS 1.2+) and at rest (AES-256)
-• Data residency options: US, EU, APAC
-• No PII required for personalization — works with anonymous visitor profiles
-• Configurable data retention policies
-• Right to erasure (GDPR Article 17) supported via API
-• Cookie consent integration with OneTrust, Cookiebot, and custom implementations
+• All client data encrypted in transit (TLS 1.2+) and at rest (AES-256)
+• Role-based access controls (RBAC) for all systems and tools
+• Client data segregation — no cross-client data sharing
+• Clean desk policies and physical security at all delivery centers
+• Annual security awareness training for all employees
+• Background checks for all employees handling client data
 
-Infrastructure:
-• 99.99% uptime SLA
-• Multi-region redundancy
-• SOC-monitored 24/7
-• Disaster recovery with <4 hour RTO
+Operational security:
+• Secure VPN access for remote and hybrid work
+• DLP (Data Loss Prevention) controls on all endpoints
+• Regular penetration testing and vulnerability assessments
+• Incident response plan with defined SLAs
+• Business continuity plans with <4 hour RTO across all delivery centers
 
-Enterprise buyers: Monetate passes InfoSec reviews at Fortune 500 companies regularly. We can provide our SOC 2 report, security questionnaire responses, and architecture diagrams upon request.`,
-    tags: ["security", "compliance", "gdpr", "ccpa", "soc2"],
-    keywords: ["security", "compliance", "GDPR", "CCPA", "SOC 2", "PCI", "encryption", "privacy", "data", "uptime"]
+Enterprise buyers: MarketStar passes InfoSec reviews at Fortune 500 technology companies. We provide SOC 2 reports, completed security questionnaires, and architecture documentation upon request.`,
+    tags: ["security", "compliance", "gdpr", "ccpa", "soc2", "data_protection"],
+    keywords: ["security", "compliance", "GDPR", "CCPA", "SOC 2", "encryption", "privacy", "data protection", "background check"]
   },
   {
-    id: "p_ecommerce_platforms",
+    id: "p_technology_stack",
     type: "slide",
     category: "product",
     chapter: 0,
     slideNumber: 11,
-    title: "Supported E-Commerce Platforms",
-    content: `Monetate integrates with all major e-commerce platforms and custom-built storefronts.
+    title: "Technology Stack & Tool Integration",
+    content: `MarketStar integrates with your existing sales technology stack — we don't require you to adopt new tools.
 
-Tier 1 (native connectors):
-• Shopify Plus — native app, one-click install, automatic product catalog sync
-• Salesforce Commerce Cloud (SFCC) — certified cartridge, SFRA compatible
-• SAP Commerce (Hybris) — certified extension with full storefront integration
-• Adobe Commerce / Magento — native module with Composer installation
+CRM platforms we work with:
+• Salesforce — Sales Cloud, Service Cloud, Pardot/Marketing Cloud Account Engagement
+• HubSpot — Sales Hub, Marketing Hub, Service Hub
+• Microsoft Dynamics 365
+• Custom / proprietary CRM systems
 
-Tier 2 (tag + API):
-• BigCommerce Enterprise
-• commercetools (headless)
-• Elastic Path
-• Kibo Commerce
-• Custom / proprietary platforms
+Sales engagement tools:
+• Outreach, SalesLoft, Apollo, Salesloft
+• LinkedIn Sales Navigator
+• ZoomInfo, Cognism, 6sense, Bombora (intent data)
+• Gong, Chorus (conversation intelligence)
 
-Headless commerce:
-• Full REST API support for any headless architecture
-• Works with React, Next.js, Vue, Nuxt, Angular storefronts
-• Server-side rendering (SSR) compatible via API
-• Edge-side integration available for CDN-level personalization
+Communication platforms:
+• Zoom, Microsoft Teams, Google Meet
+• Dialpad, RingCentral, Aircall, Five9
+• Slack, Microsoft Teams for internal collaboration
 
-Key message for prospects: "If you have a website, Monetate can personalize it — regardless of your platform."`,
-    tags: ["platforms", "ecommerce", "shopify", "salesforce", "sap", "adobe", "headless"],
-    keywords: ["Shopify", "Salesforce", "SAP", "Adobe", "Magento", "BigCommerce", "headless", "platforms", "e-commerce", "commercetools"]
+MarketStar-owned technology:
+• Nytro.ai — pitch intelligence and readiness platform
+• Custom reporting dashboards and analytics
+• Performance management and coaching tools
+• Quality assurance and call monitoring systems
+
+Key message: "MarketStar reps use YOUR tools, YOUR CRM, YOUR brand identity. From the outside, they're indistinguishable from your internal team."`,
+    tags: ["technology", "tools", "CRM", "salesforce", "hubspot", "integration"],
+    keywords: ["technology", "tools", "CRM", "Salesforce", "HubSpot", "Outreach", "SalesLoft", "LinkedIn", "integration", "stack"]
   },
   {
-    id: "p_mobile_app",
+    id: "p_verticals_industries",
     type: "slide",
     category: "product",
     chapter: 0,
     slideNumber: 12,
-    title: "Mobile & App Personalization",
-    content: `Monetate extends personalization beyond the desktop to mobile web and native apps.
+    title: "Industry Verticals & Expertise",
+    content: `MarketStar has deep expertise across technology verticals, with particular strength in SaaS, cloud infrastructure, and enterprise software.
 
-Mobile web:
-• Responsive experience delivery — personalization adapts to mobile viewport
-• Mobile-specific targeting — device type, OS version, screen size, touch vs click behavior
-• Accelerated Mobile Pages (AMP) compatible
-• Core Web Vitals optimized — no impact on LCP, FID, or CLS scores
+Primary verticals:
+• Enterprise SaaS — CRM, ERP, HCM, ITSM, security, collaboration
+• Cloud & Infrastructure — IaaS, PaaS, cloud migration, managed services
+• Cybersecurity — endpoint, network, identity, cloud security, compliance
+• Data & Analytics — BI, data management, AI/ML platforms
+• DevOps & Developer Tools — CI/CD, monitoring, APM, low-code/no-code
+• Martech & Adtech — marketing automation, CRM, CDP, digital advertising
+• Telecom & Unified Communications — UCaaS, CCaaS, SD-WAN
 
-Native app (iOS & Android):
-• Native SDKs for iOS (Swift/Obj-C) and Android (Kotlin/Java)
-• In-app personalization: content, recommendations, promotions, feature toggles
-• Push notification targeting based on in-app behavior
-• A/B testing for app UI elements and flows
-• Works alongside existing analytics SDKs (Firebase, Amplitude, Mixpanel)
+Industry-specific value:
+• Trained reps who understand technical buyer personas and complex sales cycles
+• Industry-specific talk tracks, objection handling, and competitive positioning
+• Vertical-focused account targeting and ICP development
+• Domain expertise accumulated over 35+ years and 1,600+ client engagements
 
-Cross-device:
-• Identity resolution across web and app using customer ID or email hash
-• Consistent experiences as shoppers move between devices
-• Unified reporting across all channels`,
-    tags: ["mobile", "app", "ios", "android", "cross-device"],
-    keywords: ["mobile", "app", "iOS", "Android", "SDK", "native", "cross-device", "responsive", "push notification"]
+Key message: MarketStar doesn't provide generic callers — we provide industry-trained sales professionals who can have credible, technical conversations with your buyers.`,
+    tags: ["verticals", "industries", "SaaS", "cloud", "cybersecurity", "expertise"],
+    keywords: ["verticals", "industries", "SaaS", "cloud", "cybersecurity", "enterprise software", "telecom", "martech", "expertise"]
   },
   {
-    id: "p_email_sms",
+    id: "p_key_stats",
     type: "slide",
     category: "product",
     chapter: 0,
     slideNumber: 13,
-    title: "Email & SMS Personalization",
-    content: `Monetate powers personalized content within email and SMS campaigns at the moment of open.
+    title: "MarketStar Key Statistics & Proof Points",
+    content: `Key statistics that demonstrate MarketStar's scale, experience, and impact.
 
-Email personalization:
-• Open-Time Content — images and recommendations update dynamically when the email is opened, not when it's sent
-• Product Recommendations in Email — personalized product grids based on browse/purchase history
-• Dynamic Banners — hero images that change based on recipient's location, weather, or segment
-• Countdown Timers — real-time urgency for sales and promotions
-• Works with any ESP: Klaviyo, Braze, Salesforce Marketing Cloud, Mailchimp, etc.
+Company metrics:
+• Founded: 1988 (35+ years in business)
+• Employees: 1,600+ across 8 global delivery centers
+• Revenue delivered for clients: $10B+ cumulative
+• Accounts managed: 1M+ across all programs
+• Languages supported: 35+
+• Client retention rate: 90%+ year-over-year
+• Average client tenure: 5+ years
 
-SMS personalization:
-• Personalized landing pages linked from SMS messages
-• Dynamic short links with individualized offers
-• Behavior-triggered SMS campaigns (cart abandonment, browse abandonment)
+Recognition:
+• Everest Group PEAK Matrix® Leader for Sales Outsourcing
+• Named a "Star Performer" by Everest Group for year-over-year improvement
+• Consistently ranked among top sales outsourcing providers globally
 
-Integration approach:
-• Monetate-hosted image URLs embedded in email templates
-• No ESP migration required — works alongside your existing email platform
-• Recommendations update in real time even for emails sent days ago`,
-    tags: ["email", "sms", "personalization", "open-time", "recommendations"],
-    keywords: ["email", "SMS", "open-time", "personalization", "recommendations", "Klaviyo", "Braze", "ESP", "dynamic"]
+Performance benchmarks:
+• Average time to first qualified meeting: 2-3 weeks post-launch
+• Average pipeline generated per SDR: $2-4M annually
+• Rep ramp time: 50% faster than industry average (powered by Nytro.ai)
+• Quota attainment: 85%+ across client programs
+
+Use these stats in conversations to establish credibility: "MarketStar has been doing this for over 35 years. We've generated $10 billion in revenue for our clients, managed over a million accounts, and we're recognized by Everest Group as a PEAK Matrix Leader in sales outsourcing."`,
+    tags: ["stats", "proof_points", "metrics", "recognition", "credibility"],
+    keywords: ["statistics", "proof points", "35 years", "$10 billion", "1600 employees", "PEAK Matrix", "Everest Group", "accounts managed"]
   },
   {
-    id: "p_social_proof",
+    id: "p_engagement_models",
     type: "slide",
     category: "product",
     chapter: 0,
     slideNumber: 14,
-    title: "Social Proof & Urgency Messaging",
-    content: `Monetate enables real-time social proof and urgency messaging to increase conversion.
+    title: "Engagement Models & Flexibility",
+    content: `MarketStar offers flexible engagement models designed to match your growth stage, budget, and strategic objectives.
 
-Social proof features:
-• "X people are viewing this item right now" — live viewer count
-• "Y purchased in the last 24 hours" — recent purchase activity
-• "Trending in your area" — location-based popularity signals
-• Customer ratings and review snippets surfaced dynamically
-• "Best seller" and "Staff pick" badges applied automatically based on data
+Engagement types:
+• Dedicated Teams — fully embedded teams operating under your brand, using your tools, managed by MarketStar
+• Shared / Pooled Resources — cost-efficient model for lower-volume programs or startups
+• Project-Based — fixed-scope engagements for market entry, product launch, or territory expansion
+• Hybrid — combination of dedicated and shared resources based on account tier
 
-Urgency messaging:
-• Low stock alerts — "Only 3 left in your size"
-• Countdown timers for sales, promotions, and shipping cutoffs
-• Limited-time offer banners triggered by audience segment
-• Free shipping threshold messaging — "Add $12 more for free shipping"
+Scaling models:
+• Ramp-Up — start with a pilot team (2-5 reps), prove ROI, then scale to full team
+• Surge — rapidly deploy additional reps for seasonal demand, product launches, or event-driven campaigns
+• Right-Size — dynamically adjust team size based on pipeline targets and market conditions
+• Transition — build and train a team, then transition to internal ownership when ready
 
-Key benefit: Social proof and urgency messaging are driven by real data, not fabricated numbers. This builds trust while creating authentic buying motivation.
+Contract flexibility:
+• Minimum commitment: typically 6-12 months
+• Scaling clause: add or reduce headcount with 30-60 day notice
+• Performance guarantees: SLA-backed KPIs (meetings set, pipeline generated, deals closed)
+• Pilot programs: 90-day proof-of-concept engagements available
 
-Typical results: 5-12% conversion lift on product detail pages with social proof enabled.`,
-    tags: ["social_proof", "urgency", "conversion", "messaging"],
-    keywords: ["social proof", "urgency", "trending", "stock", "countdown", "shipping", "conversion", "FOMO"]
+Key message: "MarketStar gives you the flexibility to scale your sales organization like a technology platform — up, down, or sideways — without the fixed cost and risk of traditional hiring."`,
+    tags: ["engagement_models", "flexibility", "scaling", "dedicated", "shared", "pilot"],
+    keywords: ["engagement models", "dedicated teams", "shared resources", "pilot", "scaling", "flexibility", "ramp-up", "contract"]
   },
 
   // ============ CHAPTER 1: SALES METHODOLOGY ============
@@ -426,24 +465,24 @@ Typical results: 5-12% conversion lift on product detail pages with social proof
     category: "sales_methodology",
     chapter: 1,
     slideNumber: 1,
-    title: "Discovery Call Framework",
-    content: `A strong discovery call is the foundation of every Monetate deal. Your goal is to uncover pain, quantify impact, and identify the decision-making process.
+    title: "Discovery Call Framework for Selling Outsourced Sales",
+    content: `A strong discovery call is the foundation of every MarketStar deal. Your goal is to uncover sales pain, quantify the cost of underperformance, and identify the decision-making process.
 
 Structure (45-60 minutes):
-1) Rapport & Context (5 min) — Research their site beforehand. Reference specific observations: "I noticed your homepage shows the same hero banner to every visitor — is that intentional?"
-2) Current State (15 min) — Understand their personalization maturity, tech stack, team structure, and current results
-3) Pain & Impact (15 min) — Quantify the cost of NOT personalizing. What's their conversion rate? AOV? How much traffic goes un-monetized?
-4) Vision & Priorities (10 min) — Where do they want to be in 12 months? What KPIs matter most?
-5) Process & Timeline (5 min) — How do they evaluate vendors? Who else needs to be involved? Budget cycle?
+1) Rapport & Context (5 min) — Research their company, recent news, job postings. Reference specifics: "I noticed you have 15 SDR positions open on LinkedIn — how's that hiring going?"
+2) Current State (15 min) — Understand their sales org structure, headcount, quota attainment, ramp time, turnover, and tech stack
+3) Pain & Impact (15 min) — Quantify the cost of open territories, missed pipeline, slow ramp, and turnover. What's the revenue impact of every month with unfilled seats?
+4) Vision & Priorities (10 min) — Where do they need to be in 12 months? New markets? New products? Partner ecosystem? Customer retention?
+5) Process & Timeline (5 min) — How do they evaluate outsourcing partners? Who else needs to be involved? Budget cycle?
 
 Key discovery questions:
-• "What percentage of your traffic converts today? What would a 1% improvement mean in revenue?"
-• "How are you deciding what content to show different visitors right now?"
-• "When a visitor comes back to your site, does the experience change based on their history?"
-• "Who on your team would own personalization day-to-day?"
-• "What's driving the urgency to solve this now vs. next quarter?"`,
+• "What's your average rep ramp time from hire to full quota? What would it mean if you could cut that in half?"
+• "How many open sales positions do you have right now? What's the monthly revenue impact of each unfilled seat?"
+• "Have you tried outsourcing any sales functions before? What worked and what didn't?"
+• "If you could wave a magic wand and solve one sales challenge this year, what would it be?"
+• "Who on your leadership team is driving the decision to explore outsourced sales?"`,
     tags: ["discovery", "sales_process", "questions", "framework"],
-    keywords: ["discovery", "call", "framework", "questions", "pain", "impact", "process", "timeline", "qualification"]
+    keywords: ["discovery", "call", "framework", "questions", "pain", "impact", "process", "timeline", "qualification", "outsourced sales"]
   },
   {
     id: "s_meddpicc",
@@ -451,25 +490,26 @@ Key discovery questions:
     category: "sales_methodology",
     chapter: 1,
     slideNumber: 2,
-    title: "MEDDPICC for Monetate",
-    content: `Apply MEDDPICC to qualify and advance every Monetate opportunity.
+    title: "MEDDPICC for Selling MarketStar",
+    content: `Apply MEDDPICC to qualify and advance every MarketStar opportunity.
 
-M — Metrics: What KPIs will this impact? (CR, AOV, RPV, revenue per session, time on site, bounce rate)
-E — Economic Buyer: Who signs the contract? (typically VP Digital, CMO, or CTO). Have you met them?
-D — Decision Criteria: What are they evaluating? (ease of use, speed of implementation, recommendation quality, integrations, support)
-D — Decision Process: What's the buying process? (vendor comparison → technical eval → POC → procurement → legal → sign)
-P — Paper Process: Who handles procurement? What's their typical contract cycle? MSA required?
-I — Identify Pain: What's broken today? (low conversion, poor mobile experience, manual merchandising, losing to competitors who personalize)
-C — Champion: Who internally is advocating for Monetate? Can they sell when you're not in the room?
-C — Competition: Who else are they evaluating? (Dynamic Yield, Optimizely, Adobe Target, in-house, doing nothing)
+M — Metrics: What KPIs will this impact? (pipeline generated, meetings set, deals closed, revenue, NRR, partner-sourced revenue, ramp time, turnover cost)
+E — Economic Buyer: Who signs the contract? (typically CRO, VP Sales, CEO, or COO). Have you met them?
+D — Decision Criteria: What are they evaluating? (domain expertise, speed to launch, global coverage, technology/AI, cost per rep, cultural fit, quality management)
+D — Decision Process: What's the buying process? (RFP → vendor comparison → reference calls → pilot proposal → procurement → legal → sign)
+P — Paper Process: Who handles procurement? MSA required? Security questionnaire? What's their typical contract cycle?
+I — Identify Pain: What's broken today? (can't hire fast enough, high turnover, missing pipeline targets, no partner channel, expanding internationally with no local presence)
+C — Champion: Who internally is advocating for MarketStar? Can they sell when you're not in the room? Do they have organizational influence?
+C — Competition: Who else are they evaluating? (Accenture Sales, TTEC, Teleperformance, Concentrix, building internally, doing nothing)
 
 Red flags:
 • No identified economic buyer by Stage 2
-• Champion can't articulate why Monetate over alternatives
-• "We're just exploring" with no timeline or budget
-• Single-threaded to one contact`,
+• Champion can't articulate why MarketStar over alternatives
+• "We're just exploring" with no timeline, budget, or identified pain
+• Single-threaded to one contact with no executive access
+• They want to outsource but haven't addressed internal resistance`,
     tags: ["meddpicc", "qualification", "methodology", "sales_process"],
-    keywords: ["MEDDPICC", "metrics", "economic buyer", "decision", "champion", "competition", "qualification", "pain"]
+    keywords: ["MEDDPICC", "metrics", "economic buyer", "decision", "champion", "competition", "qualification", "pain", "outsourced sales"]
   },
   {
     id: "s_stakeholder_mapping",
@@ -477,570 +517,259 @@ Red flags:
     category: "sales_methodology",
     chapter: 1,
     slideNumber: 3,
-    title: "Stakeholder Mapping",
-    content: `Enterprise Monetate deals typically involve 5-8 stakeholders. Map them early.
+    title: "Stakeholder Mapping for Enterprise Outsourced Sales Deals",
+    content: `Enterprise MarketStar deals typically involve 5-8 stakeholders across sales, operations, finance, and IT. Map them early.
 
 Common stakeholders:
-• CMO / VP Marketing — owns revenue goals, brand experience, cares about speed and results
-• VP E-Commerce / Digital — day-to-day owner, evaluates UX impact and team capacity
-• CTO / VP Engineering — evaluates technical architecture, security, performance impact
-• Director of Analytics — wants measurement rigor, data integration, attribution clarity
-• Merchandising Lead — cares about product recommendations, category page optimization
-• IT / InfoSec — security review, data privacy, compliance
-• Procurement — commercial terms, contract negotiation
-• CFO / Finance — ROI justification, budget allocation
+• CRO / VP Sales — Primary economic buyer. Cares about pipeline, revenue, quota attainment, and cost-per-hire vs cost-per-outsourced-rep
+• CEO / COO — Strategic buyer for large engagements. Cares about growth velocity, market expansion, and operational leverage
+• VP Partnerships / Alliances — Key buyer for partner channel programs. Cares about partner recruitment, activation, and ecosystem revenue
+• VP Customer Success — Buyer for CS outsourcing. Cares about NRR, churn, and customer health
+• VP Sales Operations / RevOps — Technical evaluator. Cares about CRM integration, reporting, data security, and process alignment
+• CFO / Finance — Budget approver. Cares about cost model (CapEx vs OpEx), ROI timeline, and contractual terms
+• CISO / IT Security — Blocker if security requirements aren't met. Needs SOC 2, GDPR, access controls
+• Procurement — Process owner for vendor onboarding, MSA negotiation, and compliance
 
-Stakeholder engagement tactics:
-• Tailor your message to each persona's priorities (CMO = revenue; CTO = architecture; CFO = ROI)
-• Provide persona-specific collateral (technical architecture doc for CTO, business case for CFO)
-• Request introductions through your champion
-• Host role-specific sessions (technical deep dive, business case review, security review)
+Multi-threading strategy:
+• Engage at least 3 stakeholders by Stage 2
+• Ensure your champion can introduce you to the economic buyer
+• Provide role-specific value: CRO gets ROI model, VP Ops gets integration plan, CFO gets TCO comparison
+• Host a "Vision Workshop" that brings multiple stakeholders together early
 
-Goal: No stakeholder should hear about Monetate for the first time during the final decision meeting.`,
-    tags: ["stakeholders", "mapping", "personas", "enterprise"],
-    keywords: ["stakeholder", "mapping", "CMO", "CTO", "VP", "procurement", "champion", "personas", "enterprise", "multi-threading"]
+Warning signs: If you're stuck with a single HR or recruiting contact, you may be positioned as "staffing" rather than a strategic sales partner.`,
+    tags: ["stakeholders", "mapping", "enterprise", "multithreading", "champion"],
+    keywords: ["stakeholder", "CRO", "VP Sales", "CEO", "COO", "VP Partnerships", "CFO", "multithreading", "champion", "economic buyer"]
+  },
+  {
+    id: "s_value_framework",
+    type: "slide",
+    category: "sales_methodology",
+    chapter: 1,
+    slideNumber: 4,
+    title: "Value Framework — Quantifying the ROI of Outsourced Sales",
+    content: `Every MarketStar deal must be anchored in a clear, quantified business case. Use this framework.
+
+Cost of the status quo:
+• Cost per internal hire: $150K-$250K fully loaded (salary + benefits + equipment + training + management overhead)
+• Average ramp time: 6-9 months to full productivity
+• Annual turnover rate: 25-35% for SDR/BDR roles (industry average)
+• Cost of a bad hire: 1.5-2x annual salary
+• Revenue impact of unfilled territories: calculate monthly quota × months vacant
+
+MarketStar value drivers:
+• Speed: Teams live in 4-8 weeks vs 6-12 months to hire, train, and ramp internally
+• Cost efficiency: 20-40% lower total cost vs internal teams when factoring in hiring, turnover, management, and overhead
+• Expertise: 35 years of sales execution best practices applied from day one
+• Scalability: Add or reduce reps with 30-60 day notice vs months of hiring/severance cycles
+• Quality: Nytro.ai-powered onboarding, continuous coaching, and QA ensure consistent performance
+• Risk reduction: Convert fixed headcount costs to variable OpEx, shift execution risk to MarketStar
+
+ROI calculation example:
+• 10 SDRs generating 200 qualified meetings/month × $50K average deal size × 20% close rate = $24M annual pipeline influence
+• MarketStar cost: ~$1.2M/year
+• Internal equivalent cost: ~$2M/year (before factoring turnover and ramp losses)
+• Net ROI: 20x+ return on outsourced sales investment`,
+    tags: ["value", "roi", "business_case", "cost", "framework"],
+    keywords: ["value", "ROI", "business case", "cost", "TCO", "total cost", "ramp time", "turnover", "pipeline", "revenue"]
+  },
+  {
+    id: "s_demo_methodology",
+    type: "slide",
+    category: "sales_methodology",
+    chapter: 1,
+    slideNumber: 5,
+    title: "Demo / Presentation Methodology",
+    content: `MarketStar sales presentations should be consultative, not feature-dumping. Follow this structure.
+
+Presentation structure (45-60 minutes):
+1) Recap Discovery Findings (5 min) — Summarize their pain, goals, and current state. "Last time we spoke, you mentioned three key challenges..."
+2) MarketStar Overview (5 min) — Brief company credibility (35 years, $10B revenue, PEAK Matrix Leader). Don't dwell — move quickly to their problems.
+3) Solution Design (20 min) — Present a custom solution mapped to their specific challenges. Show exactly how MarketStar would build their team, launch the program, and deliver results.
+4) Case Study Proof (10 min) — Share 1-2 case studies from similar companies (same industry, similar challenge, comparable scale)
+5) Commercial Framework (5 min) — High-level cost model, timeline, and engagement structure. Not a formal quote yet.
+6) Next Steps (5 min) — Agree on specific actions: reference calls, security review, executive sponsor meeting, pilot proposal
+
+Demo best practices:
+• Personalize everything — use their company name, their ICP, their sales motion in examples
+• Show Nytro.ai in action — live demo of pitch scoring if possible
+• Have a sample ramp plan specific to their product and market
+• Bring a Program Manager or delivery leader to the call for credibility
+• Ask questions throughout — "Does this align with how you'd want the program structured?"
+
+Avoid: Generic capability decks, talking about MarketStar for 30+ minutes before addressing their needs, presenting without confirming who's on the call.`,
+    tags: ["demo", "presentation", "methodology", "consultative", "solution_design"],
+    keywords: ["demo", "presentation", "methodology", "solution design", "case study", "consultative", "proposal"]
   },
   {
     id: "s_champion_building",
     type: "slide",
     category: "sales_methodology",
     chapter: 1,
-    slideNumber: 4,
-    title: "Building a Champion",
-    content: `Your champion is the internal advocate who sells Monetate when you're not in the room.
-
-What makes a strong champion:
-• Has authority or strong influence in the decision process
-• Personally benefits from Monetate's success (career advancement, team efficiency, hitting KPIs)
-• Willing to share internal information (org chart, budget, competitive dynamics, decision timeline)
-• Can and will advocate on your behalf in internal meetings
-• Has access to the economic buyer
-
-How to build a champion:
-1) Make them look smart — provide insights about their industry and competitors
-2) Arm them with ammo — create internal-facing materials they can share (one-pagers, ROI models, competitive comparisons)
-3) Coach them on internal selling — "When your CTO asks about security, here's what to say..."
-4) Give them early wins — help them show quick results to build internal credibility
-5) Protect them — never share confidential information they've given you
-
-Champion test questions:
-• "If I'm not in the room for the final decision, what would you say?"
-• "What concerns do you think your CTO will raise?"
-• "Can you walk me through what the next internal meeting looks like?"`,
-    tags: ["champion", "internal_advocate", "selling", "influence"],
-    keywords: ["champion", "advocate", "influence", "internal", "selling", "coach", "arm", "ammo"]
-  },
-  {
-    id: "s_multi_threading",
-    type: "slide",
-    category: "sales_methodology",
-    chapter: 1,
-    slideNumber: 5,
-    title: "Multi-Threading Strategy",
-    content: `Single-threaded deals die. Multi-threaded deals close.
-
-Why multi-thread:
-• Champions change roles, go on leave, or lose influence
-• Different stakeholders have different objections — address them directly
-• Broader engagement signals organizational commitment
-• Reduces risk of last-minute blockers from unknown stakeholders
-
-Multi-threading tactics:
-• Ask your champion: "Who else would benefit from seeing this? Can we set up a session?"
-• Host a discovery workshop with cross-functional attendees
-• Send personalized follow-ups to each stakeholder after group meetings
-• Create role-specific demo tracks (marketer view, developer view, analyst view)
-• Leverage Monetate's solution engineers for technical stakeholder engagement
-• Use LinkedIn to identify and connect with adjacent stakeholders
-
-Tracking:
-• Maintain a stakeholder map in your CRM with engagement status
-• Target minimum 3 engaged contacts across 2+ departments
-• Flag single-threaded deals in pipeline review — develop a plan to expand
-
-Red flag: If you've only spoken to one person after 3+ meetings, the deal is at risk.`,
-    tags: ["multi-threading", "stakeholders", "risk", "engagement"],
-    keywords: ["multi-threading", "stakeholders", "contacts", "engagement", "risk", "single-threaded", "champion"]
-  },
-  {
-    id: "s_demo_that_converts",
-    type: "slide",
-    category: "sales_methodology",
-    chapter: 1,
     slideNumber: 6,
-    title: "Running a Demo That Converts",
-    content: `A great Monetate demo shows the prospect THEIR opportunity, not our features.
+    title: "Champion Building & Internal Selling",
+    content: `Your champion is the person inside the prospect's organization who will sell MarketStar when you're not in the room. Building a strong champion is critical for enterprise deals.
 
-Pre-demo preparation:
-• Browse their website and take screenshots of personalization gaps
-• Note: generic homepage, same experience for new vs returning visitors, no social proof, basic product recommendations
-• Prepare a "before and after" narrative using their actual site
-• Identify 3 quick wins specific to their business
+Identifying a champion (must have all three):
+• Power — organizational influence to affect the decision (director+ level)
+• Pain — personally affected by the problem MarketStar solves
+• Advocacy — willing to actively promote MarketStar internally, not just passively supportive
 
-Demo structure (45 min):
-1) Recap discovery pain points (5 min) — "Last time you mentioned X was costing you Y"
-2) Show their site's current gaps (5 min) — screen share their actual website
-3) Live demo of Monetate solving those gaps (20 min) — personalization, recommendations, testing
-4) Customer proof points (5 min) — case studies from their industry/vertical
-5) Implementation & timeline (5 min) — "Here's how we'd get you live in 6 weeks"
-6) Next steps (5 min) — POC, technical review, or business case
+Champion development tactics:
+• Provide "leave-behind" assets they can share: ROI calculator, case study deck, executive summary
+• Coach them on how to present the business case to their leadership
+• Give them ammunition for internal objections: "When your CFO asks about cost, here's the TCO comparison..."
+• Share industry data and benchmarks that validate the outsourcing decision
+• Make them look good by framing the initiative as their strategic idea
 
-Demo rules:
-• NEVER demo for more than 20 minutes without asking a question
-• Always tie features back to their specific pain
-• Show, don't tell — use live examples over slides
-• End with a clear next step, not "any questions?"`,
-    tags: ["demo", "presentation", "selling", "conversion"],
-    keywords: ["demo", "presentation", "convert", "before and after", "quick wins", "live", "preparation"]
+Testing champion strength:
+• "If I put together a proposal, would you present it to your CRO this week?"
+• "Can you walk me through the internal decision process and where you see potential pushback?"
+• "Who else needs to be convinced, and what would move them?"
+
+Red flag: If your "champion" won't introduce you to the economic buyer, they're a coach, not a champion. Respect the distinction and keep looking.`,
+    tags: ["champion", "internal_selling", "advocacy", "multithreading"],
+    keywords: ["champion", "internal selling", "advocacy", "power", "pain", "influence", "sponsor", "coach"]
   },
   {
-    id: "s_poc_best_practices",
+    id: "s_pipeline_management",
     type: "slide",
     category: "sales_methodology",
     chapter: 1,
     slideNumber: 7,
-    title: "Proof of Concept (POC) Best Practices",
-    content: `A POC should prove value, not provide free consulting. Set it up for success.
+    title: "Pipeline Management & Deal Stages",
+    content: `Follow this stage-based pipeline framework for all MarketStar opportunities.
 
-POC structure:
-• Duration: 30-45 days (avoid open-ended timelines)
-• Scope: 2-3 specific use cases tied to measurable KPIs
-• Success criteria: Agreed upon BEFORE the POC starts (e.g., "5% lift in conversion on PDPs")
-• Traffic allocation: Minimum 50% of traffic to test for statistical significance
-• Executive sponsor: Named on both sides
+Stage 0: Target (0%)
+• Account identified, research completed, outreach initiated
 
-POC checklist:
-1) Mutual success plan document signed by both parties
-2) Tag deployed and validated within first week
-3) First experience live within 10 days
-4) Weekly check-in calls with stakeholders
-5) Mid-point review at day 15
-6) Final results presentation to economic buyer
+Stage 1: Discovery (10%)
+• Discovery call completed, pain identified, stakeholders mapped
+• Exit criteria: Confirmed pain, identified 2+ stakeholders, budget conversation initiated
 
-Negotiation tips:
-• If they ask for a free POC, counter with: "We invest significant resources — let's agree on what success looks like so we both have skin in the game."
-• Paid POCs convert at 85%+; free POCs convert at <40%
-• If free POC is required, limit scope and duration strictly
+Stage 2: Qualification (25%)
+• MEDDPICC fully completed, champion identified, economic buyer engaged
+• Exit criteria: Champion confirmed, decision criteria understood, timeline established
 
-After POC: Present results in a business case format showing annualized revenue impact, not just test metrics.`,
-    tags: ["poc", "proof_of_concept", "trial", "evaluation"],
-    keywords: ["POC", "proof of concept", "trial", "evaluation", "success criteria", "timeline", "paid", "free"]
-  },
-  {
-    id: "s_business_case",
-    type: "slide",
-    category: "sales_methodology",
-    chapter: 1,
-    slideNumber: 8,
-    title: "Business Case Development",
-    content: `A compelling business case is often the difference between a deal that closes and one that stalls.
+Stage 3: Solution Design (50%)
+• Custom solution presented, case studies shared, commercial framework discussed
+• Exit criteria: Prospect agrees solution fits their needs, moves to reference/evaluation phase
 
-Business case components:
-1) Current State — baseline conversion rate, AOV, revenue, and traffic volume
-2) Problem Quantification — "You're leaving $X million on the table annually by showing every visitor the same experience"
-3) Monetate Impact — projected lift based on industry benchmarks and/or POC results
-4) Investment — Monetate platform cost, implementation services, team time
-5) ROI Calculation — projected incremental revenue vs. total cost (target 5-10x ROI in Year 1)
-6) Risk of Inaction — competitive pressure, rising CAC, declining conversion rates
-7) Timeline to Value — "First results in 4-6 weeks, full optimization in 90 days"
+Stage 4: Proposal (75%)
+• Formal proposal delivered with pricing, scope, SLAs, and timeline
+• Exit criteria: Proposal reviewed, negotiation points identified, decision timeline confirmed
 
-ROI formula:
-Incremental Revenue = (Monthly Sessions × Conversion Rate Lift × AOV)
-Annual ROI = (Incremental Revenue × 12) / Annual Monetate Investment
+Stage 5: Negotiation (90%)
+• Commercial and legal terms being negotiated, security review in progress
+• Exit criteria: Business terms agreed, legal review underway, signature timeline set
 
-Example: 5M monthly sessions × 0.5% CR lift × $85 AOV = $212,500/month = $2.55M/year
-At $300K annual investment = 8.5x ROI
+Stage 6: Closed Won (100%)
+• Contract signed, implementation kickoff scheduled
 
-Pro tip: Always build the business case WITH your champion so they can present it internally.`,
-    tags: ["business_case", "roi", "value", "investment"],
-    keywords: ["business case", "ROI", "value", "investment", "revenue", "cost", "incremental", "return"]
-  },
-  {
-    id: "s_roi_calculator",
-    type: "slide",
-    category: "sales_methodology",
-    chapter: 1,
-    slideNumber: 9,
-    title: "ROI Calculator Usage",
-    content: `The Monetate ROI Calculator is your most powerful tool for demonstrating financial impact.
-
-Inputs required:
-• Monthly unique visitors / sessions
-• Current conversion rate
-• Average order value (AOV)
-• Current personalization maturity (none, basic, intermediate)
-• Industry vertical
-
-Outputs generated:
-• Conservative, moderate, and aggressive revenue lift projections
-• Monthly and annual incremental revenue
-• Payback period (typically 2-4 months)
-• 3-year total value projection
-
-How to use effectively:
-1) Run the calculator DURING discovery — "Let's plug in your numbers right now"
-2) Let the prospect input their own data — builds ownership and trust
-3) Start with conservative estimates — under-promise, over-deliver
-4) Compare to the cost of doing nothing — "Every month you wait costs you approximately $X"
-5) Save and share the output as a PDF for internal circulation
-
-When prospects push back on projections:
-• "These are based on actual results from 300+ e-commerce brands in our portfolio"
-• "We can validate these projections with a 30-day POC on your actual traffic"
-• "The conservative estimate alone pays for the platform 3x over"`,
-    tags: ["roi", "calculator", "financial", "justification"],
-    keywords: ["ROI", "calculator", "revenue", "projections", "payback", "financial", "impact", "conservative"]
-  },
-  {
-    id: "s_qualifying_icp",
-    type: "slide",
-    category: "sales_methodology",
-    chapter: 1,
-    slideNumber: 10,
-    title: "Qualifying Opportunities — ICP Fit",
-    content: `Focus your time on accounts that match Monetate's Ideal Customer Profile (ICP).
-
-ICP characteristics:
-• Industry: E-commerce, retail, fashion, electronics, grocery, travel, financial services
-• Revenue: $50M+ annual e-commerce revenue (sweet spot: $200M-$2B)
-• Traffic: 1M+ monthly sessions (personalization impact scales with traffic)
-• Team: Has or is building a digital marketing / e-commerce optimization team
-• Tech stack: Modern e-commerce platform (Shopify Plus, SFCC, SAP, Adobe, headless)
-• Budget: $150K-$500K+ annual software budget for optimization tools
-• Pain: Experiencing flat or declining conversion rates, losing ground to competitors who personalize
-
-Disqualification signals:
-• <500K monthly sessions (ROI is harder to demonstrate)
-• No e-commerce revenue (B2B lead gen only)
-• No dedicated digital team (will struggle to operationalize)
-• Active contract with competitor expiring in 18+ months
-• "Just researching" with no budget or timeline
-
-Scoring: Use a 1-5 scale on each ICP dimension. Accounts scoring 20+ are high priority.`,
-    tags: ["icp", "qualification", "targeting", "fit"],
-    keywords: ["ICP", "ideal customer profile", "qualification", "fit", "traffic", "revenue", "industry", "disqualify"]
-  },
-  {
-    id: "s_cold_outreach",
-    type: "script",
-    category: "sales_methodology",
-    chapter: 1,
-    slideNumber: 11,
-    title: "Cold Outreach Templates",
-    content: `Effective cold outreach for Monetate focuses on the prospect's missed opportunity, not our features.
-
-Email template — "The Gap" approach:
-Subject: Quick observation about [Company] website
-
-"Hi [Name],
-
-I was browsing [Company].com and noticed something — your homepage shows the same experience to every visitor regardless of whether they're new, returning, or a loyal customer.
-
-Brands like [similar company in their vertical] are using Monetate to personalize that experience and seeing 10-15% lifts in conversion as a result.
-
-Would a 15-minute call to explore if this applies to you be worth it?
-
-[Your name]"
-
-LinkedIn approach:
-"[Name], I noticed [Company] recently [launched new product line / redesigned site / expanded to new market]. Curious — are you personalizing the shopping experience for different customer segments, or is that on the roadmap? Happy to share what brands like [peer company] are doing."
-
-Call opener:
-"Hi [Name], this is [you] from Monetate. I work with e-commerce teams at brands like [customer name] helping them increase conversion through personalization. I had a quick observation about your site — do you have 90 seconds?"
-
-Key principles: Personalize every outreach. Reference their actual website. Lead with insight, not product.`,
-    tags: ["outreach", "cold", "email", "linkedin", "prospecting"],
-    keywords: ["cold", "outreach", "email", "template", "LinkedIn", "prospecting", "opener", "approach"]
-  },
-  {
-    id: "s_follow_up",
-    type: "tip",
-    category: "sales_methodology",
-    chapter: 1,
-    slideNumber: 12,
-    title: "Meeting Follow-Up Best Practices",
-    content: `The follow-up is where deals are won or lost. Execute consistently.
-
-Within 2 hours of every meeting:
-• Send a summary email with: key takeaways, agreed next steps, owners, and timeline
-• Include any resources discussed (case studies, technical docs, ROI model)
-• Confirm the next meeting date/time
-
-Follow-up structure:
-1) "Thank you for your time today. Here's what I heard..."
-2) Restate their pain in their words (shows you listened)
-3) Map Monetate capabilities to each pain point
-4) Clear next step with a date: "I'll send the security questionnaire by Thursday and schedule a technical deep dive for the week of [date]"
-
-Multi-stakeholder follow-up:
-• Send personalized notes to each attendee referencing their specific questions
-• Copy your champion on everything so they can track momentum
-• Flag any risks or concerns to your champion privately
-
-Follow-up cadence for unresponsive prospects:
-• Day 1: Summary email
-• Day 3: "Wanted to make sure you received the materials"
-• Day 7: Share relevant industry insight or case study
-• Day 14: "Checking in — has anything changed on your end?"
-• Day 21: Break-up email — "It seems the timing may not be right..."`,
-    tags: ["follow-up", "meetings", "communication", "cadence"],
-    keywords: ["follow-up", "meeting", "email", "summary", "next steps", "cadence", "communication"]
-  },
-  {
-    id: "s_competitive_positioning",
-    type: "slide",
-    category: "sales_methodology",
-    chapter: 1,
-    slideNumber: 13,
-    title: "Competitive Positioning Strategy",
-    content: `Position Monetate on strengths. Never lead by attacking competitors.
-
-Positioning framework:
-1) Acknowledge — "They're a solid company. Here's where we differ..."
-2) Differentiate — focus on Monetate's unique strengths for THIS prospect
-3) Prove — back it up with customer evidence and data
-
-Monetate's unique positioning pillars:
-• E-Commerce DNA — built for retail/e-commerce from day one, not retrofitted
-• MONET AI Engine — proprietary recommendation technology that improves automatically
-• Speed to Value — 4-8 week implementation vs. 3-6 months for competitors
-• Marketer Empowerment — no-code experience builder means marketing teams don't need developers
-• Proven Scale — billions of decisions daily across enterprise brands
-• Customer Success Model — dedicated CSM + solutions architect, not just a help desk
-
-When to play offense vs. defense:
-• Offense: When we're first in the deal — set the evaluation criteria early
-• Defense: When they're evaluating competitors — focus on differentiation and switching costs
-• Displacement: When they have an incumbent — emphasize gaps in their current solution`,
-    tags: ["competitive", "positioning", "strategy", "differentiation"],
-    keywords: ["competitive", "positioning", "differentiation", "strategy", "strengths", "pillars", "offense", "defense"]
-  },
-  {
-    id: "s_technical_evaluation",
-    type: "slide",
-    category: "sales_methodology",
-    chapter: 1,
-    slideNumber: 14,
-    title: "Handling Technical Evaluations",
-    content: `Technical evaluations are common in enterprise deals. Prepare thoroughly and involve your SE team early.
-
-Common technical evaluation areas:
-• Performance impact — page load time, Core Web Vitals, tag weight
-• Data architecture — how data flows in/out, privacy controls, retention
-• Security — SOC 2 report, encryption, pen test results, access controls
-• Integration depth — API capabilities, webhook support, data connectors
-• Scalability — traffic handling during peak (Black Friday, flash sales)
-• Customization — how flexible is the platform for unique use cases
-
-How to succeed:
-1) Involve a Solutions Engineer from the first technical conversation
-2) Proactively share the SOC 2 report and security questionnaire
-3) Offer a technical sandbox for hands-on evaluation
-4) Provide API documentation and sample code
-5) Reference architectures for their specific platform (Shopify, SFCC, etc.)
-6) Schedule a dedicated architecture review session
-
-Key proof points:
-• "Monetate handles 100B+ decisions annually with sub-50ms latency"
-• "Our tag adds <50KB to page weight — less than a single product image"
-• "We've passed InfoSec reviews at [major brand names] in their industry"
-
-Never over-promise on technical capabilities. If we can't do something, say so and explain the workaround.`,
-    tags: ["technical", "evaluation", "security", "architecture", "se"],
-    keywords: ["technical", "evaluation", "security", "architecture", "performance", "API", "scalability", "SE", "solutions engineer"]
+Hygiene rules:
+• Update stage and close date weekly
+• No deal stays in same stage for >30 days without action
+• Every deal at Stage 3+ must have a mutual action plan
+• Deals without champion and economic buyer access don't advance past Stage 2`,
+    tags: ["pipeline", "stages", "deal_management", "forecasting"],
+    keywords: ["pipeline", "stages", "deal", "forecast", "discovery", "qualification", "proposal", "negotiation", "close"]
   },
 
   // ============ CHAPTER 2: OBJECTION HANDLING ============
 
   {
-    id: "obj_have_competitor",
-    type: "roleplay",
-    category: "objection_handling",
-    chapter: 2,
-    title: "Objection: 'We already have Optimizely / Dynamic Yield'",
-    content: `This is one of the most common objections. The key is to NOT attack the competitor — instead, explore gaps.
-
-Framework: Acknowledge → Explore → Differentiate
-
-Step 1: Acknowledge their investment
-Step 2: Ask about satisfaction and gaps
-Step 3: Position Monetate's unique strengths for their specific gaps`,
-    tags: ["objection", "competitor", "optimizely", "dynamic_yield", "displacement"],
-    keywords: ["already have", "Optimizely", "Dynamic Yield", "competitor", "existing", "vendor", "switch"],
-    roleplayId: "OBJ1",
-    winningResponse: "That's great — it means you already see the value of personalization. I'm curious: how are you finding the recommendation engine? A lot of brands we talk to who use [competitor] say the recommendations require a ton of manual rules. With our MONET engine, the AI handles that automatically. Would it be worth a 15-minute comparison to see if there are gaps you could be filling?",
-    losingResponse: "Oh, Optimizely? Yeah, we're way better than them. They're not really built for e-commerce."
-  },
-  {
     id: "obj_too_expensive",
     type: "roleplay",
     category: "objection_handling",
     chapter: 2,
-    title: "Objection: 'It's too expensive'",
-    content: `Price objections are rarely about the number — they're about perceived value. Reframe the conversation around ROI.
+    title: "Objection: 'Outsourced sales is too expensive'",
+    content: `Cost objections are common but typically stem from comparing MarketStar's per-rep rate to base salary alone — ignoring the full loaded cost of internal teams.
 
-Framework: Validate → Reframe → Quantify
+Framework: Acknowledge → Reframe → Prove
 
-Step 1: Validate their concern about budget responsibility
-Step 2: Reframe from cost to investment with measurable return
-Step 3: Quantify the cost of inaction`,
-    tags: ["objection", "price", "expensive", "budget", "cost"],
-    keywords: ["expensive", "too much", "cost", "budget", "price", "afford", "cheaper"],
+Step 1: Acknowledge the concern — budget sensitivity is valid
+Step 2: Reframe from "cost per rep" to "total cost of revenue generation"
+Step 3: Prove with a TCO comparison that includes hiring, training, turnover, management overhead, benefits, and ramp time`,
+    tags: ["objection", "price", "cost", "expensive", "budget"],
+    keywords: ["too expensive", "cost", "price", "budget", "can't afford", "cheaper", "expensive"],
+    roleplayId: "OBJ1",
+    winningResponse: "I completely understand — budget matters, and this needs to pencil out. Let me reframe the comparison. When you hire an SDR internally, the fully loaded cost is typically $150K-$250K per year when you factor in salary, benefits, equipment, management overhead, and training. And with 25-35% annual turnover, you're re-investing in hiring and ramp every year. With MarketStar, you get a fully managed, trained, and coached rep — with built-in management, QA, and technology — for significantly less than that all-in cost. Plus, we're live in 4-8 weeks instead of 6+ months. Would it help if I built out a side-by-side TCO comparison specific to your team?",
+    losingResponse: "Our pricing is actually very competitive for what you get."
+  },
+  {
+    id: "obj_control_concerns",
+    type: "roleplay",
+    category: "objection_handling",
+    chapter: 2,
+    title: "Objection: 'We'll lose control of our sales process'",
+    content: `Control concerns are the #1 objection in outsourced sales. Prospects fear that external reps won't represent their brand properly or follow their sales methodology.
+
+Framework: Validate → Demonstrate → Guarantee
+
+Step 1: Validate the concern — brand and process control is critical
+Step 2: Demonstrate how MarketStar provides full transparency and client governance
+Step 3: Guarantee with specific mechanisms: real-time dashboards, call monitoring, weekly reviews, Nytro.ai QA`,
+    tags: ["objection", "control", "brand", "process", "transparency"],
+    keywords: ["control", "lose control", "brand", "process", "methodology", "oversight", "transparency", "quality"],
     roleplayId: "OBJ2",
-    winningResponse: "I appreciate you being upfront about that. Let me ask — if Monetate could generate $2.5M in incremental revenue this year based on your traffic, would a $300K investment feel expensive? Let me show you the math with your actual numbers. And honestly, the bigger cost might be doing nothing — every month without personalization, you're leaving revenue on the table that your competitors are capturing.",
-    losingResponse: "I can probably get you a discount. Let me talk to my manager about pricing."
-  },
-  {
-    id: "obj_built_inhouse",
-    type: "roleplay",
-    category: "objection_handling",
-    chapter: 2,
-    title: "Objection: 'We built something in-house'",
-    content: `In-house solutions are common at large enterprises. The key is to highlight the hidden costs and limitations without dismissing their team's work.
-
-Framework: Respect → Expose Hidden Costs → Position Partnership
-
-Step 1: Respect their engineering investment
-Step 2: Explore what's working and what's not
-Step 3: Position Monetate as extending their capabilities, not replacing their team`,
-    tags: ["objection", "inhouse", "build", "custom", "engineering"],
-    keywords: ["built", "in-house", "custom", "homegrown", "internal", "engineering", "build vs buy"],
-    roleplayId: "OBJ3",
-    winningResponse: "That's impressive — it shows your team really understands the importance of personalization. Out of curiosity, how many engineers maintain it? And how quickly can your marketing team launch a new experience without filing a dev ticket? What we hear from brands who've built internally is that the maintenance burden grows every year, and the marketing team ends up waiting in the dev queue. Monetate doesn't replace your engineering work — it actually frees your dev team to focus on core product while marketers run personalization independently.",
-    losingResponse: "In-house solutions never work as well as purpose-built platforms. You should really switch."
-  },
-  {
-    id: "obj_think_about_it",
-    type: "roleplay",
-    category: "objection_handling",
-    chapter: 2,
-    title: "Objection: 'We need to think about it'",
-    content: `"We need to think about it" usually means there's an unspoken concern. Your job is to surface it.
-
-Framework: Agree → Isolate → Resolve
-
-Step 1: Agree that it's a big decision
-Step 2: Ask what specifically they need to think about
-Step 3: Offer to address those specific concerns`,
-    tags: ["objection", "stall", "think", "delay", "timing"],
-    keywords: ["think about it", "need to think", "consider", "get back to you", "stall", "delay"],
-    roleplayId: "OBJ4",
-    winningResponse: "Absolutely — this is a significant decision and I want you to feel confident. Can I ask: is it more about the technical fit, the budget, or getting alignment from other stakeholders? If I knew what's weighing on you most, I could probably get you the right information to make that decision easier.",
-    losingResponse: "Sure, take your time. Just let me know when you're ready."
-  },
-  {
-    id: "obj_no_bandwidth",
-    type: "roleplay",
-    category: "objection_handling",
-    chapter: 2,
-    title: "Objection: 'Our team doesn't have bandwidth'",
-    content: `Bandwidth concerns are legitimate in lean e-commerce teams. Address by demonstrating how Monetate reduces workload, not adds to it.
-
-Framework: Empathize → Reframe → Support Model
-
-Step 1: Empathize with resource constraints
-Step 2: Reframe Monetate as a bandwidth multiplier
-Step 3: Highlight the implementation support and managed services`,
-    tags: ["objection", "bandwidth", "resources", "team", "capacity"],
-    keywords: ["bandwidth", "resources", "team", "capacity", "busy", "staff", "headcount", "no time"],
-    roleplayId: "OBJ5",
-    winningResponse: "I hear that a lot, and it's actually one of the main reasons brands choose Monetate. Right now, how much time does your team spend manually updating content, running reports, or managing product placement? Monetate automates most of that. Plus, our implementation team does the heavy lifting for the first 8 weeks, and your CSM provides ongoing hands-on support. Most clients tell us Monetate gives them time BACK rather than adding work.",
-    losingResponse: "It's really not that much work. Just a quick tag implementation and you're good to go."
-  },
-  {
-    id: "obj_in_contract",
-    type: "roleplay",
-    category: "objection_handling",
-    chapter: 2,
-    title: "Objection: 'We're in a contract with another vendor'",
-    content: `Being in a contract doesn't mean the deal is dead — it means you need to plan for the transition.
-
-Framework: Acknowledge → Timeline → Value of Planning
-
-Step 1: Acknowledge the existing commitment
-Step 2: Determine when the contract expires
-Step 3: Position starting the evaluation now as smart planning`,
-    tags: ["objection", "contract", "vendor", "locked", "commitment"],
-    keywords: ["contract", "locked in", "vendor", "committed", "renewal", "expiration"],
-    roleplayId: "OBJ6",
-    winningResponse: "Totally understand — I wouldn't expect you to break a contract. When does it come up for renewal? The reason I ask is that most evaluation and procurement processes take 2-3 months. If we start the conversation now, you'd be in a position to make a fully informed decision before your renewal date. Would it make sense to do a side-by-side comparison so you have options when that time comes?",
-    losingResponse: "Most contracts have termination clauses. Want me to look into that for you?"
-  },
-  {
-    id: "obj_show_roi",
-    type: "roleplay",
-    category: "objection_handling",
-    chapter: 2,
-    title: "Objection: 'Show me the ROI first'",
-    content: `Prospects who ask for ROI proof are actually buying signals — they want to be convinced. Give them the data.
-
-Framework: Align → Model → Prove
-
-Step 1: Align on which metrics matter to them
-Step 2: Build an ROI model using their actual data
-Step 3: Offer proof through case studies and/or POC`,
-    tags: ["objection", "roi", "proof", "data", "evidence"],
-    keywords: ["ROI", "prove it", "show me", "evidence", "data", "results", "proof", "numbers"],
-    roleplayId: "OBJ7",
-    winningResponse: "I love that question — let's build the case with your numbers. If you share your monthly sessions, conversion rate, and AOV, I can show you a conservative projection in 5 minutes. And if you want to validate it further, we can run a 30-day POC on your actual traffic. Brands in your space typically see 8-15% conversion lift, which at your traffic volume would translate to about $X per month in incremental revenue.",
-    losingResponse: "We have lots of case studies on our website. I can send you a few links."
-  },
-  {
-    id: "obj_privacy_compliance",
-    type: "roleplay",
-    category: "objection_handling",
-    chapter: 2,
-    title: "Objection: 'We have privacy/compliance concerns'",
-    content: `Privacy and compliance are legitimate enterprise concerns. Address them directly and confidently.
-
-Framework: Validate → Educate → Evidence
-
-Step 1: Validate that privacy is a critical priority
-Step 2: Explain how Monetate handles data privacy by design
-Step 3: Provide evidence (certifications, architecture, customer references)`,
-    tags: ["objection", "privacy", "compliance", "gdpr", "security"],
-    keywords: ["privacy", "compliance", "GDPR", "CCPA", "data", "security", "cookies", "consent"],
-    roleplayId: "OBJ8",
-    winningResponse: "Privacy should absolutely be a top concern — and it's one of our strongest areas. Monetate is SOC 2 Type II certified, GDPR and CCPA compliant, and we don't require PII to personalize. We work entirely with anonymous behavioral data. We also integrate with consent management platforms like OneTrust, so personalization only activates based on the visitor's consent preferences. I can share our SOC 2 report and connect you with our security team for a dedicated review. Would that help?",
-    losingResponse: "Don't worry about that — we handle all the compliance stuff."
-  },
-  {
-    id: "obj_dev_priority",
-    type: "roleplay",
-    category: "objection_handling",
-    chapter: 2,
-    title: "Objection: 'Our dev team won't prioritize this'",
-    content: `Dev team bottlenecks are the #1 reason personalization projects stall. Position Monetate as the solution to this exact problem.
-
-Framework: Empathize → Reframe → Low-Dev Path
-
-Step 1: Empathize with the challenge of competing for dev resources
-Step 2: Reframe Monetate as reducing dev dependency, not increasing it
-Step 3: Show the low-code / no-code implementation path`,
-    tags: ["objection", "dev", "engineering", "priority", "resources"],
-    keywords: ["dev team", "developers", "engineering", "priority", "backlog", "sprint", "technical resources"],
-    roleplayId: "OBJ9",
-    winningResponse: "That's exactly why brands use Monetate — to get personalization OUT of the dev backlog. With our visual editor and tag-based deployment, your marketing team can create and launch experiences without writing code. The initial tag deployment needs about 2-4 hours of dev time, and after that, marketers are self-sufficient. Would it help if I showed your dev lead the technical architecture so they can see how lightweight the integration actually is?",
-    losingResponse: "It's really easy to implement. Your devs just need to add our tag."
+    winningResponse: "That's absolutely the right concern to raise — and honestly, if an outsourcing partner can't give you full control and visibility, you shouldn't work with them. Here's how MarketStar is different: your reps use YOUR CRM, YOUR email, YOUR tools, YOUR messaging. Every call is recorded and QA'd using Nytro.ai. You get real-time dashboards showing activity, pipeline, and conversion metrics. We do weekly performance reviews with your team and quarterly business reviews with leadership. Many of our clients tell us our reps are indistinguishable from their internal team. Would you like to speak with a current client who had the same concern?",
+    losingResponse: "Don't worry, we're very good at what we do. You can trust us."
   },
   {
     id: "obj_tried_before",
     type: "roleplay",
     category: "objection_handling",
     chapter: 2,
-    title: "Objection: 'We tried personalization before and it didn't work'",
-    content: `Failed personalization attempts create skepticism. Your job is to understand what went wrong and show why Monetate would be different.
+    title: "Objection: 'We tried outsourcing before and it didn't work'",
+    content: `Failed outsourcing attempts create skepticism. Your job is to understand what went wrong and show why MarketStar would be different.
 
 Framework: Explore → Diagnose → Differentiate
 
 Step 1: Explore what they tried and what happened
-Step 2: Diagnose the likely root cause
-Step 3: Differentiate Monetate's approach from what failed`,
-    tags: ["objection", "tried_before", "failed", "skepticism", "past"],
-    keywords: ["tried", "before", "didn't work", "failed", "personalization", "past", "didn't see results"],
-    roleplayId: "OBJ10",
-    winningResponse: "That's really helpful context. Can you tell me more about what you tried and what the experience was like? Usually when personalization falls short, it's one of three things: the tool was too complex and the team couldn't use it, the implementation was never completed properly, or the approach was rule-based instead of AI-driven so it couldn't scale. Monetate is specifically designed to avoid all three — we have a no-code visual editor, a dedicated implementation team that gets you live in 4-6 weeks, and an AI engine that optimizes automatically. Would you be open to seeing how it's different?",
-    losingResponse: "Well, that was probably a different tool. Monetate is way better."
+Step 2: Diagnose the likely root cause (usually one of: wrong vendor, wrong scope, no enablement, no management layer)
+Step 3: Differentiate MarketStar's approach from what failed`,
+    tags: ["objection", "tried_before", "failed", "skepticism", "past_experience"],
+    keywords: ["tried", "before", "didn't work", "failed", "outsourcing", "bad experience", "past"],
+    roleplayId: "OBJ3",
+    winningResponse: "I appreciate you sharing that — and honestly, you're not alone. A lot of our best clients came to us after a bad outsourcing experience. Can you tell me what happened? ... [listen] ... In our experience, most outsourcing failures happen for one of three reasons: the vendor used offshore call-center reps without sales training, there was no dedicated management layer, or the vendor didn't invest in learning your product and ICP deeply enough. MarketStar is fundamentally different — our reps are W-2 employees, not contractors. They go through Nytro.ai certification before they ever pick up the phone. And every team has a dedicated Program Manager and Team Lead who own quality and performance daily. Would you be open to hearing how we've specifically addressed those issues for companies in your space?",
+    losingResponse: "Well, that was probably a different kind of outsourcing company. We're much better."
+  },
+  {
+    id: "obj_culture_fit",
+    type: "roleplay",
+    category: "objection_handling",
+    chapter: 2,
+    title: "Objection: 'Outsourced reps won't understand our product/culture'",
+    content: `Product and culture fit concerns are legitimate — especially for companies with complex, technical products. Address this head-on with your onboarding and enablement story.
+
+Framework: Agree → Explain → Prove
+
+Step 1: Agree that product knowledge and cultural alignment are critical for sales success
+Step 2: Explain MarketStar's onboarding, training, and certification process
+Step 3: Prove with examples of complex technical products where MarketStar reps excel`,
+    tags: ["objection", "culture", "product_knowledge", "training", "fit"],
+    keywords: ["culture", "product knowledge", "understand", "technical", "complex", "training", "fit", "brand"],
+    roleplayId: "OBJ4",
+    winningResponse: "You're absolutely right — if the reps don't deeply understand your product and market, they'll do more harm than good. That's exactly why MarketStar invests so heavily in onboarding. Our reps go through 2-4 weeks of product-specific training before going live. They earn Nytro.ai pitch certification — meaning an AI system grades their ability to articulate your value proposition, handle objections, and navigate technical conversations before they ever talk to a prospect. We also embed reps in your culture: they attend your team meetings, use your Slack channels, and participate in your product launches. Several of our clients have told us they forget our reps aren't employees. Can I share an example from a company with a similarly complex product?",
+    losingResponse: "We train our reps on your product during onboarding so they'll know it well enough."
+  },
+  {
+    id: "obj_internal_hiring",
+    type: "roleplay",
+    category: "objection_handling",
+    chapter: 2,
+    title: "Objection: 'We'd rather hire internally'",
+    content: `The "build vs buy" objection is common. Position MarketStar not as a replacement for internal hiring but as a complement and accelerator.
+
+Framework: Respect → Compare → Bridge
+
+Step 1: Respect the desire to build an internal team — it shows they care about quality
+Step 2: Compare timelines, costs, and risk profiles between internal and outsourced approaches
+Step 3: Bridge to a "launch with MarketStar, then decide" approach`,
+    tags: ["objection", "internal", "hiring", "build_vs_buy", "in_house"],
+    keywords: ["hire internally", "in-house", "build ourselves", "own team", "internal hiring", "recruit"],
+    roleplayId: "OBJ5",
+    winningResponse: "I totally get that — and building a strong internal team should absolutely be part of your long-term strategy. The question is timeline and opportunity cost. Hiring 10 SDRs internally takes 3-6 months for recruiting, another 3-6 months for ramp, and you'll lose 3-4 of them to turnover in the first year. That's 6-12 months of missed pipeline. MarketStar can have a fully trained team producing qualified meetings in 4-8 weeks. Many of our clients use us to generate pipeline immediately while they build their internal team in parallel. Some eventually transition to fully internal; others keep a hybrid model. Either way, you're not leaving revenue on the table. Would a parallel approach like that make sense for your timeline?",
+    losingResponse: "Internal hiring is really expensive and slow. You should just outsource it."
   },
   {
     id: "obj_not_priority",
@@ -1048,18 +777,113 @@ Step 3: Differentiate Monetate's approach from what failed`,
     category: "objection_handling",
     chapter: 2,
     title: "Objection: 'Not a priority right now'",
-    content: `When personalization isn't a stated priority, your job is to connect it to what IS a priority.
+    content: `When outsourced sales isn't a stated priority, connect it to what IS a priority — revenue growth, market expansion, or operational efficiency.
 
 Framework: Accept → Connect → Create Urgency
 
 Step 1: Accept their prioritization
-Step 2: Connect personalization to their existing priorities
+Step 2: Connect outsourced sales to their existing priorities
 Step 3: Create urgency through competitive pressure or cost of delay`,
     tags: ["objection", "priority", "timing", "not_now", "urgency"],
     keywords: ["not a priority", "not right now", "busy", "other priorities", "later", "next year", "backburner"],
-    roleplayId: "OBJ11",
-    winningResponse: "Fair enough. What IS your top priority for e-commerce this year? ... [listen] ... Interesting — because personalization directly impacts [their priority]. For example, if you're focused on increasing AOV, personalized recommendations typically drive 15-30% of total revenue for our clients. And every quarter without it is revenue left on the table. Would it be worth a quick call to see how it connects to what you're already working on?",
+    roleplayId: "OBJ6",
+    winningResponse: "Fair enough — you have a lot on your plate. What IS your top sales priority for this year? ... [listen] ... That's interesting — because that's exactly the kind of challenge outsourced sales solves. For example, if you're focused on entering a new market, MarketStar can have boots on the ground in 4-8 weeks with local language capabilities and market knowledge. Every quarter without pipeline is revenue your competitors are capturing. Would it be worth a 20-minute call to see if there's a fit for what you're already working on?",
     losingResponse: "Okay, I'll follow up next quarter then."
+  },
+  {
+    id: "obj_data_security",
+    type: "roleplay",
+    category: "objection_handling",
+    chapter: 2,
+    title: "Objection: 'We have data security concerns with external teams'",
+    content: `Data security objections are common in enterprise deals, especially in regulated industries. Address this with facts and certifications, not hand-waving.
+
+Framework: Validate → Substantiate → Facilitate
+
+Step 1: Validate the concern — data security should be non-negotiable
+Step 2: Substantiate with specific certifications and controls
+Step 3: Facilitate a security review with your InfoSec team`,
+    tags: ["objection", "security", "data", "compliance", "risk"],
+    keywords: ["data security", "compliance", "risk", "security", "GDPR", "SOC 2", "access", "breach"],
+    roleplayId: "OBJ7",
+    winningResponse: "Data security should absolutely be a top concern — and it's one of our strongest areas. MarketStar is SOC 2 Type II certified, GDPR and CCPA compliant, and we have ISO 27001-aligned security practices. Every rep goes through background checks, works on secured endpoints with DLP controls, and has role-based access only to the systems required for their program. We have dedicated InfoSec staff who regularly work with enterprise security teams on reviews. I can share our SOC 2 report and schedule a dedicated security review call with our team and yours. Would that be helpful?",
+    losingResponse: "Don't worry about that — we handle all the security stuff."
+  },
+  {
+    id: "obj_quality_consistency",
+    type: "roleplay",
+    category: "objection_handling",
+    chapter: 2,
+    title: "Objection: 'How do we know the quality will be consistent?'",
+    content: `Quality consistency is a legitimate concern. Prospects worry that outsourced reps will be mediocre or that quality will degrade over time.
+
+Framework: Acknowledge → Systematize → Prove
+
+Step 1: Acknowledge that quality is what separates great outsourcing from bad outsourcing
+Step 2: Show the systems that ensure quality: Nytro.ai, QA scoring, coaching cadences, performance management
+Step 3: Prove with client references and retention metrics`,
+    tags: ["objection", "quality", "consistency", "performance", "QA"],
+    keywords: ["quality", "consistent", "performance", "standards", "QA", "coaching", "mediocre"],
+    roleplayId: "OBJ8",
+    winningResponse: "That's the exact right question — and it's what separates MarketStar from most outsourcing providers. Quality isn't something we hope for; it's engineered into every program. Every rep is Nytro.ai certified before going live. Every call is recorded and scored. Our Team Leads run daily coaching sessions and weekly performance reviews. We share real-time dashboards with you showing every KPI — meetings set, conversion rates, pipeline value, call quality scores. And our client retention rate is 90%+ because quality is consistent over time, not just at launch. Would you like to speak with a client who's been with us for 3+ years about how quality has held up?",
+    losingResponse: "We have really good reps. You'll be happy with the quality."
+  },
+  {
+    id: "obj_ramp_time",
+    type: "roleplay",
+    category: "objection_handling",
+    chapter: 2,
+    title: "Objection: 'Ramp time — won't it take forever to get productive?'",
+    content: `Ramp time concerns are valid. Position MarketStar's Nytro.ai-powered onboarding as a competitive advantage.
+
+Framework: Understand → Quantify → Accelerate
+
+Step 1: Understand their current ramp time for internal reps
+Step 2: Quantify the cost of slow ramp (months of unproductive salary + lost pipeline)
+Step 3: Show how MarketStar accelerates ramp with proven methodology and AI`,
+    tags: ["objection", "ramp", "time", "productivity", "onboarding"],
+    keywords: ["ramp time", "productivity", "onboarding", "training", "slow", "how long", "productive"],
+    roleplayId: "OBJ9",
+    winningResponse: "Great question. What's your current ramp time for internal SDRs? ... [listen] ... So if it's 6 months, that means you're paying a rep for half a year before they're fully productive. With MarketStar, we typically have reps setting qualified meetings within 2-3 weeks of go-live. Here's why: we've done this thousands of times, so we have a proven onboarding methodology. We use Nytro.ai to accelerate learning — reps practice against AI-simulated buyers and get instant feedback. And our Team Leads have managed similar programs across your industry. The net result is reps reaching full productivity 50% faster than industry average. Would you like to see our onboarding plan for a company similar to yours?",
+    losingResponse: "Our reps ramp up pretty quickly — usually a few weeks."
+  },
+  {
+    id: "obj_rep_turnover",
+    type: "roleplay",
+    category: "objection_handling",
+    chapter: 2,
+    title: "Objection: 'What happens if our outsourced reps leave?'",
+    content: `Turnover concerns highlight that prospects don't want to be dependent on individual reps. Show that MarketStar has a system, not just people.
+
+Framework: Normalize → Systematize → Guarantee
+
+Step 1: Normalize — some turnover is natural in any sales organization
+Step 2: Systematize — show that MarketStar's bench strength and knowledge management ensure continuity
+Step 3: Guarantee — MarketStar owns the replacement and re-ramp, not the client`,
+    tags: ["objection", "turnover", "attrition", "continuity", "bench"],
+    keywords: ["turnover", "attrition", "leave", "quit", "replacement", "continuity", "knowledge transfer"],
+    roleplayId: "OBJ10",
+    winningResponse: "That's a smart question, and here's the honest answer: some turnover happens in any sales org. The difference is what happens when it does. When an internal rep leaves, you're starting from scratch — posting the job, interviewing, hiring, and ramping for months. When a MarketStar rep transitions, we have bench strength ready. All tribal knowledge is captured in our CRM and playbook systems. We manage the backfill, and the new rep benefits from the same Nytro.ai onboarding that certified the original rep. Most importantly, your program momentum doesn't stop because it's owned by the team and the system, not one individual. Our client-facing attrition rate is significantly below industry average because of our investment in culture, career development, and compensation. Does that address the concern?",
+    losingResponse: "Our turnover is really low, so you shouldn't worry about it."
+  },
+  {
+    id: "obj_just_staffing",
+    type: "roleplay",
+    category: "objection_handling",
+    chapter: 2,
+    title: "Objection: 'Isn't this just a staffing agency?'",
+    content: `The "staffing" misperception is damaging. If prospects think you're temp staffing, they'll commoditize you on price. Differentiate clearly.
+
+Framework: Distinguish → Elevate → Value
+
+Step 1: Clearly distinguish MarketStar from staffing agencies
+Step 2: Elevate the conversation to outcomes, not bodies
+Step 3: Anchor value in the full operating system, not just headcount`,
+    tags: ["objection", "staffing", "agency", "differentiation", "value"],
+    keywords: ["staffing", "agency", "temp", "bodies", "headcount", "contractor", "staff aug"],
+    roleplayId: "OBJ11",
+    winningResponse: "Great question — and it's an important distinction. A staffing agency gives you resumes and you manage the reps yourself. MarketStar provides the entire sales operating system: we recruit, hire, train, manage, coach, QA, and optimize the team. Our reps are W-2 MarketStar employees. They come with dedicated management, Nytro.ai-powered enablement, RevOps support, and performance analytics. You set the strategy and KPIs; we handle execution. Think of it less like hiring temps and more like plugging into a proven sales engine that's already running. The analogy I use is: a staffing firm gives you ingredients, MarketStar serves you the finished dish. Would it help to walk through exactly what's included beyond the reps?",
+    losingResponse: "No, we're much more than a staffing company. We do outsourced sales."
   },
   {
     id: "obj_send_info",
@@ -1077,102 +901,146 @@ Step 3: Secure a specific follow-up time`,
     tags: ["objection", "brush_off", "info", "stall", "email"],
     keywords: ["send info", "email me", "send materials", "brochure", "review", "look at it"],
     roleplayId: "OBJ12",
-    winningResponse: "Happy to send something over. Rather than a generic overview, I'd love to send you something specific to your business. I took a quick look at your site and noticed a few areas where brands like yours typically see quick wins. Can I put together a short personalized assessment? And would 15 minutes next Tuesday work to walk through it together? That way I'm not just adding to your inbox.",
+    winningResponse: "Happy to send something over. Rather than a generic overview, I'd love to put together something specific to your situation. I noticed you're expanding into [market/segment] and hiring for [roles]. I can put together a brief assessment showing how companies in your space have accelerated that motion with outsourced sales, including a rough cost comparison. Would it be helpful if I paired that with 15 minutes next Tuesday to walk through it together? That way I can answer questions and not just add to your inbox.",
     losingResponse: "Sure! I'll send you our brochure and case studies. Let me know what you think!"
   },
 
-  // PRICING & PACKAGING (Chapter 2)
+  // PRICING & ROI FRAMEWORKS (Chapter 2)
   {
     id: "pr_pricing_model",
     type: "slide",
     category: "pricing",
     chapter: 2,
-    title: "Pricing Model",
-    content: `Monetate pricing is based on monthly tracked sessions (MTS) — the number of unique visitor sessions personalized per month.
+    title: "Pricing Model — How MarketStar Engagements Are Priced",
+    content: `MarketStar pricing is based on a per-rep, per-month model with transparent, all-inclusive pricing.
 
 How it works:
-• Session = one visitor's continuous browsing activity (expires after 30 min of inactivity)
-• Pricing scales with traffic volume — higher traffic = lower per-session cost
-• All features included in the platform — no per-feature charges
-• Recommendations, testing, personalization, and analytics all included in the base platform
+• Each rep is priced on a monthly basis — fully loaded with management, training, technology, QA, and RevOps support
+• Pricing varies by role type (SDR, AE, PAM, CSM) and delivery location (onshore, nearshore, offshore)
+• All-inclusive: management, Nytro.ai, coaching, CRM admin, reporting, and performance analytics are included — no hidden fees
+• Volume discounts available for larger teams (10+ reps)
 
-Typical ranges:
-• 1-5M sessions/month: Higher per-session rate
-• 5-25M sessions/month: Mid-tier pricing with volume discount
-• 25M+ sessions/month: Enterprise custom pricing
+Pricing tiers by delivery model:
+• Onshore (US/Canada/Australia/Ireland): Premium pricing, highest cultural alignment
+• Nearshore (Mexico/Uruguay): 20-30% lower than onshore, same time zones
+• Offshore (Philippines/Bulgaria): 40-60% lower than onshore, 24/7 coverage capability
+• Hybrid: Blended rates based on mix of locations
 
 Key messaging:
-• "You're only paying for sessions we actually personalize"
-• "As your business grows, your per-session cost decreases"
-• "Compare this to the cost of acquiring those visitors via paid ads — personalization costs a fraction and drives more revenue from existing traffic"
+• "Compare our per-rep cost to your fully loaded internal cost — salary, benefits, equipment, management overhead, recruiting, and turnover replacement"
+• "With MarketStar, the cost is predictable and all-in. No surprise costs for hiring, training, or backfilling when someone leaves"
+• "As you scale, per-rep costs decrease with volume commitments"
 
-Important: Never quote specific dollar amounts without checking the current pricing sheet. Pricing is updated quarterly.`,
-    tags: ["pricing", "model", "sessions", "cost"],
-    keywords: ["pricing", "cost", "sessions", "price", "rate", "model", "budget", "investment"]
+Important: Always compare MarketStar pricing to fully loaded internal costs, not just base salary. The TCO comparison is where we win.`,
+    tags: ["pricing", "model", "cost", "per_rep", "monthly"],
+    keywords: ["pricing", "cost", "per-rep", "monthly", "price", "rate", "model", "budget", "investment", "onshore", "nearshore", "offshore"]
   },
   {
-    id: "pr_package_tiers",
+    id: "pr_engagement_tiers",
     type: "slide",
     category: "pricing",
     chapter: 2,
-    title: "Package Tiers",
-    content: `Monetate offers three primary packages designed for different levels of personalization maturity.
+    title: "Engagement Tiers & What's Included",
+    content: `MarketStar offers three engagement tiers designed for different scales and maturity levels.
 
-Essentials:
-• A/B testing and basic personalization
-• Visual experience builder (no-code)
-• Standard audience segmentation
-• Basic analytics and reporting
-• Email support
-• Best for: Brands starting their personalization journey
+Starter:
+• 2-5 dedicated reps
+• Shared Team Lead (managing multiple small programs)
+• Standard onboarding and Nytro.ai certification
+• Weekly reporting and monthly QBR
+• Best for: Companies testing outsourced sales for the first time
 
-Professional:
-• Everything in Essentials, plus:
-• MONET AI-powered product recommendations
-• Advanced audience discovery
-• Multivariate testing
-• Server-side testing
-• Dedicated Customer Success Manager
-• Best for: Brands with active optimization programs
+Growth:
+• 6-20 dedicated reps
+• Dedicated Team Lead
+• Full RevOps support (CRM admin, playbook development, content management)
+• Real-time dashboards and weekly performance reviews
+• Quarterly optimization sprints with A/B message testing
+• Best for: Companies scaling proven sales motions or expanding into new markets
 
 Enterprise:
-• Everything in Professional, plus:
-• 1:1 individualized personalization
-• Real-time behavioral decisioning
-• Advanced analytics with custom dashboards
-• Priority support with named Solutions Architect
-• Custom SLA and data residency options
-• API access for headless/custom implementations
-• Best for: Large-scale brands with sophisticated personalization needs
+• 20+ reps across multiple functions (SDR + AE + CSM + PAM)
+• Dedicated Program Manager + Team Leads
+• Full RevOps team embedded
+• Nytro.ai advanced analytics and custom coaching models
+• Executive QBR with MarketStar leadership
+• Custom SLAs and performance guarantees
+• Best for: Large-scale, multi-function outsourced sales organizations
 
-Note: Most enterprise deals land in Professional or Enterprise tier. Guide based on traffic volume and use case complexity.`,
-    tags: ["packages", "tiers", "essentials", "professional", "enterprise"],
-    keywords: ["package", "tier", "Essentials", "Professional", "Enterprise", "plan", "features", "included"]
+Note: Most initial engagements start at Starter or Growth tier and expand as ROI is proven.`,
+    tags: ["tiers", "packages", "starter", "growth", "enterprise", "included"],
+    keywords: ["tier", "package", "Starter", "Growth", "Enterprise", "included", "team lead", "program manager"]
   },
   {
-    id: "pr_addons",
+    id: "pr_roi_calculator",
     type: "slide",
     category: "pricing",
     chapter: 2,
-    title: "Add-On Modules",
-    content: `Available add-on modules that can be bundled with any package tier:
+    title: "ROI Calculator & Business Case Framework",
+    content: `Use this framework to build a compelling ROI case for every MarketStar opportunity.
 
-• Email Personalization — open-time content, dynamic recommendations in email ($)
-• Mobile App SDK — native iOS/Android personalization and testing ($)
-• Advanced Recommendations — enhanced MONET models including visual similarity, NLP-based ($$)
-• Managed Services — Monetate's optimization team builds and runs experiences on your behalf ($$$)
-• Professional Services — custom implementation, migration from competitor, advanced integrations ($$)
-• Data Integration Package — CDP/CRM connectors, custom data feeds, warehouse sync ($)
-• Extended Analytics — custom reporting, data warehouse export, advanced attribution ($$)
+Input variables (gather during discovery):
+• Average deal size (ACV)
+• Current pipeline generation rate per rep
+• Current win rate
+• Average ramp time for new hires
+• Annual rep turnover rate
+• Fully loaded cost per internal rep
+• Number of reps needed
+• Time to hire (days from job post to start date)
 
-Bundling strategy:
-• Email + Web personalization bundle — popular with marketing-led buyers
-• Recommendations + Testing bundle — popular with merchandising teams
-• Full platform + Managed Services — popular with lean teams who want full-service optimization
+ROI calculation:
+1. Pipeline impact: # of MarketStar reps × meetings/rep/month × avg deal size × win rate = annual influenced pipeline
+2. Speed-to-revenue: Pipeline generated during months 2-6 that would have been lost to internal ramp time
+3. Cost savings: (Internal fully loaded cost × headcount) - (MarketStar cost × headcount) = annual savings
+4. Turnover avoidance: Internal turnover rate × cost of replacement × headcount = annual turnover cost avoided
+5. Opportunity cost: Revenue from redirecting internal resources to higher-value activities
 
-Always position add-ons as solving a specific problem the prospect raised in discovery, never as an upsell.`,
-    tags: ["addons", "modules", "upsell", "bundling"],
-    keywords: ["add-on", "module", "email", "mobile", "managed services", "professional services", "bundle"]
+Example output (10 SDRs):
+• Internal cost: $2.2M/year (fully loaded, including management, turnover replacement, and ramp losses)
+• MarketStar cost: $1.4M/year (fully managed, all-inclusive)
+• Pipeline generated: $30M annually
+• ROI: 21:1 return on outsourced sales investment
+• Break-even: Month 2
+
+Key message: "This isn't a cost — it's an investment with a measurable return that starts producing in weeks, not months."`,
+    tags: ["roi", "calculator", "business_case", "investment", "return"],
+    keywords: ["ROI", "calculator", "business case", "return", "investment", "payback", "break-even", "pipeline", "revenue"]
+  },
+  {
+    id: "pr_contract_terms",
+    type: "slide",
+    category: "pricing",
+    chapter: 2,
+    title: "Contract Terms & SLAs",
+    content: `Standard contract terms for MarketStar engagements.
+
+Contract structure:
+• Standard term: 12 months (annual contract)
+• Preferred term: 24-36 months (better pricing available for longer commitments)
+• Pilot programs: 90-day proof-of-concept with defined success criteria
+• Billing: Monthly invoicing (standard), quarterly prepay available for discount
+• Auto-renewal: 12-month auto-renewal with 90-day cancellation notice
+• Payment terms: Net-30 (standard), Net-45/Net-60 available with approval
+
+Standard SLAs:
+• Rep quality: Nytro.ai certification score ≥ 80% before go-live
+• Ramp time: First qualified meetings within 3 weeks of go-live
+• Reporting: Weekly performance reports, monthly trend analysis, quarterly business reviews
+• Backfill: Replacement rep within 2-4 weeks of any transition
+• Data security: SOC 2 Type II compliance maintained throughout engagement
+
+Scaling provisions:
+• Scale-up: Add reps with 30-day notice (recruiting and training included)
+• Scale-down: Reduce reps with 60-day notice
+• Performance guarantee: If agreed KPIs are not met within 90 days, MarketStar provides remediation plan at no additional cost
+
+Negotiation guidance:
+• Prospects often push for month-to-month — counter with annual pricing advantage (10-15% savings)
+• Performance-based pricing (base + bonus for results) available for Growth and Enterprise tiers
+• Involve deal desk early for non-standard terms to avoid delays`,
+    tags: ["contract", "terms", "sla", "legal", "procurement", "pilot"],
+    keywords: ["contract", "terms", "SLA", "billing", "renewal", "payment", "legal", "procurement", "pilot", "guarantee"]
   },
   {
     id: "pr_discount_authority",
@@ -1183,255 +1051,222 @@ Always position add-ons as solving a specific problem the prospect raised in dis
     content: `Discounting guidelines to protect deal value and maintain pricing integrity.
 
 Rep authority (no approval needed):
-• Up to 10% discount on annual contracts
-• Free implementation for 2+ year commitments
+• Up to 5% discount on annual contracts
+• Free pilot extension (up to 30 days) for active evaluation
 • Net-30 payment terms
 
 Manager approval required:
-• 11-20% discount
-• Multi-year payment plans
+• 6-15% discount
+• Performance-based pricing structures
 • Custom SLA terms
-• Pilot/POC pricing
+• Pilot pricing below standard rates
 
 VP/CRO approval required:
-• 21%+ discount
-• Free POC longer than 30 days
+• 16%+ discount
+• Free pilot longer than 90 days
 • Non-standard contract terms
-• Revenue share or performance-based pricing
+• Revenue share or success-fee-only pricing
 
 Discount best practices:
 • Never lead with discount — always negotiate value first
-• Ask for something in return: longer commitment, case study rights, reference customer agreement, larger scope
-• "I can explore better pricing if we can commit to a 2-year term — would that work for your budget cycle?"
-• Document the business justification for every discount over 10%
+• Ask for something in return: longer commitment, case study rights, reference customer agreement, larger team size
+• "I can explore better pricing if we commit to a 24-month term with a 15-rep minimum — would that work for your growth plan?"
+• Document the business justification for every discount over 5%
+• Frame as "investment optimization" not "discount"
 
-Important: Discounts given set the baseline for renewal. Discount thoughtfully.`,
+Important: Discounts given set the baseline for renewal and expansion. Discount thoughtfully.`,
     tags: ["discount", "approval", "pricing", "negotiation"],
     keywords: ["discount", "approval", "authority", "pricing", "negotiation", "deal", "terms", "concession"]
-  },
-  {
-    id: "pr_contract_terms",
-    type: "slide",
-    category: "pricing",
-    chapter: 2,
-    title: "Contract Terms & SLAs",
-    content: `Standard contract terms for Monetate agreements.
-
-Contract structure:
-• Standard term: 12 months (annual contract)
-• Preferred term: 24-36 months (better pricing available)
-• Billing: Annual upfront (default), quarterly available, monthly for Enterprise only
-• Auto-renewal: 12-month auto-renewal with 60-day cancellation notice
-• Payment terms: Net-30 (standard), Net-45/Net-60 available with approval
-
-Standard SLA:
-• 99.99% platform uptime guarantee
-• <50ms decision engine response time
-• 24-hour response time for P1 issues (critical/site down)
-• 4-hour response time for P1 with Premium Support
-• Dedicated CSM for Professional and Enterprise tiers
-
-Negotiation points to watch:
-• Prospects often push for month-to-month — counter with annual pricing advantage
-• Data deletion clauses — standard 90-day post-termination deletion
-• Liability caps — standard at 12 months of fees paid
-• Custom DPA (Data Processing Agreement) for GDPR — available on request
-• Procurement teams may require vendor insurance certificates — available from Legal
-
-Tip: Involve your deal desk early for non-standard terms to avoid delays.`,
-    tags: ["contract", "terms", "sla", "legal", "procurement"],
-    keywords: ["contract", "terms", "SLA", "uptime", "billing", "renewal", "payment", "legal", "procurement"]
   },
 
   // COMPETITIVE INTELLIGENCE (Chapter 1)
   {
-    id: "comp_dynamic_yield",
+    id: "comp_accenture",
     type: "slide",
     category: "competitive",
     chapter: 1,
-    title: "Competitive Intel: vs Dynamic Yield (Mastercard)",
-    content: `Dynamic Yield was acquired by Mastercard in 2022. Understand how to position against them.
+    title: "Competitive Intel: vs Accenture Sales / Accenture Song",
+    content: `Accenture is a global consulting giant with a sales outsourcing practice. Understand how to position MarketStar against them.
 
 Their strengths:
-• Strong brand recognition (Mastercard backing)
-• Broad personalization capabilities
-• Good UI/UX for marketers
-• Growing data partnership with Mastercard's transaction data
+• Massive brand recognition and global scale
+• End-to-end business transformation capabilities (consulting + outsourcing)
+• Large analyst teams for strategy and process design
+• Deep enterprise relationships and existing contracts
 
-Monetate advantages:
-• E-commerce specialization — Monetate was built for retail, DY is generalizing across industries
-• MONET recommendation engine — our AI recommendations outperform DY's rule-heavy approach
-• Speed to value — our implementation is faster (4-8 weeks vs 8-16 weeks for DY)
-• No Mastercard lock-in — DY is increasingly pushing Mastercard's ecosystem; Monetate is platform-neutral
-• Customer success — our dedicated CSM + SA model provides deeper support than DY's scaled model
-• Pricing transparency — DY's pricing has become less predictable post-acquisition
+MarketStar advantages:
+• Sales specialization — MarketStar is 100% focused on sales execution; Accenture spreads across IT, consulting, BPO, and dozens of practices
+• Speed to launch — MarketStar deploys in 4-8 weeks; Accenture typically takes 3-6 months due to consulting-heavy pre-work
+• Cost efficiency — MarketStar's lean delivery model costs 30-50% less than Accenture's blended consulting + delivery rates
+• Technology focus — MarketStar specializes in selling technology/SaaS products; Accenture serves all industries generically
+• Flexibility — MarketStar scales up/down quickly; Accenture prefers large, multi-year commitments
+• Nytro.ai — purpose-built sales AI vs Accenture's generic tooling
+• Client attention — Mid-market and growth-stage companies get senior attention at MarketStar; they're often a small engagement at Accenture
 
 Displacement talking points:
-• "How has the Mastercard acquisition affected your roadmap discussions with DY?"
-• "Are you comfortable with your personalization vendor being owned by a payment processor?"
-• "Have you noticed any changes in support quality or feature velocity since the acquisition?"
+• "How much of Accenture's proposal is consulting/strategy vs actual rep deployment?"
+• "What's Accenture's timeline to have reps making calls?"
+• "Are you comfortable with the total cost when you add Accenture's consulting fees on top of delivery?"
 
-Win rate vs DY: ~55% in head-to-head evaluations.`,
-    tags: ["competitive", "dynamic_yield", "mastercard", "displacement"],
-    keywords: ["Dynamic Yield", "Mastercard", "DY", "competitor", "comparison", "vs", "displacement"]
+Win rate vs Accenture: ~60% when the buyer prioritizes speed, cost, and technology-industry expertise.`,
+    tags: ["competitive", "accenture", "consulting", "displacement"],
+    keywords: ["Accenture", "competitor", "comparison", "vs", "consulting", "displacement", "Accenture Song"]
   },
   {
-    id: "comp_optimizely",
+    id: "comp_ttec",
     type: "slide",
     category: "competitive",
     chapter: 1,
-    title: "Competitive Intel: vs Optimizely",
-    content: `Optimizely is primarily an experimentation platform that has expanded into personalization through acquisitions.
+    title: "Competitive Intel: vs TTEC",
+    content: `TTEC is a large BPO and customer experience company with growing B2B sales outsourcing capabilities.
 
 Their strengths:
-• Strong A/B testing heritage and statistical rigor
-• Good developer tools and feature flagging
-• Growing CMS and content marketing capabilities
-• Established brand in the experimentation space
+• Large scale (60,000+ employees globally)
+• Strong customer experience / contact center heritage
+• Good technology platform (Humanify)
+• Established offshore delivery in multiple geographies
 
-Monetate advantages:
-• Personalization depth — Monetate offers true 1:1 personalization; Optimizely is still primarily segment-based
-• Product recommendations — MONET engine far exceeds Optimizely's basic recommendation capabilities
-• E-commerce focus — Monetate is purpose-built for retail; Optimizely serves all industries generically
-• Marketer empowerment — Monetate's visual editor is more intuitive for non-technical users
-• Unified platform — personalization, testing, and recommendations in one platform vs Optimizely's multi-product suite
-• Implementation — Monetate's e-commerce connectors provide faster integration
+MarketStar advantages:
+• B2B sales DNA — MarketStar was founded for B2B sales outsourcing; TTEC's heritage is B2C contact centers and customer support
+• Technology industry focus — MarketStar's reps sell SaaS, cloud, and enterprise technology daily; TTEC's sales teams skew toward telecom, insurance, and consumer
+• Sales quality — MarketStar's Nytro.ai-certified reps consistently outperform TTEC reps in complex B2B sales conversations
+• Management depth — MarketStar provides dedicated sales management, not scaled BPO team leads managing 50+ agents
+• Partner channel expertise — MarketStar has deep partner/channel capabilities; TTEC does not
+• Cultural fit — MarketStar's sales-first culture attracts top B2B sales talent; TTEC's culture is support/service-oriented
 
-Key differentiator: Optimizely is an experimentation platform trying to add personalization. Monetate is a personalization platform with built-in experimentation. The distinction matters when personalization is the primary goal.
+Key differentiator: TTEC is a customer experience company that added sales. MarketStar is a sales company built from the ground up for B2B revenue generation.
 
-Competitive questions to ask:
-• "Are you primarily looking for testing, personalization, or both?"
-• "How important are AI-powered product recommendations to your strategy?"
-• "Would you prefer one platform that does both, or separate best-of-breed tools?"`,
-    tags: ["competitive", "optimizely", "testing", "experimentation"],
-    keywords: ["Optimizely", "competitor", "comparison", "vs", "testing", "experimentation", "feature flags"]
+Competitive questions:
+• "Are they proposing contact center agents or dedicated B2B sales professionals?"
+• "What's their experience selling your specific product category?"
+• "Do they have a dedicated partner channel practice?"`,
+    tags: ["competitive", "ttec", "bpo", "contact_center"],
+    keywords: ["TTEC", "competitor", "comparison", "vs", "BPO", "contact center", "customer experience"]
   },
   {
-    id: "comp_adobe_target",
+    id: "comp_teleperformance",
     type: "slide",
     category: "competitive",
     chapter: 1,
-    title: "Competitive Intel: vs Adobe Target",
-    content: `Adobe Target is part of the Adobe Experience Cloud suite. It's most common in organizations heavily invested in Adobe's ecosystem.
+    title: "Competitive Intel: vs Teleperformance",
+    content: `Teleperformance is the world's largest BPO company with 410,000+ employees. They've been expanding into B2B sales outsourcing.
 
 Their strengths:
-• Deep integration with Adobe ecosystem (Analytics, AEM, Campaign, CDP)
-• Strong enterprise brand and existing relationships
-• Automated Personalization (AP) and Auto-Target capabilities
-• Global enterprise support infrastructure
+• Massive global scale and delivery footprint
+• Competitive pricing through offshore leverage
+• Strong capabilities in customer support, collections, and B2C sales
+• Growing enterprise client roster through acquisitions
 
-Monetate advantages:
-• Speed and agility — Monetate deploys in weeks; Adobe Target implementations often take 3-6 months
-• Platform independence — works with any tech stack; Adobe Target works best within Adobe ecosystem
-• Ease of use — Monetate's visual editor is significantly more intuitive; Adobe Target requires training
-• Cost — Adobe Target is part of a larger suite and often requires bundled purchases; Monetate is standalone
-• Recommendation quality — MONET outperforms Adobe Sensei in head-to-head tests for e-commerce
-• Customer success — dedicated CSM vs Adobe's tiered support model (premium support is extra)
+MarketStar advantages:
+• Specialization vs generalization — MarketStar is laser-focused on B2B technology sales; Teleperformance does everything from customer support to content moderation
+• Rep quality — MarketStar recruits and trains B2B sales professionals; Teleperformance often deploys BPO agents on sales programs
+• Management model — MarketStar's management-to-rep ratio (1:8-12) provides real coaching; Teleperformance's ratio (1:20-30) is supervision, not development
+• Technology industry expertise — MarketStar reps understand SaaS, cloud, and enterprise tech; Teleperformance's tech knowledge is surface-level
+• Nytro.ai — objective, AI-powered quality assurance vs Teleperformance's manual QA sampling
+• Client size fit — Teleperformance optimizes for 100+ seat programs; MarketStar excels at 5-50 rep engagements with high quality
 
-When you encounter Adobe Target:
-• Often the prospect is already on Adobe Analytics + AEM — switching cost feels high
-• Ask: "Are you getting full value from Adobe Target, or is it primarily used for basic A/B tests?"
-• Many Adobe Target customers only use 20-30% of capabilities — Monetate can complement or replace
-• Position: "Monetate works alongside Adobe Analytics — you don't have to rip anything out"
-
-Key trigger: If they express frustration with Adobe's complexity or support, Monetate is an easy win.`,
-    tags: ["competitive", "adobe", "target", "experience_cloud"],
-    keywords: ["Adobe Target", "Adobe", "competitor", "comparison", "vs", "Experience Cloud", "Sensei"]
+Positioning:
+• "Teleperformance is great at scale BPO. MarketStar is great at high-quality B2B sales execution."
+• "Ask Teleperformance what their average SDR tenure is on technology programs — then ask us."
+• "The question isn't who has more agents. It's who will set higher-quality meetings for your AEs."`,
+    tags: ["competitive", "teleperformance", "bpo", "scale"],
+    keywords: ["Teleperformance", "competitor", "comparison", "vs", "BPO", "scale", "agents"]
   },
   {
-    id: "comp_bloomreach",
+    id: "comp_concentrix",
     type: "slide",
     category: "competitive",
     chapter: 1,
-    title: "Competitive Intel: vs Bloomreach",
-    content: `Bloomreach positions as a "Commerce Experience Cloud" combining search, merchandising, content, and personalization.
+    title: "Competitive Intel: vs Concentrix",
+    content: `Concentrix (formerly Convergys, merged with Webhelp) is a large CX outsourcing firm expanding into sales.
 
 Their strengths:
-• Strong product discovery and search capabilities
-• Combined CMS + search + personalization narrative
-• Growing CDP functionality
-• Good mid-market presence
+• Large global footprint (300,000+ employees)
+• Strong technology infrastructure for CX operations
+• Growing digital/analytics capabilities through acquisitions
+• Competitive offshore pricing
 
-Monetate advantages:
-• Personalization depth — Monetate's 1:1 personalization is more sophisticated than Bloomreach's segment-based approach
-• Testing rigor — Monetate offers more advanced experimentation (MVT, server-side, mutual exclusion)
-• Recommendation AI — MONET is purpose-built for product recommendations; Bloomreach's recommendations are secondary to search
-• Enterprise scale — Monetate handles higher traffic volumes with better performance
-• Specialization — Monetate focuses on doing personalization exceptionally well; Bloomreach spreads across search, CMS, and personalization
+MarketStar advantages:
+• Sales-first identity — Concentrix's core business is customer support; sales is an add-on, not the DNA
+• B2B expertise — MarketStar's entire business is B2B technology sales; Concentrix's sales practice serves B2C and B2B generically
+• Reps, not agents — MarketStar hires sales professionals with B2B experience; Concentrix often trains support agents to do sales
+• Dedicated management — every MarketStar team has a dedicated, experienced sales leader, not a BPO operations manager
+• Partner channel — MarketStar's PAM practice is unique; Concentrix has no equivalent
+• AI-powered enablement — Nytro.ai is purpose-built for sales; Concentrix uses generic workforce management tools
 
-When competing against Bloomreach:
-• Determine if the prospect needs search + personalization or personalization alone
-• If search is the primary need, Bloomreach may be a better fit (and that's okay — qualify accordingly)
-• If personalization is the primary need, Monetate wins on depth, AI, and testing capabilities
-• Position: "Monetate integrates with your existing search solution (including Bloomreach Discovery) while providing best-in-class personalization"
+When competing against Concentrix:
+• Focus on outcomes, not inputs: "How many qualified meetings will their team set per month?"
+• Highlight the difference between support metrics (AHT, CSAT) and sales metrics (meetings, pipeline, revenue)
+• Ask for B2B technology references specifically — they may struggle to provide comparable case studies
 
-Common scenario: Prospect uses Bloomreach for search but needs deeper personalization → Monetate complements Bloomreach.`,
-    tags: ["competitive", "bloomreach", "search", "discovery"],
-    keywords: ["Bloomreach", "competitor", "comparison", "vs", "search", "discovery", "commerce experience"]
+Key message: "If you need customer support agents, Concentrix is excellent. If you need B2B sales professionals who can have credible conversations with your buyers, MarketStar is the clear choice."`,
+    tags: ["competitive", "concentrix", "bpo", "cx"],
+    keywords: ["Concentrix", "competitor", "comparison", "vs", "BPO", "CX", "Webhelp", "support"]
   },
   {
     id: "comp_inhouse",
     type: "slide",
     category: "competitive",
     chapter: 1,
-    title: "Competitive Intel: vs In-House Solutions",
-    content: `In-house personalization solutions are Monetate's most common competitor, especially at large enterprises.
+    title: "Competitive Intel: vs Building Internally (In-House)",
+    content: `Building an internal sales team is MarketStar's most common "competitor" — especially at growth-stage companies.
 
-Common in-house approaches:
-• Rule-based content targeting using CMS features
-• Custom recommendation engines built on open-source ML frameworks
-• A/B testing using Google Optimize (sunset) or open-source tools
-• Data science team building models in Python/R
+Why companies consider building internally:
+• Desire for full control over the sales process
+• Belief that internal reps will be more knowledgeable and motivated
+• Long-term cost assumptions (incorrectly comparing salary to outsourced rates)
+• Cultural preference for "owning" every function
 
-Hidden costs of in-house:
-• Engineering time: 2-4 full-time engineers to build and maintain (cost: $400K-$800K/year)
-• Opportunity cost: Those engineers could be building product features
-• Time to market: Building from scratch takes 6-12 months; Monetate is live in 4-8 weeks
-• Scale limitations: In-house solutions often break during traffic spikes (Black Friday)
-• Feature gap: No visual editor, limited testing, basic analytics
-• Technical debt: Maintenance burden grows every year
+Hidden costs of building internally:
+• Recruiting: $15-25K per hire (recruiter fees, job postings, interview time)
+• Ramp time: 6-9 months to full productivity = months of unproductive salary
+• Turnover: 25-35% annual attrition for SDRs = constant re-hiring cycle
+• Management: Need to hire team leads and managers (1:8 ratio minimum)
+• Tools & tech: CRM, engagement platform, data providers, telephony ($2-5K/rep/month)
+• HR & admin: Benefits, payroll, compliance, workspace
+• Total cost: $150-250K per rep per year (fully loaded)
 
-Positioning:
-• Never dismiss their engineering work — "Your team clearly has strong capabilities"
-• Focus on speed, scale, and freeing engineers: "Monetate handles personalization so your dev team can focus on core product"
-• ROI comparison: "Is $300K/year for Monetate more or less than the engineering cost to maintain and improve your current solution?"
+MarketStar positioning:
+• Never dismiss their desire to build internally — "Building a great internal team is important"
+• Focus on speed and risk: "MarketStar bridges the gap while you build, or augments your team permanently"
+• ROI comparison: "Is the 6-12 months of lost pipeline worth the control premium?"
+• Hybrid model: "Many clients run MarketStar alongside internal teams — outsourced for scale, internal for strategic accounts"
 
-Build vs Buy decision framework:
-• Build when: Personalization is your core product differentiator AND you have unlimited engineering resources
-• Buy when: Personalization supports your business but isn't the core product (this is almost always the case)`,
-    tags: ["competitive", "inhouse", "build", "buy", "custom"],
-    keywords: ["in-house", "build", "custom", "homegrown", "build vs buy", "engineering", "internal"]
+Build vs Outsource decision framework:
+• Build when: You have unlimited time, budget, and management bandwidth, AND sales is your core competency
+• Outsource when: You need speed, scale, flexibility, or expertise that you can't build fast enough internally`,
+    tags: ["competitive", "inhouse", "build", "internal", "hiring"],
+    keywords: ["in-house", "build", "internal", "hiring", "recruit", "own team", "build vs buy"]
   },
   {
-    id: "comp_algolia",
+    id: "comp_other_boutique",
     type: "slide",
     category: "competitive",
     chapter: 1,
-    title: "Competitive Intel: vs Algolia Recommend",
-    content: `Algolia is primarily a search and discovery platform with an add-on recommendation product (Algolia Recommend).
+    title: "Competitive Intel: vs Boutique / Niche Outsourcing Firms",
+    content: `Smaller, niche outsourcing firms (e.g., demandDrive, Operatix, memoryBlue, Cience) sometimes compete for smaller engagements.
 
 Their strengths:
-• Excellent search functionality with typo tolerance and relevance tuning
-• Developer-friendly API-first approach
-• Fast implementation for search use cases
-• Growing product recommendation capabilities
+• Nimble and fast-moving
+• Sometimes lower per-rep pricing
+• Can be focused on specific motions (e.g., outbound only)
+• Personal attention from founders/leadership
 
-Monetate advantages:
-• Recommendation depth — MONET offers far more recommendation strategies (collaborative filtering, content-based, trending, cross-sell, post-purchase) vs Algolia's basic "frequently bought together" and "related products"
-• Full personalization — Monetate personalizes the entire experience (content, layout, promotions, navigation), not just recommendations
-• A/B testing — Monetate includes enterprise-grade testing; Algolia has limited testing for recommendations
-• Audience segmentation — Monetate's audience engine is significantly more advanced
-• No-code tools — Monetate's visual editor enables marketers; Algolia Recommend requires developer implementation
-• Analytics — Monetate provides revenue attribution and business intelligence; Algolia focuses on search analytics
+MarketStar advantages:
+• Scale — MarketStar can start small and scale to 100+ reps; boutiques max out at 20-30 and lose quality
+• Global — MarketStar operates in 8 countries, 35+ languages; boutiques are typically US-only
+• Full lifecycle — MarketStar covers SDR → AE → CS → PAM → RevOps; boutiques typically only do SDR
+• AI & technology — Nytro.ai, advanced analytics, and proprietary coaching tools; boutiques rely on manual processes
+• Stability — 35 years in business, $10B revenue delivered; boutiques may be 3-5 years old with limited track record
+• Enterprise-ready — SOC 2, GDPR, background checks, secure facilities; boutiques may not meet enterprise security requirements
+• Depth of management — dedicated management layer, RevOps, and enablement; boutiques often have founders managing directly
 
 Positioning:
-• Algolia is a search tool with recommendations added on. Monetate is a personalization platform with recommendations built in.
-• "Monetate works alongside Algolia Search — use Algolia for search, Monetate for everything else"
-• If search is not in scope, Algolia is not a real competitor
-
-Common scenario: Prospect already uses Algolia for search, evaluating recommendation solutions → Monetate complements their Algolia investment.`,
-    tags: ["competitive", "algolia", "search", "recommendations"],
-    keywords: ["Algolia", "Recommend", "competitor", "comparison", "vs", "search", "recommendations"]
+• Don't disparage smaller firms — "They may be a fit for a very small engagement"
+• Focus on growth trajectory: "Where do you need to be in 12-24 months? Can your outsourcing partner scale with you?"
+• Emphasize risk: "What happens if your 3-person boutique firm loses a key team member? MarketStar's infrastructure ensures continuity."`,
+    tags: ["competitive", "boutique", "niche", "small", "firms"],
+    keywords: ["boutique", "niche", "small", "demandDrive", "Operatix", "memoryBlue", "Cience", "competitor"]
   },
 
   // ============ CUSTOMER SUCCESS & CASE STUDIES (Chapter 0) ============
@@ -1441,233 +1276,157 @@ Common scenario: Prospect already uses Algolia for search, evaluating recommenda
     type: "slide",
     category: "customer_success",
     chapter: 0,
-    title: "Implementation Success Stories",
-    content: `Reference these success patterns when prospects ask about implementation experience.
+    title: "Customer Success Story: Enterprise SaaS Pipeline Generation",
+    content: `Client: Fortune 500 enterprise software company expanding into mid-market segment
 
-Fashion retailer (mid-market):
-• Challenge: Generic homepage, manual merchandising, 2.1% conversion rate
-• Implementation: 5 weeks from contract to first experience live
-• Results at 90 days: 12% lift in conversion rate, 8% increase in AOV, 22% increase in RPV
-• Key wins: Personalized homepage hero, AI-powered "Complete the Look" recommendations, exit intent offers
+Challenge:
+• Internal AEs were focused on enterprise accounts ($500K+ ACV)
+• Mid-market segment ($50-150K ACV) was completely underserved — millions in TAM left untouched
+• Couldn't justify hiring 20 internal SDRs for an unproven market segment
+• Needed to test mid-market motion before committing internal resources
 
-Electronics brand (enterprise):
-• Challenge: High traffic but low engagement, wanted to reduce bounce rate and improve cross-sell
-• Implementation: 7 weeks including Salesforce Commerce Cloud integration
-• Results at 90 days: 18% reduction in bounce rate, 25% lift in items per order, $4.2M incremental annual revenue
-• Key wins: Behavioral product recommendations on PDP, personalized category page sort order, cart cross-sell
+MarketStar solution:
+• Deployed 15 dedicated SDRs across US and Ireland delivery centers
+• Built custom ICP, messaging framework, and prospecting cadence
+• Nytro.ai-certified reps on product, competitive positioning, and mid-market buyer personas
+• RevOps team built Salesforce dashboards and pipeline attribution reporting
 
-Grocery/CPG (enterprise):
-• Challenge: Cookie-cutter experience for diverse customer base, needed regional personalization
-• Implementation: 6 weeks with custom data feeds
-• Results at 90 days: 9% conversion lift, 15% increase in basket size, significant improvement in promotional effectiveness
-• Key wins: Weather-based product promotions, regional assortment personalization, loyalty tier-based experiences`,
-    tags: ["case_studies", "implementation", "success", "results"],
-    keywords: ["case study", "success", "implementation", "results", "fashion", "electronics", "grocery", "conversion", "revenue"]
+Results at 6 months:
+• 2,400+ qualified meetings set
+• $45M in pipeline generated
+• 18 deals closed worth $3.2M in ACV
+• Client validated mid-market motion and expanded to 30 MarketStar reps in Year 2
+
+Key quote from VP Sales: "MarketStar helped us prove a market segment was worth pursuing — without the risk and overhead of building an internal team from scratch."`,
+    tags: ["case_study", "success", "enterprise", "SaaS", "pipeline"],
+    keywords: ["case study", "success story", "enterprise SaaS", "pipeline", "SDR", "mid-market", "results", "meetings"]
   },
   {
-    id: "cs_key_metrics",
+    id: "cs_partner_channel_story",
     type: "slide",
     category: "customer_success",
     chapter: 0,
-    title: "Key Metrics Customers Achieve",
-    content: `Use these benchmark metrics in conversations, business cases, and ROI discussions.
+    title: "Customer Success Story: Partner Channel Acceleration",
+    content: `Client: Global cybersecurity company needing to scale their partner ecosystem
 
-Conversion rate impact:
-• Average lift across all customers: 8-15% within first 90 days
-• Top performers: 20-30% lift with mature personalization programs
-• Quick wins (first 30 days): 3-5% lift from basic personalization (hero banners, social proof)
+Challenge:
+• Had 200+ registered partners but only 30 were actively selling
+• No dedicated Partner Account Manager (PAM) team — AEs were "managing" partners as a side task
+• Partner-sourced revenue was 8% of total (target: 30%)
+• Losing partner mindshare to competitors with dedicated channel teams
 
-Revenue metrics:
-• Average Revenue Per Visitor (RPV) increase: 10-20%
-• Average Order Value (AOV) increase: 5-12%
-• Revenue influenced by recommendations: 15-30% of total e-commerce revenue
+MarketStar solution:
+• Deployed 8 dedicated PAMs across US, UK, and Australia
+• Built partner segmentation model (Platinum / Gold / Silver / Bronze) with differentiated engagement cadences
+• Created partner enablement program: product training, deal registration support, co-selling playbooks
+• Implemented quarterly partner business reviews and incentive program management
 
-Engagement metrics:
-• Bounce rate reduction: 10-20%
-• Pages per session increase: 15-25%
-• Time on site increase: 10-20%
-• Email click-through rate increase: 20-40% with open-time personalization
+Results at 12 months:
+• Active selling partners increased from 30 to 120 (4x improvement)
+• Partner-sourced pipeline grew from $15M to $65M annually
+• Partner-sourced revenue grew from 8% to 22% of total revenue
+• 45 new partners recruited and onboarded
+• Partner satisfaction score improved from 6.2 to 8.5/10
 
-Efficiency metrics:
-• Reduction in manual merchandising effort: 40-60%
-• Faster time to launch experiences: from weeks (dev-dependent) to hours (marketer self-service)
-• Testing velocity: 3-5x more tests run per quarter
-
-Disclaimer: Always position metrics as "based on results across our customer base" — never guarantee specific outcomes.`,
-    tags: ["metrics", "benchmarks", "results", "kpis"],
-    keywords: ["metrics", "benchmarks", "conversion", "revenue", "AOV", "RPV", "engagement", "results", "KPI"]
+Key quote from VP Partnerships: "We went from having a partner program on paper to having a world-class channel operation. MarketStar's PAM team completely transformed our ecosystem."`,
+    tags: ["case_study", "success", "partner", "channel", "PAM"],
+    keywords: ["case study", "success story", "partner channel", "PAM", "ecosystem", "reseller", "channel program"]
   },
   {
-    id: "cs_testimonial_templates",
-    type: "script",
-    category: "customer_success",
-    chapter: 0,
-    title: "Customer Testimonial Templates",
-    content: `Use these testimonial patterns when crafting proposals and presentations. Customize with actual customer quotes when available.
-
-For marketers:
-"Before Monetate, we were showing the same homepage to every visitor. Now we run 50+ personalized experiences and our marketing team manages them all without dev support. Our conversion rate is up 14% and we're testing ideas at 4x the speed we were before."
-
-For merchandising teams:
-"The MONET recommendation engine changed our game. We went from manually curating product recommendations to letting AI handle it — and the results are dramatically better. Product recommendations now drive 25% of our online revenue."
-
-For technical leaders:
-"We evaluated multiple platforms and Monetate stood out for its architecture — lightweight tag, sub-50ms response times, and clean API documentation. Our engineers deployed it in 3 weeks and haven't had to touch it since. It just works."
-
-For executives:
-"Monetate paid for itself within the first quarter. We invested $280K annually and generated over $3M in incremental revenue in year one. The ROI conversation was easy — the numbers speak for themselves."
-
-Pro tip: The most powerful testimonials reference specific metrics. Always try to include a number.`,
-    tags: ["testimonials", "quotes", "proof", "references"],
-    keywords: ["testimonial", "quote", "reference", "customer", "proof", "results", "said"]
-  },
-  {
-    id: "cs_onboarding_overview",
+    id: "cs_customer_success_story",
     type: "slide",
     category: "customer_success",
     chapter: 0,
-    title: "Onboarding Process Overview",
-    content: `Monetate's onboarding process is designed to deliver value fast and build long-term success.
+    title: "Customer Success Story: Customer Success & Retention",
+    content: `Client: B2B SaaS company (cloud infrastructure) with growing churn problem
 
-Onboarding team:
-• Implementation Manager — project management and coordination
-• Solutions Architect — technical integration and data setup
-• Customer Success Manager — strategic guidance and optimization planning
+Challenge:
+• Net Revenue Retention (NRR) had dropped from 115% to 98% over 18 months
+• Customer Success team was reactive — only engaging when renewal was 30 days away
+• No systematic health scoring or early warning system
+• Expansion revenue stalled because CSMs were firefighting, not proactively selling
 
-Phase 1: Foundation (Weeks 1-2)
-• Kickoff call with all stakeholders
-• Tag deployment and data validation
-• Product catalog feed connection
-• User account setup and permissions
-• Training: Platform basics and visual editor
+MarketStar solution:
+• Deployed 12 dedicated CSMs in a pooled, mid-touch model (1:40 ratio)
+• Built customer health scoring model using product usage, support tickets, and engagement signals
+• Implemented proactive outreach cadence: 30-60-90 day onboarding, quarterly business reviews, renewal touchpoints starting at 120 days out
+• Created expansion playbook for identifying and executing cross-sell/upsell opportunities
 
-Phase 2: Quick Wins (Weeks 3-4)
-• Launch 3-5 initial experiences (personalized banners, social proof, exit intent)
-• Configure basic audience segments
-• Set up reporting dashboards
-• Training: Audience builder and testing
+Results at 9 months:
+• NRR improved from 98% to 118%
+• Gross churn reduced by 40% (from 12% to 7% annually)
+• Expansion revenue increased 65%
+• Average time-to-value for new customers compressed from 90 days to 35 days
+• 15 at-risk accounts saved worth $2.8M in ARR
 
-Phase 3: Advanced (Weeks 5-8)
-• Deploy MONET product recommendations
-• Launch first A/B tests
-• Configure advanced segments and triggers
-• Training: Advanced personalization and analytics
-• Optimization strategy workshop
+Key quote from VP Customer Success: "MarketStar didn't just give us more CSM coverage — they gave us a system. Health scoring, proactive engagement, expansion playbooks. Our retention is the best it's been in three years."`,
+    tags: ["case_study", "success", "customer_success", "retention", "NRR", "churn"],
+    keywords: ["case study", "success story", "customer success", "retention", "NRR", "churn", "renewal", "expansion"]
+  },
+  {
+    id: "cs_global_expansion_story",
+    type: "slide",
+    category: "customer_success",
+    chapter: 0,
+    title: "Customer Success Story: Global Market Expansion",
+    content: `Client: US-based SaaS company expanding into European market for the first time
 
-Post-onboarding:
-• Transition to ongoing CSM relationship
-• Monthly business reviews
-• Quarterly optimization strategy sessions
-• Access to Monetate Academy (self-service learning)
-• Customer community and knowledge base
+Challenge:
+• No European presence — no office, no reps, no brand recognition in EMEA
+• Needed to test European demand before committing to building a local team
+• Required multi-language capabilities (English, French, German, Spanish, Italian)
+• GDPR compliance critical for data handling
 
-Success metric: 100% of customers have at least 5 live experiences by end of onboarding.`,
-    tags: ["onboarding", "process", "implementation", "training", "csm"],
-    keywords: ["onboarding", "process", "implementation", "training", "kickoff", "launch", "CSM", "success"]
+MarketStar solution:
+• Deployed 6 SDRs from Ireland (English-speaking markets) and 4 from Bulgaria (multilingual European markets)
+• Built EMEA-specific ICP, messaging, and prospecting cadences adapted for European buying norms
+• Provided GDPR-compliant data handling and prospect engagement practices
+• RevOps team configured Salesforce for EMEA territory management and pipeline tracking
+
+Results at 12 months:
+• 1,800+ qualified meetings set across 12 European countries
+• $28M in EMEA pipeline generated
+• First 8 European deals closed worth $1.5M ACV
+• Client established permanent European office based on proven demand
+• 4 MarketStar reps transitioned to client's internal European team
+
+Key quote from CEO: "MarketStar gave us a beachhead in Europe without the risk of opening an office and hiring a team in a market we didn't fully understand yet. We went from zero to $1.5M in European ARR in one year."`,
+    tags: ["case_study", "success", "global", "EMEA", "expansion", "international"],
+    keywords: ["case study", "success story", "global expansion", "EMEA", "Europe", "international", "multilingual", "market entry"]
+  },
+  {
+    id: "cs_nytro_impact",
+    type: "slide",
+    category: "customer_success",
+    chapter: 0,
+    title: "Customer Success Story: Nytro.ai Impact on Sales Performance",
+    content: `Client: Cloud security company struggling with rep ramp time and inconsistent messaging quality
+
+Challenge:
+• Average ramp time for new SDRs: 8 months
+• Call quality was inconsistent — top performers were 3x more productive than bottom performers
+• Manual QA process only reviewed 5% of calls
+• No objective way to measure readiness before reps engaged with prospects
+
+MarketStar + Nytro.ai solution:
+• Deployed 10 SDRs with Nytro.ai-powered onboarding and certification
+• Reps practiced against AI-simulated buyer personas during training (no live prospects at risk)
+• AI scored every practice pitch on: value prop clarity, objection handling, talk-to-listen ratio, technical accuracy
+• Reps required to achieve 80%+ Nytro.ai score before going live
+• Post-launch: AI continued scoring live calls, identifying coaching opportunities automatically
+
+Results:
+• Ramp time reduced from 8 months to 3.5 months (56% faster)
+• Average Nytro.ai quality score improved from 62% to 87% across the team within 90 days
+• Bottom-performing reps improved to within 20% of top performers (vs 3x gap before)
+• Meeting quality (meetings that converted to Stage 2) improved from 35% to 58%
+• Manager coaching time reduced 40% because AI pre-identified specific development areas
+
+Key quote from Enablement Director: "Nytro.ai didn't just speed up onboarding — it equalized our team. We went from having a few stars and a lot of average reps to having a consistently high-performing team."`,
+    tags: ["case_study", "success", "nytro", "ai", "onboarding", "ramp", "quality"],
+    keywords: ["case study", "success story", "Nytro.ai", "AI", "ramp time", "onboarding", "pitch quality", "coaching", "certification"]
   },
 ];
-
-export function searchKnowledgeBase(query: string, limit: number = 5): KnowledgeEntry[] {
-  const queryLower = query.toLowerCase();
-  const queryWords = queryLower.split(/\s+/).filter(w => w.length > 2);
-  
-  const scored = KNOWLEDGE_BASE.map(entry => {
-    let score = 0;
-    
-    // Keyword matching (highest weight)
-    for (const keyword of entry.keywords) {
-      const kwLower = keyword.toLowerCase();
-      if (queryLower.includes(kwLower)) {
-        score += 8;
-      }
-      for (const word of queryWords) {
-        if (kwLower.includes(word)) {
-          score += 3;
-        }
-      }
-    }
-    
-    // Tag matching
-    for (const tag of entry.tags) {
-      const tagLower = tag.toLowerCase();
-      for (const word of queryWords) {
-        if (tagLower.includes(word)) {
-          score += 2;
-        }
-      }
-    }
-    
-    // Title matching
-    const titleLower = entry.title.toLowerCase();
-    for (const word of queryWords) {
-      if (titleLower.includes(word)) {
-        score += 4;
-      }
-    }
-    
-    // Content matching (lower weight)
-    const contentLower = entry.content.toLowerCase();
-    for (const word of queryWords) {
-      if (contentLower.includes(word)) {
-        score += 1;
-      }
-    }
-    
-    // Boost roleplays if query mentions specific objections
-    if (entry.type === "roleplay" && (
-      queryLower.includes("handle") || 
-      queryLower.includes("respond") || 
-      queryLower.includes("say") ||
-      queryLower.includes("objection")
-    )) {
-      score += 5;
-    }
-    
-    // Boost scripts if query asks for examples
-    if (entry.type === "script" && (
-      queryLower.includes("script") || 
-      queryLower.includes("example") || 
-      queryLower.includes("what to say") ||
-      queryLower.includes("template")
-    )) {
-      score += 5;
-    }
-
-    // Boost competitive entries for competitor queries
-    if (entry.category === "competitive" && (
-      queryLower.includes("vs") ||
-      queryLower.includes("versus") ||
-      queryLower.includes("competitor") ||
-      queryLower.includes("compare") ||
-      queryLower.includes("comparison") ||
-      queryLower.includes("against")
-    )) {
-      score += 5;
-    }
-
-    // Boost pricing entries for pricing queries
-    if (entry.category === "pricing" && (
-      queryLower.includes("price") ||
-      queryLower.includes("pricing") ||
-      queryLower.includes("cost") ||
-      queryLower.includes("discount") ||
-      queryLower.includes("package") ||
-      queryLower.includes("contract")
-    )) {
-      score += 5;
-    }
-    
-    return { entry, score };
-  });
-  
-  return scored
-    .filter(s => s.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, limit)
-    .map(s => s.entry);
-}
-
-export const searchKnowledge = searchKnowledgeBase;
 
 export function formatKnowledgeForPrompt(entries: KnowledgeEntry[]): string {
   return entries.map((entry, i) => {
@@ -1682,4 +1441,43 @@ export function formatKnowledgeForPrompt(entries: KnowledgeEntry[]): string {
     
     return formatted;
   }).join("\n\n---\n\n");
+}
+
+export function searchKnowledge(query: string): KnowledgeEntry[] {
+  const lowerQuery = query.toLowerCase();
+  const queryWords = lowerQuery.split(/\s+/).filter(w => w.length > 2);
+
+  return KNOWLEDGE_BASE
+    .map(entry => {
+      let score = 0;
+
+      for (const word of queryWords) {
+        if (entry.title.toLowerCase().includes(word)) score += 3;
+        if (entry.content.toLowerCase().includes(word)) score += 1;
+        if (entry.keywords.some(k => k.toLowerCase().includes(word))) score += 2;
+        if (entry.tags.some(t => t.toLowerCase().includes(word))) score += 2;
+      }
+
+      return { entry, score };
+    })
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 10)
+    .map(({ entry }) => entry);
+}
+
+export function getKnowledgeByChapter(chapter: number): KnowledgeEntry[] {
+  return KNOWLEDGE_BASE.filter(entry => entry.chapter === chapter);
+}
+
+export function getKnowledgeByCategory(category: KnowledgeEntry["category"]): KnowledgeEntry[] {
+  return KNOWLEDGE_BASE.filter(entry => entry.category === category);
+}
+
+export function getKnowledgeById(id: string): KnowledgeEntry | undefined {
+  return KNOWLEDGE_BASE.find(entry => entry.id === id);
+}
+
+export function getRoleplayKnowledge(roleplayId: string): KnowledgeEntry | undefined {
+  return KNOWLEDGE_BASE.find(entry => entry.roleplayId === roleplayId);
 }
