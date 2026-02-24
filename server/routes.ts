@@ -343,6 +343,26 @@ export async function registerRoutes(
     }
   });
 
+  app.post("/api/chapters/clear-all-media", async (_req, res) => {
+    try {
+      const allChapters = await storage.getAllChapters();
+      for (const chapter of allChapters) {
+        const slides = (chapter.slides as any[]) || [];
+        const cleaned = slides.map((s: any) => ({
+          ...s,
+          imageUrl: '',
+          narrationScript: '',
+          narrationAudioUrl: ''
+        }));
+        await db.update(chapters).set({ slides: cleaned }).where(eq(chapters.id, chapter.id));
+      }
+      res.json({ success: true, message: `Cleared media from ${allChapters.length} chapters` });
+    } catch (error) {
+      console.error("Clear all media error:", error);
+      res.status(500).json({ error: "Failed to clear media" });
+    }
+  });
+
   // Generate slide images for ALL chapters (batch)
   app.post("/api/chapters/generate-all-slides", async (_req, res) => {
     try {
