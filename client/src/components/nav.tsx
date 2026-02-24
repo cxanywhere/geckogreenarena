@@ -25,7 +25,7 @@ import {
 import { useAuth } from "@/lib/auth-context";
 import { useTheme } from "next-themes";
 
-import marketstarLogoDark from "@/assets/monetate-logo-dark.png";
+import marketstarLogoDark from "@/assets/marketstar-logo-dark.png";
 import arenaHelmetDark from "@/assets/arena-helmet-dark.png";
 
 interface NavGroup {

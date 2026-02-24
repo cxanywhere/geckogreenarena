@@ -7,8 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Camera, Upload, ArrowRight, Sparkles, Shield, Sword, Check, Loader2, LogOut } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
-import marketstarLogoDark from "@/assets/monetate-logo-dark.png";
-import marketstarLogoLight from "@/assets/monetate-logo-light.png";
+import marketstarLogoDark from "@/assets/marketstar-logo-dark.png";
+import marketstarLogoLight from "@/assets/marketstar-logo-light.png";
 import { useTheme } from "next-themes";
 
 export default function OnboardingPage() {
