@@ -84,6 +84,12 @@ Preferred communication style: Simple, everyday language.
 - **Twilio**: SMS service for notifications and credential delivery.
 - **Gemini AI**: Used for generating professional avatars, chapter images, and evaluating roleplay performance.
 
+### AI-Generated Media
+- **Slide Images**: 64/64 slides have AI-generated presentation images via Gemini (`gemini-3-pro-image-preview`). MarketStar brand colors: navy #1A2B8C background, orange #E07A2F accents, white text. Images stored in `public/uploads/slides/`.
+- **Narration Audio**: 64/64 slides have AI-generated voiceover narration. Scripts generated via GPT-4o-mini, audio via Gemini TTS (`gemini-2.5-flash-preview-tts`, Orus voice). Audio files stored as WAV in `public/uploads/narration/`.
+- **Generation Endpoints**: Individual slide image: `POST /api/chapters/:id/generate-slide/:slideIndex`. Individual slide narration: `POST /api/chapters/:id/generate-narration/:slideIndex`. Batch narration: `POST /api/chapters/:id/generate-narration`. Clear all media: `POST /api/chapters/clear-all-media`.
+- **Seed Data Preservation**: `server/seed.ts` preserves existing imageUrl/narrationScript/narrationAudioUrl from DB on restart (safe to restart server without losing generated media).
+
 ## Recent Changes
 - Fully rebranded from Monetate to MarketStar (www.marketstar.com) across all content
 - Replaced all Monetate product references (Symphony, Maestro, Overture, MONET, Concierge) with MarketStar solutions (Sales Solutions, Partner Channel, Customer Success, Revenue Operations, Nytro.ai, Sales as a Service®)
@@ -91,3 +97,4 @@ Preferred communication style: Simple, everyday language.
 - Expanded roleplays from 16 to 24 scenarios covering all MarketStar solution areas
 - Updated all buyer personas, battlecards, knowledge base entries, AI prompts, email/SMS templates, and quiz content
 - Updated competitive landscape from DTC/e-commerce to B2B sales outsourcing market
+- Generated all 64 slide images and 64 narration voiceovers for all 12 MarketStar training chapters
