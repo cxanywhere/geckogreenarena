@@ -176,7 +176,7 @@ export default function LoginPage() {
 
       <div className="hidden lg:block relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0B1340] via-[#1A2B8C] to-[#0B1340]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(232,76,138,0.4),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(224,122,47,0.4),transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(26,43,140,0.5),transparent_60%)]" />
         
         <div className="relative z-10 h-full flex flex-col justify-between p-24 text-white">
@@ -194,7 +194,7 @@ export default function LoginPage() {
           >
             <h2 className="font-display text-5xl font-bold mb-6 leading-tight">
               B2B Sales Outsourcing <br />
-              <span className="text-[#E84C8A]">Sales Enablement</span>
+              <span className="text-[#E07A2F]">Sales Enablement</span>
             </h2>
             <p className="text-white/80 text-lg max-w-md leading-relaxed">
               Master your pitch with AI-powered training. Arena by GigaRev — built exclusively for MarketStar sales professionals.
@@ -202,13 +202,13 @@ export default function LoginPage() {
             
             <div className="flex gap-3 mt-8">
               <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
-                <span className="text-[#E84C8A] font-bold">16</span> <span className="text-white/70">AI Roleplays</span>
+                <span className="text-[#E07A2F] font-bold">16</span> <span className="text-white/70">AI Roleplays</span>
               </div>
               <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
-                <span className="text-[#E84C8A] font-bold">13</span> <span className="text-white/70">Buyer Personas</span>
+                <span className="text-[#E07A2F] font-bold">13</span> <span className="text-white/70">Buyer Personas</span>
               </div>
               <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
-                <span className="text-[#E84C8A] font-bold">20</span> <span className="text-white/70">Battlecards</span>
+                <span className="text-[#E07A2F] font-bold">20</span> <span className="text-white/70">Battlecards</span>
               </div>
             </div>
           </motion.div>

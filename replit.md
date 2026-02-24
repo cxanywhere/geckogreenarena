@@ -17,7 +17,7 @@ Preferred communication style: Simple, everyday language.
 - **Styling**: Tailwind CSS v4 with shadcn/ui (New York style)
 - **Animations**: Framer Motion
 - **Build Tool**: Vite
-- **Brand Colors**: Navy blue #1A2B8C (CSS var `navy`, HSL 230 72% 22%), Magenta #E84C8A (CSS var `magenta`, HSL 338 78% 58%). Nav uses navy bg with white text and magenta accents. Magenta is the primary accent for buttons, CTAs, progress bars, active states. Gradient buttons use `btn-gradient` class (magenta→navy).
+- **Brand Colors**: Navy blue #1A2B8C (CSS var `navy`, HSL 230 72% 22%), MarketStar Orange #E07A2F (CSS var `magenta`, HSL 24 78% 53%). Nav uses navy bg with white text and orange accents. Orange is the primary accent for buttons, CTAs, progress bars, active states. Gradient buttons use `btn-gradient` class (orange→navy). Colors aligned with MarketStar.com brand identity.
 
 ### Backend
 - **Runtime**: Node.js with Express.js
