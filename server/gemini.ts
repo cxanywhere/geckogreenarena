@@ -591,10 +591,10 @@ export async function generateSlideImage(
   const fullPrompt = `${imagePrompt}
 
 CRITICAL STYLE REQUIREMENTS:
-- This is a PRESENTATION SLIDE for a premium sales training platform
-- Dark navy blue (#1A2B5C) background is mandatory
+- This is a PRESENTATION SLIDE for MarketStar's sales training platform
+- Dark navy blue (#1A2B8C) background is mandatory
 - White text for titles and body content
-- Teal (#00B4D8) for accent elements, icons, highlights, and data callouts
+- MarketStar Orange (#E07A2F) for accent elements, icons, highlights, and data callouts
 - Professional corporate keynote quality — think McKinsey or Bain presentation deck
 - 16:9 landscape aspect ratio
 - Include the TITLE TEXT clearly visible at the top of the slide

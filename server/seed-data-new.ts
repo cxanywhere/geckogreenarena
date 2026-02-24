@@ -29,7 +29,7 @@ export const CHAPTER_SEED_DATA = [
           "Certification drives 35% faster ramp time for new sellers"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text at top: \"YOUR CERTIFICATION PATH\". Below, show a horizontal roadmap timeline with 4 milestone nodes connected by a flowing magenta (#E84C8A) line. Node 1: \"12 Chapters\" with a book icon, Node 2: \"24 Roleplays\" with a microphone icon, Node 3: \"Certification Exam\" with a certificate icon, Node 4: \"Deal-Ready Seller\" with a trophy icon. Below the timeline, show 3 stat boxes: \"35% Faster Ramp\", \"2-3 Week Program\", \"24 AI Voice Roleplays\". Clean, modern corporate keynote style. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text at top: \"YOUR CERTIFICATION PATH\". Below, show a horizontal roadmap timeline with 4 milestone nodes connected by a flowing orange (#E07A2F) line. Node 1: \"12 Chapters\" with a book icon, Node 2: \"24 Roleplays\" with a microphone icon, Node 3: \"Certification Exam\" with a certificate icon, Node 4: \"Deal-Ready Seller\" with a trophy icon. Below the timeline, show 3 stat boxes: \"35% Faster Ramp\", \"2-3 Week Program\", \"24 AI Voice Roleplays\". Clean, modern corporate keynote style. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -46,7 +46,7 @@ export const CHAPTER_SEED_DATA = [
           "PEAK Matrix® Leader — recognized by Everest Group as an industry leader"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"THE MARKETSTAR ELEVATOR PITCH\". Center shows a large quotation mark icon in magenta (#E84C8A), followed by the pitch in white italic text. Below the quote, show a visual value chain: three connected hexagons labeled \"SPEED TO REVENUE\" → \"PREDICTABLE GROWTH\" → \"CAPITAL EFFICIENCY\". At the bottom, three data callouts: \"35+ Years\", \"$10B+ Revenue Delivered\", \"1,600+ Employees\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"THE MARKETSTAR ELEVATOR PITCH\". Center shows a large quotation mark icon in orange (#E07A2F), followed by the pitch in white italic text. Below the quote, show a visual value chain: three connected hexagons labeled \"SPEED TO REVENUE\" → \"PREDICTABLE GROWTH\" → \"CAPITAL EFFICIENCY\". At the bottom, three data callouts: \"35+ Years\", \"$10B+ Revenue Delivered\", \"1,600+ Employees\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -63,7 +63,7 @@ export const CHAPTER_SEED_DATA = [
           "MarketStar solves all four with Sales as a Service® — a modular, scalable delivery model"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"WHAT PROBLEMS WE SOLVE\". Show a 2x2 grid of problem cards with magenta (#E84C8A) icons. Top-left: \"SCALE\" — \"Grow without proportional cost\". Top-right: \"SPEED\" — \"9+ months to build internal teams\". Bottom-left: \"EXPERTISE\" — \"Specialized roles hard to fill\". Bottom-right: \"RISK\" — \"Fixed cost burden in uncertainty\". Center connecting circle: \"SALES AS A SERVICE®\". Bottom banner: \"18-24 months of lost opportunity\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"WHAT PROBLEMS WE SOLVE\". Show a 2x2 grid of problem cards with orange (#E07A2F) icons. Top-left: \"SCALE\" — \"Grow without proportional cost\". Top-right: \"SPEED\" — \"9+ months to build internal teams\". Bottom-left: \"EXPERTISE\" — \"Specialized roles hard to fill\". Bottom-right: \"RISK\" — \"Fixed cost burden in uncertainty\". Center connecting circle: \"SALES AS A SERVICE®\". Bottom banner: \"18-24 months of lost opportunity\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -81,7 +81,7 @@ export const CHAPTER_SEED_DATA = [
           "PEAK Matrix® Leader designation from Everest Group validates our global capability"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"GLOBAL FOOTPRINT & SCALE\". Show a world map with glowing magenta (#E84C8A) dots on Ogden (HQ star), Canada, Mexico, Uruguay, Ireland, Bulgaria, Philippines, Australia. Lines connect all offices to HQ. Below the map, show stat boxes: \"8 Countries\", \"35+ Languages\", \"1M+ Accounts\", \"$10B+ Revenue\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"GLOBAL FOOTPRINT & SCALE\". Show a world map with glowing orange (#E07A2F) dots on Ogden (HQ star), Canada, Mexico, Uruguay, Ireland, Bulgaria, Philippines, Australia. Lines connect all offices to HQ. Below the map, show stat boxes: \"8 Countries\", \"35+ Languages\", \"1M+ Accounts\", \"$10B+ Revenue\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -98,7 +98,7 @@ export const CHAPTER_SEED_DATA = [
           "SALES AS A SERVICE®: The modular delivery model that wraps it all together — from dedicated teams to fully managed programs"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"THE MARKETSTAR SOLUTION MAP\". Show a layered architecture diagram. Top layer: 4 solution boxes in magenta (#E84C8A) outlines — \"Sales Solutions\", \"Partner Channels\", \"Customer Success\", \"Revenue Operations\". Middle layer: a wide bar labeled \"NYTRO.AI — AI Intelligence Engine\" with a brain icon. Bottom layer: a foundation bar labeled \"SALES AS A SERVICE® — Modular Delivery\". Arrows flow between layers. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"THE MARKETSTAR SOLUTION MAP\". Show a layered architecture diagram. Top layer: 4 solution boxes in orange (#E07A2F) outlines — \"Sales Solutions\", \"Partner Channels\", \"Customer Success\", \"Revenue Operations\". Middle layer: a wide bar labeled \"NYTRO.AI — AI Intelligence Engine\" with a brain icon. Bottom layer: a foundation bar labeled \"SALES AS A SERVICE® — Modular Delivery\". Arrows flow between layers. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -112,7 +112,7 @@ export const CHAPTER_SEED_DATA = [
           "Key angle: Speed to revenue, specialized expertise, variable cost model, global reach"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: PLATFORM REPOSITION\". Show a split-screen: left side shows overwhelmed internal team icons, labeled \"BEFORE: Internal Bottleneck\". Right side shows streamlined MarketStar team, labeled \"AFTER: Scalable Growth\". Magenta (#E84C8A) arrow connects them. Below, scenario box: \"VP Sales at $500M SaaS: 'We already have internal teams. Why outsource?'\". Bottom banner: \"GOAL: Agreement to explore pilot program\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: PLATFORM REPOSITION\". Show a split-screen: left side shows overwhelmed internal team icons, labeled \"BEFORE: Internal Bottleneck\". Right side shows streamlined MarketStar team, labeled \"AFTER: Scalable Growth\". Orange (#E07A2F) arrow connects them. Below, scenario box: \"VP Sales at $500M SaaS: 'We already have internal teams. Why outsource?'\". Bottom banner: \"GOAL: Agreement to explore pilot program\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
         "roleplaySlug": "rp-p1-platform-reposition"
@@ -152,7 +152,7 @@ export const CHAPTER_SEED_DATA = [
           "Head of HR / Talent: Evaluates outsourcing impact on hiring burden, turnover costs, and workforce planning"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CORE BUYER PERSONAS\". Show 7 persona cards in a honeycomb pattern with magenta (#E84C8A) avatar icons. Cards: \"VP Sales/CRO — Revenue Targets\", \"CEO/GM — Growth Strategy\", \"VP Partnerships — Channel Revenue\", \"VP CS — Retention & NRR\", \"CFO — ROI & Budget\", \"VP RevOps — Process Efficiency\", \"Head HR — Talent Planning\". Center label: \"THE ENTERPRISE BUYING COMMITTEE\". Bottom note: \"Avg deal involves 4-7 stakeholders\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CORE BUYER PERSONAS\". Show 7 persona cards in a honeycomb pattern with orange (#E07A2F) avatar icons. Cards: \"VP Sales/CRO — Revenue Targets\", \"CEO/GM — Growth Strategy\", \"VP Partnerships — Channel Revenue\", \"VP CS — Retention & NRR\", \"CFO — ROI & Budget\", \"VP RevOps — Process Efficiency\", \"Head HR — Talent Planning\". Center label: \"THE ENTERPRISE BUYING COMMITTEE\". Bottom note: \"Avg deal involves 4-7 stakeholders\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -170,7 +170,7 @@ export const CHAPTER_SEED_DATA = [
           "Head HR: Time-to-fill reduction, turnover cost avoidance, headcount flexibility, compliance risk mitigation"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"KPI MAP BY PERSONA\". Show a visual matrix with 7 rows. Each row has a persona icon in magenta (#E84C8A), persona name, and 2-3 key KPIs. Highlight impactful metrics in magenta accent. Clean data table style. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"KPI MAP BY PERSONA\". Show a visual matrix with 7 rows. Each row has a persona icon in orange (#E07A2F), persona name, and 2-3 key KPIs. Highlight impactful metrics in orange accent. Clean data table style. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -187,7 +187,7 @@ export const CHAPTER_SEED_DATA = [
           "ACQUISITION/MERGER: \"We just acquired a company and need to integrate sales teams fast\" — speed imperative"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"COMMON BUYING TRIGGERS\". Show 6 trigger cards in a 3x2 grid. Each card has a magenta (#E84C8A) icon. Cards: \"NEW MARKET: Expansion pressure\", \"MISSED QUOTA: Board urgency\", \"HIRING: 6-month open reqs\", \"COST: Cut fixed costs 20%\", \"CHANNEL: Partners not selling\", \"M&A: Fast integration\". Center badge: \"EVERY DEAL STARTS WITH A TRIGGER\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"COMMON BUYING TRIGGERS\". Show 6 trigger cards in a 3x2 grid. Each card has a orange (#E07A2F) icon. Cards: \"NEW MARKET: Expansion pressure\", \"MISSED QUOTA: Board urgency\", \"HIRING: 6-month open reqs\", \"COST: Cut fixed costs 20%\", \"CHANNEL: Partners not selling\", \"M&A: Fast integration\". Center badge: \"EVERY DEAL STARTS WITH A TRIGGER\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -204,7 +204,7 @@ export const CHAPTER_SEED_DATA = [
           "\"Have you ever considered a variable cost model for sales — paying for outcomes rather than headcount?\""
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DISCOVERY PROMPTS LIBRARY\". Show 6 speech bubble cards with magenta (#E84C8A) question mark icons. Subheading: \"Problem-First Questions That Open Enterprise Deals\". Bottom banner: \"RULE: Never pitch before you discover.\" 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DISCOVERY PROMPTS LIBRARY\". Show 6 speech bubble cards with orange (#E07A2F) question mark icons. Subheading: \"Problem-First Questions That Open Enterprise Deals\". Bottom banner: \"RULE: Never pitch before you discover.\" 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -235,7 +235,7 @@ export const CHAPTER_SEED_DATA = [
           "Key skill: Permission + Relevance in a cold outreach context"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: COLD CALL OPENER\". Show a phone icon in magenta (#E84C8A) with sound waves. Scenario card: \"VP Sales at $300M B2B SaaS. You have 30 seconds.\" Countdown timer: \"0:30\" in magenta. Two boxes: green \"PASS\" and red \"FAIL\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: COLD CALL OPENER\". Show a phone icon in orange (#E07A2F) with sound waves. Scenario card: \"VP Sales at $300M B2B SaaS. You have 30 seconds.\" Countdown timer: \"0:30\" in orange (#E07A2F). Two boxes: green \"PASS\" and red \"FAIL\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
         "roleplaySlug": "rp-f1-cold-call"
@@ -289,7 +289,7 @@ export const CHAPTER_SEED_DATA = [
           "Proven at scale: Currently operating 200+ active programs across 35+ languages and 8 countries"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"SALES AS A SERVICE®\". Show a modular building block diagram with magenta (#E84C8A) blocks: SDR, AE, AM, CSM, PAM. Blocks can be stacked or arranged. Below: timeline showing \"Contract → 6-8 weeks → First Meetings\". Stats: \"200+ Programs\", \"35+ Languages\", \"8 Countries\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"SALES AS A SERVICE®\". Show a modular building block diagram with orange (#E07A2F) blocks: SDR, AE, AM, CSM, PAM. Blocks can be stacked or arranged. Below: timeline showing \"Contract → 6-8 weeks → First Meetings\". Stats: \"200+ Programs\", \"35+ Languages\", \"8 Countries\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -306,7 +306,7 @@ export const CHAPTER_SEED_DATA = [
           "Impact: Programs using Nytro.ai see 23% higher conversion rates and 40% faster rep ramp times"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NYTRO.AI — PITCH INTELLIGENCE\". Show an AI brain icon in magenta (#E84C8A) at center with radiating connections to: \"Real-Time Coaching\", \"Pitch Scoring\", \"Pattern Recognition\", \"Manager Dashboards\". Bottom stats: \"23% Higher Conversion\", \"40% Faster Ramp\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NYTRO.AI — PITCH INTELLIGENCE\". Show an AI brain icon in orange (#E07A2F) at center with radiating connections to: \"Real-Time Coaching\", \"Pitch Scoring\", \"Pattern Recognition\", \"Manager Dashboards\". Bottom stats: \"23% Higher Conversion\", \"40% Faster Ramp\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -323,7 +323,7 @@ export const CHAPTER_SEED_DATA = [
           "Average contract value: $500K-$5M annually depending on team size and scope"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ENGAGEMENT MODELS\". Show three pillars side by side in magenta (#E84C8A): \"DEDICATED TEAMS\" (tallest), \"MANAGED SERVICES\" (medium), \"PROJECT-BASED\" (shortest). Below each: key attributes. Bottom: pricing range and ACV. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ENGAGEMENT MODELS\". Show three pillars side by side in orange (#E07A2F): \"DEDICATED TEAMS\" (tallest), \"MANAGED SERVICES\" (medium), \"PROJECT-BASED\" (shortest). Below each: key attributes. Bottom: pricing range and ACV. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -340,7 +340,7 @@ export const CHAPTER_SEED_DATA = [
           "Key metric: 90% of programs reach full productivity within 60 days of launch"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CLIENT ONBOARDING & RAMP\". Show a horizontal timeline with 4 phases in magenta (#E84C8A): \"Discovery (Wk 1-2)\", \"Training (Wk 3-4)\", \"Soft Launch (Wk 5-6)\", \"Full Production (Wk 7-8)\". Stat: \"90% reach full productivity in 60 days\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CLIENT ONBOARDING & RAMP\". Show a horizontal timeline with 4 phases in orange (#E07A2F): \"Discovery (Wk 1-2)\", \"Training (Wk 3-4)\", \"Soft Launch (Wk 5-6)\", \"Full Production (Wk 7-8)\". Stat: \"90% reach full productivity in 60 days\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -393,7 +393,7 @@ export const CHAPTER_SEED_DATA = [
           "Typical ROI: 5-8x return on investment within the first year of engagement"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PIPELINE GENERATION\". Show a funnel diagram with magenta (#E84C8A) flowing from \"Target Accounts\" → \"Multi-Channel Outreach\" → \"Qualified Meetings\" → \"Pipeline\". Stats: \"100+ Programs\", \"40-60 SQMs/rep/month\", \"5-8x ROI\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PIPELINE GENERATION\". Show a funnel diagram with orange (#E07A2F) flowing from \"Target Accounts\" → \"Multi-Channel Outreach\" → \"Qualified Meetings\" → \"Pipeline\". Stats: \"100+ Programs\", \"40-60 SQMs/rep/month\", \"5-8x ROI\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -427,7 +427,7 @@ export const CHAPTER_SEED_DATA = [
           "EVENTS: Post-event follow-up programs, webinar registration drives, and trade show lead qualification"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"MULTI-CHANNEL METHODOLOGY\". Show 6 channel icons in magenta (#E84C8A) arranged in a circle: Phone, Email, LinkedIn, Intent Data, ABM, Events. Center: \"COORDINATED ENGAGEMENT\". Arrows show how channels work together. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"MULTI-CHANNEL METHODOLOGY\". Show 6 channel icons in orange (#E07A2F) arranged in a circle: Phone, Email, LinkedIn, Intent Data, ABM, Events. Center: \"COORDINATED ENGAGEMENT\". Arrows show how channels work together. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -444,7 +444,7 @@ export const CHAPTER_SEED_DATA = [
           "Cost comparison: MarketStar SDR fully loaded cost is 40-60% less than internal hire (salary + benefits + management + turnover)"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"KEY METRICS & BENCHMARKS\". Show a dashboard-style layout with metric cards in magenta (#E84C8A): \"8-12% Connect Rate\", \"75-85% SQL Acceptance\", \"$150K-$500K Pipeline/Rep/Mo\", \"40-60% Cost Savings\". Bar charts comparing MarketStar vs industry average. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"KEY METRICS & BENCHMARKS\". Show a dashboard-style layout with metric cards in orange (#E07A2F): \"8-12% Connect Rate\", \"75-85% SQL Acceptance\", \"$150K-$500K Pipeline/Rep/Mo\", \"40-60% Cost Savings\". Bar charts comparing MarketStar vs industry average. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -497,7 +497,7 @@ export const CHAPTER_SEED_DATA = [
           "Scalable: Programs range from 2-3 AE pods to 50+ person sales organizations"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"FULL-CYCLE AE MODEL\". Show a horizontal sales process flow in magenta (#E84C8A): \"Discovery\" → \"Demo\" → \"Proposal\" → \"Negotiate\" → \"Close\". Below: stats showing \"22-28% Win Rate\" and \"$25K-$500K ACV\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"FULL-CYCLE AE MODEL\". Show a horizontal sales process flow in orange (#E07A2F): \"Discovery\" → \"Demo\" → \"Proposal\" → \"Negotiate\" → \"Close\". Below: stats showing \"22-28% Win Rate\" and \"$25K-$500K ACV\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -516,7 +516,7 @@ export const CHAPTER_SEED_DATA = [
           "Competition: Know who else is being evaluated and have a differentiation strategy in place"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"MEDDPICC QUALIFICATION\". Show 8 boxes arranged vertically, each with a letter in magenta (#E84C8A) and description in white: M-E-D-D-P-I-C-C. Each box has a small checkmark icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"MEDDPICC QUALIFICATION\". Show 8 boxes arranged vertically, each with a letter in orange (#E07A2F) and description in white: M-E-D-D-P-I-C-C. Each box has a small checkmark icon. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -533,7 +533,7 @@ export const CHAPTER_SEED_DATA = [
           "Follow-up: Same-day recap email with personalized value summary, recording link, and clear timeline to decision"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DEMO-TO-CLOSE CONVERSION\". Show a step-by-step flow in magenta (#E84C8A): \"Pre-Demo Prep\" → \"Discovery Recap\" → \"Live Demo\" → \"Interactive Proof\" → \"Next Steps\" → \"Follow-Up\". Each step has a small icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DEMO-TO-CLOSE CONVERSION\". Show a step-by-step flow in orange (#E07A2F): \"Pre-Demo Prep\" → \"Discovery Recap\" → \"Live Demo\" → \"Interactive Proof\" → \"Next Steps\" → \"Follow-Up\". Each step has a small icon. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -603,7 +603,7 @@ export const CHAPTER_SEED_DATA = [
           "Average NRR improvement: Clients see 8-15% improvement in NRR within first year of MarketStar AM program"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ACCOUNT MANAGEMENT\". Show a growth chart in magenta (#E84C8A) depicting NRR improvement. Icons for renewals, upsells, cross-sells. Stats: \"30-80 accounts/rep\", \"8-15% NRR improvement\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ACCOUNT MANAGEMENT\". Show a growth chart in orange (#E07A2F) depicting NRR improvement. Icons for renewals, upsells, cross-sells. Stats: \"30-80 accounts/rep\", \"8-15% NRR improvement\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -620,7 +620,7 @@ export const CHAPTER_SEED_DATA = [
           "ADVOCACY: Convert satisfied customers into references, case studies, and G2/TrustRadius reviewers"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"RETENTION & EXPANSION MOTIONS\". Show 6 motion cards in magenta (#E84C8A): Renewal, Upsell, Cross-Sell, Expansion, Win-Back, Advocacy. Arrows show progression. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"RETENTION & EXPANSION MOTIONS\". Show 6 motion cards in orange (#E07A2F): Renewal, Upsell, Cross-Sell, Expansion, Win-Back, Advocacy. Arrows show progression. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -654,7 +654,7 @@ export const CHAPTER_SEED_DATA = [
           "Cost efficiency: MarketStar AM fully loaded cost is 35-50% less than internal AM hire"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ACCOUNT MANAGEMENT BENCHMARKS\". Dashboard layout with metric cards in magenta (#E84C8A): \"92-96% Retention\", \"110-125% NRR\", \"94-98% Renewal Rate\", \"35-50% Cost Savings\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ACCOUNT MANAGEMENT BENCHMARKS\". Dashboard layout with metric cards in orange (#E07A2F): \"92-96% Retention\", \"110-125% NRR\", \"94-98% Renewal Rate\", \"35-50% Cost Savings\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -707,7 +707,7 @@ export const CHAPTER_SEED_DATA = [
           "Impact: Clients see 40-80% increase in partner-sourced pipeline within first year of MarketStar engagement"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PARTNER CHANNEL SERVICES\". Show a hub-and-spoke diagram with MarketStar at center and partner types around it in magenta (#E84C8A): Resellers, MSPs, SIs, Alliances, ISVs, Distributors. Stats: \"5,000+ Partners\", \"40-80% Pipeline Increase\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PARTNER CHANNEL SERVICES\". Show a hub-and-spoke diagram with MarketStar at center and partner types around it in orange (#E07A2F): Resellers, MSPs, SIs, Alliances, ISVs, Distributors. Stats: \"5,000+ Partners\", \"40-80% Pipeline Increase\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -724,7 +724,7 @@ export const CHAPTER_SEED_DATA = [
           "Performance management: Monthly scorecards, QBRs, tier advancement tracking, and MDF allocation support"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PAM OPERATING MODEL\". Show a day-in-the-life timeline for a PAM with activities in magenta (#E84C8A): Recruitment, Onboarding, Enablement, Co-Selling, Performance Mgmt. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PAM OPERATING MODEL\". Show a day-in-the-life timeline for a PAM with activities in orange (#E07A2F): Recruitment, Onboarding, Enablement, Co-Selling, Performance Mgmt. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -741,7 +741,7 @@ export const CHAPTER_SEED_DATA = [
           "OPTIMIZE: Performance reviews, tier management, partner satisfaction surveys, and strategic planning for top partners"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PARTNER LIFECYCLE\". Show a circular lifecycle diagram in magenta (#E84C8A) with 6 stages: Identify → Recruit → Onboard → Enable → Co-Sell → Optimize. Each stage has a small icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PARTNER LIFECYCLE\". Show a circular lifecycle diagram in orange (#E07A2F) with 6 stages: Identify → Recruit → Onboard → Enable → Co-Sell → Optimize. Each stage has a small icon. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -758,7 +758,7 @@ export const CHAPTER_SEED_DATA = [
           "Program ROI: Typical channel program delivers 6-10x return on investment within 18 months"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CHANNEL BENCHMARKS\". Dashboard with metric cards in magenta (#E84C8A): \"60-75% Activation\", \"45-60 Days to First Deal\", \"3-5x Deal Registration Increase\", \"6-10x ROI\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CHANNEL BENCHMARKS\". Dashboard with metric cards in orange (#E07A2F): \"60-75% Activation\", \"45-60 Days to First Deal\", \"3-5x Deal Registration Increase\", \"6-10x ROI\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -811,7 +811,7 @@ export const CHAPTER_SEED_DATA = [
           "Impact: Clients see 15-25% reduction in churn and 20-30% improvement in time-to-value"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CUSTOMER SUCCESS\". Show a customer lifecycle arc in magenta (#E84C8A) from \"Onboarding\" through \"Adoption\" to \"Expansion\". Three touch model boxes: Digital, Mid-Touch, High-Touch. Stats: \"15-25% Churn Reduction\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CUSTOMER SUCCESS\". Show a customer lifecycle arc in orange (#E07A2F) from \"Onboarding\" through \"Adoption\" to \"Expansion\". Three touch model boxes: Digital, Mid-Touch, High-Touch. Stats: \"15-25% Churn Reduction\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -828,7 +828,7 @@ export const CHAPTER_SEED_DATA = [
           "Team structure: CSM pods with Team Leads (1:8), CS Operations support, and escalation paths to client leadership"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CSM OPERATING MODEL\". Show a structured workflow in magenta (#E84C8A): Onboarding → Health Monitoring → Proactive Outreach → Playbook Execution → Escalation. Pod structure diagram. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CSM OPERATING MODEL\". Show a structured workflow in orange (#E07A2F): Onboarding → Health Monitoring → Proactive Outreach → Playbook Execution → Escalation. Pod structure diagram. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -845,7 +845,7 @@ export const CHAPTER_SEED_DATA = [
           "Outcome: Customers with structured onboarding have 2.5x higher retention rates vs. self-serve onboarding"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ONBOARDING & ADOPTION\". Show a 90-day timeline in magenta (#E84C8A) with 4 phases: \"Welcome (1-7)\", \"Activation (8-30)\", \"Value (31-60)\", \"Expansion (61-90)\". Stat: \"2.5x Higher Retention with Structured Onboarding\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ONBOARDING & ADOPTION\". Show a 90-day timeline in orange (#E07A2F) with 4 phases: \"Welcome (1-7)\", \"Activation (8-30)\", \"Value (31-60)\", \"Expansion (61-90)\". Stat: \"2.5x Higher Retention with Structured Onboarding\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -862,7 +862,7 @@ export const CHAPTER_SEED_DATA = [
           "Cost efficiency: MarketStar CSM fully loaded cost is 30-45% less than internal CSM hire"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CS BENCHMARKS\". Dashboard layout with metric cards in magenta (#E84C8A): \"15-25% Churn Reduction\", \"40% Faster Onboarding\", \"30-50% Adoption Increase\", \"+15 NPS Points\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CS BENCHMARKS\". Dashboard layout with metric cards in orange (#E07A2F): \"15-25% Churn Reduction\", \"40% Faster Onboarding\", \"30-50% Adoption Increase\", \"+15 NPS Points\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -915,7 +915,7 @@ export const CHAPTER_SEED_DATA = [
           "Impact: Programs with dedicated RevOps support see 25-35% higher sales productivity vs. programs without"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"REVENUE OPERATIONS\". Show a central gear icon in magenta (#E84C8A) with spokes connecting to: \"CRM\", \"Playbooks\", \"Analytics\", \"Process\", \"Content\", \"Tools\". Stat: \"25-35% Higher Productivity\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"REVENUE OPERATIONS\". Show a central gear icon in orange (#E07A2F) with spokes connecting to: \"CRM\", \"Playbooks\", \"Analytics\", \"Process\", \"Content\", \"Tools\". Stat: \"25-35% Higher Productivity\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -932,7 +932,7 @@ export const CHAPTER_SEED_DATA = [
           "Governance: User access management, data security, compliance monitoring, and audit trail maintenance"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CRM & TECH STACK\". Show a connected ecosystem diagram in magenta (#E84C8A) with tool logos: Salesforce, HubSpot, Outreach, ZoomInfo. Arrows show data flow between tools. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CRM & TECH STACK\". Show a connected ecosystem diagram in orange (#E07A2F) with tool logos: Salesforce, HubSpot, Outreach, ZoomInfo. Arrows show data flow between tools. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -949,7 +949,7 @@ export const CHAPTER_SEED_DATA = [
           "Continuous improvement: Monthly playbook reviews based on Nytro.ai call analysis and conversion data"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PLAYBOOK DEVELOPMENT\". Show a playbook icon in magenta (#E84C8A) with branches to: Discovery, Objections, Email Templates, Call Scripts, Battle Cards. Circular arrow showing continuous improvement. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PLAYBOOK DEVELOPMENT\". Show a playbook icon in orange (#E07A2F) with branches to: Discovery, Objections, Email Templates, Call Scripts, Battle Cards. Circular arrow showing continuous improvement. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -966,7 +966,7 @@ export const CHAPTER_SEED_DATA = [
           "Nytro.ai integration: Call quality scores, messaging effectiveness, and coaching impact metrics"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ANALYTICS & REPORTING\". Show a reporting hierarchy in magenta (#E84C8A): Daily → Weekly → Monthly → Quarterly. Dashboard mockup with charts and metrics. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ANALYTICS & REPORTING\". Show a reporting hierarchy in orange (#E07A2F): Daily → Weekly → Monthly → Quarterly. Dashboard mockup with charts and metrics. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1019,7 +1019,7 @@ export const CHAPTER_SEED_DATA = [
           "Win rate vs. competition: MarketStar wins 65% of competitive deals where we reach the final evaluation stage"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"COMPETITIVE LANDSCAPE\". Show a quadrant chart in magenta (#E84C8A) with axes: Specialization (vertical) and Scale (horizontal). Plot competitors. MarketStar in upper-right sweet spot. Market size: \"$15B+\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"COMPETITIVE LANDSCAPE\". Show a quadrant chart in orange (#E07A2F) with axes: Specialization (vertical) and Scale (horizontal). Plot competitors. MarketStar in upper-right sweet spot. Market size: \"$15B+\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1036,7 +1036,7 @@ export const CHAPTER_SEED_DATA = [
           "INTERNAL TEAMS: Full product knowledge and culture fit, but slow to build (9-12 months), high fixed cost, turnover risk"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"COMPETITOR PROFILES\". Show 6 competitor cards in a grid. Each card has competitor name in white, strength in green, weakness in magenta (#E84C8A). 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"COMPETITOR PROFILES\". Show 6 competitor cards in a grid. Each card has competitor name in white, strength in green, weakness in orange (#E07A2F). 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1053,7 +1053,7 @@ export const CHAPTER_SEED_DATA = [
           "OUTCOME ALIGNMENT: Performance-based pricing options that align MarketStar's incentives with client revenue goals"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"WHY MARKETSTAR?\". Show 5 pillar columns in magenta (#E84C8A): \"B2B Tech Specialist\", \"Full Lifecycle\", \"Nytro.AI\", \"Global + Local\", \"PEAK Matrix® Leader\". Each pillar has a distinctive icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"WHY MARKETSTAR?\". Show 5 pillar columns in orange (#E07A2F): \"B2B Tech Specialist\", \"Full Lifecycle\", \"Nytro.AI\", \"Global + Local\", \"PEAK Matrix® Leader\". Each pillar has a distinctive icon. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1070,7 +1070,7 @@ export const CHAPTER_SEED_DATA = [
           "Universal play: Always ask 'What's your timeline?' — MarketStar's speed advantage becomes decisive when urgency exists"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"BATTLE STRATEGIES\". Show 5 strategy cards in magenta (#E84C8A) with opponent labels and key attack points. Each card has a sword/shield icon. Universal play highlighted at bottom. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"BATTLE STRATEGIES\". Show 5 strategy cards in orange (#E07A2F) with opponent labels and key attack points. Each card has a sword/shield icon. Universal play highlighted at bottom. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1124,7 +1124,7 @@ export const CHAPTER_SEED_DATA = [
           "Stage 6 — CLOSE: Contract execution, transition planning, kickoff scheduling, and celebratory handshake"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DEAL EXECUTION FRAMEWORK\". Show 6 stages in a horizontal flow in magenta (#E84C8A): Qualify → Discover → Demo → Propose → Negotiate → Close. Each stage has a small icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DEAL EXECUTION FRAMEWORK\". Show 6 stages in a horizontal flow in orange (#E07A2F): Qualify → Discover → Demo → Propose → Negotiate → Close. Each stage has a small icon. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1141,7 +1141,7 @@ export const CHAPTER_SEED_DATA = [
           "Tools: Use the MarketStar ROI Calculator (available in sales toolkit) to build prospect-specific business cases"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROI MODELING\". Show a comparison table in magenta (#E84C8A): Internal Team costs vs MarketStar costs. Below: ROI formula visualization. Stat: \"$5-$8 return per $1 invested\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROI MODELING\". Show a comparison table in orange (#E07A2F): Internal Team costs vs MarketStar costs. Below: ROI formula visualization. Stat: \"$5-$8 return per $1 invested\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1158,7 +1158,7 @@ export const CHAPTER_SEED_DATA = [
           "Social proof: Include 2-3 relevant case studies or references from similar companies/industries"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PROPOSAL STRUCTURE\". Show a document outline in magenta (#E84C8A) with 8 sections stacked vertically. Each section has a small icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PROPOSAL STRUCTURE\". Show a document outline in orange (#E07A2F) with 8 sections stacked vertically. Each section has a small icon. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1175,7 +1175,7 @@ export const CHAPTER_SEED_DATA = [
           "WALK-AWAY POWER: Know your minimum viable deal — willing to walk away from unprofitable terms strengthens your position"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NEGOTIATION STRATEGIES\". Show 6 strategy boxes in magenta (#E84C8A) arranged in a grid. Each box has a chess piece icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NEGOTIATION STRATEGIES\". Show 6 strategy boxes in orange (#E07A2F) arranged in a grid. Each box has a chess piece icon. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1192,7 +1192,7 @@ export const CHAPTER_SEED_DATA = [
           "Post-close: Warm handoff to implementation team within 48 hours, kickoff call within 5 business days, celebrate the win"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CONTRACT & CLOSE\". Show a checklist in magenta (#E84C8A): MSA, SOW, Procurement, Legal, Signatures, Handoff. Progress bar showing 95% complete. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CONTRACT & CLOSE\". Show a checklist in orange (#E07A2F): MSA, SOW, Procurement, Legal, Signatures, Handoff. Progress bar showing 95% complete. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1245,7 +1245,7 @@ export const CHAPTER_SEED_DATA = [
           "Client benefit: AI-powered programs deliver better results AND improve continuously over time through machine learning"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"AI IN B2B SALES\". Show AI adoption statistics in magenta (#E84C8A): \"61% of top teams use AI\", \"23% higher conversion\", \"40% faster ramp\". Brain-circuit icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"AI IN B2B SALES\". Show AI adoption statistics in orange (#E07A2F): \"61% of top teams use AI\", \"23% higher conversion\", \"40% faster ramp\". Brain-circuit icon. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1262,7 +1262,7 @@ export const CHAPTER_SEED_DATA = [
           "MANAGER ENABLEMENT: Real-time dashboards showing team performance, coaching opportunities, and program health metrics"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NYTRO.AI DEEP-DIVE\". Show a platform architecture diagram in magenta (#E84C8A) with Nytro.ai at center connected to 6 capability modules. Each module has an icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NYTRO.AI DEEP-DIVE\". Show a platform architecture diagram in orange (#E07A2F) with Nytro.ai at center connected to 6 capability modules. Each module has an icon. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1279,7 +1279,7 @@ export const CHAPTER_SEED_DATA = [
           "Results: Teams using Nytro.ai coaching see 30% improvement in call quality scores within 90 days of implementation"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"AI-POWERED COACHING\". Show before/after comparison in magenta (#E84C8A): \"Before: 2-3 calls reviewed\" vs \"After: Every call analyzed\". Quality score improvement chart. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"AI-POWERED COACHING\". Show before/after comparison in orange (#E07A2F): \"Before: 2-3 calls reviewed\" vs \"After: Every call analyzed\". Quality score improvement chart. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1296,7 +1296,7 @@ export const CHAPTER_SEED_DATA = [
           "ESCALATE: When AI flags unusual patterns, compliance concerns, or edge cases — always involve human leadership"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"RESPONSIBLE AI & GOVERNANCE\". Show two columns: green checkmarks for \"DO\" items and red X marks for \"DON'T\" items. Escalation section in magenta (#E84C8A) at bottom. Shield icon for governance. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"RESPONSIBLE AI & GOVERNANCE\". Show two columns: green checkmarks for \"DO\" items and red X marks for \"DON'T\" items. Escalation section in orange (#E07A2F) at bottom. Shield icon for governance. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
