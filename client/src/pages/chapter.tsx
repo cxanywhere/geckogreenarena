@@ -117,6 +117,7 @@ export default function ChapterPage() {
   const [showObjectives, setShowObjectives] = useState(false);
   const [pendingNextPage, setPendingNextPage] = useState<number | null>(null);
   const [quizSourcePage, setQuizSourcePage] = useState<number | null>(null);
+  const [pendingComplete, setPendingComplete] = useState(false);
   const [showPresentMode, setShowPresentMode] = useState(false);
   const [showVoiceQA, setShowVoiceQA] = useState(false);
   const [isGeneratingNarration, setIsGeneratingNarration] = useState(false);
@@ -293,6 +294,12 @@ export default function ChapterPage() {
       setCurrentRoleplays([]);
       setCurrentRoleplayIndex(0);
       
+      if (pendingComplete) {
+        setPendingComplete(false);
+        setShowEndOfChapter(true);
+        return;
+      }
+      
       // Advance to the pending page if there is one
       if (pendingNextPage !== null) {
         setCurrentPage(pendingNextPage);
@@ -378,6 +385,15 @@ export default function ChapterPage() {
 
   const handleComplete = () => {
     if (!chapter) return;
+    
+    const roleplay = getRoleplayForSlide(currentPage);
+    if (roleplay && shouldShowRoleplay(roleplay.orderIndex)) {
+      setPendingComplete(true);
+      setCurrentRoleplays([roleplay]);
+      setCurrentRoleplayIndex(0);
+      setShowRoleplay(true);
+      return;
+    }
     
     if (chapterHasRoleplays && skippedRoleplays.length > 0) {
       setShowEndOfChapter(true);
