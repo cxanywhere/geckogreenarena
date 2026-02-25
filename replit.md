@@ -32,8 +32,8 @@ Preferred communication style: Simple, everyday language.
 ### Key Features
 - **Authentication**: JWT-based with role-based access control (Reps, Managers, Directors).
 - **Onboarding**: First-time user flow for name, photo, and AI-generated professional avatar.
-- **Training Chapters**: 12 structured modules covering MarketStar's full solution portfolio (MarketStar 101, Buyer Reality & ICP, Sales as a Service®, Pipeline Generation, New Business Acquisition, Account Management, Partner Channel Services, Customer Success, Revenue Operations, Competitive Differentiation, Deal Execution, AI Enablement).
-- **AI Roleplays**: 24 interactive AI conversation scenarios covering MarketStar sales situations (discovery, demo, pricing, closing, partner channels, customer success, Nytro.ai), supporting both text and voice.
+- **Training Chapters**: 13 structured modules covering MarketStar's full solution portfolio (MarketStar 101, Buyer Reality & ICP, Sales as a Service®, Demand Generation, Pipeline Generation, New Business Acquisition, Account Management, Partner Channel Services, Customer Success, Revenue Operations, Competitive Differentiation, Deal Execution, AI Enablement).
+- **AI Roleplays**: 26 interactive AI conversation scenarios covering MarketStar sales situations (discovery, demo, pricing, closing, demand gen, partner channels, customer success, Nytro.ai), supporting both text and voice.
 - **Buyer Personas**: 13 enterprise buyer personas (VP Sales, CRO, CEO, VP Partnerships, VP Customer Success, CFO, etc.) with detailed attributes and selling strategies.
 - **Battlecards**: 20 quick reference scripts for B2B sales outsourcing objection handling across Discovery, Demo, Objection Handling, Pricing, Closing, and Follow-up phases.
 - **Knowledge Base**: 55+ entries covering MarketStar solutions, MEDDPICC sales methodology, enterprise objection handling, pricing, competitive intelligence, and Nytro.ai.
@@ -89,19 +89,19 @@ Preferred communication style: Simple, everyday language.
 - **Gemini AI**: Used for generating professional avatars, chapter images, and evaluating roleplay performance.
 
 ### AI-Generated Media
-- **Slide Images**: 64/64 slides have AI-generated presentation images via Gemini (`gemini-3-pro-image-preview`). MarketStar brand colors: navy #1A2B8C background, orange #E07A2F accents, white text. Images stored in `public/uploads/slides/`.
-- **Narration Audio**: 64/64 slides have AI-generated voiceover narration. Scripts generated via GPT-4o-mini, audio via Gemini TTS (`gemini-2.5-flash-preview-tts`, Orus voice). Audio files stored as WAV in `public/uploads/narration/`.
+- **Slide Images**: 70/70 slides have AI-generated presentation images via Gemini (`gemini-3-pro-image-preview`). MarketStar brand colors: navy #1A2B8C background, orange #E07A2F accents, white text. Images stored in `public/uploads/slides/`.
+- **Narration Audio**: 70/70 slides have AI-generated voiceover narration. Scripts generated via GPT-4o-mini, audio via Gemini TTS (`gemini-2.5-flash-preview-tts`, Orus voice). Audio files stored as WAV in `public/uploads/narration/`.
 - **Generation Endpoints**: Individual slide image: `POST /api/chapters/:id/generate-slide/:slideIndex`. Individual slide narration: `POST /api/chapters/:id/generate-narration/:slideIndex`. Batch narration: `POST /api/chapters/:id/generate-narration`. Clear all media: `POST /api/chapters/clear-all-media`.
 - **Seed Data Preservation**: `server/seed.ts` preserves existing imageUrl/narrationScript/narrationAudioUrl from DB on restart (safe to restart server without losing generated media).
 
 ## Recent Changes
 - Fully rebranded from Monetate to MarketStar (www.marketstar.com) across all content
 - Replaced all Monetate product references (Symphony, Maestro, Overture, MONET, Concierge) with MarketStar solutions (Sales Solutions, Partner Channel, Customer Success, Revenue Operations, Nytro.ai, Sales as a Service®)
-- Restructured training from 3 chapters to 12 chapters covering MarketStar's complete solution portfolio
-- Expanded roleplays from 16 to 24 scenarios covering all MarketStar solution areas
+- Restructured training from 3 chapters to 13 chapters covering MarketStar's complete solution portfolio (added Demand Generation chapter)
+- Expanded roleplays from 16 to 26 scenarios covering all MarketStar solution areas
 - Updated all buyer personas, battlecards, knowledge base entries, AI prompts, email/SMS templates, and quiz content
 - Updated competitive landscape from DTC/e-commerce to B2B sales outsourcing market
-- Generated all 64 slide images and 64 narration voiceovers for all 12 MarketStar training chapters
+- Generated all 70 slide images and 70 narration voiceovers for all 13 MarketStar training chapters
 - **Feb 2026 Content Refresh**: Updated all content with verified facts from marketstar.com:
   - Fixed stats: 3,950 employees (was 1,600), 90+ countries (was 8), nearly 40 years (was 35+)
   - Fixed Nytro.ai: pitch intelligence for onboarding/readiness (was incorrectly described as real-time call coaching)
@@ -111,4 +111,5 @@ Preferred communication style: Simple, everyday language.
   - Updated competitive intelligence: Accenture (N3 acquisition), CIENCE/Martal/Belkins/EBQ as Tier 2
   - Updated market sizing: $105B (2024) → $216B (2033) at 9.78% CAGR
   - Regenerated 51/64 images and 64/64 narrations (13 images pending Gemini API daily quota reset)
-- **Roleplay Slug Fix**: Fixed 7 mismatched roleplay slugs in slide data (both seed-data.ts and seed-data-new.ts). Slides referenced wrong slugs (e.g., `rp-p7-cs-pitch` instead of `rp-p6-customer-success`), causing `getRoleplayForSlide()` to return null and last-slide roleplays to never trigger. All 13 slide roleplay slugs now match their DB counterparts.
+- **Roleplay Slug Fix**: Fixed 7 mismatched roleplay slugs in slide data (both seed-data.ts and seed-data-new.ts). Slides referenced wrong slugs (e.g., `rp-p7-cs-pitch` instead of `rp-p6-customer-success`), causing `getRoleplayForSlide()` to return null and last-slide roleplays to never trigger. All 15 slide roleplay slugs now match their DB counterparts.
+- **Demand Generation Chapter**: Added as Chapter 4 (orderIndex 3) with 5 content slides + 1 roleplay slide, covering Digital Marketing, ABM, SEO/SEM, Content Strategy, and Lead Scoring. Added 2 new roleplays (`rp-p12-demand-gen`, `rp-v6-abm-scale`). Generated all media (cover, 6 slide images, 6 narrations). Updated slide image generation to try user's Gemini key first, then Replit integration as fallback.

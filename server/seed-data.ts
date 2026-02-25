@@ -19,10 +19,10 @@ export const CHAPTER_SEED_DATA = [
       {
         "type": "content",
         "title": "Training Outcomes & Certification Path",
-        "content": "Welcome to the Arena — MarketStar's sales enablement platform. This certification program will transform you from product-aware to deal-ready in 12 chapters covering our full solution portfolio.",
+        "content": "Welcome to the Arena — MarketStar's sales enablement platform. This certification program will transform you from product-aware to deal-ready in 13 chapters covering our full solution portfolio.",
         "bullets": [
-          "Complete 12 chapters covering MarketStar solutions, competitive positioning, and deal execution",
-          "Pass 24 AI-powered voice roleplays across sales fundamentals, solutions, and verticals",
+          "Complete 13 chapters covering MarketStar solutions, competitive positioning, and deal execution",
+          "Pass 26 AI-powered voice roleplays across sales fundamentals, solutions, and verticals",
           "Earn your MarketStar Certified Seller credential upon completion",
           "Top performers unlock the Arena Leaderboard and manager recognition",
           "Expected completion: 2-3 weeks of focused learning",
@@ -364,6 +364,127 @@ export const CHAPTER_SEED_DATA = [
     "orderIndex": 2
   },
   {
+    "slug": "demand-generation",
+    "title": "Demand Generation",
+    "subtitle": "Digital Marketing, ABM & Top-of-Funnel Engine",
+    "description": "Master MarketStar's Demand Generation practice — the digital marketing, ABM, and top-of-funnel engine that feeds the pipeline. Learn how demand gen integrates with SDR/BDR teams to create a seamless awareness-to-revenue machine. Gold Stevie Award winner 2025.",
+    "duration": "25 min",
+    "pdfUrl": "",
+    "coverImage": "",
+    "agenda": [
+      "Demand Generation overview & strategy",
+      "Digital Marketing & Paid Media",
+      "Account-Based Marketing (ABM)",
+      "SEO/SEM & Content Strategy",
+      "Lead Scoring & MQL-to-SQL Conversion",
+      "Roleplay: Demand Gen Outsourcing Objection"
+    ],
+    "slides": [
+      {
+        "type": "content",
+        "title": "Demand Generation Overview",
+        "content": "MarketStar's Demand Generation practice combines digital marketing expertise with sales execution to fill the top of the funnel. Gold Stevie Award winner 2025 — independently validated as the best demand gen program in the industry.",
+        "bullets": [
+          "Core mission: Generate qualified inbound interest and brand awareness that converts to pipeline — fueling MarketStar's SDR/BDR outbound engine",
+          "Five capabilities: Digital Marketing, Content & Creative, Account-Based Marketing (ABM), SEO/SEM, and Lead Generation",
+          "Key differentiator: Most outsourced sales firms don't offer demand generation — MarketStar provides the full funnel from awareness to closed deal under one roof",
+          "Integration: Demand gen works alongside SDR/BDR teams to create a seamless top-of-funnel engine with closed-loop reporting connecting marketing spend to revenue",
+          "Gold Stevie Award 2025 for Demand Generation Program of the Year — proof of best-in-class execution",
+          "Typical results: 40-60% increase in marketing-qualified leads within 90 days of program launch"
+        ],
+        "imageUrl": "",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DEMAND GENERATION\". Show a top-of-funnel diagram with magenta (#E84C8A) flowing from \"Awareness\" → \"Interest\" → \"MQL\" → \"SQL\" → \"Pipeline\". Five capability icons around the funnel: Digital Marketing, Content, ABM, SEO/SEM, Lead Gen. Gold Stevie Award badge. Stats: \"40-60% MQL Increase\", \"Full Funnel Under One Roof\". 16:9 aspect ratio.",
+        "narrationScript": "",
+        "narrationAudioUrl": ""
+      },
+      {
+        "type": "content",
+        "title": "Digital Marketing & Paid Media",
+        "content": "MarketStar's digital marketing team builds and executes data-driven campaigns across paid and organic channels to generate qualified demand for B2B technology companies.",
+        "bullets": [
+          "Paid media: Google Ads, LinkedIn Ads, programmatic display, social media campaigns — managed end-to-end with transparent ROAS reporting",
+          "Social media: Strategy, content creation, community management, and paid social campaigns across LinkedIn, Twitter/X, and industry channels",
+          "Display & programmatic: Targeted display advertising using intent data and account-based targeting to reach in-market buyers",
+          "Landing page optimization: Conversion-optimized landing pages with A/B testing, form optimization, and progressive profiling",
+          "Campaign analytics: Full attribution modeling connecting impressions → clicks → leads → meetings → pipeline → revenue",
+          "Typical results: 3-5x ROAS on paid media campaigns, 25-40% reduction in cost per lead vs. in-house management"
+        ],
+        "imageUrl": "",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DIGITAL MARKETING & PAID MEDIA\". Show 4 channel icons in magenta (#E84C8A): Google Ads, LinkedIn Ads, Programmatic Display, Social Media. Center: dashboard showing ROAS metrics. Bottom stats: \"3-5x ROAS\", \"25-40% Lower CPL\". 16:9 aspect ratio.",
+        "narrationScript": "",
+        "narrationAudioUrl": ""
+      },
+      {
+        "type": "content",
+        "title": "Account-Based Marketing (ABM)",
+        "content": "MarketStar's ABM practice delivers targeted, personalized campaigns to high-value accounts — coordinating marketing air cover with SDR/BDR ground attacks for maximum pipeline impact.",
+        "bullets": [
+          "Account selection: Data-driven target account lists using firmographic, technographic, and intent signals (Bombora, G2, 6sense)",
+          "Personalized campaigns: Custom content, ads, and outreach tailored to each account's specific pain points, tech stack, and buying stage",
+          "Multi-channel orchestration: Coordinated campaigns across email, LinkedIn, display ads, direct mail, and phone — hitting 3-5 personas per account simultaneously",
+          "Sales-marketing alignment: ABM campaigns synced with SDR/BDR outreach cadences — marketing warms the account, sales converts the conversation",
+          "Measurement: Account engagement scoring, pipeline attribution by account, and ROI tracking at the account level — not just lead level",
+          "Typical results: 2-3x higher win rates on ABM-targeted accounts vs. non-ABM accounts"
+        ],
+        "imageUrl": "",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ACCOUNT-BASED MARKETING (ABM)\". Show a target/bullseye diagram with magenta (#E84C8A) rings. Center: \"Target Account\". Surrounding: multi-channel icons (email, LinkedIn, display, direct mail, phone). Right: engagement scoring dashboard. Bottom stat: \"2-3x Higher Win Rates\". 16:9 aspect ratio.",
+        "narrationScript": "",
+        "narrationAudioUrl": ""
+      },
+      {
+        "type": "content",
+        "title": "SEO/SEM & Content Strategy",
+        "content": "MarketStar's SEO/SEM and content practice builds sustainable organic pipelines and optimizes paid search to capture high-intent buyers actively researching solutions.",
+        "bullets": [
+          "SEO strategy: Technical SEO audits, keyword research, on-page optimization, and content gap analysis to drive organic traffic growth",
+          "SEM/PPC: Google Ads and Bing Ads management with keyword bidding strategy, ad copy optimization, and conversion tracking",
+          "Content strategy: Blog posts, whitepapers, case studies, webinars, and video content designed to attract and nurture B2B buyers through the funnel",
+          "Content creation: In-house copywriting, design, and video production team — no third-party agency markup",
+          "Lead magnets: Gated content assets (eBooks, ROI calculators, industry reports) optimized for lead capture and nurture",
+          "Typical results: 50-80% increase in organic traffic within 6 months, 30-50% reduction in cost per MQL from paid search optimization"
+        ],
+        "imageUrl": "",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"SEO/SEM & CONTENT STRATEGY\". Show two panels in magenta (#E84C8A): Left: \"SEO/SEM\" with search bar icon, keyword cloud, and rising traffic graph. Right: \"Content\" with document, video, and webinar icons. Bottom stats: \"50-80% Organic Traffic Growth\", \"30-50% Lower CPM\". 16:9 aspect ratio.",
+        "narrationScript": "",
+        "narrationAudioUrl": ""
+      },
+      {
+        "type": "content",
+        "title": "Lead Scoring & MQL-to-SQL Conversion",
+        "content": "MarketStar's lead scoring and conversion optimization practice ensures that only the highest-quality leads reach the SDR/BDR team — maximizing conversion rates and minimizing wasted effort.",
+        "bullets": [
+          "Lead scoring model: Multi-dimensional scoring based on firmographic fit (company size, industry, tech stack), behavioral engagement (content downloads, webinar attendance, page visits), and intent signals",
+          "MQL definition: Clear, agreed-upon criteria for Marketing Qualified Leads — scored, validated, and ready for SDR follow-up",
+          "SQL conversion: Structured handoff from marketing to SDR with SLA-backed response times (typically <4 hours for hot leads)",
+          "Nurture campaigns: Automated email nurture sequences for leads not yet ready for sales — keeping MarketStar top-of-mind until buying signals emerge",
+          "Closed-loop reporting: Connect marketing spend → MQL → SQL → opportunity → closed deal — full attribution visibility for ROI justification",
+          "Typical results: 60-75% MQL-to-SQL acceptance rate, 15-25% improvement in lead-to-opportunity conversion"
+        ],
+        "imageUrl": "",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"LEAD SCORING & MQL-TO-SQL\". Show a conversion funnel in magenta (#E84C8A): \"Leads\" → \"Scored\" → \"MQL\" → \"SQL\" → \"Opportunity\". Side panel: scoring criteria icons (firmographic, behavioral, intent). Bottom stats: \"60-75% MQL-to-SQL Rate\", \"<4hr Response SLA\". 16:9 aspect ratio.",
+        "narrationScript": "",
+        "narrationAudioUrl": ""
+      },
+      {
+        "type": "roleplay",
+        "title": "Roleplay: Demand Gen Outsourcing",
+        "content": "A CMO says: 'We have an internal marketing team — why would we outsource demand generation?' Position MarketStar's demand gen as augmentation that amplifies their internal team's impact, not replacement.",
+        "bullets": [
+          "Goal: Reframe outsourcing from 'replacing our marketers' to 'amplifying your internal team's impact with specialized execution capacity'",
+          "Pass criteria: CMO agrees to explore a focused pilot (e.g., ABM campaign for a new vertical or paid media management)",
+          "Key angle: Internal team sets strategy, MarketStar executes at scale — Gold Stevie Award-winning execution, full-funnel integration with SDR/BDR teams"
+        ],
+        "imageUrl": "",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: DEMAND GEN OUTSOURCING\". Show two contrasting visuals: \"Myth: Replace your marketers\" (X mark) vs \"Reality: Amplify your team\" (checkmark). Scenario: \"CMO: 'We have an internal marketing team — why outsource?'\". Gold Stevie Award badge. 16:9 aspect ratio.",
+        "narrationScript": "",
+        "narrationAudioUrl": "",
+        "roleplaySlug": "rp-p12-demand-gen"
+      }
+    ],
+    "slideCount": 6,
+    "orderIndex": 3
+  },
+  {
     "slug": "pipeline-generation",
     "title": "Pipeline Generation",
     "subtitle": "SDR/BDR Outbound",
@@ -465,7 +586,7 @@ export const CHAPTER_SEED_DATA = [
       }
     ],
     "slideCount": 5,
-    "orderIndex": 3
+    "orderIndex": 4
   },
   {
     "slug": "new-business-acquisition",
@@ -571,7 +692,7 @@ export const CHAPTER_SEED_DATA = [
       }
     ],
     "slideCount": 5,
-    "orderIndex": 4
+    "orderIndex": 5
   },
   {
     "slug": "account-management",
@@ -675,7 +796,7 @@ export const CHAPTER_SEED_DATA = [
       }
     ],
     "slideCount": 5,
-    "orderIndex": 5
+    "orderIndex": 6
   },
   {
     "slug": "partner-channel-services",
@@ -779,7 +900,7 @@ export const CHAPTER_SEED_DATA = [
       }
     ],
     "slideCount": 5,
-    "orderIndex": 6
+    "orderIndex": 7
   },
   {
     "slug": "customer-success",
@@ -883,7 +1004,7 @@ export const CHAPTER_SEED_DATA = [
       }
     ],
     "slideCount": 5,
-    "orderIndex": 7
+    "orderIndex": 8
   },
   {
     "slug": "revenue-operations",
@@ -987,7 +1108,7 @@ export const CHAPTER_SEED_DATA = [
       }
     ],
     "slideCount": 5,
-    "orderIndex": 8
+    "orderIndex": 9
   },
   {
     "slug": "competitive-differentiation",
@@ -1091,7 +1212,7 @@ export const CHAPTER_SEED_DATA = [
       }
     ],
     "slideCount": 5,
-    "orderIndex": 9
+    "orderIndex": 10
   },
   {
     "slug": "deal-execution",
@@ -1213,7 +1334,7 @@ export const CHAPTER_SEED_DATA = [
       }
     ],
     "slideCount": 6,
-    "orderIndex": 10
+    "orderIndex": 11
   },
   {
     "slug": "ai-enablement",
@@ -1317,7 +1438,7 @@ export const CHAPTER_SEED_DATA = [
       }
     ],
     "slideCount": 5,
-    "orderIndex": 11
+    "orderIndex": 12
   }
 ];
 export const BUYER_PERSONA_SEED_DATA = [

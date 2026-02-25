@@ -23,6 +23,7 @@ const CHAPTER_COVER_PROMPTS: Record<string, string> = {
   "MarketStar 101": "A vibrant, modern 3D illustration of a glowing orange star rising above a stylized deep navy blue globe with interconnected nodes representing a global sales network. Dynamic light rays emanate outward. Abstract floating geometric shapes (hexagons, spheres) in orange (#E07A2F) and navy (#1A2B8C) orbit the star. Energetic, inspiring, futuristic corporate feel. No text whatsoever. 16:9 aspect ratio.",
   "Buyer Reality & ICP": "A modern 3D illustration showing a magnifying glass with an orange (#E07A2F) rim hovering over abstract buyer profile silhouettes arranged in a target/bullseye pattern. The ideal customer profile glows bright orange at the center while others fade to deep navy (#1A2B8C). Floating data particles and connection lines. Sleek, high-tech discovery vibe. No text whatsoever. 16:9 aspect ratio.",
   "Sales as a Service® & Nytro.ai": "A futuristic 3D illustration of a sleek robotic arm and a human hand reaching toward each other (Michelangelo style) with an electric orange (#E07A2F) spark between them. Behind them, a fluid navy (#1A2B8C) circuit-board landscape with glowing AI neural pathways. Represents human+AI sales power. Dynamic, exciting, cutting-edge. No text whatsoever. 16:9 aspect ratio.",
+  "Demand Generation": "A vibrant 3D illustration of a massive glowing orange (#E07A2F) megaphone emitting streams of luminous digital particles — social icons, email envelopes, search icons, and ABM target symbols — that flow into a funnel converting into golden qualified leads. Navy (#1A2B8C) background with holographic marketing dashboards, attribution graphs, and engagement heat maps floating in space. A gold Stevie Award trophy glints in the corner. Energetic, data-driven, full-funnel marketing power. No text whatsoever. 16:9 aspect ratio.",
   "Pipeline Generation": "A dynamic 3D illustration of a massive glowing orange (#E07A2F) pipeline/funnel floating in space, with streams of luminous lead particles flowing in from the top and converting into golden deals at the bottom. Navy (#1A2B8C) background with abstract speed lines and momentum trails. Energetic, fast-paced, growth-oriented. No text whatsoever. 16:9 aspect ratio.",
   "New Business Acquisition": "A bold 3D illustration of an orange (#E07A2F) rocket launching from a navy (#1A2B8C) launchpad, trailing a brilliant flame. Below, a cityscape of modern glass buildings represents the enterprise market. Floating contract/handshake icons orbit the rocket. Ambitious, exciting, conquest energy. No text whatsoever. 16:9 aspect ratio.",
   "Account Management": "A warm 3D illustration of interconnected orange (#E07A2F) and navy (#1A2B8C) puzzle pieces forming a shield shape, symbolizing protection and growth. Small upward-trending graph lines weave through the connections. Floating relationship icons (handshakes, growth arrows) surround it. Trustworthy, nurturing, strategic. No text whatsoever. 16:9 aspect ratio.",
@@ -652,58 +653,69 @@ STYLE REQUIREMENTS:
 - Render the exact data points, names, numbers, and labels from the bullet points above — do not generalize, substitute, or invent different content
 - Do not render any hex color codes, aspect ratios, or technical instructions as visible text on the slide`;
 
-  const maxRetries = 3;
-  
-  for (let attempt = 0; attempt <= maxRetries; attempt++) {
-    try {
-      const response = await aiIntegration.models.generateContent({
-        model: "gemini-3-pro-image-preview",
-        contents: fullPrompt,
-        config: {
-          responseModalities: ["Text", "Image"],
-        },
-      });
+  const clients = [
+    { name: "user-key", client: ai },
+    { name: "replit-integration", client: aiIntegration },
+  ];
 
-      const parts = response.candidates?.[0]?.content?.parts;
-      if (!parts) {
-        return { success: false, error: "No response parts received" };
-      }
+  for (const { name, client } of clients) {
+    const maxRetries = 3;
+    
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        console.log(`[SlideImage] Trying ${name} (attempt ${attempt + 1})...`);
+        const response = await client.models.generateContent({
+          model: "gemini-3-pro-image-preview",
+          contents: fullPrompt,
+          config: {
+            responseModalities: ["Text", "Image"],
+          },
+        });
 
-      for (const part of parts) {
-        if (part.inlineData) {
-          const imageData = part.inlineData.data;
-          if (imageData) {
-            const uploadsDir = path.join(process.cwd(), "public", "uploads", "slides");
-            if (!fs.existsSync(uploadsDir)) {
-              fs.mkdirSync(uploadsDir, { recursive: true });
+        const parts = response.candidates?.[0]?.content?.parts;
+        if (!parts) {
+          console.log(`[SlideImage] ${name}: No response parts`);
+          break;
+        }
+
+        for (const part of parts) {
+          if (part.inlineData) {
+            const imageData = part.inlineData.data;
+            if (imageData) {
+              const uploadsDir = path.join(process.cwd(), "public", "uploads", "slides");
+              if (!fs.existsSync(uploadsDir)) {
+                fs.mkdirSync(uploadsDir, { recursive: true });
+              }
+
+              const filename = `slide-${chapterSlug}-${slideIndex}-${Date.now()}.png`;
+              const filepath = path.join(uploadsDir, filename);
+
+              const buffer = Buffer.from(imageData, "base64");
+              fs.writeFileSync(filepath, buffer);
+
+              console.log(`[SlideImage] ${name}: Success`);
+              return {
+                success: true,
+                imagePath: filepath,
+                imageUrl: `/uploads/slides/${filename}`,
+              };
             }
-
-            const filename = `slide-${chapterSlug}-${slideIndex}-${Date.now()}.png`;
-            const filepath = path.join(uploadsDir, filename);
-
-            const buffer = Buffer.from(imageData, "base64");
-            fs.writeFileSync(filepath, buffer);
-
-            return {
-              success: true,
-              imagePath: filepath,
-              imageUrl: `/uploads/slides/${filename}`,
-            };
           }
         }
-      }
 
-      return { success: false, error: "No image data in response" };
-    } catch (error: any) {
-      const isRetryable = error.status === 503 || error.status === 429 || error.message?.includes('UNAVAILABLE');
-      if (isRetryable && attempt < maxRetries) {
-        const delay = Math.pow(2, attempt + 1) * 5000;
-        console.log(`  Retrying slide ${slideIndex} in ${delay / 1000}s (attempt ${attempt + 1}/${maxRetries})...`);
-        await new Promise(resolve => setTimeout(resolve, delay));
-        continue;
+        console.log(`[SlideImage] ${name}: No image data in response`);
+        break;
+      } catch (error: any) {
+        const isRetryable = error.status === 503 || error.status === 429 || error.message?.includes('UNAVAILABLE') || error.message?.includes('429') || error.message?.includes('quota');
+        if (isRetryable && attempt < maxRetries) {
+          const delay = Math.pow(2, attempt + 1) * 5000;
+          console.log(`  Retrying slide ${slideIndex} in ${delay / 1000}s (attempt ${attempt + 1}/${maxRetries})...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+          continue;
+        }
+        console.error(`[SlideImage] ${name} failed:`, error.message || error);
+        break;
       }
-      console.error(`Failed to generate slide image (${chapterSlug} slide ${slideIndex}):`, error);
-      return { success: false, error: error.message || "Slide image generation failed" };
     }
   }
 
