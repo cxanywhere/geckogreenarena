@@ -24,19 +24,27 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     chapter: 0,
     slideNumber: 1,
     title: "MarketStar Overview",
-    content: `MarketStar is a global B2B sales outsourcing company and Everest Group PEAK Matrix® Leader, purpose-built to help technology and SaaS companies accelerate revenue growth through outsourced sales teams.
+    content: `MarketStar is a global B2B sales outsourcing company and Everest Group PEAK Matrix® Leader (2025), purpose-built to help technology and SaaS companies accelerate revenue growth through outsourced sales teams.
 
 Core Solutions:
 • Sales Solutions — Pipeline Generation (SDR/BDR), New Business Acquisition (AE), Account Management
 • Partner Channel Services — PAM recruitment, onboarding, enablement, performance management for resellers, VARs, MSPs, ISVs
 • Customer Success — retention, engagement, lifetime value optimization
 • Revenue Operations — playbooks, CRM/CPQ admin, content management, real-time rep enablement
+• Demand Generation — Digital Marketing, Content & Creative, ABM, SEO/SEM, Lead Generation
 • Sales as a Service® — flagship modular delivery model (Capability + Global Execution + Intelligent Scale™)
-• Nytro.ai — AI-powered pitch intelligence platform for onboarding & readiness (acquired 2023)
+• Nytro.ai — AI-powered pitch intelligence platform for sales onboarding & readiness (acquired 2023)
+• Gameplan — MarketStar Labs training and mentorship platform
 
-Founded in 1988, MarketStar has 35+ years of experience, 1,600+ employees, and operates globally from offices in Ogden (Utah HQ), Canada, Mexico, Uruguay, Ireland, Bulgaria, Philippines, and Australia. We have delivered $10B+ in revenue for clients, manage 1M+ accounts, and support 35+ languages.`,
-    tags: ["overview", "platform", "marketstar", "capabilities"],
-    keywords: ["marketstar", "platform", "overview", "sales outsourcing", "B2B", "SDR", "BDR", "partner channel", "customer success", "revenue operations"]
+Founded in 1988, MarketStar has nearly 40 years of experience, 3,950 employees, and operates across 90+ countries from offices in North America, EMEA, APAC, ANZ, and Latin America (HQ: Ogden, Utah). We serve 60+ world-class clients and have driven 500+ career advancements per year.
+
+Leadership: Keith Titus (President & CEO), Paul Grant (COO).
+
+Core Values — "Live the Six": You Belong, All In Everyday, Leaders Who Amplify, Masters of Our Craft, We Care, Creativity That Impacts.
+
+Awards: 4 Stevie Awards (2025, including Gold for Demand Generation), Everest Group PEAK Matrix® Leader (2025).`,
+    tags: ["overview", "platform", "marketstar", "capabilities", "demand_generation", "gameplan"],
+    keywords: ["marketstar", "platform", "overview", "sales outsourcing", "B2B", "SDR", "BDR", "partner channel", "customer success", "revenue operations", "demand generation", "gameplan", "Live the Six"]
   },
   {
     id: "p_sales_solutions",
@@ -58,7 +66,7 @@ New Business Acquisition (AE):
 • Full-cycle Account Executives who demo, negotiate, and close
 • Ramp-ready in 4-6 weeks vs 6-9 months for internal hires
 • Quota-carrying reps with performance-based incentives aligned to client goals
-• Supported by MarketStar's sales enablement, coaching, and Nytro.ai platform
+• Supported by MarketStar's sales enablement, coaching, and Nytro.ai pitch intelligence platform
 
 Account Management:
 • Dedicated account managers for install base growth, renewals, and cross-sell/upsell
@@ -66,7 +74,7 @@ Account Management:
 • Churn prevention through health scoring and early intervention
 • Typical results: 15-25% increase in net revenue retention
 
-Key differentiator: MarketStar reps are W-2 employees (not contractors), fully embedded in your brand, using your tools and processes.`,
+Key differentiator: MarketStar reps are W-2 employees (not contractors), fully embedded in your brand, using your tools and processes. With 3,950 employees across 90+ countries, MarketStar provides global scale with local expertise.`,
     tags: ["sales", "pipeline", "SDR", "BDR", "AE", "account_management", "new_business"],
     keywords: ["sales solutions", "pipeline generation", "SDR", "BDR", "account executive", "new business", "account management", "outbound", "prospecting"]
   },
@@ -92,7 +100,7 @@ How it works:
 3. Dedicated PAMs engage partners daily — co-selling, deal support, and enablement
 4. Data-driven performance management drives accountability and ROI visibility
 
-Key differentiator: MarketStar manages partner ecosystems for some of the world's largest tech companies. Our PAMs are trained in partner psychology, co-selling, and ecosystem development — not just account management.
+Key differentiator: MarketStar manages partner ecosystems for some of the world's largest tech companies. Our PAMs are trained in partner psychology, co-selling, and ecosystem development — not just account management. With 3,950 employees across 90+ countries, we provide global partner coverage.
 
 Typical results: 40-60% increase in partner-sourced pipeline within 6 months.`,
     tags: ["partner", "channel", "PAM", "reseller", "VAR", "MSP", "ISV", "ecosystem"],
@@ -125,7 +133,7 @@ Key metrics we impact:
 • Time-to-Value: compress onboarding by 40-60%
 • Customer Health Score: improve portfolio health from yellow/red to green
 
-MarketStar CSMs are trained in customer success methodology, product adoption science, and outcome-based engagement.`,
+MarketStar CSMs are trained in customer success methodology, product adoption science, and outcome-based engagement. Our 3,950-person global team serves clients across 90+ countries.`,
     tags: ["customer_success", "retention", "adoption", "NRR", "churn", "renewal"],
     keywords: ["customer success", "retention", "adoption", "churn", "NRR", "renewal", "health score", "onboarding", "lifetime value", "expansion"]
   },
@@ -153,7 +161,7 @@ RevOps is the connective tissue across MarketStar's sales, partner, and CS teams
 • Leadership has visibility into pipeline health and team performance
 • Processes are documented, repeatable, and scalable
 
-Key differentiator: Most outsourced sales providers hand you reps. MarketStar provides the entire operating system — people, process, technology, and data — so teams perform from day one.`,
+Key differentiator: Most outsourced sales providers hand you reps. MarketStar provides the entire operating system — people, process, technology, and data — so teams perform from day one. With nearly 40 years of experience and 3,950 employees across 90+ countries, we have the scale and expertise to deliver.`,
     tags: ["revops", "revenue_operations", "CRM", "playbook", "enablement", "analytics"],
     keywords: ["revenue operations", "RevOps", "CRM", "Salesforce", "HubSpot", "playbook", "enablement", "analytics", "process", "reporting"]
   },
@@ -172,16 +180,16 @@ The Three Pillars:
 • Trained, certified sales professionals (SDRs, AEs, PAMs, CSMs)
 • Industry-specific knowledge and vertical expertise
 • Continuous coaching, QA, and performance management
-• Nytro.ai-powered onboarding that gets reps productive 50% faster
+• Nytro.ai-powered pitch intelligence that gets reps certified and productive faster
 
 2. Global Execution — the right presence everywhere
-• 8 global delivery centers across Americas, EMEA, and APAC
-• 35+ language capabilities for multi-market coverage
+• 3,950 employees operating across 90+ countries
+• Delivery centers across North America, EMEA, APAC, ANZ, and Latin America
 • Follow-the-sun support models for 24/7 engagement
 • Local market knowledge combined with global best practices
 
 3. Intelligent Scale™ — the right data and technology
-• AI-driven performance optimization using Nytro.ai
+• AI-driven readiness assessment using Nytro.ai pitch intelligence
 • Predictive analytics for pipeline health and conversion forecasting
 • Dynamic capacity planning that scales up/down with demand
 • Real-time dashboards and KPI visibility for clients
@@ -190,7 +198,7 @@ Why Sales as a Service® wins:
 • Speed: Launch a fully operational sales team in 4-8 weeks (vs 6-12 months internally)
 • Flexibility: Scale headcount up or down without the cost of hiring/firing
 • Predictability: Fixed cost per rep with transparent SLAs and KPIs
-• Expertise: Access 35+ years of sales execution best practices on day one
+• Expertise: Access nearly 40 years of sales execution best practices on day one
 
 Sales as a Service® is not staff augmentation — it's an outcome-oriented engagement model with built-in management, enablement, technology, and continuous optimization.`,
     tags: ["sales_as_a_service", "delivery_model", "capability", "global_execution", "intelligent_scale"],
@@ -203,23 +211,25 @@ Sales as a Service® is not staff augmentation — it's an outcome-oriented enga
     chapter: 0,
     slideNumber: 7,
     title: "Nytro.ai — AI-Powered Pitch Intelligence Platform",
-    content: `Nytro.ai is MarketStar's proprietary AI-powered pitch intelligence and readiness platform, acquired in 2023.
+    content: `Nytro.ai is MarketStar's proprietary AI-powered pitch intelligence and readiness platform, acquired in 2023. Winner of Stevie Awards (2025).
+
+IMPORTANT: Nytro.ai is a PITCH INTELLIGENCE platform for sales onboarding and readiness — it is NOT a real-time call coaching tool (that's Gong/Chorus). Nytro.ai focuses on pre-call preparation and certification.
 
 Core capabilities:
-• Pitch Scoring — AI analyzes sales pitches (live or recorded) and scores them on clarity, persuasiveness, objection handling, and structure
-• Onboarding Acceleration — new reps practice against AI-simulated buyer personas and receive instant feedback
-• Readiness Certification — reps must pass AI-graded pitch assessments before going live with clients
-• Coaching Intelligence — managers get data-driven insights on rep strengths and development areas
-• Continuous Improvement — ongoing pitch analysis identifies skill gaps across the team and triggers targeted training
+• Pitch Upload & Scoring — reps record and submit pitch/demo recordings; AI scores them against top-performer benchmarks on clarity, persuasiveness, objection handling, and structure
+• Onboarding Acceleration — new reps practice pitches and receive AI-generated feedback before going live with prospects
+• Readiness Certification — reps must pass AI-graded pitch assessments before engaging with client prospects
+• Improvement Insights — managers get data-driven insights on rep strengths and specific development areas
+• Benchmarking — individual rep scores compared against top performers to identify best practices and skill gaps
 
 How Nytro.ai works:
-1. Rep delivers a pitch (live call, recorded, or practice session)
-2. AI engine analyzes voice, content, structure, objection handling, and engagement signals
-3. Scorecard generated with specific feedback and improvement recommendations
-4. Results feed into coaching dashboards for managers and enablement teams
-5. Learning paths auto-adjust based on individual rep performance data
+1. Rep records a pitch or demo (practice session or training exercise)
+2. Rep uploads the recording to the Nytro.ai platform
+3. AI engine analyzes content, structure, value prop clarity, objection handling, and persuasiveness
+4. Scorecard generated comparing performance against top-performer benchmarks with specific improvement recommendations
+5. Managers review scores and improvement insights to guide targeted coaching
 
-Key differentiator: Most sales outsourcing firms rely on manual QA and coaching. Nytro.ai provides objective, data-driven assessment at scale — ensuring every MarketStar rep meets quality standards before engaging with client prospects.
+Key differentiator: Most sales outsourcing firms rely on manual QA and coaching. Nytro.ai provides objective, data-driven pitch assessment at scale — ensuring every MarketStar rep is certified and ready before engaging with client prospects. This is fundamentally different from conversation intelligence tools like Gong or Chorus, which analyze live calls after they happen.
 
 Impact: Reps onboarded with Nytro.ai reach full productivity 50% faster and achieve 25% higher conversion rates in their first 90 days.`,
     tags: ["nytro", "ai", "pitch_intelligence", "onboarding", "readiness", "coaching"],
@@ -232,23 +242,25 @@ Impact: Reps onboarded with Nytro.ai reach full productivity 50% faster and achi
     chapter: 0,
     slideNumber: 8,
     title: "Global Footprint & Delivery Centers",
-    content: `MarketStar operates from 8 global delivery centers strategically positioned to serve clients across every major market.
+    content: `MarketStar operates across 90+ countries with 3,950 employees, strategically positioned to serve clients in every major market.
 
-Americas:
+Regional presence:
+
+North America:
 • Ogden, Utah (Global HQ) — primary delivery center for North American clients
-• Canada — bilingual (English/French) delivery for Canadian market
-• Mexico — Spanish-language delivery center for Latin America
-• Uruguay — South American hub for Spanish and Portuguese markets
+• Additional North American offices for local delivery
 
 EMEA:
 • Ireland — English-language hub for European enterprise clients
-• Bulgaria — multilingual European delivery center (20+ European languages)
+• Bulgaria — multilingual European delivery center
+• Additional European presence for local markets
 
-APAC:
-• Philippines — large-scale delivery center for APAC and global English-language programs
+APAC & ANZ:
+• Philippines — large-scale delivery center for APAC programs
 • Australia — local delivery for ANZ market
 
-Language capabilities: 35+ languages supported across all delivery centers
+Latin America:
+• Mexico and Uruguay — Spanish and Portuguese language delivery
 
 Deployment models:
 • Onshore — same-country delivery for cultural alignment and compliance
@@ -256,9 +268,11 @@ Deployment models:
 • Offshore — global delivery for cost efficiency with 24/7 coverage
 • Hybrid — blended models that combine onshore, nearshore, and offshore resources
 
+Key stats: 3,950 employees | 90+ countries covered | 60+ world-class clients | 500+ career advancements per year
+
 Key message: MarketStar provides global coverage with local expertise. Our delivery centers aren't call centers — they're sales offices with trained professionals, management infrastructure, and technology platforms.`,
-    tags: ["global", "delivery_centers", "locations", "languages", "onshore", "nearshore", "offshore"],
-    keywords: ["global", "delivery centers", "Ogden", "Utah", "Ireland", "Bulgaria", "Philippines", "Australia", "languages", "nearshore", "offshore"]
+    tags: ["global", "delivery_centers", "locations", "onshore", "nearshore", "offshore"],
+    keywords: ["global", "delivery centers", "Ogden", "Utah", "Ireland", "Bulgaria", "Philippines", "Australia", "90+ countries", "nearshore", "offshore"]
   },
   {
     id: "p_implementation_timeline",
@@ -272,7 +286,7 @@ Key message: MarketStar provides global coverage with local expertise. Our deliv
 Typical timeline (4-8 weeks):
 • Week 1-2: Kickoff, ICP definition, messaging framework, tool access, CRM setup
 • Week 3-4: Rep recruitment, hiring, and initial training on product, market, and sales process
-• Week 5-6: Nytro.ai pitch certification, practice calls, QA review, and coaching ramp
+• Week 5-6: Nytro.ai pitch intelligence certification (reps submit practice pitches, receive AI-scored feedback, iterate until certified), QA review, and coaching ramp
 • Week 7-8: Go-live with full prospecting cadence, first qualified meetings delivered
 
 What's included in every engagement:
@@ -347,7 +361,7 @@ Sales engagement tools:
 • Outreach, SalesLoft, Apollo, Salesloft
 • LinkedIn Sales Navigator
 • ZoomInfo, Cognism, 6sense, Bombora (intent data)
-• Gong, Chorus (conversation intelligence)
+• Gong, Chorus (conversation intelligence — note: these are separate from Nytro.ai which focuses on pitch readiness, not live call analysis)
 
 Communication platforms:
 • Zoom, Microsoft Teams, Google Meet
@@ -355,7 +369,8 @@ Communication platforms:
 • Slack, Microsoft Teams for internal collaboration
 
 MarketStar-owned technology:
-• Nytro.ai — pitch intelligence and readiness platform
+• Nytro.ai — AI-powered pitch intelligence and readiness certification platform (upload → score → improve)
+• Gameplan — MarketStar Labs training and mentorship platform
 • Custom reporting dashboards and analytics
 • Performance management and coaching tools
 • Quality assurance and call monitoring systems
@@ -386,9 +401,9 @@ Industry-specific value:
 • Trained reps who understand technical buyer personas and complex sales cycles
 • Industry-specific talk tracks, objection handling, and competitive positioning
 • Vertical-focused account targeting and ICP development
-• Domain expertise accumulated over 35+ years and 1,600+ client engagements
+• Domain expertise accumulated over nearly 40 years and 60+ world-class client engagements
 
-Key message: MarketStar doesn't provide generic callers — we provide industry-trained sales professionals who can have credible, technical conversations with your buyers.`,
+Key message: MarketStar doesn't provide generic callers — we provide industry-trained sales professionals who can have credible, technical conversations with your buyers. With 3,950 employees and nearly 40 years of experience, we have deep vertical expertise.`,
     tags: ["verticals", "industries", "SaaS", "cloud", "cybersecurity", "expertise"],
     keywords: ["verticals", "industries", "SaaS", "cloud", "cybersecurity", "enterprise software", "telecom", "martech", "expertise"]
   },
@@ -402,28 +417,32 @@ Key message: MarketStar doesn't provide generic callers — we provide industry-
     content: `Key statistics that demonstrate MarketStar's scale, experience, and impact.
 
 Company metrics:
-• Founded: 1988 (35+ years in business)
-• Employees: 1,600+ across 8 global delivery centers
-• Revenue delivered for clients: $10B+ cumulative
-• Accounts managed: 1M+ across all programs
-• Languages supported: 35+
+• Founded: 1988 (nearly 40 years in business)
+• Employees: 3,950 globally
+• Countries covered: 90+
+• Clients: 60+ world-class technology companies
+• Career advancements: 500+ per year
 • Client retention rate: 90%+ year-over-year
 • Average client tenure: 5+ years
+• Leadership: Keith Titus (President & CEO), Paul Grant (COO)
+
+Core Values — "Live the Six":
+• You Belong • All In Everyday • Leaders Who Amplify • Masters of Our Craft • We Care • Creativity That Impacts
 
 Recognition:
-• Everest Group PEAK Matrix® Leader for Sales Outsourcing
-• Named a "Star Performer" by Everest Group for year-over-year improvement
+• Everest Group PEAK Matrix® Leader for Sales Outsourcing (2025)
+• 4 Stevie Awards (2025), including Gold for Demand Generation
 • Consistently ranked among top sales outsourcing providers globally
 
 Performance benchmarks:
 • Average time to first qualified meeting: 2-3 weeks post-launch
 • Average pipeline generated per SDR: $2-4M annually
-• Rep ramp time: 50% faster than industry average (powered by Nytro.ai)
+• Rep ramp time: 50% faster than industry average (powered by Nytro.ai pitch intelligence)
 • Quota attainment: 85%+ across client programs
 
-Use these stats in conversations to establish credibility: "MarketStar has been doing this for over 35 years. We've generated $10 billion in revenue for our clients, managed over a million accounts, and we're recognized by Everest Group as a PEAK Matrix Leader in sales outsourcing."`,
+Use these stats in conversations to establish credibility: "MarketStar has been doing this for nearly 40 years. We have 3,950 employees operating across 90+ countries, serve 60+ world-class clients, and are recognized by Everest Group as a PEAK Matrix Leader in sales outsourcing — plus we won 4 Stevie Awards in 2025."`,
     tags: ["stats", "proof_points", "metrics", "recognition", "credibility"],
-    keywords: ["statistics", "proof points", "35 years", "$10 billion", "1600 employees", "PEAK Matrix", "Everest Group", "accounts managed"]
+    keywords: ["statistics", "proof points", "nearly 40 years", "3950 employees", "90+ countries", "PEAK Matrix", "Everest Group", "Stevie Awards", "Live the Six"]
   },
   {
     id: "p_engagement_models",
@@ -559,9 +578,9 @@ Cost of the status quo:
 MarketStar value drivers:
 • Speed: Teams live in 4-8 weeks vs 6-12 months to hire, train, and ramp internally
 • Cost efficiency: 20-40% lower total cost vs internal teams when factoring in hiring, turnover, management, and overhead
-• Expertise: 35 years of sales execution best practices applied from day one
+• Expertise: Nearly 40 years of sales execution best practices applied from day one
 • Scalability: Add or reduce reps with 30-60 day notice vs months of hiring/severance cycles
-• Quality: Nytro.ai-powered onboarding, continuous coaching, and QA ensure consistent performance
+• Quality: Nytro.ai pitch intelligence certification, continuous coaching, and QA ensure consistent performance
 • Risk reduction: Convert fixed headcount costs to variable OpEx, shift execution risk to MarketStar
 
 ROI calculation example:
@@ -583,7 +602,7 @@ ROI calculation example:
 
 Presentation structure (45-60 minutes):
 1) Recap Discovery Findings (5 min) — Summarize their pain, goals, and current state. "Last time we spoke, you mentioned three key challenges..."
-2) MarketStar Overview (5 min) — Brief company credibility (35 years, $10B revenue, PEAK Matrix Leader). Don't dwell — move quickly to their problems.
+2) MarketStar Overview (5 min) — Brief company credibility (nearly 40 years, 3,950 employees, 90+ countries, PEAK Matrix Leader 2025, 4 Stevie Awards). Don't dwell — move quickly to their problems.
 3) Solution Design (20 min) — Present a custom solution mapped to their specific challenges. Show exactly how MarketStar would build their team, launch the program, and deliver results.
 4) Case Study Proof (10 min) — Share 1-2 case studies from similar companies (same industry, similar challenge, comparable scale)
 5) Commercial Framework (5 min) — High-level cost model, timeline, and engagement structure. Not a formal quote yet.
@@ -591,7 +610,7 @@ Presentation structure (45-60 minutes):
 
 Demo best practices:
 • Personalize everything — use their company name, their ICP, their sales motion in examples
-• Show Nytro.ai in action — live demo of pitch scoring if possible
+• Show Nytro.ai in action — demo of pitch intelligence scoring and certification process if possible
 • Have a sample ramp plan specific to their product and market
 • Bring a Program Manager or delivery leader to the call for credibility
 • Ask questions throughout — "Does this align with how you'd want the program structured?"
@@ -1100,7 +1119,7 @@ MarketStar advantages:
 • Cost efficiency — MarketStar's lean delivery model costs 30-50% less than Accenture's blended consulting + delivery rates
 • Technology focus — MarketStar specializes in selling technology/SaaS products; Accenture serves all industries generically
 • Flexibility — MarketStar scales up/down quickly; Accenture prefers large, multi-year commitments
-• Nytro.ai — purpose-built sales AI vs Accenture's generic tooling
+• Nytro.ai — purpose-built pitch intelligence for sales readiness vs Accenture's generic tooling
 • Client attention — Mid-market and growth-stage companies get senior attention at MarketStar; they're often a small engagement at Accenture
 
 Displacement talking points:
@@ -1129,7 +1148,7 @@ Their strengths:
 MarketStar advantages:
 • B2B sales DNA — MarketStar was founded for B2B sales outsourcing; TTEC's heritage is B2C contact centers and customer support
 • Technology industry focus — MarketStar's reps sell SaaS, cloud, and enterprise technology daily; TTEC's sales teams skew toward telecom, insurance, and consumer
-• Sales quality — MarketStar's Nytro.ai-certified reps consistently outperform TTEC reps in complex B2B sales conversations
+• Sales quality — MarketStar's Nytro.ai pitch-certified reps consistently outperform TTEC reps in complex B2B sales conversations
 • Management depth — MarketStar provides dedicated sales management, not scaled BPO team leads managing 50+ agents
 • Partner channel expertise — MarketStar has deep partner/channel capabilities; TTEC does not
 • Cultural fit — MarketStar's sales-first culture attracts top B2B sales talent; TTEC's culture is support/service-oriented
@@ -1162,7 +1181,7 @@ MarketStar advantages:
 • Rep quality — MarketStar recruits and trains B2B sales professionals; Teleperformance often deploys BPO agents on sales programs
 • Management model — MarketStar's management-to-rep ratio (1:8-12) provides real coaching; Teleperformance's ratio (1:20-30) is supervision, not development
 • Technology industry expertise — MarketStar reps understand SaaS, cloud, and enterprise tech; Teleperformance's tech knowledge is surface-level
-• Nytro.ai — objective, AI-powered quality assurance vs Teleperformance's manual QA sampling
+• Nytro.ai — objective, AI-powered pitch intelligence and readiness certification vs Teleperformance's manual QA sampling
 • Client size fit — Teleperformance optimizes for 100+ seat programs; MarketStar excels at 5-50 rep engagements with high quality
 
 Positioning:
@@ -1192,7 +1211,7 @@ MarketStar advantages:
 • Reps, not agents — MarketStar hires sales professionals with B2B experience; Concentrix often trains support agents to do sales
 • Dedicated management — every MarketStar team has a dedicated, experienced sales leader, not a BPO operations manager
 • Partner channel — MarketStar's PAM practice is unique; Concentrix has no equivalent
-• AI-powered enablement — Nytro.ai is purpose-built for sales; Concentrix uses generic workforce management tools
+• AI-powered enablement — Nytro.ai pitch intelligence is purpose-built for sales readiness; Concentrix uses generic workforce management tools
 
 When competing against Concentrix:
 • Focus on outcomes, not inputs: "How many qualified meetings will their team set per month?"
@@ -1254,10 +1273,10 @@ Their strengths:
 
 MarketStar advantages:
 • Scale — MarketStar can start small and scale to 100+ reps; boutiques max out at 20-30 and lose quality
-• Global — MarketStar operates in 8 countries, 35+ languages; boutiques are typically US-only
-• Full lifecycle — MarketStar covers SDR → AE → CS → PAM → RevOps; boutiques typically only do SDR
-• AI & technology — Nytro.ai, advanced analytics, and proprietary coaching tools; boutiques rely on manual processes
-• Stability — 35 years in business, $10B revenue delivered; boutiques may be 3-5 years old with limited track record
+• Global — MarketStar operates across 90+ countries with 3,950 employees; boutiques are typically US-only
+• Full lifecycle — MarketStar covers SDR → AE → CS → PAM → RevOps → Demand Gen; boutiques typically only do SDR
+• AI & technology — Nytro.ai pitch intelligence, Gameplan training platform, advanced analytics; boutiques rely on manual processes
+• Stability — nearly 40 years in business, 60+ world-class clients; boutiques may be 3-5 years old with limited track record
 • Enterprise-ready — SOC 2, GDPR, background checks, secure facilities; boutiques may not meet enterprise security requirements
 • Depth of management — dedicated management layer, RevOps, and enablement; boutiques often have founders managing directly
 
@@ -1267,6 +1286,66 @@ Positioning:
 • Emphasize risk: "What happens if your 3-person boutique firm loses a key team member? MarketStar's infrastructure ensures continuity."`,
     tags: ["competitive", "boutique", "niche", "small", "firms"],
     keywords: ["boutique", "niche", "small", "demandDrive", "Operatix", "memoryBlue", "Cience", "competitor"]
+  },
+
+  // ============ DEMAND GENERATION (Chapter 0) ============
+
+  {
+    id: "p_demand_generation",
+    type: "slide",
+    category: "product",
+    chapter: 0,
+    slideNumber: 15,
+    title: "Demand Generation Services",
+    content: `MarketStar's Demand Generation practice combines digital marketing expertise with sales execution to fill the top of the funnel.
+
+Core capabilities:
+• Digital Marketing — paid media, display advertising, social media campaigns, and programmatic buying
+• Content & Creative — content strategy, copywriting, design, video production, and landing page optimization
+• Account-Based Marketing (ABM) — targeted campaigns for high-value accounts using intent data and personalized messaging
+• SEO/SEM — search engine optimization, pay-per-click advertising, and keyword strategy
+• Lead Generation — inbound lead capture, lead scoring, nurture campaigns, and MQL/SQL conversion optimization
+
+How it integrates with sales:
+Demand Generation works alongside MarketStar's SDR/BDR teams to create a seamless top-of-funnel engine:
+1. Marketing generates awareness and captures inbound interest
+2. Leads are scored and qualified using intent signals and engagement data
+3. SDRs follow up on marketing-qualified leads with personalized outreach
+4. Closed-loop reporting connects marketing spend to pipeline and revenue
+
+Key differentiator: Most outsourced sales firms don't offer demand generation. MarketStar provides the full funnel — from awareness to closed deal — under one roof.
+
+Awards: Gold Stevie Award (2025) for Demand Generation excellence.`,
+    tags: ["demand_generation", "digital_marketing", "ABM", "SEO", "content", "lead_gen"],
+    keywords: ["demand generation", "digital marketing", "ABM", "account-based marketing", "SEO", "SEM", "content", "creative", "lead generation", "inbound"]
+  },
+
+  // ============ GAMEPLAN (Chapter 0) ============
+
+  {
+    id: "p_gameplan",
+    type: "slide",
+    category: "product",
+    chapter: 0,
+    slideNumber: 16,
+    title: "Gameplan — MarketStar Labs Training & Mentorship Platform",
+    content: `Gameplan is MarketStar Labs' training and mentorship platform designed to accelerate professional development for sales teams.
+
+Core capabilities:
+• Structured Training Programs — role-specific learning paths for SDRs, AEs, PAMs, and CSMs
+• Mentorship Matching — connects junior reps with experienced mentors for guided development
+• Skill Assessment — tracks competency development across key sales skills
+• Career Pathing — maps development milestones aligned to career progression (supports 500+ career advancements per year)
+• Knowledge Management — centralized repository of best practices, playbooks, and training materials
+
+How Gameplan complements Nytro.ai:
+• Nytro.ai focuses on PITCH READINESS — AI-scored pitch assessments and certification
+• Gameplan focuses on CAREER DEVELOPMENT — ongoing training, mentorship, and skill building
+• Together, they provide a complete enablement ecosystem: get certified fast (Nytro.ai) and keep growing (Gameplan)
+
+Key differentiator: Most outsourced sales providers offer basic onboarding and then leave reps to figure it out. MarketStar invests in continuous development through both AI-powered assessment (Nytro.ai) and human-driven mentorship (Gameplan).`,
+    tags: ["gameplan", "training", "mentorship", "labs", "development", "career"],
+    keywords: ["Gameplan", "MarketStar Labs", "training", "mentorship", "career development", "learning", "skill assessment", "career pathing"]
   },
 
   // ============ CUSTOMER SUCCESS & CASE STUDIES (Chapter 0) ============
@@ -1413,7 +1492,7 @@ MarketStar + Nytro.ai solution:
 • Reps practiced against AI-simulated buyer personas during training (no live prospects at risk)
 • AI scored every practice pitch on: value prop clarity, objection handling, talk-to-listen ratio, technical accuracy
 • Reps required to achieve 80%+ Nytro.ai score before going live
-• Post-launch: AI continued scoring live calls, identifying coaching opportunities automatically
+• Post-launch: AI continued scoring pitch recordings submitted by reps, identifying coaching opportunities systematically
 
 Results:
 • Ramp time reduced from 8 months to 3.5 months (56% faster)

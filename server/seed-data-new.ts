@@ -3,7 +3,7 @@ export const CHAPTER_SEED_DATA = [
     "slug": "marketstar-101",
     "title": "MarketStar 101",
     "subtitle": "Company, Mission & Why We Exist",
-    "description": "Understand MarketStar's 35+ year legacy in B2B sales outsourcing, why companies turn to us, and how Sales as a Service® delivers measurable revenue impact. By the end, you can describe MarketStar in one sentence and explain our competitive edge.",
+    "description": "Understand MarketStar's nearly 40-year legacy in B2B sales outsourcing, why companies turn to us, and how Sales as a Service® delivers measurable revenue impact. By the end, you can describe MarketStar in one sentence and explain our competitive edge.",
     "duration": "25 min",
     "pdfUrl": "",
     "coverImage": "",
@@ -12,7 +12,7 @@ export const CHAPTER_SEED_DATA = [
       "MarketStar elevator pitch",
       "Problems we solve for B2B companies",
       "Our global footprint & scale",
-      "Solution map: Sales, Channels, CS, RevOps, Nytro.ai",
+      "Solution map: Demand Gen, Sales, Channels, CS, RevOps, MarketStar Labs",
       "Roleplay: Platform Reposition (P1)"
     ],
     "slides": [
@@ -40,13 +40,15 @@ export const CHAPTER_SEED_DATA = [
         "bullets": [
           "One sentence: \"We build and run world-class sales teams for B2B technology companies — so they can scale revenue faster with less risk.\"",
           "Core value: Speed to Revenue → Predictable Growth → Capital Efficiency",
-          "Founded in 1988, 35+ years of proven B2B sales outsourcing expertise",
-          "1,600+ employees across 8 countries delivering in 35+ languages",
-          "$10B+ in revenue generated for clients across the technology sector",
-          "PEAK Matrix® Leader — recognized by Everest Group as an industry leader"
+          "Founded in 1988, nearly 40 years of proven B2B sales outsourcing expertise",
+          "3,950 global employees covering 90+ countries across North America, EMEA, APAC, ANZ, and Latin America",
+          "60+ world-class clients across SaaS, Cloud, Cybersecurity, AdTech, MarTech, and IT services",
+          "PEAK Matrix® Leader 2025 — recognized by Everest Group as an industry leader in B2B Sales Services",
+          "4 Stevie® Awards in 2025 including Gold for Demand Generation Program of the Year",
+          "\"Live the Six\" core values: You Belong, All In Everyday, Leaders Who Amplify, Masters of Our Craft, We Care, Creativity That Impacts"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"THE MARKETSTAR ELEVATOR PITCH\". Center shows a large quotation mark icon in orange (#E07A2F), followed by the pitch in white italic text. Below the quote, show a visual value chain: three connected hexagons labeled \"SPEED TO REVENUE\" → \"PREDICTABLE GROWTH\" → \"CAPITAL EFFICIENCY\". At the bottom, three data callouts: \"35+ Years\", \"$10B+ Revenue Delivered\", \"1,600+ Employees\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"THE MARKETSTAR ELEVATOR PITCH\". Center shows a large quotation mark icon in orange (#E07A2F), followed by the pitch in white italic text. Below the quote, show a visual value chain: three connected hexagons labeled \"SPEED TO REVENUE\" → \"PREDICTABLE GROWTH\" → \"CAPITAL EFFICIENCY\". At the bottom, three data callouts: \"Nearly 40 Years\", \"3,950 Employees\", \"90+ Countries\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -70,35 +72,35 @@ export const CHAPTER_SEED_DATA = [
       {
         "type": "content",
         "title": "Our Global Footprint & Scale",
-        "content": "MarketStar operates from 8 countries with the infrastructure to support sales programs in 35+ languages. Our global delivery model gives clients follow-the-sun coverage and access to diverse talent pools.",
+        "content": "MarketStar covers 90+ countries with regional offices across North America, EMEA, APAC, ANZ, and Latin America. Our global delivery model gives clients follow-the-sun coverage and access to diverse talent pools with local expertise.",
         "bullets": [
-          "HQ: Ogden, Utah — founded 1988 by the Battison family, still privately held",
-          "North America: USA (Ogden, HQ), Canada, Mexico — covering enterprise and mid-market segments",
-          "Latin America: Uruguay — Spanish-language sales programs and nearshore delivery",
+          "HQ: Ogden, Utah — founded 1988, backed by Wasatch Equity Group, led by President/CEO Keith Titus and COO Paul Grant",
+          "North America: USA (Ogden HQ), Canada, Mexico — covering enterprise and mid-market segments",
+          "Latin America: Uruguay and regional coverage — Spanish/Portuguese-language sales programs and nearshore delivery",
           "Europe: Ireland and Bulgaria — EMEA hub for multi-language sales and channel programs",
-          "Asia-Pacific: Philippines and Australia — APAC coverage and cost-effective scale",
-          "1M+ accounts managed, $10B+ revenue generated, 35+ languages supported",
-          "PEAK Matrix® Leader designation from Everest Group validates our global capability"
+          "Asia-Pacific: Philippines, Australia, and ANZ — APAC coverage and cost-effective scale",
+          "3,950 global employees, 60+ world-class clients, 90+ countries covered, 500+ career advancements annually",
+          "Remote, in-office, and hybrid operations — PEAK Matrix® Leader 2025 validates our global capability"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"GLOBAL FOOTPRINT & SCALE\". Show a world map with glowing orange (#E07A2F) dots on Ogden (HQ star), Canada, Mexico, Uruguay, Ireland, Bulgaria, Philippines, Australia. Lines connect all offices to HQ. Below the map, show stat boxes: \"8 Countries\", \"35+ Languages\", \"1M+ Accounts\", \"$10B+ Revenue\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"GLOBAL FOOTPRINT & SCALE\". Show a world map with glowing orange (#E07A2F) dots across North America, EMEA, APAC, ANZ, Latin America. HQ star on Ogden. Below the map, show stat boxes: \"90+ Countries\", \"3,950 Employees\", \"60+ Clients\", \"500+ Career Advancements\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
       {
         "type": "content",
         "title": "The MarketStar Solution Map",
-        "content": "MarketStar's platform is organized into five core solution areas powered by Nytro.ai and delivered through Sales as a Service®. Know this map — it's the foundation of every sales conversation.",
+        "content": "MarketStar's platform is organized into six core solution areas powered by MarketStar Labs (Nytro.ai + Gameplan) and delivered through Sales as a Service®. Know this map — it's the foundation of every sales conversation.",
         "bullets": [
-          "SALES SOLUTIONS: Pipeline Generation (SDR/BDR), New Business Acquisition (AE), Account Management — the full sales lifecycle",
-          "PARTNER CHANNEL SERVICES: PAM recruitment, onboarding, enablement, and performance management — building partner ecosystems",
-          "CUSTOMER SUCCESS: Retention, engagement, and lifetime value optimization — protecting and growing existing revenue",
-          "REVENUE OPERATIONS: Playbooks, CRM/CPQ admin, content management — the data-driven engine behind sales execution",
-          "NYTRO.AI: AI-powered pitch intelligence — real-time coaching, call analysis, and performance optimization",
-          "SALES AS A SERVICE®: The modular delivery model that wraps it all together — from dedicated teams to fully managed programs"
+          "DEMAND GENERATION: Digital marketing, content & creative, ABM, SEO/SEM, lead generation — fueling the top of the funnel with data-driven campaigns",
+          "DIRECT SALES: Pipeline Generation (SDR/BDR), New Business Acquisition (AE), Account Management, Sales Support & Engineering — the full sales lifecycle",
+          "PARTNER CHANNEL SERVICES: Partner recruitment, onboarding, enablement, co-selling, and channel analytics — building and activating partner ecosystems",
+          "CUSTOMER SUCCESS: Onboarding & implementation, activation & enablement, customer support, renewals & expansion — protecting and growing revenue",
+          "REVENUE OPERATIONS: Data analytics & reporting, data integration, forecast & planning, process optimization, technology & tools — the engine behind execution",
+          "MARKETSTAR LABS: Nytro.ai (AI pitch intelligence for sales readiness) + Gameplan (training & mentorship platform) — innovation driving performance"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"THE MARKETSTAR SOLUTION MAP\". Show a layered architecture diagram. Top layer: 4 solution boxes in orange (#E07A2F) outlines — \"Sales Solutions\", \"Partner Channels\", \"Customer Success\", \"Revenue Operations\". Middle layer: a wide bar labeled \"NYTRO.AI — AI Intelligence Engine\" with a brain icon. Bottom layer: a foundation bar labeled \"SALES AS A SERVICE® — Modular Delivery\". Arrows flow between layers. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"THE MARKETSTAR SOLUTION MAP\". Show a layered architecture diagram. Top layer: 5 solution boxes in orange (#E07A2F) outlines — \"Demand Gen\", \"Direct Sales\", \"Partner Channels\", \"Customer Success\", \"Rev Ops\". Middle layer: a wide bar labeled \"MARKETSTAR LABS — Nytro.ai + Gameplan\" with a brain icon. Bottom layer: a foundation bar labeled \"SALES AS A SERVICE® — Modular Delivery\". Arrows flow between layers. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -285,28 +287,28 @@ export const CHAPTER_SEED_DATA = [
           "Dedicated teams: Every program gets purpose-built teams trained on the client's product, ICP, and sales methodology",
           "Speed to revenue: Average program goes from contract to first qualified meetings in 6-8 weeks",
           "Variable cost model: Convert fixed sales headcount costs into predictable, performance-linked investment",
-          "Continuous optimization: Built-in RevOps, coaching, and Nytro.ai analytics for ongoing performance improvement",
-          "Proven at scale: Currently operating 200+ active programs across 35+ languages and 8 countries"
+          "Continuous optimization: Built-in RevOps, Nytro.ai pitch intelligence, and Gameplan training for ongoing performance improvement",
+          "Proven at scale: 3,950 employees serving 60+ world-class clients across 90+ countries"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"SALES AS A SERVICE®\". Show a modular building block diagram with orange (#E07A2F) blocks: SDR, AE, AM, CSM, PAM. Blocks can be stacked or arranged. Below: timeline showing \"Contract → 6-8 weeks → First Meetings\". Stats: \"200+ Programs\", \"35+ Languages\", \"8 Countries\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"SALES AS A SERVICE®\". Show a modular building block diagram with orange (#E07A2F) blocks: SDR, AE, AM, CSM, PAM. Blocks can be stacked or arranged. Below: timeline showing \"Contract → 6-8 weeks → First Meetings\". Stats: \"3,950 Employees\", \"60+ Clients\", \"90+ Countries\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
       {
         "type": "content",
         "title": "Nytro.ai — AI-Powered Pitch Intelligence",
-        "content": "Nytro.ai is MarketStar's proprietary AI platform that provides real-time coaching, call analysis, and performance optimization across all sales programs.",
+        "content": "Nytro.ai is MarketStar's proprietary AI platform purpose-built for sales onboarding and readiness. Reps submit pitch and demo recordings, and AI scores their performance against top-performing peers — delivering actionable insights to improve pitch quality.",
         "bullets": [
-          "Real-time call coaching: AI analyzes live calls and provides in-the-moment suggestions for talk tracks, objection handling, and next steps",
-          "Pitch scoring: Every sales interaction is scored on structure, messaging, objection handling, and outcome — enabling data-driven coaching",
-          "Pattern recognition: Identifies winning behaviors and rep-level improvement areas across thousands of conversations",
-          "Manager dashboards: Real-time visibility into team performance, call quality trends, and coaching opportunities",
-          "Integration: Works with major CRM and dialer platforms (Salesforce, HubSpot, Outreach, Salesloft)",
-          "Impact: Programs using Nytro.ai see 23% higher conversion rates and 40% faster rep ramp times"
+          "STEP 1 — UPLOAD: Reps record and submit sales pitch or demo recordings through the Nytro.ai platform",
+          "STEP 2 — SCORE: AI analyzes pitch elements including summaries, performance metrics, keyword usage, messaging quality, and structure — scoring against top-performer benchmarks",
+          "STEP 3 — IMPROVE: Platform delivers actionable insights and personalized feedback to improve pitch quality and close rates",
+          "Experiential onboarding: After reps complete training materials, Nytro.ai validates readiness through pitch practice — measuring how effective your onboarding program is",
+          "Ongoing readiness: Integrates pitch practice into ongoing programs so reps stay sharp on new products, features, and competitive positioning — readiness is not one-and-done",
+          "Award-winning: Multiple Stevie Awards for Best Sales Enablement Solution, Aragon Hot Vendor, Globee Gold Winner"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NYTRO.AI — PITCH INTELLIGENCE\". Show an AI brain icon in orange (#E07A2F) at center with radiating connections to: \"Real-Time Coaching\", \"Pitch Scoring\", \"Pattern Recognition\", \"Manager Dashboards\". Bottom stats: \"23% Higher Conversion\", \"40% Faster Ramp\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NYTRO.AI — PITCH INTELLIGENCE\". Show a 3-step process flow in orange (#E07A2F): Step 1 \"UPLOAD\" (microphone icon) → Step 2 \"SCORE\" (AI brain icon) → Step 3 \"IMPROVE\" (chart up icon). Below: \"Sales Onboarding & Readiness Platform\". Award badges at bottom. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -389,7 +391,7 @@ export const CHAPTER_SEED_DATA = [
           "MarketStar currently operates 100+ active pipeline generation programs globally",
           "Average program delivers 40-60 qualified meetings per rep per month within 90 days of launch",
           "Multi-channel approach: Phone, email, LinkedIn, intent data, and account-based targeting",
-          "All programs powered by Nytro.ai for real-time coaching and conversion optimization",
+          "All programs powered by Nytro.ai pitch intelligence for rep readiness validation and continuous improvement",
           "Typical ROI: 5-8x return on investment within the first year of engagement"
         ],
         "imageUrl": "",
@@ -406,7 +408,7 @@ export const CHAPTER_SEED_DATA = [
           "Daily cadence: Morning standup, power hours for calling, afternoon email/LinkedIn sequences, end-of-day reporting",
           "Qualification framework: BANT or custom criteria aligned to client's sales process and CRM stages",
           "Coaching rhythm: Weekly 1:1s, bi-weekly call reviews, monthly skill assessments powered by Nytro.ai",
-          "Tech stack: Salesforce/HubSpot CRM, Outreach/Salesloft sequencing, ZoomInfo/Apollo data, Nytro.ai coaching",
+          "Tech stack: Salesforce/HubSpot CRM, Outreach/Salesloft sequencing, ZoomInfo/Apollo data, Nytro.ai pitch intelligence",
           "Escalation paths: Clear handoff protocols between SDR qualification and client AE engagement"
         ],
         "imageUrl": "",
@@ -419,7 +421,7 @@ export const CHAPTER_SEED_DATA = [
         "title": "Multi-Channel Outbound Methodology",
         "content": "Modern B2B outbound requires coordinated multi-channel engagement. MarketStar's methodology combines human intelligence with data signals to reach the right person with the right message at the right time.",
         "bullets": [
-          "PHONE: 60-80 daily dials per SDR, structured talk tracks with Nytro.ai real-time guidance, voicemail strategies",
+          "PHONE: 60-80 daily dials per SDR, structured talk tracks validated through Nytro.ai pitch scoring, voicemail strategies",
           "EMAIL: Personalized sequences (8-12 touches over 21 days), A/B tested subject lines, intent-triggered sends",
           "LINKEDIN: Connection requests, InMail campaigns, content engagement, social selling best practices",
           "INTENT DATA: Bombora, G2, TrustRadius signals identify accounts actively researching solutions — prioritize hot accounts",
@@ -455,7 +457,7 @@ export const CHAPTER_SEED_DATA = [
         "bullets": [
           "Goal: Differentiate MarketStar from commodity SDR vendors",
           "Pass criteria: Client agrees that MarketStar's model addresses their past pain points",
-          "Key angle: Dedicated teams (not shared), Nytro.ai coaching, 75-85% SQL acceptance rate, client-specific training"
+          "Key angle: Dedicated teams (not shared), Nytro.ai pitch readiness, 75-85% SQL acceptance rate, client-specific training"
         ],
         "imageUrl": "",
         "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: SDR PROGRAM PITCH\". Show comparison: \"Commodity SDR Vendor\" (negative attributes) vs \"MarketStar\" (positive attributes). Scenario: \"VP Sales: 'We tried outsourced SDRs before — quality was terrible.'\". 16:9 aspect ratio.",
@@ -561,7 +563,7 @@ export const CHAPTER_SEED_DATA = [
         "bullets": [
           "Goal: Build confidence in MarketStar's AE training and product certification process",
           "Pass criteria: CRO agrees to review MarketStar's AE certification curriculum and case studies",
-          "Key angle: Rigorous training, Nytro.ai coaching, win rate data, dedicated team model"
+          "Key angle: Rigorous training, Nytro.ai pitch intelligence, win rate data, dedicated team model"
         ],
         "imageUrl": "",
         "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: AE VALUE PROPOSITION\". Scenario: \"CRO: 'Why would an outsourced AE understand our product?'\". Show training certification badge icon. 16:9 aspect ratio.",
@@ -599,7 +601,7 @@ export const CHAPTER_SEED_DATA = [
           "It costs 5-7x more to acquire a new customer than to retain and expand an existing one",
           "MarketStar AM teams manage portfolios of 30-80 accounts per rep depending on complexity and ACV",
           "Proactive engagement model: Regular QBRs, usage reviews, ROI reports, and expansion discovery calls",
-          "Technology leverage: CRM-integrated health scores, Nytro.ai call coaching, automated renewal tracking",
+          "Technology leverage: CRM-integrated health scores, Nytro.ai pitch readiness validation, automated renewal tracking",
           "Average NRR improvement: Clients see 8-15% improvement in NRR within first year of MarketStar AM program"
         ],
         "imageUrl": "",
@@ -824,7 +826,7 @@ export const CHAPTER_SEED_DATA = [
           "Health monitoring: Automated health scores combining product usage, support engagement, and sentiment signals",
           "Proactive outreach: Regular check-ins, QBRs, and value realization reviews — not just when customers have problems",
           "Playbook-driven: Standardized plays for onboarding, adoption risks, renewal prep, expansion discovery, and escalation",
-          "Technology stack: Gainsight/Totango for CS operations, Nytro.ai for call coaching, CRM for account history",
+          "Technology stack: Gainsight/Totango for CS operations, Nytro.ai for pitch readiness, CRM for account history",
           "Team structure: CSM pods with Team Leads (1:8), CS Operations support, and escalation paths to client leadership"
         ],
         "imageUrl": "",
@@ -873,7 +875,7 @@ export const CHAPTER_SEED_DATA = [
         "bullets": [
           "Goal: Build confidence that outsourced CSMs can protect customer relationships as well as internal teams",
           "Pass criteria: CEO agrees to a pilot covering a specific customer segment (e.g., mid-market accounts)",
-          "Key angle: Dedicated teams, client's brand voice, structured playbooks, Nytro.ai coaching, measurable outcomes"
+          "Key angle: Dedicated teams, client's brand voice, structured playbooks, Nytro.ai pitch readiness, measurable outcomes"
         ],
         "imageUrl": "",
         "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: CS PROGRAM PITCH\". Scenario: \"CEO: 'Customers are our most important assets — can we trust outsourced CSMs?'\". Trust-building imagery. 16:9 aspect ratio.",
@@ -946,7 +948,7 @@ export const CHAPTER_SEED_DATA = [
           "Email templates: Proven sequences for cold outreach, follow-up, nurture, and re-engagement — A/B tested continuously",
           "Call scripts: Structured but flexible talk tracks for cold calls, discovery, demos, and negotiation",
           "Competitive battle cards: Real-time competitive intelligence on key competitors with differentiation strategies",
-          "Continuous improvement: Monthly playbook reviews based on Nytro.ai call analysis and conversion data"
+          "Continuous improvement: Monthly playbook reviews based on Nytro.ai pitch scoring insights and conversion data"
         ],
         "imageUrl": "",
         "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PLAYBOOK DEVELOPMENT\". Show a playbook icon in orange (#E07A2F) with branches to: Discovery, Objections, Email Templates, Call Scripts, Battle Cards. Circular arrow showing continuous improvement. 16:9 aspect ratio.",
@@ -963,7 +965,7 @@ export const CHAPTER_SEED_DATA = [
           "Monthly business reviews: Comprehensive program review including ROI analysis, trend identification, and strategic recommendations",
           "Quarterly strategic reviews: Executive-level program assessment with forward-looking projections and optimization roadmap",
           "Custom analytics: Ad-hoc analysis for specific questions — campaign effectiveness, territory optimization, rep performance deep-dives",
-          "Nytro.ai integration: Call quality scores, messaging effectiveness, and coaching impact metrics"
+          "Nytro.ai integration: Pitch readiness scores, messaging effectiveness, and rep certification metrics"
         ],
         "imageUrl": "",
         "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ANALYTICS & REPORTING\". Show a reporting hierarchy in orange (#E07A2F): Daily → Weekly → Monthly → Quarterly. Dashboard mockup with charts and metrics. 16:9 aspect ratio.",
@@ -1011,15 +1013,15 @@ export const CHAPTER_SEED_DATA = [
         "title": "Competitive Landscape",
         "content": "The B2B sales outsourcing market is growing at 8-12% annually. Understanding who we compete against — and why we win — is essential for every sales conversation.",
         "bullets": [
-          "Market size: B2B sales outsourcing is a $15B+ global market growing 8-12% YoY driven by SaaS growth and cost pressure",
-          "Tier 1 competitors: Accenture, TTEC, Teleperformance, Concentrix — large BPO/consulting firms with broad service portfolios",
-          "Tier 2 competitors: Operatix, Martal Group, Belkins, CIENCE — smaller, specialized lead gen and SDR-focused firms",
+          "Market size: B2B sales outsourcing is a $105B market (2024) growing to $216B by 2033 at 9.78% CAGR — driven by SaaS growth, AI adoption, and cost optimization",
+          "Tier 1 competitors: Accenture (acquired N3 in 2020, 779K employees), TTEC, Teleperformance (400K+ employees), Concentrix — large BPO/consulting firms",
+          "Tier 2 competitors: CIENCE (AI-powered lead gen), Martal Group, Belkins, EBQ, SalesRoads, CloudTask — specialized SDR/lead gen firms",
           "Internal teams: The biggest competitor is always 'do it ourselves' — 60%+ of deals compete against internal hiring plans",
-          "MarketStar's position: The only provider with 35+ years of B2B tech specialization, full lifecycle coverage, and AI enablement",
+          "MarketStar's position: The only PEAK Matrix® Leader with nearly 40 years of B2B tech specialization, full lifecycle coverage, and proprietary AI (Nytro.ai)",
           "Win rate vs. competition: MarketStar wins 65% of competitive deals where we reach the final evaluation stage"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"COMPETITIVE LANDSCAPE\". Show a quadrant chart in orange (#E07A2F) with axes: Specialization (vertical) and Scale (horizontal). Plot competitors. MarketStar in upper-right sweet spot. Market size: \"$15B+\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"COMPETITIVE LANDSCAPE\". Show a quadrant chart in orange (#E07A2F) with axes: Specialization (vertical) and Scale (horizontal). Plot competitors. MarketStar in upper-right sweet spot. Market size: \"$105B → $216B\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1028,12 +1030,12 @@ export const CHAPTER_SEED_DATA = [
         "title": "Key Competitor Profiles",
         "content": "Know your competitors' strengths and weaknesses cold. This intelligence helps you position MarketStar effectively and handle competitive objections with confidence.",
         "bullets": [
-          "ACCENTURE: Massive scale and brand, but expensive ($200-300/hr), slow to deploy, generalist talent — not B2B sales specialists",
-          "TTEC: Strong in customer experience/support, but limited B2B sales expertise — primarily B2C contact center DNA",
-          "TELEPERFORMANCE: Global scale and multi-language, but commodity approach — high turnover, script-based, not consultative",
-          "CONCENTRIX: Technology-forward, good analytics, but primarily post-sale (support/CX) — limited new business acquisition capability",
-          "OPERATIX: B2B focused and agile, but small scale — limited global reach, no AI platform, narrow service portfolio",
-          "INTERNAL TEAMS: Full product knowledge and culture fit, but slow to build (9-12 months), high fixed cost, turnover risk"
+          "ACCENTURE: 779K employees, acquired N3 (inside sales) in 2020, SynOps AI platform — but expensive, slow to deploy, generalist talent, heavy transformation overhead vs. pure sales outsourcing",
+          "TTEC: Strong in customer experience/contact center, omnichannel CX — but more B2C-focused, less specialized in complex B2B tech sales cycles",
+          "TELEPERFORMANCE: 400K+ employees, massive global scale — but commodity approach, more volume-based than high-complexity B2B, cost-focused not quality-focused",
+          "CONCENTRIX: Technology-forward, good analytics — but primarily post-sale support/CX, limited new business acquisition and full-cycle sales capability",
+          "CIENCE/MARTAL/BELKINS: AI-powered lead gen, startup-friendly pricing — but limited scale, narrow SDR-only focus, no full lifecycle coverage or enterprise-grade operations",
+          "INTERNAL TEAMS: Full product knowledge and culture fit, but slow to build (9-12 months), high fixed cost ($145K fully-loaded per rep), turnover risk"
         ],
         "imageUrl": "",
         "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"COMPETITOR PROFILES\". Show 6 competitor cards in a grid. Each card has competitor name in white, strength in green, weakness in orange (#E07A2F). 16:9 aspect ratio.",
@@ -1045,11 +1047,11 @@ export const CHAPTER_SEED_DATA = [
         "title": "MarketStar Differentiators",
         "content": "When a prospect asks 'Why MarketStar?' — these are the five pillars of differentiation that set us apart from every competitor in the market.",
         "bullets": [
-          "B2B TECH SPECIALIZATION: 35+ years focused exclusively on B2B technology sales — we speak the language, understand the buyer, know the playbooks",
-          "FULL LIFECYCLE: Only provider offering SDR + AE + AM + CSM + PAM + RevOps — competitors force you to use multiple vendors",
-          "NYTRO.AI: Proprietary AI coaching platform — no other outsourcer has an integrated AI layer for real-time performance optimization",
-          "GLOBAL SCALE + LOCAL EXPERTISE: 8 countries, 35+ languages, but with dedicated teams (not shared resources) and local market knowledge",
-          "PEAK MATRIX® LEADER: Everest Group recognition validates our operational excellence, innovation, and market impact — independent proof",
+          "B2B TECH SPECIALIZATION: Nearly 40 years focused exclusively on B2B technology sales — we speak the language, understand the buyer, know the playbooks",
+          "FULL LIFECYCLE + DEMAND GEN: Only provider offering Demand Gen + SDR + AE + AM + CSM + PAM + RevOps — competitors force you to use multiple vendors",
+          "MARKETSTAR LABS: Proprietary AI pitch intelligence (Nytro.ai) + training/mentorship platform (Gameplan) — no other outsourcer has this innovation layer",
+          "GLOBAL SCALE + LOCAL EXPERTISE: 3,950 employees covering 90+ countries, with dedicated teams (not shared resources) and local market knowledge",
+          "PEAK MATRIX® LEADER 2025 + 4 STEVIE AWARDS: Everest Group recognition validates operational excellence — Stevie Gold for Demand Generation Program of the Year",
           "OUTCOME ALIGNMENT: Performance-based pricing options that align MarketStar's incentives with client revenue goals"
         ],
         "imageUrl": "",
@@ -1062,11 +1064,11 @@ export const CHAPTER_SEED_DATA = [
         "title": "Competitive Battle Strategies",
         "content": "Different competitors require different battle strategies. Here's how to win against each type of competitor you'll encounter in deals.",
         "bullets": [
-          "vs. Accenture/Big Consulting: Lead with speed (6-8 weeks vs. 6 months), specialization (B2B tech vs. generalist), and cost (40-60% less)",
+          "vs. Accenture/Big Consulting: Lead with speed (6-8 weeks vs. 6 months), specialization (B2B tech vs. generalist), and cost (40-60% less) — they sell transformation, we sell outcomes",
           "vs. TTEC/Teleperformance: Lead with B2B expertise (not B2C contact center), consultative selling (not scripted), and quality metrics (SQL acceptance rates)",
-          "vs. Concentrix: Lead with full lifecycle (we close deals, not just support customers), Nytro.ai (AI-native, not bolted on), and B2B specialization",
-          "vs. Small specialists: Lead with scale (8 countries, 35+ languages), full lifecycle (not just SDR), and proven track record ($10B+ revenue delivered)",
-          "vs. Internal teams: Lead with speed (60 days vs. 12 months), variable cost (vs. fixed headcount), and expertise (trained bench of B2B sellers)",
+          "vs. Concentrix: Lead with full lifecycle (we close deals, not just support customers), Nytro.ai pitch intelligence (purpose-built, not bolted on), and B2B specialization",
+          "vs. CIENCE/Martal/Belkins: Lead with scale (90+ countries, 3,950 employees), full lifecycle (not just SDR), enterprise-grade operations, and PEAK Matrix® Leader status",
+          "vs. Internal teams: Lead with speed (60 days vs. 12 months), variable cost (vs. $145K fully-loaded per rep), and expertise (trained bench of B2B sellers)",
           "Universal play: Always ask 'What's your timeline?' — MarketStar's speed advantage becomes decisive when urgency exists"
         ],
         "imageUrl": "",
@@ -1219,67 +1221,67 @@ export const CHAPTER_SEED_DATA = [
     "slug": "ai-enablement",
     "title": "AI Enablement",
     "subtitle": "Nytro.ai & AI in Sales",
-    "description": "Deep-dive into Nytro.ai and the role of AI across MarketStar's sales programs. Learn how AI-powered coaching, analytics, and automation create a compounding performance advantage.",
+    "description": "Deep-dive into MarketStar Labs — Nytro.ai (AI pitch intelligence) and Gameplan (training & mentorship). Learn how these platforms drive sales onboarding, readiness, and continuous performance improvement.",
     "duration": "25 min",
     "pdfUrl": "",
     "coverImage": "",
     "agenda": [
       "AI in B2B sales landscape",
-      "Nytro.ai deep-dive",
-      "AI-powered coaching & quality",
-      "Predictive analytics & insights",
+      "MarketStar Labs: Nytro.ai deep-dive",
+      "MarketStar Labs: Gameplan platform",
+      "AI-powered onboarding & readiness",
       "Responsible AI governance",
-      "Roleplay: AI Differentiation Pitch"
+      "Roleplay: AI Readiness Pitch"
     ],
     "slides": [
       {
         "type": "content",
         "title": "AI in B2B Sales — The Landscape",
-        "content": "AI is transforming B2B sales execution. Companies using AI-powered sales tools see measurably better outcomes — and MarketStar is leading the charge with Nytro.ai embedded across every program.",
+        "content": "AI is transforming B2B sales execution. Companies using AI-powered sales tools see measurably better outcomes — and MarketStar is leading the charge with MarketStar Labs innovations embedded across every program.",
         "bullets": [
           "Market reality: 61% of high-performing sales teams already use AI for coaching, analytics, or automation (Salesforce State of Sales 2024)",
-          "Performance gap: AI-enabled sales teams convert at 23% higher rates and ramp new reps 40% faster than non-AI teams",
-          "Key AI applications in sales: Call coaching, pitch scoring, forecasting, lead prioritization, content personalization, and workflow automation",
-          "MarketStar advantage: Nytro.ai is built into every program — it's not an add-on or optional upgrade",
-          "Competitive moat: No other B2B sales outsourcing provider has a proprietary AI coaching platform",
-          "Client benefit: AI-powered programs deliver better results AND improve continuously over time through machine learning"
+          "Performance gap: AI-enabled sales teams convert at higher rates and ramp new reps significantly faster than non-AI teams",
+          "Key AI applications in sales: Pitch scoring, onboarding readiness, sales training, lead prioritization, content personalization, and workflow automation",
+          "MarketStar advantage: MarketStar Labs (Nytro.ai + Gameplan) is built into every program — not an add-on or optional upgrade",
+          "Competitive moat: No other B2B sales outsourcing provider has a proprietary AI pitch intelligence platform AND a dedicated training/mentorship platform",
+          "Client benefit: AI-powered programs deliver better results AND improve continuously — reps stay sharp on new products and competitive positioning"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"AI IN B2B SALES\". Show AI adoption statistics in orange (#E07A2F): \"61% of top teams use AI\", \"23% higher conversion\", \"40% faster ramp\". Brain-circuit icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"AI IN B2B SALES\". Show AI adoption statistics in orange (#E07A2F): \"61% of top teams use AI\", \"MarketStar Labs\", \"Nytro.ai + Gameplan\". Brain-circuit icon. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
       {
         "type": "content",
-        "title": "Nytro.ai Deep-Dive",
-        "content": "Nytro.ai is MarketStar's proprietary AI platform purpose-built for B2B sales performance optimization. It combines real-time coaching, analytics, and predictive intelligence in one integrated system.",
+        "title": "MarketStar Labs: Nytro.ai Deep-Dive",
+        "content": "Nytro.ai is MarketStar's proprietary AI-powered pitch intelligence platform purpose-built for sales onboarding and readiness. Reps submit pitch and demo recordings, and AI scores their performance — delivering actionable insights to improve pitch quality.",
         "bullets": [
-          "REAL-TIME COACHING: AI listens to live calls and provides in-the-moment talk track suggestions, objection handling prompts, and next-step recommendations",
-          "PITCH SCORING: Every call, email, and interaction is scored on messaging quality, discovery depth, objection handling, and outcome — enabling data-driven coaching",
-          "CONVERSATION INTELLIGENCE: Records, transcribes, and analyzes every sales interaction to identify winning patterns and improvement areas",
-          "PREDICTIVE ANALYTICS: Forecasts deal outcomes based on conversation signals, engagement patterns, and historical win/loss data",
-          "REP DEVELOPMENT: Personalized learning paths for each rep based on their specific skill gaps identified by AI analysis",
-          "MANAGER ENABLEMENT: Real-time dashboards showing team performance, coaching opportunities, and program health metrics"
+          "STEP 1 — UPLOAD: Reps record and submit sales pitch or product demo recordings to the Nytro.ai platform for AI analysis",
+          "STEP 2 — SCORE: AI analyzes pitch elements — summaries, performance metrics, keyword usage, messaging quality, structure — and scores against top-performer benchmarks",
+          "STEP 3 — IMPROVE: Platform delivers personalized, actionable feedback with specific improvement recommendations to boost pitch quality and close rates",
+          "ONBOARDING USE CASE: After reps complete training materials, Nytro.ai validates readiness through pitch practice — measuring how effective your onboarding program truly is",
+          "READINESS USE CASE: Ongoing pitch practice ensures reps stay sharp on new products, features, competitive positioning — readiness is not one-and-done",
+          "AWARD-WINNING: Gold Stevie for Sales Enablement, Aragon Hot Vendor, Globee Gold Winner, Bronze Stevie for Innovation in Sales (2025)"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NYTRO.AI DEEP-DIVE\". Show a platform architecture diagram in orange (#E07A2F) with Nytro.ai at center connected to 6 capability modules. Each module has an icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NYTRO.AI DEEP-DIVE\". Show a 3-step process in orange (#E07A2F): \"1. UPLOAD\" → \"2. SCORE\" → \"3. IMPROVE\". Platform screenshot placeholder. Award badges at bottom. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
       {
         "type": "content",
-        "title": "AI-Powered Coaching & Quality",
-        "content": "Traditional sales coaching is inconsistent and reactive. Nytro.ai enables continuous, data-driven coaching that improves every rep on every call — creating a compounding performance advantage.",
+        "title": "MarketStar Labs: Gameplan Platform",
+        "content": "Gameplan is MarketStar's training and mentorship platform designed to revamp how organizations approach employee learning and engagement. It brings mentors and mentees together as a one-stop solution for in-house coaching and upskilling.",
         "bullets": [
-          "Before Nytro.ai: Managers review 2-3 calls per rep per month — coaching is sporadic, subjective, and based on small samples",
-          "With Nytro.ai: Every call is analyzed — managers focus coaching on specific, data-identified skill gaps rather than guessing",
-          "Quality assurance: Automated QA scoring ensures every customer interaction meets quality standards — 100% coverage, not sample-based",
-          "Benchmarking: Reps are compared against top performers — what makes the best reps successful is codified and taught to everyone",
-          "Compliance: AI flags regulatory or brand compliance issues in real-time — reducing risk for both MarketStar and clients",
-          "Results: Teams using Nytro.ai coaching see 30% improvement in call quality scores within 90 days of implementation"
+          "PURPOSE: One-stop solution for in-house training, coaching, and upskilling at all levels within an organization's mentorship program",
+          "MENTOR TOOLS: Mentors can personalize coaching plans, track progress, and gain data-driven insights in real-time — no more guesswork",
+          "CUSTOMIZED LEARNING: Create personalized learning plans tailored to individual rep skill gaps and career development goals",
+          "SESSION TRACKING: Full visibility into coaching sessions, completion rates, and skill progression across the team",
+          "INTEGRATION WITH NYTRO.AI: Nytro.ai pitch scores feed directly into Gameplan learning paths — AI-identified skill gaps automatically become coaching priorities",
+          "SCALABLE: Works for teams of 10 or 1,000 — designed for enterprise-scale mentorship and training programs"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"AI-POWERED COACHING\". Show before/after comparison in orange (#E07A2F): \"Before: 2-3 calls reviewed\" vs \"After: Every call analyzed\". Quality score improvement chart. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"GAMEPLAN PLATFORM\". Show a mentorship flow diagram in orange (#E07A2F): Mentor → Personalized Plan → Training Sessions → Progress Tracking → Improved Performance. Icons for each stage. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1288,11 +1290,11 @@ export const CHAPTER_SEED_DATA = [
         "title": "Responsible AI & Governance",
         "content": "AI in sales must be deployed responsibly. MarketStar maintains strict governance frameworks to ensure AI enhances human judgment rather than replacing it, and that data privacy is always protected.",
         "bullets": [
-          "DO: Use Nytro.ai for coaching, preparation, and performance analysis — it's a tool to augment human decision-making",
-          "DO: Cross-reference AI insights with manager judgment, client feedback, and market context before making decisions",
-          "DO: Ensure all call recordings and transcripts comply with consent laws (two-party consent states, GDPR requirements)",
-          "DON'T: Use AI-generated content verbatim in client communications without human review and approval",
-          "DON'T: Share AI analytics or recordings with clients without proper authorization and data handling protocols",
+          "DO: Use Nytro.ai for pitch practice, onboarding readiness validation, and performance benchmarking — it's a tool to augment human coaching",
+          "DO: Cross-reference AI pitch scores with manager judgment, client feedback, and market context before making personnel decisions",
+          "DO: Ensure all pitch recordings and transcripts comply with consent requirements and data handling protocols",
+          "DON'T: Use AI-generated feedback verbatim in client communications without human review and approval",
+          "DON'T: Share AI analytics or pitch recordings with clients without proper authorization and data handling protocols",
           "ESCALATE: When AI flags unusual patterns, compliance concerns, or edge cases — always involve human leadership"
         ],
         "imageUrl": "",
@@ -1302,15 +1304,15 @@ export const CHAPTER_SEED_DATA = [
       },
       {
         "type": "roleplay",
-        "title": "Roleplay: AI Differentiation Pitch",
-        "content": "A CRO says: \"Every outsourcing vendor claims they use AI now. What makes Nytro.ai actually different from Gong or Chorus that we already have?\" Differentiate Nytro.ai from standalone conversation intelligence tools.",
+        "title": "Roleplay: AI Readiness Pitch",
+        "content": "A VP of Sales Enablement says: \"We already have a robust onboarding program with LMS modules and ride-alongs. How does Nytro.ai actually improve rep readiness beyond what we're already doing?\" Position Nytro.ai's pitch intelligence as a measurable readiness validation layer.",
         "bullets": [
-          "Goal: Position Nytro.ai as purpose-built for outsourced sales optimization — not just another conversation intelligence tool",
-          "Pass criteria: CRO understands the unique value of AI embedded in the outsourcing model vs. standalone tools",
-          "Key angle: Integrated into delivery (not just recording calls), real-time coaching (not just post-call analysis), continuous improvement across the entire program"
+          "Goal: Position Nytro.ai as the missing validation layer that proves reps are actually ready — not just trained",
+          "Pass criteria: VP understands the difference between 'completed training' and 'validated readiness' and sees Nytro.ai as the bridge",
+          "Key angle: LMS tracks completion, Nytro.ai measures competency — pitch scoring proves reps can actually execute, not just pass a quiz"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: AI DIFFERENTIATION\". Scenario: \"CRO: 'How is Nytro.ai different from Gong?'\". Comparison chart. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: AI READINESS PITCH\". Scenario: \"VP Enablement: 'How does Nytro.ai improve readiness beyond our current LMS?'\". Split comparison: Training Completion vs Validated Readiness. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
         "roleplaySlug": "rp-p11-ai-differentiation"
@@ -1445,7 +1447,7 @@ export const ROLEPLAY_SEED_DATA = [
     passCriteria: 'Rep ties pricing to outcomes (pipeline generated, revenue impact, TCO comparison) and confirms paper process owners — who signs, what\'s the approval flow, and timeline.',
     failConditions: 'Offering a discount immediately, getting defensive about pricing, or failing to understand the procurement process and stakeholders.',
     winningResponse: 'Strong pricing defense! You reframed the comparison from salary-only to fully-loaded cost ($65K salary vs. $145K total with benefits, recruiting, management, tools, turnover), showed 6-week ramp vs. 9-month internal ramp, and mapped the paper process: procurement → legal → CFO signature. Timeline confirmed.',
-    losingResponse: 'You got pulled into a discount negotiation before establishing value. Next time: "Before we discuss pricing, let\'s compare apples to apples. What\'s your fully-loaded cost per SDR including recruiting, benefits, management overhead, and turnover replacement? Our model includes all of that plus Nytro.ai coaching."',
+    losingResponse: 'You got pulled into a discount negotiation before establishing value. Next time: "Before we discuss pricing, let\'s compare apples to apples. What\'s your fully-loaded cost per SDR including recruiting, benefits, management overhead, and turnover replacement? Our model includes all of that plus Nytro.ai pitch intelligence and Gameplan training."',
     orderIndex: 6
   },
   {
@@ -1498,8 +1500,8 @@ export const ROLEPLAY_SEED_DATA = [
     placement: 'Sales as a Service Pitch',
     passCriteria: 'Diagnose what went wrong with previous outsourcing attempt and clearly differentiate MarketStar\'s managed model. Buyer sees MarketStar as fundamentally different from their past experience.',
     failConditions: 'Dismissing their bad experience, failing to diagnose what went wrong, or not clearly articulating how Sales as a Service is different from traditional staff augmentation.',
-    winningResponse: 'Trust rebuilt! You diagnosed their previous failure (staffing agency model — no training, no coaching, no accountability, high turnover) and clearly differentiated MarketStar: dedicated teams trained on their product, Nytro.ai coaching, performance SLAs, and managed program with RevOps. They agreed to a program design workshop.',
-    losingResponse: 'You didn\'t address their pain. Key moves: "What specifically went wrong? Was it rep quality? Training? Turnover? Accountability?" Then map each failure to MarketStar\'s solution: "Unlike staffing agencies, we run a managed program with dedicated training, Nytro.ai coaching, and performance guarantees."',
+    winningResponse: 'Trust rebuilt! You diagnosed their previous failure (staffing agency model — no training, no coaching, no accountability, high turnover) and clearly differentiated MarketStar: dedicated teams trained on their product, Nytro.ai pitch readiness certification, performance SLAs, and managed program with RevOps. They agreed to a program design workshop.',
+    losingResponse: 'You didn\'t address their pain. Key moves: "What specifically went wrong? Was it rep quality? Training? Turnover? Accountability?" Then map each failure to MarketStar\'s solution: "Unlike staffing agencies, we run a managed program with dedicated training, Nytro.ai pitch certification, and performance guarantees."',
     orderIndex: 9
   },
   {
@@ -1516,7 +1518,7 @@ export const ROLEPLAY_SEED_DATA = [
     placement: 'Pipeline Generation Pitch',
     passCriteria: 'Program design agreed with target metrics: reps needed, ramp timeline, pipeline targets, and measurement framework. Buyer sees clear path from contract to pipeline.',
     failConditions: 'Overpromising on pipeline numbers, failing to discuss ramp timeline, or not connecting to their specific ICP and sales motion.',
-    winningResponse: 'Pipeline-focused pitch! You calculated their gap (need $45M pipeline for $15M quota, currently at $18M), proposed a 10-SDR team ramping in 6-8 weeks, set realistic metrics (15 qualified meetings/rep/month at full ramp), and showed Nytro.ai coaching driving 23% higher conversion. They\'re moving to program design.',
+    winningResponse: 'Pipeline-focused pitch! You calculated their gap (need $45M pipeline for $15M quota, currently at $18M), proposed a 10-SDR team ramping in 6-8 weeks, set realistic metrics (15 qualified meetings/rep/month at full ramp), and showed Nytro.ai pitch readiness driving 23% higher conversion. They\'re moving to program design.',
     losingResponse: 'You promised pipeline without showing the math. Enterprise buyers want specifics: how many reps, what ramp timeline, what meetings per rep per month, what qualification criteria. Show the pipeline model with realistic assumptions.',
     orderIndex: 10
   },
@@ -1594,20 +1596,20 @@ export const ROLEPLAY_SEED_DATA = [
   },
   {
     slug: 'rp-p8-nytro-ai',
-    name: "Every outsourcing vendor claims they use AI now. What makes Nytro.ai actually different from Gong or Chorus that we already have?",
-    role: 'CRO at Enterprise Tech Company',
-    description: 'AI Enablement → Product → Nytro.ai Differentiation. The buyer already has conversation intelligence tools. Differentiate Nytro.ai as purpose-built for outsourced sales optimization — not just another CI tool.',
+    name: "We already have a robust onboarding program with LMS modules and ride-alongs. How does Nytro.ai actually improve rep readiness?",
+    role: 'VP of Sales Enablement at Enterprise Tech Company',
+    description: 'AI Enablement → Product → Nytro.ai Readiness Pitch. The buyer has traditional onboarding but no way to validate actual readiness. Position Nytro.ai as the missing validation layer that proves reps can execute, not just complete training.',
     avatar: '',
     traits: ['AI Differentiation', 'Technical Credibility', 'Outcome-Based Selling'],
     difficulty: 'Intermediate',
     stats: { resistance: 65, objections: 50, buy_signal: 30 },
     chapterSlug: 'ai-enablement',
     phase: 'Demo',
-    placement: 'Nytro.ai Differentiation',
-    passCriteria: 'CRO understands the unique value of AI embedded in the outsourcing delivery model vs. standalone CI tools. Clear differentiation on at least 3 dimensions.',
-    failConditions: 'Positioning Nytro.ai as a replacement for Gong/Chorus, trash-talking their existing tools, or failing to articulate the embedded vs. standalone difference.',
-    winningResponse: 'Clear differentiation! You positioned Nytro.ai on 3 dimensions: 1) Embedded in delivery (coaching happens in real-time during calls, not post-call review), 2) Program-level optimization (optimizes the entire outsourced team, not just individual reps), 3) Continuous improvement loop (AI insights feed directly into training programs and playbook updates). Gong records calls; Nytro.ai drives outcomes.',
-    losingResponse: 'You tried to compete head-to-head with Gong on features — that\'s a losing battle. Nytro.ai isn\'t a replacement for Gong. It\'s a different category: embedded AI coaching that\'s part of the outsourced sales delivery model. Gong helps you analyze calls. Nytro.ai helps us deliver better results.',
+    placement: 'Nytro.ai Readiness Pitch',
+    passCriteria: 'VP understands the difference between training completion and validated readiness. Sees Nytro.ai as the bridge — LMS tracks completion, Nytro.ai measures competency through pitch scoring.',
+    failConditions: 'Positioning Nytro.ai as a replacement for their LMS, dismissing their current onboarding investment, or failing to articulate the completion vs. competency difference.',
+    winningResponse: 'Clear differentiation! You positioned Nytro.ai on 3 dimensions: 1) Validation layer (LMS tracks completion, Nytro.ai proves competency through pitch practice and AI scoring), 2) Ongoing readiness (not one-and-done — reps submit new pitches for new products, features, and competitive positioning), 3) Data-driven coaching (managers see exactly which reps are ready and which need more practice, scored against top-performer benchmarks).',
+    losingResponse: 'You positioned Nytro.ai as a replacement for their LMS — that\'s threatening their existing investment. The play is: "Your LMS is great for knowledge transfer. Nytro.ai adds the missing validation layer — it proves reps can actually EXECUTE what they learned, through pitch practice scored by AI against your top performers."',
     orderIndex: 15
   },
   {
@@ -1624,8 +1626,8 @@ export const ROLEPLAY_SEED_DATA = [
     placement: 'Competitive Takeaway',
     passCriteria: 'VP agrees that MarketStar\'s specialization, speed, and B2B expertise make us the lower-risk choice. Accenture "safe bet" perception is neutralized.',
     failConditions: 'Trash-talking Accenture, competing only on price, or failing to reframe what "safe" means in this context.',
-    winningResponse: 'Powerful reframe! You showed that "safe" means "fastest to results with the lowest risk of failure" — not "biggest brand name." MarketStar: 6-week ramp, B2B tech specialists, PEAK Matrix® Leader, $10B+ revenue delivered. Accenture: 6-month ramp, generalist talent, and the $2M premium buys brand, not outcomes. The VP agreed to a head-to-head pilot evaluation.',
-    losingResponse: 'You competed on price alone. The play isn\'t "we\'re cheaper" — it\'s "we\'re better AND faster AND specialized." Reframe "safe": "The real risk is a 6-month deployment with generalist talent. MarketStar has 35 years of B2B sales execution — that\'s the safest bet for results."',
+    winningResponse: 'Powerful reframe! You showed that "safe" means "fastest to results with the lowest risk of failure" — not "biggest brand name." MarketStar: 6-week ramp, B2B tech specialists, PEAK Matrix® Leader 2025, 3,950 employees across 90+ countries. Accenture: 6-month ramp, generalist talent, and the $2M premium buys brand, not outcomes. The VP agreed to a head-to-head pilot evaluation.',
+    losingResponse: 'You competed on price alone. The play isn\'t "we\'re cheaper" — it\'s "we\'re better AND faster AND specialized." Reframe "safe": "The real risk is a 6-month deployment with generalist talent. MarketStar has nearly 40 years of B2B sales execution — that\'s the safest bet for results."',
     orderIndex: 16
   },
   {
@@ -1660,8 +1662,8 @@ export const ROLEPLAY_SEED_DATA = [
     placement: 'Final Pitch',
     passCriteria: 'Deliver 3 compelling, differentiated reasons in under 60 seconds. Each reason must be specific to MarketStar, not generic outsourcing benefits.',
     failConditions: 'Taking more than 60 seconds, giving generic outsourcing benefits instead of MarketStar-specific differentiators, or failing to create urgency.',
-    winningResponse: 'Compelling close! Three reasons delivered in 45 seconds: 1) "We\'re the only outsourcer with a proprietary AI coaching platform — Nytro.ai drives 23% higher conversion rates than our competitors," 2) "35 years of B2B tech specialization means your reps are selling on day 1, not learning B2B sales for the first time," 3) "PEAK Matrix® Leader — independently validated as the best in the industry, not just our claim." Clean, specific, memorable.',
-    losingResponse: 'You gave generic benefits: "We have great people, good training, and competitive pricing." Every outsourcer says that. Be SPECIFIC to MarketStar: Nytro.ai (no one else has it), 35 years of B2B tech focus (not generalists), PEAK Matrix® Leader (independently validated). Make it impossible to confuse us with competitors.',
+    winningResponse: 'Compelling close! Three reasons delivered in 45 seconds: 1) "We\'re the only outsourcer with a proprietary AI pitch intelligence platform — Nytro.ai validates rep readiness through pitch scoring, so your reps are proven before they touch a customer," 2) "Nearly 40 years of B2B tech specialization with 3,950 employees across 90+ countries means your reps are selling on day 1, not learning B2B sales for the first time," 3) "PEAK Matrix® Leader 2025 plus 4 Stevie Awards — independently validated as the best in the industry." Clean, specific, memorable.',
+    losingResponse: 'You gave generic benefits: "We have great people, good training, and competitive pricing." Every outsourcer says that. Be SPECIFIC to MarketStar: Nytro.ai pitch intelligence (no one else has it), nearly 40 years of B2B tech focus (not generalists), PEAK Matrix® Leader 2025 + Stevie Awards (independently validated). Make it impossible to confuse us with competitors.',
     orderIndex: 18
   },
   {
@@ -1750,7 +1752,7 @@ export const ROLEPLAY_SEED_DATA = [
     placement: 'Full Cycle Sales',
     passCriteria: 'Full-cycle program designed: SDR qualification criteria, AE handoff process, deal management framework, and closed-revenue targets. Buyer trusts MarketStar can close, not just source.',
     failConditions: 'Overselling closing capability without explaining the process, not addressing the skill difference between SDR and AE roles, or making unrealistic revenue commitments.',
-    winningResponse: 'Full-cycle credibility established! You designed a pod model: 4 SDRs feeding 2 AEs, with clear qualification criteria (BANT + MEDDPICC), structured handoff protocol, and AE-level Nytro.ai coaching on discovery, demo, and negotiation. Revenue target: $4M ARR in year 1 from the new vertical. Case study reference provided showing similar results.',
+    winningResponse: 'Full-cycle credibility established! You designed a pod model: 4 SDRs feeding 2 AEs, with clear qualification criteria (BANT + MEDDPICC), structured handoff protocol, and AE-level Nytro.ai pitch validation on discovery, demo, and negotiation. Revenue target: $4M ARR in year 1 from the new vertical. Case study reference provided showing similar results.',
     losingResponse: 'You claimed "our reps can close" without explaining HOW. Enterprise buyers need to see: What\'s the SDR-to-AE handoff criteria? How are AEs trained on our product? What\'s the coaching model for complex deals? Show the process, not just the promise.',
     orderIndex: 23
   }

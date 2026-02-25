@@ -2,7 +2,7 @@
 
 ## Overview
 
-Arena by GigaRev is an AI-powered B2B sales training and roleplay platform, customized for MarketStar (www.marketstar.com). It enables sales representatives to practice enterprise buyer objection handling, complete structured training chapters on MarketStar's B2B sales outsourcing solutions, and track their performance through interactive roleplays. MarketStar is the global leader in B2B sales outsourcing (founded 1988, 35+ years, PEAK Matrix® Leader, $10B+ revenue delivered, 1,600+ employees across 8 countries, 35+ languages). The platform features role-based dashboards for reps, managers, and directors to monitor team progress, certification status, and training analytics. Brand colors: deep blue (#1A2B8C) and magenta (#E84C8A) with a luxury, high-end aesthetic. The app name is "Arena" by "GigaRev", deployed for client "MarketStar". The top nav displays both logos: Arena (primary) and MarketStar (client).
+Arena by GigaRev is an AI-powered B2B sales training and roleplay platform, customized for MarketStar (www.marketstar.com). It enables sales representatives to practice enterprise buyer objection handling, complete structured training chapters on MarketStar's B2B sales outsourcing solutions, and track their performance through interactive roleplays. MarketStar is the global leader in B2B sales outsourcing (founded 1988, nearly 40 years, PEAK Matrix® Leader 2025, 4 Stevie Awards 2025, 3,950 employees across 90+ countries, Keith Titus CEO, Paul Grant COO). The platform features role-based dashboards for reps, managers, and directors to monitor team progress, certification status, and training analytics. Brand colors: deep blue (#1A2B8C) and orange (#E07A2F). The app name is "Arena" by "GigaRev", deployed for client "MarketStar". The top nav displays both logos: Arena (primary) and MarketStar (client).
 
 ## User Preferences
 
@@ -45,12 +45,16 @@ Preferred communication style: Simple, everyday language.
 - **Usage & Billing**: Tracks voice roleplay session duration and calculates costs at $0.15/minute, rounded up to the nearest minute.
 
 ### Sales Context
-- **Company**: MarketStar — Global leader in B2B sales outsourcing (founded 1988, HQ Ogden UT, privately held)
-- **Core Solutions**: Sales Solutions (Pipeline Generation/SDR, New Business Acquisition/AE, Account Management), Partner Channel Services, Customer Success, Revenue Operations, Sales as a Service®, Nytro.ai (AI pitch intelligence)
+- **Company**: MarketStar — Global leader in B2B sales outsourcing (founded 1988, HQ Ogden UT, privately held, Wasatch Equity Group investor)
+- **Leadership**: Keith Titus (President & CEO), Paul Grant (COO)
+- **Core Solutions**: Demand Generation, Direct Sales (Pipeline Generation/SDR, New Business Acquisition/AE, Account Management), Partner Channel Services, Customer Success, Revenue Operations, Sales as a Service®
+- **MarketStar Labs**: Nytro.ai (AI pitch intelligence — Upload→Score→Improve for sales onboarding & readiness) + Gameplan (training & mentorship platform)
 - **Target Buyers**: VP Sales, CRO, CEO, VP Partnerships, VP CS, CFO at $50M-$5B B2B tech companies
-- **Competitors**: Accenture, TTEC, Teleperformance, Concentrix, internal hiring
-- **Value Prop**: $10B+ revenue delivered, 6-8 week ramp, 1,600+ employees across 8 countries, PEAK Matrix® Leader
+- **Competitors**: Tier 1: Accenture (acquired N3), TTEC, Teleperformance, Concentrix. Tier 2: CIENCE, Martal Group, Belkins, EBQ. Internal hiring.
+- **Value Prop**: Nearly 40 years B2B tech specialization, 3,950 employees across 90+ countries, 6-8 week ramp, PEAK Matrix® Leader 2025, 4 Stevie Awards 2025
 - **Sales Methodology**: MEDDPICC
+- **Core Values ("Live the Six")**: You Belong, All In Everyday, Leaders Who Amplify, Masters of Our Craft, We Care, Creativity That Impacts
+- **Market**: B2B sales outsourcing $105B (2024) → $216B by 2033 at 9.78% CAGR
 
 ### Design Patterns
 - **Dashboard Certification Guidance**: Visual panels, CTAs, and progress bars guiding users towards certification.
@@ -98,3 +102,12 @@ Preferred communication style: Simple, everyday language.
 - Updated all buyer personas, battlecards, knowledge base entries, AI prompts, email/SMS templates, and quiz content
 - Updated competitive landscape from DTC/e-commerce to B2B sales outsourcing market
 - Generated all 64 slide images and 64 narration voiceovers for all 12 MarketStar training chapters
+- **Feb 2026 Content Refresh**: Updated all content with verified facts from marketstar.com:
+  - Fixed stats: 3,950 employees (was 1,600), 90+ countries (was 8), nearly 40 years (was 35+)
+  - Fixed Nytro.ai: pitch intelligence for onboarding/readiness (was incorrectly described as real-time call coaching)
+  - Added Demand Generation as major solution area
+  - Added Gameplan training/mentorship platform (MarketStar Labs)
+  - Added 2025 awards: PEAK Matrix® Leader + 4 Stevie Awards
+  - Updated competitive intelligence: Accenture (N3 acquisition), CIENCE/Martal/Belkins/EBQ as Tier 2
+  - Updated market sizing: $105B (2024) → $216B (2033) at 9.78% CAGR
+  - Regenerated 51/64 images and 64/64 narrations (13 images pending Gemini API daily quota reset)

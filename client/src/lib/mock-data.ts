@@ -155,7 +155,7 @@ export const BATTLECARDS: Battlecard[] = [
     title: "Handling 'We Already Have an Outsourced Provider'",
     situation: "Prospect is currently using a competitor like Teleperformance, TTEC, or a boutique firm.",
     script: "That's great—it means you already believe in the value of outsourced sales. I'm curious, what's working well with your current partner, and where do you wish they could do more?",
-    keyPoints: ["Don't bash the competitor", "Find the gaps in their current solution", "Position MarketStar's unique strengths: 35+ years, Nytro.ai, managed outcomes"],
+    keyPoints: ["Don't bash the competitor", "Find the gaps in their current solution", "Position MarketStar's unique strengths: nearly 40 years, Nytro.ai pitch intelligence, managed outcomes"],
     type: "objection",
     image: ""
   },
@@ -174,7 +174,7 @@ export const BATTLECARDS: Battlecard[] = [
     phase: "Objection Handling",
     title: "Handling 'We Tried Outsourcing Before and It Failed'",
     situation: "Prospect had a bad experience with a previous outsourced sales provider.",
-    script: "I appreciate you sharing that. Can you help me understand what went wrong? Was it the quality of reps, the lack of accountability, or misaligned expectations? Because what we've learned in 35+ years is that outsourced sales fails when it's treated as a staffing play, not a managed outcomes program. That's why MarketStar includes dedicated program managers, Nytro.ai intelligence, and guaranteed SLAs.",
+    script: "I appreciate you sharing that. Can you help me understand what went wrong? Was it the quality of reps, the lack of accountability, or misaligned expectations? Because what we've learned in nearly 40 years is that outsourced sales fails when it's treated as a staffing play, not a managed outcomes program. That's why MarketStar includes dedicated program managers, Nytro.ai pitch intelligence for rep readiness, and guaranteed SLAs.",
     keyPoints: ["Show empathy for past failure", "Diagnose what went wrong", "Differentiate MarketStar's managed outcomes model"],
     type: "objection",
     image: ""
@@ -184,7 +184,7 @@ export const BATTLECARDS: Battlecard[] = [
     phase: "Objection Handling",
     title: "Handling 'Our Sales Cycle Is Too Complex for Outsourcing'",
     situation: "Prospect believes their product is too technical or their sales motion too complex for an external team.",
-    script: "I hear that concern, and it's valid for generic staffing firms. MarketStar specializes in complex B2B sales—we've built teams for companies selling $200K+ ACV enterprise software, multi-year platform deals, and highly technical solutions. Our ramp program and Nytro.ai coaching platform get reps productive in weeks, not months.",
+    script: "I hear that concern, and it's valid for generic staffing firms. MarketStar specializes in complex B2B sales—we've built teams for companies selling $200K+ ACV enterprise software, multi-year platform deals, and highly technical solutions. Our ramp program and Nytro.ai pitch intelligence platform get reps productive in weeks, not months.",
     keyPoints: ["Acknowledge complexity is real", "Highlight B2B specialization", "Reference comparable complex engagements"],
     type: "objection",
     image: ""
@@ -214,7 +214,7 @@ export const BATTLECARDS: Battlecard[] = [
     phase: "Pricing",
     title: "The Competitive Price Comparison",
     situation: "Prospect compares MarketStar's pricing to a cheaper alternative.",
-    script: "I get it—on the surface, they look cheaper. But let's compare what you're actually getting. With MarketStar, you get a managed outcomes program with Nytro.ai intelligence, a 35-year enterprise track record, and guaranteed SLAs. Many of our current clients switched from that exact provider because they hit a ceiling on quality and accountability.",
+    script: "I get it—on the surface, they look cheaper. But let's compare what you're actually getting. With MarketStar, you get a managed outcomes program with Nytro.ai pitch intelligence, a nearly 40-year enterprise track record, 3,950 employees across 90+ countries, and guaranteed SLAs. Many of our current clients switched from that exact provider because they hit a ceiling on quality and accountability.",
     keyPoints: ["Don't compete on price, compete on value", "Highlight what cheaper solutions lack", "Reference switching stories"],
     type: "objection",
     image: ""
@@ -566,7 +566,7 @@ export const ROLEPLAYS: RoleplayScenario[] = [
     id: "rp-9",
     name: "Our product is too complex for an external team to sell.",
     role: "The Complexity Objector",
-    description: "Chapter 2 → Demo → Complexity Objection. Highlight B2B specialization + ramp program + Nytro.ai enablement.",
+    description: "Chapter 2 → Demo → Complexity Objection. Highlight B2B specialization + ramp program + Nytro.ai pitch intelligence.",
     avatar: "",
     traits: ["Technical Pride", "Pragmatic", "Team-Oriented"],
     difficulty: "Intermediate",
