@@ -50,20 +50,20 @@ export default function LeaderboardPage() {
     <div className="min-h-screen bg-muted/20 flex flex-col">
       <Nav />
       <div className="container mx-auto px-4 py-8 flex-1">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
-            <h1 className="text-3xl font-display font-bold text-foreground">Performance Center</h1>
-            <p className="text-muted-foreground">Track your progress and compete with top performers.</p>
+            <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground">Performance Center</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">Track your progress and compete with top performers.</p>
           </div>
-          <div className="flex items-center gap-4 bg-card px-4 py-2 rounded-xl border border-border shadow-sm">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-muted-foreground">Your Rank:</span>
-              <span className="text-xl font-bold text-magenta">#{currentUserRank}</span>
+          <div className="flex items-center gap-3 sm:gap-4 bg-card px-3 sm:px-4 py-2 rounded-xl border border-border shadow-sm">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="text-xs sm:text-sm font-medium text-muted-foreground">Rank:</span>
+              <span className="text-lg sm:text-xl font-bold text-magenta">#{currentUserRank}</span>
             </div>
-            <div className="h-8 w-[1px] bg-border" />
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-muted-foreground">Avg Score:</span>
-              <span className="text-xl font-bold text-foreground">{currentUserAvgScore}</span>
+            <div className="h-6 sm:h-8 w-px bg-border" />
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="text-xs sm:text-sm font-medium text-muted-foreground">Avg:</span>
+              <span className="text-lg sm:text-xl font-bold text-foreground">{currentUserAvgScore}</span>
             </div>
           </div>
         </div>
@@ -89,52 +89,52 @@ export default function LeaderboardPage() {
                   <table className="w-full text-left">
                     <thead className="bg-muted/30 border-b border-border">
                       <tr>
-                        <th className="p-6 font-bold text-muted-foreground text-sm uppercase tracking-wider w-24">Rank</th>
-                        <th className="p-6 font-bold text-muted-foreground text-sm uppercase tracking-wider">Rep Name</th>
-                        <th className="p-6 font-bold text-muted-foreground text-sm uppercase tracking-wider text-center">Roleplays</th>
-                        <th className="p-6 font-bold text-muted-foreground text-sm uppercase tracking-wider text-center">Passed</th>
-                        <th className="p-6 font-bold text-muted-foreground text-sm uppercase tracking-wider text-right">Avg Score</th>
+                        <th className="p-3 sm:p-6 font-bold text-muted-foreground text-xs sm:text-sm uppercase tracking-wider w-16 sm:w-24">Rank</th>
+                        <th className="p-3 sm:p-6 font-bold text-muted-foreground text-xs sm:text-sm uppercase tracking-wider">Rep Name</th>
+                        <th className="p-3 sm:p-6 font-bold text-muted-foreground text-xs sm:text-sm uppercase tracking-wider text-center hidden sm:table-cell">Roleplays</th>
+                        <th className="p-3 sm:p-6 font-bold text-muted-foreground text-xs sm:text-sm uppercase tracking-wider text-center hidden sm:table-cell">Passed</th>
+                        <th className="p-3 sm:p-6 font-bold text-muted-foreground text-xs sm:text-sm uppercase tracking-wider text-right">Score</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border">
                       {leaderboard.map((entry) => (
                         <tr key={entry.userId} className={`hover:bg-muted/10 transition-colors ${entry.userId === user?.id ? "bg-primary/5" : ""}`} data-testid={`row-leaderboard-${entry.rank}`}>
-                          <td className="p-6">
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
+                          <td className="p-3 sm:p-6">
+                            <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-sm ${
                               entry.rank === 1 ? "bg-yellow-100 text-yellow-700" :
                               entry.rank === 2 ? "bg-gray-100 text-gray-700" :
                               entry.rank === 3 ? "bg-orange-100 text-orange-700" :
                               "text-muted-foreground"
                             }`}>
-                              {entry.rank <= 3 ? <Trophy className="w-4 h-4" /> : entry.rank}
+                              {entry.rank <= 3 ? <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : entry.rank}
                             </div>
                           </td>
-                          <td className="p-6">
-                            <div className="flex items-center gap-3">
+                          <td className="p-3 sm:p-6">
+                            <div className="flex items-center gap-2 sm:gap-3">
                               {entry.warriorAvatar || entry.profilePhoto ? (
                                 <img 
                                   src={entry.warriorAvatar || entry.profilePhoto || ""} 
                                   alt={entry.name}
-                                  className="w-10 h-10 rounded-full object-cover border-2 border-magenta/20"
+                                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-magenta/20 shrink-0"
                                 />
                               ) : (
-                                <div className="w-10 h-10 rounded-full bg-magenta/10 text-magenta flex items-center justify-center font-bold text-sm border border-border">
+                                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-magenta/10 text-magenta flex items-center justify-center font-bold text-xs sm:text-sm border border-border shrink-0">
                                   {entry.avatarInitials}
                                 </div>
                               )}
-                              <span className={`font-medium ${entry.userId === user?.id ? "text-magenta font-bold" : "text-foreground"}`}>
+                              <span className={`font-medium text-sm sm:text-base truncate ${entry.userId === user?.id ? "text-magenta font-bold" : "text-foreground"}`}>
                                 {entry.name} {entry.userId === user?.id && "(You)"}
                               </span>
                             </div>
                           </td>
-                          <td className="p-6 text-center font-mono text-muted-foreground">
+                          <td className="p-3 sm:p-6 text-center font-mono text-muted-foreground hidden sm:table-cell">
                             {entry.roleplaysCompleted}
                           </td>
-                          <td className="p-6 text-center font-mono text-green-600">
+                          <td className="p-3 sm:p-6 text-center font-mono text-green-600 hidden sm:table-cell">
                             {entry.passedCount}
                           </td>
-                          <td className="p-6 text-right">
-                            <span className="font-bold font-display text-xl">{entry.avgScore}</span>
+                          <td className="p-3 sm:p-6 text-right">
+                            <span className="font-bold font-display text-lg sm:text-xl">{entry.avgScore}</span>
                           </td>
                         </tr>
                       ))}

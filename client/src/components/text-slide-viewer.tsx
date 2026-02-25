@@ -294,7 +294,7 @@ export function TextSlideViewer({
                 transition={{ duration: 0.25 }}
                 className="h-full w-full"
               >
-                <div className="max-w-3xl mx-auto px-6 py-8 md:py-12">
+                <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8 md:py-12">
                   <div className="mb-2 flex items-center gap-2">
                     <span className="text-xs font-medium text-magenta/60 uppercase tracking-wider">
                       Slide {currentPage} of {numPages}
@@ -311,7 +311,7 @@ export function TextSlideViewer({
                     )}
                   </div>
 
-                  <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-4 leading-tight">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-bold text-white mb-3 sm:mb-4 leading-tight">
                     {slide.title}
                   </h2>
 

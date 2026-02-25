@@ -504,26 +504,30 @@ export default function ChapterPage() {
         {/* Header with Learning Objectives */}
         <div className="border-b border-border bg-card/50 backdrop-blur-sm">
           <div className="container mx-auto px-4 py-3">
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-4 min-w-0">
+            <div className="flex items-center justify-between gap-2 sm:gap-4">
+              <div className="flex items-center gap-2 sm:gap-4 min-w-0">
                 <Link href="/dashboard">
-                  <Button variant="ghost" size="icon" className="rounded-full shrink-0" data-testid="button-back">
-                    <ArrowLeft className="h-5 w-5" />
+                  <Button variant="ghost" size="icon" className="rounded-full shrink-0 h-8 w-8 sm:h-10 sm:w-10" data-testid="button-back">
+                    <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Button>
                 </Link>
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1 flex-wrap">
+                  <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-muted-foreground mb-0.5 sm:mb-1 flex-wrap">
                     <span className="flex items-center gap-1">
-                      <Presentation className="h-4 w-4" />
-                      Chapter {chapters.findIndex(c => c.id === chapter.id) + 1}
+                      <Presentation className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                      Ch {chapters.findIndex(c => c.id === chapter.id) + 1}
                     </span>
                     <span className="text-border">|</span>
                     <span className="flex items-center gap-1">
                       <Clock className="h-3 w-3" />
                       {chapter.duration}
                     </span>
+                    <span className="text-border hidden sm:inline">|</span>
+                    <span className="flex items-center gap-1 sm:hidden text-xs">
+                      {currentPage}/{totalSlides || '?'}
+                    </span>
                   </div>
-                  <h1 className="text-lg md:text-xl font-display font-bold text-foreground truncate" data-testid="text-chapter-title">
+                  <h1 className="text-base sm:text-lg md:text-xl font-display font-bold text-foreground truncate max-w-[40vw] sm:max-w-none" data-testid="text-chapter-title">
                     {chapter.title}
                   </h1>
                 </div>

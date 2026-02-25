@@ -197,10 +197,10 @@ export default function Home() {
                 TRAINEE DASHBOARD
               </div>
               
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight tracking-tight mb-4 text-foreground">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight tracking-tight mb-4 text-foreground">
                 Welcome, <span className="text-magenta">{user?.name || "Sales Rep"}</span>.
               </h1>
-              <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mb-8">
+              <p className="text-base sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mb-8">
                 Complete your training to get certified and unlock full commission eligibility.
               </p>
             </motion.div>
@@ -372,17 +372,17 @@ export default function Home() {
 
             {/* Training Path - Sequential Chapters */}
             <div className="mt-8">
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
                 <div>
-                  <h2 className="text-2xl font-display font-bold flex items-center gap-2">
-                    <BookOpen className="w-6 h-6 text-magenta" />
+                  <h2 className="text-xl sm:text-2xl font-display font-bold flex items-center gap-2">
+                    <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-magenta" />
                     Training Path
                   </h2>
-                  <p className="text-muted-foreground mt-1">Complete each chapter in order to progress</p>
+                  <p className="text-sm sm:text-base text-muted-foreground mt-1">Complete each chapter in order to progress</p>
                 </div>
-                <div className="flex items-center gap-2 bg-card border border-border rounded-full px-4 py-2">
-                  <Progress value={totalChapters > 0 ? (chaptersCompleted / totalChapters) * 100 : 0} className="w-24 h-2" />
-                  <span className="text-sm font-bold">{chaptersCompleted}/{totalChapters}</span>
+                <div className="flex items-center gap-2 bg-card border border-border rounded-full px-3 sm:px-4 py-1.5 sm:py-2">
+                  <Progress value={totalChapters > 0 ? (chaptersCompleted / totalChapters) * 100 : 0} className="w-16 sm:w-24 h-2" />
+                  <span className="text-xs sm:text-sm font-bold whitespace-nowrap">{chaptersCompleted}/{totalChapters}</span>
                 </div>
               </div>
                
@@ -402,10 +402,10 @@ export default function Home() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
                     >
-                      <div className={`relative flex gap-6 ${!isUnlocked ? 'opacity-60' : ''}`}>
+                      <div className={`relative flex gap-3 sm:gap-6 ${!isUnlocked ? 'opacity-60' : ''}`}>
                         {/* Step Number & Line */}
                         <div className="flex flex-col items-center">
-                          <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg border-2 ${
+                          <div className={`w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-sm sm:text-lg border-2 shrink-0 ${
                             isCompleted 
                               ? 'bg-green-500 border-green-500 text-white' 
                               : isNext 
@@ -434,7 +434,7 @@ export default function Home() {
                               }`}>
                                 <div className="flex flex-col md:flex-row">
                                   {/* Chapter Image */}
-                                  <div className="relative w-full md:w-64 h-40 md:h-auto overflow-hidden bg-gradient-to-br from-primary/20 to-primary/40 shrink-0">
+                                  <div className="relative w-full md:w-56 lg:w-64 h-36 sm:h-40 md:h-auto overflow-hidden bg-gradient-to-br from-primary/20 to-primary/40 shrink-0">
                                     {chapter.coverImage && (
                                       <img src={chapter.coverImage} alt={chapter.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                                     )}
@@ -544,21 +544,21 @@ export default function Home() {
       {/* Voice Roleplays Section */}
       <section className="py-12 bg-muted/20 border-t border-border/50">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
             <div>
-              <h2 className="text-2xl font-display font-bold flex items-center gap-2">
-                <Mic className="w-6 h-6 text-magenta" />
+              <h2 className="text-xl sm:text-2xl font-display font-bold flex items-center gap-2">
+                <Mic className="w-5 h-5 sm:w-6 sm:h-6 text-magenta" />
                 Voice Roleplays
               </h2>
-              <p className="text-muted-foreground mt-1">Practice real conversations with AI buyers</p>
+              <p className="text-sm sm:text-base text-muted-foreground mt-1">Practice real conversations with AI buyers</p>
             </div>
-            <div className="flex items-center gap-2 bg-card border border-border rounded-full px-4 py-2">
-              <Progress value={totalRoleplays > 0 ? (uniqueRoleplaysPassed / totalRoleplays) * 100 : 0} className="w-24 h-2" />
-              <span className="text-sm font-bold">{uniqueRoleplaysPassed}/{totalRoleplays} passed</span>
+            <div className="flex items-center gap-2 bg-card border border-border rounded-full px-3 sm:px-4 py-1.5 sm:py-2">
+              <Progress value={totalRoleplays > 0 ? (uniqueRoleplaysPassed / totalRoleplays) * 100 : 0} className="w-16 sm:w-24 h-2" />
+              <span className="text-xs sm:text-sm font-bold whitespace-nowrap">{uniqueRoleplaysPassed}/{totalRoleplays} passed</span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {[...roleplays]
               .sort((a, b) => {
                 const extractOrder = (id: string) => {

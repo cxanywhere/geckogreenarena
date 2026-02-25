@@ -130,18 +130,18 @@ export default function BattlecardsPage() {
       
       {/* Hero Section with Cover Info */}
       <div className="bg-gradient-to-br from-primary/5 via-white to-yellow-50/50 border-b border-border dark:from-primary/10 dark:via-background dark:to-background">
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
+        <div className="container mx-auto px-4 py-8 sm:py-12">
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 items-center">
             {/* Left: Title and Description */}
             <div className="max-w-xl">
               <div className="flex items-center gap-2 mb-4">
                 <Zap className="w-5 h-5 text-yellow-500 fill-yellow-500" />
                 <span className="font-mono text-sm font-bold text-yellow-600 uppercase tracking-widest">Sales Enablement</span>
               </div>
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4 tracking-tight" data-testid="text-battlecards-title">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-foreground mb-4 tracking-tight" data-testid="text-battlecards-title">
                 Battlecards
               </h1>
-              <p className="text-xl text-muted-foreground leading-relaxed mb-6">
+              <p className="text-base sm:text-xl text-muted-foreground leading-relaxed mb-6">
                 Your pocket playbook for handling every sales situation with confidence. {battlecards.length} field-tested cards ready to go.
               </p>
 
@@ -224,19 +224,21 @@ export default function BattlecardsPage() {
       <div className="container mx-auto px-4 py-8 flex-1">
         {/* Search & Filters */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 bg-white dark:bg-card p-4 rounded-2xl border border-border shadow-sm">
-           <Tabs defaultValue="All" value={activePhase} onValueChange={setActivePhase} className="w-full md:w-auto overflow-x-auto">
-            <TabsList className="bg-muted/50 p-1">
-              {phases.map(phase => (
-                <TabsTrigger 
-                  key={phase} 
-                  value={phase}
-                  className="rounded-lg font-bold text-xs px-3 py-1.5"
-                  data-testid={`tab-phase-${phase.toLowerCase().replace(/\s+/g, '-')}`}
-                >
-                  {phase}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+           <Tabs defaultValue="All" value={activePhase} onValueChange={setActivePhase} className="w-full md:w-auto">
+            <div className="overflow-x-auto -mx-1 px-1 pb-1">
+              <TabsList className="bg-muted/50 p-1 inline-flex w-auto min-w-full sm:min-w-0">
+                {phases.map(phase => (
+                  <TabsTrigger 
+                    key={phase} 
+                    value={phase}
+                    className="rounded-lg font-bold text-xs px-2.5 sm:px-3 py-1.5 whitespace-nowrap"
+                    data-testid={`tab-phase-${phase.toLowerCase().replace(/\s+/g, '-')}`}
+                  >
+                    {phase}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
            </Tabs>
 
            <div className="relative w-full md:w-72">
@@ -252,7 +254,7 @@ export default function BattlecardsPage() {
         </div>
 
         {/* Cards Grid - Visual Battlecard Images */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           <AnimatePresence>
             {filteredCards.map((card, index) => (
               <motion.div
@@ -453,7 +455,7 @@ export default function BattlecardsPage() {
 
       {/* Full-screen Battlecard Modal */}
       <Dialog open={!!selectedCard} onOpenChange={() => setSelectedCard(null)}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto p-0 bg-background">
+        <DialogContent className="max-w-4xl max-h-[90vh] w-[95vw] sm:w-auto overflow-auto p-0 bg-background">
           <VisuallyHidden>
             <DialogTitle>{selectedCard?.title || "Battlecard Details"}</DialogTitle>
             <DialogDescription>View detailed battlecard information</DialogDescription>
@@ -478,8 +480,8 @@ export default function BattlecardsPage() {
                   />
                 </div>
               ) : (
-                <div className="p-8">
-                  <div className="flex items-center gap-3 mb-4">
+                <div className="p-5 sm:p-8">
+                  <div className="flex items-center gap-3 mb-4 flex-wrap">
                     <Badge variant={getBadgeVariant(selectedCard.type)} className="uppercase tracking-wider text-xs font-bold">
                       <span className="flex items-center gap-1.5">
                         {getIcon(selectedCard.type)}
@@ -489,23 +491,23 @@ export default function BattlecardsPage() {
                     <span className="text-sm text-muted-foreground font-mono uppercase tracking-widest">{selectedCard.phase}</span>
                   </div>
                   
-                  <h2 className="text-3xl font-bold font-display mb-6">{selectedCard.title}</h2>
+                  <h2 className="text-2xl sm:text-3xl font-bold font-display mb-4 sm:mb-6">{selectedCard.title}</h2>
                   
-                  <div className="space-y-6">
+                  <div className="space-y-4 sm:space-y-6">
                     <div>
                       <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1">
                         <ShieldAlert className="w-4 h-4" /> When to Use
                       </h4>
-                      <p className="text-lg text-foreground/80 bg-muted/30 p-4 rounded-xl border border-border/50">
+                      <p className="text-base sm:text-lg text-foreground/80 bg-muted/30 p-3 sm:p-4 rounded-xl border border-border/50">
                         {selectedCard.situation}
                       </p>
                     </div>
                     
-                    <div className="bg-primary/5 p-6 rounded-xl border border-primary/10 relative group/script">
+                    <div className="bg-primary/5 p-4 sm:p-6 rounded-xl border border-primary/10 relative group/script">
                       <h4 className="text-sm font-bold text-primary uppercase tracking-wider mb-3 flex items-center gap-1">
                         <MessageSquare className="w-4 h-4" /> The Script
                       </h4>
-                      <p className="text-xl font-medium text-foreground italic leading-relaxed">
+                      <p className="text-base sm:text-xl font-medium text-foreground italic leading-relaxed">
                         "{selectedCard.script}"
                       </p>
                       <Button 
@@ -609,7 +611,7 @@ function CarouselDialog({
         </VisuallyHidden>
 
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b bg-muted/30">
+        <div className="flex items-center justify-between px-3 sm:px-6 py-3 sm:py-4 border-b bg-muted/30">
           <div className="flex items-center gap-3">
             <span className="text-sm font-mono text-muted-foreground">
               Card {currentIndex + 1} of {cards.length}
@@ -636,34 +638,34 @@ function CarouselDialog({
           <div className="flex h-full">
             {cards.map((card, index) => (
               <div key={card.id} className="flex-[0_0_100%] min-w-0 h-full overflow-y-auto">
-                <div className="p-6 md:p-8 max-w-3xl mx-auto">
+                <div className="p-4 sm:p-6 md:p-8 max-w-3xl mx-auto">
                   {/* Card Cover or Content */}
                   {revealedCards.has(card.id) ? (
                     /* Revealed Content */
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       {card.image ? (
                         <img src={card.image} alt={card.title} className="w-full h-auto rounded-xl shadow-lg" />
                       ) : (
                         <>
                           <div>
                             <span className="text-xs text-muted-foreground font-mono uppercase tracking-widest">{card.phase}</span>
-                            <h2 className="text-3xl font-bold font-display mt-2">{card.title}</h2>
+                            <h2 className="text-2xl sm:text-3xl font-bold font-display mt-2">{card.title}</h2>
                           </div>
 
                           <div>
                             <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1">
                               <ShieldAlert className="w-4 h-4" /> When to Use
                             </h4>
-                            <p className="text-lg text-foreground/80 bg-muted/30 p-4 rounded-xl border border-border/50">
+                            <p className="text-base sm:text-lg text-foreground/80 bg-muted/30 p-3 sm:p-4 rounded-xl border border-border/50">
                               {card.situation}
                             </p>
                           </div>
 
-                          <div className="bg-primary/5 p-6 rounded-xl border border-primary/10 relative group">
+                          <div className="bg-primary/5 p-4 sm:p-6 rounded-xl border border-primary/10 relative group">
                             <h4 className="text-sm font-bold text-primary uppercase tracking-wider mb-3 flex items-center gap-1">
                               <MessageSquare className="w-4 h-4" /> The Script
                             </h4>
-                            <p className="text-xl font-medium text-foreground italic leading-relaxed">
+                            <p className="text-base sm:text-xl font-medium text-foreground italic leading-relaxed">
                               "{card.script}"
                             </p>
                             <Button
@@ -705,7 +707,7 @@ function CarouselDialog({
                       </div>
 
                       <span className="text-sm font-mono text-muted-foreground mb-2">Card #{index + 1}</span>
-                      <h2 className="text-3xl font-bold font-display text-foreground mb-4">{card.title}</h2>
+                      <h2 className="text-2xl sm:text-3xl font-bold font-display text-foreground mb-4">{card.title}</h2>
 
                       <Badge variant="outline" className="mb-4 text-xs font-mono uppercase tracking-wider">
                         {card.phase}
@@ -733,10 +735,10 @@ function CarouselDialog({
         </div>
 
         {/* Navigation */}
-        <div className="flex items-center justify-between px-6 py-4 border-t bg-muted/30">
-          <Button variant="outline" onClick={scrollPrev} className="gap-2">
+        <div className="flex items-center justify-between px-3 sm:px-6 py-3 sm:py-4 border-t bg-muted/30">
+          <Button variant="outline" onClick={scrollPrev} className="gap-1 sm:gap-2 px-2 sm:px-4">
             <ChevronLeft className="w-4 h-4" />
-            Previous
+            <span className="hidden sm:inline">Previous</span>
           </Button>
           <div className="flex gap-1">
             {cards.slice(0, 10).map((_, i) => (
@@ -747,8 +749,8 @@ function CarouselDialog({
             ))}
             {cards.length > 10 && <span className="text-xs text-muted-foreground ml-1">+{cards.length - 10}</span>}
           </div>
-          <Button variant="outline" onClick={scrollNext} className="gap-2">
-            Next
+          <Button variant="outline" onClick={scrollNext} className="gap-1 sm:gap-2 px-2 sm:px-4">
+            <span className="hidden sm:inline">Next</span>
             <ChevronRight className="w-4 h-4" />
           </Button>
         </div>

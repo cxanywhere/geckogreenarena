@@ -273,7 +273,7 @@ export function Nav() {
                           href={item.href}
                           onClick={() => setIsOpen(false)}
                           className={cn(
-                            "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                            "flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-colors min-h-[44px]",
                             location === item.href
                               ? "text-magenta bg-white/10"
                               : "text-white/70 hover:text-white hover:bg-white/10"
@@ -291,7 +291,7 @@ export function Nav() {
                 {user && (
                   <button
                     onClick={() => setShowSignOutDialog(true)}
-                    className="flex items-center gap-2 text-sm font-medium text-red-400 mt-2 mx-2 pt-4 border-t border-white/10"
+                    className="flex items-center gap-2 text-sm font-medium text-red-400 mt-2 mx-2 pt-4 border-t border-white/10 min-h-[44px]"
                     data-testid="button-signout-mobile"
                   >
                     <LogOut className="h-4 w-4" />
