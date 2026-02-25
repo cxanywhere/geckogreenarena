@@ -127,11 +127,11 @@ export function VoiceQA({ chapterId, chapterTitle, currentSlideIndex, currentSli
         },
         voice: {
           provider: "11labs" as const,
-          voiceId: "yoZ06aMxZJJ28mfd3POQ",
+          voiceId: "TxGEqnHWrfWFTfGW9XjX",
         },
         transcriber: {
           provider: "deepgram" as const,
-          model: "nova-2" as const,
+          model: "nova-3" as const,
           language: "en-US" as const,
         },
       };
