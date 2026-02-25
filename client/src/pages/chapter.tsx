@@ -504,95 +504,93 @@ export default function ChapterPage() {
         {/* Header with Learning Objectives */}
         <div className="border-b border-border bg-card/50 backdrop-blur-sm">
           <div className="container mx-auto px-4 py-3">
-            <div className="flex items-center justify-between gap-2 sm:gap-4">
-              <div className="flex items-center gap-2 sm:gap-4 min-w-0">
-                <Link href="/dashboard">
-                  <Button variant="ghost" size="icon" className="rounded-full shrink-0 h-8 w-8 sm:h-10 sm:w-10" data-testid="button-back">
-                    <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-                  </Button>
-                </Link>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-muted-foreground mb-0.5 sm:mb-1 flex-wrap">
-                    <span className="flex items-center gap-1">
-                      <Presentation className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                      Ch {chapters.findIndex(c => c.id === chapter.id) + 1}
-                    </span>
-                    <span className="text-border">|</span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      {chapter.duration}
-                    </span>
-                    <span className="text-border hidden sm:inline">|</span>
-                    <span className="flex items-center gap-1 sm:hidden text-xs">
-                      {currentPage}/{totalSlides || '?'}
-                    </span>
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+                  <Link href="/dashboard">
+                    <Button variant="ghost" size="icon" className="rounded-full shrink-0 h-8 w-8 sm:h-10 sm:w-10" data-testid="button-back">
+                      <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+                    </Button>
+                  </Link>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-muted-foreground mb-0.5 sm:mb-1">
+                      <span className="flex items-center gap-1 shrink-0">
+                        <Presentation className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                        Chapter {chapters.findIndex(c => c.id === chapter.id) + 1}
+                      </span>
+                      <span className="text-border shrink-0">|</span>
+                      <span className="flex items-center gap-1 shrink-0">
+                        <Clock className="h-3 w-3" />
+                        {chapter.duration}
+                      </span>
+                    </div>
+                    <h1 className="text-base sm:text-lg md:text-xl font-display font-bold text-foreground truncate" data-testid="text-chapter-title">
+                      {chapter.title}
+                    </h1>
                   </div>
-                  <h1 className="text-base sm:text-lg md:text-xl font-display font-bold text-foreground truncate max-w-[40vw] sm:max-w-none" data-testid="text-chapter-title">
-                    {chapter.title}
-                  </h1>
+                </div>
+                
+                <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                  <Button
+                    size="sm"
+                    className="bg-magenta hover:bg-magenta/90 text-white text-xs gap-1 sm:gap-1.5 px-2 sm:px-3 h-8"
+                    onClick={handleLaunchPresentMode}
+                    disabled={isGeneratingNarration}
+                    data-testid="button-present-mode"
+                  >
+                    {isGeneratingNarration ? (
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        <span className="hidden sm:inline">Loading...</span>
+                      </>
+                    ) : (
+                      <>
+                        <PlayCircle className="w-3.5 h-3.5" />
+                        <span className="hidden sm:inline">Auto Present</span>
+                      </>
+                    )}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs gap-1 sm:gap-1.5 border-magenta/30 text-magenta hover:bg-magenta/10 px-2 sm:px-3 h-8"
+                    onClick={() => setShowVoiceQA(!showVoiceQA)}
+                    data-testid="button-ask-question"
+                  >
+                    <MessageCircleQuestion className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Ask</span>
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={() => setShowObjectives(!showObjectives)}
+                    className="text-xs px-2 sm:px-3 h-8"
+                    data-testid="button-toggle-objectives"
+                  >
+                    {showObjectives ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                    <span className="hidden sm:inline ml-1">Details</span>
+                  </Button>
                 </div>
               </div>
               
-              <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-                <div className="hidden md:flex items-center gap-2">
-                  <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${slideProgress >= 100 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-muted text-muted-foreground'}`}>
-                    <FileText className="w-3 h-3" />
-                    {currentPage}/{totalSlides || '?'} slides
-                    {slideProgress >= 100 && <CheckCircle className="w-3 h-3" />}
-                  </div>
-                  <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${completedQuizPages.size > 0 ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : 'bg-muted text-muted-foreground'}`}>
-                    <GraduationCap className="w-3 h-3" />
-                    {completedQuizPages.size} quiz{completedQuizPages.size !== 1 ? 'zes' : ''}
-                    {allQuizzesDone && <CheckCircle className="w-3 h-3" />}
-                  </div>
-                  {chapterHasRoleplays && (
-                    <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${completedRoleplayOrderIndexes.size > 0 ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-muted text-muted-foreground'}`}>
-                      <Mic className="w-3 h-3" />
-                      {completedRoleplayOrderIndexes.size}/{totalChapterRoleplays} roleplay{totalChapterRoleplays !== 1 ? 's' : ''}
-                      {allRoleplaysDone && <CheckCircle className="w-3 h-3" />}
-                    </div>
-                  )}
+              <div className="flex items-center gap-2 flex-wrap">
+                <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${slideProgress >= 100 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-muted text-muted-foreground'}`}>
+                  <FileText className="w-3 h-3" />
+                  {currentPage}/{totalSlides || '?'} slides
+                  {slideProgress >= 100 && <CheckCircle className="w-3 h-3" />}
                 </div>
-                
-                <Button
-                  size="sm"
-                  className="bg-magenta hover:bg-magenta/90 text-white text-xs gap-1 sm:gap-1.5 px-2 sm:px-3 h-8"
-                  onClick={handleLaunchPresentMode}
-                  disabled={isGeneratingNarration}
-                  data-testid="button-present-mode"
-                >
-                  {isGeneratingNarration ? (
-                    <>
-                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                      <span className="hidden sm:inline">Loading...</span>
-                    </>
-                  ) : (
-                    <>
-                      <PlayCircle className="w-3.5 h-3.5" />
-                      <span className="hidden sm:inline">Auto Present</span>
-                    </>
-                  )}
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="text-xs gap-1 sm:gap-1.5 border-magenta/30 text-magenta hover:bg-magenta/10 px-2 sm:px-3 h-8"
-                  onClick={() => setShowVoiceQA(!showVoiceQA)}
-                  data-testid="button-ask-question"
-                >
-                  <MessageCircleQuestion className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Ask</span>
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={() => setShowObjectives(!showObjectives)}
-                  className="text-xs px-2 sm:px-3 h-8"
-                  data-testid="button-toggle-objectives"
-                >
-                  {showObjectives ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                  <span className="hidden sm:inline ml-1">Details</span>
-                </Button>
+                <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${completedQuizPages.size > 0 ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : 'bg-muted text-muted-foreground'}`}>
+                  <GraduationCap className="w-3 h-3" />
+                  {completedQuizPages.size} quiz{completedQuizPages.size !== 1 ? 'zes' : ''}
+                  {allQuizzesDone && <CheckCircle className="w-3 h-3" />}
+                </div>
+                {chapterHasRoleplays && (
+                  <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${completedRoleplayOrderIndexes.size > 0 ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-muted text-muted-foreground'}`}>
+                    <Mic className="w-3 h-3" />
+                    {completedRoleplayOrderIndexes.size}/{totalChapterRoleplays} roleplay{totalChapterRoleplays !== 1 ? 's' : ''}
+                    {allRoleplaysDone && <CheckCircle className="w-3 h-3" />}
+                  </div>
+                )}
               </div>
             </div>
             
