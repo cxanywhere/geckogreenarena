@@ -359,7 +359,7 @@ export const CHAPTER_SEED_DATA = [
         "imagePrompt": "Create a professional presentation slide with dark navy blue background. Title at top: \"ROLEPLAY: MODEL FLEXIBILITY PITCH\". Split-screen comparison: Left side (red X): \"Myth: Replace your entire team\" with worried team icons. Right side (green check): \"Reality: Augment with exactly what you need\" with modular blocks (SDR, AE, CSM). Center orange arrow: \"Strategic Augmentation\". Scenario box: \"CEO of $200M Cybersecurity: 'I don't want to outsource my entire sales team — we need to keep control.'\". Bottom: \"GOAL: Agreement to explore a focused pilot (e.g., SDR team for new market)\".",
         "narrationScript": "",
         "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p2-model-flexibility"
+        "roleplaySlug": "rp-p2-saas-model"
       }
     ],
     "slideCount": 5,
@@ -463,7 +463,7 @@ export const CHAPTER_SEED_DATA = [
         "imagePrompt": "Create a professional presentation slide with dark navy blue background. Title at top: \"ROLEPLAY: SDR PROGRAM PITCH\". Two-column comparison in orange. Left column (dimmed/red): \"Commodity SDR Vendor\" — Shared reps, generic scripts, low SQL acceptance, no AI. Right column (bright/green): \"MarketStar\" — Dedicated teams, Nytro.ai pitch readiness, 75-85% SQL acceptance, client-specific training. Scenario box: \"VP Sales at $150M SaaS: 'We've tried outsourced SDRs before and quality was terrible. What makes MarketStar different?'\". Bottom: \"GOAL: Client agrees MarketStar addresses past pain points\".",
         "narrationScript": "",
         "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p3-sdr-pitch"
+        "roleplaySlug": "rp-p3-pipeline-gen"
       }
     ],
     "slideCount": 5,
@@ -569,7 +569,7 @@ export const CHAPTER_SEED_DATA = [
         "imagePrompt": "Create a professional presentation slide with dark navy blue background. Title at top: \"ROLEPLAY: AE VALUE PROPOSITION\". Scenario box: \"CRO: 'Why would I trust an outsourced AE to close deals? They won't understand our product like an internal hire.'\". Left: certification badge icon with \"Rigorous Product Training\". Right: proof points in orange — \"Nytro.ai Pitch Intelligence\", \"22-28% Win Rate\", \"Dedicated Team Model\". Bottom: \"GOAL: CRO agrees to review AE certification curriculum & case studies\".",
         "narrationScript": "",
         "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p4-ae-value"
+        "roleplaySlug": "rp-v1-new-market"
       }
     ],
     "slideCount": 5,
@@ -673,7 +673,7 @@ export const CHAPTER_SEED_DATA = [
         "imagePrompt": "Create a professional presentation slide with dark navy blue background. Title at top: \"ROLEPLAY: RETENTION SAVE\". Scenario box: \"VP Customer Success: 'Our churn rate is 18% and the board is demanding action, but we can't afford to hire 10 more AMs internally.'\". Left: declining churn rate chart (18% → target 5-8%). Right: proof points in orange — \"6-8 week ramp\", \"35-50% less than internal AM\", \"92-96% gross retention\". Bottom: \"GOAL: VP CS agrees to pilot on highest-risk segment\".",
         "narrationScript": "",
         "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p5-retention-save"
+        "roleplaySlug": "rp-p4-account-mgmt"
       }
     ],
     "slideCount": 5,
@@ -777,7 +777,7 @@ export const CHAPTER_SEED_DATA = [
         "imagePrompt": "Create a professional presentation slide with dark navy blue background. Title at top: \"ROLEPLAY: CHANNEL ACTIVATION\". Scenario box: \"VP Partnerships: 'We signed 100 partners last year but only 15 are actively selling. We don't have the headcount to manage them all.'\". Left: bar chart showing 15/100 active (low). Right: improvement target with orange — \"MarketStar PAMs: 60-75% activation, 45-60 days to first deal\". Bottom: \"GOAL: VP agrees to pilot covering top 30-50 underperforming partners\".",
         "narrationScript": "",
         "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p6-channel-activation"
+        "roleplaySlug": "rp-p5-partner-channel"
       }
     ],
     "slideCount": 5,
@@ -881,7 +881,7 @@ export const CHAPTER_SEED_DATA = [
         "imagePrompt": "Create a professional presentation slide with dark navy blue background. Title at top: \"ROLEPLAY: CS PROGRAM PITCH\". Scenario box: \"CEO: 'We're losing 20% of customers annually and our internal CS team is overwhelmed. But I'm worried about outsourcing customer relationships — these are our most important assets.'\". Left: trust-building icons — \"Dedicated Teams\", \"Client's Brand Voice\", \"Structured Playbooks\". Right: proof points in orange — \"Nytro.ai Pitch Readiness\", \"15-25% Churn Reduction\", \"30-45% Cost Savings\". Bottom: \"GOAL: CEO agrees to pilot covering mid-market segment\".",
         "narrationScript": "",
         "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p7-cs-pitch"
+        "roleplaySlug": "rp-p6-customer-success"
       }
     ],
     "slideCount": 5,
@@ -985,7 +985,7 @@ export const CHAPTER_SEED_DATA = [
         "imagePrompt": "Create a professional presentation slide with dark navy blue background. Title at top: \"ROLEPLAY: REVOPS VALUE PITCH\". Scenario box: \"VP Sales: 'We already have Salesforce and Outreach set up. We don't need someone to manage our tools — we need more meetings.'\". Center: transformation arrow in orange from \"'Admin Support'\" (crossed out) to \"'Performance Multiplier'\". Right: proof points — \"25-35% Productivity Improvement\", \"Data-Driven Coaching\", \"Playbook Optimization\", \"Pipeline Visibility\". Bottom: \"GOAL: VP acknowledges RevOps optimization could unlock more pipeline from existing resources\".",
         "narrationScript": "",
         "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p8-revops-value"
+        "roleplaySlug": "rp-p7-revops"
       }
     ],
     "slideCount": 5,

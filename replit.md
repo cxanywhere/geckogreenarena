@@ -111,3 +111,4 @@ Preferred communication style: Simple, everyday language.
   - Updated competitive intelligence: Accenture (N3 acquisition), CIENCE/Martal/Belkins/EBQ as Tier 2
   - Updated market sizing: $105B (2024) → $216B (2033) at 9.78% CAGR
   - Regenerated 51/64 images and 64/64 narrations (13 images pending Gemini API daily quota reset)
+- **Roleplay Slug Fix**: Fixed 7 mismatched roleplay slugs in slide data (both seed-data.ts and seed-data-new.ts). Slides referenced wrong slugs (e.g., `rp-p7-cs-pitch` instead of `rp-p6-customer-success`), causing `getRoleplayForSlide()` to return null and last-slide roleplays to never trigger. All 13 slide roleplay slugs now match their DB counterparts.

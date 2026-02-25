@@ -357,7 +357,7 @@ export const CHAPTER_SEED_DATA = [
         "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: MODEL FLEXIBILITY\". Show two contrasting visuals: \"Myth: Replace your team\" (X mark) vs \"Reality: Augment your team\" (checkmark). Scenario: \"CEO: 'I don't want to outsource everything.'\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p2-model-flexibility"
+        "roleplaySlug": "rp-p2-saas-model"
       }
     ],
     "slideCount": 5,
@@ -461,7 +461,7 @@ export const CHAPTER_SEED_DATA = [
         "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: SDR PROGRAM PITCH\". Show comparison: \"Commodity SDR Vendor\" (negative attributes) vs \"MarketStar\" (positive attributes). Scenario: \"VP Sales: 'We tried outsourced SDRs before — quality was terrible.'\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p3-sdr-pitch"
+        "roleplaySlug": "rp-p3-pipeline-gen"
       }
     ],
     "slideCount": 5,
@@ -567,7 +567,7 @@ export const CHAPTER_SEED_DATA = [
         "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: AE VALUE PROPOSITION\". Scenario: \"CRO: 'Why would an outsourced AE understand our product?'\". Show training certification badge icon. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p4-ae-value"
+        "roleplaySlug": "rp-v1-new-market"
       }
     ],
     "slideCount": 5,
@@ -671,7 +671,7 @@ export const CHAPTER_SEED_DATA = [
         "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: RETENTION SAVE\". Scenario: \"VP CS: 'Churn is 18% and we can't hire fast enough.'\". Show churn rate declining chart. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p5-retention-save"
+        "roleplaySlug": "rp-p4-account-mgmt"
       }
     ],
     "slideCount": 5,
@@ -775,7 +775,7 @@ export const CHAPTER_SEED_DATA = [
         "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: CHANNEL ACTIVATION\". Scenario: \"VP Partnerships: 'Only 15 of 100 partners are selling.'\". Chart showing activation improvement. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p6-channel-activation"
+        "roleplaySlug": "rp-p5-partner-channel"
       }
     ],
     "slideCount": 5,
@@ -879,7 +879,7 @@ export const CHAPTER_SEED_DATA = [
         "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: CS PROGRAM PITCH\". Scenario: \"CEO: 'Customers are our most important assets — can we trust outsourced CSMs?'\". Trust-building imagery. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p7-cs-pitch"
+        "roleplaySlug": "rp-p6-customer-success"
       }
     ],
     "slideCount": 5,
@@ -983,7 +983,7 @@ export const CHAPTER_SEED_DATA = [
         "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: REVOPS VALUE\". Scenario: \"VP Sales: 'We already have Salesforce. We need meetings, not tool management.'\". Transformation arrow from 'Admin Support' to 'Revenue Enablement'. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p8-revops-value"
+        "roleplaySlug": "rp-p7-revops"
       }
     ],
     "slideCount": 5,
