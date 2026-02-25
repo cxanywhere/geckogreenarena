@@ -19,24 +19,27 @@ export interface GeneratedImage {
   error?: string;
 }
 
+const CHAPTER_COVER_PROMPTS: Record<string, string> = {
+  "MarketStar 101": "A vibrant, modern 3D illustration of a glowing orange star rising above a stylized deep navy blue globe with interconnected nodes representing a global sales network. Dynamic light rays emanate outward. Abstract floating geometric shapes (hexagons, spheres) in orange (#E07A2F) and navy (#1A2B8C) orbit the star. Energetic, inspiring, futuristic corporate feel. No text whatsoever. 16:9 aspect ratio.",
+  "Buyer Reality & ICP": "A modern 3D illustration showing a magnifying glass with an orange (#E07A2F) rim hovering over abstract buyer profile silhouettes arranged in a target/bullseye pattern. The ideal customer profile glows bright orange at the center while others fade to deep navy (#1A2B8C). Floating data particles and connection lines. Sleek, high-tech discovery vibe. No text whatsoever. 16:9 aspect ratio.",
+  "Sales as a Service® & Nytro.ai": "A futuristic 3D illustration of a sleek robotic arm and a human hand reaching toward each other (Michelangelo style) with an electric orange (#E07A2F) spark between them. Behind them, a fluid navy (#1A2B8C) circuit-board landscape with glowing AI neural pathways. Represents human+AI sales power. Dynamic, exciting, cutting-edge. No text whatsoever. 16:9 aspect ratio.",
+  "Pipeline Generation": "A dynamic 3D illustration of a massive glowing orange (#E07A2F) pipeline/funnel floating in space, with streams of luminous lead particles flowing in from the top and converting into golden deals at the bottom. Navy (#1A2B8C) background with abstract speed lines and momentum trails. Energetic, fast-paced, growth-oriented. No text whatsoever. 16:9 aspect ratio.",
+  "New Business Acquisition": "A bold 3D illustration of an orange (#E07A2F) rocket launching from a navy (#1A2B8C) launchpad, trailing a brilliant flame. Below, a cityscape of modern glass buildings represents the enterprise market. Floating contract/handshake icons orbit the rocket. Ambitious, exciting, conquest energy. No text whatsoever. 16:9 aspect ratio.",
+  "Account Management": "A warm 3D illustration of interconnected orange (#E07A2F) and navy (#1A2B8C) puzzle pieces forming a shield shape, symbolizing protection and growth. Small upward-trending graph lines weave through the connections. Floating relationship icons (handshakes, growth arrows) surround it. Trustworthy, nurturing, strategic. No text whatsoever. 16:9 aspect ratio.",
+  "Partner Channel Services": "A vibrant 3D illustration of a sprawling network of glowing orange (#E07A2F) bridges connecting floating navy (#1A2B8C) platform islands. Each island has a small beacon/lighthouse. Energy pulses travel along the bridges showing active partnerships. Collaborative, expansive, ecosystem feel. No text whatsoever. 16:9 aspect ratio.",
+  "Customer Success": "A jubilant 3D illustration of a trophy/cup in brilliant orange (#E07A2F) surrounded by celebratory confetti and rising green health-score bars. A happy abstract customer figure stands on a podium. Navy (#1A2B8C) background with floating hearts and star ratings. Joyful, achievement-focused, customer-centric. No text whatsoever. 16:9 aspect ratio.",
+  "Revenue Operations": "A sleek 3D illustration of interlocking gears and dashboards forming a revenue engine machine. The central gear glows orange (#E07A2F), surrounded by navy (#1A2B8C) mechanical components. Holographic charts, KPI dials, and data streams float around it. Precise, powerful, operational excellence. No text whatsoever. 16:9 aspect ratio.",
+  "Competitive & Differentiation": "A dramatic 3D illustration of a chess board from a low angle, with an orange (#E07A2F) king piece standing tall and glowing in the center, while generic navy (#1A2B8C) pieces surround it. Lightning-like energy radiates from the king. Strategic, dominant, winner-takes-all energy. No text whatsoever. 16:9 aspect ratio.",
+  "Deal Execution": "An intense 3D illustration of a glowing orange (#E07A2F) pen signing on a floating holographic contract, with celebration sparks and fireworks erupting from the signature point. Navy (#1A2B8C) background with deal milestone checkpoints floating like stepping stones. Decisive, victorious, closing energy. No text whatsoever. 16:9 aspect ratio.",
+  "AI Enablement": "A stunning 3D illustration of a luminous AI brain made of orange (#E07A2F) neural networks floating above an open palm. Holographic data visualizations, prediction curves, and smart automation icons orbit around it. Deep navy (#1A2B8C) space background with stars. Futuristic, intelligent, transformative. No text whatsoever. 16:9 aspect ratio.",
+};
+
 export async function generateChapterImage(
   chapterTitle: string,
   chapterDescription: string
 ): Promise<GeneratedImage> {
-  const prompt = `Create a professional, modern illustration for a sales training module.
-  
-Theme: ${chapterTitle}
-Context: ${chapterDescription}
-
-Style requirements:
-- Clean, corporate illustration style with a deep blue and teal color palette (MarketStar brand colors: deep blue #1A2B5C, teal #00B4D8)
-- B2B sales outsourcing training theme
-- Modern, minimalist design suitable for a training platform
-- No text or words in the image
-- Sophisticated, premium mood with a luxury feel
-- 16:9 aspect ratio suitable for a card header
-
-Create a visually appealing illustration that represents B2B sales outsourcing success, pipeline generation, revenue growth, and sales enablement.`;
+  const customPrompt = CHAPTER_COVER_PROMPTS[chapterTitle];
+  const prompt = customPrompt || `Create a vibrant, modern 3D illustration for a B2B sales training chapter about "${chapterTitle}". Use orange (#E07A2F) as the primary accent color and deep navy (#1A2B8C) as the background. Dynamic, exciting, futuristic corporate feel with abstract shapes and glowing elements. No text or words whatsoever. 16:9 aspect ratio.`;
 
   const clients = [
     { name: "user-key", client: ai },
