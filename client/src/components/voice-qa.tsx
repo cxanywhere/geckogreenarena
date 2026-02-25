@@ -127,7 +127,7 @@ export function VoiceQA({ chapterId, chapterTitle, currentSlideIndex, currentSli
         },
         voice: {
           provider: "11labs" as const,
-          voiceId: "pNInz6obpgDQGcFmaJgB",
+          voiceId: "yoZ06aMxZJJ28mfd3POQ",
         },
         transcriber: {
           provider: "deepgram" as const,
