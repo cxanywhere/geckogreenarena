@@ -605,18 +605,13 @@ export async function generateSlideImage(
   const fullPrompt = `${imagePrompt}
 ${contentContext}
 
-CRITICAL STYLE REQUIREMENTS:
-- This is a PRESENTATION SLIDE for MarketStar's sales training platform
-- Dark navy blue (#1A2B8C) background is mandatory
-- White text for titles and body content
-- MarketStar Orange (#E07A2F) for accent elements, icons, highlights, and data callouts
-- Professional corporate keynote quality — think McKinsey or Bain presentation deck
-- 16:9 landscape aspect ratio
-- Include the TITLE TEXT clearly visible at the top of the slide
-- Render the exact data points, names, numbers, and labels from the KEY BULLET POINTS above — do not generalize, substitute, or invent different content
-- Clean typography with generous spacing
-- Subtle gradient effects and modern design elements
-- NO stock photo feel — this should look like a hand-crafted slide design`;
+STYLE REQUIREMENTS:
+- This is a presentation slide for MarketStar sales training
+- Dark navy blue background with white text and orange accent elements
+- Professional corporate keynote quality
+- Include the title text clearly visible at the top of the slide
+- Render the exact data points, names, numbers, and labels from the bullet points above — do not generalize, substitute, or invent different content
+- Do not render any hex color codes, aspect ratios, or technical instructions as visible text on the slide`;
 
   const maxRetries = 3;
   
