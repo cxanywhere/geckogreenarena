@@ -38,49 +38,63 @@ Style requirements:
 
 Create a visually appealing illustration that represents B2B sales outsourcing success, pipeline generation, revenue growth, and sales enablement.`;
 
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3-pro-image-preview",
-      contents: prompt,
-      config: {
-        responseModalities: ["Text", "Image"],
-      },
-    });
+  const clients = [
+    { name: "user-key", client: ai },
+    { name: "replit-integration", client: aiIntegration },
+  ];
 
-    const parts = response.candidates?.[0]?.content?.parts;
-    if (!parts) {
-      return { success: false, error: "No response parts received" };
-    }
+  for (const { name, client } of clients) {
+    try {
+      console.log(`[ChapterImage] Trying ${name}...`);
+      const response = await client.models.generateContent({
+        model: "gemini-3-pro-image-preview",
+        contents: prompt,
+        config: {
+          responseModalities: ["Text", "Image"],
+        },
+      });
 
-    for (const part of parts) {
-      if (part.inlineData) {
-        const imageData = part.inlineData.data;
-        if (imageData) {
-          const uploadsDir = path.join(process.cwd(), "public", "uploads");
-          if (!fs.existsSync(uploadsDir)) {
-            fs.mkdirSync(uploadsDir, { recursive: true });
+      const parts = response.candidates?.[0]?.content?.parts;
+      if (!parts) {
+        console.log(`[ChapterImage] ${name}: No response parts`);
+        continue;
+      }
+
+      for (const part of parts) {
+        if (part.inlineData) {
+          const imageData = part.inlineData.data;
+          if (imageData) {
+            const uploadsDir = path.join(process.cwd(), "public", "uploads");
+            if (!fs.existsSync(uploadsDir)) {
+              fs.mkdirSync(uploadsDir, { recursive: true });
+            }
+            
+            const filename = `chapter-${chapterTitle.toLowerCase().replace(/\s+/g, "-")}-${Date.now()}.png`;
+            const filepath = path.join(uploadsDir, filename);
+            
+            const buffer = Buffer.from(imageData, "base64");
+            fs.writeFileSync(filepath, buffer);
+            
+            console.log(`[ChapterImage] ${name}: Success`);
+            return {
+              success: true,
+              imagePath: filepath,
+              imageUrl: `/uploads/${filename}`,
+            };
           }
-          
-          const filename = `chapter-${chapterTitle.toLowerCase().replace(/\s+/g, "-")}-${Date.now()}.png`;
-          const filepath = path.join(uploadsDir, filename);
-          
-          const buffer = Buffer.from(imageData, "base64");
-          fs.writeFileSync(filepath, buffer);
-          
-          return {
-            success: true,
-            imagePath: filepath,
-            imageUrl: `/uploads/${filename}`,
-          };
         }
       }
-    }
 
-    return { success: false, error: "No image data in response" };
-  } catch (error: any) {
-    console.error("Failed to generate chapter image:", error);
-    return { success: false, error: error.message || "Image generation failed" };
+      console.log(`[ChapterImage] ${name}: No image data in response`);
+    } catch (error: any) {
+      console.error(`[ChapterImage] ${name} failed:`, error.message || error);
+      if (!error.message?.includes("429") && !error.message?.includes("quota")) {
+        return { success: false, error: error.message || "Image generation failed" };
+      }
+    }
   }
+
+  return { success: false, error: "All API keys exhausted or failed" };
 }
 
 export async function generatePersonaImage(
@@ -119,50 +133,64 @@ REQUIREMENTS:
 
 The image should look like a real enterprise buyer you might meet in a sales meeting.`;
 
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3-pro-image-preview",
-      contents: prompt,
-      config: {
-        responseModalities: ["Text", "Image"],
-      },
-    });
+  const clients = [
+    { name: "user-key", client: ai },
+    { name: "replit-integration", client: aiIntegration },
+  ];
 
-    const parts = response.candidates?.[0]?.content?.parts;
-    if (!parts) {
-      return { success: false, error: "No response parts received" };
-    }
+  for (const { name, client } of clients) {
+    try {
+      console.log(`[PersonaImage] Trying ${name}...`);
+      const response = await client.models.generateContent({
+        model: "gemini-3-pro-image-preview",
+        contents: prompt,
+        config: {
+          responseModalities: ["Text", "Image"],
+        },
+      });
 
-    for (const part of parts) {
-      if (part.inlineData) {
-        const imageData = part.inlineData.data;
-        if (imageData) {
-          const uploadsDir = path.join(process.cwd(), "public", "uploads");
-          if (!fs.existsSync(uploadsDir)) {
-            fs.mkdirSync(uploadsDir, { recursive: true });
+      const parts = response.candidates?.[0]?.content?.parts;
+      if (!parts) {
+        console.log(`[PersonaImage] ${name}: No response parts`);
+        continue;
+      }
+
+      for (const part of parts) {
+        if (part.inlineData) {
+          const imageData = part.inlineData.data;
+          if (imageData) {
+            const uploadsDir = path.join(process.cwd(), "public", "uploads");
+            if (!fs.existsSync(uploadsDir)) {
+              fs.mkdirSync(uploadsDir, { recursive: true });
+            }
+            
+            const safeName = personaRole.toLowerCase().replace(/[^a-z0-9]+/g, "-").substring(0, 30);
+            const filename = `persona-${safeName}-${Date.now()}.png`;
+            const filepath = path.join(uploadsDir, filename);
+            
+            const buffer = Buffer.from(imageData, "base64");
+            fs.writeFileSync(filepath, buffer);
+            
+            console.log(`[PersonaImage] ${name}: Success`);
+            return {
+              success: true,
+              imagePath: filepath,
+              imageUrl: `/uploads/${filename}`,
+            };
           }
-          
-          const safeName = personaRole.toLowerCase().replace(/[^a-z0-9]+/g, "-").substring(0, 30);
-          const filename = `persona-${safeName}-${Date.now()}.png`;
-          const filepath = path.join(uploadsDir, filename);
-          
-          const buffer = Buffer.from(imageData, "base64");
-          fs.writeFileSync(filepath, buffer);
-          
-          return {
-            success: true,
-            imagePath: filepath,
-            imageUrl: `/uploads/${filename}`,
-          };
         }
       }
-    }
 
-    return { success: false, error: "No image data in response" };
-  } catch (error: any) {
-    console.error("Failed to generate persona image:", error);
-    return { success: false, error: error.message || "Image generation failed" };
+      console.log(`[PersonaImage] ${name}: No image data in response`);
+    } catch (error: any) {
+      console.error(`[PersonaImage] ${name} failed:`, error.message || error);
+      if (!error.message?.includes("429") && !error.message?.includes("quota")) {
+        return { success: false, error: error.message || "Image generation failed" };
+      }
+    }
   }
+
+  return { success: false, error: "All API keys exhausted or failed" };
 }
 
 export async function generateLogoImage(
