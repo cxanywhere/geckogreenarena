@@ -4,6 +4,14 @@ import * as path from "path";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
 
+const aiIntegration = new GoogleGenAI({
+  apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY || "",
+  httpOptions: {
+    apiVersion: "",
+    baseUrl: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL || "",
+  },
+});
+
 export interface GeneratedImage {
   success: boolean;
   imagePath?: string;
@@ -617,7 +625,7 @@ STYLE REQUIREMENTS:
   
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
-      const response = await ai.models.generateContent({
+      const response = await aiIntegration.models.generateContent({
         model: "gemini-3-pro-image-preview",
         contents: fullPrompt,
         config: {
