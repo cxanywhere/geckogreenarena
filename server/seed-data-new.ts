@@ -29,7 +29,7 @@ export const CHAPTER_SEED_DATA = [
           "Certification drives 35% faster ramp time for new sellers"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text at top: \"YOUR CERTIFICATION PATH\". Below, show a horizontal roadmap timeline with 4 milestone nodes connected by a flowing orange (#E07A2F) line. Node 1: \"12 Chapters\" with a book icon, Node 2: \"24 Roleplays\" with a microphone icon, Node 3: \"Certification Exam\" with a certificate icon, Node 4: \"Deal-Ready Seller\" with a trophy icon. Below the timeline, show 3 stat boxes: \"35% Faster Ramp\", \"2-3 Week Program\", \"24 AI Voice Roleplays\". Clean, modern corporate keynote style. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"YOUR CERTIFICATION PATH\". Show a horizontal roadmap timeline with 5 milestone nodes connected by a flowing orange (#E07A2F) line. Node 1: \"12 Chapters\" (book icon) covering Demand Gen, Direct Sales, Partner Channels, Customer Success, RevOps, and MarketStar Labs. Node 2: \"24 AI Voice Roleplays\" (microphone icon). Node 3: \"Certification Exam\" (certificate icon). Node 4: \"MarketStar Certified Seller\" (badge icon). Node 5: \"Deal-Ready\" (trophy icon). Below the timeline, show stat boxes: \"35% Faster Ramp\", \"2-3 Week Program\", \"Arena Leaderboard\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -48,7 +48,7 @@ export const CHAPTER_SEED_DATA = [
           "\"Live the Six\" core values: You Belong, All In Everyday, Leaders Who Amplify, Masters of Our Craft, We Care, Creativity That Impacts"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"THE MARKETSTAR ELEVATOR PITCH\". Center shows a large quotation mark icon in orange (#E07A2F), followed by the pitch in white italic text. Below the quote, show a visual value chain: three connected hexagons labeled \"SPEED TO REVENUE\" → \"PREDICTABLE GROWTH\" → \"CAPITAL EFFICIENCY\". At the bottom, three data callouts: \"Nearly 40 Years\", \"3,950 Employees\", \"90+ Countries\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"THE MARKETSTAR ELEVATOR PITCH\". Center: large quotation mark icon in orange (#E07A2F) with the pitch text: \"We build and run world-class sales teams for B2B technology companies — so they can scale revenue faster with less risk.\" Below the quote, show a value chain: three connected hexagons labeled \"SPEED TO REVENUE\" → \"PREDICTABLE GROWTH\" → \"CAPITAL EFFICIENCY\". Bottom row of stat badges: \"Founded 1988\", \"3,950 Employees\", \"90+ Countries\", \"60+ Clients\", \"PEAK Matrix® Leader 2025\", \"4 Stevie Awards 2025\". Small banner at bottom: \"Live the Six\" core values. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -65,7 +65,7 @@ export const CHAPTER_SEED_DATA = [
           "MarketStar solves all four with Sales as a Service® — a modular, scalable delivery model"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"WHAT PROBLEMS WE SOLVE\". Show a 2x2 grid of problem cards with orange (#E07A2F) icons. Top-left: \"SCALE\" — \"Grow without proportional cost\". Top-right: \"SPEED\" — \"9+ months to build internal teams\". Bottom-left: \"EXPERTISE\" — \"Specialized roles hard to fill\". Bottom-right: \"RISK\" — \"Fixed cost burden in uncertainty\". Center connecting circle: \"SALES AS A SERVICE®\". Bottom banner: \"18-24 months of lost opportunity\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"WHAT PROBLEMS WE SOLVE\". Show a 2x2 grid of problem cards with orange (#E07A2F) icons. Top-left: \"SCALE\" — \"Grow sales capacity without proportional headcount cost\". Top-right: \"SPEED\" — \"9+ months to hire, train, and ramp internally\". Bottom-left: \"EXPERTISE\" — \"SDR, channel, CS, demand gen roles hard to fill\". Bottom-right: \"RISK\" — \"Fixed cost burden during market uncertainty\". Center connecting element: \"MarketStar — Demand Gen + Sales + Channels + CS + RevOps\". Bottom banner: \"18-24 months of lost opportunity without us\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -83,7 +83,7 @@ export const CHAPTER_SEED_DATA = [
           "Remote, in-office, and hybrid operations — PEAK Matrix® Leader 2025 validates our global capability"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"GLOBAL FOOTPRINT & SCALE\". Show a world map with glowing orange (#E07A2F) dots across North America, EMEA, APAC, ANZ, Latin America. HQ star on Ogden. Below the map, show stat boxes: \"90+ Countries\", \"3,950 Employees\", \"60+ Clients\", \"500+ Career Advancements\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"GLOBAL FOOTPRINT & SCALE\". Show a world map with glowing orange (#E07A2F) location markers at: Ogden Utah (HQ star), Canada, Mexico, Uruguay (Latin America), Ireland, Bulgaria (EMEA), Philippines, Australia (APAC/ANZ). Label regions: \"North America\", \"Latin America\", \"EMEA\", \"APAC/ANZ\". Below map: stat boxes \"90+ Countries\", \"3,950 Employees\", \"60+ Clients\", \"500+ Career Advancements/yr\". Small text: \"Led by CEO Keith Titus & COO Paul Grant | PEAK Matrix® Leader 2025\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -100,7 +100,7 @@ export const CHAPTER_SEED_DATA = [
           "MARKETSTAR LABS: Nytro.ai (AI pitch intelligence for sales readiness) + Gameplan (training & mentorship platform) — innovation driving performance"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"THE MARKETSTAR SOLUTION MAP\". Show a layered architecture diagram. Top layer: 5 solution boxes in orange (#E07A2F) outlines — \"Demand Gen\", \"Direct Sales\", \"Partner Channels\", \"Customer Success\", \"Rev Ops\". Middle layer: a wide bar labeled \"MARKETSTAR LABS — Nytro.ai + Gameplan\" with a brain icon. Bottom layer: a foundation bar labeled \"SALES AS A SERVICE® — Modular Delivery\". Arrows flow between layers. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"THE MARKETSTAR SOLUTION MAP\". Show a layered architecture diagram. Top layer: 6 solution boxes in orange (#E07A2F) outlines — \"Demand Generation\" (with sub-labels: Digital Marketing, ABM, SEO/SEM, Lead Gen), \"Direct Sales\" (SDR/BDR, AE, AM), \"Partner Channels\" (Recruitment, Enablement, Co-selling), \"Customer Success\" (Onboarding, Renewals, Expansion), \"Revenue Operations\" (Analytics, Process, Tech & Tools). Middle layer: wide bar labeled \"MARKETSTAR LABS\" with two product icons: \"Nytro.ai — AI Pitch Intelligence\" and \"Gameplan — Training & Mentorship\". Bottom foundation bar: \"SALES AS A SERVICE® — Modular Delivery Model\". Arrows flow between all layers. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -172,7 +172,7 @@ export const CHAPTER_SEED_DATA = [
           "Head HR: Time-to-fill reduction, turnover cost avoidance, headcount flexibility, compliance risk mitigation"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"KPI MAP BY PERSONA\". Show a visual matrix with 7 rows. Each row has a persona icon in orange (#E07A2F), persona name, and 2-3 key KPIs. Highlight impactful metrics in orange accent. Clean data table style. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"KPI MAP BY PERSONA\". Show a structured data table with 7 rows, each with an orange (#E07A2F) persona icon. Row 1: \"VP Sales / CRO\" — Pipeline coverage 3x+, Quota attainment 85%+. Row 2: \"CEO / GM\" — Revenue growth, Market share, Speed-to-market. Row 3: \"VP Partnerships\" — Partner-sourced revenue 30%+, Activation rate. Row 4: \"VP Customer Success\" — NRR 120%+, Logo retention 95%+. Row 5: \"CFO\" — CAC, Payback period, Variable vs fixed cost. Row 6: \"VP RevOps\" — Pipeline velocity, Forecast accuracy 90%+. Row 7: \"Head HR\" — Time-to-fill, Turnover cost avoidance. Clean executive dashboard style. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -206,7 +206,7 @@ export const CHAPTER_SEED_DATA = [
           "\"Have you ever considered a variable cost model for sales — paying for outcomes rather than headcount?\""
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DISCOVERY PROMPTS LIBRARY\". Show 6 speech bubble cards with orange (#E07A2F) question mark icons. Subheading: \"Problem-First Questions That Open Enterprise Deals\". Bottom banner: \"RULE: Never pitch before you discover.\" 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DISCOVERY PROMPTS LIBRARY\". Subheading: \"Problem-First Questions That Open Enterprise Deals\". Show 6 speech bubble cards with orange (#E07A2F) question mark icons, each containing a discovery question: 1) \"How are you currently generating pipeline?\" 2) \"How many open sales positions right now?\" 3) \"What would you need to double pipeline next quarter?\" 4) \"How are you measuring partner channel ROI?\" 5) \"What % revenue from existing vs new logos?\" 6) \"Ever considered a variable cost model for sales?\" Bottom banner: \"RULE: Never pitch before you discover.\" 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -223,7 +223,7 @@ export const CHAPTER_SEED_DATA = [
           "Disqualifiers: Companies with <$50M revenue, no existing sales motion, pure consumer/B2C models"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"IDEAL CUSTOMER PROFILE\". Show a target/bullseye diagram with concentric rings. Center: \"SWEET SPOT: $50M-$5B B2B Tech\". Rings expand outward: \"200-10,000 employees\", \"Multi-region ambitions\", \"Existing sales team\". Side labels show trigger events. Bottom: disqualifier section in muted gray. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"IDEAL CUSTOMER PROFILE\". Show a target/bullseye diagram with concentric rings in orange (#E07A2F). Center: \"SWEET SPOT: $50M-$5B B2B Tech\". Ring 2: \"200-10,000 employees\". Ring 3: \"SaaS, Cloud, Cybersecurity, Fintech\". Ring 4: \"Multi-region ambitions (NA + EMEA + APAC)\". Right side: trigger event labels — \"New Funding\", \"IPO Prep\", \"M&A Integration\", \"Market Expansion\", \"Sales Leadership Change\". Bottom: red-shaded disqualifier section: \"<$50M revenue\", \"No existing sales motion\", \"Pure B2C\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -291,7 +291,7 @@ export const CHAPTER_SEED_DATA = [
           "Proven at scale: 3,950 employees serving 60+ world-class clients across 90+ countries"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"SALES AS A SERVICE®\". Show a modular building block diagram with orange (#E07A2F) blocks: SDR, AE, AM, CSM, PAM. Blocks can be stacked or arranged. Below: timeline showing \"Contract → 6-8 weeks → First Meetings\". Stats: \"3,950 Employees\", \"60+ Clients\", \"90+ Countries\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"SALES AS A SERVICE® — THE DELIVERY MODEL\". Show a modular building block diagram with orange (#E07A2F) labeled blocks that can be stacked or mixed: \"SDR/BDR\", \"AE\", \"AM\", \"CSM\", \"PAM\", \"Full-Stack\". Arrow labeled \"Modular: Pick what you need\". Below: horizontal timeline \"Contract Signed → 6-8 Weeks → First Qualified Meetings\". Side panel: \"Built-in RevOps + Nytro.ai Pitch Intelligence + Gameplan Training\". Bottom stat boxes: \"3,950 Employees\", \"60+ Clients\", \"90+ Countries\", \"Variable Cost Model\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -308,7 +308,7 @@ export const CHAPTER_SEED_DATA = [
           "Award-winning: Multiple Stevie Awards for Best Sales Enablement Solution, Aragon Hot Vendor, Globee Gold Winner"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NYTRO.AI — PITCH INTELLIGENCE\". Show a 3-step process flow in orange (#E07A2F): Step 1 \"UPLOAD\" (microphone icon) → Step 2 \"SCORE\" (AI brain icon) → Step 3 \"IMPROVE\" (chart up icon). Below: \"Sales Onboarding & Readiness Platform\". Award badges at bottom. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NYTRO.AI — AI-POWERED PITCH INTELLIGENCE\". Show a prominent 3-step process flow in orange (#E07A2F): Step 1 \"UPLOAD\" (microphone icon — reps record pitch/demo recordings) → Step 2 \"SCORE\" (AI brain icon — AI analyzes summaries, keywords, messaging quality, scores against top performers) → Step 3 \"IMPROVE\" (chart-up icon — actionable feedback to boost pitch quality). Below the flow: two use case boxes: \"Experiential Onboarding: Validate rep readiness after training\" and \"Ongoing Readiness: Keep reps sharp on new products & competitors\". Bottom: award badges — \"Gold Stevie for Sales Enablement\", \"Aragon Hot Vendor\", \"Globee Gold Winner\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -325,7 +325,7 @@ export const CHAPTER_SEED_DATA = [
           "Average contract value: $500K-$5M annually depending on team size and scope"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ENGAGEMENT MODELS\". Show three pillars side by side in orange (#E07A2F): \"DEDICATED TEAMS\" (tallest), \"MANAGED SERVICES\" (medium), \"PROJECT-BASED\" (shortest). Below each: key attributes. Bottom: pricing range and ACV. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ENGAGEMENT MODELS\". Show three pillars side by side in orange (#E07A2F). Left pillar (tallest): \"DEDICATED TEAMS\" — Full-time embedded sales pros, exclusive to client. Center pillar (medium): \"MANAGED SERVICES\" — MarketStar manages end-to-end strategy + execution. Right pillar (shortest): \"PROJECT-BASED\" — Time-bound: market entry, product launch, channel activation. Below pillars: \"Hybrid available: Start project-based → expand to dedicated\". Bottom: \"Pricing: Monthly per-rep + performance bonuses | ACV: $500K-$5M\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -342,7 +342,7 @@ export const CHAPTER_SEED_DATA = [
           "Key metric: 90% of programs reach full productivity within 60 days of launch"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CLIENT ONBOARDING & RAMP\". Show a horizontal timeline with 4 phases in orange (#E07A2F): \"Discovery (Wk 1-2)\", \"Training (Wk 3-4)\", \"Soft Launch (Wk 5-6)\", \"Full Production (Wk 7-8)\". Stat: \"90% reach full productivity in 60 days\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CLIENT ONBOARDING & RAMP\". Show a horizontal timeline with 4 phases in orange (#E07A2F): Phase 1 \"Discovery & Design (Wk 1-2)\" — ICP alignment, messaging, tech stack. Phase 2 \"Talent & Training (Wk 3-4)\" — recruit from bench, product certification. Phase 3 \"Soft Launch (Wk 5-6)\" — outreach begins, daily standups, message testing. Phase 4 \"Full Production (Wk 7-8)\" — steady-state activity, dashboards live, first QBR. Below: ongoing bar \"Monthly Reviews + Quarterly Strategy + Nytro.ai Optimization\". Prominent stat: \"90% reach full productivity in 60 days\". Comparison: \"vs. 9-12 months internal build\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -356,7 +356,7 @@ export const CHAPTER_SEED_DATA = [
           "Key angle: Modular design, client retains strategy and oversight, MarketStar executes"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: MODEL FLEXIBILITY\". Show two contrasting visuals: \"Myth: Replace your team\" (X mark) vs \"Reality: Augment your team\" (checkmark). Scenario: \"CEO: 'I don't want to outsource everything.'\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: MODEL FLEXIBILITY PITCH\". Split-screen comparison: Left side (red X): \"Myth: Replace your entire team\" with worried team icons. Right side (green check): \"Reality: Augment with exactly what you need\" with modular blocks (SDR, AE, CSM). Center orange (#E07A2F) arrow: \"Strategic Augmentation\". Scenario box: \"CEO of $200M Cybersecurity: 'I don't want to outsource my entire sales team — we need to keep control.'\". Bottom: \"GOAL: Agreement to explore a focused pilot (e.g., SDR team for new market)\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
         "roleplaySlug": "rp-p2-model-flexibility"
@@ -395,7 +395,7 @@ export const CHAPTER_SEED_DATA = [
           "Typical ROI: 5-8x return on investment within the first year of engagement"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PIPELINE GENERATION\". Show a funnel diagram with orange (#E07A2F) flowing from \"Target Accounts\" → \"Multi-Channel Outreach\" → \"Qualified Meetings\" → \"Pipeline\". Stats: \"100+ Programs\", \"40-60 SQMs/rep/month\", \"5-8x ROI\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PIPELINE GENERATION OVERVIEW\". Show a funnel diagram with orange (#E07A2F) stages flowing: \"Target Accounts\" → \"Multi-Channel Outreach (Phone, Email, LinkedIn, Intent Data)\" → \"SQLs & SQMs\" → \"Client AE Pipeline\". Right side stat boxes: \"100+ Active Programs Globally\", \"40-60 SQMs/rep/month within 90 days\", \"5-8x ROI in Year 1\". Bottom bar: \"Powered by Nytro.ai Pitch Intelligence for Rep Readiness Validation\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -412,7 +412,7 @@ export const CHAPTER_SEED_DATA = [
           "Escalation paths: Clear handoff protocols between SDR qualification and client AE engagement"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"SDR/BDR OPERATING MODEL\". Show an organizational diagram with pod structure: Team Lead at center connected to 8 SDR icons. Side panels show daily cadence timeline and tech stack icons. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"SDR/BDR OPERATING MODEL\". Show a pod structure diagram in orange (#E07A2F): Team Lead in center connected to 8 SDR icons (1:8 ratio), with dedicated QA and RevOps support nodes. Right panel: daily cadence timeline — \"Morning Standup → Power Hours (Calling) → Afternoon Email/LinkedIn → End-of-Day Reporting\". Bottom panel: tech stack icons labeled \"Salesforce/HubSpot\", \"Outreach/Salesloft\", \"ZoomInfo/Apollo\", \"Nytro.ai Pitch Intelligence\". Left label: \"Coaching: Weekly 1:1s, Bi-weekly Call Reviews, Monthly Skill Assessments\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -429,7 +429,7 @@ export const CHAPTER_SEED_DATA = [
           "EVENTS: Post-event follow-up programs, webinar registration drives, and trade show lead qualification"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"MULTI-CHANNEL METHODOLOGY\". Show 6 channel icons in orange (#E07A2F) arranged in a circle: Phone, Email, LinkedIn, Intent Data, ABM, Events. Center: \"COORDINATED ENGAGEMENT\". Arrows show how channels work together. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"MULTI-CHANNEL OUTBOUND METHODOLOGY\". Show 6 channel cards arranged in a circle with orange (#E07A2F) icons, connected by arrows to a center hub labeled \"COORDINATED ENGAGEMENT\". Card 1: \"PHONE\" — 60-80 daily dials, Nytro.ai-validated talk tracks. Card 2: \"EMAIL\" — 8-12 touch sequences over 21 days, A/B tested. Card 3: \"LINKEDIN\" — InMail, social selling, content engagement. Card 4: \"INTENT DATA\" — Bombora, G2, TrustRadius signals. Card 5: \"ACCOUNT-BASED\" — Multi-threaded, 3-5 personas per account. Card 6: \"EVENTS\" — Post-event follow-up, webinar registration. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -446,7 +446,7 @@ export const CHAPTER_SEED_DATA = [
           "Cost comparison: MarketStar SDR fully loaded cost is 40-60% less than internal hire (salary + benefits + management + turnover)"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"KEY METRICS & BENCHMARKS\". Show a dashboard-style layout with metric cards in orange (#E07A2F): \"8-12% Connect Rate\", \"75-85% SQL Acceptance\", \"$150K-$500K Pipeline/Rep/Mo\", \"40-60% Cost Savings\". Bar charts comparing MarketStar vs industry average. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"KEY METRICS & BENCHMARKS\". Show a dashboard with metric cards in orange (#E07A2F) comparing MarketStar vs Industry. Activity: \"60-80 dials/day, 30-40 emails/day, 15-20 LinkedIn/day\". Connect Rate: \"8-12%\" (bar chart vs industry avg 5-7%). SQL Acceptance: \"75-85%\" (prominent). Pipeline/Rep/Mo: \"$150K-$500K\". Cost Savings: \"40-60% less than internal hire\". Side-by-side bar charts showing MarketStar outperforming industry benchmarks on each metric. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -460,7 +460,7 @@ export const CHAPTER_SEED_DATA = [
           "Key angle: Dedicated teams (not shared), Nytro.ai pitch readiness, 75-85% SQL acceptance rate, client-specific training"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: SDR PROGRAM PITCH\". Show comparison: \"Commodity SDR Vendor\" (negative attributes) vs \"MarketStar\" (positive attributes). Scenario: \"VP Sales: 'We tried outsourced SDRs before — quality was terrible.'\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: SDR PROGRAM PITCH\". Two-column comparison in orange (#E07A2F). Left column (dimmed/red): \"Commodity SDR Vendor\" — Shared reps, generic scripts, low SQL acceptance, no AI. Right column (bright/green): \"MarketStar\" — Dedicated teams, Nytro.ai pitch readiness, 75-85% SQL acceptance, client-specific training. Scenario box: \"VP Sales at $150M SaaS: 'We've tried outsourced SDRs before and quality was terrible. What makes MarketStar different?'\". Bottom: \"GOAL: Client agrees MarketStar addresses past pain points\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
         "roleplaySlug": "rp-p3-sdr-pitch"
@@ -499,7 +499,7 @@ export const CHAPTER_SEED_DATA = [
           "Scalable: Programs range from 2-3 AE pods to 50+ person sales organizations"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"FULL-CYCLE AE MODEL\". Show a horizontal sales process flow in orange (#E07A2F): \"Discovery\" → \"Demo\" → \"Proposal\" → \"Negotiate\" → \"Close\". Below: stats showing \"22-28% Win Rate\" and \"$25K-$500K ACV\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"FULL-CYCLE AE MODEL\". Show a horizontal sales process flow in orange (#E07A2F): \"Discovery\" → \"Demo\" → \"Proposal\" → \"Negotiate\" → \"Close\". Each stage has a small icon. Below: key stats: \"22-28% Win Rate\" (vs industry 15-20%), \"$25K-$500K ACV\", \"Demo proficiency in 4-6 weeks\", \"2-3 AE pods to 50+ person orgs\". Side panel: \"Supported by: RevOps + Nytro.ai Pitch Intelligence + Gameplan\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -518,7 +518,7 @@ export const CHAPTER_SEED_DATA = [
           "Competition: Know who else is being evaluated and have a differentiation strategy in place"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"MEDDPICC QUALIFICATION\". Show 8 boxes arranged vertically, each with a letter in orange (#E07A2F) and description in white: M-E-D-D-P-I-C-C. Each box has a small checkmark icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"MEDDPICC QUALIFICATION FRAMEWORK\". Show 8 boxes arranged vertically, each with a bold letter in orange (#E07A2F) and description in white. M: \"Metrics — Quantified business impact\". E: \"Economic Buyer — Budget authority confirmed\". D: \"Decision Criteria — Formal & informal evaluation criteria\". D: \"Decision Process — Steps, timeline, stakeholders mapped\". P: \"Paper Process — Legal, procurement, security review\". I: \"Implicate Pain — Business consequences of inaction\". C: \"Champion — Internal advocate with power & personal win\". C: \"Competition — Who else evaluated + differentiation strategy\". Each box has a checkmark icon. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -535,7 +535,7 @@ export const CHAPTER_SEED_DATA = [
           "Follow-up: Same-day recap email with personalized value summary, recording link, and clear timeline to decision"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DEMO-TO-CLOSE CONVERSION\". Show a step-by-step flow in orange (#E07A2F): \"Pre-Demo Prep\" → \"Discovery Recap\" → \"Live Demo\" → \"Interactive Proof\" → \"Next Steps\" → \"Follow-Up\". Each step has a small icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DEMO-TO-CLOSE CONVERSION\". Show a 6-step flow in orange (#E07A2F) with icons: Step 1 \"Pre-Demo Prep\" — Confirm attendees, align scenarios to pain. Step 2 \"Discovery Recap\" — Restate problem in buyer's words. Step 3 \"Live Demo\" — 80% in-product, limit slides to 3-5 min. Step 4 \"Interactive Proof\" — 'Does this solve X?' every 5-7 min. Step 5 \"Next Steps\" — Confirmed action: tech review, business case, or proposal date. Step 6 \"Follow-Up\" — Same-day recap email + recording + timeline. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -552,7 +552,7 @@ export const CHAPTER_SEED_DATA = [
           "Proposal structure: Executive summary → business case → solution design → pricing → timeline → references"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PRICING & PROPOSAL STRATEGY\". Show a comparison chart: MarketStar AE ($12K-$18K/mo) vs Internal AE ($15K-$25K+/mo). ROI timeline showing 4-6 month payback. Proposal structure checklist. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PRICING & PROPOSAL STRATEGY\". Left side: comparison chart in orange (#E07A2F) — \"MarketStar AE: $12K-$18K/mo fully loaded\" vs \"Internal AE: $15K-$25K+/mo (salary + benefits + management + tools + turnover)\". Center: ROI timeline showing \"4-6 Month Payback Period\". Right side: proposal structure checklist — Exec Summary → Business Case → Solution Design → Pricing → Timeline → References. Bottom: \"Always lead with business impact, never lead with price\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -566,7 +566,7 @@ export const CHAPTER_SEED_DATA = [
           "Key angle: Rigorous training, Nytro.ai pitch intelligence, win rate data, dedicated team model"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: AE VALUE PROPOSITION\". Scenario: \"CRO: 'Why would an outsourced AE understand our product?'\". Show training certification badge icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: AE VALUE PROPOSITION\". Scenario box: \"CRO: 'Why would I trust an outsourced AE to close deals? They won't understand our product like an internal hire.'\". Left: certification badge icon with \"Rigorous Product Training\". Right: proof points in orange (#E07A2F) — \"Nytro.ai Pitch Intelligence\", \"22-28% Win Rate\", \"Dedicated Team Model\". Bottom: \"GOAL: CRO agrees to review AE certification curriculum & case studies\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
         "roleplaySlug": "rp-p4-ae-value"
@@ -605,7 +605,7 @@ export const CHAPTER_SEED_DATA = [
           "Average NRR improvement: Clients see 8-15% improvement in NRR within first year of MarketStar AM program"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ACCOUNT MANAGEMENT\". Show a growth chart in orange (#E07A2F) depicting NRR improvement. Icons for renewals, upsells, cross-sells. Stats: \"30-80 accounts/rep\", \"8-15% NRR improvement\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ACCOUNT MANAGEMENT OVERVIEW\". Show a growth chart in orange (#E07A2F) depicting NRR improvement trajectory. Three icons below: \"Renewals\" (circular arrow), \"Upsells\" (arrow up), \"Cross-sells\" (branching arrows). Key stats: \"30-80 accounts/rep\", \"8-15% NRR improvement in Year 1\", \"5-7x cheaper to retain than acquire\". Side panel: \"Proactive model: QBRs, usage reviews, ROI reports, expansion discovery\". Bottom: \"Tech: CRM health scores + Nytro.ai pitch readiness + automated renewal tracking\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -622,7 +622,7 @@ export const CHAPTER_SEED_DATA = [
           "ADVOCACY: Convert satisfied customers into references, case studies, and G2/TrustRadius reviewers"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"RETENTION & EXPANSION MOTIONS\". Show 6 motion cards in orange (#E07A2F): Renewal, Upsell, Cross-Sell, Expansion, Win-Back, Advocacy. Arrows show progression. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"RETENTION & EXPANSION MOTIONS\". Show 6 motion cards arranged in a flow with orange (#E07A2F) icons. Card 1: \"RENEWAL\" — 90-day proactive outreach before expiration. Card 2: \"UPSELL\" — Additional seats, tiers, features. Card 3: \"CROSS-SELL\" — Complementary products from client portfolio. Card 4: \"EXPANSION DISCOVERY\" — QBRs uncovering new departments, geographies. Card 5: \"WIN-BACK\" — Re-engage churned accounts with updated value. Card 6: \"ADVOCACY\" — Convert to references, case studies, G2 reviews. Progressive arrows connecting all 6. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -639,7 +639,7 @@ export const CHAPTER_SEED_DATA = [
           "Outcome: MarketStar AM programs achieve 92-96% gross retention rates (industry avg: 85-90%)"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"HEALTH SCORING & RISK MANAGEMENT\". Show a traffic light system: Green (80-100), Yellow (50-79), Red (0-49). Each level has action items. Bottom stat: \"92-96% Gross Retention\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"HEALTH SCORING & RISK MANAGEMENT\". Show a traffic light system in vertical layout. GREEN (80-100): \"Healthy — Focus on expansion & advocacy\" with green checkmark. YELLOW (50-79): \"At-Risk — Proactive outreach, executive engagement, value reinforcement\" with yellow warning icon. RED (0-49): \"Critical — Immediate rescue plan, escalation, remediation offer\" with red alert icon. Left panel: \"Health Score Inputs: Usage, Support Tickets, Engagement, NPS/CSAT, Payment History\". Bottom: \"Weekly risk reviews | Result: 92-96% Gross Retention (vs industry 85-90%)\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -656,7 +656,7 @@ export const CHAPTER_SEED_DATA = [
           "Cost efficiency: MarketStar AM fully loaded cost is 35-50% less than internal AM hire"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ACCOUNT MANAGEMENT BENCHMARKS\". Dashboard layout with metric cards in orange (#E07A2F): \"92-96% Retention\", \"110-125% NRR\", \"94-98% Renewal Rate\", \"35-50% Cost Savings\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ACCOUNT MANAGEMENT BENCHMARKS\". Dashboard layout with 6 metric cards in orange (#E07A2F), each with a bar chart comparing MarketStar vs industry: \"Gross Retention: 92-96% (vs 85-90%)\", \"Net Revenue Retention: 110-125%\", \"Upsell/Cross-sell: 15-25% expand annually\", \"Renewal Rate: 94-98% on-time\", \"NPS: +12 points in Year 1\", \"Cost: 35-50% less than internal AM\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -670,7 +670,7 @@ export const CHAPTER_SEED_DATA = [
           "Key angle: Speed (6-8 week ramp), cost (35-50% less), proven retention rates (92-96%)"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: RETENTION SAVE\". Scenario: \"VP CS: 'Churn is 18% and we can't hire fast enough.'\". Show churn rate declining chart. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: RETENTION SAVE\". Scenario box: \"VP Customer Success: 'Our churn rate is 18% and the board is demanding action, but we can't afford to hire 10 more AMs internally.'\". Left: declining churn rate chart (18% → target 5-8%). Right: proof points in orange (#E07A2F) — \"6-8 week ramp\", \"35-50% less than internal AM\", \"92-96% gross retention\". Bottom: \"GOAL: VP CS agrees to pilot on highest-risk segment\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
         "roleplaySlug": "rp-p5-retention-save"
@@ -709,7 +709,7 @@ export const CHAPTER_SEED_DATA = [
           "Impact: Clients see 40-80% increase in partner-sourced pipeline within first year of MarketStar engagement"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PARTNER CHANNEL SERVICES\". Show a hub-and-spoke diagram with MarketStar at center and partner types around it in orange (#E07A2F): Resellers, MSPs, SIs, Alliances, ISVs, Distributors. Stats: \"5,000+ Partners\", \"40-80% Pipeline Increase\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PARTNER CHANNEL SERVICES OVERVIEW\". Show a hub-and-spoke diagram with \"MarketStar PAM Program\" at center in orange (#E07A2F), surrounded by 7 partner type nodes: \"Resellers\", \"VARs\", \"MSPs\", \"System Integrators\", \"Technology Alliances\", \"ISVs\", \"Distributors\". Lines connect center to each node. Right panel: \"Full Lifecycle: Recruit → Onboard → Enable → Co-Sell → Manage\". Bottom stats: \"5,000+ Partner Relationships\", \"20+ Client Programs\", \"40-80% Pipeline Increase in Year 1\". Note: \"30-60% of B2B tech revenue flows through partners\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -726,7 +726,7 @@ export const CHAPTER_SEED_DATA = [
           "Performance management: Monthly scorecards, QBRs, tier advancement tracking, and MDF allocation support"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PAM OPERATING MODEL\". Show a day-in-the-life timeline for a PAM with activities in orange (#E07A2F): Recruitment, Onboarding, Enablement, Co-Selling, Performance Mgmt. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PAM OPERATING MODEL\". Show a PAM day-in-the-life workflow in orange (#E07A2F). Left: \"Portfolio: 20-50 partners per PAM (by tier & complexity)\". Center: weekly cadence timeline — \"Partner Check-ins → Pipeline Reviews → Deal Registration Support → Enablement Delivery\". Right: 5 core functions stacked — \"Recruitment\" (identify new partners), \"Onboarding\" (certification, deal reg, GTM planning), \"Enablement\" (product training, playbooks, demo support), \"Co-Selling\" (joint opportunity development), \"Performance\" (monthly scorecards, QBRs, tier advancement). 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -743,7 +743,7 @@ export const CHAPTER_SEED_DATA = [
           "OPTIMIZE: Performance reviews, tier management, partner satisfaction surveys, and strategic planning for top partners"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PARTNER LIFECYCLE\". Show a circular lifecycle diagram in orange (#E07A2F) with 6 stages: Identify → Recruit → Onboard → Enable → Co-Sell → Optimize. Each stage has a small icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PARTNER LIFECYCLE MANAGEMENT\". Show a circular lifecycle diagram in orange (#E07A2F) with 6 stages connected by arrows. Stage 1: \"IDENTIFY\" — Market analysis, ICP matching, competitive intelligence. Stage 2: \"RECRUIT\" — Multi-channel outreach (calls, events, referrals). Stage 3: \"ONBOARD\" — 30-60 day program: certifications, deal reg, first pipeline plan. Stage 4: \"ENABLE\" — Training, co-marketing, lead sharing, technical enablement. Stage 5: \"CO-SELL\" — Joint opportunities, deal support, direct collaboration. Stage 6: \"OPTIMIZE\" — Performance reviews, tier management, strategic planning. Each stage has a distinctive icon. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -760,7 +760,7 @@ export const CHAPTER_SEED_DATA = [
           "Program ROI: Typical channel program delivers 6-10x return on investment within 18 months"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CHANNEL BENCHMARKS\". Dashboard with metric cards in orange (#E07A2F): \"60-75% Activation\", \"45-60 Days to First Deal\", \"3-5x Deal Registration Increase\", \"6-10x ROI\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CHANNEL METRICS & BENCHMARKS\". Dashboard with 6 metric cards in orange (#E07A2F), each comparing MarketStar vs industry: \"Partner Activation: 60-75% in 90 days (vs industry 30-40%)\", \"Time to First Deal: 45-60 days\", \"Deal Registrations: 3-5x increase per partner/quarter\", \"Partner-Sourced Pipeline: 40-80% increase Year 1\", \"Partner NPS: +45\", \"Program ROI: 6-10x in 18 months\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -774,7 +774,7 @@ export const CHAPTER_SEED_DATA = [
           "Key angle: 60-75% activation rate, dedicated PAM model, 45-60 days to first deal"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: CHANNEL ACTIVATION\". Scenario: \"VP Partnerships: 'Only 15 of 100 partners are selling.'\". Chart showing activation improvement. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: CHANNEL ACTIVATION\". Scenario box: \"VP Partnerships: 'We signed 100 partners last year but only 15 are actively selling. We don't have the headcount to manage them all.'\". Left: bar chart showing 15/100 active (low). Right: improvement target with orange (#E07A2F) — \"MarketStar PAMs: 60-75% activation, 45-60 days to first deal\". Bottom: \"GOAL: VP agrees to pilot covering top 30-50 underperforming partners\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
         "roleplaySlug": "rp-p6-channel-activation"
@@ -813,7 +813,7 @@ export const CHAPTER_SEED_DATA = [
           "Impact: Clients see 15-25% reduction in churn and 20-30% improvement in time-to-value"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CUSTOMER SUCCESS\". Show a customer lifecycle arc in orange (#E07A2F) from \"Onboarding\" through \"Adoption\" to \"Expansion\". Three touch model boxes: Digital, Mid-Touch, High-Touch. Stats: \"15-25% Churn Reduction\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CUSTOMER SUCCESS OVERVIEW\". Show a customer lifecycle arc in orange (#E07A2F) from \"Onboarding\" through \"Adoption\" to \"Value Realization\" to \"Expansion\". Below the arc: three program model boxes with icons — \"Digital-Touch (1:many)\", \"Mid-Touch (1:50-100)\", \"High-Touch (1:10-25)\". Key stats: \"70-80% of SaaS revenue is post-sale\", \"15-25% churn reduction\", \"20-30% faster time-to-value\". Side note: \"CSM programs integrate with MarketStar AM teams for full post-sale coverage\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -830,7 +830,7 @@ export const CHAPTER_SEED_DATA = [
           "Team structure: CSM pods with Team Leads (1:8), CS Operations support, and escalation paths to client leadership"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CSM OPERATING MODEL\". Show a structured workflow in orange (#E07A2F): Onboarding → Health Monitoring → Proactive Outreach → Playbook Execution → Escalation. Pod structure diagram. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CSM OPERATING MODEL\". Show a structured workflow in orange (#E07A2F) with 6 connected stages: \"30/60/90-Day Onboarding\" → \"Automated Health Monitoring\" (usage + support + sentiment) → \"Proactive Outreach\" (check-ins, QBRs, value reviews) → \"Playbook-Driven Execution\" (onboarding, adoption risk, renewal prep, expansion) → \"Escalation Paths\". Right panel: pod structure — \"CSM Pods with Team Leads (1:8) + CS Operations\". Bottom: tech stack — \"Gainsight/Totango + Nytro.ai Pitch Readiness + CRM\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -847,7 +847,7 @@ export const CHAPTER_SEED_DATA = [
           "Outcome: Customers with structured onboarding have 2.5x higher retention rates vs. self-serve onboarding"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ONBOARDING & ADOPTION\". Show a 90-day timeline in orange (#E07A2F) with 4 phases: \"Welcome (1-7)\", \"Activation (8-30)\", \"Value (31-60)\", \"Expansion (61-90)\". Stat: \"2.5x Higher Retention with Structured Onboarding\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ONBOARDING & ADOPTION PROGRAMS\". Show a 90-day timeline in orange (#E07A2F) with 4 detailed phases. Phase 1 \"Welcome (Day 1-7)\": Kickoff call, success plan, stakeholder mapping, technical setup. Phase 2 \"Core Activation (Day 8-30)\": Primary use cases configured, first users trained and active. Phase 3 \"Value Realization (Day 31-60)\": First business outcome achieved — campaign launched, report generated. Phase 4 \"Expansion Groundwork (Day 61-90)\": QBR with ROI data, introduce new features, gather success story. Below: \"Adoption Tracking: Weekly usage dashboards, feature scoring, engagement heat maps\". Prominent stat: \"2.5x Higher Retention with Structured Onboarding\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -864,7 +864,7 @@ export const CHAPTER_SEED_DATA = [
           "Cost efficiency: MarketStar CSM fully loaded cost is 30-45% less than internal CSM hire"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CS BENCHMARKS\". Dashboard layout with metric cards in orange (#E07A2F): \"15-25% Churn Reduction\", \"40% Faster Onboarding\", \"30-50% Adoption Increase\", \"+15 NPS Points\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CUSTOMER SUCCESS BENCHMARKS\". Dashboard with 6 metric cards in orange (#E07A2F): \"Churn Reduction: 15-25% improvement Year 1\", \"Time to Value: 40% faster vs self-serve\", \"Product Adoption: 30-50% increase in DAU & feature usage\", \"NPS: +15 points in 6 months\", \"Expansion: CSM-managed accounts expand at 2x rate\", \"Cost: 30-45% less than internal CSM\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -878,7 +878,7 @@ export const CHAPTER_SEED_DATA = [
           "Key angle: Dedicated teams, client's brand voice, structured playbooks, Nytro.ai pitch readiness, measurable outcomes"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: CS PROGRAM PITCH\". Scenario: \"CEO: 'Customers are our most important assets — can we trust outsourced CSMs?'\". Trust-building imagery. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: CS PROGRAM PITCH\". Scenario box: \"CEO: 'We're losing 20% of customers annually and our internal CS team is overwhelmed. But I'm worried about outsourcing customer relationships — these are our most important assets.'\". Left: trust-building icons — \"Dedicated Teams\", \"Client's Brand Voice\", \"Structured Playbooks\". Right: proof points in orange (#E07A2F) — \"Nytro.ai Pitch Readiness\", \"15-25% Churn Reduction\", \"30-45% Cost Savings\". Bottom: \"GOAL: CEO agrees to pilot covering mid-market segment\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
         "roleplaySlug": "rp-p7-cs-pitch"
@@ -917,7 +917,7 @@ export const CHAPTER_SEED_DATA = [
           "Impact: Programs with dedicated RevOps support see 25-35% higher sales productivity vs. programs without"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"REVENUE OPERATIONS\". Show a central gear icon in orange (#E07A2F) with spokes connecting to: \"CRM\", \"Playbooks\", \"Analytics\", \"Process\", \"Content\", \"Tools\". Stat: \"25-35% Higher Productivity\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"REVENUE OPERATIONS OVERVIEW\". Show a central gear icon in orange (#E07A2F) labeled \"RevOps\" with 6 spokes connecting to function nodes: \"CRM Administration\" (Salesforce, HubSpot), \"Playbook Development\" (talk tracks, objection handling), \"Analytics & Reporting\" (dashboards, pipeline), \"Process Design\" (workflow optimization), \"Content Management\" (battle cards, email templates), \"Technology & Tools\" (50+ sales tools). Bottom prominent stat: \"25-35% Higher Sales Productivity with dedicated RevOps\". Side note: \"Embedded in every MarketStar program — not an add-on\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -934,7 +934,7 @@ export const CHAPTER_SEED_DATA = [
           "Governance: User access management, data security, compliance monitoring, and audit trail maintenance"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CRM & TECH STACK\". Show a connected ecosystem diagram in orange (#E07A2F) with tool logos: Salesforce, HubSpot, Outreach, ZoomInfo. Arrows show data flow between tools. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CRM & TECH STACK MANAGEMENT\". Show a connected ecosystem diagram in orange (#E07A2F) with 6 tool category nodes connected by data flow arrows. Node 1: \"CRM\" — Salesforce, HubSpot (config, custom objects, workflows, data hygiene). Node 2: \"Sequencing\" — Outreach, Salesloft (optimization, A/B testing, deliverability). Node 3: \"Data Enrichment\" — ZoomInfo, Apollo, Clearbit (contacts, firmographics, intent). Node 4: \"CPQ\" — Configure-Price-Quote for complex pricing. Node 5: \"Integration\" — Unified data flow, no silos. Node 6: \"Governance\" — Access management, security, compliance, audit trails. Center: \"Seamless Data Flow\" with connecting arrows. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -951,7 +951,7 @@ export const CHAPTER_SEED_DATA = [
           "Continuous improvement: Monthly playbook reviews based on Nytro.ai pitch scoring insights and conversion data"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PLAYBOOK DEVELOPMENT\". Show a playbook icon in orange (#E07A2F) with branches to: Discovery, Objections, Email Templates, Call Scripts, Battle Cards. Circular arrow showing continuous improvement. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PLAYBOOK DEVELOPMENT & OPTIMIZATION\". Show a central playbook icon in orange (#E07A2F) with 6 branches to specific playbook types: \"Discovery Playbooks\" (question frameworks per persona/vertical), \"Objection Handling\" (top 20 objections with talk tracks), \"Email Templates\" (cold outreach, follow-up, nurture — A/B tested), \"Call Scripts\" (structured but flexible for cold calls, discovery, demos), \"Competitive Battle Cards\" (real-time intel on key competitors), \"Monthly Reviews\" (driven by Nytro.ai pitch scoring insights + conversion data). Circular arrow around center: \"Continuous Improvement Cycle\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -968,7 +968,7 @@ export const CHAPTER_SEED_DATA = [
           "Nytro.ai integration: Pitch readiness scores, messaging effectiveness, and rep certification metrics"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ANALYTICS & REPORTING\". Show a reporting hierarchy in orange (#E07A2F): Daily → Weekly → Monthly → Quarterly. Dashboard mockup with charts and metrics. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ANALYTICS & REPORTING\". Show a reporting hierarchy pyramid in orange (#E07A2F) with 4 tiers. Top: \"QUARTERLY\" — Executive strategic assessment, forward-looking projections, optimization roadmap. Second: \"MONTHLY\" — Comprehensive business review, ROI analysis, trend identification. Third: \"WEEKLY\" — Conversion funnel analysis, pipeline coverage, forecast updates. Base: \"DAILY\" — Real-time activity metrics, pipeline movement, team performance dashboards. Right panel: \"Custom Analytics: Campaign effectiveness, territory optimization, rep deep-dives\". Bottom: \"Nytro.ai Integration: Pitch readiness scores, messaging effectiveness, certification metrics\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -982,7 +982,7 @@ export const CHAPTER_SEED_DATA = [
           "Key angle: 25-35% productivity improvement, data-driven coaching, playbook optimization, pipeline visibility"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: REVOPS VALUE\". Scenario: \"VP Sales: 'We already have Salesforce. We need meetings, not tool management.'\". Transformation arrow from 'Admin Support' to 'Revenue Enablement'. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: REVOPS VALUE PITCH\". Scenario box: \"VP Sales: 'We already have Salesforce and Outreach set up. We don't need someone to manage our tools — we need more meetings.'\". Center: transformation arrow in orange (#E07A2F) from \"'Admin Support'\" (crossed out) to \"'Performance Multiplier'\". Right: proof points — \"25-35% Productivity Improvement\", \"Data-Driven Coaching\", \"Playbook Optimization\", \"Pipeline Visibility\". Bottom: \"GOAL: VP acknowledges RevOps optimization could unlock more pipeline from existing resources\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
         "roleplaySlug": "rp-p8-revops-value"
@@ -1021,7 +1021,7 @@ export const CHAPTER_SEED_DATA = [
           "Win rate vs. competition: MarketStar wins 65% of competitive deals where we reach the final evaluation stage"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"COMPETITIVE LANDSCAPE\". Show a quadrant chart in orange (#E07A2F) with axes: Specialization (vertical) and Scale (horizontal). Plot competitors. MarketStar in upper-right sweet spot. Market size: \"$105B → $216B\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"COMPETITIVE LANDSCAPE\". Show a quadrant chart in orange (#E07A2F) with axes: \"B2B Sales Specialization\" (vertical) and \"Global Scale\" (horizontal). Plot competitors as dots: Upper-right (sweet spot): \"MarketStar\" (highlighted, star icon). Upper-left: \"CIENCE, Martal, Belkins, EBQ\" (specialized but small). Lower-right: \"Accenture (779K emp, acquired N3 2020), Teleperformance (400K+), TTEC, Concentrix\" (large but generalist). Lower-left: \"Internal Teams\" (limited both). Market size box: \"$105B (2024) → $216B (2033) at 9.78% CAGR\". Bottom: \"MarketStar wins 65% of competitive finals\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1038,7 +1038,7 @@ export const CHAPTER_SEED_DATA = [
           "INTERNAL TEAMS: Full product knowledge and culture fit, but slow to build (9-12 months), high fixed cost ($145K fully-loaded per rep), turnover risk"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"COMPETITOR PROFILES\". Show 6 competitor cards in a grid. Each card has competitor name in white, strength in green, weakness in orange (#E07A2F). 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"KEY COMPETITOR PROFILES\". Show 6 competitor cards in a 3x2 grid. Each card has competitor name in white, strength in green text, weakness in orange (#E07A2F) text. Card 1: \"ACCENTURE\" — Strength: 779K employees, N3 acquisition | Weakness: Expensive, slow, generalist. Card 2: \"TTEC\" — Strength: Strong CX/omnichannel | Weakness: B2C-focused, less B2B specialization. Card 3: \"TELEPERFORMANCE\" — Strength: 400K+ employees, massive scale | Weakness: Commodity, volume-based, not quality. Card 4: \"CONCENTRIX\" — Strength: Tech-forward, analytics | Weakness: Post-sale only, limited full-cycle sales. Card 5: \"CIENCE/MARTAL/BELKINS\" — Strength: AI lead gen, startup pricing | Weakness: Narrow SDR-only, no lifecycle. Card 6: \"INTERNAL TEAMS\" — Strength: Product knowledge, culture | Weakness: 9-12 mo build, $145K/rep, turnover. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1055,7 +1055,7 @@ export const CHAPTER_SEED_DATA = [
           "OUTCOME ALIGNMENT: Performance-based pricing options that align MarketStar's incentives with client revenue goals"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"WHY MARKETSTAR?\". Show 5 pillar columns in orange (#E07A2F): \"B2B Tech Specialist\", \"Full Lifecycle\", \"Nytro.AI\", \"Global + Local\", \"PEAK Matrix® Leader\". Each pillar has a distinctive icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"WHY MARKETSTAR? — 6 PILLARS OF DIFFERENTIATION\". Show 6 pillar columns in orange (#E07A2F) with icons: Pillar 1: \"B2B TECH SPECIALIZATION\" — Nearly 40 years, speaks the language. Pillar 2: \"FULL LIFECYCLE + DEMAND GEN\" — Only provider with Demand Gen + SDR + AE + AM + CSM + PAM + RevOps. Pillar 3: \"MARKETSTAR LABS\" — Nytro.ai (AI pitch intelligence) + Gameplan (training/mentorship). Pillar 4: \"GLOBAL + LOCAL\" — 3,950 employees, 90+ countries, dedicated teams. Pillar 5: \"PEAK MATRIX® LEADER 2025 + 4 STEVIE AWARDS\" — Everest Group + Gold for Demand Gen. Pillar 6: \"OUTCOME ALIGNMENT\" — Performance-based pricing tied to client revenue goals. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1072,7 +1072,7 @@ export const CHAPTER_SEED_DATA = [
           "Universal play: Always ask 'What's your timeline?' — MarketStar's speed advantage becomes decisive when urgency exists"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"BATTLE STRATEGIES\". Show 5 strategy cards in orange (#E07A2F) with opponent labels and key attack points. Each card has a sword/shield icon. Universal play highlighted at bottom. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"COMPETITIVE BATTLE STRATEGIES\". Show 5 strategy cards in orange (#E07A2F) with opponent labels and specific attack points. Card 1: \"vs ACCENTURE/BIG CONSULTING\" — Lead with speed (6-8 wks vs 6 mo), specialization, cost (40-60% less). Card 2: \"vs TTEC/TELEPERFORMANCE\" — Lead with B2B expertise (not B2C), consultative selling, SQL quality. Card 3: \"vs CONCENTRIX\" — Lead with full lifecycle (we close deals), Nytro.ai pitch intelligence, B2B specialization. Card 4: \"vs CIENCE/MARTAL/BELKINS\" — Lead with scale (90+ countries), full lifecycle, enterprise-grade, PEAK Matrix® Leader. Card 5: \"vs INTERNAL TEAMS\" — Lead with speed (60 days vs 12 mo), variable cost (vs $145K/rep), trained bench. Bottom highlighted: \"UNIVERSAL PLAY: Always ask 'What's your timeline?' — speed becomes decisive\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1086,7 +1086,7 @@ export const CHAPTER_SEED_DATA = [
           "Key angle: B2B specialization, faster time to revenue, PEAK Matrix® validation, reference clients"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: COMPETITIVE TAKEAWAY\". Scenario: \"VP Sales: 'Accenture is a safer bet.'\". Side-by-side comparison showing MarketStar advantages. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: COMPETITIVE TAKEAWAY\". Scenario box: \"VP Sales: 'Accenture proposed a similar program for $2M more, but they're a safer bet — nobody gets fired for hiring Accenture.'\". Side-by-side comparison in orange (#E07A2F): Left \"Accenture\" — Generalist, 6-month ramp, transformation overhead, higher cost. Right \"MarketStar\" — B2B tech specialist, 6-8 week ramp, PEAK Matrix® Leader, 40-60% less cost, reference clients. Bottom: \"GOAL: VP agrees specialization + speed = lower risk choice\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
         "roleplaySlug": "rp-p9-competitive-takeaway"
@@ -1126,7 +1126,7 @@ export const CHAPTER_SEED_DATA = [
           "Stage 6 — CLOSE: Contract execution, transition planning, kickoff scheduling, and celebratory handshake"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DEAL EXECUTION FRAMEWORK\". Show 6 stages in a horizontal flow in orange (#E07A2F): Qualify → Discover → Demo → Propose → Negotiate → Close. Each stage has a small icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DEAL EXECUTION FRAMEWORK\". Show 6 stages in a horizontal flow connected by arrows in orange (#E07A2F), each with an icon. Stage 1: \"QUALIFY\" — MEDDPICC, budget authority, buying committee, timeline. Stage 2: \"DISCOVER\" — Deep-dive pain points, current state, desired future state. Stage 3: \"DEMO/PROVE\" — Solution tailored to pain, references, case studies, POC. Stage 4: \"PROPOSE\" — Business case, ROI model, solution design, pricing, timeline. Stage 5: \"NEGOTIATE\" — Handle objections, procurement, internal approvals. Stage 6: \"CLOSE\" — Contract execution, transition plan, kickoff scheduling. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1143,7 +1143,7 @@ export const CHAPTER_SEED_DATA = [
           "Tools: Use the MarketStar ROI Calculator (available in sales toolkit) to build prospect-specific business cases"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROI MODELING\". Show a comparison table in orange (#E07A2F): Internal Team costs vs MarketStar costs. Below: ROI formula visualization. Stat: \"$5-$8 return per $1 invested\". 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"BUSINESS CASE & ROI MODELING\". Show a two-column comparison table in orange (#E07A2F). Left column \"INTERNAL TEAM\": Salary + Benefits + Management + Tools + Turnover + Ramp (9-12 months). Right column \"MARKETSTAR\": Monthly Fee + Performance Bonus (6-8 weeks to production). Below: pipeline economics formula — \"Pipeline/Rep/Month × # Reps × Win Rate = Projected Revenue\". Risk mitigation callout: \"Variable cost model = no severance, no benefits liability in downturns\". Prominent stat: \"$5-$8 return for every $1 invested in Year 1\". Bottom: \"Use MarketStar ROI Calculator in sales toolkit\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1160,7 +1160,7 @@ export const CHAPTER_SEED_DATA = [
           "Social proof: Include 2-3 relevant case studies or references from similar companies/industries"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PROPOSAL STRUCTURE\". Show a document outline in orange (#E07A2F) with 8 sections stacked vertically. Each section has a small icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PROPOSAL & PRICING PRESENTATION\". Show a document outline in orange (#E07A2F) with 8 numbered sections stacked vertically, each with a small icon. Section 1: \"Executive Summary\" — One page restating problem + solution + outcomes (decision-makers read first). Section 2: \"Client Challenges\". Section 3: \"MarketStar Solution\". Section 4: \"Team Design\" — Specific roles, ramp plan, operating model. Section 5: \"Success Metrics\". Section 6: \"Pricing\" — Clear monthly fee + optional performance components. Section 7: \"Timeline\" — Visual ramp plan reinforcing speed advantage. Section 8: \"References\" — 2-3 relevant case studies. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1177,7 +1177,7 @@ export const CHAPTER_SEED_DATA = [
           "WALK-AWAY POWER: Know your minimum viable deal — willing to walk away from unprofitable terms strengthens your position"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NEGOTIATION STRATEGIES\". Show 6 strategy boxes in orange (#E07A2F) arranged in a grid. Each box has a chess piece icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NEGOTIATION STRATEGIES\". Show 6 strategy boxes in a 2x3 grid, each with an orange (#E07A2F) chess piece icon. Box 1: \"ANCHOR HIGH\" — Start with full solution, let prospect negotiate down. Box 2: \"TRADE, DON'T GIVE\" — Never concede without getting something (longer term, more reps, case study). Box 3: \"PROTECT THE RATE\" — Resist per-rep discounts; offer value-adds (RevOps, Nytro.ai, QBR frequency). Box 4: \"CREATE URGENCY\" — Capacity constraints, market timing, competitive pressure. Box 5: \"MULTI-THREAD\" — Engage champion + economic buyer + procurement simultaneously. Box 6: \"WALK-AWAY POWER\" — Know minimum viable deal; willingness to walk strengthens position. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1194,7 +1194,7 @@ export const CHAPTER_SEED_DATA = [
           "Post-close: Warm handoff to implementation team within 48 hours, kickoff call within 5 business days, celebrate the win"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CONTRACT & CLOSE\". Show a checklist in orange (#E07A2F): MSA, SOW, Procurement, Legal, Signatures, Handoff. Progress bar showing 95% complete. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CONTRACT & CLOSE PROCESS\". Show a vertical checklist in orange (#E07A2F) with 6 items, each with a checkbox icon. Item 1: \"MSA + SOW\" — Master Services Agreement covers legal; Statement of Work covers scope + pricing. Item 2: \"PROCUREMENT PREP\" — Security questionnaires, SOC 2, insurance, references (provide proactively). Item 3: \"LEGAL RED LINES\" — IP ownership, liability caps, termination notice (escalate early). Item 4: \"IMPLEMENTATION TIMELINE\" — Signed-to-live timeline in SOW creates urgency. Item 5: \"SIGNATURES\" — Identify all signers early, DocuSign/Adobe Sign, confirm authority. Item 6: \"POST-CLOSE\" — Warm handoff to implementation within 48 hours, kickoff within 5 business days. Progress bar at bottom showing 95% complete. 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1208,7 +1208,7 @@ export const CHAPTER_SEED_DATA = [
           "Key angle: Trade scope/term/timing instead of rate, quantify ROI to justify investment, offer phased approach"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: NEGOTIATION DRILL\". Scenario: \"CFO: 'Pricing is 15% above budget. Can you sharpen the pencil?'\". Chess piece imagery for strategic negotiation. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: NEGOTIATION DRILL\". Scenario box: \"CFO: 'Your proposal is strong but the pricing is 15% above our budget. Can you sharpen the pencil?'\". Center: chess piece imagery in orange (#E07A2F) for strategic negotiation. Left panel: strategies — \"Trade scope/term/timing instead of rate\", \"Quantify ROI to justify investment\", \"Offer phased approach\". Bottom: \"GOAL: Reach mutually acceptable agreement that preserves rate integrity\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
         "roleplaySlug": "rp-p10-negotiation"
@@ -1247,7 +1247,7 @@ export const CHAPTER_SEED_DATA = [
           "Client benefit: AI-powered programs deliver better results AND improve continuously — reps stay sharp on new products and competitive positioning"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"AI IN B2B SALES\". Show AI adoption statistics in orange (#E07A2F): \"61% of top teams use AI\", \"MarketStar Labs\", \"Nytro.ai + Gameplan\". Brain-circuit icon. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"AI IN B2B SALES — THE LANDSCAPE\". Show a brain-circuit icon in orange (#E07A2F) at center. Around it, key AI applications in sales: \"Pitch Scoring\", \"Onboarding Readiness\", \"Sales Training\", \"Lead Prioritization\", \"Content Personalization\", \"Workflow Automation\". Top stat: \"61% of high-performing sales teams use AI (Salesforce State of Sales 2024)\". Bottom section: \"MarketStar Advantage: MarketStar Labs (Nytro.ai + Gameplan) built into EVERY program — not an add-on\". Competitive moat callout: \"No other B2B sales outsourcer has proprietary AI pitch intelligence + training/mentorship platform\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1264,7 +1264,7 @@ export const CHAPTER_SEED_DATA = [
           "AWARD-WINNING: Gold Stevie for Sales Enablement, Aragon Hot Vendor, Globee Gold Winner, Bronze Stevie for Innovation in Sales (2025)"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NYTRO.AI DEEP-DIVE\". Show a 3-step process in orange (#E07A2F): \"1. UPLOAD\" → \"2. SCORE\" → \"3. IMPROVE\". Platform screenshot placeholder. Award badges at bottom. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"MARKETSTAR LABS: NYTRO.AI DEEP-DIVE\". Show a prominent 3-step process flow in orange (#E07A2F). Step 1: \"UPLOAD\" (microphone icon) — Reps record and submit sales pitch or product demo recordings. Step 2: \"SCORE\" (AI brain icon) — AI analyzes summaries, performance metrics, keyword usage, messaging quality, structure — scores against top-performer benchmarks. Step 3: \"IMPROVE\" (chart-up icon) — Personalized, actionable feedback with specific improvement recommendations. Below: two use case boxes — \"ONBOARDING: Validates readiness through pitch practice after training\" and \"ONGOING: Keeps reps sharp on new products, features, competitive positioning\". Bottom: award badges — \"Gold Stevie Sales Enablement\", \"Aragon Hot Vendor\", \"Globee Gold\", \"Bronze Stevie Innovation\". Note: \"Pitch intelligence platform — NOT call coaching or conversation intelligence\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1281,7 +1281,7 @@ export const CHAPTER_SEED_DATA = [
           "SCALABLE: Works for teams of 10 or 1,000 — designed for enterprise-scale mentorship and training programs"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"GAMEPLAN PLATFORM\". Show a mentorship flow diagram in orange (#E07A2F): Mentor → Personalized Plan → Training Sessions → Progress Tracking → Improved Performance. Icons for each stage. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"MARKETSTAR LABS: GAMEPLAN PLATFORM\". Show a mentorship flow diagram in orange (#E07A2F) with 5 connected stages: \"MENTOR TOOLS\" (personalize coaching plans, track progress, data-driven insights) → \"CUSTOMIZED LEARNING\" (personalized plans tailored to skill gaps & career goals) → \"SESSION TRACKING\" (full visibility into coaching sessions, completion rates, skill progression) → \"NYTRO.AI INTEGRATION\" (pitch scores feed into learning paths, AI-identified skill gaps become coaching priorities) → \"IMPROVED PERFORMANCE\". Side label: \"One-stop solution for in-house training, coaching, and upskilling\". Bottom: \"Scalable: Works for teams of 10 or 1,000 — enterprise-grade mentorship\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1298,7 +1298,7 @@ export const CHAPTER_SEED_DATA = [
           "ESCALATE: When AI flags unusual patterns, compliance concerns, or edge cases — always involve human leadership"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"RESPONSIBLE AI & GOVERNANCE\". Show two columns: green checkmarks for \"DO\" items and red X marks for \"DON'T\" items. Escalation section in orange (#E07A2F) at bottom. Shield icon for governance. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"RESPONSIBLE AI & GOVERNANCE\". Show two columns with a shield icon at top. Left column (green checkmarks) \"DO\": \"Use Nytro.ai for pitch practice & readiness validation\", \"Cross-reference AI scores with manager judgment & client feedback\", \"Ensure pitch recordings comply with consent requirements\". Right column (red X marks) \"DON'T\": \"Use AI feedback verbatim in client communications without human review\", \"Share AI analytics or recordings without authorization\". Bottom section in orange (#E07A2F) with warning icon: \"ESCALATE: When AI flags unusual patterns, compliance concerns, or edge cases — always involve human leadership\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": ""
       },
@@ -1312,7 +1312,7 @@ export const CHAPTER_SEED_DATA = [
           "Key angle: LMS tracks completion, Nytro.ai measures competency — pitch scoring proves reps can actually execute, not just pass a quiz"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: AI READINESS PITCH\". Scenario: \"VP Enablement: 'How does Nytro.ai improve readiness beyond our current LMS?'\". Split comparison: Training Completion vs Validated Readiness. 16:9 aspect ratio.",
+        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: AI READINESS PITCH\". Scenario box: \"VP Sales Enablement: 'We already have a robust onboarding program with LMS modules and ride-alongs. How does Nytro.ai actually improve rep readiness beyond what we're already doing?'\". Center: split comparison in orange (#E07A2F) — Left side: \"LMS (Traditional)\" — Tracks completion, pass/fail quizzes, assumes ready after training. Right side: \"Nytro.ai (Pitch Intelligence)\" — Measures actual competency through pitch scoring, proves reps can execute not just pass a quiz, continuous readiness validation. Bottom: \"GOAL: VP understands difference between 'completed training' and 'validated readiness' — sees Nytro.ai as the bridge\". 16:9 aspect ratio.",
         "narrationScript": "",
         "narrationAudioUrl": "",
         "roleplaySlug": "rp-p11-ai-differentiation"

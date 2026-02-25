@@ -586,9 +586,24 @@ The overall feel should be: ${isDark ? "A premium, luminous emblem in darkness -
 export async function generateSlideImage(
   chapterSlug: string,
   slideIndex: number,
-  imagePrompt: string
+  imagePrompt: string,
+  slideTitle?: string,
+  slideContent?: string,
+  slideBullets?: string[]
 ): Promise<GeneratedImage> {
+  let contentContext = '';
+  if (slideTitle) {
+    contentContext += `\nSLIDE TITLE: ${slideTitle}`;
+  }
+  if (slideContent) {
+    contentContext += `\nSLIDE DESCRIPTION: ${slideContent}`;
+  }
+  if (slideBullets && slideBullets.length > 0) {
+    contentContext += `\nKEY BULLET POINTS (use these exact names, numbers, and labels — do not substitute or invent different ones):\n${slideBullets.map((b, i) => `${i + 1}. ${b}`).join('\n')}`;
+  }
+
   const fullPrompt = `${imagePrompt}
+${contentContext}
 
 CRITICAL STYLE REQUIREMENTS:
 - This is a PRESENTATION SLIDE for MarketStar's sales training platform
@@ -598,7 +613,7 @@ CRITICAL STYLE REQUIREMENTS:
 - Professional corporate keynote quality — think McKinsey or Bain presentation deck
 - 16:9 landscape aspect ratio
 - Include the TITLE TEXT clearly visible at the top of the slide
-- Include key data points, diagrams, or visual elements as described
+- Render the exact data points, names, numbers, and labels from the KEY BULLET POINTS above — do not generalize, substitute, or invent different content
 - Clean typography with generous spacing
 - Subtle gradient effects and modern design elements
 - NO stock photo feel — this should look like a hand-crafted slide design`;

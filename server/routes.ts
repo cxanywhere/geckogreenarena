@@ -274,7 +274,7 @@ export async function registerRoutes(
       }
 
       console.log(`Generating slide ${slideIndex + 1}/${slides.length} for ${chapter.title}: ${slide.title}`);
-      const result = await generateSlideImage(chapter.slug || chapter.id, slideIndex, slide.imagePrompt);
+      const result = await generateSlideImage(chapter.slug || chapter.id, slideIndex, slide.imagePrompt, slide.title, slide.content, slide.bullets);
 
       if (result.success && result.imageUrl) {
         slides[slideIndex] = { ...slide, imageUrl: result.imageUrl };
@@ -314,7 +314,7 @@ export async function registerRoutes(
         }
 
         console.log(`Generating slide image ${i + 1}/${slides.length} for chapter: ${chapter.title} - ${slide.title}`);
-        const result = await generateSlideImage(chapter.slug || chapter.id, i, slide.imagePrompt);
+        const result = await generateSlideImage(chapter.slug || chapter.id, i, slide.imagePrompt, slide.title, slide.content, slide.bullets);
 
         if (result.success && result.imageUrl) {
           slides[i] = { ...slide, imageUrl: result.imageUrl };
@@ -350,9 +350,7 @@ export async function registerRoutes(
         const slides = (chapter.slides as any[]) || [];
         const cleaned = slides.map((s: any) => ({
           ...s,
-          imageUrl: '',
-          narrationScript: '',
-          narrationAudioUrl: ''
+          imageUrl: ''
         }));
         await db.update(chapters).set({ slides: cleaned }).where(eq(chapters.id, chapter.id));
       }
@@ -360,6 +358,35 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Clear all media error:", error);
       res.status(500).json({ error: "Failed to clear media" });
+    }
+  });
+
+  app.post("/api/chapters/bulk-update-images", async (req, res) => {
+    try {
+      const { updates } = req.body as { updates: { chapterSlug: string, slideIndex: number, imageUrl: string }[] };
+      if (!updates || !Array.isArray(updates)) {
+        return res.status(400).json({ error: "Missing updates array" });
+      }
+      const allChapters = await storage.getAllChapters();
+      let updated = 0;
+      for (const chapter of allChapters) {
+        const slides = (chapter.slides as any[]) || [];
+        let changed = false;
+        for (const upd of updates) {
+          if (upd.chapterSlug === chapter.slug && upd.slideIndex >= 0 && upd.slideIndex < slides.length) {
+            slides[upd.slideIndex].imageUrl = upd.imageUrl;
+            changed = true;
+            updated++;
+          }
+        }
+        if (changed) {
+          await db.update(chapters).set({ slides }).where(eq(chapters.id, chapter.id));
+        }
+      }
+      res.json({ success: true, updated });
+    } catch (error) {
+      console.error("Bulk update images error:", error);
+      res.status(500).json({ error: "Failed to bulk update images" });
     }
   });
 
@@ -382,7 +409,7 @@ export async function registerRoutes(
           }
 
           console.log(`[${chapter.title}] Generating slide ${i + 1}/${slides.length}: ${slide.title}`);
-          const result = await generateSlideImage(chapter.slug || chapter.id, i, slide.imagePrompt);
+          const result = await generateSlideImage(chapter.slug || chapter.id, i, slide.imagePrompt, slide.title, slide.content, slide.bullets);
 
           if (result.success && result.imageUrl) {
             slides[i] = { ...slide, imageUrl: result.imageUrl };
