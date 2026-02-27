@@ -129,7 +129,7 @@ export function Nav() {
                   className={cn(
                     "flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all",
                     isGroupActive(group)
-                      ? "text-magenta bg-white/10"
+                      ? "text-white bg-white/20 border border-white/30"
                       : "text-white/70 hover:text-white hover:bg-white/10"
                   )}
                   data-testid={`nav-group-${group.label.toLowerCase()}`}
