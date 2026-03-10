@@ -10,7 +10,15 @@ const openai = new OpenAI({
   baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
 });
 
-const geminiAi = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+const geminiAi = process.env.GEMINI_API_KEY
+  ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
+  : new GoogleGenAI({
+      apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY || "",
+      httpOptions: {
+        apiVersion: "",
+        baseUrl: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL || "",
+      },
+    });
 
 const NARRATION_DIR = path.join(process.cwd(), "public", "uploads", "narration");
 

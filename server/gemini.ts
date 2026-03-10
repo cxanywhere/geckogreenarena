@@ -2,7 +2,9 @@ import { GoogleGenAI } from "@google/genai";
 import * as fs from "fs";
 import * as path from "path";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+const ai = process.env.GEMINI_API_KEY
+  ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
+  : null;
 
 const aiIntegration = new GoogleGenAI({
   apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY || "",
@@ -11,6 +13,10 @@ const aiIntegration = new GoogleGenAI({
     baseUrl: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL || "",
   },
 });
+
+function getClient(): GoogleGenAI {
+  return ai || aiIntegration;
+}
 
 export interface GeneratedImage {
   success: boolean;
@@ -42,8 +48,8 @@ export async function generateChapterImage(
   const customPrompt = CHAPTER_COVER_PROMPTS[chapterTitle];
   const prompt = customPrompt || `Create a vibrant, modern 3D illustration for a B2B sales training chapter about "${chapterTitle}". Use orange (#E07A2F) as the primary accent color and deep navy (#1A2B8C) as the background. Dynamic, exciting, futuristic corporate feel with abstract shapes and glowing elements. No text or words whatsoever. 16:9 aspect ratio.`;
 
-  const clients = [
-    { name: "user-key", client: ai },
+  const clients: { name: string; client: GoogleGenAI }[] = [
+    ...(ai ? [{ name: "user-key", client: ai }] : []),
     { name: "replit-integration", client: aiIntegration },
   ];
 
@@ -137,8 +143,8 @@ REQUIREMENTS:
 
 The image should look like a real enterprise buyer you might meet in a sales meeting.`;
 
-  const clients = [
-    { name: "user-key", client: ai },
+  const clients: { name: string; client: GoogleGenAI }[] = [
+    ...(ai ? [{ name: "user-key", client: ai }] : []),
     { name: "replit-integration", client: aiIntegration },
   ];
 
@@ -202,7 +208,7 @@ export async function generateLogoImage(
   filename: string
 ): Promise<GeneratedImage> {
   try {
-    const response = await ai.models.generateContent({
+    const response = await getClient().models.generateContent({
       model: "gemini-3-pro-image-preview",
       contents: prompt,
       config: {
@@ -286,7 +292,7 @@ DESIGN REQUIREMENTS:
 Create a visually stunning, information-rich battlecard that a B2B sales outsourcing rep could quickly reference during enterprise sales calls.`;
 
   try {
-    const response = await ai.models.generateContent({
+    const response = await getClient().models.generateContent({
       model: "gemini-3-pro-image-preview",
       contents: prompt,
       config: {
@@ -391,7 +397,7 @@ IMPORTANT:
 export async function startRoleplayConversation(scenario: RoleplayScenario): Promise<string> {
   const systemPrompt = buildPersonaPrompt(scenario);
   
-  const response = await ai.models.generateContent({
+  const response = await getClient().models.generateContent({
     model: "gemini-2.5-flash",
     config: {
       systemInstruction: systemPrompt,
@@ -419,7 +425,7 @@ export async function continueRoleplayConversation(
     parts: [{ text: userMessage }]
   });
 
-  const response = await ai.models.generateContent({
+  const response = await getClient().models.generateContent({
     model: "gemini-2.5-flash",
     config: {
       systemInstruction: systemPrompt,
@@ -500,7 +506,7 @@ SCORING GUIDE:
 Be encouraging but honest. The "passed" field should be TRUE if the rep genuinely demonstrated the correct technique for handling this objection, regardless of whether the conversation reached a natural conclusion.`;
 
   try {
-    const response = await ai.models.generateContent({
+    const response = await getClient().models.generateContent({
       model: "gemini-2.5-flash",
       config: {
         responseMimeType: "application/json",
@@ -579,7 +585,7 @@ STYLE:
 The overall feel should be: ${isDark ? "A premium, luminous emblem in darkness - sophisticated, innovative, enterprise-grade" : "A clean, luxury brand mark - polished, confident, modern"}.`;
 
   try {
-    const response = await ai.models.generateContent({
+    const response = await getClient().models.generateContent({
       model: "gemini-3-pro-image-preview",
       contents: prompt,
       config: {
