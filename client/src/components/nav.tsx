@@ -236,8 +236,8 @@ export function Nav() {
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-white border-l border-[#e8e8e5]">
-              <div className="flex flex-col gap-1 mt-10">
+            <SheetContent side="right" className="bg-white border-l border-[#e8e8e5] overflow-y-auto">
+              <div className="flex flex-col gap-1 mt-10 pb-8">
                 {user && (
                   <div className="flex items-center gap-3 pb-4 mb-3 border-b border-[#e8e8e5] cursor-pointer" onClick={() => { setIsOpen(false); setLocation("/profile"); }}>
                     {user.warriorAvatar ? (
