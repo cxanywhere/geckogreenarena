@@ -97,7 +97,7 @@ export function Nav() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-navy text-navy-foreground">
+    <nav className="sticky top-0 z-50 w-full border-b border-white/5 bg-background/80 backdrop-blur-xl text-foreground">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-2 sm:gap-4 lg:gap-6 min-w-0">
           <Link href="/dashboard" className="flex items-center gap-1.5 sm:gap-2.5 hover:opacity-80 transition-opacity shrink-0">
@@ -236,7 +236,7 @@ export function Nav() {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-navy/95 text-white backdrop-blur-xl border-l-white/10">
+            <SheetContent side="right" className="bg-background/95 text-foreground backdrop-blur-xl border-l border-white/5">
               <div className="flex flex-col gap-2 mt-10">
                 {user && (
                   <div className="flex items-center gap-3 pb-4 mb-2 border-b border-white/10 cursor-pointer" onClick={() => { setIsOpen(false); setLocation("/profile"); }}>

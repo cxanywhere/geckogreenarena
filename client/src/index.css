@@ -56,96 +56,99 @@
   --color-magenta-foreground: hsl(var(--magenta-foreground));
   --color-navy: hsl(var(--navy));
   --color-navy-foreground: hsl(var(--navy-foreground));
+  --color-gold: hsl(var(--gold));
 }
 
 :root {
-  --background: 220 20% 97%;
-  --foreground: 220 40% 14%;
+  --background: 260 25% 8%;
+  --foreground: 250 20% 95%;
   
-  --card: 0 0% 100%;
-  --card-foreground: 220 40% 14%;
+  --card: 260 25% 12%;
+  --card-foreground: 250 20% 95%;
   
-  --popover: 0 0% 100%;
-  --popover-foreground: 220 40% 14%;
+  --popover: 260 25% 12%;
+  --popover-foreground: 250 20% 95%;
   
-  --primary: 222 47% 20%;
+  --primary: 270 80% 60%;
   --primary-foreground: 0 0% 100%;
   
-  --secondary: 215 25% 94%;
-  --secondary-foreground: 222 47% 25%;
+  --secondary: 260 20% 18%;
+  --secondary-foreground: 250 20% 85%;
   
-  --muted: 216 18% 95%;
-  --muted-foreground: 220 12% 46%;
+  --muted: 260 15% 15%;
+  --muted-foreground: 250 10% 55%;
   
-  --accent: 201 98% 44%;
+  --accent: 270 80% 60%;
   --accent-foreground: 0 0% 100%;
   
-  --destructive: 0 84% 60%;
+  --destructive: 0 72% 55%;
   --destructive-foreground: 0 0% 98%;
   
-  --border: 216 16% 88%;
-  --input: 216 16% 86%;
-  --ring: 201 98% 44%;
+  --border: 260 15% 18%;
+  --input: 260 15% 20%;
+  --ring: 270 80% 60%;
   
   --radius: 0.75rem;
   
-  --magenta: 201 98% 44%;
+  --magenta: 270 80% 60%;
   --magenta-foreground: 0 0% 100%;
-  --navy: 222 47% 20%;
-  --navy-foreground: 0 0% 100%;
+  --navy: 260 30% 12%;
+  --navy-foreground: 250 20% 95%;
+  --gold: 42 90% 55%;
 
-  --sidebar: 222 47% 20%;
-  --sidebar-foreground: 210 20% 92%;
-  --sidebar-primary: 201 98% 44%;
+  --sidebar: 260 30% 10%;
+  --sidebar-foreground: 250 20% 90%;
+  --sidebar-primary: 270 80% 60%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 222 40% 28%;
-  --sidebar-accent-foreground: 210 20% 92%;
-  --sidebar-border: 222 35% 28%;
-  --sidebar-ring: 201 98% 44%;
+  --sidebar-accent: 260 20% 18%;
+  --sidebar-accent-foreground: 250 20% 90%;
+  --sidebar-border: 260 15% 18%;
+  --sidebar-ring: 270 80% 60%;
 }
 
 .dark {
-  --background: 222 40% 7%;
-  --foreground: 210 20% 94%;
+  --background: 260 30% 6%;
+  --foreground: 250 20% 95%;
   
-  --card: 222 35% 11%;
-  --card-foreground: 210 20% 94%;
+  --card: 260 28% 10%;
+  --card-foreground: 250 20% 95%;
   
-  --popover: 222 35% 11%;
-  --popover-foreground: 210 20% 94%;
+  --popover: 260 28% 10%;
+  --popover-foreground: 250 20% 95%;
   
-  --primary: 201 98% 44%;
+  --primary: 270 85% 65%;
   --primary-foreground: 0 0% 100%;
   
-  --secondary: 222 30% 16%;
-  --secondary-foreground: 210 20% 90%;
+  --secondary: 260 20% 16%;
+  --secondary-foreground: 250 20% 88%;
   
-  --muted: 222 30% 14%;
-  --muted-foreground: 210 15% 60%;
+  --muted: 260 18% 13%;
+  --muted-foreground: 250 10% 50%;
   
-  --accent: 201 98% 44%;
+  --accent: 270 85% 65%;
   --accent-foreground: 0 0% 100%;
   
   --destructive: 0 62% 30%;
   --destructive-foreground: 0 0% 98%;
   
-  --border: 222 25% 18%;
-  --input: 222 25% 18%;
-  --ring: 201 98% 44%;
+  --border: 260 15% 16%;
+  --input: 260 15% 18%;
+  --ring: 270 85% 65%;
   
-  --magenta: 201 98% 50%;
+  --magenta: 270 85% 65%;
   --magenta-foreground: 0 0% 100%;
-  --navy: 222 47% 20%;
-  --navy-foreground: 0 0% 100%;
+  --navy: 260 30% 8%;
+  --navy-foreground: 250 20% 95%;
+  --gold: 42 90% 58%;
 
-  --sidebar: 222 40% 8%;
-  --sidebar-foreground: 210 20% 92%;
-  --sidebar-primary: 201 98% 50%;
+  --sidebar: 260 30% 7%;
+  --sidebar-foreground: 250 20% 90%;
+  --sidebar-primary: 270 85% 65%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 222 30% 16%;
-  --sidebar-accent-foreground: 210 20% 92%;
-  --sidebar-border: 222 25% 18%;
-  --sidebar-ring: 201 98% 50%;
+  --sidebar-accent: 260 20% 16%;
+  --sidebar-accent-foreground: 250 20% 90%;
+  --sidebar-border: 260 15% 16%;
+  --sidebar-ring: 270 85% 65%;
 }
 
 @layer base {
@@ -176,34 +179,52 @@
 }
 
 @utility glass {
-  @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-sm;
+  @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-lg;
 }
 
 @utility glass-dark {
-  @apply bg-black/40 backdrop-blur-md border border-white/10 shadow-sm;
+  @apply bg-black/40 backdrop-blur-xl border border-white/10 shadow-lg;
 }
 
 @utility text-glow {
-  text-shadow: 0 0 20px rgba(0, 140, 220, 0.5);
+  text-shadow: 0 0 20px rgba(139, 92, 246, 0.6), 0 0 40px rgba(139, 92, 246, 0.3);
+}
+
+@utility text-glow-gold {
+  text-shadow: 0 0 20px rgba(234, 179, 8, 0.6), 0 0 40px rgba(234, 179, 8, 0.3);
 }
 
 @layer utilities {
   .btn-gradient {
-    background: linear-gradient(135deg, hsl(201 98% 44%) 0%, hsl(222 47% 26%) 100%);
+    background: linear-gradient(135deg, hsl(270 80% 60%) 0%, hsl(300 70% 50%) 50%, hsl(42 90% 55%) 100%);
     color: white;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
   }
   .btn-gradient:hover {
-    background: linear-gradient(135deg, hsl(201 98% 38%) 0%, hsl(222 47% 20%) 100%);
-    transform: translateY(-1px);
-    box-shadow: 0 8px 25px rgba(0, 140, 220, 0.3);
+    background: linear-gradient(135deg, hsl(270 80% 55%) 0%, hsl(300 70% 45%) 50%, hsl(42 90% 50%) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(139, 92, 246, 0.5);
   }
 }
 
 @utility bg-navy-gradient {
-  background: linear-gradient(135deg, hsl(222 47% 14%) 0%, hsl(222 47% 20%) 50%, hsl(215 40% 28%) 100%);
+  background: linear-gradient(135deg, hsl(260 30% 8%) 0%, hsl(260 25% 14%) 50%, hsl(270 30% 18%) 100%);
 }
 
 @utility bg-hero-gradient {
-  background: linear-gradient(135deg, hsl(222 47% 12%) 0%, hsl(222 47% 18%) 60%, hsl(201 60% 28%) 100%);
+  background: linear-gradient(135deg, hsl(260 35% 6%) 0%, hsl(265 30% 12%) 40%, hsl(270 40% 16%) 100%);
+}
+
+@utility glow-purple {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3), 0 0 60px rgba(139, 92, 246, 0.1);
+}
+
+@utility glow-gold {
+  box-shadow: 0 0 20px rgba(234, 179, 8, 0.3), 0 0 60px rgba(234, 179, 8, 0.1);
+}
+
+@utility border-glow {
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: inset 0 0 20px rgba(139, 92, 246, 0.05), 0 0 20px rgba(139, 92, 246, 0.1);
 }

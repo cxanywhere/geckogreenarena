@@ -169,16 +169,16 @@ export default function ResultsPage() {
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center max-w-md px-6">
             <motion.div 
-              className="w-28 h-28 mx-auto mb-8 rounded-full bg-gradient-to-br from-[#E07A2F]/30 to-[#1B2D5E]/20 flex items-center justify-center relative"
+              className="w-28 h-28 mx-auto mb-8 rounded-full bg-gradient-to-br from-[hsl(42, 90%, 55%)]/30 to-[#2A1B4E]/20 flex items-center justify-center relative"
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
               <motion.div 
-                className="absolute inset-0 rounded-full border-4 border-[#E07A2F]/30"
+                className="absolute inset-0 rounded-full border-4 border-[hsl(42, 90%, 55%)]/30"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
               />
-              <Loader2 className="w-14 h-14 text-[#E07A2F] animate-spin" />
+              <Loader2 className="w-14 h-14 text-[hsl(42, 90%, 55%)] animate-spin" />
             </motion.div>
             
             <motion.div
@@ -196,7 +196,7 @@ export default function ResultsPage() {
               {loadingMessages.map((_, idx) => (
                 <motion.div
                   key={idx}
-                  className={`w-2 h-2 rounded-full ${idx === loadingMessageIndex ? 'bg-[#E07A2F]' : 'bg-gray-300'}`}
+                  className={`w-2 h-2 rounded-full ${idx === loadingMessageIndex ? 'bg-[hsl(42, 90%, 55%)]' : 'bg-gray-300'}`}
                   animate={idx === loadingMessageIndex ? { scale: [1, 1.3, 1] } : {}}
                   transition={{ duration: 0.5 }}
                 />

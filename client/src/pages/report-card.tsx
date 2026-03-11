@@ -327,12 +327,12 @@ export default function ReportCardPage() {
           <div className="lg:col-span-2">
             {passed ? (
                <div className="w-full overflow-x-auto pb-6">
-                 <div className="relative min-w-[700px] md:min-w-full min-h-[500px] md:min-h-[600px] bg-white text-black p-6 md:p-10 shadow-2xl rounded-sm border-[12px] md:border-[16px] border-double border-[#1e3a8a] print:shadow-none print:border-0 print:w-full print:h-full print:absolute print:inset-0 print:z-[9999]" ref={certificateRef}>
+                 <div className="relative min-w-[700px] md:min-w-full min-h-[500px] md:min-h-[600px] bg-white text-black p-6 md:p-10 shadow-2xl rounded-sm border-[12px] md:border-[16px] border-double border-[#5B21B6] print:shadow-none print:border-0 print:w-full print:h-full print:absolute print:inset-0 print:z-[9999]" ref={certificateRef}>
                     
-                    <div className="absolute top-3 left-3 w-10 h-10 md:w-16 md:h-16 border-t-4 border-l-4 border-[#1e3a8a] pointer-events-none" />
-                    <div className="absolute top-3 right-3 w-10 h-10 md:w-16 md:h-16 border-t-4 border-r-4 border-[#1e3a8a] pointer-events-none" />
-                    <div className="absolute bottom-3 left-3 w-10 h-10 md:w-16 md:h-16 border-b-4 border-l-4 border-[#1e3a8a] pointer-events-none" />
-                    <div className="absolute bottom-3 right-3 w-10 h-10 md:w-16 md:h-16 border-b-4 border-r-4 border-[#1e3a8a] pointer-events-none" />
+                    <div className="absolute top-3 left-3 w-10 h-10 md:w-16 md:h-16 border-t-4 border-l-4 border-[#5B21B6] pointer-events-none" />
+                    <div className="absolute top-3 right-3 w-10 h-10 md:w-16 md:h-16 border-t-4 border-r-4 border-[#5B21B6] pointer-events-none" />
+                    <div className="absolute bottom-3 left-3 w-10 h-10 md:w-16 md:h-16 border-b-4 border-l-4 border-[#5B21B6] pointer-events-none" />
+                    <div className="absolute bottom-3 right-3 w-10 h-10 md:w-16 md:h-16 border-b-4 border-r-4 border-[#5B21B6] pointer-events-none" />
                     
                     <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
                        <span className="text-8xl font-bold text-gray-900 tracking-tight">LMS</span>
@@ -342,7 +342,7 @@ export default function ReportCardPage() {
                       
                       <div className="w-full space-y-4 md:space-y-6">
                          <div className="flex justify-between items-start w-full px-2 md:px-4">
-                            <span className="text-xl md:text-2xl font-bold text-[#0096E0] tracking-tight">LinkedIn Marketing Solutions</span>
+                            <span className="text-xl md:text-2xl font-bold text-[#8B5CF6] tracking-tight">LinkedIn Marketing Solutions</span>
                             <div className="flex flex-col items-end">
                                <div className="flex items-center gap-2 opacity-50">
                                   <span className="font-display font-bold uppercase tracking-widest text-[10px] md:text-xs">LMS Certified</span>
@@ -351,7 +351,7 @@ export default function ReportCardPage() {
                          </div>
                          
                          <div className="pt-4 md:pt-6">
-                           <h1 className="font-serif text-3xl md:text-5xl text-[#1e3a8a] mb-2 tracking-tight">Certificate of Completion</h1>
+                           <h1 className="font-serif text-3xl md:text-5xl text-[#5B21B6] mb-2 tracking-tight">Certificate of Completion</h1>
                            <p className="text-gray-500 font-serif italic text-base md:text-lg">This certifies that</p>
                          </div>
                       </div>
@@ -364,7 +364,7 @@ export default function ReportCardPage() {
 
                       <div className="max-w-2xl mx-auto space-y-4 pt-6 md:pt-8">
                          <p className="text-gray-600 font-serif text-sm md:text-lg leading-relaxed px-4">
-                           Has successfully demonstrated mastery of the <strong className="text-[#1e3a8a]">LinkedIn Marketing Solutions Sales Methodology</strong>, achieving excellence in Discovery, Positioning, Objection Handling, and Closing strategies through rigorous AI-driven simulation training.
+                           Has successfully demonstrated mastery of the <strong className="text-[#5B21B6]">LinkedIn Marketing Solutions Sales Methodology</strong>, achieving excellence in Discovery, Positioning, Objection Handling, and Closing strategies through rigorous AI-driven simulation training.
                          </p>
                          
                          <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-bold pt-2">
@@ -378,7 +378,7 @@ export default function ReportCardPage() {
                       <div className="w-full grid grid-cols-2 gap-8 md:gap-20 pt-8 px-4 md:px-8 mt-4">
                          <div className="text-center space-y-1">
                             <div className="h-12 md:h-14 flex items-end justify-center pb-1">
-                               <span className="font-script text-xl md:text-2xl text-[#1e3a8a] transform -rotate-6 block">Sarah Jenkins</span>
+                               <span className="font-script text-xl md:text-2xl text-[#5B21B6] transform -rotate-6 block">Sarah Jenkins</span>
                             </div>
                             <div className="border-t border-gray-400 pt-2">
                                <p className="font-bold text-xs md:text-sm uppercase text-gray-800">Sarah Jenkins</p>

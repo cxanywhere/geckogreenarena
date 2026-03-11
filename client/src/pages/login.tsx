@@ -11,6 +11,10 @@ import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
 import arenaHelmet from "@/assets/arena-helmet.png";
 import arenaHelmetDark from "@/assets/arena-helmet-dark.png";
+import heroBg from "@/assets/hero-arena-bg.png";
+import trophyIcon from "@/assets/trophy-icon.png";
+import certBadge from "@/assets/cert-badge.png";
+
 export default function LoginPage() {
   const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
@@ -76,26 +80,28 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2 bg-background font-sans overflow-hidden">
-      <div className="flex flex-col justify-center px-8 sm:px-12 lg:px-24 xl:px-32 z-10 bg-card/50 backdrop-blur-sm">
+      <div className="flex flex-col justify-center px-8 sm:px-12 lg:px-24 xl:px-32 z-10 relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-magenta/5 via-transparent to-transparent pointer-events-none" />
+        
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
+          className="relative z-10"
         >
           <div className="mb-10 flex items-center gap-3">
-            <img src={arenaHelmet} alt="Arena AI" className="h-14 w-auto object-contain block dark:hidden" />
-            <img src={arenaHelmetDark} alt="Arena AI" className="h-14 w-auto object-contain hidden dark:block" />
+            <img src={arenaHelmetDark} alt="Arena AI" className="h-14 w-auto object-contain" />
             <div className="flex flex-col leading-none">
               <span className="text-2xl font-bold tracking-wide text-foreground">arena ai</span>
               <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted-foreground">by gigarev</span>
             </div>
           </div>
 
-          <div className="mb-8 p-6 bg-card rounded-2xl border border-border shadow-sm relative overflow-hidden group">
-            <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
-              <Zap className="w-24 h-24 text-magenta rotate-12" />
+          <div className="mb-8 p-5 rounded-2xl border border-magenta/20 bg-magenta/5 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-2 opacity-20 group-hover:opacity-30 transition-opacity">
+              <Zap className="w-20 h-20 text-magenta rotate-12" />
             </div>
-            <p className="text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground mb-4">Authorized Workspace For</p>
+            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground mb-3">Authorized Workspace For</p>
             <span className="text-xl font-bold text-foreground tracking-tight">LinkedIn Marketing Solutions</span>
           </div>
 
@@ -115,7 +121,7 @@ export default function LoginPage() {
                 id="email" 
                 type="email" 
                 placeholder="name@linkedin.com" 
-                className="h-12 bg-background border-input focus:border-magenta focus:ring-magenta/20 transition-all text-foreground placeholder:text-muted-foreground"
+                className="h-12 bg-secondary border-border focus:border-magenta focus:ring-magenta/20 transition-all text-foreground placeholder:text-muted-foreground"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -133,7 +139,7 @@ export default function LoginPage() {
                 id="password" 
                 type="password" 
                 placeholder="••••••••" 
-                className="h-12 bg-background border-input focus:border-magenta focus:ring-magenta/20 transition-all text-foreground placeholder:text-muted-foreground"
+                className="h-12 bg-secondary border-border focus:border-magenta focus:ring-magenta/20 transition-all text-foreground placeholder:text-muted-foreground"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -141,7 +147,7 @@ export default function LoginPage() {
             </div>
 
             <div className="flex items-center space-x-2">
-              <Checkbox id="remember" className="border-input data-[state=checked]:bg-magenta data-[state=checked]:text-white" />
+              <Checkbox id="remember" className="border-border data-[state=checked]:bg-magenta data-[state=checked]:text-white" />
               <Label htmlFor="remember" className="font-normal text-muted-foreground cursor-pointer">
                 Remember this device for 30 days
               </Label>
@@ -149,7 +155,7 @@ export default function LoginPage() {
 
             <Button 
               type="submit" 
-              className="w-full h-12 text-base font-medium btn-gradient shadow-lg shadow-magenta/25 hover:shadow-magenta/40 transition-all"
+              className="w-full h-12 text-base font-medium btn-gradient"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -169,11 +175,11 @@ export default function LoginPage() {
       </div>
 
       <div className="hidden lg:block relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0F1B3D] via-[#1B2D5E] to-[#0F1B3D]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,140,220,0.35),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(27,45,94,0.5),transparent_60%)]" />
+        <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-background/30 to-background/80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
         
-        <div className="relative z-10 h-full flex flex-col justify-between p-24 text-white">
+        <div className="relative z-10 h-full flex flex-col justify-between p-16 xl:p-24 text-white">
           <div className="flex justify-end">
             <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-sm font-mono">
               <Lock className="w-3 h-3" />
@@ -186,23 +192,25 @@ export default function LoginPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <h2 className="font-display text-5xl font-bold mb-6 leading-tight">
+            <h2 className="font-display text-4xl xl:text-5xl font-bold mb-6 leading-tight">
               LinkedIn Marketing Solutions <br />
-              <span className="text-[#0096E0]">Sales Enablement</span>
+              <span className="text-glow bg-gradient-to-r from-magenta via-purple-400 to-gold bg-clip-text text-transparent">Sales Enablement</span>
             </h2>
-            <p className="text-white/80 text-lg max-w-md leading-relaxed">
+            <p className="text-white/70 text-lg max-w-md leading-relaxed">
               Master your pitch with AI-powered training. Arena by GigaRev — built exclusively for LinkedIn Marketing Solutions sales professionals.
             </p>
             
             <div className="flex gap-3 mt-8">
-              <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
-                <span className="text-[#0096E0] font-bold">18</span> <span className="text-white/70">AI Roleplays</span>
+              <div className="px-4 py-2.5 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-sm flex items-center gap-2">
+                <img src={trophyIcon} alt="" className="w-5 h-5 object-contain" />
+                <span className="text-gold font-bold">18</span> <span className="text-white/60">AI Roleplays</span>
               </div>
-              <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
-                <span className="text-[#0096E0] font-bold">4</span> <span className="text-white/70">Buyer Personas</span>
+              <div className="px-4 py-2.5 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-sm flex items-center gap-2">
+                <img src={certBadge} alt="" className="w-5 h-5 object-contain" />
+                <span className="text-gold font-bold">4</span> <span className="text-white/60">Buyer Personas</span>
               </div>
-              <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
-                <span className="text-[#0096E0] font-bold">10</span> <span className="text-white/70">Battlecards</span>
+              <div className="px-4 py-2.5 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-sm flex items-center gap-2">
+                <span className="text-gold font-bold">10</span> <span className="text-white/60">Battlecards</span>
               </div>
             </div>
           </motion.div>

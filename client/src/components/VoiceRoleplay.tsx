@@ -381,7 +381,7 @@ CRITICAL RULES:
 
   return (
     <div className="flex flex-col h-full" data-testid="voice-roleplay-container">
-      <Card className="mb-4 border-[#E07A2F]/30 bg-gradient-to-r from-[#1B2D5E]/5 to-[#E07A2F]/5">
+      <Card className="mb-4 border-[hsl(42, 90%, 55%)]/30 bg-gradient-to-r from-[#2A1B4E]/5 to-[hsl(42, 90%, 55%)]/5">
         <CardContent className="p-4">
           <div className="flex items-start justify-between">
             <div>
@@ -405,7 +405,7 @@ CRITICAL RULES:
 
           <div className="mt-3 flex flex-wrap gap-2">
             {config.traits.map((trait, index) => (
-              <span key={index} className="px-2 py-1 bg-[#E07A2F]/10 text-[#1B2D5E] text-xs rounded-full">
+              <span key={index} className="px-2 py-1 bg-[hsl(42, 90%, 55%)]/10 text-[#2A1B4E] text-xs rounded-full">
                 {trait}
               </span>
             ))}
@@ -471,8 +471,8 @@ CRITICAL RULES:
             {status === "idle" && transcript.length === 0 && (
               <div className="h-full flex items-center justify-center text-center p-8">
                 <div>
-                  <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-[#E07A2F]/20 flex items-center justify-center">
-                    <Phone className="w-10 h-10 text-[#1B2D5E]" />
+                  <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-[hsl(42, 90%, 55%)]/20 flex items-center justify-center">
+                    <Phone className="w-10 h-10 text-[#2A1B4E]" />
                   </div>
                   <h4 className="font-semibold text-lg text-gray-900 mb-2">Ready to Practice?</h4>
                   <p className="text-gray-600 text-sm max-w-md mb-3">
@@ -489,7 +489,7 @@ CRITICAL RULES:
             {status === "connecting" && (
               <div className="h-full flex items-center justify-center">
                 <div className="text-center">
-                  <Loader2 className="w-12 h-12 mx-auto mb-4 text-[#E07A2F] animate-spin" />
+                  <Loader2 className="w-12 h-12 mx-auto mb-4 text-[hsl(42, 90%, 55%)] animate-spin" />
                   <p className="text-gray-600">Connecting to buyer...</p>
                 </div>
               </div>
@@ -506,7 +506,7 @@ CRITICAL RULES:
                   <div 
                     className={`max-w-[80%] p-3 rounded-2xl ${
                       entry.role === "user" 
-                        ? "bg-[#E07A2F] text-white rounded-br-md" 
+                        ? "bg-[hsl(42, 90%, 55%)] text-white rounded-br-md" 
                         : "bg-gray-100 text-gray-800 rounded-bl-md"
                     }`}
                     data-testid={`transcript-${entry.role}-${index}`}
@@ -530,7 +530,7 @@ CRITICAL RULES:
                       {[...Array(3)].map((_, i) => (
                         <motion.div
                           key={i}
-                          className="w-2 h-2 bg-[#E07A2F] rounded-full"
+                          className="w-2 h-2 bg-[hsl(42, 90%, 55%)] rounded-full"
                           animate={{
                             scale: [1, 1.5, 1],
                             opacity: [0.5, 1, 0.5],
@@ -592,7 +592,7 @@ CRITICAL RULES:
             </Button>
             <Button
               onClick={startCall}
-              className="px-8 bg-[#E07A2F] hover:bg-[#C06825] text-white"
+              className="px-8 bg-[hsl(42, 90%, 55%)] hover:bg-[#C06825] text-white"
               data-testid="button-start-call"
             >
               <Phone className="w-4 h-4 mr-2" />
@@ -651,7 +651,7 @@ CRITICAL RULES:
                   {isMuted ? (
                     <MicOff className="w-6 h-6 text-red-600" />
                   ) : (
-                    <Mic className="w-6 h-6 text-[#1B2D5E]" />
+                    <Mic className="w-6 h-6 text-[#2A1B4E]" />
                   )}
                 </Button>
               </motion.div>
@@ -672,7 +672,7 @@ CRITICAL RULES:
 
         {status === "ending" && (
           <div className="text-center">
-            <Loader2 className="w-8 h-8 mx-auto mb-2 text-[#E07A2F] animate-spin" />
+            <Loader2 className="w-8 h-8 mx-auto mb-2 text-[hsl(42, 90%, 55%)] animate-spin" />
             <p className="text-gray-600">Processing your session...</p>
           </div>
         )}
