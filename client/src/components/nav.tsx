@@ -24,6 +24,8 @@ import {
 import { useAuth } from "@/lib/auth-context";
 
 import notionArena from "@/assets/notion-icon-arena.png";
+import arenaBrandIcon from "@/assets/arena-brand-icon.png";
+import linkedinLogo from "@/assets/linkedin-logo.png";
 import notionProgress from "@/assets/notion-icon-progress.png";
 import notionQuiz from "@/assets/notion-icon-quiz.png";
 import notionStats from "@/assets/notion-icon-stats.png";
@@ -112,14 +114,17 @@ export function Nav() {
       <div className="container mx-auto flex h-12 items-center justify-between px-4 max-w-5xl">
         <div className="flex items-center gap-3 lg:gap-5 min-w-0">
           <Link href="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity shrink-0">
-            <img src={notionArena} alt="Arena AI" className="h-7 w-7 object-contain rounded-full" />
+            <img src={arenaBrandIcon} alt="Arena AI" className="h-7 w-7 object-contain" />
             <div className="hidden sm:flex flex-col leading-none">
               <span className="text-sm font-bold tracking-wide text-[#37352f]">Arena AI</span>
               <span className="text-[8px] font-medium uppercase tracking-widest text-[#787774]">by GigaRev</span>
             </div>
           </Link>
           <div className="h-4 w-px bg-[#e8e8e5] shrink-0" />
-          <span className="text-sm font-medium text-[#37352f] truncate">LinkedIn Marketing Solutions</span>
+          <div className="flex items-center gap-1.5 truncate">
+            <img src={linkedinLogo} alt="LinkedIn" className="h-4 w-4 rounded-sm shrink-0" />
+            <span className="text-sm font-medium text-[#37352f] truncate">LinkedIn Marketing Solutions</span>
+          </div>
         </div>
 
         <div className="hidden lg:flex items-center gap-0.5">
