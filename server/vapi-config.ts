@@ -20,527 +20,572 @@ export interface VapiRoleplayConfig {
   isCertification?: boolean;
   isCoachingMode?: boolean;
   scriptHint?: string;
-  lawnIssues?: string[];
 }
 
 export const VAPI_ROLEPLAY_CONFIGS: VapiRoleplayConfig[] = [
   {
     id: "rp-01",
-    name: "I only have 5 minutes",
-    role: "The Rushed Executive",
+    name: "What exactly is LinkedIn Marketing Solutions?",
+    role: "New Demand Gen Manager",
     phase: "Chapter 1",
-    context: "Discovery → Opening the Call",
-    objection: "I only have 5 minutes.",
-    passCriteria: "Acknowledge the time constraint, set a tight agenda, and ask a high-impact discovery question that qualifies the opportunity.",
-    failConditions: "Launches into a pitch deck or rambles without respecting their time constraint",
-    winningResponse: "Great job! You respected their time, set a focused agenda, and asked a qualifying discovery question.",
-    losingResponse: "You need to respect their schedule and lead with a sharp discovery question, not a services pitch.",
+    context: "Elevator Explanation → Product Overview",
+    objection: "What exactly is LinkedIn Marketing Solutions, and why would I use it instead of another ad channel?",
+    passCriteria: "Give a clear, confident 30-second explanation of LMS that avoids jargon and connects to business value — reaching professional audiences, precision targeting, and measurable business outcomes.",
+    failConditions: "Rambles, uses internal product jargon, lists features without connecting to value, or sounds unsure",
+    winningResponse: "Great job! You explained LMS clearly and connected it to business outcomes without overwhelming them.",
+    losingResponse: "You need a crisp, confident explanation that focuses on why LinkedIn matters for B2B, not a feature dump.",
     winningExamples: [
-      "Completely respect that — let me make the most of your 5 minutes. Quick question: what's your current approach to scaling your sales team when you need to enter a new market or ramp pipeline quickly?",
-      "Understood — I'll keep it tight. In 5 minutes I just want to understand one thing: what's the biggest bottleneck in your sales pipeline right now? Then we can decide if a longer conversation makes sense.",
-      "Appreciate that. Let me ask you one thing — when your team looks at pipeline generation targets versus actual output, are you seeing a gap between what you need and what your current team can deliver?",
-      "Totally fair. Here's what I'd love to cover in 5 minutes: understand your biggest challenge around pipeline generation or sales capacity, and if MarketStar can help, we'll book a proper deep-dive. Sound fair?"
+      "Great question. LinkedIn Marketing Solutions helps B2B brands reach professional audiences — people you can target by job title, seniority, industry, and company — in a trusted business environment. Unlike other ad channels, LinkedIn lets you reach the exact decision-makers who matter for your pipeline, and measure real business impact, not just clicks.",
+      "In simple terms, LinkedIn helps you put the right message in front of the right business buyers. What makes it different from other channels is the targeting — you're reaching people based on their professional identity, not just browsing behavior. For B2B, that precision matters because you're selling to specific roles and buying committees.",
+      "LinkedIn Marketing Solutions is LinkedIn's advertising platform for B2B marketers. The key difference versus Google or Meta is that you're targeting based on professional attributes — title, function, seniority, company size. That means you're reaching decision-makers in a business context, which is hard to replicate anywhere else.",
+      "Think of it this way: Google captures intent, Meta captures interest, and LinkedIn captures professional identity. When you need to reach VP-level buyers in enterprise software companies, LinkedIn is the channel that can find them precisely. We help marketers build awareness, generate leads, and prove pipeline impact with that audience."
     ],
     losingExamples: [
-      "Great, so let me walk you through our company — MarketStar has been around for 35 years and we serve over 600 enterprise clients...",
-      "Can we reschedule for when you have more time?",
-      "I'll send you some materials and you can review them later.",
-      "This will only take 30 minutes, I promise it's worth it."
+      "Well, we have Sponsored Content, Lead Gen Forms, Video Ads, Carousel Ads, Document Ads, Messaging Ads, and Campaign Manager...",
+      "LinkedIn is a social media platform where you can run ads.",
+      "It's basically like Facebook ads but for business people.",
+      "Um, so LinkedIn has a lot of products... let me think about how to explain this."
     ],
     goalType: "advance",
     difficulty: "Beginner",
-    resistanceLevel: 30,
-    buySignal: 60,
-    traits: ["Time Management", "Discovery Questions", "Executive Presence"],
+    resistanceLevel: 25,
+    buySignal: 65,
+    traits: ["Clarity", "Confidence", "Value Articulation"],
     durationSeconds: 300,
     isCoachingMode: true,
-    scriptHint: "Try saying: 'Completely respect that — let me make the most of your 5 minutes. Quick question: what's your current approach to scaling your sales team when you need to enter a new market or ramp pipeline quickly?' Key points: 1) Acknowledge the time constraint immediately, 2) Set a focused agenda, 3) Ask a high-value discovery question that qualifies the opportunity and gets them talking about their sales challenges.",
-    lawnIssues: ["declining pipeline generation from internal SDR team", "difficulty hiring and retaining quality sales reps"]
+    scriptHint: "Try saying: 'LinkedIn Marketing Solutions helps B2B brands reach professional audiences — people you can target by job title, seniority, industry, and company — in a trusted business environment. What makes it different is precision targeting based on professional identity, not just browsing behavior.' Key points: 1) Keep it under 30 seconds, 2) Focus on professional audience and precision targeting, 3) Connect to business outcomes, not features."
   },
   {
     id: "rp-02",
-    name: "We tried outsourcing sales before, it didn't work",
-    role: "The Skeptic",
+    name: "Why would your lead forms perform better than my landing page?",
+    role: "B2B Marketer with Poor Conversion",
     phase: "Chapter 1",
-    context: "Discovery → Handling Past Failures",
-    objection: "We tried outsourcing sales before, it didn't work.",
-    passCriteria: "Empathize with the past failure, ask diagnostic questions about what they tried and why it failed, and differentiate MarketStar's approach.",
-    failConditions: "Dismisses their experience or immediately pitches without understanding what went wrong",
-    winningResponse: "Excellent recovery! You validated their experience and dug into the root cause.",
-    losingResponse: "You need to understand their past experience before positioning MarketStar as different.",
+    context: "Product Knowledge → Lead Gen Forms",
+    objection: "Why would your lead forms perform better than sending traffic to my site?",
+    passCriteria: "Explain friction reduction and pre-filled data clearly, connect to the buyer's conversion challenge, and avoid overpromising.",
+    failConditions: "Makes absolute performance guarantees, fails to explain the mechanism, or dismisses their current landing page",
+    winningResponse: "Excellent! You explained the value of Lead Gen Forms clearly and connected it to their specific conversion challenge.",
+    losingResponse: "You need to explain how pre-filled forms reduce friction without guaranteeing results or dismissing their current approach.",
     winningExamples: [
-      "That's actually really common — and honestly, most outsourced sales implementations fail for a few specific reasons. Can I ask what you tried? Was it a staffing agency model, or was the partner running a full managed sales program?",
-      "I hear that a lot, and I appreciate the honesty. The question I'd ask is — was the challenge with rep quality, the ramp-up process, or alignment with your internal team? Because those are three very different problems.",
-      "Makes total sense — a lot of our best customers came to us after a failed attempt with another provider. What specifically didn't work? Was it lack of pipeline visibility, poor rep training, or something else?",
-      "I appreciate you sharing that. Can you tell me more about what you tried? We've found that 80% of failed outsourcing engagements fail because of poor onboarding and lack of integration with the client's sales process, not the outsourcing model itself."
+      "That's a fair question. The main advantage is friction reduction — LinkedIn Lead Gen Forms are pre-filled with the member's profile data, so they don't have to type in their name, title, company, or email. For mobile users especially, that can significantly reduce drop-off. It doesn't replace your landing page for every use case, but when conversion rate is the bottleneck, it's worth testing.",
+      "Good question. The core idea is that when someone clicks your ad and sees a form that's already filled out with their professional details, the barrier to converting is much lower. We see this work especially well for content downloads, webinar sign-ups, and demo requests where the user just needs to confirm and submit.",
+      "The short answer is friction. Your landing page requires the user to leave LinkedIn, wait for the page to load, and manually fill out a form. Lead Gen Forms keep them on LinkedIn with pre-populated fields. It's not that your landing page is bad — it's that fewer steps generally mean higher conversion rates.",
+      "I wouldn't say they always perform better — it depends on your offer and audience. But the advantage is that Lead Gen Forms use LinkedIn's profile data to pre-fill fields, which reduces the effort for the user. If you're seeing people click but not convert, it's worth testing whether reducing that friction makes a difference."
     ],
     losingExamples: [
-      "Well, MarketStar is different because we've been doing this for 35 years...",
-      "That's because you probably used the wrong vendor. We're much better.",
-      "Sales outsourcing has come a long way since then, let me show you our model.",
-      "I understand, but every company needs to scale sales efficiently."
-    ],
-    goalType: "advance",
-    difficulty: "Beginner",
-    resistanceLevel: 40,
-    buySignal: 55,
-    traits: ["Empathy", "Diagnostic Discovery", "Differentiation"],
-    durationSeconds: 300,
-    isCoachingMode: true,
-    scriptHint: "Try saying: 'That's actually really common — most outsourced sales implementations fail for specific reasons. Can I ask what you tried? Was it a staffing agency model, or was the partner running a full managed sales program?' Key points: 1) Validate their experience — don't dismiss it, 2) Ask diagnostic questions to understand the root cause, 3) Position yourself as someone who can help them avoid the same mistakes.",
-    lawnIssues: ["previous outsourcing partner had poor rep retention", "lack of pipeline visibility from past vendor"]
-  },
-  {
-    id: "rp-03",
-    name: "We're not ready for this yet",
-    role: "The Procrastinator",
-    phase: "Chapter 1",
-    context: "Objection Handling → Timing Objection",
-    objection: "We're not ready for this yet.",
-    passCriteria: "Explore what 'not ready' means specifically, identify the cost of waiting, and create urgency through business impact rather than pressure tactics.",
-    failConditions: "Accepts the objection at face value or uses high-pressure urgency tactics",
-    winningResponse: "Great job! You uncovered what 'not ready' really means and framed the cost of inaction.",
-    losingResponse: "Don't accept vague timing objections. Dig into what specifically needs to happen before they're ready.",
-    winningExamples: [
-      "That's fair — can I ask, what would need to change for you to be ready? Is it a headcount question, a budget cycle thing, or something else entirely?",
-      "Understood. When you say not ready, is that about internal bandwidth, or is there a specific hiring plan that needs to play out first? I ask because most of our customers started their evaluation 3-6 months before they actually launched their outsourced team.",
-      "I hear you. Let me ask it this way — every quarter you wait to ramp pipeline, what does that cost in missed revenue opportunities? We typically see companies leaving 20-30% of their addressable market untapped when they can't scale sales fast enough. Is that something you can afford to delay?",
-      "Makes sense. A lot of enterprise teams feel that way. Can I share what the typical ramp timeline looks like? Most of our customers started the conversation well before they were 'ready' — and that head start meant reps were producing pipeline 60 days sooner."
-    ],
-    losingExamples: [
-      "No worries, I'll check back in next quarter.",
-      "You need to move fast — your competitors are already outsourcing to scale.",
-      "Okay, when do you think you'll be ready?",
-      "I understand, let me send you some materials for when the time is right."
-    ],
-    goalType: "advance",
-    difficulty: "Intermediate",
-    resistanceLevel: 55,
-    buySignal: 45,
-    traits: ["Cost of Inaction", "Diagnostic Questions", "Consultative Urgency"],
-    durationSeconds: 300,
-    isCoachingMode: true,
-    scriptHint: "Try saying: 'That's fair — can I ask, what would need to change for you to be ready? Is it a headcount question, a budget cycle thing, or something else entirely?' Key points: 1) Don't accept 'not ready' at face value, 2) Ask what specifically needs to change, 3) Quantify the cost of waiting — missed pipeline, slower market entry, 4) Position the evaluation process as something that takes time and should start now.",
-    lawnIssues: ["losing market share to faster-moving competitors", "open sales headcount unfilled for 4+ months"]
-  },
-  {
-    id: "rp-04",
-    name: "We want to hire our own sales team internally",
-    role: "The DIY Builder",
-    phase: "Chapter 1",
-    context: "Demo → In-House Hiring Objection",
-    objection: "We want to hire our own sales team internally.",
-    passCriteria: "Respect their preference for internal hiring, ask about the timeline, cost, and ramp challenges, and position MarketStar as complementary or faster to results.",
-    failConditions: "Insults internal hiring or dismisses in-house sales teams entirely",
-    winningResponse: "Perfect! You respected their preference and highlighted the hidden costs of building internally.",
-    losingResponse: "Never dismiss their desire to build in-house. Explore the total cost, time-to-productivity, and opportunity cost.",
-    winningExamples: [
-      "That's great — building an internal team gives you a lot of control. Can I ask, what's your current time-to-hire and ramp timeline? The reason I ask is most companies we talk to find that it takes 6-9 months to get a new rep fully productive, and that's if they don't churn in the first year.",
-      "Love that — you clearly value cultural fit and brand alignment. A few things I'd be curious about: what's your current cost-per-hire for sales reps, and what's your attrition rate? Those are usually where internal scaling hits a ceiling.",
-      "That makes sense — a lot of our best customers started that way. The question is whether your leadership team should be spending their cycles recruiting, training, and managing more headcount or focusing on strategy and closing. What's the opportunity cost?",
-      "Respect that. How's the hiring going? I'd love to understand your timeline. Often we find that internal hiring handles the first 5-10 reps well but struggles to scale quickly when you need 20, 50, or 100 reps across multiple markets."
-    ],
-    losingExamples: [
-      "Internal sales teams never perform as well as outsourced specialists.",
-      "That must be a nightmare to recruit for in this market.",
-      "How many months have those positions been open?",
-      "Let me show you why outsourcing is better than anything you could build internally."
-    ],
-    goalType: "advance",
-    difficulty: "Beginner",
-    resistanceLevel: 35,
-    buySignal: 65,
-    traits: ["Respect", "TCO Analysis", "Strategic Positioning"],
-    durationSeconds: 300,
-    isCoachingMode: true,
-    scriptHint: "Try saying: 'That's great — building an internal team gives you a lot of control. Can I ask, what's your current time-to-hire and ramp timeline?' Key points: 1) Genuinely respect their preference for internal hiring, 2) Ask about cost-per-hire, ramp time, and attrition, 3) Position the conversation around speed and opportunity cost — should leadership focus on recruiting or revenue strategy?",
-    lawnIssues: ["6-month average time-to-hire for SDR roles", "40% first-year attrition rate for new sales hires"]
-  },
-  {
-    id: "rp-05",
-    name: "We already have an outsourcing partner",
-    role: "The Incumbent Loyalist",
-    phase: "Chapter 1",
-    context: "Demo → Incumbent Vendor Objection",
-    objection: "We already have an outsourcing partner.",
-    passCriteria: "Acknowledge their current partner without bashing, ask about satisfaction and gaps, and position MarketStar's differentiated value.",
-    failConditions: "Attacks the competitor or tries to do a feature-by-feature comparison",
-    winningResponse: "Excellent! You planted seeds of doubt without being combative.",
-    losingResponse: "Never bash competitors. Understand their satisfaction level and find gaps in their current setup.",
-    winningExamples: [
-      "Got it — who are you working with? Not to bash them, but so I understand the model. How's it working for you? Specifically, are you getting the level of pipeline quality and rep retention you need, or is it more of a staffing play?",
-      "Makes sense — there are some good firms out there. Can I ask, what's your experience been with their ramp time and integration with your CRM and sales process? That's one area where our customers tell us there's a significant difference.",
-      "Good to know. I'm not here to compete on price — but I am curious: are your outsourced reps using your tech stack, your playbooks, and reporting into your pipeline tools? That's an area where we tend to see a meaningful gap with most providers.",
-      "Understood. Are you locked into a contract, or is there flexibility to evaluate alternatives? The reason I ask is that a lot of companies come to MarketStar specifically because of our Sales as a Service® model — fully embedded reps that operate like an extension of your team, not a call center."
-    ],
-    losingExamples: [
-      "Most outsourcing companies are terrible — they just do body-shopping.",
-      "We're so much better than whoever you're using, let me show you.",
-      "Why are you still with them? Everyone is switching to us.",
-      "Let me do a comparison to show you where they fall short."
-    ],
-    goalType: "advance",
-    difficulty: "Beginner",
-    resistanceLevel: 45,
-    buySignal: 55,
-    traits: ["Competitive Intelligence", "Gap Analysis", "Consultative Selling"],
-    durationSeconds: 300,
-    isCoachingMode: true,
-    scriptHint: "Try saying: 'Got it — how's it working for you? Specifically, are you getting the level of pipeline quality and rep retention you need, or is it more of a staffing play?' Key points: 1) Never bash the competitor, 2) Ask about satisfaction and specific capability gaps, 3) Probe areas where MarketStar differentiates (Sales as a Service® model, embedded reps, Nytro.ai enablement, full revenue operations support).",
-    lawnIssues: ["high rep turnover from current outsourcing vendor", "limited pipeline visibility and reporting from current partner"]
-  },
-  {
-    id: "rp-06",
-    name: "Outsourced reps won't understand our product",
-    role: "The Concerned Buyer",
-    phase: "Chapter 1",
-    context: "Demo → Product Knowledge Concern",
-    objection: "Outsourced reps won't understand our product well enough to sell it.",
-    passCriteria: "Ask clarifying questions about their product complexity, then clearly articulate MarketStar's training, enablement, and embedded model that ensures deep product knowledge.",
-    failConditions: "Launches into generic claims or fails to address their specific product complexity concerns",
-    winningResponse: "Great clarity! You connected MarketStar's enablement approach directly to their product complexity.",
-    losingResponse: "Always tie your response to their specific product and how MarketStar trains and enables reps.",
-    winningExamples: [
-      "Great question — and I wouldn't want you to invest if the reps weren't going to represent your brand well. Can you tell me about the complexity of your sale? Average deal size, sales cycle length, and buyer personas? That way I can explain how we'd build the enablement program.",
-      "Fair pushback. Let me ask it this way: what does your current onboarding look like for internal reps? Because our Nytro.ai platform actually accelerates product knowledge training and we build custom playbooks for every client engagement. The ramp time often beats internal hiring.",
-      "I appreciate that — let me not waste your time with a generic answer. What are the top 2 things a rep needs to know to have a credible conversation with your buyers? I'll tell you honestly whether our model supports that level of depth.",
-      "That's the right concern to raise. Here's what I hear most from companies with complex products: they assumed outsourced reps couldn't go deep enough. But our Sales as a Service® model means reps are fully dedicated to your account, trained on your product, and embedded in your tech stack. They're your team — they just sit on our payroll."
-    ],
-    losingExamples: [
-      "Well, we train our reps really well on every product...",
-      "We've sold everything from SaaS to hardware — we can learn anything.",
-      "Trust me, once you see how we work you'll understand.",
-      "Our reps are all college-educated professionals."
+      "Our forms always outperform landing pages. It's guaranteed.",
+      "Landing pages are outdated. Everyone uses Lead Gen Forms now.",
+      "I'm not sure exactly how they work, but they're really popular.",
+      "You should just try it and see."
     ],
     goalType: "advance",
     difficulty: "Beginner",
     resistanceLevel: 30,
-    buySignal: 70,
-    traits: ["Active Listening", "Targeted Messaging", "Consultative Approach"],
+    buySignal: 60,
+    traits: ["Value Articulation", "Honesty", "Product Knowledge"],
     durationSeconds: 300,
     isCoachingMode: true,
-    scriptHint: "Try saying: 'Can you tell me about the complexity of your sale — deal size, cycle length, buyer personas? That way I can explain how we'd build the enablement program.' Key points: 1) Don't give a generic answer, 2) Ask what their product complexity looks like, 3) Explain MarketStar's dedicated rep model, Nytro.ai training platform, and custom playbooks.",
-    lawnIssues: ["technical product requiring deep domain expertise", "long 6-12 month enterprise sales cycles with multiple stakeholders"]
+    scriptHint: "Try saying: 'The main advantage is friction reduction — Lead Gen Forms are pre-filled with the member's profile data, so they don't have to type in their details. For mobile users especially, that can significantly reduce drop-off.' Key points: 1) Explain the mechanism (pre-filled data), 2) Connect to their conversion problem, 3) Don't overpromise — suggest testing."
   },
   {
-    id: "rp-07",
-    name: "Our pipeline is fine — we don't need help",
-    role: "The Denialist",
-    phase: "Chapter 2",
-    context: "Demo → Challenging the Status Quo",
-    objection: "Our pipeline is fine — we don't need outside help.",
-    passCriteria: "Validate their perspective, introduce benchmarking data, and help them see the gap between 'fine' and 'optimized.'",
-    failConditions: "Argues that their pipeline is bad or insists they have a problem without data",
-    winningResponse: "Well done! You showed the gap between 'fine' and 'great' with data.",
-    losingResponse: "Never tell a prospect their pipeline is broken. Use benchmarks and 'what if' scenarios to reveal opportunity.",
+    id: "rp-03",
+    name: "I don't know whether I want awareness or leads",
+    role: "Confused First-Time Advertiser",
+    phase: "Chapter 1",
+    context: "Objective Clarification → Discovery",
+    objection: "I don't know whether I want awareness or leads. How do I decide?",
+    passCriteria: "Guide the buyer by asking smart follow-up questions about their business goals, funnel stage, and timeline rather than just recommending an objective.",
+    failConditions: "Immediately recommends an objective without asking questions, or gives a confusing explanation of all objectives",
+    winningResponse: "Great discovery! You asked the right questions to help them clarify their own objective.",
+    losingResponse: "Don't jump to a recommendation. Ask questions first — what's their goal, where's the funnel gap, what's the timeline?",
     winningExamples: [
-      "That's great — and I'm sure your team has worked hard to build it. Can I ask, what's your current pipeline coverage ratio? The reason I ask is we typically see companies in your space need 3-4x coverage, and most find a meaningful gap between what they have and what they need to hit their number.",
-      "Good to hear. Let me ask it this way — if I could show you how to add 30-40% more qualified pipeline without adding internal headcount, would that be worth exploring? We're not here to replace your team — we're here to extend their capacity.",
-      "Makes sense — but here's what I'd challenge: 'fine' and 'optimized' are two very different things. Most of our customers thought their pipeline was fine too, until they saw what was possible when they added a dedicated SDR/BDR team focused exclusively on outbound. What does your outbound-to-inbound pipeline ratio look like?",
-      "I appreciate that confidence. Quick question — are you measuring pipeline generation by rep, by segment, and by channel? Because aggregate numbers often mask that your best reps are carrying the team while others are underperforming."
+      "That's actually a really common starting point. Let me ask a few questions to help us figure it out: What's your biggest marketing priority this quarter — is it getting your brand in front of more of the right people, or is it generating leads your sales team can follow up on right now?",
+      "Totally fair question. Here's how I'd approach it: What happens today when someone becomes aware of your company? Do you have a clear path from awareness to lead to opportunity, or is there a gap somewhere in that funnel? That usually tells us where to focus first.",
+      "Let's work through it together. A couple of questions: Is your sales team saying they need more leads, or is the bigger challenge that your target audience doesn't know who you are yet? And what's your timeline — are you under pressure to show results this quarter, or is this a longer-term investment?",
+      "Good question — and honestly, it's the right question to ask before spending any budget. Can you tell me: what does your CEO or board care about most right now? Pipeline numbers, market awareness, or something else? That usually points us in the right direction."
     ],
     losingExamples: [
-      "Actually, based on industry benchmarks, your pipeline coverage is below average.",
-      "Fine isn't good enough when you have aggressive growth targets.",
-      "Your competitors are scaling with outsourced sales teams, you can't afford to wait.",
-      "If your pipeline were really fine, you wouldn't be taking this meeting."
-    ],
-    goalType: "advance",
-    difficulty: "Intermediate",
-    resistanceLevel: 65,
-    buySignal: 35,
-    traits: ["Benchmarking", "Data-Driven Selling", "Opportunity Framing"],
-    durationSeconds: 300,
-    isCoachingMode: true,
-    scriptHint: "Try saying: 'Can I ask, what's your current pipeline coverage ratio? We typically see companies need 3-4x coverage, and most find a gap between what they have and what they need.' Key points: 1) Never tell them they're wrong, 2) Use benchmark data to create a reference point, 3) Shift from 'fixing broken' to 'unlocking additional capacity.'",
-    lawnIssues: ["pipeline coverage ratio below 3x", "over-reliance on inbound leads with limited outbound"]
-  },
-  {
-    id: "rp-08",
-    name: "Sales outsourcing isn't a priority right now",
-    role: "The Apathetic Stakeholder",
-    phase: "Chapter 2",
-    context: "Objection Handling → Priority Objection",
-    objection: "Sales outsourcing isn't a priority right now.",
-    passCriteria: "Understand their current priorities, then connect outsourced sales to what they already care about — revenue growth, faster market entry, or cost efficiency.",
-    failConditions: "Argues that outsourcing should be a priority or fails to connect to their existing goals",
-    winningResponse: "Great job connecting outsourced sales to what they actually care about!",
-    losingResponse: "Don't argue about priorities. Understand theirs and show how outsourced sales enables them.",
-    winningExamples: [
-      "Completely understand — what is the top priority right now? The reason I ask is that outsourced sales often isn't a standalone initiative; it's a lever that accelerates whatever you're already focused on, whether that's entering a new market, scaling pipeline, or hitting an aggressive revenue target.",
-      "Fair enough. Can I ask what's at the top of your roadmap this year? I ask because our most successful customers didn't start with outsourcing as a priority — they started with a revenue goal and realized outsourced sales was the fastest path to getting there.",
-      "That makes sense. What if I reframed it — instead of outsourcing as a project, think of it as a way to add 20 qualified pipeline-generating reps in 60 days without the hiring, training, and management burden. If you're under pressure to hit targets, that's not outsourcing — it's capacity on demand.",
-      "Got it. What are your top 3 priorities this year? I want to make sure I'm not wasting your time — but if any of them involve growing revenue, entering new segments, or improving pipeline velocity, there's a direct connection I'd like to show you."
-    ],
-    losingExamples: [
-      "Sales outsourcing should absolutely be a priority — every high-growth company is doing it.",
-      "Your competitors are all scaling with outsourced teams, you can't afford to wait.",
-      "Okay, I'll follow up next quarter when it might be a priority.",
-      "But outsourcing drives so much pipeline growth..."
-    ],
-    goalType: "advance",
-    difficulty: "Intermediate",
-    resistanceLevel: 70,
-    buySignal: 25,
-    traits: ["Priority Alignment", "Strategic Framing", "Business Acumen"],
-    durationSeconds: 300,
-    scriptHint: "Try saying: 'Completely understand — what is the top priority right now? Outsourced sales often isn't a standalone initiative; it's a lever that accelerates whatever you're already focused on.' Key points: 1) Accept their priorities without arguing, 2) Ask what IS a priority, 3) Connect outsourced sales as an enabler of their existing goals, not a separate project.",
-    lawnIssues: ["aggressive revenue targets with flat headcount budget", "board pressure to expand into new markets faster"]
-  },
-  {
-    id: "rp-09",
-    name: "Show me the actual ROI data",
-    role: "The Data Demander",
-    phase: "Chapter 2",
-    context: "Pricing → ROI Justification",
-    objection: "Show me the actual ROI data.",
-    passCriteria: "Share specific, credible ROI data with named references or industry benchmarks, and frame ROI in terms relevant to their business.",
-    failConditions: "Gives vague promises or generic percentages without credible backing",
-    winningResponse: "Excellent! You provided specific, credible data tailored to their business.",
-    losingResponse: "Always have specific case studies and ROI metrics ready. Vague promises kill credibility.",
-    winningExamples: [
-      "Absolutely — I was hoping you'd ask. Let me share three data points: a Fortune 500 tech company saw 150% pipeline growth in 90 days, a mid-market SaaS company generated $8M in qualified pipeline in year one, and on average our customers see 3-5x ROI within the first year. I can connect you with a reference customer in your vertical if that would help.",
-      "Great question. Here's what I can share: across our customer base, the average MarketStar-powered SDR team generates 40-60 qualified meetings per rep per month. For a company your size, that translates to roughly $X million in pipeline. Want me to build a custom business case for your specific metrics?",
-      "Happy to. Let me share our benchmark data: enterprise clients using our Sales as a Service® model see an average 35% reduction in cost-per-qualified-meeting and 2x faster rep ramp time. I'd also love to build a custom ROI model based on your deal size and pipeline targets — would that be helpful?",
-      "Of course. Rather than give you generic numbers, can you share your current pipeline targets and average deal size? I'll build you a specific ROI projection. In the meantime, here's a reference: a mid-market tech company in your space generated $12M in pipeline in their first year with a 20-rep MarketStar team."
-    ],
-    losingExamples: [
-      "Our customers typically see great ROI. I can send you some case studies.",
-      "Outsourcing always pays for itself. Trust me.",
-      "I don't have exact numbers, but I know it works.",
-      "ROI varies by customer, so I can't really give you a number."
+      "You should do lead generation — everyone wants leads.",
+      "Let me explain all seven campaign objectives: Brand Awareness, Website Visits, Engagement...",
+      "It depends on your budget. How much are you spending?",
+      "Just run both and see what works."
     ],
     goalType: "advance",
     difficulty: "Beginner",
+    resistanceLevel: 20,
+    buySignal: 70,
+    traits: ["Discovery Questions", "Consultative Approach", "Patience"],
+    durationSeconds: 300,
+    isCoachingMode: true,
+    scriptHint: "Try saying: 'Let me ask a few questions to help us figure it out: What's your biggest marketing priority this quarter — is it getting your brand in front of more of the right people, or generating leads your sales team can follow up on right now?' Key points: 1) Don't recommend immediately, 2) Ask about business goals and funnel gaps, 3) Help them discover their own answer."
+  },
+  {
+    id: "rp-04",
+    name: "Which ad format should I start with?",
+    role: "SaaS Marketer with Whitepaper Campaign",
+    phase: "Chapter 1",
+    context: "Format Recommendation → Product Mapping",
+    objection: "Which ad format should I start with?",
+    passCriteria: "Ask about the offer, audience, and funnel stage before recommending a format. Match the format to their specific use case rather than listing all options.",
+    failConditions: "Recommends a format without understanding the context, or lists all formats without prioritizing",
+    winningResponse: "Perfect product mapping! You matched the format to their specific offer and funnel stage.",
+    losingResponse: "Always understand the offer, audience, and goal before recommending a format.",
+    winningExamples: [
+      "Before I recommend a format, can I ask a few things? What's the offer you're promoting — is it the whitepaper, a webinar, or something else? And who's the target audience? Because the format should match both the offer and where the buyer is in their journey.",
+      "Good question. It depends on what you're trying to achieve. If you're promoting a whitepaper to generate leads, I'd start with Sponsored Content paired with a Lead Gen Form — that gives you feed visibility plus a low-friction conversion path. But let me ask: are you targeting people who already know your brand, or is this a cold audience?",
+      "Let me ask this: what's the primary goal with the whitepaper? Is it to capture leads for sales follow-up, or is it more about educating your target audience? If it's lead capture, I'd recommend starting with a single image ad or carousel in the feed paired with a Lead Gen Form. If it's education, Document Ads might be a better fit because they let people preview the content before committing.",
+      "The honest answer is it depends on your goal and audience. Can you tell me more about the whitepaper — what's the topic, who's it for, and what do you want someone to do after they read it? That'll help me recommend the right starting point."
+    ],
+    losingExamples: [
+      "Video ads are the best — you should start there.",
+      "We have Single Image, Video, Carousel, Document, Messaging — which one sounds good to you?",
+      "Just do Sponsored Content, it works for everything.",
+      "I'd recommend trying all of them and seeing which performs best."
+    ],
+    goalType: "advance",
+    difficulty: "Beginner",
+    resistanceLevel: 20,
+    buySignal: 75,
+    traits: ["Product Mapping", "Discovery", "Consultative Selling"],
+    durationSeconds: 300,
+    isCoachingMode: true,
+    scriptHint: "Try saying: 'Before I recommend a format, can I ask — what's the offer you're promoting, and who's the target audience? The format should match both the offer and the buyer's journey stage.' Key points: 1) Ask before recommending, 2) Match format to offer and funnel stage, 3) Be specific about why you're recommending a particular format."
+  },
+  {
+    id: "rp-05",
+    name: "We only care about results — what should we measure?",
+    role: "Performance Marketer",
+    phase: "Chapter 1",
+    context: "Metrics Conversation → Measurement",
+    objection: "We only care about results. What should we realistically measure?",
+    passCriteria: "Shift from vanity metrics to business-relevant metrics. Help the buyer define success in terms of lead quality, pipeline, and business outcomes — not just clicks and impressions.",
+    failConditions: "Focuses on CTR/CPM/impressions, or gives vague answers about measurement",
+    winningResponse: "Excellent! You shifted the conversation from vanity metrics to business outcomes.",
+    losingResponse: "Don't lead with clicks and impressions. Connect measurement to what their business actually cares about.",
+    winningExamples: [
+      "That's the right mindset. The question I'd ask is: what does 'results' mean for your team? For some it's lead volume, for others it's lead quality or sales-accepted opportunities. Let's define that first, because the measurement approach should be built around your actual funnel, not just platform metrics.",
+      "Love that focus. Here's how I'd think about it: the metrics that matter most are usually downstream — not just how many leads came in, but how many were qualified, how many turned into meetings, and how many influenced pipeline. LinkedIn can help you track from ad impression through to website conversion, and with the right integration, all the way to pipeline.",
+      "Great question. I'd push back slightly on one thing though: 'results' should be defined before the campaign launches, not after. Can we talk about what success looks like for your sales team? If it's qualified meetings, we should measure cost per qualified lead and lead-to-meeting conversion rate, not just cost per click.",
+      "Absolutely. The realistic measurement framework I'd suggest is: engagement metrics as leading indicators, then lead volume and quality as mid-funnel metrics, and finally pipeline contribution and revenue influence as the metrics that actually matter. The key is connecting campaign activity to business outcomes your leadership cares about."
+    ],
+    losingExamples: [
+      "You should look at click-through rate and cost per click.",
+      "LinkedIn has great reporting — you can see impressions, clicks, and engagement.",
+      "We'll optimize for the lowest CPM possible.",
+      "Results vary by campaign, so it's hard to say what to expect."
+    ],
+    goalType: "advance",
+    difficulty: "Intermediate",
+    resistanceLevel: 40,
+    buySignal: 55,
+    traits: ["Outcome Orientation", "Business Acumen", "Consultative Selling"],
+    durationSeconds: 300,
+    isCoachingMode: true,
+    scriptHint: "Try saying: 'What does results mean for your team? For some it's lead volume, for others it's lead quality or sales-accepted opportunities. Let's define that first, because the measurement approach should match your actual funnel.' Key points: 1) Shift from vanity metrics to business outcomes, 2) Ask how they define success, 3) Connect measurement to pipeline and revenue."
+  },
+  {
+    id: "rp-06",
+    name: "Give me the short version — why LinkedIn, why now?",
+    role: "CMO",
+    phase: "Chapter 1",
+    context: "Executive Summary → Why LinkedIn",
+    objection: "Give me the short version — why LinkedIn, why now?",
+    passCriteria: "Deliver a concise, executive-level summary that connects LinkedIn's unique value to current B2B marketing challenges — precision targeting, trusted environment, full-funnel impact, and measurable business outcomes.",
+    failConditions: "Gives a long-winded answer, lists product features, or fails to communicate urgency and relevance",
+    winningResponse: "Perfect executive communication! Concise, strategic, and tied to business impact.",
+    losingResponse: "CMOs want a sharp, strategic answer — not a product walkthrough. Lead with business impact.",
+    winningExamples: [
+      "Here's the short version: LinkedIn is the only platform where you can reach specific B2B decision-makers by title, function, and seniority — in a trusted business context. For B2B marketers under pressure to prove pipeline impact, not just generate clicks, LinkedIn tends to deliver higher-quality engagement and leads that actually convert. The 'why now' is that your competitors are already using it to reach the same buyers you need.",
+      "Three things. First, professional targeting — you can reach exact buyer personas by job title, seniority, and company, which no other platform does at this depth. Second, trusted context — people are in business mode on LinkedIn, which means higher engagement quality. Third, measurable impact — we can connect ad spend to pipeline and revenue. Why now? Because B2B buying committees are getting harder to reach, and LinkedIn is where they spend professional time.",
+      "The simplest way I can put it: LinkedIn helps you reach the right professional audience, with the right message, in a trusted business environment, and measure real business impact. Why now? Because the channels you're using today are probably great for volume but struggling to deliver the quality of engagement that actually moves pipeline. LinkedIn fills that gap.",
+      "Short version: Your buyers are on LinkedIn in business mode. You can target them precisely. And you can measure whether those impressions actually turned into pipeline. Why now? Because every quarter you're not reaching the right decision-makers is a quarter your competitors are."
+    ],
+    losingExamples: [
+      "Well, LinkedIn has been around since 2003 and has over 900 million members...",
+      "We have seven different campaign objectives and six ad formats I should walk you through...",
+      "LinkedIn is a great platform for B2B marketing. Let me show you some case studies...",
+      "Why now? Well, digital advertising is growing and LinkedIn is part of that trend..."
+    ],
+    goalType: "advance",
+    difficulty: "Intermediate",
     resistanceLevel: 50,
     buySignal: 45,
-    traits: ["Data Fluency", "Business Case Building", "Credibility"],
+    traits: ["Executive Communication", "Strategic Thinking", "Conciseness"],
     durationSeconds: 300,
-    scriptHint: "Try saying: 'Absolutely — let me share three data points...' and reference specific customer outcomes. Key points: 1) Lead with specific numbers and named customer categories, 2) Offer to build a custom business case with their actual metrics, 3) Have 2-3 proof points ready at all times — this objection is an opportunity, not a threat.",
-    lawnIssues: ["need to justify outsourcing spend to the CFO", "previous vendor failed to deliver promised pipeline targets"]
+    scriptHint: "Try saying: 'LinkedIn is the only platform where you can reach specific B2B decision-makers by title, function, and seniority — in a trusted business context. For marketers under pressure to prove pipeline impact, LinkedIn delivers higher-quality engagement and leads that convert. The why now is that your competitors are already reaching these same buyers.' Key points: 1) Keep it under 30 seconds, 2) Lead with precision targeting and trusted context, 3) Create urgency with competitive pressure."
+  },
+  {
+    id: "rp-07",
+    name: "What are your top marketing priorities this quarter?",
+    role: "Demand Generation Director",
+    phase: "Chapter 2",
+    context: "Discovery → Business-Priority Discovery",
+    objection: "Before you pitch me anything, tell me — what questions would you ask to understand my business?",
+    passCriteria: "Demonstrate strong discovery skills by asking about business goals, target audience, funnel gaps, current channel mix, and how they measure success — following a structured discovery framework.",
+    failConditions: "Jumps into pitching LinkedIn products, asks only surface-level questions, or sounds like reading from a script",
+    winningResponse: "Excellent discovery! You asked the right questions in the right order and showed genuine curiosity.",
+    losingResponse: "Discovery means understanding their business before recommending anything. Follow the framework: goals, audience, funnel gap, current channels, measurement.",
+    winningExamples: [
+      "Great — I'd love to start there. First, what are your top marketing or growth priorities this quarter? Are you focused more on building awareness with a new audience, generating pipeline, or improving conversion rates on what you're already doing?",
+      "Appreciate that approach. Let me start with the big picture: What business outcome is your marketing team being measured on right now? And then I'd want to understand — who specifically are you trying to reach? Which roles, seniority levels, or industries matter most?",
+      "Perfect — that's exactly how I like to work. Here's where I'd start: What's the biggest gap in your funnel right now? Is it reaching the right people, getting them to engage, converting them to leads, or getting sales to accept those leads? That usually tells me where to focus.",
+      "I'd want to understand a few things: What are your pipeline targets this quarter? Who are the buyer personas that matter most? What channels are you using today and what's working versus not? And how does your team define a qualified lead? Those four things tell me a lot about where LinkedIn can add value."
+    ],
+    losingExamples: [
+      "Let me tell you about LinkedIn's targeting capabilities...",
+      "What's your budget for LinkedIn advertising?",
+      "Have you used LinkedIn ads before?",
+      "How many employees does your company have?"
+    ],
+    goalType: "advance",
+    difficulty: "Intermediate",
+    resistanceLevel: 35,
+    buySignal: 60,
+    traits: ["Discovery Framework", "Active Listening", "Strategic Questions"],
+    durationSeconds: 300,
+    isCoachingMode: true,
+    scriptHint: "Try saying: 'What are your top marketing or growth priorities this quarter? Are you focused more on building awareness, generating pipeline, or improving conversion rates?' Key points: 1) Start with business goals, not product questions, 2) Follow the discovery framework: goals → audience → funnel gap → current channels → measurement, 3) Show genuine curiosity, not scripted questioning."
+  },
+  {
+    id: "rp-08",
+    name: "We're targeting very specific buyer personas",
+    role: "ABM/Field Marketing Leader",
+    phase: "Chapter 2",
+    context: "Discovery → Audience and Buying Committee",
+    objection: "We're targeting very specific buyer personas across a buying committee. Can LinkedIn actually reach them?",
+    passCriteria: "Demonstrate understanding of LinkedIn's professional targeting dimensions — job title, function, seniority, company, industry — and connect them to the buyer's ABM motion. Ask about their specific personas to tailor the response.",
+    failConditions: "Gives a generic 'yes we can target anyone' answer without specifics, or fails to ask about their actual personas",
+    winningResponse: "Great job! You connected LinkedIn's targeting to their specific ABM challenge and asked about their personas.",
+    losingResponse: "Don't give generic targeting claims. Ask about their specific personas and show how LinkedIn reaches each one.",
+    winningExamples: [
+      "That's exactly where LinkedIn shines. Before I explain how, can you tell me more about these personas? What titles, functions, and seniority levels are on the buying committee? Because LinkedIn lets you target by all of those attributes — and with Matched Audiences, you can even upload specific account lists and reach only the people within those companies who match your persona criteria.",
+      "Great question — and the answer is almost certainly yes, but let me not give you a generic response. Who's on this buying committee? If you tell me the roles, I can walk you through exactly how we'd build the targeting. LinkedIn's professional graph covers title, function, seniority, industry, company size, and skills — so for most B2B buying committees, the coverage is very strong.",
+      "Absolutely — and that's actually the use case where LinkedIn tends to outperform other channels. Can you share who the key stakeholders are? For example, if you need to reach a VP of Engineering and a CFO at the same company, we can build separate audience segments with tailored messaging for each, all within the same campaign structure.",
+      "That's the right challenge to raise. LinkedIn is built around professional identity, so targeting by title, function, and seniority is native to the platform. But rather than me making claims, let me ask: what are the specific personas, and what companies are you targeting? I want to make sure the targeting actually maps to your needs before I oversell it."
+    ],
+    losingExamples: [
+      "LinkedIn has over 900 million members, so we can definitely reach your audience.",
+      "Yes, our targeting is the best in the industry.",
+      "We can target by demographics and interests just like any other platform.",
+      "Just upload your email list and we'll find them."
+    ],
+    goalType: "advance",
+    difficulty: "Intermediate",
+    resistanceLevel: 40,
+    buySignal: 55,
+    traits: ["Audience Strategy", "ABM Knowledge", "Consultative Selling"],
+    durationSeconds: 300,
+    isCoachingMode: true,
+    scriptHint: "Try saying: 'That's exactly where LinkedIn shines. Can you tell me more about these personas — what titles, functions, and seniority levels are on the buying committee? LinkedIn lets you target by all of those attributes, and with Matched Audiences, you can upload specific account lists.' Key points: 1) Ask about their specific personas, 2) Explain professional targeting dimensions, 3) Connect to ABM capabilities like Matched Audiences."
+  },
+  {
+    id: "rp-09",
+    name: "We're getting lots of leads but sales says they're garbage",
+    role: "VP of Marketing",
+    phase: "Chapter 2",
+    context: "Discovery → Funnel Diagnosis",
+    objection: "We're getting lots of leads but sales says they're garbage. How would LinkedIn help with that?",
+    passCriteria: "Diagnose the lead quality problem by asking about targeting, offer, conversion path, and handoff process before recommending LinkedIn's solution. Frame LinkedIn's value around precision targeting and lead quality, not just volume.",
+    failConditions: "Promises LinkedIn leads will be better without understanding the root cause, or ignores the sales-marketing alignment issue",
+    winningResponse: "Excellent diagnosis! You explored the root cause before positioning LinkedIn as a solution.",
+    losingResponse: "Don't just promise better leads. Diagnose the problem first — is it targeting, offer, conversion path, or follow-up?",
+    winningExamples: [
+      "That's a really common challenge, and honestly, switching channels alone won't fix it if the root cause is something else. Let me ask: when sales says the leads are garbage, what specifically do they mean? Are the leads the wrong title or seniority? Are they from companies that aren't a fit? Or is it more that the leads are interested but not ready to buy? Because the fix depends on the root cause.",
+      "I hear this a lot. Before I tell you how LinkedIn would help, I want to understand the problem better. What does your current lead flow look like? Where are leads coming from today, what's the offer, and what happens between someone filling out a form and sales reaching out? Often the quality issue is about targeting and follow-up timing, not just the channel.",
+      "That's actually one of the most important problems to solve, and it's where LinkedIn can make a real difference — but only if we get the setup right. Can I ask: what's your current targeting look like on the channels you're using? And when a lead comes in, how quickly does sales follow up, and what criteria do they use to decide if it's qualified?",
+      "That tells me the volume isn't the problem — the fit is. Here's where LinkedIn can help: because targeting is based on professional attributes like title, function, seniority, and company, you can be much more precise about who sees your ads and who fills out your forms. But I'd also want to look at your offer and your lead scoring — sometimes the creative attracts the wrong audience regardless of targeting."
+    ],
+    losingExamples: [
+      "LinkedIn leads are much higher quality than other channels. Problem solved.",
+      "You should switch all your budget to LinkedIn.",
+      "That's a sales problem, not a marketing problem.",
+      "We can generate way more leads than whatever you're doing now."
+    ],
+    goalType: "advance",
+    difficulty: "Intermediate",
+    resistanceLevel: 50,
+    buySignal: 50,
+    traits: ["Funnel Diagnosis", "Root Cause Analysis", "Sales-Marketing Alignment"],
+    durationSeconds: 300,
+    scriptHint: "Try saying: 'When sales says the leads are garbage, what specifically do they mean? Are they the wrong title or seniority? Wrong companies? Or interested but not ready to buy? The fix depends on the root cause.' Key points: 1) Diagnose before prescribing, 2) Ask about targeting, offer, conversion path, and follow-up, 3) Position LinkedIn's precision targeting as the quality lever."
   },
   {
     id: "rp-10",
-    name: "What does this cost per rep per month?",
-    role: "The Price Shopper",
+    name: "We used Google and Meta — why would we add LinkedIn?",
+    role: "Demand Gen Director",
     phase: "Chapter 2",
-    context: "Pricing → Premature Price Question",
-    objection: "What does this cost per rep per month?",
-    passCriteria: "Acknowledge the question, defer with a valid reason, and anchor the conversation on value and business outcomes before discussing price.",
-    failConditions: "Gives a price without establishing value or dodges the question entirely",
-    winningResponse: "Perfect price deferral! You anchored value before discussing investment.",
-    losingResponse: "Never give price before establishing value and understanding their needs. Defer thoughtfully.",
+    context: "Discovery → Prior-Channel Disappointment",
+    objection: "We already use Google and Meta and they work fine. Why would we add another channel?",
+    passCriteria: "Position LinkedIn as complementary, not competitive. Explain the different role each channel plays — Google for intent, Meta for interest, LinkedIn for professional identity and B2B precision.",
+    failConditions: "Bashes Google or Meta, claims LinkedIn replaces them, or can't explain the differentiation",
+    winningResponse: "Great positioning! You showed how LinkedIn complements their existing channels rather than replacing them.",
+    losingResponse: "Never bash other channels. Show how LinkedIn adds unique value for B2B that Google and Meta can't replicate.",
     winningExamples: [
-      "Great question — and I want to give you an honest answer. Pricing depends on the role type, the complexity of your sale, and the team size. Before I quote you, can I understand your use case better? That way I can give you a number that actually maps to the value you'd get.",
-      "Happy to get into pricing. Typically our enterprise customers invest between $6K and $12K per rep per month, depending on role complexity and support level. But before we go there, I want to make sure the ROI math works for you. Can I ask about your current cost-per-hire and average ramp time?",
-      "Totally fair question. I don't want to give you a number out of context though. Our pricing is based on the value we deliver — and that depends on the role, your market, and what you're trying to achieve. Can we spend 5 minutes on that so I can give you an accurate range?",
-      "I appreciate the directness. Let me be equally direct: pricing varies based on scope, but more importantly, I want to make sure the business case justifies any investment. What's your current fully-loaded cost per sales rep including recruiting, benefits, management, and tools? That helps me frame the comparison alongside pricing."
+      "That makes sense — and I wouldn't suggest replacing what's working. The question is whether you're reaching everyone you need to reach. Google is great for capturing active intent, and Meta has strong reach. LinkedIn adds something different: the ability to target specific professional audiences by title, function, and seniority. For B2B, that means you can reach decision-makers who may not be actively searching but are exactly the people your sales team needs.",
+      "I hear you. Here's how I'd think about it: Google captures people who are already looking for a solution — that's intent-based. Meta reaches people based on behavior and interests. LinkedIn reaches people based on who they are professionally. If you're selling to VP-level buyers in enterprise companies, LinkedIn is the channel that can find them precisely. It's not replacing Google or Meta — it's filling a gap in your funnel.",
+      "Smart to be protective of what's working. Let me ask: are you fully satisfied with the quality of leads from those channels, or are you seeing a gap between volume and conversion? For a lot of B2B teams, Google and Meta drive good volume, but LinkedIn drives better-fit leads because the targeting is based on professional identity. It's typically used alongside, not instead of, your other channels.",
+      "Totally fair. The role LinkedIn usually plays is different from Google and Meta. It's not about search intent or social behavior — it's about reaching the right business audience in a professional context. Most of our customers use LinkedIn specifically for reaching harder-to-find B2B personas that other channels can't isolate. Does that gap exist in your current funnel?"
     ],
     losingExamples: [
-      "It's $8K per rep per month.",
-      "I'll have to get back to you on pricing.",
-      "It depends... I can't really give you a number yet.",
-      "Pricing isn't really my area — let me loop in our solutions team."
+      "Google and Meta are consumer platforms — LinkedIn is the only real B2B option.",
+      "You should move your budget from Meta to LinkedIn.",
+      "Google is overpriced and Meta's targeting is unreliable.",
+      "LinkedIn is just better for B2B. Let me show you the data."
     ],
     goalType: "advance",
     difficulty: "Intermediate",
     resistanceLevel: 55,
-    buySignal: 60,
-    traits: ["Value Anchoring", "Price Deferral", "Business Case Framing"],
+    buySignal: 40,
+    traits: ["Competitive Positioning", "Channel Strategy", "Consultative Selling"],
     durationSeconds: 300,
-    scriptHint: "Try saying: 'Great question — pricing depends on role type, sale complexity, and team size. Before I quote you, can I understand your use case better so I can give you a number that maps to the value you'd get?' Key points: 1) Don't dodge the question — acknowledge it, 2) Explain what drives pricing, 3) Tie price to value by understanding their business first.",
-    lawnIssues: ["unclear budget ownership between sales and finance", "upcoming fiscal year planning cycle"]
+    scriptHint: "Try saying: 'I wouldn't suggest replacing what's working. Google captures intent, Meta captures interest, LinkedIn captures professional identity. If you're selling to VP-level buyers, LinkedIn can find them precisely. It's not replacing your other channels — it's filling a gap.' Key points: 1) Never bash competitors, 2) Explain channel role differentiation, 3) Position LinkedIn as additive, not replacement."
   },
   {
     id: "rp-11",
-    name: "That's way too expensive — we can hire internally for less",
-    role: "The Budget Blocker",
+    name: "Tell me how you'd position LinkedIn for our CMO",
+    role: "CMO",
     phase: "Chapter 2",
-    context: "Pricing → Budget Objection",
-    objection: "That's way too expensive — we can hire internally for less.",
-    passCriteria: "Reframe the conversation from cost-per-rep to total cost of ownership and speed to revenue, explore hidden costs of internal hiring, and avoid immediately discounting.",
-    failConditions: "Immediately offers a discount or agrees the price is too high",
-    winningResponse: "Great job reframing from cost-per-rep to total cost of ownership and speed to revenue!",
-    losingResponse: "Never lead with a discount. Reframe around total cost, ramp time, and speed to pipeline.",
+    context: "Positioning → Persona-Based Positioning",
+    objection: "I'm the CMO. I don't care about ad formats. Tell me why LinkedIn should be part of my strategy.",
+    passCriteria: "Position LinkedIn at a strategic level — brand credibility with decision-makers, influence across long buying cycles, full-funnel value, and measurable pipeline contribution. Speak in CMO language, not ad-tech language.",
+    failConditions: "Talks about ad formats, CTR, or CPM instead of strategic outcomes. Fails to match the executive tone.",
+    winningResponse: "Perfect executive positioning! You spoke in strategic terms and connected to what CMOs actually care about.",
+    losingResponse: "CMOs care about brand growth, pipeline contribution, and strategic positioning — not ad format details.",
     winningExamples: [
-      "I hear you — and I want to make sure this makes financial sense. Let me ask: when you factor in recruiting costs, benefits, management overhead, tools, training, and the 6-9 month ramp period — what's the real fully-loaded cost per rep? Because when customers do that math, MarketStar is typically 30-40% less expensive for the same output.",
-      "Understood. Can I ask — when you say cheaper internally, are you including the recruiting timeline, the ramp-to-productivity period, and the risk of attrition? For example, if a rep churns at month 8, you've invested 14 months of cost with zero return. Our model eliminates that risk.",
-      "I appreciate the transparency. Let me reframe it: our average customer gets a fully productive rep in 45-60 days versus 6-9 months for an internal hire. That's 4-7 months of pipeline you'd be missing. Would it help if I built a total-cost comparison that includes time-to-revenue?",
-      "Fair point. Two things I'd want to explore: first, what's your fully-loaded cost per internal rep? And second, is the challenge the per-rep cost or the total investment? We have customers who start with a focused 5-rep pilot and expand based on results."
+      "At the strategic level, LinkedIn does three things no other channel does for B2B: it puts your brand in front of the exact decision-makers who influence and make buying decisions, it lets you stay relevant across long sales cycles with sequenced content, and it gives you measurable data on how marketing is influencing pipeline. For a CMO under pressure to prove marketing's impact on revenue, that combination is hard to replicate anywhere else.",
+      "Here's why it matters strategically: your brand needs credibility with senior buyers — the people who sign off on six- and seven-figure deals. LinkedIn is the one environment where those buyers are in business mode, consuming professional content, and open to learning about solutions. It's not about running ads — it's about building brand equity with the audience that actually drives your revenue.",
+      "I'd frame it this way: LinkedIn is where your future customers already spend professional time. If you're trying to influence a buying committee over a 6-12 month sales cycle, you need a channel that reaches them by role, keeps your brand relevant throughout that cycle, and connects engagement to pipeline. That's what LinkedIn does. The strategic value isn't impressions — it's influence.",
+      "The CMO lens is simple: does this channel help me build brand with the right audience, generate demand that converts, and prove it to the board? LinkedIn checks all three. The professional targeting means you're not wasting budget on the wrong audience. The content formats let you educate and engage across the funnel. And the measurement connects your spend to pipeline and revenue."
     ],
     losingExamples: [
-      "We can probably do something on the price. Let me talk to my manager.",
-      "Yeah, I know it's expensive. What's your budget?",
-      "We have a smaller team option that might work.",
-      "I understand — maybe this isn't the right time."
+      "Let me walk you through our campaign objectives and ad formats...",
+      "Our CTR on Sponsored Content is typically 0.4-0.6%...",
+      "You should start with a Lead Gen Form campaign to test results.",
+      "LinkedIn has 900 million members and growing..."
     ],
     goalType: "advance",
     difficulty: "Advanced",
-    resistanceLevel: 80,
-    buySignal: 30,
-    traits: ["ROI Reframing", "Creative Deal Structuring", "Executive Selling"],
+    resistanceLevel: 60,
+    buySignal: 40,
+    traits: ["Executive Communication", "Strategic Positioning", "CMO Language"],
     durationSeconds: 300,
-    scriptHint: "Try saying: 'When you factor in recruiting, benefits, management, tools, training, and the 6-9 month ramp — what's the real fully-loaded cost? Because when customers do that math, MarketStar is typically 30-40% less expensive.' Key points: 1) Never discount immediately, 2) Reframe from cost-per-rep to total cost of ownership, 3) Highlight speed to productivity — 45-60 days vs 6-9 months, 4) Offer a pilot to de-risk the investment.",
-    lawnIssues: ["headcount budget allocated to other departments", "CFO requiring detailed ROI justification for any outsourcing spend"]
+    scriptHint: "Try saying: 'LinkedIn puts your brand in front of the exact decision-makers who influence buying decisions, lets you stay relevant across long sales cycles, and gives you measurable pipeline contribution data. For a CMO under pressure to prove marketing's revenue impact, that's hard to replicate.' Key points: 1) Speak in strategic terms, 2) Connect to brand credibility, pipeline influence, and board reporting, 3) Avoid ad-tech jargon."
   },
   {
     id: "rp-12",
-    name: "Another outsourcing firm quoted us 40% less",
-    role: "The Comparison Shopper",
+    name: "Walk me through a full discovery",
+    role: "VP of Marketing at Mid-Market SaaS",
     phase: "Chapter 2",
-    context: "Pricing → Competitive Price Pressure",
-    objection: "Another outsourcing firm quoted us 40% less.",
-    passCriteria: "Reframe from price to total value and outcomes, differentiate on specific capabilities, and address the hidden costs of cheaper alternatives.",
-    failConditions: "Attacks the competitor, immediately price matches, or gets defensive",
-    winningResponse: "Excellent differentiation! You competed on value, not price.",
-    losingResponse: "Don't compete on price. Compete on outcomes, total cost of ownership, and strategic value.",
+    context: "Full Mini-Discovery → Comprehensive",
+    objection: "I've got 10 minutes. Walk me through what you'd want to know about our business.",
+    passCriteria: "Conduct a structured mini-discovery covering business goals, audience, funnel gaps, current channels, offer/content, measurement, and stakeholders. Demonstrate genuine curiosity and connect answers to potential LinkedIn solutions.",
+    failConditions: "Turns the discovery into a pitch, asks random unconnected questions, or fails to cover key discovery areas",
+    winningResponse: "Outstanding discovery! You were structured, curious, and connected every answer to potential value.",
+    losingResponse: "Discovery should feel like a conversation, not an interrogation. Follow a logical flow and connect the dots.",
     winningExamples: [
-      "That's a meaningful difference — and I'd expect you to evaluate that seriously. Can I ask which firm? The reason is that 40% cheaper usually means different rep quality, different enablement, or a staffing model versus a managed outcome model. I want to make sure you're comparing apples to apples.",
-      "Appreciate the transparency. Here's what I'd ask: what's included in that price? When we do competitive comparisons, we typically find that the gap narrows significantly when you factor in rep retention, ramp time, management layers, and actual pipeline output. What matters most to you?",
-      "Fair point. Let me be honest — we're rarely the cheapest option. But we are consistently the highest-performing. If the 40% savings comes with 50% lower pipeline output and 3x rep turnover, that's not savings — it's wasted investment. Would you be open to comparing projected outcomes side by side?",
-      "I hear you. A few of our largest customers came to us after choosing the cheaper option first. The total cost — including re-hiring, re-training, lost pipeline during transitions, and management overhead — ended up being 2x higher. Can I share one specific example?"
+      "Perfect — I'll make the most of your time. Let me start at the top: What are your biggest marketing priorities this quarter? Are you under more pressure on awareness, lead generation, or proving ROI on what you're already doing?",
+      "Great, let's dive in. First question: what's the business outcome your marketing team is being measured on right now? Pipeline? MQLs? Revenue contribution? That'll help me understand what matters most.",
+      "Appreciate the time. I'd want to cover four things quickly: your goals, your audience, what's working and not working today, and how you measure success. Let's start with goals — what's the single biggest challenge your marketing team is trying to solve right now?",
+      "Let me be efficient. Three things I'd want to understand: One, who are you trying to reach and what does the buying committee look like? Two, where's the biggest gap in your funnel today — reach, engagement, conversion, or lead quality? Three, how do you define success and who else is involved in evaluating a new channel? Can we start with the audience?"
     ],
     losingExamples: [
-      "Who is it? They probably can't deliver half of what we do.",
-      "We can match that price. Let me talk to my VP.",
-      "You get what you pay for with outsourcing.",
-      "That firm is going to churn through your reps in 3 months."
+      "Let me tell you about LinkedIn's products first, and then we can discuss your needs.",
+      "How many employees does your company have? What's your annual revenue?",
+      "What's your budget for LinkedIn? That will help me figure out what to recommend.",
+      "Have you heard about our new Document Ads feature?"
+    ],
+    goalType: "advance",
+    difficulty: "Advanced",
+    resistanceLevel: 35,
+    buySignal: 60,
+    traits: ["Full Discovery", "Time Management", "Strategic Questioning"],
+    durationSeconds: 300,
+    scriptHint: "Try saying: 'What are your biggest marketing priorities this quarter? Are you under more pressure on awareness, lead generation, or proving ROI?' Then follow up with audience, funnel gap, current channels, and measurement questions. Key points: 1) Be structured — goals, audience, funnel, channels, measurement, 2) Connect their answers to potential LinkedIn value, 3) Manage the 10 minutes efficiently."
+  },
+  {
+    id: "rp-13",
+    name: "Your CPL is always higher than other platforms",
+    role: "Performance Marketer",
+    phase: "Chapter 3",
+    context: "Objection Handling → Price Objection",
+    objection: "Your CPL is always higher than other platforms.",
+    passCriteria: "Reframe from raw CPL to cost per qualified lead, cost per opportunity, and pipeline value. Acknowledge the price difference honestly and shift the conversation to outcome quality.",
+    failConditions: "Defends the price without diagnosing value, argues that LinkedIn is cheap, or dismisses their concern",
+    winningResponse: "Great reframe! You shifted from CPL to qualified outcomes and business value.",
+    losingResponse: "Don't defend CPL in isolation. Shift to cost per qualified lead and pipeline value.",
+    winningExamples: [
+      "That's a fair observation — and on a raw CPL basis, you're right, LinkedIn is often higher than other channels. But here's the question I'd ask: what's your cost per qualified lead? Because if LinkedIn delivers leads that are 3x more likely to convert to a meeting or opportunity, the cost per qualified outcome is actually lower. It's about quality of the pipeline, not just the top-of-funnel cost.",
+      "I hear that a lot, and it's true on the surface. The reframe I'd suggest is this: compare cost per opportunity, not cost per lead. If LinkedIn generates 50 leads at $100 each and 15 turn into meetings, versus another channel that generates 200 leads at $30 each but only 8 turn into meetings — which channel is actually more efficient?",
+      "You're right that LinkedIn CPL tends to be higher. I won't pretend otherwise. What I'd challenge is whether CPL is the right metric. For B2B, the metrics that matter are usually downstream — qualified pipeline generated, sales acceptance rate, and revenue influenced. How does your team measure that today?",
+      "Totally valid concern. Let me ask: when you compare CPL across channels, are you also comparing lead quality, conversion rate, and deal size? Because for most B2B teams, the cheapest leads aren't the best leads. LinkedIn's value is precision — you're paying more per lead because you're reaching specific decision-makers, not a broad audience."
+    ],
+    losingExamples: [
+      "LinkedIn is actually very affordable for B2B advertising.",
+      "You need to spend more to see results — it takes time to optimize.",
+      "Our CPL is competitive with other premium platforms.",
+      "Price shouldn't be the main consideration when choosing a channel."
+    ],
+    goalType: "advance",
+    difficulty: "Intermediate",
+    resistanceLevel: 60,
+    buySignal: 40,
+    traits: ["Value Reframing", "Data Fluency", "Objection Handling"],
+    durationSeconds: 300,
+    scriptHint: "Try saying: 'On a raw CPL basis, you're right — LinkedIn is often higher. But the question is: what's your cost per qualified lead? If LinkedIn leads are 3x more likely to convert to a meeting, the cost per qualified outcome is actually lower.' Key points: 1) Acknowledge the price difference honestly, 2) Reframe from CPL to cost per qualified outcome, 3) Use comparative math to show true efficiency."
+  },
+  {
+    id: "rp-14",
+    name: "Why not just put more budget into Google?",
+    role: "Demand Gen Leader",
+    phase: "Chapter 3",
+    context: "Objection Handling → Channel Overlap",
+    objection: "Why not just put more budget into Google?",
+    passCriteria: "Explain the different roles Google and LinkedIn play without bashing Google. Position LinkedIn for reaching B2B audiences earlier in the buying journey and influencing decision-makers who aren't actively searching.",
+    failConditions: "Bashes Google, claims LinkedIn is better at everything, or can't articulate the differentiation",
+    winningResponse: "Perfect channel differentiation! You positioned LinkedIn's unique role without diminishing Google.",
+    losingResponse: "Don't compete with Google head-on. Explain the complementary role LinkedIn plays in the B2B funnel.",
+    winningExamples: [
+      "Google is fantastic for capturing active intent — people who are already searching for a solution. But here's the thing: in B2B, by the time someone's searching on Google, they've often already shortlisted vendors. LinkedIn lets you reach and influence decision-makers earlier, before they're searching, based on who they are professionally. The two channels play different roles in the funnel.",
+      "That's a reasonable question. Here's how I'd think about it: Google captures demand that already exists. LinkedIn creates and influences demand with people who match your ideal buyer profile but aren't actively looking yet. For B2B, where buying cycles are long and committees are involved, you need both — Google for the bottom of the funnel and LinkedIn for the top and middle.",
+      "You absolutely should invest in Google if it's working. The question is: are you reaching everyone you need to reach? Google works when someone knows they have a problem and searches for it. LinkedIn works when you need to reach a specific VP or director who doesn't know your solution exists yet but has exactly the problem you solve.",
+      "I'd never argue against Google for intent capture. But let me ask: what percentage of your total addressable market is actively searching right now? For most B2B companies, it's less than 5%. The other 95% of your future buyers are on LinkedIn, scrollable, targetable by professional identity — but they're not searching yet. That's the gap LinkedIn fills."
+    ],
+    losingExamples: [
+      "Google is for consumer search, not B2B.",
+      "LinkedIn is just better for B2B — full stop.",
+      "Google's targeting for B2B is terrible compared to ours.",
+      "You're already wasting money on Google — move it to LinkedIn."
+    ],
+    goalType: "advance",
+    difficulty: "Intermediate",
+    resistanceLevel: 55,
+    buySignal: 45,
+    traits: ["Channel Strategy", "Complementary Positioning", "Market Education"],
+    durationSeconds: 300,
+    scriptHint: "Try saying: 'Google captures active intent — people already searching. LinkedIn reaches decision-makers earlier, before they're searching, based on professional identity. In B2B with long buying cycles, you need both — Google for the bottom, LinkedIn for top and middle.' Key points: 1) Don't bash Google, 2) Explain intent capture vs. demand creation, 3) Position LinkedIn for the 95% not actively searching."
+  },
+  {
+    id: "rp-15",
+    name: "We tried LinkedIn last year and saw nothing meaningful",
+    role: "CMO",
+    phase: "Chapter 3",
+    context: "Objection Handling → Past Failure",
+    objection: "We tried LinkedIn last year and saw nothing meaningful.",
+    passCriteria: "Diagnose the past failure respectfully by asking about audience setup, creative, offer, objective, conversion path, sales follow-up, and success metric. Reopen the conversation without being defensive.",
+    failConditions: "Dismisses their experience, blames them for the failure, or immediately pivots to a new pitch",
+    winningResponse: "Excellent recovery! You diagnosed the past failure respectfully and reopened the conversation.",
+    losingResponse: "Never dismiss a past failure. Diagnose what was tested and separate channel fit from execution choices.",
+    winningExamples: [
+      "I understand — and I wouldn't ask you to invest again without understanding what happened. Can I ask a few questions about what you tried? Specifically: what was the campaign objective, who were you targeting, what was the offer, and how did you measure success? Often the issue isn't the channel itself, but how the campaign was structured or measured.",
+      "That's fair, and I appreciate the honesty. The question I'd want to unpack is: what specifically didn't work? Was it that you got leads but they weren't qualified? Or that engagement was low? Or that you couldn't connect the spend to business outcomes? Because each of those has a different root cause and a different fix.",
+      "I hear that from time to time, and it's always worth understanding why. Can we walk through what was tested? The audience setup, the creative, the offer, and the conversion path all matter. I've seen situations where the channel was right but the execution — targeting too broadly, weak offer, or no sales follow-up — was the real issue.",
+      "Makes sense — and I respect that. Rather than asking you to take my word for it, let me ask: what did the campaign look like? If we can identify what went wrong, I can tell you honestly whether a different approach would likely produce different results, or whether LinkedIn genuinely isn't the right fit for your use case."
+    ],
+    losingExamples: [
+      "LinkedIn has improved a lot since last year. It's totally different now.",
+      "Your previous team probably didn't set it up correctly.",
+      "That's unusual — most companies see great results on LinkedIn.",
+      "Let me show you some new features that weren't available last year."
+    ],
+    goalType: "advance",
+    difficulty: "Advanced",
+    resistanceLevel: 70,
+    buySignal: 30,
+    traits: ["Non-Defensive Handling", "Diagnostic Discovery", "Empathy"],
+    durationSeconds: 300,
+    scriptHint: "Try saying: 'I understand, and I wouldn't ask you to invest again without understanding what happened. What was the campaign objective, who were you targeting, what was the offer, and how did you measure success? Often the issue isn't the channel but how the campaign was structured.' Key points: 1) Validate their experience, 2) Diagnose systematically — objective, audience, creative, offer, measurement, 3) Don't blame them or oversell."
+  },
+  {
+    id: "rp-16",
+    name: "Our TAM is tiny — I doubt LinkedIn is worth it",
+    role: "Cybersecurity Marketer",
+    phase: "Chapter 3",
+    context: "Objection Handling → Niche Audience",
+    objection: "Our TAM is tiny. I doubt LinkedIn is worth it.",
+    passCriteria: "Reframe niche targeting as a strength, not a limitation. Explain how LinkedIn's professional targeting is built for precisely this use case — reaching specific roles, titles, and companies in narrow markets.",
+    failConditions: "Agrees the audience might be too small, or can't articulate why LinkedIn works for niche B2B",
+    winningResponse: "Great reframe! You turned their objection into LinkedIn's strongest value proposition.",
+    losingResponse: "Niche audiences are LinkedIn's sweet spot. Reframe precision as an advantage, not a limitation.",
+    winningExamples: [
+      "Actually, that's where LinkedIn tends to be most valuable. When your TAM is small, you can't afford to waste budget reaching the wrong people. LinkedIn lets you target by exact job title, function, seniority, and company — so if you need to reach 500 CISOs at enterprise companies, you can build an audience of exactly those people. Niche isn't a problem — it's a targeting advantage.",
+      "I'd actually argue the opposite. For niche audiences, the channels that struggle are the broad-reach ones like Meta or display, where you're paying for impressions that mostly miss your audience. LinkedIn's targeting is built for precision — you can define your audience by professional attributes and reach exactly the people who matter. The smaller the TAM, the more important precision becomes.",
+      "That's a valid concern, but let me reframe it: when your audience is niche, quality matters way more than scale. LinkedIn doesn't need you to reach millions of people — it needs you to reach the right hundreds or thousands. Can you tell me more about your target audience? What roles, seniority levels, and company types? I'd bet LinkedIn can build that audience precisely.",
+      "I hear you — and it's true that LinkedIn isn't for every campaign type. But for niche B2B audiences, it's actually the strongest fit because the targeting is based on professional identity. If you're trying to reach cybersecurity buyers at enterprise companies, LinkedIn can isolate them by title, function, and company. Where else can you do that at this level of precision?"
+    ],
+    losingExamples: [
+      "You might be right — if the audience is too small, it might not be worth it.",
+      "We have 900 million members, so your audience is definitely on LinkedIn.",
+      "You could broaden your targeting to reach more people.",
+      "Let's just try it and see if the numbers work."
+    ],
+    goalType: "advance",
+    difficulty: "Intermediate",
+    resistanceLevel: 50,
+    buySignal: 45,
+    traits: ["Audience-Fit Selling", "Reframing", "Niche Strategy"],
+    durationSeconds: 300,
+    scriptHint: "Try saying: 'When your TAM is small, you can't afford to waste budget reaching the wrong people. LinkedIn lets you target by exact job title, function, seniority, and company. Niche isn't a problem — it's a targeting advantage.' Key points: 1) Reframe niche as a strength, 2) Explain precision targeting, 3) Compare to broad-reach channels where niche actually is a problem."
+  },
+  {
+    id: "rp-17",
+    name: "We have budget for one pilot — what would you test?",
+    role: "Mid-Market SaaS Marketer",
+    phase: "Chapter 3",
+    context: "Strategy → Pilot Recommendation",
+    objection: "We have budget for one pilot. What would you test first?",
+    passCriteria: "Recommend a logical pilot strategy that starts with the business goal, selects an audience, matches an objective and format, and defines a success metric. Be specific and simple, not overwhelming.",
+    failConditions: "Recommends too many things, fails to ask about their goal first, or gives a vague 'it depends' answer",
+    winningResponse: "Perfect strategy recommendation! Simple, logical, and tied to their specific business goal.",
+    losingResponse: "A pilot recommendation should be simple and specific — one goal, one audience, one format, one success metric.",
+    winningExamples: [
+      "Before I recommend, let me ask: what's the single most important outcome you need from this pilot? Is it generating leads, building awareness with a new audience, or proving that LinkedIn can drive pipeline? Because the pilot design should be focused on one goal to give you a clear answer.",
+      "I'd keep it simple. Here's what I'd recommend: Pick your highest-priority buyer persona, run a Sponsored Content campaign with a Lead Gen Form promoting your strongest content asset — probably a report or webinar — target by title and seniority at your ideal company profile, and measure cost per qualified lead and lead-to-meeting conversion. That gives you a clean test with clear results.",
+      "Great question. I'd recommend a focused demand capture play: one audience segment of your ideal buyer persona, one offer that's proven to convert — like a demo request or high-value content download — using Sponsored Content with a Lead Gen Form. Run it for 30-60 days and measure not just leads, but lead quality and pipeline generated. That tells you if LinkedIn works for your business.",
+      "The best pilot is the simplest one. Start with the business goal — are you trying to generate leads or build awareness? Then pick one audience, one format, and one clear success metric. I'd suggest starting with your highest-value audience and your strongest offer. Want me to walk through what that would look like based on your specific situation?"
+    ],
+    losingExamples: [
+      "You should run Sponsored Content, Video Ads, Lead Gen Forms, and Messaging all at once to see what works.",
+      "It depends on a lot of factors. I'd need to think about it.",
+      "Just put the budget into brand awareness and see what happens.",
+      "I can send you our pilot playbook — it covers all the options."
+    ],
+    goalType: "advance",
+    difficulty: "Intermediate",
+    resistanceLevel: 30,
+    buySignal: 70,
+    traits: ["Strategic Clarity", "Simplicity", "Pilot Design"],
+    durationSeconds: 300,
+    scriptHint: "Try saying: 'Before I recommend, what's the single most important outcome you need? Then I'd keep it simple: one audience, one format, one offer, one success metric. Run for 30-60 days and measure lead quality and pipeline, not just volume.' Key points: 1) Ask about their goal first, 2) Recommend one focused play, not many, 3) Define success metrics upfront."
+  },
+  {
+    id: "rp-18",
+    name: "Final Certification — Tell us what LinkedIn should do for us",
+    role: "CMO + Demand Gen Director Panel",
+    phase: "Chapter 3",
+    context: "Final Certification Simulation",
+    objection: "Tell us what LinkedIn should do for us, why we should trust it, and how you would start.",
+    passCriteria: "Deliver a concise executive pitch plus recommendation that covers LinkedIn's value for their business, builds trust through specifics, and recommends a clear starting point. Demonstrate mastery across product knowledge, positioning, discovery, objection handling, and strategic recommendation.",
+    failConditions: "Gives a generic pitch, fails to ask any qualifying questions, sounds scattered, or can't handle follow-up objections from the panel",
+    winningResponse: "Congratulations! You demonstrated mastery across the full LMS sales competency — product knowledge, positioning, discovery, and strategic recommendation.",
+    losingResponse: "Review all chapters and practice each skill — explanation, discovery, positioning, objection handling, and strategic recommendation — before retrying.",
+    winningExamples: [
+      "Structured response covering: 1) LinkedIn's unique value for their business, 2) Specific targeting and format recommendations tied to their goals, 3) Clear pilot strategy with success metrics, 4) Calm handling of follow-up objections from the panel.",
+      "Strong executive presence with a clear 'what LinkedIn does, why it matters for you, and how I'd start' framework. Connected every recommendation to business outcomes.",
+      "Excellent synthesis of discovery, positioning, and recommendation. Asked the right questions before pitching, handled price and channel objections confidently, and closed with a specific next step."
+    ],
+    losingExamples: [
+      "Started listing all LinkedIn products without connecting to business value.",
+      "Couldn't handle follow-up objections about CPL or past failure.",
+      "Gave a generic pitch that could apply to any company."
     ],
     goalType: "advance",
     difficulty: "Advanced",
     resistanceLevel: 75,
-    buySignal: 50,
-    traits: ["Value Selling", "TCO Analysis", "Competitive Differentiation"],
-    durationSeconds: 300,
-    scriptHint: "Try saying: 'That's a meaningful difference. Can I ask which firm? 40% cheaper usually means different rep quality, different enablement, or a staffing model vs managed outcomes.' Key points: 1) Don't bash the competitor or match price, 2) Ask what's included in the competitive quote, 3) Reframe around total value — pipeline output, rep retention, ramp time, 4) Share a 'switched from competitor' story if you have one.",
-    lawnIssues: ["risk of choosing lowest-cost outsourcer and getting poor pipeline quality", "hidden costs of rep churn and constant re-ramping"]
-  },
-  {
-    id: "rp-13",
-    name: "We need to run this by legal and procurement",
-    role: "The Cautious Buyer",
-    phase: "Chapter 2",
-    context: "Closing → Procurement Navigation",
-    objection: "We need to run this by legal and procurement.",
-    passCriteria: "Normalize the procurement process, offer to help navigate it, and maintain deal momentum by setting specific next steps and timelines.",
-    failConditions: "Gets frustrated, tries to bypass procurement, or loses control of the timeline",
-    winningResponse: "Well done! You embraced the process and maintained momentum with specific next steps.",
-    losingResponse: "Never try to skip procurement. Help them navigate it and keep the deal moving forward.",
-    winningExamples: [
-      "Absolutely — that's standard for engagements like this. Let me help: I can provide a redlined MSA, data security documentation, and compliance certifications upfront. Who in legal and procurement should I be working with? And what's a realistic timeline for their review?",
-      "Of course — we work with enterprise procurement teams all the time. A few things that usually speed up the process: we have SOC 2 Type II compliance, standard data processing agreements, and flexible contract structures. Can I send those over today? And would it help if I joined a call with your procurement team?",
-      "Makes total sense. I want to make this as smooth as possible. Can we map out the procurement process together? I'd like to know: what are the typical review steps, who are the key stakeholders, and what's the target timeline? That way I can have everything ready.",
-      "Understood — and I want to be a resource, not a bottleneck. We've been through this process with Fortune 500 companies many times. Let me send over our standard enterprise agreement, compliance docs, and a procurement FAQ. What else would help your team move quickly?"
-    ],
-    losingExamples: [
-      "Can we just do a verbal agreement and start the pilot while paperwork catches up?",
-      "Legal always slows things down. Can your champion push this through?",
-      "How long is this going to take? We need to start ramping reps this quarter.",
-      "I'll just wait for them to reach out to me."
-    ],
-    goalType: "advance",
-    difficulty: "Intermediate",
-    resistanceLevel: 60,
-    buySignal: 45,
-    traits: ["Process Navigation", "Multi-Threading", "Deal Acceleration"],
-    durationSeconds: 300,
-    scriptHint: "Try saying: 'Absolutely — that's standard for engagements like this. Let me help: I can provide a redlined MSA, security docs, and compliance materials upfront. Who in legal and procurement should I be working with?' Key points: 1) Normalize procurement as expected, not a setback, 2) Offer specific materials proactively, 3) Get names and timelines to maintain control, 4) Multi-thread by connecting with procurement directly.",
-    lawnIssues: ["complex vendor approval process with 6-8 week timeline", "multiple stakeholders required across sales, finance, and legal"]
-  },
-  {
-    id: "rp-14",
-    name: "I need to think about it and get back to you",
-    role: "The Indecisive Prospect",
-    phase: "Chapter 2",
-    context: "Closing → Handling Stalls",
-    objection: "I need to think about it and get back to you.",
-    passCriteria: "Isolate the specific concern behind the stall, address it directly, and set a concrete next step with a specific date.",
-    failConditions: "Accepts the stall or pressures for an immediate decision",
-    winningResponse: "Great job isolating the real concern and securing a concrete next step!",
-    losingResponse: "Always ask what specifically they need to think about. 'Think about it' is never the real objection.",
-    winningExamples: [
-      "Totally fair — this is a significant decision. Can I ask, what specifically are you weighing? Is it the ROI case, the team ramp timeline, internal alignment, or something else? If I can address it now, it might save you some back-and-forth.",
-      "I respect that. Help me understand though — is there a specific concern I haven't addressed, or do you need to align with other stakeholders? Because if it's the latter, I'd love to help you build the internal case.",
-      "Makes sense. Before we pause, let me ask: if it were entirely your decision, would you move forward? I want to make sure I've addressed your concerns directly, and if there are other stakeholders involved, I can help prepare materials for those conversations.",
-      "Understood. One thing I've learned is that 'think about it' usually means there's a specific question I haven't answered. What would you need to see or hear to feel confident moving forward? Let's tackle that now."
-    ],
-    losingExamples: [
-      "Sure, take your time and let me know.",
-      "Okay, I'll follow up next week.",
-      "No problem — I'll send you some more materials.",
-      "We have a limited pilot window closing this quarter, so I'd encourage you to decide soon."
-    ],
-    goalType: "advance",
-    difficulty: "Intermediate",
-    resistanceLevel: 65,
-    buySignal: 40,
-    traits: ["Concern Isolation", "Stakeholder Mapping", "Deal Progression"],
-    durationSeconds: 300,
-    scriptHint: "Try saying: 'Totally fair — can I ask, what specifically are you weighing? Is it the ROI case, team ramp timeline, internal alignment, or something else? If I can address it now, it might save some back-and-forth.' Key points: 1) Acknowledge their need to think, 2) Ask WHAT specifically, 3) If it's stakeholder alignment, offer to help build the internal business case, 4) Always set a specific follow-up date.",
-    lawnIssues: ["internal stakeholder alignment needed across sales, finance, and HR", "competing priorities on the sales transformation roadmap"]
-  },
-  {
-    id: "rp-15",
-    name: "Send me a proposal and I'll review it",
-    role: "The Defeater",
-    phase: "Chapter 2",
-    context: "Closing → Securing Commitment",
-    objection: "Send me a proposal and I'll review it.",
-    passCriteria: "Qualify what they need in the proposal, understand their decision criteria, and set a specific review meeting rather than sending into a void.",
-    failConditions: "Sends a proposal without qualifying or securing a review meeting",
-    winningResponse: "Excellent control! You qualified the proposal request and secured a review meeting.",
-    losingResponse: "Never send a proposal into a void. Understand their criteria and schedule a review session.",
-    winningExamples: [
-      "Happy to put something together. Before I do, can I ask — what would you need to see in the proposal to feel confident moving forward? I want to tailor it to your specific decision criteria, not just send a generic services overview.",
-      "Absolutely — I want to make sure the proposal addresses exactly what you care about. Can we spend 5 minutes aligning on what should be included? And then let's book a 30-minute review session so I can walk you through the team design, ramp plan, and ROI model live. Does Thursday work?",
-      "Of course. Two things I'd like to do: first, understand your evaluation criteria so I can customize the proposal. Second, let's schedule a review call — proposals are always better when I can walk you through the business case and answer questions in real time.",
-      "I'll get that done. Quick question — who else will be reviewing it? I want to make sure I include the right level of detail for your CRO versus your CFO versus your head of sales ops. And can we set a 30-minute walkthrough? That's typically where the alignment happens."
-    ],
-    losingExamples: [
-      "Sure, I'll send something over this week.",
-      "Great, I'll email you a proposal and follow up next month.",
-      "No problem — I'll put together our standard proposal.",
-      "I'll have our team draft something and send it your way."
-    ],
-    goalType: "advance",
-    difficulty: "Intermediate",
-    resistanceLevel: 60,
-    buySignal: 45,
-    traits: ["Qualification", "Process Control", "Stakeholder Engagement"],
-    durationSeconds: 300,
-    scriptHint: "Try saying: 'Happy to put something together. What would you need to see in the proposal to feel confident moving forward? And let's book a review session so I can walk you through it live.' Key points: 1) Agree to the proposal request, 2) Qualify their decision criteria, 3) Always schedule a live review meeting, 4) Ask who else will review to identify additional stakeholders.",
-    lawnIssues: ["multiple decision makers across sales, finance, and executive team", "internal business case needed for outsourcing budget approval"]
-  },
-  {
-    id: "rp-16",
-    name: "Final Certification Assessment",
-    role: "The Ultimate Test",
-    phase: "Post-Training",
-    context: "Final Certification Assessment",
-    objection: "Yeah? What's this about? I've got a lot on my plate right now.",
-    passCriteria: "Demonstrate mastery across discovery, solution positioning, objection handling, and closing phases — including navigating multiple objections professionally and advancing toward a concrete next step.",
-    failConditions: "Fails to navigate multiple objections, loses control of the conversation, or cannot advance past discovery",
-    winningResponse: "Congratulations! You have demonstrated mastery across all phases of the B2B outsourced sales process.",
-    losingResponse: "Review all chapters and practice each phase — discovery, solution positioning, pricing, and closing — before retrying.",
-    winningExamples: [
-      "Smooth navigation from discovery through solution positioning to pricing with strong MEDDPICC qualification throughout.",
-      "Successfully handled internal hiring objection, budget concern, and stakeholder alignment — advancing to a scheduled next step with multiple stakeholders.",
-      "Excellent executive presence with tight discovery, value-anchored pricing, and a concrete close with a pilot proposal."
-    ],
-    losingExamples: [
-      "Got stuck on a single objection without advancing the conversation.",
-      "Lost control by doing a services feature dump instead of consultative discovery.",
-      "Failed to multi-thread or identify additional stakeholders."
-    ],
-    goalType: "advance",
-    difficulty: "Advanced",
-    resistanceLevel: 85,
-    buySignal: 20,
-    traits: ["Full Sales Cycle", "MEDDPICC Mastery", "Executive Selling", "Multi-Threading"],
+    buySignal: 30,
+    traits: ["Full Sales Cycle", "Executive Selling", "Strategic Synthesis", "Objection Handling"],
     durationSeconds: 300,
     isCertification: true,
-    scriptHint: "This is your final assessment. You'll face multiple objections across the entire B2B sales cycle for MarketStar services. Remember: 1) Lead with discovery — ask before you tell, 2) Use MEDDPICC to qualify the opportunity, 3) Anchor value before discussing price, 4) Multi-thread by identifying and engaging multiple stakeholders, 5) Always secure a concrete next step with a specific date and attendees.",
-    lawnIssues: ["declining pipeline coverage despite growing revenue targets", "high sales rep attrition and long ramp times", "CFO scrutiny on cost-per-hire and sales ROI", "internal alignment challenges across sales, HR, and finance"]
+    scriptHint: "This is your final certification. You'll face a CMO and Demand Gen Director panel. Structure your response: 1) What LinkedIn does for their business (precision targeting, trusted context, measurable outcomes), 2) Why they should trust it (specifics, not generics — targeting capabilities, case examples, measurement), 3) How you'd start (focused pilot strategy). Be ready for follow-up objections about price, channel overlap, and past failure. Stay calm, structured, and outcome-oriented."
   }
 ];
 
@@ -571,9 +616,9 @@ export function convertRoleplayToVapiConfig(roleplay: DatabaseRoleplay): VapiRol
   const isCertification = roleplay.isCertification || 
     roleplay.name.toLowerCase().includes('certification') ||
     roleplay.id.includes('certification') ||
-    roleplay.id === 'rp-16';
+    roleplay.id === 'rp-18';
   
-  const isCoachingMode = ['rp-01', 'rp-02', 'rp-03', 'rp-04', 'rp-05', 'rp-06', 'rp-07'].includes(roleplay.id);
+  const isCoachingMode = ['rp-01', 'rp-02', 'rp-03', 'rp-04', 'rp-05', 'rp-07', 'rp-08'].includes(roleplay.id);
   
   const staticConfig = VAPI_ROLEPLAY_CONFIGS.find(c => c.id === roleplay.id);
   
@@ -581,7 +626,7 @@ export function convertRoleplayToVapiConfig(roleplay: DatabaseRoleplay): VapiRol
     id: roleplay.id,
     name: roleplay.name,
     role: roleplay.role,
-    phase: roleplay.phase || staticConfig?.phase || "Phase 1",
+    phase: roleplay.phase || staticConfig?.phase || "Chapter 1",
     context: roleplay.placement || roleplay.description,
     objection: staticConfig?.objection || roleplay.name,
     passCriteria: roleplay.passCriteria || staticConfig?.passCriteria || "Handle the objection professionally and move toward next step",
@@ -600,8 +645,7 @@ export function convertRoleplayToVapiConfig(roleplay: DatabaseRoleplay): VapiRol
     durationSeconds: 300,
     isCertification,
     isCoachingMode,
-    scriptHint: staticConfig?.scriptHint,
-    lawnIssues: staticConfig?.lawnIssues
+    scriptHint: staticConfig?.scriptHint
   };
 }
 
@@ -611,14 +655,6 @@ export function buildVapiAssistantPrompt(config: VapiRoleplayConfig): string {
   
   const buySignalDescription = config.buySignal > 50 ? "showing some underlying interest" :
                                config.buySignal > 25 ? "cautiously curious" : "not showing buying interest";
-
-  const businessIssuesSection = config.lawnIssues && config.lawnIssues.length > 0 
-    ? `\nYOUR BUSINESS CHALLENGES (IMPORTANT - Your company DOES have these challenges):
-${config.lawnIssues.map(issue => `- ${issue}`).join('\n')}
-- NEVER deny these challenges exist if the rep asks about them
-- NEVER penalize the rep for correctly identifying these challenges
-- If the rep identifies a challenge, acknowledge it naturally ("That's actually something we've been discussing internally" or "You're not wrong about that")` 
-    : '';
 
   const goalTypeSection = config.goalType === "exit_gracefully" 
     ? `\nGOAL TYPE: EXIT GRACEFULLY
@@ -634,9 +670,9 @@ ${config.lawnIssues.map(issue => `- ${issue}`).join('\n')}
 COACHING MODE (IMPORTANT - This is a beginner-level training roleplay):
 - Be more patient and give the rep time to respond
 - If they seem stuck or go off track, gently nudge them back with hints like:
-  * "Look, I really am short on time here..." (to remind them to address time)
-  * "I still don't see why this matters for us..." (to prompt them to connect value)
-  * "What specifically are you proposing?" (to help them be more concrete)
+  * "I still don't see why LinkedIn is different from other ad platforms..." (to prompt differentiation)
+  * "But what would that actually look like for my business?" (to push for specifics)
+  * "I'm not sure I understand the value..." (to help them articulate value better)
 - If they're doing well, give them natural openings to continue
 - Don't immediately shut them down on first mistakes - give them a chance to recover
 - If they completely miss the mark, stay in character but make it easier for them to try again
@@ -665,7 +701,7 @@ WHEN THE REP SUCCEEDS:
 - This lets them know they passed and should click End Call
 - Only give this success cue when they have genuinely demonstrated good technique`;
 
-  return `You are playing the role of an enterprise buyer in a B2B sales training simulation for MarketStar, a B2B sales outsourcing company that provides Sales as a Service® — including Pipeline Generation (SDR/BDR), New Business Acquisition (AE), Account Management, Partner Channel Services, Customer Success, Revenue Operations, and AI-powered sales enablement through Nytro.ai.
+  return `You are playing the role of a B2B marketing buyer in a sales training simulation for LinkedIn Marketing Solutions (LMS). The rep you are speaking with is learning to sell LinkedIn's B2B advertising and demand generation platform — including Sponsored Content, Lead Gen Forms, Video Ads, Carousel Ads, Document Ads, Messaging Ads, Campaign Manager, and Business Manager.
 
 CHARACTER PROFILE:
 - Name: ${config.role}
@@ -675,7 +711,6 @@ CHARACTER PROFILE:
 - You are ${resistanceDescription} (resistance: ${config.resistanceLevel}/100)
 - You are ${buySignalDescription} (buy signal: ${config.buySignal}/100)
 ${goalTypeSection}
-${businessIssuesSection}
 ${coachingInstructions}
 
 SCENARIO CONTEXT:
@@ -683,11 +718,11 @@ ${config.context}
 
 YOUR BEHAVIOR GUIDELINES:
 1. Start with your opening objection: "${config.objection}"
-2. Stay in character as a realistic enterprise buyer (VP Sales, CRO, CEO, or C-level) throughout
+2. Stay in character as a realistic B2B marketing buyer (Demand Gen Director, VP Marketing, CMO, or Performance Marketer) throughout
 3. React naturally to what the sales rep says
 4. If the rep handles your objection well (${config.passCriteria}), gradually become more open
 5. If the rep handles it poorly (${config.failConditions}), become more resistant or end the conversation
-6. Keep responses concise (1-3 sentences typically) - you're a busy executive
+6. Keep responses concise (1-3 sentences typically) - you're a busy marketing executive
 
 WHAT SUCCESS LOOKS LIKE:
 ${config.passCriteria}
@@ -705,14 +740,14 @@ IMPORTANT RULES:
 - The rep does NOT have access to physical materials during this call
 
 CONVERSATION FLOW:
-- Be a realistic enterprise buyer, not a robot
+- Be a realistic B2B marketing buyer, not a robot
 - React to tone, confidence, and business acumen, not just words
 - If the rep earns your attention with strong discovery or insights, show increasing interest
-- If the rep loses you with generic pitching or poor listening, politely (or firmly) end the conversation
+- If the rep loses you with generic pitching, jargon, or poor listening, politely (or firmly) end the conversation
 - The conversation should last up to 5 minutes maximum
 - You do NOT need to use the full time - if the rep succeeds early, give them the success cue
 
-Remember: You are training B2B sales reps to sell MarketStar's outsourced sales services. Stay in character but be fair.`;
+Remember: You are training B2B sales reps to sell LinkedIn Marketing Solutions. Stay in character but be fair.`;
 }
 
 export function buildVapiAssistantConfig(config: VapiRoleplayConfig) {
@@ -748,7 +783,7 @@ export function buildVapiAssistantConfig(config: VapiRoleplayConfig) {
       recordingEnabled: true,
       transcriptPlan: {
         enabled: true,
-        assistantName: "Enterprise Buyer",
+        assistantName: "Marketing Buyer",
         userName: "Sales Rep"
       }
     },

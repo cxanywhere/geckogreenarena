@@ -97,7 +97,7 @@ export default function CertificatePage() {
                 <h3 className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-magenta to-blue-300 tracking-tight">
                   Certified Sales Champion
                 </h3>
-                <p className="text-magenta/80 text-sm mt-2 font-medium tracking-wider uppercase">MarketStar Elite</p>
+                <p className="text-magenta/80 text-sm mt-2 font-medium tracking-wider uppercase">LMS Certified Seller</p>
               </div>
               
               <div className="grid grid-cols-3 gap-4 mb-8">
@@ -128,7 +128,7 @@ export default function CertificatePage() {
             
             <div className="border-t border-white/10 pt-6 mt-6">
               <div className="flex items-center justify-center gap-3">
-                <span className="text-magenta font-bold text-xl tracking-tight">MarketStar</span>
+                <span className="text-magenta font-bold text-xl tracking-tight">LinkedIn Marketing Solutions</span>
                 <span className="text-gray-600">•</span>
                 <span className="text-gray-400 font-medium">Sales Enablement</span>
               </div>
@@ -147,7 +147,7 @@ export default function CertificatePage() {
         <div className="text-center mt-6">
           <p className="text-gray-600 text-sm">
             Verify this certificate at{" "}
-            <span className="text-magenta">marketstar.com</span>
+            <span className="text-magenta">linkedin.com/marketing-solutions</span>
           </p>
         </div>
       </motion.div>

@@ -25,13 +25,13 @@ export async function generateWarriorAvatar(
 
   const base64Image = photoBuffer.toString("base64");
 
-  const prompt = `Transform this person's photo into a professional sales champion avatar for a B2B sales outsourcing training platform called "MarketStar". 
+  const prompt = `Transform this person's photo into a professional sales champion avatar for a LinkedIn Marketing Solutions sales training platform. 
 
 Requirements:
 - Keep the person's face recognizable but enhance it with professional, polished aesthetics
-- Add dramatic lighting with deep blue (#1A2B5C) and teal (#00B4D8) accent glows (the brand colors)
+- Add dramatic lighting with LinkedIn Blue (#0A66C2) and light blue (#70B5F9) accent glows (the brand colors)
 - Include subtle professional elements like a confident expression, modern tech-inspired background motifs
-- Make it look powerful and confident - like a top-performing sales professional
+- Make it look powerful and confident - like a top-performing advertising sales professional
 - Keep it professional and suitable for a business app profile picture
 - The overall style should be sleek, modern, and corporate
 - Maintain the person's identity while making them look like a sales champion
@@ -84,7 +84,7 @@ async function uploadToCloudinary(buffer: Buffer, publicId: string): Promise<str
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         public_id: publicId,
-        folder: "marketstar/avatars",
+        folder: "lms/avatars",
         transformation: [
           { width: 400, height: 400, crop: "fill", gravity: "face" },
           { quality: "auto", fetch_format: "auto" },

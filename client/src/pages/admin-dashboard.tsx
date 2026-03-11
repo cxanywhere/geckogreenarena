@@ -25,8 +25,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { UserPlus, Users, TrendingUp, AlertCircle, Search, Trash2, Shield, DollarSign, Activity, BarChart3, Settings, Copy, Mail, Phone, Check, CheckCircle, Loader2, LogOut, Trophy, Award, Target, GraduationCap, Mic, ChevronDown, ChevronUp, Upload, Download, FileText, Archive, AlertTriangle, RefreshCw } from "lucide-react";
-import marketstarLogoDark from "@/assets/marketstar-logo-dark.png";
-import marketstarLogoLight from "@/assets/marketstar-logo-light.png";
 import { useTheme } from "next-themes";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Progress } from "@/components/ui/progress";
@@ -435,7 +433,7 @@ export default function AdminDashboard() {
       if (!response.ok) {
         throw new Error(data.error || "Failed to request reset");
       }
-      toast({ title: "Verification code sent", description: "Check admin@marketstar.com for the 4-digit code." });
+      toast({ title: "Verification code sent", description: "Check admin email for the 4-digit code." });
       setBillingResetStep('verify');
     } catch (error: any) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
@@ -745,7 +743,7 @@ export default function AdminDashboard() {
       if (!response.ok) {
         throw new Error(data.error || "Failed to request hard delete");
       }
-      toast({ title: "Verification code sent", description: "Check admin@marketstar.com for the 4-digit code." });
+      toast({ title: "Verification code sent", description: "Check admin email for the 4-digit code." });
       setHardDeleteRepCount(data.repCount || 0);
       setDeleteStep('hard-verify');
     } catch (error: any) {
@@ -863,7 +861,6 @@ export default function AdminDashboard() {
     setResetCredentialsResult(null);
   };
   
-  const marketstarLogo = resolvedTheme === "dark" ? marketstarLogoDark : marketstarLogoLight;
 
   const { data: managers = [], isLoading: managersLoading } = useQuery<User[]>({
     queryKey: ["/api/managers"],
@@ -1195,15 +1192,14 @@ export default function AdminDashboard() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-6">
           <Link href="/admin-dashboard" className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-magenta hover:opacity-80 transition-opacity">
-              <img src={marketstarLogo} alt="MarketStar" className="h-8 w-8 object-contain" />
               <div className="flex flex-col leading-none">
-                <span>MarketStar</span>
+                <span>LMS</span>
                 <span className="text-[10px] text-destructive font-bold uppercase tracking-wide">Admin / Director Portal</span>
               </div>
           </Link>
           <div className="hidden md:flex items-center gap-2 pl-6 border-l border-magenta/10">
             <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest">Org:</span>
-            <img src={marketstarLogo} alt="MarketStar" className="h-8 w-auto object-contain" />
+            <span className="text-sm font-bold">LinkedIn Marketing Solutions</span>
           </div>
         </div>
 
@@ -1654,7 +1650,7 @@ export default function AdminDashboard() {
                         <div className="space-y-2">
                           <Label>Email Address</Label>
                           <Input 
-                            placeholder="david.miller@marketstar.com" 
+                            placeholder="david.miller@company.com" 
                             type="email"
                             value={newManager.email}
                             onChange={(e) => setNewManager({...newManager, email: e.target.value})}
@@ -1819,9 +1815,9 @@ export default function AdminDashboard() {
                             Enter one rep per line. Format: <code className="bg-muted px-1 rounded">Name, email</code> or <code className="bg-muted px-1 rounded">Name email@domain.com</code>
                           </p>
                           <Textarea
-                            placeholder={`John Smith, jsmith@marketstar.com
-Jane Doe, jdoe@marketstar.com
-Mike Johnson mjohnson@marketstar.com`}
+                            placeholder={`John Smith, jsmith@company.com
+Jane Doe, jdoe@company.com
+Mike Johnson mjohnson@company.com`}
                             className="min-h-[200px] font-mono text-sm"
                             value={bulkAddInput}
                             onChange={(e) => setBulkAddInput(e.target.value)}
@@ -2839,8 +2835,8 @@ Mike Johnson mjohnson@marketstar.com`}
             </DialogTitle>
             <DialogDescription>
               {billingResetStep === 'request' 
-                ? "This will permanently delete all usage sessions and reset billing to zero. A verification code will be sent to admin@marketstar.com."
-                : "Enter the 4-digit verification code sent to admin@marketstar.com to confirm the reset."}
+                ? "This will permanently delete all usage sessions and reset billing to zero. A verification code will be sent to the admin email."
+                : "Enter the 4-digit verification code sent to the admin email to confirm the reset."}
             </DialogDescription>
           </DialogHeader>
           
@@ -3040,7 +3036,7 @@ Mike Johnson mjohnson@marketstar.com`}
                   maxLength={4}
                   data-testid="input-hard-delete-code"
                 />
-                <p className="text-xs text-muted-foreground">Code sent to admin@marketstar.com (expires in 10 minutes)</p>
+                <p className="text-xs text-muted-foreground">Code sent to admin email (expires in 10 minutes)</p>
               </div>
               <div className="flex gap-2">
                 <Button variant="outline" onClick={() => setDeleteStep('choose')} disabled={deletingRep}>

@@ -112,8 +112,8 @@ export function VoiceQA({ chapterId, chapterTitle, currentSlideIndex, currentSli
       });
 
       const assistantConfig = {
-        name: "MarketStar Training Coach",
-        firstMessage: `Hey! I'm your MarketStar training coach. You're on "${currentSlideTitle}" in the ${chapterTitle} chapter. What would you like to know?`,
+        name: "LMS Training Coach",
+        firstMessage: `Hey! I'm your LinkedIn Marketing Solutions training coach. You're on "${currentSlideTitle}" in the ${chapterTitle} chapter. What would you like to know?`,
         model: {
           provider: "openai" as const,
           model: "gpt-4o" as const,

@@ -12,63 +12,63 @@ export interface PredefinedRoleplay {
 export const CHAPTER_1_ROLEPLAYS: PredefinedRoleplay[] = [
   {
     id: "ch1-rp01",
-    afterSlide: 7,
+    afterSlide: 16,
     orderIndex: 1,
-    objection: "I only have 5 minutes.",
-    context: "Discovery → Opening the Call",
-    passCriteria: "Acknowledge time pressure + set a clear agenda + ask a qualifying question",
-    failConditions: "Pitches immediately or disengages",
-    winningResponse: "Totally understand — I'll be respectful of your time. Give me 5 minutes, and if this doesn't apply I'll wrap up. Quick question: are you the one who owns the sales pipeline and revenue targets for your team?"
+    objection: "What exactly is LinkedIn Marketing Solutions, and why would I use it instead of another ad channel?",
+    context: "Product Overview → Elevator Explanation",
+    passCriteria: "Give a clear, confident 30-second explanation of LMS without jargon + connect to business value",
+    failConditions: "Uses internal product jargon, rambles, or fails to differentiate from other channels",
+    winningResponse: "LinkedIn Marketing Solutions helps brands reach professional audiences in a business context — think job title, seniority, industry, and company — with campaigns designed around goals like awareness, lead generation, and conversion. What makes it different is that the targeting is based on real professional identity, not just browsing behavior. So when you need to reach specific decision-makers in B2B, LinkedIn is often the most precise way to do it."
   },
   {
     id: "ch1-rp02",
-    afterSlide: 8,
+    afterSlide: 10,
     orderIndex: 2,
-    objection: "Not interested.",
-    context: "Discovery → Handling Brush-Offs",
-    passCriteria: "Acknowledge + reframe to specific business issue + redirect",
-    failConditions: "Argues or accepts rejection",
-    winningResponse: "That's fair — most VPs weren't interested either until I shared how a similar B2B company added $4M in net-new pipeline within 90 days using an outsourced SDR team. Are you seeing gaps in pipeline coverage, or is that already handled?"
+    objection: "Why would your lead forms perform better than sending traffic to my site?",
+    context: "Product Deep-Dive → Lead Gen Form Relevance",
+    passCriteria: "Explain friction reduction and fit without overpromising + acknowledge landing page context",
+    failConditions: "Overpromises results or dismisses their website strategy",
+    winningResponse: "Great question. Lead Gen Forms work well specifically because they pre-fill data from the member's LinkedIn profile — name, title, company, email — which significantly reduces drop-off. If your challenge is that people are clicking through but not completing your form, this can make a real difference. It's not about replacing your site entirely — it's about reducing friction at the moment of highest intent."
   },
   {
     id: "ch1-rp03",
-    afterSlide: 9,
+    afterSlide: 7,
     orderIndex: 3,
-    objection: "We're not ready for this yet.",
-    context: "Objection Handling → Timing Objection",
-    passCriteria: "Reframe timing as advantage + emphasize cost of delay + ask for commitment",
-    failConditions: "Accepts objection or uses pressure tactics",
-    winningResponse: "I appreciate that. However, most of our successful customers started the evaluation 3-6 months before they needed to scale. Every quarter without dedicated pipeline generation is revenue left on the table. Would it make sense to start scoping now so your team is ready when the hiring plan kicks in?"
+    objection: "I don't know whether I want awareness or leads. How do I decide?",
+    context: "Objective-First Selling → Objective Clarification",
+    passCriteria: "Guide the buyer with smart follow-up questions instead of prescribing + demonstrate discovery before recommendation",
+    failConditions: "Immediately recommends an objective without understanding the buyer's situation",
+    winningResponse: "That's actually a really common question, and the answer depends on where your biggest gap is right now. Let me ask — when you think about your pipeline over the next quarter, is your challenge that not enough of the right people know about you, or that you have awareness but aren't converting that into leads? That distinction usually points you to the right starting objective."
   },
   {
     id: "ch1-rp04",
-    afterSlide: 14,
+    afterSlide: 11,
     orderIndex: 4,
-    objection: "We prefer to hire our own sales reps.",
-    context: "Demo → Build vs. Outsource Pushback",
-    passCriteria: "Validate their preference + differentiate with speed, cost, and ramp time + regain lead",
-    failConditions: "Dismisses their internal hiring efforts",
-    winningResponse: "That makes sense — many companies start there. What we typically see is that hiring, training, and ramping an internal SDR takes 6-9 months and costs 2-3x more than outsourcing. MarketStar can have a fully ramped team producing pipeline in 4-8 weeks. How does that compare to your current hiring timeline?"
+    objection: "Which ad format should I start with?",
+    context: "Product Deep-Dive → Format Recommendation",
+    passCriteria: "Match format to offer and funnel stage + ask about their content before recommending",
+    failConditions: "Recommends a format without understanding the buyer's content or funnel stage",
+    winningResponse: "It depends on what you're offering and where your audience is in the funnel. For example, if you have a strong whitepaper or report, Document Ads are great for mid-funnel education. If you're promoting a webinar, a single image ad with a Lead Gen Form can drive registrations efficiently. What content or offers are you planning to lead with?"
   },
   {
     id: "ch1-rp05",
-    afterSlide: 15,
+    afterSlide: 13,
     orderIndex: 5,
-    objection: "We already work with another outsourced sales provider.",
-    context: "Demo → Existing Vendor",
-    passCriteria: "Acknowledge + remove replacement fear + isolate the gap in results",
-    failConditions: "Attacks competitor",
-    winningResponse: "Got it — so you already see the value of outsourced sales. I'm curious — are you getting the pipeline quality and conversion rates you expected when you first signed on? Because most teams we talk to have hit a plateau with their current provider and are looking for a partner with deeper enablement and AI-powered coaching like Nytro.ai."
+    objection: "We only care about results. What should we realistically measure?",
+    context: "Measurement Basics → Metrics Conversation",
+    passCriteria: "Shift from vanity metrics to business-relevant metrics + ask how they define success internally",
+    failConditions: "Focuses on clicks and impressions or makes unrealistic measurement promises",
+    winningResponse: "That's the right mindset. The key is defining what 'results' means for your team. Is it lead volume, lead quality, cost per qualified lead, or actual pipeline influence? I'd recommend we focus on metrics that tie back to what your sales team actually cares about — like how many of those leads get accepted and turn into real conversations. What does your team track today?"
   },
   {
     id: "ch1-rp06",
     afterSlide: 16,
     orderIndex: 6,
-    objection: "I don't understand how MarketStar is different from other outsourced sales firms.",
-    context: "Demo → Differentiation",
-    passCriteria: "State differentiation clearly with specific capability + direct to proof point",
-    failConditions: "Rambles or gives generic feature comparison",
-    winningResponse: "Great question. The key difference is our Sales as a Service® model combined with Nytro.ai — we don't just provide headcount, we deliver an entire revenue engine with AI-powered coaching, proven playbooks, and 35+ years of B2B sales expertise. Let me show you a case study of how that works in practice."
+    objection: "Give me the short version — why LinkedIn, why now?",
+    context: "End of Chapter → Executive Summary",
+    passCriteria: "Deliver a concise executive-level summary that connects LMS to business outcomes + show confidence without overselling",
+    failConditions: "Rambles, lists features without context, or sounds overly scripted",
+    winningResponse: "LinkedIn is the only platform where you can reach the exact professional audience that matters to your business — by title, seniority, company, and industry — in a context where they're already thinking about business. Right now, most B2B teams are under pressure to prove that marketing drives real pipeline, not just clicks. LinkedIn gives you the targeting precision and full-funnel tools to do that, and the measurement to prove it to your leadership."
   }
 ];
 

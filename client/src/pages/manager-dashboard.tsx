@@ -21,8 +21,6 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Bell, Search, UserPlus, Users, TrendingUp, AlertCircle, Trash2, Copy, Mail, Phone, Check, Loader2, Activity, BarChart3, DollarSign, LogOut, Trophy, Award, Target, GraduationCap, Mic, Clock, KeyRound } from "lucide-react";
-import marketstarLogoDark from "@/assets/marketstar-logo-dark.png";
-import marketstarLogoLight from "@/assets/marketstar-logo-light.png";
 import { useTheme } from "next-themes";
 import { ModeToggle } from "@/components/mode-toggle";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -286,7 +284,6 @@ export default function ManagerDashboard() {
   };
   const queryClient = useQueryClient();
   
-  const marketstarLogo = resolvedTheme === "dark" ? marketstarLogoDark : marketstarLogoLight;
 
   const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
   const managerId = currentUser?.id;
@@ -633,15 +630,14 @@ export default function ManagerDashboard() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-6">
           <Link href="/manager-dashboard" className="flex items-center gap-2 font-display text-xl font-bold tracking-tighter text-magenta hover:opacity-80 transition-opacity">
-              <img src={marketstarLogo} alt="MarketStar" className="h-8 w-8 object-contain" />
               <div className="flex flex-col leading-none">
-                <span>MarketStar</span>
+                <span>LMS</span>
                 <span className="text-[10px] text-foreground/80 font-normal uppercase tracking-wide">Manager Portal</span>
               </div>
           </Link>
           <div className="hidden md:flex items-center gap-2 pl-6 border-l border-magenta/10">
             <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest">Client:</span>
-            <img src={marketstarLogo} alt="MarketStar" className="h-8 w-auto object-contain" />
+            <span className="text-sm font-bold">LinkedIn Marketing Solutions</span>
           </div>
         </div>
 
@@ -726,7 +722,7 @@ export default function ManagerDashboard() {
                     <div className="space-y-2">
                       <Label>Email Address</Label>
                       <Input 
-                        placeholder="john.doe@marketstar.com" 
+                        placeholder="john.doe@company.com" 
                         type="email"
                         value={newRep.email}
                         onChange={(e) => setNewRep({...newRep, email: e.target.value})}

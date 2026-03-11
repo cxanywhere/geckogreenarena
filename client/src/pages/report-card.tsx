@@ -6,9 +6,6 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, XCircle, Trophy, Download, Printer, Share2, Award, Star, TrendingUp, Lock, Brain, Target, Loader2 } from "lucide-react";
-import marketstarLogoDark from "@/assets/marketstar-logo-dark.png";
-import marketstarLogoLight from "@/assets/marketstar-logo-light.png";
-import { useTheme } from "next-themes";
 import { Link } from "wouter";
 import { useRef, useEffect, useState } from "react";
 import { api, type UserProgress, type RoleplayAttempt, type Chapter } from "@/lib/api";
@@ -31,9 +28,7 @@ interface ChapterScore {
 export default function ReportCardPage() {
   const storedUser = localStorage.getItem("currentUser");
   const user = storedUser ? JSON.parse(storedUser) : null;
-  const { resolvedTheme } = useTheme();
   
-  const marketstarLogo = resolvedTheme === "dark" ? marketstarLogoDark : marketstarLogoLight;
 
   const { data: chapters = [], isLoading: chaptersLoading } = useQuery({
     queryKey: ["chapters"],
@@ -340,18 +335,17 @@ export default function ReportCardPage() {
                     <div className="absolute bottom-3 right-3 w-10 h-10 md:w-16 md:h-16 border-b-4 border-r-4 border-[#1e3a8a] pointer-events-none" />
                     
                     <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
-                       <img src={marketstarLogo} className="w-2/3 h-2/3 object-contain grayscale" />
+                       <span className="text-8xl font-bold text-gray-900 tracking-tight">LMS</span>
                     </div>
 
                     <div className="relative flex flex-col items-center text-center border-2 border-dashed border-gray-200 p-6 md:p-8 h-full">
                       
                       <div className="w-full space-y-4 md:space-y-6">
                          <div className="flex justify-between items-start w-full px-2 md:px-4">
-                            <img src={marketstarLogo} alt="MarketStar" className="h-10 md:h-14 w-auto object-contain" />
+                            <span className="text-xl md:text-2xl font-bold text-[#0A66C2] tracking-tight">LinkedIn Marketing Solutions</span>
                             <div className="flex flex-col items-end">
                                <div className="flex items-center gap-2 opacity-50">
-                                  <img src={marketstarLogo} alt="MarketStar" className="h-5 w-5 md:h-6 md:w-6 grayscale" />
-                                  <span className="font-display font-bold uppercase tracking-widest text-[10px] md:text-xs">MarketStar Certified</span>
+                                  <span className="font-display font-bold uppercase tracking-widest text-[10px] md:text-xs">LMS Certified</span>
                                </div>
                             </div>
                          </div>
@@ -370,7 +364,7 @@ export default function ReportCardPage() {
 
                       <div className="max-w-2xl mx-auto space-y-4 pt-6 md:pt-8">
                          <p className="text-gray-600 font-serif text-sm md:text-lg leading-relaxed px-4">
-                           Has successfully demonstrated mastery of the <strong className="text-[#1e3a8a]">MarketStar Sales Methodology</strong>, achieving excellence in Discovery, Pitching, Objection Handling, and Closing strategies through rigorous AI-driven simulation training.
+                           Has successfully demonstrated mastery of the <strong className="text-[#1e3a8a]">LinkedIn Marketing Solutions Sales Methodology</strong>, achieving excellence in Discovery, Positioning, Objection Handling, and Closing strategies through rigorous AI-driven simulation training.
                          </p>
                          
                          <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-bold pt-2">

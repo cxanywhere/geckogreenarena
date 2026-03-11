@@ -7,79 +7,79 @@ export interface PredefinedQuiz {
 
 export const CHAPTER_1_QUIZZES: PredefinedQuiz[] = [
   {
-    afterSlide: 5,
-    question: 'Which set correctly matches MarketStar\'s "Four Pillars of Sales Success"?',
+    afterSlide: 3,
+    question: 'How many parts does the LMS Discovery Framework include?',
     options: [
-      "Confidence, Optimism, Personality, Endurance",
-      "Timeliness, Attitude, Practice, Persistence",
-      "Product, Price, Pitch, Persistence",
-      "Appearance, Tone, Explanation, Honesty"
+      "3 parts: Goal, Budget, Timeline",
+      "7 parts: Business goals, Audience, Funnel gap, Current motion, Offer/content, Measurement, Stakeholders/process",
+      "5 parts: Product, Price, Place, Promotion, People",
+      "10 parts covering every possible sales scenario"
+    ],
+    correctAnswer: 1
+  },
+  {
+    afterSlide: 6,
+    question: "When a buyer says 'We need more leads,' what is the best next step in discovery?",
+    options: [
+      "Immediately recommend Lead Gen Forms",
+      "Go deeper: ask where the bottleneck is — reach, engagement, conversion, lead quality, or sales follow-up",
+      "Share LinkedIn's pricing sheet",
+      "Suggest they increase their total ad budget"
+    ],
+    correctAnswer: 1
+  },
+  {
+    afterSlide: 8,
+    question: 'What is the primary goal of understanding a buyer\'s current channel mix?',
+    options: [
+      "To criticize their current advertising choices",
+      "To understand what is working, where they are disappointed, and whether they have used LinkedIn before",
+      "To calculate their total marketing budget",
+      "To determine if they qualify for a discount"
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 10,
-    question: "When selling outsourced sales services, what's the correct relationship between emotion and logic?",
+    question: 'Which buyer persona is most focused on reaching specific target accounts and engaging buying groups?',
     options: [
-      "Logic drives action; emotion justifies afterward",
-      "Emotion drives action; logic justifies afterward",
-      "They are always equal at the same time",
-      "Only logic matters in B2B sales outsourcing deals"
+      "Performance Marketing Manager",
+      "ABM / Field Marketing Leader",
+      "Demand Generation Director",
+      "VP of Marketing / CMO"
     ],
     correctAnswer: 1
   },
   {
-    afterSlide: 15,
-    question: 'A prospect says, "Our internal sales team is performing fine." What is the best next move?',
+    afterSlide: 12,
+    question: 'When positioning LinkedIn for a VP of Marketing / CMO, what should the rep emphasize?',
     options: [
-      "Present pricing immediately to test seriousness",
-      "Reveal an unrealized gap with a specific data point — such as ramp time or pipeline coverage — and ask a question",
-      "Ask for their email and leave",
-      "Offer a discount to create urgency"
+      "Lowest cost-per-click in the industry",
+      "LinkedIn as a trusted business environment with full-funnel value, influence across long buying cycles, and measurable business outcomes",
+      "The total number of LinkedIn members",
+      "Automated campaign setup with no human involvement"
     ],
     correctAnswer: 1
   },
   {
-    afterSlide: 20,
-    question: "What is the best way to handle a multi-stakeholder deal when selling MarketStar solutions?",
+    afterSlide: 14,
+    question: 'What is the best approach when a buyer asks how you would position LinkedIn against their current Google campaigns?',
     options: [
-      "Only communicate with the person who took the first meeting",
-      "Multi-thread by building relationships with the VP Sales, CRO, and operations leaders simultaneously",
-      "Wait for one person to get internal alignment on their own",
-      "Send a generic proposal to the entire buying committee at once"
+      "Tell them to stop using Google immediately",
+      "Explain that LinkedIn often works best alongside search by reaching the right business audience earlier and more precisely, especially for influencing specific roles or buying groups",
+      "Admit that Google is always better for B2B",
+      "Offer a price match against Google Ads CPCs"
     ],
     correctAnswer: 1
   },
   {
-    afterSlide: 25,
-    question: 'In the MEDDPICC framework adapted for MarketStar, what does the "M" stand for?',
+    afterSlide: 16,
+    question: 'What defines a great discovery call in LMS selling?',
     options: [
-      "Management",
-      "Metrics",
-      "Marketing",
-      "Methodology"
-    ],
-    correctAnswer: 1
-  },
-  {
-    afterSlide: 29,
-    question: 'Which best captures what your MarketStar "30-second story" must do?',
-    options: [
-      "Explain every service offering in detail",
-      "Deliver a clear, confident summary of how MarketStar accelerates revenue through outsourced sales — fast",
-      "Lead with price to qualify the buyer",
-      "Compare competitors by name and position against them"
-    ],
-    correctAnswer: 1
-  },
-  {
-    afterSlide: 34,
-    question: 'What should your closing strategy prioritize when selling MarketStar\'s Sales as a Service®?',
-    options: [
-      "Offer a discount if the buyer hesitates",
-      "Multi-thread the deal by aligning all stakeholders — VP Sales, CRO, CFO — before asking for commitment",
-      "Only follow up once to avoid being pushy",
-      "Wait for the buyer to bring up next steps"
+      "Covering every LinkedIn product feature in detail",
+      "A call where the buyer feels understood before the rep recommends a product",
+      "Getting the buyer to commit to a purchase on the first call",
+      "Spending at least 45 minutes presenting case studies"
     ],
     correctAnswer: 1
   }

@@ -7,112 +7,101 @@ export interface PredefinedQuiz {
 
 export const CHAPTER_0_QUIZZES: PredefinedQuiz[] = [
   {
-    afterSlide: 3,
-    question: 'What is MarketStar\'s core business?',
+    afterSlide: 2,
+    question: 'What does LinkedIn Marketing Solutions primarily sell?',
     options: [
-      'Consumer software development',
-      'B2B sales outsourcing and revenue acceleration',
-      'Digital advertising agency',
-      'HR consulting and staffing'
+      'Consumer social media management tools',
+      'Access to a professional audience with precision targeting and ad formats matched to business objectives',
+      'Email marketing automation software',
+      'Website hosting and development services'
+    ],
+    correctAnswer: 1
+  },
+  {
+    afterSlide: 4,
+    question: 'What is LinkedIn\'s core differentiator compared to other ad platforms?',
+    options: [
+      'Lowest cost-per-click in the industry',
+      'Professional identity-based targeting using declared profile data like job title, seniority, function, and industry',
+      'The largest total number of users globally',
+      'Built-in CRM and sales automation'
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 6,
-    question: 'What does Nytro.ai power for MarketStar\'s sales teams?',
+    question: 'How does LMS fit into a modern B2B marketing funnel?',
     options: [
-      'Website design and hosting',
-      'AI-driven pitch intelligence, coaching, and sales enablement',
-      'Social media content scheduling',
-      'Customer support ticket management'
+      'It only works for bottom-funnel lead capture',
+      'It supports the full funnel: awareness and education at top, engagement at mid, and lead capture and conversion at bottom',
+      'It replaces all other advertising channels',
+      'It is only useful for brand awareness campaigns'
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 8,
-    question: 'What is MarketStar\'s ideal customer profile?',
+    question: 'Which of the following is a core LMS product family?',
     options: [
-      'Small local businesses with under 10 employees',
-      'B2B companies needing to scale sales without building internal teams — typically mid-market to enterprise',
-      'Individual freelancers and solopreneurs',
-      'Non-profit organizations and government agencies'
+      'Pay-per-call advertising',
+      'Sponsored Content, Lead Gen Forms, Video Ads, Carousel Ads, Document Ads, and Messaging Ads',
+      'Television commercial placements',
+      'Print advertising and direct mail'
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 10,
-    question: 'Which of these is a core MarketStar solution?',
+    question: 'Why are Lead Gen Forms especially valuable for B2B marketers?',
     options: [
-      'Social media management',
-      'Pipeline Generation and SDR/BDR outsourcing',
-      'Payroll processing',
-      'Inventory management'
+      'They are free to use with no ad spend required',
+      'They pre-fill data from LinkedIn profiles, reducing friction and improving conversion rates for content downloads and demo requests',
+      'They automatically close deals without sales follow-up',
+      'They only work with video ad formats'
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 12,
-    question: 'How long has MarketStar been in the sales outsourcing industry?',
+    question: 'What is the correct approach when a buyer asks "What ad format should we run?"',
     options: [
-      '5 years',
-      '35+ years as a PEAK Matrix® Leader in sales outsourcing',
-      '2 years',
-      '50+ years'
+      'Recommend the most expensive format for maximum impact',
+      'First ask "What business outcome matters most?" and then match the objective to the right format',
+      'Always recommend Video Ads because they have the highest engagement',
+      'Send them a list of all available formats to choose from'
+    ],
+    correctAnswer: 1
+  },
+  {
+    afterSlide: 13,
+    question: 'What should new reps focus on when discussing measurement with buyers?',
+    options: [
+      'Vanity metrics like impressions and clicks',
+      'Lead quality, conversion quality, and tying channel performance to actual business outcomes like pipeline and revenue',
+      'Only cost-per-click comparisons with competitors',
+      'The total number of ads served'
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 14,
-    question: 'Which engagement model does MarketStar offer for flexible, modular sales outsourcing?',
+    question: 'What best describes the job of a great LMS rep?',
     options: [
-      'Staff Augmentation Only',
-      'Sales as a Service®',
-      'Project-Based Consulting',
-      'Franchise Model'
+      'Selling as much ad inventory as possible at the highest price',
+      'Helping the buyer connect business goals to the right audience, campaign objective, content, and measurement plan',
+      'Providing technical support for Campaign Manager',
+      'Offering the lowest CPL guarantee in the market'
     ],
     correctAnswer: 1
   },
   {
     afterSlide: 15,
-    question: 'How quickly can MarketStar typically stand up an outsourced sales team?',
+    question: 'Which beginner talk track best positions LinkedIn\'s value?',
     options: [
-      '1-2 days',
-      '4-8 weeks with full ramp and enablement',
-      '6-12 months',
-      '2+ years'
-    ],
-    correctAnswer: 1
-  },
-  {
-    afterSlide: 17,
-    question: 'Which of the following is a MarketStar solution area?',
-    options: [
-      'Only Pipeline Generation',
-      'Partner Channel Services including PAM programs and ecosystem management',
-      'Only Account Management',
-      'Only Customer Support'
-    ],
-    correctAnswer: 1
-  },
-  {
-    afterSlide: 18,
-    question: 'What is MarketStar\'s pricing model based on?',
-    options: [
-      'Number of office locations',
-      'Team size, engagement scope, and Sales as a Service® modules selected',
-      'Fixed annual fee regardless of scope',
-      'Per-transaction commission only'
-    ],
-    correctAnswer: 1
-  },
-  {
-    afterSlide: 19,
-    question: 'Which statement best describes MarketStar\'s value proposition?',
-    options: [
-      'The cheapest staffing agency on the market',
-      'Outsourced sales teams that accelerate revenue through dedicated reps, proven playbooks, and AI-powered enablement via Nytro.ai',
-      'A simple CRM tool with automation features',
-      'An email marketing platform with lead scoring'
+      '"LinkedIn is the cheapest way to reach any audience online."',
+      '"LinkedIn can be especially powerful when you need to reach specific professional audiences and influence business buyers with the right message in a trusted context."',
+      '"LinkedIn replaces the need for Google and Meta advertising entirely."',
+      '"LinkedIn guarantees a specific number of leads per campaign."'
     ],
     correctAnswer: 1
   }

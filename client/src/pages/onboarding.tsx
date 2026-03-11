@@ -7,8 +7,6 @@ import { Label } from "@/components/ui/label";
 import { Camera, Upload, ArrowRight, Sparkles, Shield, Sword, Check, Loader2, LogOut } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
-import marketstarLogoDark from "@/assets/marketstar-logo-dark.png";
-import marketstarLogoLight from "@/assets/marketstar-logo-light.png";
 import { useTheme } from "next-themes";
 
 export default function OnboardingPage() {
@@ -26,8 +24,6 @@ export default function OnboardingPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
-
-  const marketstarLogo = resolvedTheme === "dark" ? marketstarLogoDark : marketstarLogoLight;
 
   const startCamera = async () => {
     try {
@@ -211,10 +207,9 @@ export default function OnboardingPage() {
       >
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <img src={marketstarLogo} alt="MarketStar" className="h-12 w-12 object-contain" />
             <div className="flex flex-col leading-none">
               <span className="font-display text-3xl font-bold tracking-tight text-foreground">
-                MarketStar
+                LinkedIn Marketing Solutions
               </span>
               <span className="text-xs font-normal text-muted-foreground uppercase tracking-widest">Sales Enablement</span>
             </div>

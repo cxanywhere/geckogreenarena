@@ -1,1862 +1,545 @@
 export const CHAPTER_SEED_DATA = [
   {
-    "slug": "marketstar-101",
-    "title": "MarketStar 101",
-    "subtitle": "Company, Mission & Why We Exist",
-    "description": "Understand MarketStar's 35+ year legacy in B2B sales outsourcing, why companies turn to us, and how Sales as a Service® delivers measurable revenue impact. By the end, you can describe MarketStar in one sentence and explain our competitive edge.",
-    "duration": "25 min",
-    "pdfUrl": "",
-    "coverImage": "",
-    "agenda": [
-      "Training outcomes & certification path",
-      "MarketStar elevator pitch",
-      "Problems we solve for B2B companies",
-      "Our global footprint & scale",
-      "Solution map: Sales, Channels, CS, RevOps, Nytro.ai",
-      "Roleplay: Platform Reposition (P1)"
-    ],
-    "slides": [
-      {
-        "type": "content",
-        "title": "Training Outcomes & Certification Path",
-        "content": "Welcome to the Arena — MarketStar's sales enablement platform. This certification program will transform you from product-aware to deal-ready in 13 chapters covering our full solution portfolio.",
-        "bullets": [
-          "Complete 13 chapters covering MarketStar solutions, competitive positioning, and deal execution",
-          "Pass 26 AI-powered voice roleplays across sales fundamentals, solutions, and verticals",
-          "Earn your MarketStar Certified Seller credential upon completion",
-          "Top performers unlock the Arena Leaderboard and manager recognition",
-          "Expected completion: 2-3 weeks of focused learning",
-          "Certification drives 35% faster ramp time for new sellers"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text at top: \"YOUR CERTIFICATION PATH\". Below, show a horizontal roadmap timeline with 4 milestone nodes connected by a flowing magenta (#E84C8A) line. Node 1: \"12 Chapters\" with a book icon, Node 2: \"24 Roleplays\" with a microphone icon, Node 3: \"Certification Exam\" with a certificate icon, Node 4: \"Deal-Ready Seller\" with a trophy icon. Below the timeline, show 3 stat boxes: \"35% Faster Ramp\", \"2-3 Week Program\", \"24 AI Voice Roleplays\". Clean, modern corporate keynote style. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "The MarketStar Elevator Pitch",
-        "content": "MarketStar is the global leader in B2B sales outsourcing, helping technology companies build, manage, and optimize high-performing sales teams without the risk and overhead of doing it in-house.",
-        "bullets": [
-          "One sentence: \"We build and run world-class sales teams for B2B technology companies — so they can scale revenue faster with less risk.\"",
-          "Core value: Speed to Revenue → Predictable Growth → Capital Efficiency",
-          "Founded in 1988, 35+ years of proven B2B sales outsourcing expertise",
-          "1,600+ employees across 8 countries delivering in 35+ languages",
-          "$10B+ in revenue generated for clients across the technology sector",
-          "PEAK Matrix® Leader — recognized by Everest Group as an industry leader"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"THE MARKETSTAR ELEVATOR PITCH\". Center shows a large quotation mark icon in magenta (#E84C8A), followed by the pitch in white italic text. Below the quote, show a visual value chain: three connected hexagons labeled \"SPEED TO REVENUE\" → \"PREDICTABLE GROWTH\" → \"CAPITAL EFFICIENCY\". At the bottom, three data callouts: \"35+ Years\", \"$10B+ Revenue Delivered\", \"1,600+ Employees\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "What Problems We Solve",
-        "content": "Every prospect faces at least one of four core challenges when scaling their sales organization. Your job is to identify which ones are most painful and connect them to MarketStar's capabilities.",
-        "bullets": [
-          "SCALE: Growing sales capacity without proportional headcount cost — need to expand into new markets or segments quickly",
-          "SPEED: Time-to-revenue pressure — average enterprise takes 9+ months to hire, train, and ramp a sales team",
-          "EXPERTISE: Lack of specialized sales talent — SDR/BDR, channel management, and customer success roles are hard to fill",
-          "RISK: Fixed cost burden — carrying a full-time sales force during market uncertainty creates financial exposure",
-          "Cost of inaction: Companies lose 18-24 months of market opportunity while building internal teams",
-          "MarketStar solves all four with Sales as a Service® — a modular, scalable delivery model"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"WHAT PROBLEMS WE SOLVE\". Show a 2x2 grid of problem cards with magenta (#E84C8A) icons. Top-left: \"SCALE\" — \"Grow without proportional cost\". Top-right: \"SPEED\" — \"9+ months to build internal teams\". Bottom-left: \"EXPERTISE\" — \"Specialized roles hard to fill\". Bottom-right: \"RISK\" — \"Fixed cost burden in uncertainty\". Center connecting circle: \"SALES AS A SERVICE®\". Bottom banner: \"18-24 months of lost opportunity\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Our Global Footprint & Scale",
-        "content": "MarketStar operates from 8 countries with the infrastructure to support sales programs in 35+ languages. Our global delivery model gives clients follow-the-sun coverage and access to diverse talent pools.",
-        "bullets": [
-          "HQ: Ogden, Utah — founded 1988 by the Battison family, still privately held",
-          "North America: USA (Ogden, HQ), Canada, Mexico — covering enterprise and mid-market segments",
-          "Latin America: Uruguay — Spanish-language sales programs and nearshore delivery",
-          "Europe: Ireland and Bulgaria — EMEA hub for multi-language sales and channel programs",
-          "Asia-Pacific: Philippines and Australia — APAC coverage and cost-effective scale",
-          "1M+ accounts managed, $10B+ revenue generated, 35+ languages supported",
-          "PEAK Matrix® Leader designation from Everest Group validates our global capability"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"GLOBAL FOOTPRINT & SCALE\". Show a world map with glowing magenta (#E84C8A) dots on Ogden (HQ star), Canada, Mexico, Uruguay, Ireland, Bulgaria, Philippines, Australia. Lines connect all offices to HQ. Below the map, show stat boxes: \"8 Countries\", \"35+ Languages\", \"1M+ Accounts\", \"$10B+ Revenue\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "The MarketStar Solution Map",
-        "content": "MarketStar's platform is organized into five core solution areas powered by Nytro.ai and delivered through Sales as a Service®. Know this map — it's the foundation of every sales conversation.",
-        "bullets": [
-          "SALES SOLUTIONS: Pipeline Generation (SDR/BDR), New Business Acquisition (AE), Account Management — the full sales lifecycle",
-          "PARTNER CHANNEL SERVICES: PAM recruitment, onboarding, enablement, and performance management — building partner ecosystems",
-          "CUSTOMER SUCCESS: Retention, engagement, and lifetime value optimization — protecting and growing existing revenue",
-          "REVENUE OPERATIONS: Playbooks, CRM/CPQ admin, content management — the data-driven engine behind sales execution",
-          "NYTRO.AI: AI-powered pitch intelligence — real-time coaching, call analysis, and performance optimization",
-          "SALES AS A SERVICE®: The modular delivery model that wraps it all together — from dedicated teams to fully managed programs"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"THE MARKETSTAR SOLUTION MAP\". Show a layered architecture diagram. Top layer: 4 solution boxes in magenta (#E84C8A) outlines — \"Sales Solutions\", \"Partner Channels\", \"Customer Success\", \"Revenue Operations\". Middle layer: a wide bar labeled \"NYTRO.AI — AI Intelligence Engine\" with a brain icon. Bottom layer: a foundation bar labeled \"SALES AS A SERVICE® — Modular Delivery\". Arrows flow between layers. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "roleplay",
-        "title": "Roleplay: Platform Reposition",
-        "content": "A VP of Sales at a $500M SaaS company asks: \"We already have an internal SDR team and a channel partner program. Why would we outsource?\" Reframe from in-house limitations to MarketStar's scalable, expert-led model.",
-        "bullets": [
-          "Goal: Shift conversation from 'we do it ourselves' to 'augment and accelerate with MarketStar'",
-          "Pass criteria: Agreement to explore a pilot program or needs assessment",
-          "Key angle: Speed to revenue, specialized expertise, variable cost model, global reach"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: PLATFORM REPOSITION\". Show a split-screen: left side shows overwhelmed internal team icons, labeled \"BEFORE: Internal Bottleneck\". Right side shows streamlined MarketStar team, labeled \"AFTER: Scalable Growth\". Magenta (#E84C8A) arrow connects them. Below, scenario box: \"VP Sales at $500M SaaS: 'We already have internal teams. Why outsource?'\". Bottom banner: \"GOAL: Agreement to explore pilot program\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p1-platform-reposition"
-      }
-    ],
-    "slideCount": 6,
-    "orderIndex": 0
-  },
-  {
-    "slug": "buyer-reality-icp",
-    "title": "Buyer Reality & ICP",
-    "subtitle": "Who Buys Outsourced Sales",
-    "description": "Learn to speak the customer's language before you pitch. Master the buyer personas who purchase outsourced sales services, their KPIs, the triggers that create urgency, and the discovery prompts that open enterprise conversations.",
+    "slug": "lms-fundamentals",
+    "title": "LMS Fundamentals & Product Landscape",
+    "subtitle": "What LinkedIn Marketing Solutions Is & How It Works",
+    "description": "Understand what LinkedIn Marketing Solutions sells, why B2B marketers buy it, the core product family, and how to explain LinkedIn's value simply and confidently.",
     "duration": "30 min",
     "pdfUrl": "",
     "coverImage": "",
     "agenda": [
-      "Core buyer personas for outsourced sales",
-      "KPI map by persona",
-      "Common buying triggers",
-      "Discovery prompts library",
-      "ICP firmographic profile",
-      "Roleplays: Cold Call (F1), SPIN (F3), MEDDIC (F4)"
+      "What LMS actually sells",
+      "Why LinkedIn is different",
+      "The professional graph advantage",
+      "Objective-first selling",
+      "Core product family overview",
+      "Beginner talk track"
     ],
     "slides": [
       {
         "type": "content",
-        "title": "Core Buyer Personas",
-        "content": "MarketStar sells across 7 distinct buyer personas. Each has different priorities, pain points, and success metrics. You must adapt your message to each.",
+        "title": "What LMS Actually Sells",
+        "content": "LinkedIn Marketing Solutions helps brands reach professional audiences in a business context, with campaigns designed around goals like awareness, lead generation, and conversion.",
         "bullets": [
-          "VP of Sales / CRO: Owns revenue targets, pipeline coverage, and sales team performance — primary economic buyer",
-          "CEO / GM: Owns overall growth strategy, capital allocation, and go-to-market speed — often the executive sponsor",
-          "VP of Partnerships / Alliances: Owns partner ecosystem growth, channel revenue, and partner satisfaction scores",
-          "VP of Customer Success: Owns retention, NRR (Net Revenue Retention), and customer lifetime value metrics",
-          "CFO / Finance: Owns budget approval, cost-per-acquisition targets, and ROI validation for outsourced programs",
-          "VP of Revenue Operations: Owns sales process efficiency, tech stack optimization, and pipeline analytics",
-          "Head of HR / Talent: Evaluates outsourcing impact on hiring burden, turnover costs, and workforce planning"
+          "Access to a professional audience of 1B+ members",
+          "Precision targeting based on business identity (job title, seniority, function, company, industry, skills)",
+          "Ad formats matched to business objectives across the funnel",
+          "Tools to support awareness, lead gen, and conversion",
+          "Measurement tied to business outcomes, not just clicks"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CORE BUYER PERSONAS\". Show 7 persona cards in a honeycomb pattern with magenta (#E84C8A) avatar icons. Cards: \"VP Sales/CRO — Revenue Targets\", \"CEO/GM — Growth Strategy\", \"VP Partnerships — Channel Revenue\", \"VP CS — Retention & NRR\", \"CFO — ROI & Budget\", \"VP RevOps — Process Efficiency\", \"Head HR — Talent Planning\". Center label: \"THE ENTERPRISE BUYING COMMITTEE\". Bottom note: \"Avg deal involves 4-7 stakeholders\". 16:9 aspect ratio.",
+        "imagePrompt": "",
         "narrationScript": "",
         "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "KPI Map by Persona",
-        "content": "Every persona measures success differently. When you speak to their specific KPIs, you stop being a vendor and start being a strategic partner.",
-        "bullets": [
-          "VP Sales/CRO: Pipeline coverage ratio (3x+), quota attainment (85%+), sales cycle length reduction, cost per opportunity",
-          "CEO/GM: Revenue growth rate, market share expansion, speed-to-market in new segments, capital efficiency",
-          "VP Partnerships: Partner-sourced revenue (30%+ of total), partner activation rate, ecosystem coverage, time to first deal",
-          "VP Customer Success: Net Revenue Retention (120%+), logo retention (95%+), NPS score, time to value",
-          "CFO: Customer acquisition cost (CAC), payback period, variable vs. fixed cost ratio, revenue per FTE",
-          "VP RevOps: Pipeline velocity, forecast accuracy (90%+), CRM adoption, sales rep productivity metrics",
-          "Head HR: Time-to-fill reduction, turnover cost avoidance, headcount flexibility, compliance risk mitigation"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"KPI MAP BY PERSONA\". Show a visual matrix with 7 rows. Each row has a persona icon in magenta (#E84C8A), persona name, and 2-3 key KPIs. Highlight impactful metrics in magenta accent. Clean data table style. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Common Buying Triggers",
-        "content": "Prospects don't wake up wanting to buy outsourced sales. They wake up with a business problem. These are the top triggers that create urgency and open deals.",
-        "bullets": [
-          "NEW MARKET ENTRY: \"We need to launch in EMEA/APAC but don't have local sales talent\" — geography expansion pressure",
-          "MISSED QUOTA: \"We're at 65% attainment and the board is asking questions\" — performance gap urgency",
-          "HIRING BOTTLENECK: \"We've had 15 SDR reqs open for 6 months\" — talent scarcity frustration",
-          "COST PRESSURE: \"The CFO wants us to cut fixed sales costs by 20%\" — variable model appeal",
-          "CHANNEL LAUNCH: \"We signed 50 partners but nobody is selling\" — partner activation failure",
-          "ACQUISITION/MERGER: \"We just acquired a company and need to integrate sales teams fast\" — speed imperative"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"COMMON BUYING TRIGGERS\". Show 6 trigger cards in a 3x2 grid. Each card has a magenta (#E84C8A) icon. Cards: \"NEW MARKET: Expansion pressure\", \"MISSED QUOTA: Board urgency\", \"HIRING: 6-month open reqs\", \"COST: Cut fixed costs 20%\", \"CHANNEL: Partners not selling\", \"M&A: Fast integration\". Center badge: \"EVERY DEAL STARTS WITH A TRIGGER\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Discovery Prompts Library",
-        "content": "Great sellers don't pitch first — they discover first. Use these problem-first prompts to open enterprise conversations and uncover real pain around sales capacity and performance.",
-        "bullets": [
-          "\"Walk me through how you're currently generating pipeline — what's working and what's not?\"",
-          "\"How many open sales positions do you have right now, and how long have they been open?\"",
-          "\"If your CEO asked you to double pipeline in the next quarter, what would you need to make that happen?\"",
-          "\"How are you measuring the ROI of your partner channel today? Are partners hitting their targets?\"",
-          "\"What percentage of your revenue comes from existing customers vs. new logos? Where's the gap?\"",
-          "\"Have you ever considered a variable cost model for sales — paying for outcomes rather than headcount?\""
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DISCOVERY PROMPTS LIBRARY\". Show 6 speech bubble cards with magenta (#E84C8A) question mark icons. Subheading: \"Problem-First Questions That Open Enterprise Deals\". Bottom banner: \"RULE: Never pitch before you discover.\" 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "ICP Firmographic Profile",
-        "content": "Not every company is a fit for MarketStar. Knowing our Ideal Customer Profile helps you focus on accounts with the highest probability of closing and succeeding.",
-        "bullets": [
-          "Company size: $50M-$5B revenue, 200-10,000 employees — large enough to need scale, sophisticated enough to value outsourcing",
-          "Industry: B2B technology (SaaS, cloud, hardware, cybersecurity, fintech) — our core domain expertise",
-          "Sales org maturity: Have an existing sales team but need to augment, expand, or optimize specific motions",
-          "Geography: Companies with multi-region ambitions (NA + EMEA + APAC) — leverage our global footprint",
-          "Trigger events: New funding round, IPO prep, market expansion, M&A integration, leadership change in sales",
-          "Disqualifiers: Companies with <$50M revenue, no existing sales motion, pure consumer/B2C models"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"IDEAL CUSTOMER PROFILE\". Show a target/bullseye diagram with concentric rings. Center: \"SWEET SPOT: $50M-$5B B2B Tech\". Rings expand outward: \"200-10,000 employees\", \"Multi-region ambitions\", \"Existing sales team\". Side labels show trigger events. Bottom: disqualifier section in muted gray. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "roleplay",
-        "title": "Roleplay: Cold Call Opener",
-        "content": "You're calling a VP of Sales at a $300M B2B SaaS company. You have 30 seconds to earn 60 more. Deliver a clear 'why you / why now' and ask for a discovery meeting.",
-        "bullets": [
-          "Goal: Earn 60 seconds and book a discovery call",
-          "Pass criteria: Clear 'why you / why now' in under 30 seconds + direct ask for meeting",
-          "Key skill: Permission + Relevance in a cold outreach context"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: COLD CALL OPENER\". Show a phone icon in magenta (#E84C8A) with sound waves. Scenario card: \"VP Sales at $300M B2B SaaS. You have 30 seconds.\" Countdown timer: \"0:30\" in magenta. Two boxes: green \"PASS\" and red \"FAIL\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": "",
-        "roleplaySlug": "rp-f1-cold-call"
-      },
-      {
-        "type": "roleplay",
-        "title": "Roleplay: SPIN Discovery Drill",
-        "content": "Practice the SPIN framework (Situation → Problem → Implication → Need-payoff) with a CRO who says their internal sales team 'works fine.' Build a consultative questioning flow that gets the buyer to state the business impact in their own words.",
-        "bullets": [
-          "Goal: Build consultative questioning flow using SPIN methodology",
-          "Pass criteria: Buyer states business impact and desired outcome in their own words",
-          "Key skill: Moving from surface-level 'fine' to quantified pain"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: SPIN DISCOVERY DRILL\". Show the SPIN framework as 4 connected circles: Situation → Problem → Implication → Need-payoff. Scenario: \"CRO says: 'Our internal team works fine.'\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": "",
-        "roleplaySlug": "rp-f3-spin-discovery"
       }
     ],
-    "slideCount": 7,
+    "slideCount": 1,
+    "orderIndex": 0
+  },
+  {
+    "slug": "buyer-conversations-discovery",
+    "title": "Buyer Conversations, Discovery & Positioning",
+    "subtitle": "How to Run Discovery and Position LMS",
+    "description": "Learn how to run discovery, understand buyer context, and position LinkedIn Marketing Solutions based on actual business needs rather than feature-dumping.",
+    "duration": "30 min",
+    "pdfUrl": "",
+    "coverImage": "",
+    "agenda": [
+      "Why discovery matters",
+      "The 7-part discovery framework",
+      "Buyer persona deep-dives",
+      "Positioning by funnel stage",
+      "Product-to-problem mapping"
+    ],
+    "slides": [
+      {
+        "type": "content",
+        "title": "Why Discovery Matters",
+        "content": "Buyers do not want a generic product tour. Better discovery leads to stronger recommendations. Good discovery builds trust and increases close rates.",
+        "bullets": [
+          "A great discovery call is one where the buyer feels understood before the rep recommends a product",
+          "Discovery before recommendation — always",
+          "Use buyer language, not internal product jargon"
+        ],
+        "imageUrl": "",
+        "imagePrompt": "",
+        "narrationScript": "",
+        "narrationAudioUrl": ""
+      }
+    ],
+    "slideCount": 1,
     "orderIndex": 1
   },
   {
-    "slug": "sales-as-a-service",
-    "title": "Sales as a Service® & Nytro.ai",
-    "subtitle": "Core Platform",
-    "description": "Master MarketStar's flagship delivery model — Sales as a Service® — and understand how Nytro.ai provides the AI intelligence layer. Learn the modular approach that lets clients buy exactly what they need.",
-    "duration": "25 min",
+    "slug": "objections-strategy-confidence",
+    "title": "Objections, Strategy & Selling with Confidence",
+    "subtitle": "Handling Objections and Closing with Clarity",
+    "description": "Master the common objections LMS reps face, learn the 4-step objection framework, build starter campaign strategies, and develop the confidence to close first conversations effectively.",
+    "duration": "30 min",
     "pdfUrl": "",
     "coverImage": "",
     "agenda": [
-      "Sales as a Service® delivery model",
-      "Modular solution architecture",
-      "Nytro.ai platform overview",
-      "Engagement models & pricing frameworks",
-      "Client onboarding & ramp process",
-      "Roleplay: Model Flexibility Pitch"
+      "Why buyers push back",
+      "The 4-step objection framework",
+      "Handling the 5 core objections",
+      "Recommending a starter strategy",
+      "Executive summary language",
+      "Final call framework"
     ],
     "slides": [
       {
         "type": "content",
-        "title": "Sales as a Service® — The Delivery Model",
-        "content": "Sales as a Service® is MarketStar's flagship modular delivery model. It allows B2B technology companies to outsource specific sales functions — or entire go-to-market motions — with the flexibility to scale up or down based on business needs.",
+        "title": "Why Buyers Push Back",
+        "content": "Objections are not rejections. They come from confusion, risk sensitivity, budget pressure, prior disappointment, or need for proof. Understanding the root cause changes how you respond.",
         "bullets": [
-          "Modular design: Clients select exactly the functions they need — SDR, AE, AM, CSM, PAM, or full-stack",
-          "Dedicated teams: Every program gets purpose-built teams trained on the client's product, ICP, and sales methodology",
-          "Speed to revenue: Average program goes from contract to first qualified meetings in 6-8 weeks",
-          "Variable cost model: Convert fixed sales headcount costs into predictable, performance-linked investment",
-          "Continuous optimization: Built-in RevOps, coaching, and Nytro.ai analytics for ongoing performance improvement",
-          "Proven at scale: Currently operating 200+ active programs across 35+ languages and 8 countries"
+          "Confusion — they don't understand how LinkedIn fits",
+          "Risk sensitivity — worried about wasting budget",
+          "Budget pressure — need to justify every dollar",
+          "Prior disappointment — tried LinkedIn before with poor results",
+          "Need for proof — want evidence before committing"
         ],
         "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"SALES AS A SERVICE®\". Show a modular building block diagram with magenta (#E84C8A) blocks: SDR, AE, AM, CSM, PAM. Blocks can be stacked or arranged. Below: timeline showing \"Contract → 6-8 weeks → First Meetings\". Stats: \"200+ Programs\", \"35+ Languages\", \"8 Countries\". 16:9 aspect ratio.",
+        "imagePrompt": "",
         "narrationScript": "",
         "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Nytro.ai — AI-Powered Pitch Intelligence",
-        "content": "Nytro.ai is MarketStar's proprietary AI platform that provides real-time coaching, call analysis, and performance optimization across all sales programs.",
-        "bullets": [
-          "Real-time call coaching: AI analyzes live calls and provides in-the-moment suggestions for talk tracks, objection handling, and next steps",
-          "Pitch scoring: Every sales interaction is scored on structure, messaging, objection handling, and outcome — enabling data-driven coaching",
-          "Pattern recognition: Identifies winning behaviors and rep-level improvement areas across thousands of conversations",
-          "Manager dashboards: Real-time visibility into team performance, call quality trends, and coaching opportunities",
-          "Integration: Works with major CRM and dialer platforms (Salesforce, HubSpot, Outreach, Salesloft)",
-          "Impact: Programs using Nytro.ai see 23% higher conversion rates and 40% faster rep ramp times"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NYTRO.AI — PITCH INTELLIGENCE\". Show an AI brain icon in magenta (#E84C8A) at center with radiating connections to: \"Real-Time Coaching\", \"Pitch Scoring\", \"Pattern Recognition\", \"Manager Dashboards\". Bottom stats: \"23% Higher Conversion\", \"40% Faster Ramp\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Engagement Models",
-        "content": "MarketStar offers three primary engagement models, each designed for different client needs and maturity levels. Understanding which model fits is critical to proper deal positioning.",
-        "bullets": [
-          "DEDICATED TEAMS: Full-time, embedded sales professionals working exclusively on the client's business — ideal for core pipeline and revenue programs",
-          "MANAGED SERVICES: MarketStar manages the entire sales function end-to-end including strategy, execution, and optimization — for clients who want outcomes without operational burden",
-          "PROJECT-BASED: Time-bound engagements for specific initiatives like market entry, product launch, or channel activation — lower commitment, faster start",
-          "Hybrid models available: Many clients start with project-based and expand to dedicated teams as results prove out",
-          "Pricing: Typically structured as monthly per-rep fees + performance bonuses aligned to client KPIs",
-          "Average contract value: $500K-$5M annually depending on team size and scope"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ENGAGEMENT MODELS\". Show three pillars side by side in magenta (#E84C8A): \"DEDICATED TEAMS\" (tallest), \"MANAGED SERVICES\" (medium), \"PROJECT-BASED\" (shortest). Below each: key attributes. Bottom: pricing range and ACV. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Client Onboarding & Ramp",
-        "content": "MarketStar's structured onboarding process ensures rapid time-to-value. The 6-8 week ramp is a key differentiator vs. building an internal team (which takes 9-12 months).",
-        "bullets": [
-          "Week 1-2: Discovery & design — ICP alignment, messaging framework, tech stack integration, playbook development",
-          "Week 3-4: Talent selection & training — recruit from internal bench or hire specifically, complete product certification",
-          "Week 5-6: Soft launch — begin outreach with close coaching, daily standups, message testing, rapid iteration",
-          "Week 7-8: Full production — team hits steady-state activity levels, reporting dashboards live, first QBR scheduled",
-          "Ongoing: Monthly business reviews, quarterly strategy sessions, continuous Nytro.ai-powered optimization",
-          "Key metric: 90% of programs reach full productivity within 60 days of launch"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CLIENT ONBOARDING & RAMP\". Show a horizontal timeline with 4 phases in magenta (#E84C8A): \"Discovery (Wk 1-2)\", \"Training (Wk 3-4)\", \"Soft Launch (Wk 5-6)\", \"Full Production (Wk 7-8)\". Stat: \"90% reach full productivity in 60 days\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "roleplay",
-        "title": "Roleplay: Model Flexibility Pitch",
-        "content": "A CEO of a $200M cybersecurity company says: \"I don't want to outsource my entire sales team — we need to keep control.\" Position Sales as a Service® as an augmentation strategy, not a replacement.",
-        "bullets": [
-          "Goal: Reframe outsourcing from 'loss of control' to 'strategic augmentation'",
-          "Pass criteria: Client agrees to explore a focused pilot (e.g., SDR team for new market)",
-          "Key angle: Modular design, client retains strategy and oversight, MarketStar executes"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: MODEL FLEXIBILITY\". Show two contrasting visuals: \"Myth: Replace your team\" (X mark) vs \"Reality: Augment your team\" (checkmark). Scenario: \"CEO: 'I don't want to outsource everything.'\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p2-saas-model"
       }
     ],
-    "slideCount": 5,
+    "slideCount": 1,
     "orderIndex": 2
-  },
-  {
-    "slug": "demand-generation",
-    "title": "Demand Generation",
-    "subtitle": "Digital Marketing, ABM & Top-of-Funnel Engine",
-    "description": "Master MarketStar's Demand Generation practice — the digital marketing, ABM, and top-of-funnel engine that feeds the pipeline. Learn how demand gen integrates with SDR/BDR teams to create a seamless awareness-to-revenue machine. Gold Stevie Award winner 2025.",
-    "duration": "25 min",
-    "pdfUrl": "",
-    "coverImage": "",
-    "agenda": [
-      "Demand Generation overview & strategy",
-      "Digital Marketing & Paid Media",
-      "Account-Based Marketing (ABM)",
-      "SEO/SEM & Content Strategy",
-      "Lead Scoring & MQL-to-SQL Conversion",
-      "Roleplay: Demand Gen Outsourcing Objection"
-    ],
-    "slides": [
-      {
-        "type": "content",
-        "title": "Demand Generation Overview",
-        "content": "MarketStar's Demand Generation practice combines digital marketing expertise with sales execution to fill the top of the funnel. Gold Stevie Award winner 2025 — independently validated as the best demand gen program in the industry.",
-        "bullets": [
-          "Core mission: Generate qualified inbound interest and brand awareness that converts to pipeline — fueling MarketStar's SDR/BDR outbound engine",
-          "Five capabilities: Digital Marketing, Content & Creative, Account-Based Marketing (ABM), SEO/SEM, and Lead Generation",
-          "Key differentiator: Most outsourced sales firms don't offer demand generation — MarketStar provides the full funnel from awareness to closed deal under one roof",
-          "Integration: Demand gen works alongside SDR/BDR teams to create a seamless top-of-funnel engine with closed-loop reporting connecting marketing spend to revenue",
-          "Gold Stevie Award 2025 for Demand Generation Program of the Year — proof of best-in-class execution",
-          "Typical results: 40-60% increase in marketing-qualified leads within 90 days of program launch"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DEMAND GENERATION\". Show a top-of-funnel diagram with magenta (#E84C8A) flowing from \"Awareness\" → \"Interest\" → \"MQL\" → \"SQL\" → \"Pipeline\". Five capability icons around the funnel: Digital Marketing, Content, ABM, SEO/SEM, Lead Gen. Gold Stevie Award badge. Stats: \"40-60% MQL Increase\", \"Full Funnel Under One Roof\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Digital Marketing & Paid Media",
-        "content": "MarketStar's digital marketing team builds and executes data-driven campaigns across paid and organic channels to generate qualified demand for B2B technology companies.",
-        "bullets": [
-          "Paid media: Google Ads, LinkedIn Ads, programmatic display, social media campaigns — managed end-to-end with transparent ROAS reporting",
-          "Social media: Strategy, content creation, community management, and paid social campaigns across LinkedIn, Twitter/X, and industry channels",
-          "Display & programmatic: Targeted display advertising using intent data and account-based targeting to reach in-market buyers",
-          "Landing page optimization: Conversion-optimized landing pages with A/B testing, form optimization, and progressive profiling",
-          "Campaign analytics: Full attribution modeling connecting impressions → clicks → leads → meetings → pipeline → revenue",
-          "Typical results: 3-5x ROAS on paid media campaigns, 25-40% reduction in cost per lead vs. in-house management"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DIGITAL MARKETING & PAID MEDIA\". Show 4 channel icons in magenta (#E84C8A): Google Ads, LinkedIn Ads, Programmatic Display, Social Media. Center: dashboard showing ROAS metrics. Bottom stats: \"3-5x ROAS\", \"25-40% Lower CPL\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Account-Based Marketing (ABM)",
-        "content": "MarketStar's ABM practice delivers targeted, personalized campaigns to high-value accounts — coordinating marketing air cover with SDR/BDR ground attacks for maximum pipeline impact.",
-        "bullets": [
-          "Account selection: Data-driven target account lists using firmographic, technographic, and intent signals (Bombora, G2, 6sense)",
-          "Personalized campaigns: Custom content, ads, and outreach tailored to each account's specific pain points, tech stack, and buying stage",
-          "Multi-channel orchestration: Coordinated campaigns across email, LinkedIn, display ads, direct mail, and phone — hitting 3-5 personas per account simultaneously",
-          "Sales-marketing alignment: ABM campaigns synced with SDR/BDR outreach cadences — marketing warms the account, sales converts the conversation",
-          "Measurement: Account engagement scoring, pipeline attribution by account, and ROI tracking at the account level — not just lead level",
-          "Typical results: 2-3x higher win rates on ABM-targeted accounts vs. non-ABM accounts"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ACCOUNT-BASED MARKETING (ABM)\". Show a target/bullseye diagram with magenta (#E84C8A) rings. Center: \"Target Account\". Surrounding: multi-channel icons (email, LinkedIn, display, direct mail, phone). Right: engagement scoring dashboard. Bottom stat: \"2-3x Higher Win Rates\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "SEO/SEM & Content Strategy",
-        "content": "MarketStar's SEO/SEM and content practice builds sustainable organic pipelines and optimizes paid search to capture high-intent buyers actively researching solutions.",
-        "bullets": [
-          "SEO strategy: Technical SEO audits, keyword research, on-page optimization, and content gap analysis to drive organic traffic growth",
-          "SEM/PPC: Google Ads and Bing Ads management with keyword bidding strategy, ad copy optimization, and conversion tracking",
-          "Content strategy: Blog posts, whitepapers, case studies, webinars, and video content designed to attract and nurture B2B buyers through the funnel",
-          "Content creation: In-house copywriting, design, and video production team — no third-party agency markup",
-          "Lead magnets: Gated content assets (eBooks, ROI calculators, industry reports) optimized for lead capture and nurture",
-          "Typical results: 50-80% increase in organic traffic within 6 months, 30-50% reduction in cost per MQL from paid search optimization"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"SEO/SEM & CONTENT STRATEGY\". Show two panels in magenta (#E84C8A): Left: \"SEO/SEM\" with search bar icon, keyword cloud, and rising traffic graph. Right: \"Content\" with document, video, and webinar icons. Bottom stats: \"50-80% Organic Traffic Growth\", \"30-50% Lower CPM\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Lead Scoring & MQL-to-SQL Conversion",
-        "content": "MarketStar's lead scoring and conversion optimization practice ensures that only the highest-quality leads reach the SDR/BDR team — maximizing conversion rates and minimizing wasted effort.",
-        "bullets": [
-          "Lead scoring model: Multi-dimensional scoring based on firmographic fit (company size, industry, tech stack), behavioral engagement (content downloads, webinar attendance, page visits), and intent signals",
-          "MQL definition: Clear, agreed-upon criteria for Marketing Qualified Leads — scored, validated, and ready for SDR follow-up",
-          "SQL conversion: Structured handoff from marketing to SDR with SLA-backed response times (typically <4 hours for hot leads)",
-          "Nurture campaigns: Automated email nurture sequences for leads not yet ready for sales — keeping MarketStar top-of-mind until buying signals emerge",
-          "Closed-loop reporting: Connect marketing spend → MQL → SQL → opportunity → closed deal — full attribution visibility for ROI justification",
-          "Typical results: 60-75% MQL-to-SQL acceptance rate, 15-25% improvement in lead-to-opportunity conversion"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"LEAD SCORING & MQL-TO-SQL\". Show a conversion funnel in magenta (#E84C8A): \"Leads\" → \"Scored\" → \"MQL\" → \"SQL\" → \"Opportunity\". Side panel: scoring criteria icons (firmographic, behavioral, intent). Bottom stats: \"60-75% MQL-to-SQL Rate\", \"<4hr Response SLA\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "roleplay",
-        "title": "Roleplay: Demand Gen Outsourcing",
-        "content": "A CMO says: 'We have an internal marketing team — why would we outsource demand generation?' Position MarketStar's demand gen as augmentation that amplifies their internal team's impact, not replacement.",
-        "bullets": [
-          "Goal: Reframe outsourcing from 'replacing our marketers' to 'amplifying your internal team's impact with specialized execution capacity'",
-          "Pass criteria: CMO agrees to explore a focused pilot (e.g., ABM campaign for a new vertical or paid media management)",
-          "Key angle: Internal team sets strategy, MarketStar executes at scale — Gold Stevie Award-winning execution, full-funnel integration with SDR/BDR teams"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: DEMAND GEN OUTSOURCING\". Show two contrasting visuals: \"Myth: Replace your marketers\" (X mark) vs \"Reality: Amplify your team\" (checkmark). Scenario: \"CMO: 'We have an internal marketing team — why outsource?'\". Gold Stevie Award badge. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p12-demand-gen"
-      }
-    ],
-    "slideCount": 6,
-    "orderIndex": 3
-  },
-  {
-    "slug": "pipeline-generation",
-    "title": "Pipeline Generation",
-    "subtitle": "SDR/BDR Outbound",
-    "description": "Master MarketStar's pipeline generation capabilities — the SDR/BDR outbound programs that fill the top of the funnel for B2B technology companies. Learn methodologies, metrics, and how to sell this solution.",
-    "duration": "25 min",
-    "pdfUrl": "",
-    "coverImage": "",
-    "agenda": [
-      "Pipeline generation overview",
-      "SDR/BDR operating model",
-      "Multi-channel outbound methodology",
-      "Key metrics & benchmarks",
-      "Case study deep-dive",
-      "Roleplay: SDR Program Pitch"
-    ],
-    "slides": [
-      {
-        "type": "content",
-        "title": "Pipeline Generation Overview",
-        "content": "Pipeline generation is MarketStar's highest-volume solution. Our SDR/BDR teams generate qualified meetings and pipeline for B2B technology companies through structured, multi-channel outbound programs.",
-        "bullets": [
-          "Core function: Generate Sales Qualified Leads (SQLs) and Sales Qualified Meetings (SQMs) for client AE teams",
-          "MarketStar currently operates 100+ active pipeline generation programs globally",
-          "Average program delivers 40-60 qualified meetings per rep per month within 90 days of launch",
-          "Multi-channel approach: Phone, email, LinkedIn, intent data, and account-based targeting",
-          "All programs powered by Nytro.ai for real-time coaching and conversion optimization",
-          "Typical ROI: 5-8x return on investment within the first year of engagement"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PIPELINE GENERATION\". Show a funnel diagram with magenta (#E84C8A) flowing from \"Target Accounts\" → \"Multi-Channel Outreach\" → \"Qualified Meetings\" → \"Pipeline\". Stats: \"100+ Programs\", \"40-60 SQMs/rep/month\", \"5-8x ROI\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "SDR/BDR Operating Model",
-        "content": "MarketStar's SDR/BDR teams follow a structured operating model built on decades of outbound sales experience. Every element is designed for consistency, quality, and measurable results.",
-        "bullets": [
-          "Team structure: Pod-based model with Team Leads (1:8 ratio), dedicated QA, and RevOps support",
-          "Daily cadence: Morning standup, power hours for calling, afternoon email/LinkedIn sequences, end-of-day reporting",
-          "Qualification framework: BANT or custom criteria aligned to client's sales process and CRM stages",
-          "Coaching rhythm: Weekly 1:1s, bi-weekly call reviews, monthly skill assessments powered by Nytro.ai",
-          "Tech stack: Salesforce/HubSpot CRM, Outreach/Salesloft sequencing, ZoomInfo/Apollo data, Nytro.ai coaching",
-          "Escalation paths: Clear handoff protocols between SDR qualification and client AE engagement"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"SDR/BDR OPERATING MODEL\". Show an organizational diagram with pod structure: Team Lead at center connected to 8 SDR icons. Side panels show daily cadence timeline and tech stack icons. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Multi-Channel Outbound Methodology",
-        "content": "Modern B2B outbound requires coordinated multi-channel engagement. MarketStar's methodology combines human intelligence with data signals to reach the right person with the right message at the right time.",
-        "bullets": [
-          "PHONE: 60-80 daily dials per SDR, structured talk tracks with Nytro.ai real-time guidance, voicemail strategies",
-          "EMAIL: Personalized sequences (8-12 touches over 21 days), A/B tested subject lines, intent-triggered sends",
-          "LINKEDIN: Connection requests, InMail campaigns, content engagement, social selling best practices",
-          "INTENT DATA: Bombora, G2, TrustRadius signals identify accounts actively researching solutions — prioritize hot accounts",
-          "ACCOUNT-BASED: Coordinated multi-threaded campaigns targeting 3-5 personas per account simultaneously",
-          "EVENTS: Post-event follow-up programs, webinar registration drives, and trade show lead qualification"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"MULTI-CHANNEL METHODOLOGY\". Show 6 channel icons in magenta (#E84C8A) arranged in a circle: Phone, Email, LinkedIn, Intent Data, ABM, Events. Center: \"COORDINATED ENGAGEMENT\". Arrows show how channels work together. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Key Metrics & Benchmarks",
-        "content": "Data drives every pipeline generation program. These are the metrics that matter — know them cold so you can set proper expectations and demonstrate MarketStar's performance advantage.",
-        "bullets": [
-          "Activity: 60-80 dials/day, 30-40 emails/day, 15-20 LinkedIn touches/day per SDR",
-          "Connect rate: 8-12% phone connect rate (industry avg: 5-7%)",
-          "Meeting set rate: 3-5% of total activities convert to qualified meetings",
-          "SQL acceptance rate: 75-85% of MarketStar-qualified meetings accepted by client AE teams",
-          "Pipeline generated: $150K-$500K average pipeline per SDR per month (varies by ACV)",
-          "Cost comparison: MarketStar SDR fully loaded cost is 40-60% less than internal hire (salary + benefits + management + turnover)"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"KEY METRICS & BENCHMARKS\". Show a dashboard-style layout with metric cards in magenta (#E84C8A): \"8-12% Connect Rate\", \"75-85% SQL Acceptance\", \"$150K-$500K Pipeline/Rep/Mo\", \"40-60% Cost Savings\". Bar charts comparing MarketStar vs industry average. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "roleplay",
-        "title": "Roleplay: SDR Program Pitch",
-        "content": "A VP of Sales at a $150M SaaS company says: \"We've tried outsourced SDRs before and the quality was terrible. What makes MarketStar different?\" Overcome the bad experience objection.",
-        "bullets": [
-          "Goal: Differentiate MarketStar from commodity SDR vendors",
-          "Pass criteria: Client agrees that MarketStar's model addresses their past pain points",
-          "Key angle: Dedicated teams (not shared), Nytro.ai coaching, 75-85% SQL acceptance rate, client-specific training"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: SDR PROGRAM PITCH\". Show comparison: \"Commodity SDR Vendor\" (negative attributes) vs \"MarketStar\" (positive attributes). Scenario: \"VP Sales: 'We tried outsourced SDRs before — quality was terrible.'\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p3-pipeline-gen"
-      }
-    ],
-    "slideCount": 5,
-    "orderIndex": 4
-  },
-  {
-    "slug": "new-business-acquisition",
-    "title": "New Business Acquisition",
-    "subtitle": "Full Cycle Sales",
-    "description": "Learn how MarketStar's Account Executive programs drive new logo acquisition through full-cycle sales — from first meeting to signed contract. Master the value proposition, methodology, and selling points.",
-    "duration": "25 min",
-    "pdfUrl": "",
-    "coverImage": "",
-    "agenda": [
-      "Full-cycle AE model overview",
-      "Sales methodology & process",
-      "Deal qualification with MEDDPICC",
-      "Demo-to-close conversion",
-      "Pricing & proposal strategy",
-      "Roleplay: AE Value Proposition"
-    ],
-    "slides": [
-      {
-        "type": "content",
-        "title": "Full-Cycle AE Model",
-        "content": "MarketStar's Account Executive programs go beyond lead generation — our AEs own the full sales cycle from first discovery meeting through contract close, functioning as an extension of the client's sales organization.",
-        "bullets": [
-          "Full ownership: MarketStar AEs manage discovery, demo, proposal, negotiation, and close — not just appointment setting",
-          "Product expertise: AEs complete rigorous certification on client products, achieving demo proficiency within 4-6 weeks",
-          "Average deal size managed: $25K-$500K ACV depending on client's market and product complexity",
-          "Win rate: MarketStar AE programs average 22-28% win rates (industry benchmark: 15-20%)",
-          "Supported by RevOps: Dedicated sales operations support for CRM management, proposal creation, and pipeline reporting",
-          "Scalable: Programs range from 2-3 AE pods to 50+ person sales organizations"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"FULL-CYCLE AE MODEL\". Show a horizontal sales process flow in magenta (#E84C8A): \"Discovery\" → \"Demo\" → \"Proposal\" → \"Negotiate\" → \"Close\". Below: stats showing \"22-28% Win Rate\" and \"$25K-$500K ACV\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "MEDDPICC Qualification Framework",
-        "content": "MarketStar AEs use MEDDPICC as the primary deal qualification framework, ensuring rigorous qualification at every stage and accurate forecasting for clients.",
-        "bullets": [
-          "Metrics: Quantified business impact the client's prospect is trying to achieve (revenue lift, cost reduction, speed)",
-          "Economic Buyer: Identified the person who can sign the contract and allocate budget — access confirmed",
-          "Decision Criteria: Understand the formal and informal criteria the buying committee will use to evaluate solutions",
-          "Decision Process: Mapped the steps, timeline, and stakeholders involved in reaching a purchase decision",
-          "Paper Process: Legal, procurement, security review, and contract execution steps identified and tracked",
-          "Implicate Pain: Connected the prospect's problem to measurable business consequences of inaction",
-          "Champion: Identified an internal advocate who has power, influence, and a personal win tied to the deal",
-          "Competition: Know who else is being evaluated and have a differentiation strategy in place"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"MEDDPICC QUALIFICATION\". Show 8 boxes arranged vertically, each with a letter in magenta (#E84C8A) and description in white: M-E-D-D-P-I-C-C. Each box has a small checkmark icon. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Demo-to-Close Conversion",
-        "content": "The demo is the pivotal moment in the AE sales cycle. MarketStar AEs are trained on a structured demo methodology that maximizes conversion from demonstration to signed contract.",
-        "bullets": [
-          "Pre-demo: Confirm attendees, set agenda, align demo scenarios to discovery pain points — never do a generic demo",
-          "Discovery recap: Start every demo by restating the business problem in the prospect's own words — earn the right to demo",
-          "Show, don't tell: Limit slides to 3-5 minutes max, spend 80% of demo time in live product showing relevant use cases",
-          "Interactive proof: Ask the prospect to validate ('Does this solve your X problem?') every 5-7 minutes",
-          "Next steps: Always leave with a confirmed next action — technical review, business case review, or proposal delivery date",
-          "Follow-up: Same-day recap email with personalized value summary, recording link, and clear timeline to decision"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DEMO-TO-CLOSE CONVERSION\". Show a step-by-step flow in magenta (#E84C8A): \"Pre-Demo Prep\" → \"Discovery Recap\" → \"Live Demo\" → \"Interactive Proof\" → \"Next Steps\" → \"Follow-Up\". Each step has a small icon. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Pricing & Proposal Strategy",
-        "content": "Understanding how MarketStar prices AE programs helps you set proper expectations and position the value correctly. Never lead with price — lead with business impact.",
-        "bullets": [
-          "Pricing model: Monthly per-AE fee covering salary, benefits, management, tools, and MarketStar infrastructure",
-          "Performance components: Optional success fees tied to closed-won revenue, meetings held, or pipeline generated",
-          "Typical AE program: $12K-$18K per AE per month fully loaded (vs. $15K-$25K+ internal AE total cost)",
-          "Minimum commitment: 6-12 month initial term with 90-day ramp allowance built into performance expectations",
-          "ROI framing: Position cost against expected pipeline and revenue — typical payback period is 4-6 months",
-          "Proposal structure: Executive summary → business case → solution design → pricing → timeline → references"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PRICING & PROPOSAL STRATEGY\". Show a comparison chart: MarketStar AE ($12K-$18K/mo) vs Internal AE ($15K-$25K+/mo). ROI timeline showing 4-6 month payback. Proposal structure checklist. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "roleplay",
-        "title": "Roleplay: AE Value Proposition",
-        "content": "A CRO asks: \"Why would I trust an outsourced AE to close deals for my company? They won't understand our product like an internal hire.\" Overcome the product knowledge objection.",
-        "bullets": [
-          "Goal: Build confidence in MarketStar's AE training and product certification process",
-          "Pass criteria: CRO agrees to review MarketStar's AE certification curriculum and case studies",
-          "Key angle: Rigorous training, Nytro.ai coaching, win rate data, dedicated team model"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: AE VALUE PROPOSITION\". Scenario: \"CRO: 'Why would an outsourced AE understand our product?'\". Show training certification badge icon. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": "",
-        "roleplaySlug": "rp-v1-new-market"
-      }
-    ],
-    "slideCount": 5,
-    "orderIndex": 5
-  },
-  {
-    "slug": "account-management",
-    "title": "Account Management",
-    "subtitle": "Retention & Growth",
-    "description": "Understand MarketStar's Account Management solution — dedicated teams that protect and grow existing customer revenue through renewals, upsells, and cross-sells.",
-    "duration": "25 min",
-    "pdfUrl": "",
-    "coverImage": "",
-    "agenda": [
-      "Account management overview",
-      "Retention & expansion motions",
-      "Health scoring & risk management",
-      "Upsell/cross-sell playbooks",
-      "Key metrics & benchmarks",
-      "Roleplay: Retention Save"
-    ],
-    "slides": [
-      {
-        "type": "content",
-        "title": "Account Management Overview",
-        "content": "MarketStar's Account Management programs focus on protecting and growing existing customer revenue — the most capital-efficient growth motion for B2B technology companies.",
-        "bullets": [
-          "Core mission: Drive renewals, identify expansion opportunities, and increase Net Revenue Retention (NRR)",
-          "It costs 5-7x more to acquire a new customer than to retain and expand an existing one",
-          "MarketStar AM teams manage portfolios of 30-80 accounts per rep depending on complexity and ACV",
-          "Proactive engagement model: Regular QBRs, usage reviews, ROI reports, and expansion discovery calls",
-          "Technology leverage: CRM-integrated health scores, Nytro.ai call coaching, automated renewal tracking",
-          "Average NRR improvement: Clients see 8-15% improvement in NRR within first year of MarketStar AM program"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ACCOUNT MANAGEMENT\". Show a growth chart in magenta (#E84C8A) depicting NRR improvement. Icons for renewals, upsells, cross-sells. Stats: \"30-80 accounts/rep\", \"8-15% NRR improvement\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Retention & Expansion Motions",
-        "content": "Account Management is not passive account maintenance — it's an active revenue growth function. MarketStar AMs execute structured motions designed to protect base revenue and unlock new budget.",
-        "bullets": [
-          "RENEWAL MANAGEMENT: Proactive renewal outreach 90 days before expiration, risk assessment, negotiation support, close",
-          "UPSELL: Identify and pitch additional seats, tiers, or features within existing product footprint",
-          "CROSS-SELL: Introduce complementary products or solutions from the client's broader portfolio",
-          "EXPANSION DISCOVERY: Quarterly business reviews that uncover new use cases, departments, or geographies to expand into",
-          "WIN-BACK: Structured campaigns to re-engage churned or at-risk accounts with updated value propositions",
-          "ADVOCACY: Convert satisfied customers into references, case studies, and G2/TrustRadius reviewers"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"RETENTION & EXPANSION MOTIONS\". Show 6 motion cards in magenta (#E84C8A): Renewal, Upsell, Cross-Sell, Expansion, Win-Back, Advocacy. Arrows show progression. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Health Scoring & Risk Management",
-        "content": "Early detection of churn risk is critical. MarketStar's account health framework uses quantitative and qualitative signals to prioritize AM actions and prevent revenue loss.",
-        "bullets": [
-          "Health score inputs: Product usage/adoption, support ticket volume, engagement frequency, NPS/CSAT responses, payment history",
-          "GREEN (80-100): Healthy — focus on expansion opportunities and advocacy development",
-          "YELLOW (50-79): At-risk — trigger proactive outreach, executive sponsor engagement, and value reinforcement",
-          "RED (0-49): Critical — immediate intervention with rescue plan, escalation to client leadership, remediation offer",
-          "Weekly risk reviews: AM team reviews all yellow/red accounts with client stakeholders",
-          "Outcome: MarketStar AM programs achieve 92-96% gross retention rates (industry avg: 85-90%)"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"HEALTH SCORING & RISK MANAGEMENT\". Show a traffic light system: Green (80-100), Yellow (50-79), Red (0-49). Each level has action items. Bottom stat: \"92-96% Gross Retention\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Key Metrics & Benchmarks",
-        "content": "Account Management success is measured by retention, expansion, and efficiency metrics. These benchmarks help you set expectations and prove MarketStar's value to prospects.",
-        "bullets": [
-          "Gross Retention Rate: 92-96% (industry avg: 85-90%)",
-          "Net Revenue Retention: 110-125% (meaning accounts grow beyond their original contract value)",
-          "Upsell/Cross-sell conversion: 15-25% of managed accounts expand annually",
-          "Renewal rate: 94-98% on-time renewals when managed by MarketStar AMs",
-          "Customer satisfaction: Average NPS improvement of +12 points within first year",
-          "Cost efficiency: MarketStar AM fully loaded cost is 35-50% less than internal AM hire"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ACCOUNT MANAGEMENT BENCHMARKS\". Dashboard layout with metric cards in magenta (#E84C8A): \"92-96% Retention\", \"110-125% NRR\", \"94-98% Renewal Rate\", \"35-50% Cost Savings\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "roleplay",
-        "title": "Roleplay: Retention Save",
-        "content": "A VP of Customer Success says: \"Our churn rate is 18% and the board is demanding action, but we can't afford to hire 10 more AMs internally.\" Position MarketStar's AM solution as the fast, cost-effective path to retention improvement.",
-        "bullets": [
-          "Goal: Position MarketStar AM as the solution to the churn crisis",
-          "Pass criteria: VP CS agrees to a pilot program scoped around their highest-risk segment",
-          "Key angle: Speed (6-8 week ramp), cost (35-50% less), proven retention rates (92-96%)"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: RETENTION SAVE\". Scenario: \"VP CS: 'Churn is 18% and we can't hire fast enough.'\". Show churn rate declining chart. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p4-account-mgmt"
-      }
-    ],
-    "slideCount": 5,
-    "orderIndex": 6
-  },
-  {
-    "slug": "partner-channel-services",
-    "title": "Partner Channel Services",
-    "subtitle": "Ecosystem Management",
-    "description": "Master MarketStar's Partner Channel Services — the programs that help technology companies build, manage, and optimize their partner ecosystems for indirect revenue growth.",
-    "duration": "25 min",
-    "pdfUrl": "",
-    "coverImage": "",
-    "agenda": [
-      "Partner channel overview",
-      "PAM operating model",
-      "Partner lifecycle management",
-      "Co-selling & partner enablement",
-      "Channel metrics & benchmarks",
-      "Roleplay: Channel Activation"
-    ],
-    "slides": [
-      {
-        "type": "content",
-        "title": "Partner Channel Services Overview",
-        "content": "For many B2B technology companies, 30-60% of revenue flows through partners — resellers, MSPs, SIs, and technology alliances. MarketStar's Partner Channel Services help companies activate, manage, and grow these critical ecosystems.",
-        "bullets": [
-          "Core function: Recruit, onboard, enable, and manage partners to drive indirect revenue and market coverage",
-          "Partner Account Managers (PAMs): Dedicated professionals who own the relationship with each partner and drive joint pipeline",
-          "Full lifecycle: From partner identification and recruitment through ongoing enablement, co-selling, and performance management",
-          "Scale: MarketStar currently manages 5,000+ partner relationships across 20+ client programs globally",
-          "Channel types: Resellers, VARs, MSPs, System Integrators, Technology Alliance Partners, ISVs, Distributors",
-          "Impact: Clients see 40-80% increase in partner-sourced pipeline within first year of MarketStar engagement"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PARTNER CHANNEL SERVICES\". Show a hub-and-spoke diagram with MarketStar at center and partner types around it in magenta (#E84C8A): Resellers, MSPs, SIs, Alliances, ISVs, Distributors. Stats: \"5,000+ Partners\", \"40-80% Pipeline Increase\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "PAM Operating Model",
-        "content": "MarketStar's Partner Account Managers (PAMs) are the engine of channel success. They function as an extension of the client's channel team, managing day-to-day partner relationships and driving revenue.",
-        "bullets": [
-          "Portfolio management: Each PAM manages 20-50 partners depending on tier and complexity",
-          "Weekly cadence: Partner check-ins, pipeline reviews, deal registration support, and enablement delivery",
-          "Recruitment: Identify and recruit new partners based on geographic coverage, vertical expertise, and revenue potential",
-          "Onboarding: Guide new partners through certification, deal registration processes, and go-to-market planning",
-          "Enablement: Deliver product training, sales playbooks, competitive positioning, and demo support to partner sellers",
-          "Performance management: Monthly scorecards, QBRs, tier advancement tracking, and MDF allocation support"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PAM OPERATING MODEL\". Show a day-in-the-life timeline for a PAM with activities in magenta (#E84C8A): Recruitment, Onboarding, Enablement, Co-Selling, Performance Mgmt. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Partner Lifecycle Management",
-        "content": "MarketStar manages partners through a structured lifecycle that maximizes time-to-first-deal and ongoing revenue contribution. Each stage has clear milestones and KPIs.",
-        "bullets": [
-          "IDENTIFY: Use market analysis, ICP matching, and competitive intelligence to build a target partner list",
-          "RECRUIT: Multi-channel outreach (calls, events, referrals) to convert target partners into signed agreements",
-          "ONBOARD: 30-60 day structured program: certifications, deal registration, MDF access, and first joint pipeline plan",
-          "ENABLE: Ongoing training, co-marketing campaigns, lead sharing, and technical enablement to keep partners productive",
-          "CO-SELL: Joint opportunity development, deal support, and direct sales collaboration on partner-sourced deals",
-          "OPTIMIZE: Performance reviews, tier management, partner satisfaction surveys, and strategic planning for top partners"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PARTNER LIFECYCLE\". Show a circular lifecycle diagram in magenta (#E84C8A) with 6 stages: Identify → Recruit → Onboard → Enable → Co-Sell → Optimize. Each stage has a small icon. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Channel Metrics & Benchmarks",
-        "content": "Partner channel programs require different metrics than direct sales. These benchmarks help you set expectations and prove the value of MarketStar's channel management capabilities.",
-        "bullets": [
-          "Partner activation rate: 60-75% of recruited partners generate pipeline within 90 days (industry avg: 30-40%)",
-          "Partner-sourced pipeline: 40-80% increase in partner-generated pipeline within first year",
-          "Time to first deal: Average 45-60 days from partner onboarding to first deal registration",
-          "Deal registration volume: 3-5x increase in deal registrations per partner per quarter",
-          "Partner satisfaction: Average partner NPS of +45 for MarketStar-managed programs",
-          "Program ROI: Typical channel program delivers 6-10x return on investment within 18 months"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CHANNEL BENCHMARKS\". Dashboard with metric cards in magenta (#E84C8A): \"60-75% Activation\", \"45-60 Days to First Deal\", \"3-5x Deal Registration Increase\", \"6-10x ROI\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "roleplay",
-        "title": "Roleplay: Channel Activation",
-        "content": "A VP of Partnerships says: \"We signed 100 partners last year but only 15 are actively selling. We don't have the headcount to manage them all.\" Position MarketStar's PAM program as the activation solution.",
-        "bullets": [
-          "Goal: Position MarketStar PAMs as the missing resource for partner activation",
-          "Pass criteria: VP agrees to a pilot covering their top 30-50 underperforming partners",
-          "Key angle: 60-75% activation rate, dedicated PAM model, 45-60 days to first deal"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: CHANNEL ACTIVATION\". Scenario: \"VP Partnerships: 'Only 15 of 100 partners are selling.'\". Chart showing activation improvement. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p5-partner-channel"
-      }
-    ],
-    "slideCount": 5,
-    "orderIndex": 7
-  },
-  {
-    "slug": "customer-success",
-    "title": "Customer Success",
-    "subtitle": "Retention & Value",
-    "description": "Learn how MarketStar's Customer Success programs help B2B technology companies maximize retention, drive adoption, and increase customer lifetime value through proactive engagement.",
-    "duration": "25 min",
-    "pdfUrl": "",
-    "coverImage": "",
-    "agenda": [
-      "Customer Success overview",
-      "CSM operating model",
-      "Onboarding & adoption programs",
-      "Retention & expansion strategies",
-      "Success metrics & benchmarks",
-      "Roleplay: CS Program Pitch"
-    ],
-    "slides": [
-      {
-        "type": "content",
-        "title": "Customer Success Overview",
-        "content": "MarketStar's Customer Success programs help B2B technology companies retain customers, drive product adoption, and maximize lifetime value — the fastest path to efficient, predictable revenue growth.",
-        "bullets": [
-          "Core mission: Ensure customers achieve their desired outcomes, driving retention and expansion",
-          "The SaaS economics reality: 70-80% of a SaaS company's lifetime revenue comes from post-sale — retention and expansion",
-          "MarketStar CSMs serve as proactive advisors, not reactive support agents — driving value realization",
-          "Program types: Digital-touch (scaled, 1:many), mid-touch (1:50-100), high-touch (1:10-25) depending on ACV",
-          "Integration: CSM programs work seamlessly alongside MarketStar AM teams for full post-sale coverage",
-          "Impact: Clients see 15-25% reduction in churn and 20-30% improvement in time-to-value"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CUSTOMER SUCCESS\". Show a customer lifecycle arc in magenta (#E84C8A) from \"Onboarding\" through \"Adoption\" to \"Expansion\". Three touch model boxes: Digital, Mid-Touch, High-Touch. Stats: \"15-25% Churn Reduction\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "CSM Operating Model",
-        "content": "MarketStar CSMs follow a structured operating model designed to drive measurable business outcomes for every customer in their portfolio.",
-        "bullets": [
-          "Onboarding: Structured 30/60/90-day plans ensuring customers activate core features and hit first-value milestones",
-          "Health monitoring: Automated health scores combining product usage, support engagement, and sentiment signals",
-          "Proactive outreach: Regular check-ins, QBRs, and value realization reviews — not just when customers have problems",
-          "Playbook-driven: Standardized plays for onboarding, adoption risks, renewal prep, expansion discovery, and escalation",
-          "Technology stack: Gainsight/Totango for CS operations, Nytro.ai for call coaching, CRM for account history",
-          "Team structure: CSM pods with Team Leads (1:8), CS Operations support, and escalation paths to client leadership"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CSM OPERATING MODEL\". Show a structured workflow in magenta (#E84C8A): Onboarding → Health Monitoring → Proactive Outreach → Playbook Execution → Escalation. Pod structure diagram. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Onboarding & Adoption Programs",
-        "content": "The first 90 days after a customer signs a contract are critical. MarketStar's structured onboarding programs ensure customers activate quickly and achieve early wins that cement the relationship.",
-        "bullets": [
-          "Day 1-7: Welcome sequence — kickoff call, success plan creation, stakeholder mapping, technical setup confirmation",
-          "Day 8-30: Core activation — ensure primary use cases are configured and first users are trained and active",
-          "Day 31-60: Value realization — first business outcome achieved (e.g., first campaign launched, first report generated)",
-          "Day 61-90: Expansion groundwork — QBR with ROI data, introduce additional features/use cases, gather success story",
-          "Adoption tracking: Weekly usage dashboards, feature adoption scoring, and engagement heat maps",
-          "Outcome: Customers with structured onboarding have 2.5x higher retention rates vs. self-serve onboarding"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ONBOARDING & ADOPTION\". Show a 90-day timeline in magenta (#E84C8A) with 4 phases: \"Welcome (1-7)\", \"Activation (8-30)\", \"Value (31-60)\", \"Expansion (61-90)\". Stat: \"2.5x Higher Retention with Structured Onboarding\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Success Metrics & Benchmarks",
-        "content": "Customer Success programs must prove their value through measurable outcomes. These benchmarks demonstrate MarketStar's track record and help set proper expectations with prospects.",
-        "bullets": [
-          "Churn reduction: 15-25% improvement in gross retention within first year",
-          "Time to value: 40% faster onboarding completion vs. client's previous self-serve model",
-          "Product adoption: 30-50% increase in feature adoption and daily active usage",
-          "NPS improvement: Average +15 point increase in Net Promoter Score within 6 months",
-          "Expansion revenue: CSM-managed accounts expand at 2x the rate of unmanaged accounts",
-          "Cost efficiency: MarketStar CSM fully loaded cost is 30-45% less than internal CSM hire"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CS BENCHMARKS\". Dashboard layout with metric cards in magenta (#E84C8A): \"15-25% Churn Reduction\", \"40% Faster Onboarding\", \"30-50% Adoption Increase\", \"+15 NPS Points\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "roleplay",
-        "title": "Roleplay: CS Program Pitch",
-        "content": "A CEO says: \"We're losing 20% of customers annually and our internal CS team is overwhelmed. But I'm worried about outsourcing customer relationships — these are our most important assets.\" Address the trust objection.",
-        "bullets": [
-          "Goal: Build confidence that outsourced CSMs can protect customer relationships as well as internal teams",
-          "Pass criteria: CEO agrees to a pilot covering a specific customer segment (e.g., mid-market accounts)",
-          "Key angle: Dedicated teams, client's brand voice, structured playbooks, Nytro.ai coaching, measurable outcomes"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: CS PROGRAM PITCH\". Scenario: \"CEO: 'Customers are our most important assets — can we trust outsourced CSMs?'\". Trust-building imagery. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p6-customer-success"
-      }
-    ],
-    "slideCount": 5,
-    "orderIndex": 8
-  },
-  {
-    "slug": "revenue-operations",
-    "title": "Revenue Operations",
-    "subtitle": "Data-Driven Sales Optimization",
-    "description": "Understand MarketStar's Revenue Operations capabilities — the data infrastructure, process design, and analytics that power high-performing sales programs and enable continuous optimization.",
-    "duration": "25 min",
-    "pdfUrl": "",
-    "coverImage": "",
-    "agenda": [
-      "RevOps overview & value proposition",
-      "CRM & tech stack management",
-      "Playbook development & optimization",
-      "Analytics & reporting",
-      "Process design & enablement",
-      "Roleplay: RevOps Value Pitch"
-    ],
-    "slides": [
-      {
-        "type": "content",
-        "title": "Revenue Operations Overview",
-        "content": "Revenue Operations is the backbone of every MarketStar program. RevOps ensures that sales teams have the processes, data, tools, and insights they need to execute at the highest level.",
-        "bullets": [
-          "Core function: Design, implement, and optimize the operational infrastructure that powers sales execution",
-          "Every MarketStar program includes embedded RevOps support — it's not an add-on, it's built into the delivery model",
-          "Areas of focus: CRM administration, playbook development, reporting/analytics, process design, and content management",
-          "Data-driven: RevOps analyzes performance data to identify bottlenecks, optimize processes, and improve conversion rates",
-          "Technology expertise: Deep proficiency in Salesforce, HubSpot, Outreach, Salesloft, ZoomInfo, and 50+ sales tools",
-          "Impact: Programs with dedicated RevOps support see 25-35% higher sales productivity vs. programs without"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"REVENUE OPERATIONS\". Show a central gear icon in magenta (#E84C8A) with spokes connecting to: \"CRM\", \"Playbooks\", \"Analytics\", \"Process\", \"Content\", \"Tools\". Stat: \"25-35% Higher Productivity\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "CRM & Tech Stack Management",
-        "content": "MarketStar's RevOps team manages the full sales technology stack, ensuring data integrity, workflow automation, and seamless integration across all tools in the sales process.",
-        "bullets": [
-          "CRM administration: Salesforce and HubSpot configuration, custom object management, workflow automation, data hygiene",
-          "Sequencing tools: Outreach and Salesloft setup, sequence optimization, A/B testing, and deliverability management",
-          "Data enrichment: ZoomInfo, Apollo, Clearbit integration for contact data, firmographics, and intent signals",
-          "CPQ support: Configure-Price-Quote tool management for complex pricing scenarios and proposal automation",
-          "Integration: Connect disparate tools into a unified data flow — no more data silos or manual exports",
-          "Governance: User access management, data security, compliance monitoring, and audit trail maintenance"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CRM & TECH STACK\". Show a connected ecosystem diagram in magenta (#E84C8A) with tool logos: Salesforce, HubSpot, Outreach, ZoomInfo. Arrows show data flow between tools. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Playbook Development & Optimization",
-        "content": "Great sales execution requires great playbooks. MarketStar's RevOps team builds, maintains, and continuously optimizes the playbooks that guide every sales interaction.",
-        "bullets": [
-          "Discovery playbooks: Structured question frameworks for each persona, vertical, and use case",
-          "Objection handling: Documented responses for the top 20 objections with talk tracks and supporting data",
-          "Email templates: Proven sequences for cold outreach, follow-up, nurture, and re-engagement — A/B tested continuously",
-          "Call scripts: Structured but flexible talk tracks for cold calls, discovery, demos, and negotiation",
-          "Competitive battle cards: Real-time competitive intelligence on key competitors with differentiation strategies",
-          "Continuous improvement: Monthly playbook reviews based on Nytro.ai call analysis and conversion data"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PLAYBOOK DEVELOPMENT\". Show a playbook icon in magenta (#E84C8A) with branches to: Discovery, Objections, Email Templates, Call Scripts, Battle Cards. Circular arrow showing continuous improvement. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Analytics & Reporting",
-        "content": "MarketStar's RevOps team delivers real-time visibility into program performance through structured reporting frameworks that enable data-driven decision making.",
-        "bullets": [
-          "Daily dashboards: Activity metrics, pipeline movement, and team performance visible in real-time",
-          "Weekly reports: Conversion funnel analysis, pipeline coverage, and forecast updates",
-          "Monthly business reviews: Comprehensive program review including ROI analysis, trend identification, and strategic recommendations",
-          "Quarterly strategic reviews: Executive-level program assessment with forward-looking projections and optimization roadmap",
-          "Custom analytics: Ad-hoc analysis for specific questions — campaign effectiveness, territory optimization, rep performance deep-dives",
-          "Nytro.ai integration: Call quality scores, messaging effectiveness, and coaching impact metrics"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ANALYTICS & REPORTING\". Show a reporting hierarchy in magenta (#E84C8A): Daily → Weekly → Monthly → Quarterly. Dashboard mockup with charts and metrics. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "roleplay",
-        "title": "Roleplay: RevOps Value Pitch",
-        "content": "A VP of Sales says: \"We already have Salesforce and Outreach set up. We don't need someone to manage our tools — we need more meetings.\" Reframe RevOps from 'tool management' to 'revenue enablement.'",
-        "bullets": [
-          "Goal: Shift perception from 'admin support' to 'performance multiplier'",
-          "Pass criteria: VP acknowledges that RevOps optimization could unlock more pipeline from existing resources",
-          "Key angle: 25-35% productivity improvement, data-driven coaching, playbook optimization, pipeline visibility"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: REVOPS VALUE\". Scenario: \"VP Sales: 'We already have Salesforce. We need meetings, not tool management.'\". Transformation arrow from 'Admin Support' to 'Revenue Enablement'. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p7-revops"
-      }
-    ],
-    "slideCount": 5,
-    "orderIndex": 9
-  },
-  {
-    "slug": "competitive-differentiation",
-    "title": "Competitive & Differentiation",
-    "subtitle": "Positioning vs Competitors",
-    "description": "Understand MarketStar's competitive landscape and master the differentiation strategies that win deals against Accenture, TTEC, Teleperformance, Concentrix, and other outsourcing providers.",
-    "duration": "25 min",
-    "pdfUrl": "",
-    "coverImage": "",
-    "agenda": [
-      "Competitive landscape overview",
-      "Key competitor profiles",
-      "MarketStar differentiators",
-      "Competitive battle strategies",
-      "Win/loss pattern analysis",
-      "Roleplay: Competitive Takeaway"
-    ],
-    "slides": [
-      {
-        "type": "content",
-        "title": "Competitive Landscape",
-        "content": "The B2B sales outsourcing market is growing at 8-12% annually. Understanding who we compete against — and why we win — is essential for every sales conversation.",
-        "bullets": [
-          "Market size: B2B sales outsourcing is a $15B+ global market growing 8-12% YoY driven by SaaS growth and cost pressure",
-          "Tier 1 competitors: Accenture, TTEC, Teleperformance, Concentrix — large BPO/consulting firms with broad service portfolios",
-          "Tier 2 competitors: Operatix, Martal Group, Belkins, CIENCE — smaller, specialized lead gen and SDR-focused firms",
-          "Internal teams: The biggest competitor is always 'do it ourselves' — 60%+ of deals compete against internal hiring plans",
-          "MarketStar's position: The only provider with 35+ years of B2B tech specialization, full lifecycle coverage, and AI enablement",
-          "Win rate vs. competition: MarketStar wins 65% of competitive deals where we reach the final evaluation stage"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"COMPETITIVE LANDSCAPE\". Show a quadrant chart in magenta (#E84C8A) with axes: Specialization (vertical) and Scale (horizontal). Plot competitors. MarketStar in upper-right sweet spot. Market size: \"$15B+\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Key Competitor Profiles",
-        "content": "Know your competitors' strengths and weaknesses cold. This intelligence helps you position MarketStar effectively and handle competitive objections with confidence.",
-        "bullets": [
-          "ACCENTURE: Massive scale and brand, but expensive ($200-300/hr), slow to deploy, generalist talent — not B2B sales specialists",
-          "TTEC: Strong in customer experience/support, but limited B2B sales expertise — primarily B2C contact center DNA",
-          "TELEPERFORMANCE: Global scale and multi-language, but commodity approach — high turnover, script-based, not consultative",
-          "CONCENTRIX: Technology-forward, good analytics, but primarily post-sale (support/CX) — limited new business acquisition capability",
-          "OPERATIX: B2B focused and agile, but small scale — limited global reach, no AI platform, narrow service portfolio",
-          "INTERNAL TEAMS: Full product knowledge and culture fit, but slow to build (9-12 months), high fixed cost, turnover risk"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"COMPETITOR PROFILES\". Show 6 competitor cards in a grid. Each card has competitor name in white, strength in green, weakness in magenta (#E84C8A). 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "MarketStar Differentiators",
-        "content": "When a prospect asks 'Why MarketStar?' — these are the five pillars of differentiation that set us apart from every competitor in the market.",
-        "bullets": [
-          "B2B TECH SPECIALIZATION: 35+ years focused exclusively on B2B technology sales — we speak the language, understand the buyer, know the playbooks",
-          "FULL LIFECYCLE: Only provider offering SDR + AE + AM + CSM + PAM + RevOps — competitors force you to use multiple vendors",
-          "NYTRO.AI: Proprietary AI coaching platform — no other outsourcer has an integrated AI layer for real-time performance optimization",
-          "GLOBAL SCALE + LOCAL EXPERTISE: 8 countries, 35+ languages, but with dedicated teams (not shared resources) and local market knowledge",
-          "PEAK MATRIX® LEADER: Everest Group recognition validates our operational excellence, innovation, and market impact — independent proof",
-          "OUTCOME ALIGNMENT: Performance-based pricing options that align MarketStar's incentives with client revenue goals"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"WHY MARKETSTAR?\". Show 5 pillar columns in magenta (#E84C8A): \"B2B Tech Specialist\", \"Full Lifecycle\", \"Nytro.AI\", \"Global + Local\", \"PEAK Matrix® Leader\". Each pillar has a distinctive icon. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Competitive Battle Strategies",
-        "content": "Different competitors require different battle strategies. Here's how to win against each type of competitor you'll encounter in deals.",
-        "bullets": [
-          "vs. Accenture/Big Consulting: Lead with speed (6-8 weeks vs. 6 months), specialization (B2B tech vs. generalist), and cost (40-60% less)",
-          "vs. TTEC/Teleperformance: Lead with B2B expertise (not B2C contact center), consultative selling (not scripted), and quality metrics (SQL acceptance rates)",
-          "vs. Concentrix: Lead with full lifecycle (we close deals, not just support customers), Nytro.ai (AI-native, not bolted on), and B2B specialization",
-          "vs. Small specialists: Lead with scale (8 countries, 35+ languages), full lifecycle (not just SDR), and proven track record ($10B+ revenue delivered)",
-          "vs. Internal teams: Lead with speed (60 days vs. 12 months), variable cost (vs. fixed headcount), and expertise (trained bench of B2B sellers)",
-          "Universal play: Always ask 'What's your timeline?' — MarketStar's speed advantage becomes decisive when urgency exists"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"BATTLE STRATEGIES\". Show 5 strategy cards in magenta (#E84C8A) with opponent labels and key attack points. Each card has a sword/shield icon. Universal play highlighted at bottom. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "roleplay",
-        "title": "Roleplay: Competitive Takeaway",
-        "content": "A VP of Sales says: \"Accenture proposed a similar program for $2M more, but they're a safer bet — nobody gets fired for hiring Accenture.\" Win on value, not just price.",
-        "bullets": [
-          "Goal: Neutralize the 'safe choice' perception of a big consulting firm",
-          "Pass criteria: VP agrees that MarketStar's specialization and speed make us the lower-risk choice",
-          "Key angle: B2B specialization, faster time to revenue, PEAK Matrix® validation, reference clients"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: COMPETITIVE TAKEAWAY\". Scenario: \"VP Sales: 'Accenture is a safer bet.'\". Side-by-side comparison showing MarketStar advantages. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p9-competitive-takeaway"
-      }
-    ],
-    "slideCount": 5,
-    "orderIndex": 10
-  },
-  {
-    "slug": "deal-execution",
-    "title": "Deal Execution",
-    "subtitle": "Moving from Demo to Close",
-    "description": "Master the end-to-end deal execution process for selling MarketStar's solutions — from initial demo through proposal, negotiation, and contract close. Learn the frameworks that drive consistent wins.",
-    "duration": "25 min",
-    "pdfUrl": "",
-    "coverImage": "",
-    "agenda": [
-      "Deal execution framework",
-      "Discovery-to-demo process",
-      "Business case & ROI modeling",
-      "Proposal & pricing presentation",
-      "Negotiation strategies",
-      "Contract & close process",
-      "Roleplay: Negotiation Drill"
-    ],
-    "slides": [
-      {
-        "type": "content",
-        "title": "Deal Execution Framework",
-        "content": "Winning MarketStar deals requires a structured execution process. Every deal follows the same framework — adapted for deal size and complexity — ensuring consistent, repeatable results.",
-        "bullets": [
-          "Stage 1 — QUALIFY: MEDDPICC qualification, confirm budget authority, map the buying committee, validate timeline",
-          "Stage 2 — DISCOVER: Deep-dive into pain points, current state assessment, desired future state, and success criteria",
-          "Stage 3 — DEMO/PROVE: Solution presentation tailored to pain, reference calls, case studies, and proof of concept when needed",
-          "Stage 4 — PROPOSE: Custom proposal with business case, ROI model, solution design, pricing, and timeline",
-          "Stage 5 — NEGOTIATE: Handle objections, navigate procurement, align on terms, manage internal approvals",
-          "Stage 6 — CLOSE: Contract execution, transition planning, kickoff scheduling, and celebratory handshake"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"DEAL EXECUTION FRAMEWORK\". Show 6 stages in a horizontal flow in magenta (#E84C8A): Qualify → Discover → Demo → Propose → Negotiate → Close. Each stage has a small icon. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Business Case & ROI Modeling",
-        "content": "Enterprise buyers need financial justification. MarketStar's ROI model helps prospects quantify the value of outsourcing vs. building internally — making the business case undeniable.",
-        "bullets": [
-          "Cost comparison: Internal team (salary + benefits + management + tools + turnover + ramp) vs. MarketStar (monthly fee + performance bonus)",
-          "Speed to revenue: 6-8 weeks to production vs. 9-12 months internal build — calculate the revenue opportunity cost of delay",
-          "Pipeline economics: Show expected pipeline value per rep per month × number of reps × win rate = projected closed revenue",
-          "Risk mitigation: Variable cost model means no severance, no benefits liability, no HR overhead during market downturns",
-          "Typical ROI: $5-$8 return for every $1 invested in a MarketStar program within the first 12 months",
-          "Tools: Use the MarketStar ROI Calculator (available in sales toolkit) to build prospect-specific business cases"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROI MODELING\". Show a comparison table in magenta (#E84C8A): Internal Team costs vs MarketStar costs. Below: ROI formula visualization. Stat: \"$5-$8 return per $1 invested\". 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Proposal & Pricing Presentation",
-        "content": "The proposal is your closing document. It must tell a compelling story that connects the prospect's pain to MarketStar's solution and makes the investment decision easy.",
-        "bullets": [
-          "Structure: Executive summary → Client challenges → MarketStar solution → Team design → Success metrics → Pricing → Timeline → References",
-          "Executive summary: One page that restates the business problem, proposed solution, and expected outcomes — decision-makers read this first",
-          "Solution design: Specific team composition, roles, ramp plan, and operating model tailored to the prospect's needs",
-          "Pricing: Clear monthly fee per role with optional performance components — avoid ambiguity",
-          "Timeline: Visual ramp plan showing weeks-to-production with milestones — reinforce speed advantage",
-          "Social proof: Include 2-3 relevant case studies or references from similar companies/industries"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"PROPOSAL STRUCTURE\". Show a document outline in magenta (#E84C8A) with 8 sections stacked vertically. Each section has a small icon. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Negotiation Strategies",
-        "content": "Enterprise negotiations require patience, preparation, and strategic concession management. These frameworks help you protect deal value while moving toward a mutually beneficial agreement.",
-        "bullets": [
-          "ANCHOR HIGH: Start with the full solution proposal — let the prospect negotiate down to their budget, not up from a low-ball offer",
-          "TRADE, DON'T GIVE: Never concede without getting something in return — longer term, more reps, faster start date, case study commitment",
-          "PROTECT THE RATE: Resist per-rep rate discounts — instead, offer value-adds (extra RevOps support, Nytro.ai analytics, QBR frequency)",
-          "CREATE URGENCY: Use capacity constraints, market timing, and competitive pressure to drive decision timelines",
-          "MULTI-THREAD: Engage the champion, economic buyer, and procurement simultaneously — never rely on a single contact",
-          "WALK-AWAY POWER: Know your minimum viable deal — willing to walk away from unprofitable terms strengthens your position"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NEGOTIATION STRATEGIES\". Show 6 strategy boxes in magenta (#E84C8A) arranged in a grid. Each box has a chess piece icon. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Contract & Close Process",
-        "content": "The final mile of deal execution — navigating procurement, legal review, and contract execution. Speed and preparation in this phase prevent deals from dying on the vine.",
-        "bullets": [
-          "MSA + SOW structure: Master Services Agreement covers legal/compliance terms; Statement of Work details specific program scope and pricing",
-          "Procurement prep: Provide security questionnaires, SOC 2 reports, insurance certificates, and reference lists proactively",
-          "Legal red lines: Know MarketStar's non-negotiable terms (IP ownership, liability caps, termination notice) — escalate early",
-          "Implementation timeline: Include a signed-to-live timeline in the SOW — creates urgency and sets expectations",
-          "Signature process: Identify all signers early, use DocuSign/Adobe Sign, and confirm authority levels before routing",
-          "Post-close: Warm handoff to implementation team within 48 hours, kickoff call within 5 business days, celebrate the win"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"CONTRACT & CLOSE\". Show a checklist in magenta (#E84C8A): MSA, SOW, Procurement, Legal, Signatures, Handoff. Progress bar showing 95% complete. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "roleplay",
-        "title": "Roleplay: Negotiation Drill",
-        "content": "A CFO says: \"Your proposal is strong but the pricing is 15% above our budget. Can you sharpen the pencil?\" Practice value-based negotiation without discounting the rate.",
-        "bullets": [
-          "Goal: Protect the per-rep rate while finding creative ways to meet the budget",
-          "Pass criteria: Reach a mutually acceptable agreement that preserves rate integrity",
-          "Key angle: Trade scope/term/timing instead of rate, quantify ROI to justify investment, offer phased approach"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: NEGOTIATION DRILL\". Scenario: \"CFO: 'Pricing is 15% above budget. Can you sharpen the pencil?'\". Chess piece imagery for strategic negotiation. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p10-negotiation"
-      }
-    ],
-    "slideCount": 6,
-    "orderIndex": 11
-  },
-  {
-    "slug": "ai-enablement",
-    "title": "AI Enablement",
-    "subtitle": "Nytro.ai & AI in Sales",
-    "description": "Deep-dive into Nytro.ai and the role of AI across MarketStar's sales programs. Learn how AI-powered coaching, analytics, and automation create a compounding performance advantage.",
-    "duration": "25 min",
-    "pdfUrl": "",
-    "coverImage": "",
-    "agenda": [
-      "AI in B2B sales landscape",
-      "Nytro.ai deep-dive",
-      "AI-powered coaching & quality",
-      "Predictive analytics & insights",
-      "Responsible AI governance",
-      "Roleplay: AI Differentiation Pitch"
-    ],
-    "slides": [
-      {
-        "type": "content",
-        "title": "AI in B2B Sales — The Landscape",
-        "content": "AI is transforming B2B sales execution. Companies using AI-powered sales tools see measurably better outcomes — and MarketStar is leading the charge with Nytro.ai embedded across every program.",
-        "bullets": [
-          "Market reality: 61% of high-performing sales teams already use AI for coaching, analytics, or automation (Salesforce State of Sales 2024)",
-          "Performance gap: AI-enabled sales teams convert at 23% higher rates and ramp new reps 40% faster than non-AI teams",
-          "Key AI applications in sales: Call coaching, pitch scoring, forecasting, lead prioritization, content personalization, and workflow automation",
-          "MarketStar advantage: Nytro.ai is built into every program — it's not an add-on or optional upgrade",
-          "Competitive moat: No other B2B sales outsourcing provider has a proprietary AI coaching platform",
-          "Client benefit: AI-powered programs deliver better results AND improve continuously over time through machine learning"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"AI IN B2B SALES\". Show AI adoption statistics in magenta (#E84C8A): \"61% of top teams use AI\", \"23% higher conversion\", \"40% faster ramp\". Brain-circuit icon. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Nytro.ai Deep-Dive",
-        "content": "Nytro.ai is MarketStar's proprietary AI platform purpose-built for B2B sales performance optimization. It combines real-time coaching, analytics, and predictive intelligence in one integrated system.",
-        "bullets": [
-          "REAL-TIME COACHING: AI listens to live calls and provides in-the-moment talk track suggestions, objection handling prompts, and next-step recommendations",
-          "PITCH SCORING: Every call, email, and interaction is scored on messaging quality, discovery depth, objection handling, and outcome — enabling data-driven coaching",
-          "CONVERSATION INTELLIGENCE: Records, transcribes, and analyzes every sales interaction to identify winning patterns and improvement areas",
-          "PREDICTIVE ANALYTICS: Forecasts deal outcomes based on conversation signals, engagement patterns, and historical win/loss data",
-          "REP DEVELOPMENT: Personalized learning paths for each rep based on their specific skill gaps identified by AI analysis",
-          "MANAGER ENABLEMENT: Real-time dashboards showing team performance, coaching opportunities, and program health metrics"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"NYTRO.AI DEEP-DIVE\". Show a platform architecture diagram in magenta (#E84C8A) with Nytro.ai at center connected to 6 capability modules. Each module has an icon. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "AI-Powered Coaching & Quality",
-        "content": "Traditional sales coaching is inconsistent and reactive. Nytro.ai enables continuous, data-driven coaching that improves every rep on every call — creating a compounding performance advantage.",
-        "bullets": [
-          "Before Nytro.ai: Managers review 2-3 calls per rep per month — coaching is sporadic, subjective, and based on small samples",
-          "With Nytro.ai: Every call is analyzed — managers focus coaching on specific, data-identified skill gaps rather than guessing",
-          "Quality assurance: Automated QA scoring ensures every customer interaction meets quality standards — 100% coverage, not sample-based",
-          "Benchmarking: Reps are compared against top performers — what makes the best reps successful is codified and taught to everyone",
-          "Compliance: AI flags regulatory or brand compliance issues in real-time — reducing risk for both MarketStar and clients",
-          "Results: Teams using Nytro.ai coaching see 30% improvement in call quality scores within 90 days of implementation"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"AI-POWERED COACHING\". Show before/after comparison in magenta (#E84C8A): \"Before: 2-3 calls reviewed\" vs \"After: Every call analyzed\". Quality score improvement chart. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "content",
-        "title": "Responsible AI & Governance",
-        "content": "AI in sales must be deployed responsibly. MarketStar maintains strict governance frameworks to ensure AI enhances human judgment rather than replacing it, and that data privacy is always protected.",
-        "bullets": [
-          "DO: Use Nytro.ai for coaching, preparation, and performance analysis — it's a tool to augment human decision-making",
-          "DO: Cross-reference AI insights with manager judgment, client feedback, and market context before making decisions",
-          "DO: Ensure all call recordings and transcripts comply with consent laws (two-party consent states, GDPR requirements)",
-          "DON'T: Use AI-generated content verbatim in client communications without human review and approval",
-          "DON'T: Share AI analytics or recordings with clients without proper authorization and data handling protocols",
-          "ESCALATE: When AI flags unusual patterns, compliance concerns, or edge cases — always involve human leadership"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"RESPONSIBLE AI & GOVERNANCE\". Show two columns: green checkmarks for \"DO\" items and red X marks for \"DON'T\" items. Escalation section in magenta (#E84C8A) at bottom. Shield icon for governance. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": ""
-      },
-      {
-        "type": "roleplay",
-        "title": "Roleplay: AI Differentiation Pitch",
-        "content": "A CRO says: \"Every outsourcing vendor claims they use AI now. What makes Nytro.ai actually different from Gong or Chorus that we already have?\" Differentiate Nytro.ai from standalone conversation intelligence tools.",
-        "bullets": [
-          "Goal: Position Nytro.ai as purpose-built for outsourced sales optimization — not just another conversation intelligence tool",
-          "Pass criteria: CRO understands the unique value of AI embedded in the outsourcing model vs. standalone tools",
-          "Key angle: Integrated into delivery (not just recording calls), real-time coaching (not just post-call analysis), continuous improvement across the entire program"
-        ],
-        "imageUrl": "",
-        "imagePrompt": "Create a professional presentation slide with dark navy blue (#1A2B8C) background. Title in large white bold text: \"ROLEPLAY: AI DIFFERENTIATION\". Scenario: \"CRO: 'How is Nytro.ai different from Gong?'\". Comparison chart. 16:9 aspect ratio.",
-        "narrationScript": "",
-        "narrationAudioUrl": "",
-        "roleplaySlug": "rp-p11-ai-differentiation"
-      }
-    ],
-    "slideCount": 5,
-    "orderIndex": 12
   }
 ];
+
 export const BUYER_PERSONA_SEED_DATA = [
   {
-    slug: "vp-ecommerce",
-    name: "The VP of E-Commerce",
-    subtitle: "Revenue-driven, metrics-obsessed digital leader",
+    slug: "demand-gen-director",
+    name: "The Demand Generation Director",
+    subtitle: "Pipeline-focused, conversion-obsessed marketer",
     avatar: "",
     attributes: [
-      "Owns the P&L for the digital channel",
-      "Measured on conversion rate, revenue growth, and AOV",
-      "Reports to CMO or CEO, manages merchandising and digital teams"
+      "Owns MQL and pipeline targets for the marketing organization",
+      "Measured on lead volume, conversion rates, and sales acceptance of leads",
+      "Reports to VP Marketing or CMO, manages campaign execution teams"
     ],
     whatTheyCareAbout: [
-      "Revenue lift, conversion rate optimization, competitive advantage",
-      "Speed to value and ease of implementation",
-      "Proving ROI to the C-suite to justify continued investment"
+      "Lead quality over raw volume — sales acceptance rate matters most",
+      "Audience targeting precision to reach the right buying committee members",
+      "Conversion performance, attribution, and pipeline impact proof"
     ],
     whatTriggersResistance: [
-      "Vague ROI claims without specific data or case studies",
-      "Solutions that require heavy IT involvement or long implementation timelines",
-      "Vendors who don't understand commerce KPIs"
+      "Platforms that deliver high volume but low-quality leads",
+      "Lack of clear attribution or inability to prove pipeline influence",
+      "High CPL without evidence of downstream conversion quality"
     ],
     howToWin: [
-      "Lead with revenue impact: '15% average revenue lift within 6 months.'",
-      "Show case studies from similar retailers with specific metrics.",
-      "Demonstrate the platform with their actual website or a comparable brand.",
-      "Position MarketStar as a revenue-generating investment, not a cost center."
+      "Lead with precision targeting: 'LinkedIn lets you reach the exact job titles, seniority levels, and companies your sales team actually wants to talk to.'",
+      "Show Lead Gen Forms as a friction reducer for higher conversion rates.",
+      "Demonstrate matched audiences and retargeting for full-funnel optimization.",
+      "Position LinkedIn as the channel that delivers leads sales actually wants to follow up on."
     ],
     bestPlays: [
-      "Custom ROI model based on their traffic and conversion data.",
-      "Offer a proof of concept with measurable success criteria."
+      "Walk through a full-funnel campaign blueprint matched to their pipeline goals.",
+      "Show case studies of similar companies improving sales acceptance rates with LinkedIn."
     ],
     orderIndex: 1
   },
   {
-    slug: "cto",
-    name: "The CTO",
-    subtitle: "Technical gatekeeper, integration-focused",
+    slug: "vp-marketing-cmo",
+    name: "The VP of Marketing / CMO",
+    subtitle: "Strategic leader balancing brand and demand",
     avatar: "",
     attributes: [
-      "Evaluates architecture, scalability, and security",
-      "Concerned about tech debt and integration complexity",
-      "Manages engineering resources and prioritizes the technical roadmap"
+      "Owns brand growth, strategic market positioning, and pipeline contribution",
+      "Reports to CEO or board, accountable for revenue impact of marketing",
+      "Balances long-term brand building with short-term demand generation pressure"
     ],
     whatTheyCareAbout: [
-      "Clean API architecture, scalable infrastructure, data privacy compliance",
-      "Minimal engineering overhead for implementation and maintenance",
-      "Vendor stability and long-term platform viability"
+      "Strategic outcomes — brand credibility with decision-makers and revenue impact",
+      "Audience quality — reaching the right people, not just large numbers",
+      "Share of voice among professional buyers and measurable business outcomes"
     ],
     whatTriggersResistance: [
-      "Heavy client-side JavaScript that impacts site performance",
-      "Lack of server-side rendering or headless commerce support",
-      "Unclear data handling, GDPR/CCPA compliance gaps"
+      "Budget scrutiny — pressure to do more with less and justify every channel",
+      "Platforms that can only prove vanity metrics (impressions, clicks) without business impact",
+      "Fragmented reporting that makes it hard to show board-level results"
     ],
     howToWin: [
-      "Lead with architecture: server-side capabilities, edge delivery, CDN integration.",
-      "Show the API documentation and integration flexibility.",
-      "Address performance impact with concrete latency benchmarks.",
-      "Highlight SOC 2 compliance, data residency options, and privacy controls."
+      "Position LinkedIn as a trusted business environment where brand credibility matters.",
+      "Show full-funnel value — from awareness through influence across long buying cycles.",
+      "Emphasize executive audience access and influence on buying committees.",
+      "Connect LinkedIn performance to measurable business outcomes, not just engagement metrics."
     ],
     bestPlays: [
-      "Technical deep-dive session with MarketStar's solutions engineering team.",
-      "Provide sandbox environment for their engineering team to evaluate."
+      "Executive-level business case showing LinkedIn's role in pipeline and revenue influence.",
+      "Share examples of how CMOs at similar companies use LinkedIn for brand-to-demand strategy."
     ],
     orderIndex: 2
   },
   {
-    slug: "cmo",
-    name: "The CMO",
-    subtitle: "Brand-conscious, customer experience champion",
+    slug: "abm-field-marketing",
+    name: "The ABM / Field Marketing Leader",
+    subtitle: "Account-obsessed, sales-aligned strategist",
     avatar: "",
     attributes: [
-      "Owns the brand narrative and customer experience strategy",
-      "Focused on customer lifetime value and brand differentiation",
-      "Reports to CEO, balances growth targets with brand integrity"
+      "Owns target account engagement, buying group influence, and account penetration",
+      "Works closely with sales to coordinate outreach to named accounts",
+      "Measured on account engagement depth, pipeline from target accounts, and sales alignment"
     ],
     whatTheyCareAbout: [
-      "Customer experience consistency across all touchpoints",
-      "Brand-safe personalization that doesn't feel intrusive",
-      "Competitive differentiation through superior customer experience"
+      "Reaching specific target accounts and engaging multiple stakeholders within them",
+      "Account penetration — influencing the full buying committee, not just one contact",
+      "Sales and marketing alignment on named-account strategy"
     ],
     whatTriggersResistance: [
-      "Personalization that feels creepy or violates brand guidelines",
-      "Solutions that only optimize for short-term conversion at the expense of brand",
-      "Fragmented customer journeys across channels"
+      "Inability to target at the account level with enough precision",
+      "Inconsistent engagement from named accounts despite ad spend",
+      "Low personalization at scale — generic messaging that doesn't resonate"
     ],
     howToWin: [
-      "Frame personalization as brand experience elevation, not just conversion optimization.",
-      "Show omnichannel personalization capabilities across web, email, and mobile.",
-      "Demonstrate audience discovery to find and nurture high-value customer segments.",
-      "Reference premium brands that use MarketStar to accelerate their revenue growth."
+      "Show matched audiences — targeting by company, function, seniority, and role simultaneously.",
+      "Demonstrate sequenced messaging that builds engagement across the buying committee.",
+      "Highlight content personalization tailored to account stage and persona.",
+      "Position LinkedIn as the only platform where ABM targeting uses real professional identity data."
     ],
     bestPlays: [
-      "Customer journey mapping workshop to show experience gaps.",
-      "Side-by-side comparison of personalized vs. generic experience on their site."
+      "Build a sample ABM campaign targeting their actual named accounts and buying committee roles.",
+      "Walk through a multi-touch sequence: awareness → engagement → lead capture across stakeholders."
     ],
     orderIndex: 3
   },
   {
-    slug: "cfo",
-    name: "The CFO",
-    subtitle: "ROI-focused, risk-averse budget guardian",
+    slug: "performance-marketing-manager",
+    name: "The Performance Marketing Manager",
+    subtitle: "Data-driven optimizer, efficiency-focused",
     avatar: "",
     attributes: [
-      "Focused on financial returns, risk mitigation, and cost control",
-      "Evaluates total cost of ownership and payback period",
-      "Final sign-off on major technology investments"
+      "Manages day-to-day campaign execution, budgets, and optimization",
+      "Hands-on with Campaign Manager, analytics, and A/B testing",
+      "Measured on cost efficiency, conversion metrics, and scalable testing results"
     ],
     whatTheyCareAbout: [
-      "Clear, measurable ROI with defined payback period",
-      "Total cost of ownership including implementation and ongoing costs",
-      "Contract flexibility and risk mitigation (SLAs, guarantees)"
+      "Cost efficiency — CPL, CPA, and cost per qualified opportunity",
+      "Conversion metrics and optimization levers within the platform",
+      "Testing and iteration — ability to quickly test creative, audiences, and offers"
     ],
     whatTriggersResistance: [
-      "Vague business cases without specific financial projections",
-      "Long payback periods or unclear path to profitability",
-      "Hidden costs, scope creep, or aggressive multi-year commitments"
+      "High CPL concerns compared to other channels like Google or Meta",
+      "Questions about whether LinkedIn can scale efficiently for their budget",
+      "Lack of clear optimization levers or self-service testing capabilities"
     ],
     howToWin: [
-      "Build a detailed ROI model with conservative assumptions.",
-      "Show the 3x ROI within 12 months with specific customer examples.",
-      "Present flexible contract options: annual, multi-year with discounts, outcome-based.",
-      "Quantify the cost of inaction: 'Every quarter you delay costs $X in missed revenue.'"
+      "Reframe from CPL to cost per qualified lead — quality versus raw volume.",
+      "Show objective-to-format alignment for maximum conversion efficiency.",
+      "Demonstrate conversion path optimization using Lead Gen Forms and retargeting.",
+      "Highlight audience refinement tools and A/B testing capabilities for creative and offers."
     ],
     bestPlays: [
-      "CFO-ready business case document with financial projections.",
-      "Reference calls with CFOs at existing MarketStar clients."
+      "Side-by-side analysis: LinkedIn CPL vs. cost per qualified opportunity compared to other channels.",
+      "Hands-on Campaign Manager walkthrough showing optimization and testing workflows."
+    ],
+    orderIndex: 4
+  }
+];
+
+export const BATTLECARD_SEED_DATA = [
+  {
+    slug: "objection-too-expensive",
+    title: "Objection: LinkedIn Is Too Expensive",
+    category: "objection_handling",
+    content: "The buyer says LinkedIn's CPL is too high compared to other channels.",
+    whatTheyReallMean: "They are comparing cost per lead to lower-cost channels and not yet valuing lead quality or buying power.",
+    response: "That is a fair concern. The right comparison usually is not just cost per lead, but cost per qualified lead or cost per opportunity. For many B2B teams, LinkedIn is valuable because it helps them reach the right professional audience, not just the cheapest audience.",
+    tips: [
+      "Do not argue on CPM/CPC alone",
+      "Move the conversation to quality, fit, and pipeline value",
+      "Ask how they define efficiency — CPL or cost per opportunity?",
+      "A lower CPL can still be inefficient if the lead quality is poor or sales cannot convert it"
+    ],
+    orderIndex: 1
+  },
+  {
+    slug: "objection-already-use-google-meta",
+    title: "Objection: We Already Use Google and Meta",
+    category: "objection_handling",
+    content: "The buyer questions why they need LinkedIn when they already have Google and Meta campaigns running.",
+    whatTheyReallMean: "They see LinkedIn as redundant to their existing channel mix rather than complementary.",
+    response: "That makes sense, and in many cases LinkedIn works best alongside those channels. Google is strong for active intent, while LinkedIn is powerful for reaching the right business audience earlier and more precisely, especially when you need to influence specific roles or buying groups.",
+    tips: [
+      "Position LMS as additive and strategic, not a replacement",
+      "Explain the role difference: Google captures demand, LinkedIn creates demand with the right audience",
+      "Link LinkedIn to harder-to-reach business buyers that Google and Meta can't target by job title and seniority",
+      "Suggest a test: run LinkedIn alongside existing channels to measure incremental pipeline"
+    ],
+    orderIndex: 2
+  },
+  {
+    slug: "objection-tried-linkedin-before",
+    title: "Objection: We Tried LinkedIn Before and It Didn't Work",
+    category: "objection_handling",
+    content: "The buyer had a previous LinkedIn campaign that underperformed and is skeptical about trying again.",
+    whatTheyReallMean: "There was likely a misalignment in audience, creative, offer, objective, conversion path, follow-up process, or success metric.",
+    response: "I understand. Usually the next step is to unpack what was tested — audience, creative, offer, objective, follow-up process, and success metric. Often the issue is not the channel alone, but how the campaign was structured and measured.",
+    tips: [
+      "Never dismiss their past experience — validate it",
+      "Ask specifically: What audience? What offer? What objective? What was the conversion path?",
+      "Explore whether sales follow-up was part of the issue",
+      "Offer to do a diagnostic review of what was tested before recommending changes"
+    ],
+    orderIndex: 3
+  },
+  {
+    slug: "objection-audience-too-niche",
+    title: "Objection: Our Audience Is Too Niche",
+    category: "objection_handling",
+    content: "The buyer believes their target audience is too small or specialized for LinkedIn advertising.",
+    whatTheyReallMean: "They are used to scale-based channels and worry that LinkedIn won't have enough reach for their narrow ICP.",
+    response: "That is actually where LinkedIn can be especially useful. Because targeting is based on professional attributes, it can be a strong fit for niche B2B audiences where reaching the right title, function, or seniority matters more than raw scale.",
+    tips: [
+      "Reframe niche as a targeting advantage, not a limitation",
+      "Focus on role-based reach and business identity precision",
+      "Discuss quality over scale — 500 right people > 50,000 wrong people",
+      "Show examples of niche B2B segments that perform well on LinkedIn (cybersecurity, enterprise SaaS, etc.)"
     ],
     orderIndex: 4
   },
   {
-    slug: "director-digital",
-    name: "The Director of Digital Marketing",
-    subtitle: "Hands-on operator, campaign-focused",
-    avatar: "",
-    attributes: [
-      "Manages day-to-day digital marketing campaigns and team",
-      "Hands-on with marketing technology and analytics tools",
-      "Measured on campaign performance, lead generation, and conversion"
-    ],
-    whatTheyCareAbout: [
-      "Ease of use, speed of campaign execution, self-service capabilities",
-      "Integration with existing martech stack (analytics, CDP, email)",
-      "Ability to run experiments quickly without engineering support"
-    ],
-    whatTriggersResistance: [
-      "Complex platforms that require engineering for every change",
-      "Steep learning curves or poor onboarding experience",
-      "Lack of integration with their existing tools"
-    ],
-    howToWin: [
-      "Demo the no-code experience builder and show how fast they can launch campaigns.",
-      "Highlight integrations with their specific martech stack.",
-      "Show the testing workflow: hypothesis → experiment → results in days, not weeks.",
-      "Offer MarketStar training resources for their team's ongoing enablement."
-    ],
-    bestPlays: [
-      "Hands-on trial or sandbox where they can build a campaign themselves.",
-      "Show time-to-launch comparison: MarketStar vs. building internally."
+    slug: "objection-only-care-about-roi",
+    title: "Objection: We Only Care About Direct ROI",
+    category: "objection_handling",
+    content: "The buyer demands hard ROI numbers and is skeptical of branding or awareness plays.",
+    whatTheyReallMean: "They want proof that LinkedIn spend translates to actual pipeline and revenue, not just impressions.",
+    response: "Absolutely. Then we should start by defining what ROI means in your world — leads, meetings, qualified pipeline, opportunities, or closed revenue — and build the campaign and measurement approach around that.",
+    tips: [
+      "Define ROI clearly with the buyer before recommending anything",
+      "Match reporting to the buyer's funnel and sales motion",
+      "Connect campaign design directly to business outcomes",
+      "Show how conversion tracking and matched audiences enable attribution"
     ],
     orderIndex: 5
   },
   {
-    slug: "it-security",
-    name: "The IT Security Lead",
-    subtitle: "Data privacy and compliance watchdog",
-    avatar: "",
-    attributes: [
-      "Responsible for data security, privacy compliance, and vendor risk",
-      "Evaluates every vendor against security frameworks and policies",
-      "Can block or significantly delay deals with security concerns"
-    ],
-    whatTheyCareAbout: [
-      "SOC 2 Type II compliance, GDPR/CCPA adherence, data residency",
-      "Data encryption (at rest and in transit), access controls, audit logs",
-      "Vendor security posture, incident response procedures, penetration testing"
-    ],
-    whatTriggersResistance: [
-      "Inability to provide security documentation promptly",
-      "Vague answers about data handling, storage, or processing locations",
-      "Lack of SSO integration or role-based access controls"
-    ],
-    howToWin: [
-      "Proactively provide SOC 2 report, security whitepaper, and DPA.",
-      "Address data residency and processing locations clearly.",
-      "Show SSO integration, RBAC, and audit logging capabilities.",
-      "Offer to complete their security questionnaire within a defined timeline."
-    ],
-    bestPlays: [
-      "Security-focused call with MarketStar's InfoSec team early in the process.",
-      "Pre-fill common security questionnaire responses and share proactively."
+    slug: "discovery-business-goals",
+    title: "Discovery: Business Goals Questions",
+    category: "discovery",
+    content: "Opening discovery questions to understand the buyer's top priorities and strategic context.",
+    whatTheyReallMean: "",
+    response: "",
+    tips: [
+      "What are your top marketing or growth priorities this quarter?",
+      "Are you focused more on awareness, lead generation, conversion, or expansion?",
+      "What pressure is the team under right now?",
+      "What would success look like for a new channel investment?"
     ],
     orderIndex: 6
   },
   {
-    slug: "data-analyst",
-    name: "The Data Analyst",
-    subtitle: "Evidence-driven, wants proof before commitment",
-    avatar: "",
-    attributes: [
-      "Evaluates solutions based on data quality, statistical rigor, and measurability",
-      "Skeptical of vendor claims without transparent methodology",
-      "Influences technical evaluators and business stakeholders"
-    ],
-    whatTheyCareAbout: [
-      "Statistical significance in testing, transparent algorithms, data export",
-      "Integration with analytics platforms (GA4, Adobe Analytics, Snowflake)",
-      "Ability to run custom analyses and build dashboards"
-    ],
-    whatTriggersResistance: [
-      "Black-box algorithms without explainability",
-      "Inflated or cherry-picked metrics in case studies",
-      "Inability to export raw data or connect to their data warehouse"
-    ],
-    howToWin: [
-      "Show the statistical engine behind testing and how it calculates significance.",
-      "Demonstrate data export capabilities and warehouse integrations.",
-      "Provide transparent methodology for ROI calculations and case studies.",
-      "Offer a pilot with pre-agreed success metrics they can independently verify."
-    ],
-    bestPlays: [
-      "Technical demo focused on analytics, reporting, and data integration.",
-      "Share methodology documentation and whitepapers on MarketStar's Sales as a Service® model."
+    slug: "discovery-audience",
+    title: "Discovery: Audience Questions",
+    category: "discovery",
+    content: "Questions to understand who the buyer is trying to reach and which personas matter most.",
+    whatTheyReallMean: "",
+    response: "",
+    tips: [
+      "Who specifically are you trying to reach?",
+      "Which roles or personas matter most in the buying decision?",
+      "Are there specific industries, company sizes, or named accounts that matter most?",
+      "How do you currently define your ideal customer profile?"
     ],
     orderIndex: 7
   },
   {
-    slug: "head-product",
-    name: "The Head of Product",
-    subtitle: "User experience advocate, roadmap-focused",
-    avatar: "",
-    attributes: [
-      "Owns the product roadmap and user experience strategy",
-      "Balances feature requests against technical debt and UX quality",
-      "Collaborates closely with engineering and design teams"
-    ],
-    whatTheyCareAbout: [
-      "Impact on site performance, page load times, and Core Web Vitals",
-      "Alignment with product roadmap and long-term platform strategy",
-      "User experience quality and consistency across personalized experiences"
-    ],
-    whatTriggersResistance: [
-      "Solutions that introduce performance overhead or layout shifts",
-      "Personalization that creates inconsistent or jarring user experiences",
-      "Vendor lock-in that conflicts with their headless/composable architecture plans"
-    ],
-    howToWin: [
-      "Address performance impact with specific latency and CWV data.",
-      "Show server-side personalization that avoids flicker and layout shift.",
-      "Demonstrate compatibility with headless and composable commerce architectures.",
-      "Position MarketStar as enhancing their go-to-market strategy, not competing with it."
-    ],
-    bestPlays: [
-      "Performance benchmark test on a staging environment.",
-      "Architecture review with their engineering team showing integration patterns."
+    slug: "discovery-funnel-gap",
+    title: "Discovery: Funnel Gap Questions",
+    category: "discovery",
+    content: "Questions to diagnose where the biggest gap exists in the buyer's current marketing funnel.",
+    whatTheyReallMean: "",
+    response: "",
+    tips: [
+      "Where is the biggest gap today: reach, engagement, conversion, lead quality, or sales follow-up?",
+      "What happens after a lead comes in? How does sales follow up?",
+      "What is your conversion rate from lead to opportunity? Are you happy with it?",
+      "Is the problem getting enough leads, or getting the right leads?"
     ],
     orderIndex: 8
   },
   {
-    slug: "procurement-lead",
-    name: "The Procurement Lead",
-    subtitle: "Process-driven, contract negotiator",
-    avatar: "",
-    attributes: [
-      "Manages vendor evaluation, contract negotiation, and compliance",
-      "Follows structured procurement processes with defined timelines",
-      "Focused on getting the best terms, not necessarily the best solution"
-    ],
-    whatTheyCareAbout: [
-      "Competitive pricing, contract flexibility, and favorable payment terms",
-      "Vendor stability, references, and contractual protections",
-      "Clean procurement process with required documentation"
-    ],
-    whatTriggersResistance: [
-      "Inflexible contract terms or aggressive pricing tactics",
-      "Missing procurement documentation (W-9, insurance, certifications)",
-      "Vendors who try to go around procurement to push deals through"
-    ],
-    howToWin: [
-      "Respect their process and provide all requested documentation promptly.",
-      "Be transparent about pricing structure and offer creative deal options.",
-      "Provide customer references and vendor stability evidence proactively.",
-      "Work with your champion to align procurement timeline with business urgency."
-    ],
-    bestPlays: [
-      "Pre-prepared procurement package: MSA, DPA, SOC 2, insurance certificates.",
-      "Engage procurement early—don't wait until the end of the sales cycle."
+    slug: "discovery-current-motion",
+    title: "Discovery: Current Channel Mix",
+    category: "discovery",
+    content: "Questions to understand what channels the buyer currently uses and where they see gaps.",
+    whatTheyReallMean: "",
+    response: "",
+    tips: [
+      "Which channels are you using today?",
+      "What is working well, and where are you disappointed?",
+      "Have you used LinkedIn before? If yes, what did you run?",
+      "How do you evaluate whether a channel is worth the investment?"
     ],
     orderIndex: 9
   },
   {
-    slug: "marketing-manager",
-    name: "The Marketing Manager",
-    subtitle: "Tactical executor, day-to-day user",
-    avatar: "",
-    attributes: [
-      "Executes campaigns, manages content, and analyzes performance daily",
-      "Will be the primary platform user after purchase",
-      "Influences the buying decision through hands-on evaluation"
-    ],
-    whatTheyCareAbout: [
-      "Intuitive UI, fast campaign creation, and self-service capabilities",
-      "Training and support resources to get up to speed quickly",
-      "Ability to show quick wins and measurable results to leadership"
-    ],
-    whatTriggersResistance: [
-      "Clunky interfaces that require technical skills to operate",
-      "Poor onboarding experience or lack of ongoing training",
-      "Tools that promise self-service but still require engineering tickets"
-    ],
-    howToWin: [
-      "Show the WYSIWYG experience builder and how quickly they can create campaigns.",
-      "Demonstrate pre-built templates and use cases for common scenarios.",
-      "Highlight MarketStar training programs and ongoing customer success support.",
-      "Offer a hands-on trial where they can build and launch a real campaign."
-    ],
-    bestPlays: [
-      "Interactive demo where they drive the platform themselves.",
-      "Quick-win roadmap showing what they can achieve in the first 30 days."
+    slug: "discovery-measurement",
+    title: "Discovery: Measurement & Success Criteria",
+    category: "discovery",
+    content: "Questions to understand how the buyer defines and measures success.",
+    whatTheyReallMean: "",
+    response: "",
+    tips: [
+      "How do you define success for a campaign like this?",
+      "Which metrics matter most internally — leads, pipeline, revenue?",
+      "How do sales and marketing evaluate lead quality together?",
+      "What would make this investment a clear win for you?"
     ],
     orderIndex: 10
   },
   {
-    slug: "cx-director",
-    name: "The CX Director",
-    subtitle: "Customer journey obsessed, omnichannel thinker",
-    avatar: "",
-    attributes: [
-      "Owns the end-to-end customer experience strategy across all channels",
-      "Focused on NPS, customer satisfaction, and journey consistency",
-      "Champions customer-centric initiatives across the organization"
-    ],
-    whatTheyCareAbout: [
-      "Consistent, personalized experiences across web, mobile, email, and in-store",
-      "Customer journey analytics and experience measurement",
-      "Reducing friction points and improving customer satisfaction scores"
-    ],
-    whatTriggersResistance: [
-      "Solutions that only optimize one channel in isolation",
-      "Personalization that feels manipulative rather than helpful",
-      "Lack of customer journey visibility or cross-channel attribution"
-    ],
-    howToWin: [
-      "Show omnichannel personalization capabilities and cross-channel consistency.",
-      "Demonstrate audience discovery to identify customer journey patterns.",
-      "Connect personalization to NPS improvement and customer satisfaction metrics.",
-      "Frame MarketStar as the foundation for a scalable revenue growth strategy."
-    ],
-    bestPlays: [
-      "Customer journey audit showing gaps that personalization can fill.",
-      "Case study from a CX-focused brand showing satisfaction improvements."
+    slug: "product-sponsored-content",
+    title: "Product: Sponsored Content / Native Ads",
+    category: "product_positioning",
+    content: "Sponsored Content ads appear in the LinkedIn feed and are central to most LMS campaigns. They support multiple creative types including single image, video, carousel, document, and event ads.",
+    whatTheyReallMean: "",
+    response: "These formats help you show up where professionals are already consuming business content, which makes them especially useful for educating buyers and building familiarity before a sales conversation.",
+    tips: [
+      "Best for: awareness, storytelling, education, and mid-funnel engagement",
+      "Supports single image, video, carousel, document, and event formats",
+      "Often central to most campaigns — the workhorse format",
+      "Can drive lead generation when paired with Lead Gen Forms or landing pages"
     ],
     orderIndex: 11
   },
   {
-    slug: "founder-ceo",
-    name: "The Founder/CEO",
-    subtitle: "Vision-driven, wants strategic impact",
-    avatar: "",
-    attributes: [
-      "Focused on competitive advantage, market positioning, and growth",
-      "Makes decisions based on strategic value and long-term vision",
-      "Limited time, needs concise and compelling narratives"
-    ],
-    whatTheyCareAbout: [
-      "Competitive differentiation and market leadership",
-      "Revenue growth, market share expansion, and strategic positioning",
-      "Innovation that positions the company ahead of competitors"
-    ],
-    whatTriggersResistance: [
-      "Tactical or feature-level conversations that miss the strategic picture",
-      "Solutions that feel incremental rather than transformational",
-      "Vendors who can't articulate a compelling vision for the future"
-    ],
-    howToWin: [
-      "Lead with strategic vision: 'Personalization is the next competitive moat in commerce.'",
-      "Show how leading tech companies are using MarketStar to pull ahead of competitors.",
-      "Keep the conversation high-level: revenue impact, market positioning, customer loyalty.",
-      "Reference industry trends and analyst reports on the future of digital commerce."
-    ],
-    bestPlays: [
-      "Executive briefing with MarketStar leadership (VP/C-level to C-level).",
-      "Strategic roadmap presentation showing the future of personalization."
+    slug: "product-lead-gen-forms",
+    title: "Product: Lead Gen Forms",
+    category: "product_positioning",
+    content: "Lead Gen Forms are pre-filled using LinkedIn member profile data, reducing friction and improving conversion rates for content downloads, demo requests, and webinar sign-ups.",
+    whatTheyReallMean: "",
+    response: "If your challenge is that people click but do not convert, Lead Gen Forms can reduce drop-off by making it easier for high-intent users to submit their details without leaving LinkedIn.",
+    tips: [
+      "Pre-filled with profile data — reduces friction dramatically",
+      "Strong fit for B2B lead capture: content offers, demo requests, webinar sign-ups",
+      "Helps when landing page conversion rates are weak",
+      "One of the most important products for new reps to understand and recommend"
     ],
     orderIndex: 12
   },
   {
-    slug: "innovation-lead",
-    name: "The Innovation Lead",
-    subtitle: "Trend-chaser, early adopter mentality",
-    avatar: "",
-    attributes: [
-      "Evaluates emerging technologies and innovation opportunities",
-      "Champions new initiatives and pilots within the organization",
-      "Influential but may not have direct budget authority"
-    ],
-    whatTheyCareAbout: [
-      "Cutting-edge AI/ML capabilities and innovation roadmap",
-      "Being first to market with new customer experience approaches",
-      "Building internal credibility by bringing winning technologies to the org"
-    ],
-    whatTriggersResistance: [
-      "Solutions that feel dated or lack a compelling innovation roadmap",
-      "Vendors who can't articulate their AI/ML strategy clearly",
-      "Overly conservative implementation approaches that limit experimentation"
-    ],
-    howToWin: [
-      "Lead with Nytro.ai and the innovation behind AI-powered sales coaching.",
-      "Share the product roadmap and upcoming AI-powered capabilities.",
-      "Position them as the internal champion who brought in a transformative platform.",
-      "Offer early access to beta features or innovation partnerships."
-    ],
-    bestPlays: [
-      "Innovation showcase demo highlighting AI/ML capabilities and future roadmap.",
-      "Invite them to a customer advisory board or innovation summit."
+    slug: "product-video-carousel-document",
+    title: "Product: Video, Carousel & Document Ads",
+    category: "product_positioning",
+    content: "Specialized ad formats for different content types and funnel stages. Video explains and persuades, carousel tells a staged story, and document ads deliver depth and authority.",
+    whatTheyReallMean: "",
+    response: "The right format depends on what the buyer needs to understand and how complex the message is. Video works for credibility, carousel for multi-point stories, and document for in-depth education.",
+    tips: [
+      "Video: best for explaining complex offerings, brand storytelling, customer proof, executive thought leadership",
+      "Carousel: best for sequential stories, multiple products/value props, frameworks, persona-specific messages",
+      "Document: best for whitepapers, guides, reports, case studies, mid-funnel education",
+      "Match format to the offer and funnel stage — do not default to one format for everything"
     ],
     orderIndex: 13
+  },
+  {
+    slug: "product-messaging-ads",
+    title: "Product: Messaging Ads & Direct Engagement",
+    category: "product_positioning",
+    content: "LinkedIn messaging-based ad experiences for direct outreach in-platform. More personal and action-oriented than feed-only placements.",
+    whatTheyReallMean: "",
+    response: "For the right audience and offer, messaging can feel more personal and action-oriented than feed-only placements. Best when the audience and offer are tightly aligned.",
+    tips: [
+      "More direct call-to-action than feed ads",
+      "Useful for event promotion, webinar invites, content offers, targeted engagement",
+      "Best when audience and offer are tightly aligned — do not use for broad awareness",
+      "Feels more personal — use for high-value segments and specific CTAs"
+    ],
+    orderIndex: 14
+  },
+  {
+    slug: "product-campaign-business-manager",
+    title: "Product: Campaign Manager & Business Manager",
+    category: "product_positioning",
+    content: "Campaign Manager is where advertisers create, launch, and optimize campaigns. Business Manager helps larger organizations manage ad accounts, pages, partners, and permissions at scale.",
+    whatTheyReallMean: "",
+    response: "If your team has multiple regions, brands, agencies, or stakeholders, LinkedIn has account management infrastructure to help keep governance and execution organized.",
+    tips: [
+      "Campaign Manager: the core platform for creating and optimizing campaigns",
+      "Business Manager: governance layer for multi-region, multi-brand, multi-agency setups",
+      "Know these names and basic value — buyers will reference them",
+      "Reps don't need to be product experts on day one, but should know what each tool does"
+    ],
+    orderIndex: 15
+  },
+  {
+    slug: "strategy-starter-play-demand-capture",
+    title: "Starter Play: Demand Capture",
+    category: "strategy",
+    content: "A beginner-friendly campaign strategy for buyers focused on lead generation and pipeline.",
+    whatTheyReallMean: "",
+    response: "For demand capture, start with a lead generation objective, use feed ads paired with Lead Gen Forms, and offer something valuable like a report, demo, or webinar registration.",
+    tips: [
+      "Objective: Lead Generation",
+      "Format: Feed ads + Lead Gen Forms",
+      "Offer: report, demo request, or webinar registration",
+      "Success metric: qualified leads, sales acceptance rate, cost per opportunity"
+    ],
+    orderIndex: 16
+  },
+  {
+    slug: "strategy-starter-play-awareness",
+    title: "Starter Play: Awareness & Education",
+    category: "strategy",
+    content: "A beginner-friendly campaign strategy for buyers focused on brand awareness and thought leadership.",
+    whatTheyReallMean: "",
+    response: "For awareness and education, start with an awareness or engagement objective, use video, document, or single image ads, and lead with thought leadership or category-level storytelling.",
+    tips: [
+      "Objective: Brand Awareness or Engagement",
+      "Format: Video, document, or single image ads",
+      "Offer: thought leadership content, category story, brand narrative",
+      "Success metric: reach, engagement rate, video completion, brand lift"
+    ],
+    orderIndex: 17
+  },
+  {
+    slug: "strategy-starter-play-abm",
+    title: "Starter Play: ABM Influence",
+    category: "strategy",
+    content: "A beginner-friendly campaign strategy for buyers running account-based marketing programs.",
+    whatTheyReallMean: "",
+    response: "For ABM influence, use engagement or lead gen objectives, target specific accounts with matched audiences, and deliver account-relevant content or event invitations.",
+    tips: [
+      "Objective: Engagement or Lead Generation",
+      "Format: Targeted content to key accounts using matched audiences",
+      "Offer: account-relevant asset, event invitation, or personalized content",
+      "Success metric: account penetration, stakeholder engagement, pipeline from target accounts"
+    ],
+    orderIndex: 18
+  },
+  {
+    slug: "closing-first-call-framework",
+    title: "Closing: First Call Framework",
+    category: "closing",
+    content: "How to close a first conversation professionally and move toward next steps.",
+    whatTheyReallMean: "",
+    response: "Based on what you shared, I'd suggest we start by focusing on your highest-priority audience and testing a campaign approach aligned to that specific outcome.",
+    tips: [
+      "Summarize the goals the buyer shared during discovery",
+      "Recommend a clear next step (proposal, pilot plan, deeper technical session)",
+      "Identify what additional information is needed from both sides",
+      "Agree on success criteria before moving forward"
+    ],
+    orderIndex: 19
+  },
+  {
+    slug: "closing-executive-summary",
+    title: "Closing: Executive Summary Language",
+    category: "closing",
+    content: "How to deliver a concise executive summary when speaking with senior leaders.",
+    whatTheyReallMean: "",
+    response: "LinkedIn tends to be strongest when the goal is to reach the right business audience with credible messaging and connect that engagement to meaningful funnel outcomes.",
+    tips: [
+      "Keep it concise — senior leaders want the 'so what' in 30 seconds",
+      "Lead with business outcome, not product features",
+      "Use the structure: What I heard → What that likely means → What I would test first → How I would measure success",
+      "Sound calm, curious, structured, honest, and outcome-oriented"
+    ],
+    orderIndex: 20
   }
 ];
 
@@ -1866,11 +549,11 @@ export const EXPERT_SEED_DATA = [
     name: "Sarah Chen",
     company: "Enterprise Sales Academy",
     location: "San Francisco, CA",
-    bio: "B2B SaaS enterprise sales strategist with 15+ years of experience closing seven-figure deals. MEDDPICC certification trainer and former VP of Sales at two unicorn startups. Specializes in complex enterprise sales cycles and multi-stakeholder deal navigation.",
+    bio: "B2B SaaS enterprise sales strategist with 15+ years of experience closing seven-figure deals. Specializes in complex enterprise sales cycles, multi-stakeholder deal navigation, and consultative selling methodology.",
     avatar: "",
     website: "https://enterprisesalesacademy.com",
-    specialties: ["Enterprise Sales Strategy", "MEDDPICC Framework", "Complex Deal Navigation", "Sales Leadership", "Stakeholder Mapping"],
-    credentials: ["Certified MEDDPICC Trainer", "Former VP Sales at 2 Unicorns", "SaaStr Speaker"],
+    specialties: ["Enterprise Sales Strategy", "Consultative Selling", "Complex Deal Navigation", "Sales Leadership", "Stakeholder Mapping"],
+    credentials: ["Former VP Sales at 2 Unicorns", "SaaStr Speaker", "15+ Years Enterprise Sales"],
     aiCoachRate: 15,
     consultationRate: 500,
     callReviewRate: 150,
@@ -1896,13 +579,13 @@ export const EXPERT_SEED_DATA = [
   {
     slug: "jennifer-park",
     name: "Jennifer Park",
-    company: "Digital Commerce Advisors",
+    company: "Digital Marketing Advisors",
     location: "Chicago, IL",
-    bio: "E-commerce technology sales specialist with deep expertise in selling personalization, analytics, and MarTech solutions to enterprise retailers. Former Director of Sales at a leading personalization platform.",
+    bio: "B2B digital marketing and advertising specialist with deep expertise in LinkedIn Marketing Solutions, demand generation, and full-funnel campaign strategy for enterprise technology companies.",
     avatar: "",
-    website: "https://digitalcommerceadvisors.com",
-    specialties: ["E-Commerce Technology Sales", "Personalization Solutions", "MarTech Sales", "Retail Industry", "Solution Selling"],
-    credentials: ["Former Director of Sales - Personalization Platform", "NRF Speaker", "Commerce Industry Expert"],
+    website: "https://digitalmarketingadvisors.com",
+    specialties: ["B2B Digital Marketing", "LinkedIn Advertising", "Demand Generation", "Campaign Strategy", "Full-Funnel Marketing"],
+    credentials: ["Former Director of Demand Gen", "LinkedIn Marketing Partner", "B2B Marketing Expert"],
     aiCoachRate: 15,
     consultationRate: 400,
     callReviewRate: 125,
@@ -1930,11 +613,11 @@ export const EXPERT_SEED_DATA = [
     name: "Rachel Turner",
     company: "Deal Strategy Group",
     location: "Boston, MA",
-    bio: "Complex enterprise deal strategy coach specializing in six and seven-figure SaaS deals. Expert in multi-threading, executive sponsorship, and navigating procurement in Fortune 500 accounts.",
+    bio: "Complex enterprise deal strategy coach specializing in B2B advertising and marketing technology sales. Expert in multi-threading, executive sponsorship, and navigating procurement in Fortune 500 accounts.",
     avatar: "",
     website: "https://dealstrategygroup.com",
-    specialties: ["Complex Deal Strategy", "Multi-Threading", "Executive Sponsorship", "Procurement Navigation", "Fortune 500 Sales"],
-    credentials: ["Deal Strategy Certified Coach", "Former Enterprise AE at Salesforce", "20+ Years Enterprise Sales"],
+    specialties: ["Complex Deal Strategy", "Multi-Threading", "Executive Sponsorship", "Procurement Navigation", "B2B AdTech Sales"],
+    credentials: ["Deal Strategy Certified Coach", "Former Enterprise AE", "20+ Years Enterprise Sales"],
     aiCoachRate: 15,
     consultationRate: 525,
     callReviewRate: 160,
@@ -1946,7 +629,7 @@ export const EXPERT_SEED_DATA = [
     name: "Alex Morrison",
     company: "Revenue Intelligence Co",
     location: "Seattle, WA",
-    bio: "Sales enablement and coaching expert focused on building high-performing B2B SaaS sales teams. Specializes in creating scalable coaching programs, onboarding systems, and performance frameworks.",
+    bio: "Sales enablement and coaching expert focused on building high-performing B2B sales teams. Specializes in creating scalable coaching programs, onboarding systems, and performance frameworks.",
     avatar: "",
     website: "https://revenueintelligenceco.com",
     specialties: ["Sales Enablement", "Coaching Programs", "Onboarding Systems", "Performance Frameworks", "Team Development"],
@@ -1960,13 +643,13 @@ export const EXPERT_SEED_DATA = [
   {
     slug: "lisa-nakamura",
     name: "Lisa Nakamura",
-    company: "MarTech Sales Academy",
+    company: "B2B Marketing Academy",
     location: "Los Angeles, CA",
-    bio: "MarTech and personalization sales specialist with deep expertise in the commerce technology landscape. Helps sales teams articulate the value of personalization, testing, and optimization to enterprise buyers.",
+    bio: "B2B marketing and advertising sales specialist with deep expertise in the digital advertising landscape. Helps sales teams articulate the value of LinkedIn Marketing Solutions, ABM, and demand generation to enterprise buyers.",
     avatar: "",
-    website: "https://martechsalesacademy.com",
-    specialties: ["MarTech Sales", "Personalization Selling", "Commerce Technology", "Value Messaging", "Demo Excellence"],
-    credentials: ["MarTech Industry Veteran", "Former Sales Leader at Adobe", "Forrester Guest Analyst"],
+    website: "https://b2bmarketingacademy.com",
+    specialties: ["B2B Marketing Sales", "LinkedIn Advertising", "ABM Strategy", "Value Messaging", "Demo Excellence"],
+    credentials: ["B2B Marketing Industry Veteran", "Former Sales Leader at LinkedIn", "Forrester Guest Analyst"],
     aiCoachRate: 15,
     consultationRate: 425,
     callReviewRate: 130,
@@ -1978,10 +661,10 @@ export const EXPERT_SEED_DATA = [
     name: "James O'Connor",
     company: "Pipeline Mastery",
     location: "Denver, CO",
-    bio: "Pipeline generation and outbound expert for B2B SaaS. Has built outbound engines that generated $500M+ in pipeline across multiple enterprise software companies. Specializes in account-based strategies and multi-channel prospecting.",
+    bio: "Pipeline generation and demand generation expert for B2B companies. Has built marketing engines that generated $500M+ in pipeline across multiple enterprise software and advertising technology companies.",
     avatar: "",
     website: "https://pipelinemastery.com",
-    specialties: ["Pipeline Generation", "Outbound Strategy", "Account-Based Marketing", "Multi-Channel Prospecting", "SDR Team Building"],
+    specialties: ["Pipeline Generation", "Demand Generation", "Account-Based Marketing", "Multi-Channel Strategy", "Campaign Optimization"],
     credentials: ["$500M+ Pipeline Generated", "Former VP Demand Gen", "Pipeline Summit Founder"],
     aiCoachRate: 15,
     consultationRate: 400,
@@ -1994,7 +677,7 @@ export const EXPERT_SEED_DATA = [
     name: "Priya Sharma",
     company: "Value Selling Partners",
     location: "Washington, DC",
-    bio: "Value-based selling and ROI modeling expert who helps B2B SaaS companies build compelling business cases. Former management consultant who brings financial rigor to the enterprise sales process.",
+    bio: "Value-based selling and ROI modeling expert who helps B2B advertising and technology companies build compelling business cases. Former management consultant who brings financial rigor to the enterprise sales process.",
     avatar: "",
     website: "https://valuesellingpartners.com",
     specialties: ["Value-Based Selling", "ROI Modeling", "Business Case Development", "Executive Presentations", "Financial Analysis"],
@@ -2008,13 +691,13 @@ export const EXPERT_SEED_DATA = [
   {
     slug: "michael-foster",
     name: "Michael Foster",
-    company: "SaaS Closing Academy",
+    company: "B2B Closing Academy",
     location: "Miami, FL",
-    bio: "Enterprise deal closing specialist with a track record of helping sales teams increase their win rates by 30%+. Expert in negotiation tactics, closing frameworks, and overcoming enterprise procurement hurdles.",
+    bio: "Enterprise deal closing specialist with a track record of helping advertising and marketing technology sales teams increase their win rates by 30%+. Expert in negotiation tactics, closing frameworks, and overcoming procurement hurdles.",
     avatar: "",
-    website: "https://saasclosingacademy.com",
+    website: "https://b2bclosingacademy.com",
     specialties: ["Enterprise Closing", "Negotiation Tactics", "Win Rate Optimization", "Procurement Navigation", "Contract Strategy"],
-    credentials: ["SaaS Closing Academy Founder", "30%+ Win Rate Improvements", "Enterprise Sales Veteran"],
+    credentials: ["B2B Closing Academy Founder", "30%+ Win Rate Improvements", "Enterprise Sales Veteran"],
     aiCoachRate: 15,
     consultationRate: 450,
     callReviewRate: 135,

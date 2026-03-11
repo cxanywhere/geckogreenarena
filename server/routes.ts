@@ -36,7 +36,7 @@ async function ensureDatabaseSeeded() {
       console.log("Database empty, seeding with demo data...");
       
       const manager1 = await storage.createUser({
-        email: "sarah.jenkins@marketstar.com",
+        email: "sarah.jenkins@lms-training.com",
         password: "demo123",
         name: "Sarah Jenkins",
         role: "manager",
@@ -45,7 +45,7 @@ async function ensureDatabaseSeeded() {
       });
 
       await storage.createUser({
-        email: "james.patterson@marketstar.com",
+        email: "james.patterson@lms-training.com",
         password: "demo123",
         name: "James Patterson",
         role: "director",
@@ -54,7 +54,7 @@ async function ensureDatabaseSeeded() {
       });
 
       await storage.createUser({
-        email: "alex.rivera@marketstar.com",
+        email: "alex.rivera@lms-training.com",
         password: "demo123",
         name: "Alex Rivera",
         role: "rep",
@@ -64,7 +64,7 @@ async function ensureDatabaseSeeded() {
       });
 
       await storage.createUser({
-        email: "mike.chen@marketstar.com",
+        email: "mike.chen@lms-training.com",
         password: "demo123",
         name: "Mike Chen",
         role: "rep",
@@ -75,95 +75,26 @@ async function ensureDatabaseSeeded() {
 
       console.log("✓ Created demo users");
 
-      const chapters = await storage.getAllChapters();
-      if (chapters.length === 0) {
-        const chapter1 = await storage.createChapter({
-          title: "Sales Foundations",
-          subtitle: "Master the Art of the Opener",
-          description: "Learn the psychology behind the first 10 seconds of interaction.",
-          duration: "45 min",
-          pdfUrl: "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1766976787/Gecko_Green_Training_-_Certification_1_Chapter_1_1_-compressed-compressed_hctzzg.pdf",
-          coverImage: "",
-          agenda: ["The Psychology of First Impressions", "Pattern Interrupts & Breaking the Script", "Controlling the Frame & Conversation", "Handling Initial Resistance"],
-          slides: [
-            { type: 'content', title: "The First 10 Seconds", content: "Your success is determined before you even finish your first sentence.", bullets: ["Non-verbal communication accounts for 93% of the first impression.", "The 'Pattern Interrupt': Breaking the buyer's automatic 'No'.", "Distance & Stance: Respecting personal space while showing confidence."] },
-            { type: 'content', title: "The Pattern Interrupt", content: "Most buyers have a script: 'I'm not interested.' You need a script that breaks theirs.", bullets: ["Don't look like a salesperson (no clipboard in hand).", "Start with a question, not a statement.", "Use a casual, neighborly tone."] },
-            { type: 'roleplay', title: "Practice: The Pattern Interrupt", content: "Put your new skills to the test.", roleplayId: "rp-1" },
-            { type: 'content', title: "Controlling the Frame", content: "Whoever asks the questions controls the conversation.", bullets: ["The 'Illusion of Choice': Giving options that both lead to 'Yes'.", "Answering a question with a question.", "Setting the time constraint: 'I only have a minute...'"] }
-          ],
-          orderIndex: 0
-        });
-
-        const chapter2 = await storage.createChapter({
-          title: "Field Execution",
-          subtitle: "Closing the Deal & Handling Objections",
-          description: "Move from 'Maybe' to 'Yes'. Advanced B-P-D-C framework.",
-          duration: "60 min",
-          pdfUrl: "https://res.cloudinary.com/dpxfwxxzi/image/upload/v1766976616/Gecko_Green_Training_-_Certification_1_Chapter_2_2_-compressed_2_1_hok8bh.pdf",
-          coverImage: "",
-          agenda: ["The B-P-D-C Sales Framework", "Isolating & Overcoming Objections", "Value-Based Pricing Strategies", "Closing Techniques & Securing Payment"],
-          slides: [
-            { type: 'content', title: "The B-P-D-C Framework", content: "The roadmap to every successful sale.", bullets: ["B: Build Rapport - Connect as a human first.", "P: Problem Awareness - Show them what they can't unsee.", "D: Diagnose & Solution - Present the MarketStar advantage.", "C: Close - Ask for the business confidently."] },
-            { type: 'content', title: "Isolating the Objection", content: "Never answer an objection until you're sure it's the ONLY one.", bullets: ["Smoke screens vs. Real Objections.", "The 'Magic Question': 'If we could handle [objection], would you be ready to move forward?'", "Looping: Acknowledge -> Respond -> Close again."] }
-          ],
-          orderIndex: 1
-        });
-
-        console.log("✓ Created chapters");
-
-        const roleplays = [
-          { name: "I'm actually really busy right now.", role: "The Busy Buyer", description: "Opening scenario. Acknowledge time pressure + set ≤60s container.", avatar: "", traits: ["Time Management", "Control Question", "Respect"], difficulty: "Beginner", stats: { resistance: 60, objections: 20, buy_signal: 30 }, chapterId: chapter1.id },
-          { name: "Not interested.", role: "The Dismissive Prospect", description: "Handling Brush-Offs. Acknowledge + reframe to specific issue.", avatar: "", traits: ["Reframing", "Persistence", "Specifics"], difficulty: "Intermediate", stats: { resistance: 80, objections: 40, buy_signal: 10 }, chapterId: chapter1.id },
-          { name: "No soliciting.", role: "The Rule Follower", description: "Compliance & Authority. Acknowledge rule + clarify intent.", avatar: "", traits: ["Compliance", "Intent Clarification", "Micro-Permission"], difficulty: "Advanced", stats: { resistance: 90, objections: 10, buy_signal: 5 }, chapterId: chapter1.id },
-          { name: "I do my own lawn.", role: "The DIY Enthusiast", description: "DIY Pushback. Validate identity + differentiate.", avatar: "", traits: ["Validation", "Differentiation", "Leadership"], difficulty: "Intermediate", stats: { resistance: 70, objections: 60, buy_signal: 40 }, chapterId: chapter1.id },
-          { name: "We already have a lawn company.", role: "The Loyalist", description: "Existing Provider. Acknowledge + remove replacement fear.", avatar: "", traits: ["Gap Analysis", "Non-Threatening", "Discovery"], difficulty: "Advanced", stats: { resistance: 85, objections: 50, buy_signal: 20 }, chapterId: chapter1.id },
-          { name: "Why are you here?", role: "The Confused Buyer", description: "Purpose Statement. State purpose clearly.", avatar: "", traits: ["Clarity", "Direction", "Purpose"], difficulty: "Beginner", stats: { resistance: 40, objections: 30, buy_signal: 50 }, chapterId: chapter1.id },
-          { name: "My lawn looks fine.", role: "The Denialist", description: "Identifying Issues. Validate + isolate specific problem.", avatar: "", traits: ["Visual Proof", "Isolation", "Validation"], difficulty: "Intermediate", stats: { resistance: 60, objections: 70, buy_signal: 30 }, chapterId: chapter2.id },
-          { name: "Weeds don't bother me.", role: "The Apathetic Buyer", description: "Educating on Spread. Reframe consequence.", avatar: "", traits: ["Consequence Reframing", "Education", "Discovery"], difficulty: "Advanced", stats: { resistance: 75, objections: 80, buy_signal: 20 }, chapterId: chapter2.id },
-          { name: "How much does it cost?", role: "The Price Shopper", description: "Pricing Deferral. Frame price around value.", avatar: "", traits: ["Value Selling", "Deferral", "Control"], difficulty: "Intermediate", stats: { resistance: 65, objections: 75, buy_signal: 35 }, chapterId: chapter2.id },
-          { name: "That's too expensive.", role: "The Budget Watcher", description: "Objection Isolation. Isolate + reframe cost.", avatar: "", traits: ["Isolation", "Investment Reframing", "Closing"], difficulty: "Advanced", stats: { resistance: 80, objections: 90, buy_signal: 25 }, chapterId: chapter2.id },
-          { name: "I need to think about it.", role: "The Indecisive Buyer", description: "Stall Handling. Isolate + create urgency.", avatar: "", traits: ["Isolation", "Urgency", "Closing"], difficulty: "Advanced", stats: { resistance: 70, objections: 85, buy_signal: 30 }, chapterId: chapter2.id },
-          { name: "I need to talk to my spouse.", role: "The Decision Delegator", description: "Spouse Objection. Isolate decision maker.", avatar: "", traits: ["Isolation", "Decision Making", "Follow-up"], difficulty: "Advanced", stats: { resistance: 75, objections: 80, buy_signal: 20 }, chapterId: chapter2.id }
-        ];
-
-        for (const rp of roleplays) {
-          await storage.createRoleplay(rp);
+      const { EXPERT_SEED_DATA } = await import("./seed-data");
+      const existingExperts = await storage.getAllExperts();
+      if (existingExperts.length === 0) {
+        for (const expert of EXPERT_SEED_DATA) {
+          await storage.createExpert(expert);
         }
-        console.log("✓ Created roleplays");
+        console.log("✓ Created experts");
+      }
 
-        const battlecards = [
-          { phase: "Discovery", title: "The Executive Discovery Opener", situation: "Opening a discovery call with a VP/C-suite buyer.", script: "Thanks for making time. Before we dive in, I'd love to understand what's driving the urgency around personalization for your team right now.", keyPoints: ["Lead with curiosity, not pitch", "Ask about business drivers", "Take notes on metrics they mention"], type: "script", image: "" },
-          { phase: "Objection Handling", title: "Handling 'We Built Our Own'", situation: "Prospect has an in-house solution.", script: "That's impressive—most teams start there. What we typically see is that maintaining and evolving a homegrown solution takes 3-4 engineers full-time. How does that compare to your experience?", keyPoints: ["Validate their effort", "Highlight hidden costs", "Focus on opportunity cost of engineering time"], type: "objection", image: "" },
-          { phase: "Demo", title: "The Value-Led Demo Opening", situation: "Starting a demo with business outcomes.", script: "Before I show you the product, let me share what [similar company] achieved in their first 90 days—a 22% increase in conversion rate.", keyPoints: ["Start with outcomes, not features", "Use relevant customer example", "Set up the 'imagine if' scenario"], type: "script", image: "" },
-          { phase: "Objection Handling", title: "Handling 'It's Too Expensive'", situation: "Price objection from buyer.", script: "I hear you. Let me ask—what would it be worth to your business to see a 15% lift in conversion rate? That's what our customers typically achieve.", keyPoints: ["Reframe cost as investment", "Anchor to ROI", "Break down cost per conversion"], type: "objection", image: "" },
-          { phase: "Pricing", title: "The Value Anchor", situation: "Anchoring price to ROI.", script: "Our Enterprise package runs $150K annually. Based on your traffic, that should deliver 8-12x return within the first year.", keyPoints: ["State price confidently", "Immediately follow with ROI", "Use their specific metrics"], type: "script", image: "" },
-          { phase: "Closing", title: "The Assumptive Close", situation: "After a strong demo.", script: "Based on everything we've discussed, it sounds like the Enterprise tier is the right fit. Shall we put together the paperwork to get started this quarter?", keyPoints: ["Summarize agreed value", "Recommend specific package", "Set timeline expectation"], type: "script", image: "" }
-        ];
+      const resources = [
+        { type: "call", title: "Handling the 'Not Interested' on a Discovery Call", description: "Listen to how Top Performer Sarah Jenkins turns a quick 'no' into a booked demo.", learningOutcome: "Learn to stay calm and pivot.", duration: "4:32", author: "Sarah Jenkins", thumbnail: "", tags: ["Objection Handling", "Discovery"] },
+        { type: "video", title: "The Psychology of Enterprise Sales", description: "Deep dive into body language and non-verbal cues in executive meetings.", learningOutcome: "Understand how presence and confidence impact conversion.", duration: "12:30", author: "LMS Training Team", thumbnail: "", tags: ["Psychology", "Foundations"] }
+      ];
 
-        for (const bc of battlecards) {
-          await storage.createBattlecard(bc);
-        }
-        console.log("✓ Created battlecards");
-
-        const resources = [
-          { type: "call", title: "Handling the 'Not Interested' on a Discovery Call", description: "Listen to how Top Performer Sarah Jenkins turns a quick 'no' into a booked demo.", learningOutcome: "Learn to stay calm and pivot.", duration: "4:32", author: "Sarah Jenkins", thumbnail: "", tags: ["Objection Handling", "Discovery"] },
-          { type: "video", title: "The Psychology of Enterprise Sales", description: "Deep dive into body language and non-verbal cues in executive meetings.", learningOutcome: "Understand how presence and confidence impact conversion.", duration: "12:30", author: "MarketStar Training Team", thumbnail: "", tags: ["Psychology", "Foundations"] }
-        ];
-
+      const existingResources = await storage.getAllResources();
+      if (existingResources.length === 0) {
         for (const resource of resources) {
           await storage.createResource(resource);
         }
         console.log("✓ Created resources");
-
-        // Seed experts if not already present
-        const existingExperts = await storage.getAllExperts();
-        if (existingExperts.length === 0) {
-          const { EXPERT_SEED_DATA } = await import("./seed-data");
-          for (const expert of EXPERT_SEED_DATA) {
-            await storage.createExpert(expert);
-          }
-          console.log("✓ Created experts");
-        }
       }
 
       console.log("Database seeding complete!");
@@ -772,7 +703,7 @@ export async function registerRoutes(
   // Store hard delete verification codes in memory (expires after 10 minutes)
   const hardDeleteCodes: Map<string, { code: string; expiresAt: Date; userId: string }> = new Map();
 
-  // Request hard delete - generates 4-digit code and emails to tabish@marketstar.com
+  // Request hard delete - generates 4-digit code and emails to admin@lms-training.com
   app.post("/api/users/:id/hard-delete-request", async (req, res) => {
     try {
       const authResult = await getAuthenticatedUser(req);
@@ -813,7 +744,7 @@ export async function registerRoutes(
 
       res.json({ 
         success: true, 
-        message: "Verification code sent to tabish@marketstar.com",
+        message: "Verification code sent to admin@lms-training.com",
         userName: user.name,
         userRole: user.role,
         repCount
@@ -1668,15 +1599,15 @@ export async function registerRoutes(
       const battlecardsData = [
         {
           phase: "Discovery",
-          title: "The Executive Discovery Opener",
-          situation: "Opening a discovery call with a VP/C-suite buyer",
-          script: "Thanks for making time. Before we dive in, I'd love to understand what's driving the urgency around personalization for your team right now.",
-          keyPoints: ["Lead with curiosity, not pitch", "Ask about business drivers", "Take notes on metrics they mention"],
+          title: "The Discovery Opener",
+          situation: "Opening a discovery call with a marketing leader",
+          script: "Before I recommend anything, can I ask a few questions about your goals, audience, and what has or has not worked so far?",
+          keyPoints: ["Lead with curiosity, not pitch", "Ask about business goals first", "Understand their current channel mix"],
           type: "script",
           image: "",
-          useWhen: "Opening a discovery call with VP/C-suite buyer",
-          goal: "Understand business drivers before pitching",
-          coachLine: "Curiosity before pitch. Always."
+          useWhen: "Opening any discovery call with a marketing leader",
+          goal: "Understand business context before recommending products",
+          coachLine: "Curiosity before recommendation. Always."
         },
         {
           phase: "Discovery",
@@ -1783,7 +1714,7 @@ export async function registerRoutes(
           type: "objection",
           image: "",
           useWhen: "Buyer cites resource constraints or bandwidth issues",
-          goal: "Position MarketStar as a resource multiplier, not a burden",
+          goal: "Position LinkedIn as a resource multiplier, not a burden",
           coachLine: "We're the solution to bandwidth, not the cause."
         },
         {
@@ -1795,7 +1726,7 @@ export async function registerRoutes(
           type: "objection",
           image: "",
           useWhen: "Buyer references a past failed outsourcing initiative",
-          goal: "Turn past failure into a reason to choose MarketStar",
+          goal: "Turn past failure into a reason to choose LinkedIn",
           coachLine: "Past failure = future differentiation."
         },
         {
@@ -1874,7 +1805,7 @@ export async function registerRoutes(
           phase: "Follow-up",
           title: "The Post-Demo Summary Email",
           situation: "Following up after a product demo",
-          script: "Subject: MarketStar + [Company] — Next Steps. Hi [Name], great conversation today. Here's a summary of what we covered and the specific ROI projections for your team...",
+          script: "Subject: LinkedIn Marketing Solutions + [Company] — Next Steps. Hi [Name], great conversation today. Here's a summary of what we covered and the specific ROI projections for your team...",
           keyPoints: ["Send within 2 hours", "Include ROI specific to them", "Propose clear next step"],
           type: "script",
           image: "",
@@ -1946,8 +1877,8 @@ export async function registerRoutes(
         "Handling 'We Built Our Own'": { useWhen: "Prospect mentions in-house or homegrown solution", goal: "Expose hidden costs of build vs buy", coachLine: "Validate, then reveal the hidden cost." },
         "Handling 'We Already Have a Vendor'": { useWhen: "Prospect mentions existing vendor or competitor", goal: "Find the results gap without bashing competitor", coachLine: "Never bash. Find the gap instead." },
         "Handling 'It's Too Expensive'": { useWhen: "Buyer pushes back on pricing", goal: "Reframe price as investment with clear ROI", coachLine: "Price is only expensive without ROI context." },
-        "Handling 'No Bandwidth'": { useWhen: "Buyer cites resource constraints or bandwidth issues", goal: "Position MarketStar as a resource multiplier", coachLine: "We're the solution to bandwidth, not the cause." },
-        "Handling 'We Tried Before'": { useWhen: "Buyer references a past failed initiative", goal: "Turn past failure into a reason to choose MarketStar", coachLine: "Past failure = future differentiation." },
+        "Handling 'No Bandwidth'": { useWhen: "Buyer cites resource constraints or bandwidth issues", goal: "Position LinkedIn as a resource multiplier", coachLine: "We're the solution to bandwidth, not the cause." },
+        "Handling 'We Tried Before'": { useWhen: "Buyer references a past failed initiative", goal: "Turn past failure into a reason to choose LinkedIn", coachLine: "Past failure = future differentiation." },
         "The Value Anchor": { useWhen: "First time presenting pricing", goal: "Anchor price to ROI so it feels like an investment", coachLine: "Price + ROI in the same breath. Always." },
         "The Package Breakdown": { useWhen: "Buyer asks about packaging or tier differences", goal: "Guide buyer to the right tier based on their goals", coachLine: "Match capabilities to goals. Guide the choice." },
         "The Competitive Price Comparison": { useWhen: "Buyer mentions cheaper competitor options", goal: "Shift conversation from price to results", coachLine: "Cheap is expensive when it doesn't work." },
@@ -2002,7 +1933,7 @@ export async function registerRoutes(
   // Generate Arena logos (dark and light mode)
   app.post("/api/generate-arena-logos", async (req, res) => {
     try {
-      console.log("Generating MarketStar logos...");
+      console.log("Generating LMS logos...");
       
       // Generate dark mode logo
       console.log("Generating dark mode logo...");
@@ -3124,7 +3055,7 @@ export async function registerRoutes(
   // Store reset verification codes in memory (expires after 10 minutes)
   const billingResetCodes: Map<string, { code: string; expiresAt: Date }> = new Map();
 
-  // Request billing reset - generates 4-digit code and emails to tabish@marketstar.com
+  // Request billing reset - generates 4-digit code and emails to admin@lms-training.com
   app.post("/api/usage/reset-request", async (req, res) => {
     try {
       const authResult = await getAuthenticatedUser(req);
@@ -3150,7 +3081,7 @@ export async function registerRoutes(
         return res.status(500).json({ error: emailResult.error || "Failed to send verification email" });
       }
 
-      res.json({ success: true, message: "Verification code sent to tabish@marketstar.com" });
+      res.json({ success: true, message: "Verification code sent to admin@lms-training.com" });
     } catch (error: any) {
       console.error("Reset request error:", error);
       res.status(500).json({ error: error.message || "Failed to request reset" });
@@ -4482,7 +4413,7 @@ export async function registerRoutes(
       
       if (relevantEntries.length === 0) {
         return res.json({
-          answer: "I couldn't find specific information about that in the training materials. Try asking about discovery techniques, objection handling, MarketStar solutions, enterprise sales fundamentals, or pricing strategies.",
+          answer: "I couldn't find specific information about that in the training materials. Try asking about discovery techniques, objection handling, LinkedIn Marketing Solutions, B2B advertising fundamentals, or positioning strategies.",
           sources: []
         });
       }
@@ -4494,7 +4425,7 @@ export async function registerRoutes(
         baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
       });
 
-      const systemPrompt = `You are the MarketStar Sales Coach. You help sales reps master enterprise B2B sales outsourcing techniques.
+      const systemPrompt = `You are the LMS Sales Coach. You help sales reps master LinkedIn Marketing Solutions B2B advertising sales techniques.
 
 IMPORTANT RULES:
 1. ONLY use information from the provided training materials to answer questions
@@ -4546,35 +4477,32 @@ ${context}`;
       
       // Step 1: Force reseed all predefined quizzes
       const CHAPTER_0_QUIZZES = [
-        { afterSlide: 5, question: 'Which of the following is a MarketStar core solution?', options: ['Email marketing', 'B2B sales outsourcing and pipeline generation', 'Social media management', 'Payroll processing'], correctAnswer: 1 },
-        { afterSlide: 18, question: 'Which is a key benefit clients get from MarketStar?', options: ['Site becomes maintenance-free', 'Faster revenue growth through dedicated outsourced sales teams', 'Traffic never drops seasonally', 'Results appear instantly after deployment'], correctAnswer: 1 },
-        { afterSlide: 20, question: 'What best describes how MarketStar delivers results?', options: ['One-time setup that solves everything', 'Continuous sales optimization through dedicated teams, AI coaching via Nytro.ai, and data-driven RevOps', 'Only outbound calling when metrics drop', 'Only SDR services for startups'], correctAnswer: 1 },
-        { afterSlide: 21, question: 'Fertilizer is best described as:', options: ['A weed killer', 'Food for plants that supports health, color, and density', 'A water replacement', 'A product that works the same regardless of season'], correctAnswer: 1 },
-        { afterSlide: 22, question: 'In N-P-K, what does Nitrogen (N) primarily support?', options: ['Stronger roots only', 'Greening and top growth', 'Water regulation only', 'Disease control only'], correctAnswer: 1 },
-        { afterSlide: 23, question: 'Which statement is most accurate regarding fertilizer forms?', options: ['Only liquid fertilizer works', 'Only dry fertilizer works', 'Plants cannot tell the difference between organic vs mineral and liquid vs dry—timing and needs matter', 'Fertilizer choice never changes by season'], correctAnswer: 2 },
-        { afterSlide: 25, question: 'What are the two major weed types referenced in training?', options: ['Summer weeds and winter weeds', 'Tall weeds and short weeds', 'Grassy weeds and broadleaf weeds', 'Root weeds and leaf weeds'], correctAnswer: 2 },
-        { afterSlide: 27, question: 'What is the role of pre-emergent weed control?', options: ['It kills visible weeds on contact', 'It creates a barrier under the soil to stop weeds before they emerge', 'It fertilizes the lawn to prevent weeds', 'It is the same as Round-up'], correctAnswer: 1 },
-        { afterSlide: 28, question: 'After a post-emergent application, what timeline should you generally set for weed response?', options: ['Same day', '24 hours', 'About 2 weeks', '2–3 months'], correctAnswer: 2 },
-        { afterSlide: 29, question: 'Which statement correctly describes MarketStar\'s Sales as a Service® model?', options: ['Basic staffing only, no managed services included', 'Full-lifecycle outsourced sales with dedicated teams, AI coaching via Nytro.ai, and RevOps support', 'Services are only available for enterprise clients', 'Results should be complete after the first month'], correctAnswer: 1 }
+        { afterSlide: 2, question: 'What best describes LinkedIn Marketing Solutions?', options: ['A social media management tool', 'A job posting platform for recruiters', 'LinkedIn\'s B2B advertising and demand generation platform that helps brands reach professional audiences with precision targeting', 'A CRM software for sales teams'], correctAnswer: 2 },
+        { afterSlide: 4, question: 'What is the "Professional Graph Advantage" in LinkedIn advertising?', options: ['LinkedIn has more users than Facebook', 'Targeting based on professional identity attributes like job title, function, seniority, industry, and company', 'LinkedIn offers the cheapest CPM rates', 'LinkedIn automatically creates ads for you'], correctAnswer: 1 },
+        { afterSlide: 7, question: 'What does "objective-first selling" mean for an LMS rep?', options: ['Always start by recommending video ads', 'Start with the buyer\'s business outcome before recommending ad formats', 'Focus on selling the most expensive package first', 'Pitch all available products in every meeting'], correctAnswer: 1 },
       ];
 
       const CHAPTER_1_QUIZZES = [
-        { afterSlide: 5, question: 'Which set correctly matches the "Four Pillars of Field Success"?', options: ["Confidence, Optimism, Personality, Endurance", "Timeliness, Attitude, Practice, Persistence", "Product, Price, Pitch, Persistence", "Appearance, Tone, Explanation, Honesty"], correctAnswer: 1 },
-        { afterSlide: 10, question: "In an enterprise sale, what's the correct relationship between emotion and logic?", options: ["Logic drives action; emotion justifies afterward", "Emotion drives action; logic justifies afterward", "They are always equal at the same time", "Only logic matters in enterprise sales"], correctAnswer: 1 },
-        { afterSlide: 15, question: 'A buyer says, "We\'re fine with our current setup." What is the best next move per the training?', options: ["Present pricing immediately to test seriousness", "Reveal an unrealized issue with a specific, visible observation and a question", "Ask for their email and leave", "Offer a discount to create urgency"], correctAnswer: 1 },
-        { afterSlide: 20, question: "Which statement is TRUE about pre-emergent vs. post-emergent and expectations?", options: ["Pre-emergent kills existing weeds; post-emergent prevents sprouting", "Post-emergent kills existing weeds; pre-emergent prevents sprouting", "Both only work if weeds are already visible", "Both work instantly if watered the same day"], correctAnswer: 1 },
-        { afterSlide: 25, question: 'In the "Partnership" model, which is primarily the buyer\'s responsibility?', options: ["Seasonal application timing", "Product formulation choices", "Watering and mowing consistency", "Free service calls between visits"], correctAnswer: 2 },
-        { afterSlide: 29, question: 'Which best captures what your "30-second story" must do?', options: ["Explain every treatment ingredient in detail", "Deliver a clear, confident summary of what you do, how you do it, and why it works—fast", "Lead with price to qualify the buyer", "Compare competitors by name and position against them"], correctAnswer: 1 },
-        { afterSlide: 34, question: 'What is the "Prepay Rule in One Line" the rep should follow?', options: ["Offer prepay only if the buyer asks", "Prepay first, every time; autopay is the fallback", "Autopay is the default; prepay is optional", "Prepay only for customers with heavy weeds"], correctAnswer: 1 }
+        { afterSlide: 3, question: 'What are the 7 parts of the LMS discovery framework?', options: ['Product, Price, Place, Promotion, People, Process, Physical Evidence', 'Business goals, Audience, Funnel gap, Current motion, Offer/content, Measurement, Stakeholders', 'Awareness, Interest, Desire, Action, Loyalty, Advocacy, Retention', 'Budget, Authority, Need, Timeline, Competition, Risk, Value'], correctAnswer: 1 },
+        { afterSlide: 5, question: 'Why is audience discovery critical before recommending LinkedIn campaigns?', options: ['It helps you avoid giving a product demo', 'Understanding who the buyer is targeting ensures you recommend the right targeting, format, and messaging strategy', 'It fills time during the meeting', 'LinkedIn requires it before creating an ad account'], correctAnswer: 1 },
+        { afterSlide: 10, question: 'What is the best approach when positioning LinkedIn against Google and Meta?', options: ['Tell the buyer to stop using Google and Meta entirely', 'Position LinkedIn as complementary — strong for precise B2B professional reach where other channels may lack business context', 'Say LinkedIn is always cheaper than competitors', 'Avoid mentioning other channels at all'], correctAnswer: 1 },
+      ];
+
+      const CHAPTER_2_QUIZZES = [
+        { afterSlide: 3, question: 'What is the 4-step objection handling framework?', options: ['Deny, Deflect, Discount, Close', 'Acknowledge, Clarify, Reframe, Recommend next step', 'Ignore, Redirect, Pitch harder, Ask for the sale', 'Listen, Agree, Move on, Follow up later'], correctAnswer: 1 },
+        { afterSlide: 4, question: 'When a buyer says "LinkedIn is too expensive," what should the rep do?', options: ['Immediately offer a discount', 'Agree and suggest a cheaper channel', 'Reframe the conversation from cost per lead to cost per qualified opportunity and pipeline value', 'Defend the pricing by listing all features'], correctAnswer: 2 },
+        { afterSlide: 9, question: 'What is the recommended approach for a beginner-friendly starter strategy?', options: ['Run every ad format simultaneously to maximize coverage', 'Start with the business goal, select audience, match objective, pick format, choose CTA, define success metric, and plan follow-up', 'Copy what the competitor is doing on LinkedIn', 'Start with the largest budget possible to get data'], correctAnswer: 1 },
       ];
 
       let quizzesSeeded = 0;
       for (const chapter of chapters) {
         let quizzes: typeof CHAPTER_0_QUIZZES = [];
-        if (chapter.title === "MarketStar 101") {
+        if (chapter.title === "LMS Fundamentals and Product Landscape") {
           quizzes = CHAPTER_0_QUIZZES;
-        } else if (chapter.title === "Sales Foundations") {
+        } else if (chapter.title === "Buyer Conversations, Discovery, and Positioning") {
           quizzes = CHAPTER_1_QUIZZES;
+        } else if (chapter.title === "Objections, Strategy, and Selling with Confidence") {
+          quizzes = CHAPTER_2_QUIZZES;
         }
         
         for (const quiz of quizzes) {
@@ -4903,7 +4831,7 @@ ${context}`;
         return `${rp.role} — ${rp.name}: ${rp.description}. Pass criteria: ${rp.passCriteria || "N/A"}`;
       }).join("\n");
 
-      const systemPrompt = `You are a friendly, knowledgeable sales training coach for MarketStar's B2B sales outsourcing solutions. You are part of the "MarketStar" training program.
+      const systemPrompt = `You are a friendly, knowledgeable sales training coach for LinkedIn Marketing Solutions (LMS). You are part of the LMS sales training program on the Arena platform.
 
 The user is currently studying chapter "${chapter.title}" — ${chapter.description}.
 
@@ -4924,19 +4852,21 @@ CONVERSATION GUIDELINES:
 2. If asked about other chapters or general training topics, use the broader knowledge above
 3. Be conversational, encouraging, and coach-like — think of yourself as a helpful mentor
 4. Keep answers focused and practical — under 60 seconds of speaking time
-5. When explaining concepts, use real-world enterprise sales examples
+5. When explaining concepts, use real-world B2B advertising and demand generation examples
 6. If the user asks something outside the training scope, politely redirect to the training content
 7. Encourage the user and acknowledge good questions
 8. Reference specific slide content when relevant: "On slide 3, we covered..."
-9. Never say you are an AI — you are "your MarketStar training coach"
+9. Never say you are an AI — you are "your LMS training coach"
 
-MARKETSTAR CONTEXT:
-- MarketStar is the global leader in B2B sales outsourcing with 35+ years of experience and PEAK Matrix® Leader recognition
-- Core solutions: Sales Solutions (Pipeline Generation, New Business Acquisition, Account Management), Partner Channel Services, Customer Success, Revenue Operations, Sales as a Service®, Nytro.ai
-- Target buyers: VP Sales, CRO, CEO, VP Partnerships, VP CS, CFO at $50M-$5B B2B tech companies
-- Key value props: $10B+ revenue delivered for clients, 6-8 week ramp, 1600+ employees across 8 countries
-- Competitors: Accenture, TTEC, Teleperformance, Concentrix, internal hiring
-- Sales methodology: MEDDPICC`;
+LINKEDIN MARKETING SOLUTIONS CONTEXT:
+- LinkedIn Marketing Solutions is LinkedIn's B2B advertising and demand generation business
+- Core products: Sponsored Content (Single Image, Video, Carousel, Document, Event Ads), Lead Gen Forms, Messaging Ads, Campaign Manager, Business Manager
+- Campaign objectives: Brand Awareness, Website Visits, Engagement, Video Views, Lead Generation, Website Conversions
+- Target buyers: Demand Generation Directors, VP Marketing/CMOs, ABM/Field Marketing Leaders, Performance Marketing Managers
+- Key differentiators: Professional identity-based targeting (job title, function, seniority, industry, company), trusted business environment, full-funnel campaign support, measurable pipeline impact
+- Competitive positioning: Complementary to Google (intent) and Meta (interest) — LinkedIn captures professional identity for precise B2B audience reach
+- Discovery framework: 7-part (Business Goals, Audience, Funnel Gap, Current Channels, Offer/Content, Measurement, Stakeholders)
+- Sales approach: Consultative — understand buyer goals, diagnose funnel gaps, recommend right audience/objective/format/measurement mix`;
 
       res.json({
         systemPrompt,

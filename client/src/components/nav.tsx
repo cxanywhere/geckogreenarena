@@ -23,9 +23,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useAuth } from "@/lib/auth-context";
-import { useTheme } from "next-themes";
 
-import marketstarLogoDark from "@/assets/marketstar-logo-dark.png";
 import arenaHelmetDark from "@/assets/arena-helmet-dark.png";
 
 interface NavGroup {
@@ -40,7 +38,6 @@ export function Nav() {
   const [showSignOutDialog, setShowSignOutDialog] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { user, logout } = useAuth();
-  const { resolvedTheme } = useTheme();
 
   const handleSignOut = () => {
     logout();
@@ -113,7 +110,7 @@ export function Nav() {
           <div className="h-5 sm:h-6 w-px bg-white/20 shrink-0" />
           <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
             <span className="hidden sm:inline text-[10px] font-mono uppercase tracking-[0.2em] text-white/50">Client:</span>
-            <img src={marketstarLogoDark} alt="MarketStar" className="h-5 sm:h-6 w-auto object-contain" />
+            <span className="text-sm sm:text-base font-bold text-white tracking-tight">LinkedIn Marketing Solutions</span>
           </div>
         </div>
 

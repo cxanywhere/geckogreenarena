@@ -26,19 +26,9 @@ export interface GeneratedImage {
 }
 
 const CHAPTER_COVER_PROMPTS: Record<string, string> = {
-  "MarketStar 101": "A vibrant, modern 3D illustration of a glowing orange star rising above a stylized deep navy blue globe with interconnected nodes representing a global sales network. Dynamic light rays emanate outward. Abstract floating geometric shapes (hexagons, spheres) in orange (#E07A2F) and navy (#1A2B8C) orbit the star. Energetic, inspiring, futuristic corporate feel. No text whatsoever. 16:9 aspect ratio.",
-  "Buyer Reality & ICP": "A modern 3D illustration showing a magnifying glass with an orange (#E07A2F) rim hovering over abstract buyer profile silhouettes arranged in a target/bullseye pattern. The ideal customer profile glows bright orange at the center while others fade to deep navy (#1A2B8C). Floating data particles and connection lines. Sleek, high-tech discovery vibe. No text whatsoever. 16:9 aspect ratio.",
-  "Sales as a Service® & Nytro.ai": "A futuristic 3D illustration of a sleek robotic arm and a human hand reaching toward each other (Michelangelo style) with an electric orange (#E07A2F) spark between them. Behind them, a fluid navy (#1A2B8C) circuit-board landscape with glowing AI neural pathways. Represents human+AI sales power. Dynamic, exciting, cutting-edge. No text whatsoever. 16:9 aspect ratio.",
-  "Demand Generation": "A vibrant 3D illustration of a massive glowing orange (#E07A2F) megaphone emitting streams of luminous digital particles — social icons, email envelopes, search icons, and ABM target symbols — that flow into a funnel converting into golden qualified leads. Navy (#1A2B8C) background with holographic marketing dashboards, attribution graphs, and engagement heat maps floating in space. A gold Stevie Award trophy glints in the corner. Energetic, data-driven, full-funnel marketing power. No text whatsoever. 16:9 aspect ratio.",
-  "Pipeline Generation": "A dynamic 3D illustration of a massive glowing orange (#E07A2F) pipeline/funnel floating in space, with streams of luminous lead particles flowing in from the top and converting into golden deals at the bottom. Navy (#1A2B8C) background with abstract speed lines and momentum trails. Energetic, fast-paced, growth-oriented. No text whatsoever. 16:9 aspect ratio.",
-  "New Business Acquisition": "A bold 3D illustration of an orange (#E07A2F) rocket launching from a navy (#1A2B8C) launchpad, trailing a brilliant flame. Below, a cityscape of modern glass buildings represents the enterprise market. Floating contract/handshake icons orbit the rocket. Ambitious, exciting, conquest energy. No text whatsoever. 16:9 aspect ratio.",
-  "Account Management": "A warm 3D illustration of interconnected orange (#E07A2F) and navy (#1A2B8C) puzzle pieces forming a shield shape, symbolizing protection and growth. Small upward-trending graph lines weave through the connections. Floating relationship icons (handshakes, growth arrows) surround it. Trustworthy, nurturing, strategic. No text whatsoever. 16:9 aspect ratio.",
-  "Partner Channel Services": "A vibrant 3D illustration of a sprawling network of glowing orange (#E07A2F) bridges connecting floating navy (#1A2B8C) platform islands. Each island has a small beacon/lighthouse. Energy pulses travel along the bridges showing active partnerships. Collaborative, expansive, ecosystem feel. No text whatsoever. 16:9 aspect ratio.",
-  "Customer Success": "A jubilant 3D illustration of a trophy/cup in brilliant orange (#E07A2F) surrounded by celebratory confetti and rising green health-score bars. A happy abstract customer figure stands on a podium. Navy (#1A2B8C) background with floating hearts and star ratings. Joyful, achievement-focused, customer-centric. No text whatsoever. 16:9 aspect ratio.",
-  "Revenue Operations": "A sleek 3D illustration of interlocking gears and dashboards forming a revenue engine machine. The central gear glows orange (#E07A2F), surrounded by navy (#1A2B8C) mechanical components. Holographic charts, KPI dials, and data streams float around it. Precise, powerful, operational excellence. No text whatsoever. 16:9 aspect ratio.",
-  "Competitive & Differentiation": "A dramatic 3D illustration of a chess board from a low angle, with an orange (#E07A2F) king piece standing tall and glowing in the center, while generic navy (#1A2B8C) pieces surround it. Lightning-like energy radiates from the king. Strategic, dominant, winner-takes-all energy. No text whatsoever. 16:9 aspect ratio.",
-  "Deal Execution": "An intense 3D illustration of a glowing orange (#E07A2F) pen signing on a floating holographic contract, with celebration sparks and fireworks erupting from the signature point. Navy (#1A2B8C) background with deal milestone checkpoints floating like stepping stones. Decisive, victorious, closing energy. No text whatsoever. 16:9 aspect ratio.",
-  "AI Enablement": "A stunning 3D illustration of a luminous AI brain made of orange (#E07A2F) neural networks floating above an open palm. Holographic data visualizations, prediction curves, and smart automation icons orbit around it. Deep navy (#1A2B8C) space background with stars. Futuristic, intelligent, transformative. No text whatsoever. 16:9 aspect ratio.",
+  "LMS Fundamentals and Product Landscape": "A vibrant, modern 3D illustration of a glowing LinkedIn Blue (#0A66C2) professional network globe with interconnected nodes representing B2B advertising connections. Dynamic light rays emanate outward. Abstract floating geometric shapes (hexagons, data points) in LinkedIn Blue (#0A66C2) and white orbit the globe. Professional, business-focused, digital marketing feel. No text whatsoever. 16:9 aspect ratio.",
+  "Buyer Conversations, Discovery, and Positioning": "A modern 3D illustration showing a magnifying glass with a LinkedIn Blue (#0A66C2) rim hovering over abstract buyer persona silhouettes arranged around a discovery framework diagram. The ideal buyer glows bright blue at the center while others fade to light gray. Floating conversation bubbles and connection lines. Sleek, consultative, professional vibe. No text whatsoever. 16:9 aspect ratio.",
+  "Objections, Strategy, and Selling with Confidence": "A dynamic 3D illustration of a confident professional figure standing on a strategic chess board, with LinkedIn Blue (#0A66C2) pieces positioned for victory. Lightning-like energy radiates from the central piece. Floating objection-handling shields and strategy icons orbit around. Strategic, confident, winning energy against a clean white and light gray background. No text whatsoever. 16:9 aspect ratio.",
 };
 
 export async function generateChapterImage(
@@ -46,7 +36,7 @@ export async function generateChapterImage(
   chapterDescription: string
 ): Promise<GeneratedImage> {
   const customPrompt = CHAPTER_COVER_PROMPTS[chapterTitle];
-  const prompt = customPrompt || `Create a vibrant, modern 3D illustration for a B2B sales training chapter about "${chapterTitle}". Use orange (#E07A2F) as the primary accent color and deep navy (#1A2B8C) as the background. Dynamic, exciting, futuristic corporate feel with abstract shapes and glowing elements. No text or words whatsoever. 16:9 aspect ratio.`;
+  const prompt = customPrompt || `Create a vibrant, modern 3D illustration for a LinkedIn Marketing Solutions sales training chapter about "${chapterTitle}". Use LinkedIn Blue (#0A66C2) as the primary accent color and white/light gray as the background. Professional, business-focused, B2B advertising feel with abstract shapes and glowing elements. No text or words whatsoever. 16:9 aspect ratio.`;
 
   const clients: { name: string; client: GoogleGenAI }[] = [
     ...(ai ? [{ name: "user-key", client: ai }] : []),
@@ -121,7 +111,7 @@ export async function generatePersonaImage(
   const ageRange = difficulty === "Advanced" ? "45-65 years old" : 
                    difficulty === "Intermediate" ? "35-55 years old" : "30-50 years old";
 
-  const prompt = `Create a photorealistic portrait of an enterprise buyer for a sales training simulation.
+  const prompt = `Create a photorealistic portrait of a B2B marketing buyer for a LinkedIn Marketing Solutions sales training simulation.
 
 CHARACTER: "${personaRole}"
 PERSONALITY: ${personalityDescription}
@@ -132,7 +122,7 @@ REQUIREMENTS:
 - Photorealistic, high-quality headshot/portrait
 - Natural lighting, modern office, conference room, or corporate setting
 - Subject should be looking at camera with expression matching their personality
-- Diverse enterprise buyer / executive - can be any ethnicity, gender
+- Diverse marketing executive / buyer - can be any ethnicity, gender
 - Professional business attire
 - Expression should convey: ${resistanceDesc}
 - Background hints at a modern corporate office
@@ -141,7 +131,7 @@ REQUIREMENTS:
 - NO text, logos, watermarks, or branding
 - Natural, authentic look - NOT a stock photo feel
 
-The image should look like a real enterprise buyer you might meet in a sales meeting.`;
+The image should look like a real B2B marketing leader you might meet in a LinkedIn advertising sales conversation.`;
 
   const clients: { name: string; client: GoogleGenAI }[] = [
     ...(ai ? [{ name: "user-key", client: ai }] : []),
@@ -274,14 +264,14 @@ CONTENT TO DISPLAY:
 - Coach Line: "${coachLine}"
 
 DESIGN REQUIREMENTS:
-- Professional deep blue (#1A2B5C) background with teal (#00B4D8) accents
+- Professional LinkedIn Blue (#0A66C2) background with white and light gray accents
 - Clean, modern corporate infographic style
 - All text must be clearly legible and well-organized
 - Use icons/visual elements to represent each section
 - Card number "${battlecardNumber}" in top corner
 - Title prominently at top in large bold white text
 - Organized sections with clear visual hierarchy
-- MarketStar branding (B2B sales outsourcing)
+- LinkedIn Marketing Solutions branding (B2B advertising)
 - Include visual icons for "When to Use", "Goal", "Key Points", "Script"
 - Professional sales training document aesthetic
 - Dimensions: Portrait orientation, suitable for mobile viewing
@@ -289,7 +279,7 @@ DESIGN REQUIREMENTS:
 - Quote bubble or script icon for the talk track section
 - Lightbulb or star icon for the coach line
 
-Create a visually stunning, information-rich battlecard that a B2B sales outsourcing rep could quickly reference during enterprise sales calls.`;
+Create a visually stunning, information-rich battlecard that a LinkedIn Marketing Solutions rep could quickly reference during B2B advertising sales conversations.`;
 
   try {
     const response = await getClient().models.generateContent({
@@ -362,7 +352,7 @@ function buildPersonaPrompt(scenario: RoleplayScenario): string {
   const buySignalLevel = scenario.stats.buy_signal > 50 ? "showing some interest" :
                          scenario.stats.buy_signal > 25 ? "cautiously curious" : "not showing interest";
 
-  return `You are playing the role of an enterprise buyer in a B2B sales training simulation for MarketStar, a leading B2B sales outsourcing company.
+  return `You are playing the role of a B2B marketing buyer in a sales training simulation for LinkedIn Marketing Solutions (LMS), LinkedIn's B2B advertising and demand generation platform.
 
 CHARACTER PROFILE:
 - Opening line/objection: "${scenario.name}"
@@ -377,20 +367,20 @@ SCENARIO CONTEXT:
 ${scenario.description}
 
 BEHAVIOR GUIDELINES:
-1. Stay in character as this specific enterprise buyer persona throughout the conversation
+1. Stay in character as this specific marketing buyer persona throughout the conversation
 2. Start with your opening objection: "${scenario.name}"
 3. React realistically to the sales rep's responses
 4. If they handle objections well, gradually become more open (but maintain your personality)
 5. If they push too hard or don't listen, become more resistant
 6. Use natural, conversational language - you're a real person, not an AI
 7. Keep responses concise (1-3 sentences typically, like a real sales call or meeting)
-8. Eventually, if the rep does well, you may agree to hear more or schedule a follow-up demo
+8. Eventually, if the rep does well, you may agree to hear more or schedule a follow-up
 9. If the rep does poorly, you may end the meeting or firmly decline
 
 IMPORTANT: 
 - Never break character
 - Never reveal you are an AI or part of a training simulation
-- Respond as the enterprise buyer would in a real sales meeting
+- Respond as the marketing buyer would in a real B2B advertising sales conversation
 - Your first message should be your opening objection/statement`;
 }
 
@@ -460,7 +450,7 @@ export async function evaluateRoleplay(
   const passCriteria = passCriteriaMatch ? passCriteriaMatch[1] : "Handle objections professionally and move toward next step";
   const failConditions = failConditionsMatch ? failConditionsMatch[1] : "Buyer ending the meeting, being rude, or giving up too easily";
 
-  const evaluationPrompt = `You are an expert sales coach evaluating an enterprise B2B sales training roleplay for MarketStar.
+  const evaluationPrompt = `You are an expert sales coach evaluating a LinkedIn Marketing Solutions (LMS) B2B advertising sales training roleplay.
 
 SCENARIO: ${scenario.name} - ${scenario.description}
 DIFFICULTY: ${scenario.difficulty}
@@ -488,14 +478,14 @@ SCORING WEIGHTS (CRITICAL):
 
 WHAT "CORRECTLY HANDLING THE OBJECTION" MEANS:
 1. Did they ACKNOWLEDGE the objection first? (Not ignore it)
-2. Did they use the appropriate technique for this specific objection? (discovery calls, demos, B2B sales outsourcing selling)
+2. Did they use the appropriate technique for this specific objection? (discovery, consultative selling, LinkedIn advertising value articulation)
 3. Did they stay professional and not get pushy or defensive?
 
 EVALUATION CRITERIA (in order of importance):
 1. Did they meet the PASS CRITERIA? This is 80% of the decision.
 2. Did they trigger any FAIL CONDITIONS? If yes, they fail.
 3. Opening response - Did they acknowledge the objection appropriately?
-4. Technique - Did they use the right approach for this objection type in an enterprise context?
+4. Technique - Did they use the right approach for this objection type in a B2B advertising context?
 5. Professionalism - Were they respectful and not pushy?
 
 SCORING GUIDE:
@@ -549,25 +539,25 @@ Be encouraging but honest. The "passed" field should be TRUE if the rep genuinel
 export async function generateArenaLogo(mode: "dark" | "light"): Promise<GeneratedImage> {
   const isDark = mode === "dark";
   
-  const prompt = `Create a striking, modern logo icon for "MarketStar" - a leading B2B sales outsourcing company.
+  const prompt = `Create a striking, modern logo icon for "LinkedIn Marketing Solutions" - LinkedIn's B2B advertising and demand generation platform.
 
 DESIGN REQUIREMENTS:
-- An abstract "M" letter mark with a sales growth/star motif
-- Geometric, clean design with flowing growth lines or star elements
-- Sophisticated, professional tech aesthetic
-- The M should incorporate subtle elements suggesting sales growth, pipeline, or star imagery
+- An abstract "L" letter mark with a professional network/advertising motif
+- Geometric, clean design with flowing connection lines or growth elements
+- Sophisticated, professional B2B advertising aesthetic
+- The L should incorporate subtle elements suggesting professional networking, advertising reach, or business growth
 - IMPORTANT: Add a refined GLOW effect around the logo outline
 
 COLOR SCHEME FOR ${isDark ? "DARK MODE" : "LIGHT MODE"}:
 ${isDark 
-  ? `- Primary color: Deep blue (#1A2B5C) for the main logo shape
-- GLOW EFFECT: Teal (#00B4D8) neon glow emanating from the logo lines
-- Accent color: Teal (#00B4D8) for highlights and growth effects
+  ? `- Primary color: LinkedIn Blue (#0A66C2) for the main logo shape
+- GLOW EFFECT: Light blue (#70B5F9) neon glow emanating from the logo lines
+- Accent color: Light blue (#70B5F9) for highlights and connection effects
 - Background: Pure black (#000000) - this makes the glow pop
-- The blue and teal should create a professional, high-end feel against the dark background`
-  : `- Primary color: Deep blue (#1A2B5C) for the main logo shape
-- SUBTLE GLOW: Soft teal (#00B4D8) shadow/glow effect around the logo
-- Accent color: Teal (#00B4D8) for subtle highlight effects
+- The blue tones should create a professional, trusted feel against the dark background`
+  : `- Primary color: LinkedIn Blue (#0A66C2) for the main logo shape
+- SUBTLE GLOW: Soft light blue (#70B5F9) shadow/glow effect around the logo
+- Accent color: Light blue (#70B5F9) for subtle highlight effects
 - Background: Pure white (#FFFFFF) or very light gray (#F9FAFB)
 - Clean, professional, premium look with subtle depth`
 }
@@ -575,14 +565,14 @@ ${isDark
 STYLE:
 - Clean geometric design with refined GLOW effects
 - Minimal, sophisticated shapes
-- Professional tech aesthetic with sales growth elements
+- Professional B2B advertising aesthetic with growth elements
 - ${isDark ? "Elegant luminous glow - refined and premium" : "Clean professional look with subtle shadows"}
 - Professional, sophisticated, premium but approachable
 - Square format, centered composition
-- NO text, NO words, just the M icon with star/growth motif
-- The glow effect should convey innovation and sophistication
+- NO text, NO words, just the L icon with network/growth motif
+- The glow effect should convey trust and professional reach
 
-The overall feel should be: ${isDark ? "A premium, luminous emblem in darkness - sophisticated, innovative, enterprise-grade" : "A clean, luxury brand mark - polished, confident, modern"}.`;
+The overall feel should be: ${isDark ? "A premium, luminous emblem in darkness - trusted, professional, enterprise-grade" : "A clean, luxury brand mark - polished, confident, modern"}.`;
 
   try {
     const response = await getClient().models.generateContent({
@@ -652,8 +642,8 @@ export async function generateSlideImage(
 ${contentContext}
 
 STYLE REQUIREMENTS:
-- This is a presentation slide for MarketStar sales training
-- Dark navy blue background with white text and orange accent elements
+- This is a presentation slide for LinkedIn Marketing Solutions sales training
+- Clean white/light gray background with LinkedIn Blue (#0A66C2) accent elements and dark text
 - Professional corporate keynote quality
 - Include the title text clearly visible at the top of the slide
 - Render the exact data points, names, numbers, and labels from the bullet points above — do not generalize, substitute, or invent different content

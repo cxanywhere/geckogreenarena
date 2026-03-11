@@ -186,7 +186,7 @@ export function VoiceRoleplay({ roleplayId, config, onComplete, onCancel, userId
     const buySignalDescription = config.buySignal > 50 ? "showing some underlying interest" :
                                  config.buySignal > 25 ? "cautiously curious" : "not showing buying interest";
 
-    return `You are playing the role of a buyer in a sales training simulation for the MarketStar platform.
+    return `You are playing the role of a B2B marketing buyer in a sales training simulation for LinkedIn Marketing Solutions (LMS).
 
 CHARACTER PROFILE:
 - Name: ${config.role}
@@ -201,13 +201,13 @@ ${config.context}
 
 BEHAVIOR GUIDELINES:
 1. START the conversation with EXACTLY this objection: "${config.objection}"
-2. Stay in character as this buyer throughout the entire conversation
+2. Stay in character as a B2B marketing buyer (Demand Gen Director, VP Marketing, CMO, or Performance Marketer) throughout
 3. React realistically to the sales rep's responses based on how well they handle your objection
-4. If the rep handles your objection well (acknowledges you, doesn't push too hard, asks good questions), gradually become slightly more open
-5. If the rep pushes too hard, ignores your concern, or doesn't listen, become MORE resistant
+4. If the rep handles your objection well (acknowledges you, asks good discovery questions, connects LinkedIn to business value), gradually become slightly more open
+5. If the rep pushes too hard, uses jargon, or pitches products without understanding your needs, become MORE resistant
 6. Use natural, conversational language - you're a real person in a sales conversation, NOT an AI
 7. Keep responses SHORT (1-3 sentences max) - this is a sales conversation, not a lecture
-8. You may eventually agree to hear more or let them show you something if they do well
+8. You may eventually agree to hear more or explore a pilot if they do well
 9. If they do poorly, you may end the conversation or firmly decline
 
 WHAT THE REP SHOULD DO TO PASS:

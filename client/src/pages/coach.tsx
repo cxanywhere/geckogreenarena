@@ -33,7 +33,7 @@ const SUGGESTED_QUESTIONS = [
   { icon: MessageSquare, text: "How do I handle 'I'm not interested'?", category: "objections" },
   { icon: Target, text: "What's the B-P-D-C framework?", category: "process" },
   { icon: Lightbulb, text: "How do I pitch prepay effectively?", category: "prepay" },
-  { icon: BookOpen, text: "What's the MarketStar elevator pitch?", category: "script" },
+  { icon: BookOpen, text: "What's the LinkedIn Marketing Solutions elevator pitch?", category: "script" },
 ];
 
 export default function CoachPage() {
@@ -127,7 +127,7 @@ export default function CoachPage() {
               <div>
                 <h1 className="text-2xl font-bold text-foreground">Sales Coach</h1>
                 <p className="text-sm text-muted-foreground">
-                  Your AI-powered guide to MarketStar sales mastery
+                  Your AI-powered guide to LinkedIn Marketing Solutions sales mastery
                 </p>
               </div>
             </div>
@@ -144,7 +144,7 @@ export default function CoachPage() {
                     How can I help you today?
                   </h2>
                   <p className="text-sm text-muted-foreground text-center max-w-md mb-6">
-                    Ask me anything about discovery calls, objection handling, the MarketStar platform, or sales techniques.
+                    Ask me anything about discovery calls, objection handling, the LinkedIn Marketing Solutions platform, or sales techniques.
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg">
                     {SUGGESTED_QUESTIONS.map((suggestion, i) => (
@@ -244,7 +244,7 @@ export default function CoachPage() {
                   ref={inputRef}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask about objections, discovery, MarketStar platform..."
+                  placeholder="Ask about objections, discovery, LinkedIn Marketing Solutions..."
                   className="flex-1"
                   disabled={isLoading}
                   data-testid="input-coach-message"

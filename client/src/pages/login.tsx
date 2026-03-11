@@ -9,19 +9,14 @@ import { Zap, ArrowRight, Lock, GraduationCap } from "lucide-react";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
-import marketstarLogoDark from "@/assets/marketstar-logo-dark.png";
-import marketstarLogoLight from "@/assets/marketstar-logo-light.png";
 import arenaHelmet from "@/assets/arena-helmet.png";
 import arenaHelmetDark from "@/assets/arena-helmet-dark.png";
-import { useTheme } from "next-themes";
-
 export default function LoginPage() {
   const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { user, login, isLoading: authLoading } = useAuth();
-  const { resolvedTheme } = useTheme();
   
   const isReturningUser = localStorage.getItem("hasLoggedInBefore") === "true";
 
@@ -101,8 +96,7 @@ export default function LoginPage() {
               <Zap className="w-24 h-24 text-magenta rotate-12" />
             </div>
             <p className="text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground mb-4">Authorized Workspace For</p>
-            <img src={marketstarLogoDark} alt="MarketStar" className="h-8 w-auto object-contain hidden dark:block" />
-            <img src={marketstarLogoLight} alt="MarketStar" className="h-8 w-auto object-contain block dark:hidden" />
+            <span className="text-xl font-bold text-foreground tracking-tight">LinkedIn Marketing Solutions</span>
           </div>
 
           <div className="mb-8">
@@ -120,7 +114,7 @@ export default function LoginPage() {
               <Input 
                 id="email" 
                 type="email" 
-                placeholder="name@marketstar.com" 
+                placeholder="name@linkedin.com" 
                 className="h-12 bg-background border-input focus:border-magenta focus:ring-magenta/20 transition-all text-foreground placeholder:text-muted-foreground"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -176,7 +170,7 @@ export default function LoginPage() {
 
       <div className="hidden lg:block relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0B1340] via-[#1A2B8C] to-[#0B1340]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(224,122,47,0.4),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(10,102,194,0.4),transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(26,43,140,0.5),transparent_60%)]" />
         
         <div className="relative z-10 h-full flex flex-col justify-between p-24 text-white">
@@ -193,22 +187,22 @@ export default function LoginPage() {
             transition={{ duration: 0.7, delay: 0.2 }}
           >
             <h2 className="font-display text-5xl font-bold mb-6 leading-tight">
-              B2B Sales Outsourcing <br />
-              <span className="text-[#E07A2F]">Sales Enablement</span>
+              LinkedIn Marketing Solutions <br />
+              <span className="text-[#0A66C2]">Sales Enablement</span>
             </h2>
             <p className="text-white/80 text-lg max-w-md leading-relaxed">
-              Master your pitch with AI-powered training. Arena by GigaRev — built exclusively for MarketStar sales professionals.
+              Master your pitch with AI-powered training. Arena by GigaRev — built exclusively for LinkedIn Marketing Solutions sales professionals.
             </p>
             
             <div className="flex gap-3 mt-8">
               <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
-                <span className="text-[#E07A2F] font-bold">16</span> <span className="text-white/70">AI Roleplays</span>
+                <span className="text-[#0A66C2] font-bold">18</span> <span className="text-white/70">AI Roleplays</span>
               </div>
               <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
-                <span className="text-[#E07A2F] font-bold">13</span> <span className="text-white/70">Buyer Personas</span>
+                <span className="text-[#0A66C2] font-bold">4</span> <span className="text-white/70">Buyer Personas</span>
               </div>
               <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
-                <span className="text-[#E07A2F] font-bold">20</span> <span className="text-white/70">Battlecards</span>
+                <span className="text-[#0A66C2] font-bold">10</span> <span className="text-white/70">Battlecards</span>
               </div>
             </div>
           </motion.div>

@@ -16,54 +16,54 @@ export const TRAINING_RESOURCES: Resource[] = [
   {
     id: "call-1",
     type: "call",
-    title: "Handling the 'We Already Have an Outsourced Team' Objection",
-    description: "Listen to how a top performer differentiates MarketStar's Sales as a Service® model from generic staffing agencies with an enterprise VP of Sales.",
-    learningOutcome: "Learn to position MarketStar's managed outcomes approach vs. traditional staff augmentation without bashing the competitor.",
+    title: "Handling the 'LinkedIn Is Too Expensive' Objection",
+    description: "Listen to how a top performer reframes the CPL conversation by shifting focus from cost-per-lead to cost-per-qualified-lead and pipeline value with a Demand Gen Director.",
+    learningOutcome: "Learn to reframe price objections by connecting LinkedIn's targeting precision to lead quality and downstream pipeline outcomes.",
     duration: "5:12",
-    author: "MarketStar Sales Team",
-    tags: ["Objection Handling", "Competitive", "Top 1%"]
+    author: "LMS Sales Team",
+    tags: ["Objection Handling", "Pricing", "Top 1%"]
   },
   {
     id: "call-2",
     type: "call",
-    title: "Closing the 'Need to Think About It' Enterprise Deal",
-    description: "A masterclass in isolating the real concern behind a $500K annual outsourced sales engagement stall. Watch how the rep uncovers internal alignment issues and re-engages the champion.",
-    learningOutcome: "Master the art of isolating the real objection in enterprise deals and creating urgency without being pushy.",
+    title: "Winning Over a CMO Who 'Tried LinkedIn Before'",
+    description: "A masterclass in diagnosing a past LinkedIn campaign failure without being defensive. Watch how the rep unpacks audience setup, creative, and measurement gaps to reopen the conversation.",
+    learningOutcome: "Master the art of non-defensive objection handling when a buyer has had a disappointing past experience with LinkedIn.",
     duration: "6:45",
-    author: "MarketStar Sales Team",
-    tags: ["Closing", "Enterprise", "Advanced"]
+    author: "LMS Sales Team",
+    tags: ["Objection Handling", "Past Failure", "Advanced"]
   },
   {
     id: "call-3",
     type: "call",
-    title: "Price Objection: Justifying Outsourced Sales Investment",
-    description: "Listen to a masterclass in ROI-based value selling. See how the rep shifts the conversation from monthly retainer cost to pipeline generation velocity and revenue acceleration.",
-    learningOutcome: "Learn to reframe price discussions around measurable business outcomes: pipeline generated, cost-per-qualified-meeting, and speed-to-revenue.",
+    title: "Positioning LinkedIn Against Google and Meta",
+    description: "Listen to a consultative conversation where the rep positions LinkedIn as complementary to search and social channels. See how they explain channel role differences and connect LinkedIn to harder-to-reach B2B buyers.",
+    learningOutcome: "Learn to position LinkedIn as additive rather than competitive, explaining how professional targeting fills gaps that intent-based and demographic-based channels cannot.",
     duration: "4:30",
-    author: "VP of Sales",
-    tags: ["Pricing", "Value Selling", "ROI"]
+    author: "LMS Sales Team",
+    tags: ["Competitive", "Positioning", "Channel Strategy"]
   },
   {
     id: "vid-1",
     type: "video",
-    title: "The Psychology of Enterprise Discovery Calls",
-    description: "A deep dive into building trust with C-suite buyers, reading buying signals, and structuring discovery calls that uncover real business pain around sales capacity and growth.",
-    learningOutcome: "Understand how to establish credibility with VP/C-level buyers and ask questions that reveal budget, timeline, and decision-making authority for outsourced sales engagements.",
+    title: "The 7-Part Discovery Framework for LMS Reps",
+    description: "A deep dive into running discovery calls that uncover real business pain. Learn to ask about business goals, audience, funnel gaps, current channels, offers, measurement, and stakeholders.",
+    learningOutcome: "Understand how to run a structured discovery call that builds trust and positions you as a consultative partner rather than a media seller.",
     duration: "14:30",
-    author: "MarketStar Sales Team",
+    author: "LMS Sales Team",
     thumbnail: "",
-    tags: ["Discovery", "Psychology", "Foundations"]
+    tags: ["Discovery", "Framework", "Foundations"]
   },
   {
     id: "vid-2",
     type: "video",
-    title: "Mastering the MEDDPICC Framework for MarketStar",
-    description: "Step-by-step breakdown of the MEDDPICC qualification methodology tailored for enterprise outsourced sales and revenue acceleration deals.",
-    learningOutcome: "Learn to qualify deals rigorously using Metrics, Economic Buyer, Decision Criteria, Decision Process, Identify Pain, Champion, and Competition.",
+    title: "Objective-First Selling: Matching Campaign Goals to Ad Formats",
+    description: "Step-by-step breakdown of how to sell from objective to format, not format to objective. Learn to connect buyer goals to the right LinkedIn campaign structure.",
+    learningOutcome: "Learn to recommend the right campaign objective and ad format based on the buyer's business goals, funnel stage, and content strategy.",
     duration: "18:00",
-    author: "VP of Sales",
+    author: "LMS Sales Team",
     thumbnail: "",
-    tags: ["Framework", "Qualification", "MEDDPICC"]
+    tags: ["Product Knowledge", "Campaign Strategy", "Objective-First"]
   }
 ];
 
@@ -82,9 +82,9 @@ export const BATTLECARDS: Battlecard[] = [
   {
     id: "bc-1",
     phase: "Discovery",
-    title: "The Executive Discovery Opener",
-    situation: "Opening a cold discovery call with a VP of Sales, CRO, or CEO.",
-    script: "Thanks for making the time today. Before I jump in, I'd love to understand—what's your team's biggest challenge this quarter when it comes to scaling your sales pipeline and hitting revenue targets?",
+    title: "The Business-Goal Discovery Opener",
+    situation: "Opening a discovery call with a Demand Gen Director, VP of Marketing, or CMO.",
+    script: "Thanks for making the time today. Before I jump in, I'd love to understand — what are your top marketing or growth priorities this quarter? Are you focused more on awareness, lead generation, conversion, or expansion?",
     keyPoints: ["Lead with curiosity, not a pitch", "Reference their role specifically", "Let them set the agenda first"],
     type: "script",
     image: ""
@@ -92,9 +92,9 @@ export const BATTLECARDS: Battlecard[] = [
   {
     id: "bc-2",
     phase: "Discovery",
-    title: "The Pain Point Deep-Dive",
-    situation: "Prospect mentions a surface-level challenge like 'we need more pipeline.'",
-    script: "That's a common goal. Can you help me understand—where specifically is the bottleneck? Is it top-of-funnel prospecting, qualification rates, or converting qualified opportunities to closed-won? And what have you tried so far?",
+    title: "The Funnel Gap Deep-Dive",
+    situation: "Prospect mentions a surface-level challenge like 'we need more leads.'",
+    script: "That's a common goal. Can you help me understand — where specifically is the biggest gap today? Is it reach, engagement, conversion, lead quality, or sales follow-up? And what have you tried so far?",
     keyPoints: ["Go deeper than surface symptoms", "Ask what they've already tried", "Quantify the impact if possible"],
     type: "script",
     image: ""
@@ -102,30 +102,30 @@ export const BATTLECARDS: Battlecard[] = [
   {
     id: "bc-3",
     phase: "Discovery",
-    title: "The Stakeholder Mapping Move",
-    situation: "You need to identify all decision makers and influencers in the buying process.",
-    script: "This sounds like it touches a few teams. Typically with outsourced sales engagements like this, we see Sales leadership, Finance, HR, and sometimes RevOps involved. Who else on your side would need to weigh in before moving forward?",
-    keyPoints: ["Map the buying committee early", "Use 'typically we see...' to normalize", "Identify the champion vs. economic buyer"],
+    title: "The Audience & Stakeholder Mapping Move",
+    situation: "You need to understand who the buyer is trying to reach and who influences the decision.",
+    script: "Who specifically are you trying to reach? Which personas or decision-makers matter most? And on your side, who else would typically weigh in on evaluating a new channel or campaign strategy?",
+    keyPoints: ["Map the target audience and buying committee early", "Understand named accounts or industries", "Identify internal stakeholders who influence the decision"],
     type: "tip",
     image: ""
   },
   {
     id: "bc-4",
     phase: "Demo",
-    title: "The Value-Led Demo Opening",
-    situation: "Starting a solution presentation with multiple stakeholders on the call.",
-    script: "Before I walk you through our model, I want to recap what we heard on our last call. You mentioned three priorities: accelerating pipeline generation for your new product line, reducing ramp time for new territories, and getting better visibility into sales activity data. I've built this presentation around those exact use cases.",
-    keyPoints: ["Always recap their pain first", "Customize the presentation to their priorities", "Show you listened"],
+    title: "The Value-Led Campaign Recommendation",
+    situation: "Presenting a campaign strategy recommendation to multiple stakeholders.",
+    script: "Before I walk you through the recommendation, I want to recap what we heard on our last call. You mentioned three priorities: reaching enterprise decision-makers in your target accounts, improving lead quality so sales actually follows up, and proving pipeline contribution to your CMO. I've built this plan around those exact goals.",
+    keyPoints: ["Always recap their pain first", "Customize the recommendation to their priorities", "Show you listened"],
     type: "script",
     image: ""
   },
   {
     id: "bc-5",
     phase: "Demo",
-    title: "The ROI Calculator Drop",
-    situation: "Mid-presentation, when showing Sales as a Service® capabilities.",
-    script: "Let me show you what this looks like in dollars. Based on your target of 50 new enterprise accounts this year and your current $85K ACV, a dedicated MarketStar SDR team generating 30 qualified meetings per month would translate to an additional $4.2M in pipeline. That's a 5x return on the engagement investment.",
-    keyPoints: ["Use their actual metrics", "Show conservative estimates", "Frame ROI as a multiple of investment"],
+    title: "The Objective-to-Format Bridge",
+    situation: "Explaining which LinkedIn ad format to use and why.",
+    script: "Based on your goal of generating qualified leads from VP-level buyers in enterprise tech, I'd recommend starting with Sponsored Content paired with Lead Gen Forms. The feed placement builds credibility, and the pre-filled forms reduce drop-off. For your thought leadership content, Document Ads can drive deeper engagement at mid-funnel.",
+    keyPoints: ["Always start with the objective, not the format", "Connect format to funnel stage and content type", "Keep the recommendation focused and logical"],
     type: "script",
     image: ""
   },
@@ -133,8 +133,8 @@ export const BATTLECARDS: Battlecard[] = [
     id: "bc-6",
     phase: "Demo",
     title: "The Social Proof Bridge",
-    situation: "Transitioning between presentation sections or when prospect seems skeptical.",
-    script: "This is actually the exact same approach that [Similar Company] used to build $12M in new pipeline within the first 6 months. They were in a similar situation—entering a new market segment, needed to scale fast, and didn't want to take on the risk of building an internal team from scratch.",
+    situation: "Transitioning between sections or when prospect seems skeptical.",
+    script: "This is actually the same approach that a similar SaaS company in your space used. They were struggling with lead quality from Google and Meta, so they tested LinkedIn with a focused campaign targeting VP-level buyers. Within 90 days, they saw a 3x improvement in lead-to-opportunity conversion compared to their other channels.",
     keyPoints: ["Reference similar industry/size customers", "Be specific with metrics", "Connect to their situation"],
     type: "script",
     image: ""
@@ -142,120 +142,120 @@ export const BATTLECARDS: Battlecard[] = [
   {
     id: "bc-7",
     phase: "Objection Handling",
-    title: "Handling 'We Want to Hire Internally'",
-    situation: "Prospect says they'd rather build their own sales team.",
-    script: "That makes total sense, and many of our clients started with that approach. What they found is that hiring, training, and ramping an internal team takes 6-9 months and costs 2-3x more when you factor in recruiting, benefits, turnover, and management overhead. How quickly do you need pipeline flowing?",
-    keyPoints: ["Validate their preference", "Highlight time-to-value gap", "Focus on speed and cost of internal hiring"],
+    title: "Handling 'LinkedIn Is Too Expensive'",
+    situation: "Prospect pushes back on CPL being higher than other channels.",
+    script: "That's a fair concern. The right comparison usually isn't just cost per lead, but cost per qualified lead or cost per opportunity. For many B2B teams, LinkedIn is valuable because it helps them reach the right professional audience, not just the cheapest audience. How does your team define a qualified lead today?",
+    keyPoints: ["Don't argue on CPM/CPC alone", "Move to quality, fit, and pipeline value", "Ask how they define efficiency"],
     type: "objection",
     image: ""
   },
   {
     id: "bc-8",
     phase: "Objection Handling",
-    title: "Handling 'We Already Have an Outsourced Provider'",
-    situation: "Prospect is currently using a competitor like Teleperformance, TTEC, or a boutique firm.",
-    script: "That's great—it means you already believe in the value of outsourced sales. I'm curious, what's working well with your current partner, and where do you wish they could do more?",
-    keyPoints: ["Don't bash the competitor", "Find the gaps in their current solution", "Position MarketStar's unique strengths: nearly 40 years, Nytro.ai pitch intelligence, managed outcomes"],
+    title: "Handling 'We Already Use Google and Meta'",
+    situation: "Prospect says they're already invested in other channels.",
+    script: "That makes sense, and in many cases LinkedIn works best alongside those channels. Google is strong for active intent, while LinkedIn is powerful for reaching the right business audience earlier and more precisely — especially when you need to influence specific roles or buying groups that aren't actively searching yet.",
+    keyPoints: ["Position LinkedIn as additive, not a replacement", "Explain role by funnel stage and audience type", "Link LinkedIn to harder-to-reach business buyers"],
     type: "objection",
     image: ""
   },
   {
     id: "bc-9",
     phase: "Objection Handling",
-    title: "Handling 'It's Too Expensive'",
-    situation: "Prospect pushes back on pricing during or after a proposal.",
-    script: "I understand budget is a factor. Let me reframe this—if MarketStar generates 40 qualified opportunities per month at your $90K ACV, that's $14.4M in annual pipeline against a $600K engagement investment. The question isn't whether you can afford it—it's whether you can afford to leave that pipeline on the table.",
-    keyPoints: ["Reframe cost as investment", "Use their revenue numbers", "Show cost of inaction"],
+    title: "Handling 'We Tried LinkedIn Before and It Didn't Work'",
+    situation: "Prospect had a disappointing past experience with LinkedIn advertising.",
+    script: "I understand. Usually the next step is to unpack what was tested — audience, creative, offer, objective, follow-up process, and success metric. Often the issue isn't the channel alone, but how the campaign was structured and measured. Can you walk me through what you ran?",
+    keyPoints: ["Show empathy for past failure", "Diagnose what went wrong without being defensive", "Separate channel fit from execution choices"],
     type: "objection",
     image: ""
   },
   {
     id: "bc-10",
     phase: "Objection Handling",
-    title: "Handling 'We Tried Outsourcing Before and It Failed'",
-    situation: "Prospect had a bad experience with a previous outsourced sales provider.",
-    script: "I appreciate you sharing that. Can you help me understand what went wrong? Was it the quality of reps, the lack of accountability, or misaligned expectations? Because what we've learned in nearly 40 years is that outsourced sales fails when it's treated as a staffing play, not a managed outcomes program. That's why MarketStar includes dedicated program managers, Nytro.ai pitch intelligence for rep readiness, and guaranteed SLAs.",
-    keyPoints: ["Show empathy for past failure", "Diagnose what went wrong", "Differentiate MarketStar's managed outcomes model"],
+    title: "Handling 'Our Audience Is Too Niche'",
+    situation: "Prospect believes their TAM is too small for LinkedIn advertising.",
+    script: "That's actually where LinkedIn can be especially useful. Because targeting is based on professional attributes — job title, function, seniority, industry, and company — it can be a strong fit for niche B2B audiences where reaching the right person matters more than raw scale. Quality over quantity is exactly what LinkedIn is built for.",
+    keyPoints: ["Reframe niche as a targeting advantage", "Focus on role-based reach and business identity", "Discuss quality over scale"],
     type: "objection",
     image: ""
   },
   {
     id: "bc-11",
     phase: "Objection Handling",
-    title: "Handling 'Our Sales Cycle Is Too Complex for Outsourcing'",
-    situation: "Prospect believes their product is too technical or their sales motion too complex for an external team.",
-    script: "I hear that concern, and it's valid for generic staffing firms. MarketStar specializes in complex B2B sales—we've built teams for companies selling $200K+ ACV enterprise software, multi-year platform deals, and highly technical solutions. Our ramp program and Nytro.ai pitch intelligence platform get reps productive in weeks, not months.",
-    keyPoints: ["Acknowledge complexity is real", "Highlight B2B specialization", "Reference comparable complex engagements"],
+    title: "Handling 'We Only Care About Direct ROI'",
+    situation: "Prospect demands immediate, measurable return on ad spend.",
+    script: "Absolutely. Then we should start by defining what ROI means in your world — leads, meetings, qualified pipeline, opportunities, or closed revenue — and build the campaign and measurement approach around that. We should define success based on what your business actually cares about, not just cheap clicks.",
+    keyPoints: ["Define ROI clearly in buyer's terms", "Match reporting to their funnel and sales motion", "Connect campaign design to business outcomes"],
     type: "objection",
     image: ""
   },
   {
     id: "bc-12",
     phase: "Pricing",
-    title: "The Value Anchor",
-    situation: "Presenting pricing for the first time in a proposal or follow-up call.",
-    script: "Before I walk through the investment, let's revisit what we've established: your team is leaving approximately $8M in pipeline on the table because you don't have enough SDR capacity. Our engagement investment is a fraction of that potential revenue, and every client in your space has seen positive ROI within the first 90 days.",
-    keyPoints: ["Always anchor to the value first", "Use their numbers, not yours", "Make the ROI undeniable before showing price"],
+    title: "The Quality-First Value Anchor",
+    situation: "Presenting campaign investment for the first time.",
+    script: "Before we talk about investment, let's revisit what we've established: your team needs to reach VP-level buyers at enterprise accounts, and the leads from your current channels aren't converting at the rate sales needs. The question isn't just what LinkedIn costs — it's what it costs you to keep generating leads that sales won't follow up on.",
+    keyPoints: ["Always anchor to the value first", "Use their numbers and pain points", "Make the quality argument before showing price"],
     type: "script",
     image: ""
   },
   {
     id: "bc-13",
     phase: "Pricing",
-    title: "The Engagement Model Breakdown",
-    situation: "Prospect asks about different engagement options or what's included.",
-    script: "We offer flexible engagement models: Pipeline Generation covers dedicated SDR/BDR teams for outbound prospecting. Full-Cycle Sales adds closers for new business acquisition. And our Comprehensive model includes account management and customer success for the full revenue lifecycle. Most companies at your stage start with Pipeline Generation and expand from there.",
-    keyPoints: ["Explain models clearly", "Guide them toward the right fit", "Use 'most companies at your stage' as social proof"],
+    title: "The Campaign Strategy Breakdown",
+    situation: "Prospect asks about different campaign options or what's included.",
+    script: "We typically recommend starting with a focused pilot: one high-priority audience, one clear objective, and one or two ad formats. For demand capture, that's usually feed ads plus Lead Gen Forms. For awareness, video or document ads work well. Most companies at your stage start focused and expand based on what the data shows.",
+    keyPoints: ["Explain strategy clearly", "Guide them toward the right starting point", "Use 'most companies at your stage' as social proof"],
     type: "script",
     image: ""
   },
   {
     id: "bc-14",
     phase: "Pricing",
-    title: "The Competitive Price Comparison",
-    situation: "Prospect compares MarketStar's pricing to a cheaper alternative.",
-    script: "I get it—on the surface, they look cheaper. But let's compare what you're actually getting. With MarketStar, you get a managed outcomes program with Nytro.ai pitch intelligence, a nearly 40-year enterprise track record, 3,950 employees across 90+ countries, and guaranteed SLAs. Many of our current clients switched from that exact provider because they hit a ceiling on quality and accountability.",
-    keyPoints: ["Don't compete on price, compete on value", "Highlight what cheaper solutions lack", "Reference switching stories"],
+    title: "The CPL Comparison Reframe",
+    situation: "Prospect compares LinkedIn's CPL to cheaper alternatives.",
+    script: "I get it — on the surface, the CPL looks higher. But let's compare what you're actually getting. With LinkedIn, you're reaching verified professionals by title, seniority, and company — not just anyone who clicked on a keyword. Many of our customers find that LinkedIn leads convert to opportunities at 2-3x the rate of cheaper channels. The cost per opportunity is often lower, not higher.",
+    keyPoints: ["Don't compete on CPL alone, compete on quality", "Highlight what cheaper leads lack", "Shift to cost-per-opportunity comparison"],
     type: "objection",
     image: ""
   },
   {
     id: "bc-15",
     phase: "Closing",
-    title: "The Assumptive Close",
-    situation: "After a strong presentation where all stakeholders are aligned.",
-    script: "Based on everything we've discussed, it sounds like the Pipeline Generation engagement is the right starting point for your team. I'd love to get a kickoff scheduled for next month—does that timeline work on your end?",
-    keyPoints: ["Assume the next step", "Propose a specific timeline", "Make it easy to say yes"],
+    title: "The Pilot Proposal Close",
+    situation: "After a strong discovery and recommendation where the buyer is interested but cautious.",
+    script: "Based on everything we've discussed, I'd suggest we start with a focused pilot — targeting your highest-priority audience with a clear success metric. That way you can see the quality difference for yourself before scaling. Would a 90-day test make sense on your end?",
+    keyPoints: ["Propose a low-risk starting point", "Make it easy to say yes", "Define clear success criteria upfront"],
     type: "script",
     image: ""
   },
   {
     id: "bc-16",
     phase: "Closing",
-    title: "The Multi-Thread Close",
-    situation: "Multiple stakeholders need to align before signing.",
-    script: "I know there are a few folks who need to weigh in. Would it be helpful if I put together a one-page business case your champion can share with the CFO? And I'm happy to join a call with HR to address any co-employment or team structure questions directly.",
-    keyPoints: ["Offer to support the internal sell", "Provide champion with ammo", "Remove friction for each stakeholder"],
+    title: "The Multi-Stakeholder Alignment",
+    situation: "Multiple stakeholders need to align before committing budget.",
+    script: "I know there are a few folks who need to weigh in. Would it be helpful if I put together a one-page business case your champion can share with the CMO? I can include the audience strategy, expected outcomes, and how this complements your existing channels.",
+    keyPoints: ["Offer to support the internal sell", "Provide champion with executive-ready materials", "Remove friction for each stakeholder"],
     type: "tip",
     image: ""
   },
   {
     id: "bc-17",
     phase: "Closing",
-    title: "The Procurement Navigation",
-    situation: "Deal is stuck in legal or procurement review.",
-    script: "I understand procurement has their process. We've been through this with hundreds of enterprise brands and have pre-approved MSAs, SOC 2 documentation, data security certifications, and standard co-employment frameworks ready to go. Can I send those directly to your procurement contact to speed things up?",
-    keyPoints: ["Normalize the process", "Have compliance docs ready", "Offer to engage procurement directly"],
-    type: "tip",
+    title: "The First-Call Summary Close",
+    situation: "Ending a strong first conversation and securing next steps.",
+    script: "Based on what you shared, I'd suggest we start by focusing on your highest-priority audience and testing a campaign approach aligned to that specific outcome. What additional information would be helpful for your team, and when would a good time to reconvene with a recommendation?",
+    keyPoints: ["Summarize their goals, not your features", "Recommend a clear next step", "Agree on success criteria and timeline"],
+    type: "script",
     image: ""
   },
   {
     id: "bc-18",
     phase: "Follow-up",
-    title: "The Post-Demo Summary Email",
-    situation: "Sending a follow-up email within 2 hours of a presentation.",
-    script: "Hi [Name], thanks again for your time today. To recap: we covered how MarketStar can address [Pain 1], [Pain 2], and [Pain 3]. I've attached a custom ROI model based on your pipeline targets and revenue goals. Next steps: [Action Item]. Looking forward to connecting on [Date].",
-    keyPoints: ["Send within 2 hours", "Recap their pain, not your features", "Include a clear next step and date"],
+    title: "The Post-Discovery Summary Email",
+    situation: "Sending a follow-up email within 2 hours of a discovery call.",
+    script: "Hi [Name], thanks again for your time today. To recap: we covered how LinkedIn can help with [Priority 1], [Priority 2], and [Priority 3]. I've outlined a recommended starting approach based on your audience and goals. Next steps: [Action Item]. Looking forward to connecting on [Date].",
+    keyPoints: ["Send within 2 hours", "Recap their priorities, not your features", "Include a clear next step and date"],
     type: "script",
     image: ""
   },
@@ -263,8 +263,8 @@ export const BATTLECARDS: Battlecard[] = [
     id: "bc-19",
     phase: "Follow-up",
     title: "The Champion Enablement Pack",
-    situation: "Your internal champion needs to sell MarketStar to their leadership team.",
-    script: "I put together a one-pager and ROI summary specifically for your leadership review. It covers the business case, expected pipeline outcomes, and a comparison to building internally. Would it be helpful if I also drafted a brief exec summary email you could forward?",
+    situation: "Your internal champion needs to present LinkedIn to their CMO or leadership.",
+    script: "I put together a one-pager and ROI summary specifically for your leadership review. It covers the business case, expected outcomes from a focused LinkedIn pilot, and how it complements your existing channel mix. Would it be helpful if I also drafted a brief exec summary email you could forward?",
     keyPoints: ["Make your champion look good", "Provide ready-to-forward materials", "Offer to draft internal communications"],
     type: "script",
     image: ""
@@ -273,9 +273,9 @@ export const BATTLECARDS: Battlecard[] = [
     id: "bc-20",
     phase: "Follow-up",
     title: "The Executive Sponsor Outreach",
-    situation: "You need to engage the economic buyer or C-suite sponsor directly.",
-    script: "Hi [Exec Name], I've been working with [Champion Name] on your team on how MarketStar can accelerate pipeline generation and revenue growth for [Company]. I'd love 15 minutes to share what we've uncovered and get your perspective on priorities for the coming quarter.",
-    keyPoints: ["Reference the champion by name", "Lead with business impact, not product", "Ask for a specific, short time commitment"],
+    situation: "You need to engage the VP of Marketing or CMO directly.",
+    script: "Hi [Exec Name], I've been working with [Champion Name] on your team on how LinkedIn can help [Company] reach your target B2B audience more precisely and improve lead quality. I'd love 15 minutes to share what we've uncovered and get your perspective on priorities for the coming quarter.",
+    keyPoints: ["Reference the champion by name", "Lead with business impact, not product features", "Ask for a specific, short time commitment"],
     type: "script",
     image: ""
   }
@@ -311,146 +311,146 @@ export interface Chapter {
 export const CHAPTERS: Chapter[] = [
   {
     id: "chap-1",
-    title: "Sales Foundations",
-    subtitle: "Master the Enterprise Sales Cycle",
-    description: "Learn the fundamentals of enterprise B2B selling for outsourced sales services. This module covers discovery call frameworks, the MEDDPICC qualification methodology, stakeholder mapping, and building trust with C-suite buyers.",
+    title: "LMS Fundamentals",
+    subtitle: "Product Landscape & Core Value",
+    description: "Learn what LinkedIn Marketing Solutions is, why B2B marketers buy it, what the core products do, and how to explain LinkedIn's value simply and confidently.",
     duration: "45 min",
     status: "in-progress",
     pdfUrl: "",
     coverImage: "",
     agenda: [
-      "The Enterprise Discovery Call Framework",
-      "MEDDPICC Qualification Methodology",
-      "Stakeholder Mapping & Multi-Threading",
-      "Building Trust with C-Suite Buyers"
+      "What LMS Sells and Why Buyers Use It",
+      "The Professional Graph Advantage",
+      "Core Products: Sponsored Content, Lead Gen Forms, Video, Carousel, Document Ads",
+      "Objective-First Selling and Measurement Basics"
     ],
     slides: [
       {
         type: 'content',
-        title: "The Enterprise Discovery Call",
-        content: "Your first call sets the tone for the entire deal. Learn how to run a discovery call that uncovers real business pain around sales capacity and growth, and positions MarketStar as the solution.",
+        title: "What LMS Actually Sells",
+        content: "LinkedIn Marketing Solutions sells access to a professional audience with precision targeting and ad formats matched to business objectives. For a new rep, the simplest way to describe LMS is: LinkedIn helps marketers reach the right professional audience, with the right message, in a trusted business environment, and measure business impact across the funnel.",
         bullets: [
-          "Research the prospect's sales org before the call—check LinkedIn for team size, open roles, and growth signals.",
-          "Lead with open-ended questions about their priorities, not your services.",
-          "Map out the buying committee: who influences, who decides, who signs."
+          "Access to a professional audience with precision targeting based on business identity.",
+          "Ad formats matched to business objectives — awareness, lead gen, and conversion.",
+          "Measurement tied to business outcomes, not just clicks."
         ]
       },
       {
         type: 'content',
-        title: "The MEDDPICC Framework",
-        content: "The qualification methodology that separates pipeline dreams from real deals. Every enterprise opportunity must be rigorously qualified.",
+        title: "Why LinkedIn Is Different",
+        content: "LinkedIn is not just another ad platform. Its core value is business context — professional identity and declared profile data that no other platform can match.",
         bullets: [
-          "Metrics: What measurable outcomes does the buyer care about? Pipeline velocity? Cost-per-acquisition?",
-          "Economic Buyer: Who controls the budget and final sign-off?",
-          "Decision Process: What steps must happen before they can buy?"
+          "Professional identity-based targeting: job title, function, seniority, industry, company, skills.",
+          "Trusted business environment for thought leadership and B2B content.",
+          "Full-funnel campaign options from awareness to lead generation and conversion."
         ]
       },
       {
         type: 'roleplay',
-        title: "Practice: The Discovery Opener",
-        content: "Put your discovery skills to the test. Can you engage a skeptical VP of Sales without jumping to a pitch?",
+        title: "Practice: The LMS Elevator Pitch",
+        content: "A new Demand Gen Manager asks: 'What exactly is LinkedIn Marketing Solutions, and why would I use it?' Can you explain it clearly in 30 seconds?",
         roleplayId: "rp-1"
       },
       {
         type: 'quiz',
-        title: "Quick Check: Discovery Fundamentals",
+        title: "Quick Check: LMS Fundamentals",
         quiz: {
-          question: "What is the primary goal of an enterprise discovery call?",
+          question: "What is the best way for a new rep to start a campaign recommendation?",
           options: [
-            "To present your solution as quickly as possible.",
-            "To uncover the prospect's business pain and qualify the opportunity.",
-            "To send a pricing proposal.",
-            "To schedule a follow-up meeting."
+            "Recommend the most popular ad format.",
+            "Ask 'What business outcome matters most?' and match the objective to the right format.",
+            "Present LinkedIn's full product catalog.",
+            "Start with pricing and budget discussion."
           ],
           correctAnswer: 1
         }
       },
       {
         type: 'content',
-        title: "Stakeholder Mapping",
-        content: "Enterprise deals are won or lost based on your ability to identify and engage all decision makers. Never rely on a single thread.",
+        title: "Core Products Overview",
+        content: "LinkedIn offers a family of ad products designed for different business objectives and funnel stages. New reps must understand when and why to recommend each format.",
         bullets: [
-          "Identify the Champion: Who will sell internally on your behalf?",
-          "Find the Economic Buyer: Who controls the budget?",
-          "Map Operational Influencers: HR, Finance, and RevOps teams that can block or accelerate."
+          "Sponsored Content: feed-based ads for reach, education, and engagement.",
+          "Lead Gen Forms: pre-filled forms that reduce friction and improve conversion rates.",
+          "Video, Carousel, and Document Ads: for storytelling, multi-step education, and deep content engagement."
         ]
       },
       {
         type: 'quiz',
-        title: "Quick Check: Stakeholder Mapping",
+        title: "Quick Check: Product Knowledge",
         quiz: {
-          question: "What should you do when your main contact says 'I can make this decision myself'?",
+          question: "Why are Lead Gen Forms especially valuable for B2B marketers?",
           options: [
-            "Take them at their word and send a contract.",
-            "Ignore them and go over their head.",
-            "Trust but verify: ask about procurement, legal, and budget approval processes.",
-            "Assume the deal is closed."
+            "They are free to use.",
+            "They pre-fill data from LinkedIn profiles, reducing form friction and improving conversions.",
+            "They automatically qualify leads with AI.",
+            "They replace the need for a website."
           ],
-          correctAnswer: 2
+          correctAnswer: 1
         }
       },
       {
         type: 'roleplay',
-        title: "Practice: Stakeholder Discovery",
-        content: "The buyer claims they're the sole decision maker. Uncover the real buying committee without being pushy.",
+        title: "Practice: Executive Summary",
+        content: "The CMO asks: 'Give me the short version — why LinkedIn, why now?' Deliver a concise, confident executive-level answer.",
         roleplayId: "rp-6"
       }
     ]
   },
   {
     id: "chap-2",
-    title: "Deal Execution",
-    subtitle: "Closing Enterprise Deals",
-    description: "Move from 'Maybe' to 'Yes'. This advanced module covers objection handling frameworks, procurement navigation, value-based pricing strategies, and multi-stakeholder closing techniques for outsourced sales engagements.",
+    title: "Buyer Conversations & Discovery",
+    subtitle: "Diagnose Before You Prescribe",
+    description: "Learn how to run structured discovery calls, understand buyer context, and position LinkedIn Marketing Solutions based on actual business needs — not product features.",
     duration: "60 min",
     status: "locked",
     pdfUrl: "",
     coverImage: "",
     agenda: [
-      "Objection Handling Frameworks",
-      "Value-Based Pricing & ROI Selling",
-      "Procurement & Legal Navigation",
-      "Multi-Stakeholder Closing Techniques"
+      "The 7-Part Discovery Framework",
+      "Buyer Personas: Demand Gen, CMO, ABM, Performance Marketing",
+      "Positioning LinkedIn Against Current Channels",
+      "Persona-Based Selling and Full Discovery Practice"
     ],
     slides: [
       {
         type: 'content',
-        title: "The Objection Handling Framework",
-        content: "Every objection is a buying signal in disguise. Learn to acknowledge, isolate, and resolve concerns systematically.",
+        title: "Why Discovery Matters",
+        content: "Buyers don't want a generic product tour. Better discovery leads to stronger recommendations, builds trust, and increases close rates. A great discovery call is one where the buyer feels understood before the rep recommends a product.",
         bullets: [
-          "Acknowledge: Validate the concern before responding.",
-          "Isolate: Make sure it's the real objection, not a smokescreen.",
-          "Resolve & Advance: Address it and move toward the next step."
+          "Avoid feature-dumping — understand the business problem first.",
+          "Better discovery leads to more relevant recommendations.",
+          "Good discovery builds trust and positions you as a consultative partner."
         ]
       },
       {
         type: 'content',
-        title: "Value-Based Pricing",
-        content: "Never let price be the conversation. Always anchor to the business value MarketStar delivers—pipeline generated, revenue accelerated, and cost savings vs. internal hiring.",
+        title: "The 7-Part Discovery Framework",
+        content: "Follow this structured discovery sequence to avoid pitching too early and ensure you understand the full picture before recommending a campaign strategy.",
         bullets: [
-          "Calculate ROI using the prospect's own pipeline targets and revenue goals.",
-          "Frame the investment as a fraction of the pipeline and revenue they'll generate.",
-          "Use customer case studies to prove measurable outcomes."
+          "Business goals → Audience → Funnel gap → Current channel mix.",
+          "Offer/content → Measurement → Stakeholders/process.",
+          "Each step reveals critical context for your campaign recommendation."
         ]
       },
       {
         type: 'roleplay',
-        title: "Practice: Handling Price Objections",
-        content: "The VP says 'It's too expensive.' Is it really about price? Find out.",
-        roleplayId: "rp-11"
+        title: "Practice: Funnel Diagnosis",
+        content: "The buyer says their leads aren't converting and sales calls them 'garbage.' Can you diagnose the real problem?",
+        roleplayId: "rp-9"
       },
       {
         type: 'quiz',
-        title: "Quick Check: Objection Handling",
+        title: "Quick Check: Discovery Framework",
         quiz: {
-          question: "What should you do immediately after a buyer raises an objection?",
+          question: "What should you do immediately after a buyer raises a concern about LinkedIn's cost?",
           options: [
-            "Counter with why they're wrong.",
-            "Immediately offer a discount.",
-            "Acknowledge the concern and isolate it as the real blocker.",
-            "End the call and follow up later."
+            "Offer a discount or reduced package.",
+            "Acknowledge the concern, then reframe by asking how they define efficiency and shifting to lead quality and pipeline value.",
+            "Argue that LinkedIn is actually cheaper than competitors.",
+            "End the call and send a pricing sheet."
           ],
-          correctAnswer: 2
+          correctAnswer: 1
         }
       }
     ]
@@ -476,178 +476,200 @@ export interface RoleplayScenario {
 export const ROLEPLAYS: RoleplayScenario[] = [
   {
     id: "rp-1",
-    name: "We're not looking at outsourcing our sales right now.",
-    role: "The Gatekeeper VP",
-    description: "Chapter 1 → Discovery → Cold Opener. Acknowledge timing + establish value hypothesis + ask a discovery question.",
+    name: "What exactly is LinkedIn Marketing Solutions, and why would I use it?",
+    role: "The New Demand Gen Manager",
+    description: "Chapter 1 → Product Overview → Elevator Explanation. Deliver a clear, confident 30-second explanation of LMS without jargon.",
     avatar: "",
-    traits: ["Time Pressure", "Authority", "Skepticism"],
+    traits: ["Curiosity", "Low Awareness", "Open-Minded"],
     difficulty: "Beginner",
-    stats: { resistance: 60, objections: 20, buy_signal: 30 },
+    stats: { resistance: 30, objections: 20, buy_signal: 50 },
     chapterId: "chap-1"
   },
   {
     id: "rp-2",
-    name: "Just send me an email.",
-    role: "The Dismissive Director",
-    description: "Chapter 1 → Discovery → Brush-Off. Acknowledge + create a reason to stay on the call + redirect to value.",
+    name: "Why would your lead forms perform better than sending traffic to my site?",
+    role: "The Skeptical B2B Marketer",
+    description: "Chapter 1 → Product Deep-Dive → Lead Gen Form Relevance. Explain friction reduction and fit without overpromising.",
     avatar: "",
-    traits: ["Deflection", "Low Interest", "Time-Constrained"],
+    traits: ["Detail-Oriented", "Practical", "Results-Driven"],
     difficulty: "Intermediate",
-    stats: { resistance: 80, objections: 40, buy_signal: 10 },
+    stats: { resistance: 50, objections: 40, buy_signal: 40 },
     chapterId: "chap-1"
   },
   {
     id: "rp-3",
-    name: "We're focused on other priorities this quarter.",
-    role: "The Busy Executive",
-    description: "Chapter 1 → Discovery → Timing Objection. Connect to their priorities + show relevance + ask for a brief meeting.",
+    name: "I don't know whether I want awareness or leads. How do I decide?",
+    role: "The Confused First-Time Advertiser",
+    description: "Chapter 1 → Objective-First Selling → Objective Clarification. Guide the buyer by asking smart follow-up questions instead of prescribing.",
     avatar: "",
-    traits: ["Priority Focused", "Strategic", "Time-Conscious"],
-    difficulty: "Intermediate",
-    stats: { resistance: 55, objections: 45, buy_signal: 45 },
+    traits: ["Uncertainty", "Openness", "Need for Guidance"],
+    difficulty: "Beginner",
+    stats: { resistance: 25, objections: 30, buy_signal: 60 },
     chapterId: "chap-1"
   },
   {
     id: "rp-4",
-    name: "We're hiring our own SDR team internally.",
-    role: "The Build-It-Ourselves Buyer",
-    description: "Chapter 1 → Discovery → In-House Solution. Validate their approach + highlight ramp time and cost + differentiate managed outcomes.",
+    name: "Which ad format should I start with?",
+    role: "The SaaS Campaign Planner",
+    description: "Chapter 1 → Product Deep-Dive → Format Recommendation. Match format to offer and funnel stage based on the buyer's content.",
     avatar: "",
-    traits: ["DIY Mindset", "Hiring-Focused", "Cost-Sensitive"],
+    traits: ["Action-Oriented", "Content-Rich", "Goal-Focused"],
     difficulty: "Intermediate",
-    stats: { resistance: 70, objections: 60, buy_signal: 40 },
+    stats: { resistance: 40, objections: 35, buy_signal: 55 },
     chapterId: "chap-1"
   },
   {
     id: "rp-5",
-    name: "We already work with another outsourced sales provider.",
-    role: "The Incumbent Loyalist",
-    description: "Chapter 1 → Discovery → Competitive Displacement. Acknowledge + find gaps + position differentiation.",
+    name: "We only care about results. What should we realistically measure?",
+    role: "The Performance Marketer",
+    description: "Chapter 1 → Measurement Basics → Metrics Conversation. Shift from vanity metrics to business-relevant metrics.",
     avatar: "",
-    traits: ["Vendor Loyalty", "Risk Aversion", "Status Quo Bias"],
-    difficulty: "Advanced",
-    stats: { resistance: 85, objections: 50, buy_signal: 20 },
+    traits: ["Data-Driven", "ROI-Focused", "Direct"],
+    difficulty: "Intermediate",
+    stats: { resistance: 55, objections: 50, buy_signal: 45 },
     chapterId: "chap-1"
   },
   {
     id: "rp-6",
-    name: "What exactly does MarketStar do?",
-    role: "The Uninformed Stakeholder",
-    description: "Chapter 1 → Discovery → Value Articulation. Deliver a clear, concise value prop + tailor to their role + ask a qualifying question.",
+    name: "Give me the short version — why LinkedIn, why now?",
+    role: "The Time-Pressed CMO",
+    description: "Chapter 1 → End of Chapter → Executive Summary. Deliver a concise executive-level summary that connects LMS to business outcomes.",
     avatar: "",
-    traits: ["Curiosity", "Low Awareness", "Open-Minded"],
-    difficulty: "Beginner",
-    stats: { resistance: 40, objections: 30, buy_signal: 50 },
+    traits: ["Executive Presence", "Time-Constrained", "Strategic"],
+    difficulty: "Advanced",
+    stats: { resistance: 60, objections: 40, buy_signal: 35 },
     chapterId: "chap-1"
   },
   {
     id: "rp-7",
-    name: "Can you show me how this works for our specific market?",
-    role: "The Demo Challenger",
-    description: "Chapter 2 → Demo → Custom Use Case. Tailor the presentation to their scenario + use their data + show measurable impact.",
+    name: "What are your top priorities this quarter?",
+    role: "The Guarded VP of Demand Gen",
+    description: "Chapter 2 → Discovery → Business-Priority Discovery. Ask open-ended questions about business goals and listen for pain signals.",
     avatar: "",
-    traits: ["Detail-Oriented", "Practical", "Results-Driven"],
+    traits: ["Strategic", "Budget-Conscious", "Results-Focused"],
     difficulty: "Intermediate",
-    stats: { resistance: 60, objections: 70, buy_signal: 30 },
+    stats: { resistance: 55, objections: 45, buy_signal: 40 },
     chapterId: "chap-2"
   },
   {
     id: "rp-8",
-    name: "We tried outsourcing sales before and it was a disaster.",
-    role: "The Burned Buyer",
-    description: "Chapter 2 → Demo → Past Failure. Show empathy + diagnose what went wrong + differentiate MarketStar's approach.",
+    name: "We're trying to reach the buying committee at enterprise accounts.",
+    role: "The ABM / Field Marketing Leader",
+    description: "Chapter 2 → Discovery → Audience / Buying Committee. Probe for specific roles and accounts, then connect to LinkedIn's targeting.",
     avatar: "",
-    traits: ["Skepticism", "Past Pain", "Risk Aversion"],
-    difficulty: "Advanced",
-    stats: { resistance: 75, objections: 80, buy_signal: 20 },
+    traits: ["Account-Focused", "Precision-Oriented", "Sales-Aligned"],
+    difficulty: "Intermediate",
+    stats: { resistance: 50, objections: 55, buy_signal: 45 },
     chapterId: "chap-2"
   },
   {
     id: "rp-9",
-    name: "Our product is too complex for an external team to sell.",
-    role: "The Complexity Objector",
-    description: "Chapter 2 → Demo → Complexity Objection. Highlight B2B specialization + ramp program + Nytro.ai pitch intelligence.",
+    name: "We're getting leads but they're not converting. Sales says they're garbage.",
+    role: "The Frustrated Demand Gen Director",
+    description: "Chapter 2 → Discovery → Funnel Diagnosis. Diagnose the funnel gap specifically and connect to LinkedIn's precision targeting.",
     avatar: "",
-    traits: ["Technical Pride", "Pragmatic", "Team-Oriented"],
-    difficulty: "Intermediate",
-    stats: { resistance: 50, objections: 60, buy_signal: 40 },
+    traits: ["Frustrated", "Data-Aware", "Sales-Pressured"],
+    difficulty: "Advanced",
+    stats: { resistance: 70, objections: 65, buy_signal: 30 },
     chapterId: "chap-2"
   },
   {
     id: "rp-10",
-    name: "How much does this cost?",
-    role: "The Price-First Buyer",
-    description: "Chapter 2 → Pricing → Before Quoting. Defer price + anchor to value and ROI first.",
+    name: "We used LinkedIn before and were pretty disappointed.",
+    role: "The Burned CMO",
+    description: "Chapter 2 → Discovery → Prior-Channel Disappointment. Show empathy, diagnose what was tested, and reopen the conversation without being defensive.",
     avatar: "",
-    traits: ["Budget-Conscious", "Direct", "Value-Seeking"],
-    difficulty: "Intermediate",
-    stats: { resistance: 50, objections: 90, buy_signal: 50 },
+    traits: ["Skepticism", "Past Pain", "High Standards"],
+    difficulty: "Advanced",
+    stats: { resistance: 75, objections: 70, buy_signal: 20 },
     chapterId: "chap-2"
   },
   {
     id: "rp-11",
-    name: "That's way over our budget.",
-    role: "The Budget Gatekeeper",
-    description: "Chapter 2 → Pricing → Price Objection. Normalize the investment + reframe as ROI + show cost of inaction.",
+    name: "I'm the CMO. Why does LinkedIn deserve budget over channels we already trust?",
+    role: "The Budget-Guarding CMO",
+    description: "Chapter 2 → Positioning → Persona-Based Positioning (CMO). Position LinkedIn strategically with outcomes over features.",
     avatar: "",
-    traits: ["Budget Authority", "ROI-Focused", "Negotiation"],
+    traits: ["Executive Authority", "Budget Pressure", "Strategic Thinker"],
     difficulty: "Advanced",
-    stats: { resistance: 80, objections: 90, buy_signal: 30 },
+    stats: { resistance: 80, objections: 75, buy_signal: 25 },
     chapterId: "chap-2"
   },
   {
     id: "rp-12",
-    name: "A competitor quoted us half your price.",
-    role: "The Comparison Shopper",
-    description: "Chapter 2 → Pricing → Competitive Comparison. Differentiate on value, not price + highlight what's missing in cheaper options.",
+    name: "Run a full mini-discovery with me. I'm VP of Demand Gen, pipeline is flat.",
+    role: "The Full Discovery Simulation",
+    description: "Chapter 2 → Full Discovery → Mini-Discovery Simulation. Run a structured 7-part discovery flow covering goals, audience, funnel, channels, offers, measurement, and stakeholders.",
     avatar: "",
-    traits: ["Price Sensitivity", "Analytical", "Value Comparison"],
+    traits: ["Comprehensive", "Testing Rep Skills", "Multi-Faceted"],
     difficulty: "Advanced",
-    stats: { resistance: 85, objections: 85, buy_signal: 25 },
+    stats: { resistance: 85, objections: 80, buy_signal: 35 },
     chapterId: "chap-2"
   },
   {
     id: "rp-13",
-    name: "I need to run this by our procurement team.",
-    role: "The Procurement Handoff",
-    description: "Chapter 2 → Closing → Procurement. Normalize the process + offer compliance docs + maintain momentum.",
+    name: "Your CPL is always higher than other platforms.",
+    role: "The Cost-Conscious Performance Marketer",
+    description: "Chapter 3 → Objection Handling → Price Objection. Reframe CPL to qualified outcomes and pipeline value.",
     avatar: "",
-    traits: ["Process-Oriented", "Compliance", "Risk Management"],
+    traits: ["Data-Driven", "Price Sensitivity", "Analytical"],
     difficulty: "Intermediate",
-    stats: { resistance: 60, objections: 70, buy_signal: 60 },
+    stats: { resistance: 65, objections: 80, buy_signal: 35 },
     chapterId: "chap-2"
   },
   {
     id: "rp-14",
-    name: "I need to think about it and get back to you.",
-    role: "The Stalling Champion",
-    description: "Chapter 2 → Closing → Stall Handling. Isolate the real concern + offer to help address it + set a specific follow-up.",
+    name: "Why not just put more budget into Google?",
+    role: "The Channel-Loyal Demand Gen Leader",
+    description: "Chapter 3 → Objection Handling → Channel Overlap. Explain channel role differences and complementary positioning.",
     avatar: "",
-    traits: ["Indecision", "Internal Politics", "Risk Aversion"],
+    traits: ["Google-Centric", "Results-Oriented", "Channel-Focused"],
     difficulty: "Intermediate",
-    stats: { resistance: 50, objections: 50, buy_signal: 50 },
+    stats: { resistance: 60, objections: 65, buy_signal: 40 },
     chapterId: "chap-2"
   },
   {
     id: "rp-15",
-    name: "We'll revisit this next quarter.",
-    role: "The Timeline Pusher",
-    description: "Chapter 2 → Closing → Timeline Objection. Create urgency + show cost of delay + propose a low-commitment next step.",
+    name: "We tried LinkedIn last year and saw nothing meaningful.",
+    role: "The Disappointed CMO",
+    description: "Chapter 3 → Objection Handling → Past Failure. Diagnose respectfully without being defensive and reopen the conversation.",
     avatar: "",
-    traits: ["Procrastination", "Risk Aversion", "Strategic Delay"],
+    traits: ["Skepticism", "Past Disappointment", "High Bar"],
     difficulty: "Advanced",
-    stats: { resistance: 70, objections: 40, buy_signal: 40 },
+    stats: { resistance: 75, objections: 70, buy_signal: 20 },
     chapterId: "chap-2"
   },
   {
     id: "rp-16",
-    name: "Final Certification Assessment",
-    role: "The Enterprise Deal Simulation",
-    description: "Post-Training → Final Certification. Rep must demonstrate mastery across discovery, demo, objection handling, and closing in a full enterprise deal simulation for outsourced sales services.",
+    name: "Our TAM is tiny. I doubt LinkedIn is worth it.",
+    role: "The Niche Cybersecurity Marketer",
+    description: "Chapter 3 → Objection Handling → Niche Audience. Reframe niche targeting as a strength and discuss quality over scale.",
     avatar: "",
-    traits: ["Mastery", "Endurance", "Consistency"],
+    traits: ["Niche-Focused", "Skeptical", "Enterprise-Oriented"],
     difficulty: "Advanced",
-    stats: { resistance: 90, objections: 90, buy_signal: 50 },
+    stats: { resistance: 70, objections: 60, buy_signal: 30 },
+    chapterId: "chap-2"
+  },
+  {
+    id: "rp-17",
+    name: "We have budget for one pilot. What would you test first?",
+    role: "The Mid-Market SaaS Marketer",
+    description: "Chapter 3 → Strategy → Pilot Recommendation. Recommend a logical starter strategy with simplicity and strategic clarity.",
+    avatar: "",
+    traits: ["Budget-Constrained", "Action-Ready", "Practical"],
+    difficulty: "Intermediate",
+    stats: { resistance: 40, objections: 35, buy_signal: 65 },
+    chapterId: "chap-2"
+  },
+  {
+    id: "rp-18",
+    name: "Final Certification: Tell us what LinkedIn should do for us, why we should trust it, and how you'd start.",
+    role: "The CMO + Demand Gen Panel",
+    description: "Post-Training → Final Certification. Run a concise executive pitch plus recommendation combining discovery, positioning, and objection handling.",
+    avatar: "",
+    traits: ["Executive Panel", "Comprehensive Test", "High Stakes"],
+    difficulty: "Advanced",
+    stats: { resistance: 90, objections: 85, buy_signal: 40 },
     chapterId: "chap-2"
   }
 ];
@@ -680,10 +702,10 @@ export const PAST_RESULTS: RoleplayResult[] = [
     scenarioId: "rp-1",
     score: 85,
     date: "2025-01-10T14:30:00",
-    feedback: "Great job opening with a value hypothesis instead of a product pitch. You maintained a consultative tone, but could have been more assertive when asking the qualifying question.",
+    feedback: "Great job delivering a clear elevator explanation without resorting to jargon. You maintained a consultative tone and connected LMS to business outcomes, but could have been more concise in the opening.",
     transcript: [
-        { id: '1', sender: 'ai', text: "We're not looking at outsourcing our sales right now.", timestamp: new Date() },
-        { id: '2', sender: 'user', text: "I completely understand. I'm not here to pitch—just wanted to share a quick insight about how companies like yours are solving [specific challenge].", timestamp: new Date() }
+        { id: '1', sender: 'ai', text: "What exactly is LinkedIn Marketing Solutions, and why would I use it instead of another ad channel?", timestamp: new Date() },
+        { id: '2', sender: 'user', text: "LinkedIn Marketing Solutions helps you reach the exact professional audience that matters to your business — by job title, seniority, company, and industry — in a trusted business context. It's especially valuable when you need to influence B2B decision-makers who are hard to reach on other platforms.", timestamp: new Date() }
     ],
     metrics: {
       resistanceHandled: 90,
@@ -694,9 +716,9 @@ export const PAST_RESULTS: RoleplayResult[] = [
       listening: 75
     },
     keyMoments: [
-      { timestamp: "0:05", description: "Successfully acknowledged the timing objection without being pushy.", impact: 'positive' },
-      { timestamp: "0:15", description: "Slight hesitation when asked about specific ROI numbers.", impact: 'negative' },
-      { timestamp: "0:45", description: "Strong discovery question to uncover business pain.", impact: 'positive' }
+      { timestamp: "0:05", description: "Strong opening with clear value statement connecting to business outcomes.", impact: 'positive' },
+      { timestamp: "0:15", description: "Slight hesitation when differentiating from Google/Meta.", impact: 'negative' },
+      { timestamp: "0:45", description: "Excellent use of targeting examples to make the value tangible.", impact: 'positive' }
     ]
   },
   {
@@ -704,7 +726,7 @@ export const PAST_RESULTS: RoleplayResult[] = [
     scenarioId: "rp-6",
     score: 72,
     date: "2025-01-12T09:15:00",
-    feedback: "Good recovery when the stakeholder challenged your value proposition. Work on delivering a crisper elevator pitch without over-explaining service details.",
+    feedback: "Good recovery when the CMO pushed for brevity. Work on delivering a crisper executive summary without over-explaining product details.",
     transcript: [],
     metrics: {
       resistanceHandled: 70,
@@ -715,8 +737,8 @@ export const PAST_RESULTS: RoleplayResult[] = [
       listening: 60
     },
     keyMoments: [
-       { timestamp: "0:10", description: "Missed opportunity to tailor the value prop to the stakeholder's role.", impact: 'negative' },
-       { timestamp: "0:30", description: "Recovered well by connecting MarketStar's capabilities to their specific business challenge.", impact: 'positive' }
+       { timestamp: "0:10", description: "Missed opportunity to lead with business outcomes instead of product features.", impact: 'negative' },
+       { timestamp: "0:30", description: "Recovered well by connecting LinkedIn's targeting precision to the CMO's pipeline goals.", impact: 'positive' }
     ]
   }
 ];
@@ -796,7 +818,7 @@ export const SALES_REPS: SalesRep[] = [
   {
     id: "rep-1",
     name: "Paul Wilkerson",
-    email: "paul.wilkerson@marketstar.com",
+    email: "paul.wilkerson@linkedin.com",
     status: "onboarding",
     progress: 17,
     roleplaysCompleted: 3,
@@ -807,7 +829,7 @@ export const SALES_REPS: SalesRep[] = [
   {
     id: "rep-2",
     name: "Michael Chen",
-    email: "michael.chen@marketstar.com",
+    email: "michael.chen@linkedin.com",
     status: "active",
     progress: 85,
     roleplaysCompleted: 12,
@@ -818,7 +840,7 @@ export const SALES_REPS: SalesRep[] = [
   {
     id: "rep-3",
     name: "Sarah Jones",
-    email: "sarah.jones@marketstar.com",
+    email: "sarah.jones@linkedin.com",
     status: "active",
     progress: 62,
     roleplaysCompleted: 8,
@@ -829,7 +851,7 @@ export const SALES_REPS: SalesRep[] = [
   {
     id: "rep-4",
     name: "David Smith",
-    email: "david.smith@marketstar.com",
+    email: "david.smith@linkedin.com",
     status: "inactive",
     progress: 10,
     roleplaysCompleted: 1,
@@ -840,7 +862,7 @@ export const SALES_REPS: SalesRep[] = [
   {
     id: "rep-5",
     name: "Emily White",
-    email: "emily.white@marketstar.com",
+    email: "emily.white@linkedin.com",
     status: "onboarding",
     progress: 35,
     roleplaysCompleted: 4,
@@ -864,7 +886,7 @@ export const MANAGERS: Manager[] = [
   {
     id: "mgr-1",
     name: "Sarah Jenkins",
-    email: "sarah.jenkins@marketstar.com",
+    email: "sarah.jenkins@linkedin.com",
     teamSize: 12,
     avgTeamScore: 88,
     topPerformer: "Michael Chen",
@@ -873,7 +895,7 @@ export const MANAGERS: Manager[] = [
   {
     id: "mgr-2",
     name: "David Miller",
-    email: "david.miller@marketstar.com",
+    email: "david.miller@linkedin.com",
     teamSize: 8,
     avgTeamScore: 82,
     topPerformer: "Paul Wilkerson",
@@ -882,7 +904,7 @@ export const MANAGERS: Manager[] = [
   {
     id: "mgr-3",
     name: "Amanda Ross",
-    email: "amanda.ross@marketstar.com",
+    email: "amanda.ross@linkedin.com",
     teamSize: 15,
     avgTeamScore: 91,
     topPerformer: "James Wilson",

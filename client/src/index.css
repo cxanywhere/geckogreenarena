@@ -77,7 +77,7 @@
   --muted: 228 20% 96%;
   --muted-foreground: 230 20% 42%;
   
-  --accent: 24 78% 53%;
+  --accent: 210 90% 40%;
   --accent-foreground: 0 0% 100%;
   
   --destructive: 0 84% 60%;
@@ -85,23 +85,23 @@
   
   --border: 228 20% 90%;
   --input: 228 20% 88%;
-  --ring: 24 78% 53%;
+  --ring: 210 90% 40%;
   
   --radius: 0.75rem;
   
-  --magenta: 24 78% 53%;
+  --magenta: 210 90% 40%;
   --magenta-foreground: 0 0% 100%;
   --navy: 230 72% 22%;
   --navy-foreground: 0 0% 100%;
 
   --sidebar: 230 72% 22%;
   --sidebar-foreground: 228 40% 95%;
-  --sidebar-primary: 24 78% 53%;
+  --sidebar-primary: 210 90% 40%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 230 60% 30%;
   --sidebar-accent-foreground: 228 40% 95%;
   --sidebar-border: 230 50% 28%;
-  --sidebar-ring: 24 78% 53%;
+  --sidebar-ring: 210 90% 40%;
 }
 
 .dark {
@@ -123,7 +123,7 @@
   --muted: 230 40% 14%;
   --muted-foreground: 228 20% 65%;
   
-  --accent: 24 78% 53%;
+  --accent: 210 90% 40%;
   --accent-foreground: 0 0% 100%;
   
   --destructive: 0 62% 30%;
@@ -131,21 +131,21 @@
   
   --border: 230 40% 18%;
   --input: 230 40% 18%;
-  --ring: 24 78% 53%;
+  --ring: 210 90% 40%;
   
-  --magenta: 24 78% 53%;
+  --magenta: 210 90% 40%;
   --magenta-foreground: 0 0% 100%;
   --navy: 230 72% 22%;
   --navy-foreground: 0 0% 100%;
 
   --sidebar: 230 55% 8%;
   --sidebar-foreground: 228 40% 95%;
-  --sidebar-primary: 24 78% 53%;
+  --sidebar-primary: 210 90% 40%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 230 40% 16%;
   --sidebar-accent-foreground: 228 40% 95%;
   --sidebar-border: 230 40% 18%;
-  --sidebar-ring: 24 78% 53%;
+  --sidebar-ring: 210 90% 40%;
 }
 
 @layer base {
@@ -184,7 +184,7 @@
 }
 
 @utility text-glow {
-  text-shadow: 0 0 20px rgba(224, 122, 47, 0.5);
+  text-shadow: 0 0 20px rgba(10, 102, 194, 0.5);
 }
 
 @layer utilities {
@@ -194,9 +194,9 @@
     transition: all 0.3s ease;
   }
   .btn-gradient:hover {
-    background: linear-gradient(135deg, hsl(24 78% 47%) 0%, hsl(230 72% 18%) 100%);
+    background: linear-gradient(135deg, hsl(210 90% 35%) 0%, hsl(230 72% 18%) 100%);
     transform: translateY(-1px);
-    box-shadow: 0 8px 25px rgba(224, 122, 47, 0.3);
+    box-shadow: 0 8px 25px rgba(10, 102, 194, 0.3);
   }
 }
 
@@ -205,5 +205,5 @@
 }
 
 @utility bg-hero-gradient {
-  background: linear-gradient(135deg, hsl(230 72% 14%) 0%, hsl(230 72% 20%) 60%, hsl(24 60% 30%) 100%);
+  background: linear-gradient(135deg, hsl(230 72% 14%) 0%, hsl(230 72% 20%) 60%, hsl(210 70% 30%) 100%);
 }
