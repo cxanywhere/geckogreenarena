@@ -10,6 +10,11 @@ import { api, type Chapter, type Roleplay } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { NudgeBanner } from "@/components/nudge-banner";
 
+import notionProgress from "@/assets/notion-icon-progress.png";
+import notionChapter from "@/assets/notion-icon-chapter.png";
+import notionRoleplay from "@/assets/notion-icon-roleplay.png";
+import notionQuiz from "@/assets/notion-icon-quiz.png";
+
 export default function Home() {
   const [completedChapters, setCompletedChapters] = useState<string[]>([]);
   const [unlockedRoleplays, setUnlockedRoleplays] = useState<string[]>([]);
@@ -158,10 +163,10 @@ export default function Home() {
   };
 
   const statCards = [
-    { label: "Overall Progress", value: `${progressPercentage}%`, icon: <Zap className="w-4 h-4" />, progress: progressPercentage },
-    { label: "Chapters", value: `${chaptersCompleted}/${totalChapters}`, icon: <BookOpen className="w-4 h-4" />, progress: totalChapters > 0 ? (chaptersCompleted / totalChapters) * 100 : 0, done: allChaptersComplete },
-    { label: "Roleplays", value: `${uniqueRoleplaysPassed}/${totalRoleplays}`, icon: <Mic className="w-4 h-4" />, progress: totalRoleplays > 0 ? (uniqueRoleplaysPassed / totalRoleplays) * 100 : 0, done: allRoleplaysPassed },
-    { label: "Quiz Average", value: avgQuizScore > 0 ? `${avgQuizScore}%` : "--", icon: <GraduationCap className="w-4 h-4" />, progress: avgQuizScore, done: quizScoreMet },
+    { label: "Overall Progress", value: `${progressPercentage}%`, iconSrc: notionProgress, progress: progressPercentage },
+    { label: "Chapters", value: `${chaptersCompleted}/${totalChapters}`, iconSrc: notionChapter, progress: totalChapters > 0 ? (chaptersCompleted / totalChapters) * 100 : 0, done: allChaptersComplete },
+    { label: "Roleplays", value: `${uniqueRoleplaysPassed}/${totalRoleplays}`, iconSrc: notionRoleplay, progress: totalRoleplays > 0 ? (uniqueRoleplaysPassed / totalRoleplays) * 100 : 0, done: allRoleplaysPassed },
+    { label: "Quiz Average", value: avgQuizScore > 0 ? `${avgQuizScore}%` : "--", iconSrc: notionQuiz, progress: avgQuizScore, done: quizScoreMet },
   ];
 
   return (
@@ -195,9 +200,7 @@ export default function Home() {
             <div key={stat.label} className="rounded-lg border border-[#e8e8e5] bg-white p-4 sm:p-5" data-testid={`stat-${stat.label.toLowerCase().replace(/\s+/g, '-')}`}>
               <div className="flex items-center justify-between mb-3">
                 <span className="text-[11px] font-medium text-[#787774] uppercase tracking-wider">{stat.label}</span>
-                <div className="w-7 h-7 rounded-md bg-[#f7f7f5] flex items-center justify-center text-[#787774]">
-                  {stat.icon}
-                </div>
+                <img src={stat.iconSrc} alt="" className="w-8 h-8 object-contain" />
               </div>
               <div className="text-2xl sm:text-3xl font-bold text-[#1a1a1a]">{stat.value}</div>
               {stat.done && (
@@ -316,9 +319,12 @@ export default function Home() {
         )}
 
         <div className="mb-10">
-          <div className="mb-5">
-            <h2 className="text-lg font-semibold text-[#1a1a1a]" data-testid="heading-training-path">Training Path</h2>
-            <p className="text-sm text-[#787774]">Complete each chapter in order to progress</p>
+          <div className="flex items-center gap-3 mb-5">
+            <img src={notionChapter} alt="" className="w-8 h-8 object-contain" />
+            <div>
+              <h2 className="text-lg font-semibold text-[#1a1a1a]" data-testid="heading-training-path">Training Path</h2>
+              <p className="text-sm text-[#787774]">Complete each chapter in order to progress</p>
+            </div>
           </div>
            
           <div className="space-y-3">
@@ -441,7 +447,7 @@ export default function Home() {
                               data-testid={`button-toggle-roleplays-${chapter.id}`}
                             >
                               <div className="flex items-center gap-2">
-                                <Mic className="w-4 h-4" />
+                                <img src={notionRoleplay} alt="" className="w-5 h-5 object-contain" />
                                 <span>{chapterRps.length} Roleplays</span>
                                 <span className="text-xs text-[#2ecc71] font-medium">
                                   {chapterRps.filter(r => getRoleplayStatus(r.id).hasPassed).length} passed

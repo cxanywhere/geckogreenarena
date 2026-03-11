@@ -5,11 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowRight, BookOpen, Mic, Shield, Award } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
 import arenaHelmetDark from "@/assets/arena-helmet-dark.png";
+import notionChapter from "@/assets/notion-icon-chapter.png";
+import notionRoleplay from "@/assets/notion-icon-roleplay.png";
+import notionBattlecard from "@/assets/notion-icon-battlecard.png";
+import notionQuiz from "@/assets/notion-icon-quiz.png";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
@@ -75,10 +79,10 @@ export default function LoginPage() {
   };
 
   const features = [
-    { icon: <BookOpen className="w-5 h-5" />, label: "3 Training Chapters", desc: "Comprehensive LMS sales curriculum" },
-    { icon: <Mic className="w-5 h-5" />, label: "18 AI Roleplays", desc: "Practice with realistic buyer personas" },
-    { icon: <Shield className="w-5 h-5" />, label: "10 Battlecards", desc: "Handle any objection with confidence" },
-    { icon: <Award className="w-5 h-5" />, label: "Sales Certification", desc: "Earn your LMS sales credential" },
+    { iconSrc: notionChapter, label: "3 Training Chapters", desc: "Comprehensive LMS sales curriculum" },
+    { iconSrc: notionRoleplay, label: "18 AI Roleplays", desc: "Practice with realistic buyer personas" },
+    { iconSrc: notionBattlecard, label: "10 Battlecards", desc: "Handle any objection with confidence" },
+    { iconSrc: notionQuiz, label: "Sales Certification", desc: "Earn your LMS sales credential" },
   ];
 
   return (
@@ -190,9 +194,7 @@ export default function LoginPage() {
                 transition={{ delay: 0.2 + i * 0.06 }}
                 className="flex items-center gap-3 p-3 rounded-lg border border-[#e8e8e5] bg-white"
               >
-                <div className="w-9 h-9 rounded-md bg-[#f7f7f5] flex items-center justify-center text-[#787774] shrink-0">
-                  {f.icon}
-                </div>
+                <img src={f.iconSrc} alt="" className="w-9 h-9 object-contain shrink-0" />
                 <div>
                   <h3 className="text-sm font-semibold text-[#1a1a1a]">{f.label}</h3>
                   <p className="text-xs text-[#787774]">{f.desc}</p>
