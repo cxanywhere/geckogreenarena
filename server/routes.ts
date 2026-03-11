@@ -9,7 +9,7 @@ import { db, withRetry } from "./db";
 import { insertUserProgressSchema, insertRoleplayAttemptSchema, quizQuestions, chapters } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, generateLogoImage, generateBattlecardImage, generateArenaLogo, generateSlideImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
+import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, generateLogoImage, generateBattlecardImage, generateArenaLogo, generateSlideImage, generatePitchSlideImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
 import { getOrGenerateQuizForSlide, submitQuizAnswer, ensurePredefinedQuizzesSeeded } from "./quiz-service";
 import { vapiService } from "./vapi-service";
 import { getVapiRoleplayConfig, convertRoleplayToVapiConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
@@ -5037,6 +5037,112 @@ Be specific, constructive, and fair. Score based on how well the rep covered tal
     } catch (error) {
       console.error("Evaluate pitch session error:", error);
       res.status(500).json({ error: "Failed to evaluate pitch session" });
+    }
+  });
+
+  app.post("/api/pitch-decks/:slug/generate-slide/:slideOrder", async (req, res) => {
+    try {
+      const deck = await storage.getPitchDeckBySlug(req.params.slug);
+      if (!deck) return res.status(404).json({ error: "Deck not found" });
+      
+      const slides = await storage.getPitchDeckSlides(deck.id);
+      const slideOrder = parseInt(req.params.slideOrder);
+      const slide = slides.find(s => s.slideOrder === slideOrder);
+      if (!slide) return res.status(404).json({ error: "Slide not found" });
+      
+      if (!slide.imagePrompt) return res.status(400).json({ error: "No image prompt for this slide" });
+      
+      console.log(`[PitchSlide] Generating image for ${deck.slug} slide ${slideOrder}: "${slide.title}"`);
+      
+      const result = await generatePitchSlideImage(
+        deck.slug,
+        slideOrder,
+        slide.imagePrompt,
+        slide.title,
+        slide.subtitle || undefined,
+        slide.talkingPoints as string[]
+      );
+      
+      if (result.success && result.imageUrl) {
+        const { pitchDeckSlides } = await import("@shared/schema");
+        const { eq } = await import("drizzle-orm");
+        await db.update(pitchDeckSlides)
+          .set({ imageUrl: result.imageUrl })
+          .where(eq(pitchDeckSlides.id, slide.id));
+        
+        console.log(`[PitchSlide] Saved image for slide ${slideOrder}: ${result.imageUrl}`);
+        res.json({ success: true, imageUrl: result.imageUrl });
+      } else {
+        res.status(500).json({ success: false, error: result.error });
+      }
+    } catch (error: any) {
+      console.error("Generate pitch slide image error:", error);
+      res.status(500).json({ error: error.message || "Failed to generate slide image" });
+    }
+  });
+
+  app.post("/api/pitch-decks/:slug/generate-all-slides", async (req, res) => {
+    try {
+      const deck = await storage.getPitchDeckBySlug(req.params.slug);
+      if (!deck) return res.status(404).json({ error: "Deck not found" });
+      
+      const slides = await storage.getPitchDeckSlides(deck.id);
+      const skipExisting = req.body.skipExisting !== false;
+      
+      res.json({ message: `Starting generation of ${slides.length} pitch slide images`, total: slides.length });
+      
+      (async () => {
+        const { pitchDeckSlides } = await import("@shared/schema");
+        const { eq } = await import("drizzle-orm");
+        let generated = 0;
+        let skipped = 0;
+        let failed = 0;
+        
+        for (const slide of slides) {
+          if (skipExisting && slide.imageUrl) {
+            skipped++;
+            console.log(`[PitchSlide] Skipping slide ${slide.slideOrder} (already has image)`);
+            continue;
+          }
+          
+          if (!slide.imagePrompt) {
+            skipped++;
+            continue;
+          }
+          
+          try {
+            const result = await generatePitchSlideImage(
+              deck.slug,
+              slide.slideOrder,
+              slide.imagePrompt,
+              slide.title,
+              slide.subtitle || undefined,
+              slide.talkingPoints as string[]
+            );
+            
+            if (result.success && result.imageUrl) {
+              await db.update(pitchDeckSlides)
+                .set({ imageUrl: result.imageUrl })
+                .where(eq(pitchDeckSlides.id, slide.id));
+              generated++;
+              console.log(`[PitchSlide] ${generated}/${slides.length} done - slide ${slide.slideOrder}: ${slide.title}`);
+            } else {
+              failed++;
+              console.error(`[PitchSlide] Failed slide ${slide.slideOrder}: ${result.error}`);
+            }
+          } catch (error: any) {
+            failed++;
+            console.error(`[PitchSlide] Error on slide ${slide.slideOrder}:`, error.message);
+          }
+          
+          await new Promise(resolve => setTimeout(resolve, 3000));
+        }
+        
+        console.log(`[PitchSlide] Batch complete: ${generated} generated, ${skipped} skipped, ${failed} failed`);
+      })();
+    } catch (error: any) {
+      console.error("Batch generate pitch slides error:", error);
+      res.status(500).json({ error: error.message || "Failed to start batch generation" });
     }
   });
 

@@ -262,6 +262,16 @@ export default function PitchSessionPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-4">
               <div className="bg-white border border-[#e8e8e5] rounded-xl overflow-hidden">
+                {slide?.imageUrl ? (
+                <div className="relative">
+                  <img 
+                    src={slide.imageUrl} 
+                    alt={slide.title} 
+                    className="w-full aspect-[16/9] object-contain bg-white"
+                    data-testid="img-slide"
+                  />
+                </div>
+              ) : (
                 <div className="bg-gradient-to-br from-[#0A66C2] to-[#004182] p-8 sm:p-12 min-h-[300px] sm:min-h-[400px] flex flex-col justify-center">
                   <div className="text-blue-300 text-xs uppercase tracking-wider mb-2">
                     {slide?.slideType === "title" ? "Title Slide" :
@@ -277,7 +287,9 @@ export default function PitchSessionPage() {
                     <p className="text-lg text-blue-200">{slide.subtitle}</p>
                   )}
                 </div>
+              )}
                 <div className="p-4 sm:p-6 border-t border-[#e8e8e5]">
+                  <p className="text-sm font-medium text-[#1a1a1a] mb-1">{slide?.title}</p>
                   <p className="text-sm text-[#787774]">{slide?.content}</p>
                 </div>
               </div>

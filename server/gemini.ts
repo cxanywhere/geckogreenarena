@@ -717,3 +717,102 @@ STYLE REQUIREMENTS:
 
   return { success: false, error: "Max retries exceeded" };
 }
+
+export async function generatePitchSlideImage(
+  deckSlug: string,
+  slideOrder: number,
+  imagePrompt: string,
+  slideTitle: string,
+  slideSubtitle?: string,
+  talkingPoints?: string[]
+): Promise<GeneratedImage> {
+  let contentContext = `\nSLIDE TITLE: ${slideTitle}`;
+  if (slideSubtitle) {
+    contentContext += `\nSLIDE SUBTITLE: ${slideSubtitle}`;
+  }
+  if (talkingPoints && talkingPoints.length > 0) {
+    contentContext += `\nKEY POINTS (render these exact names, numbers, and labels):\n${talkingPoints.map((b, i) => `${i + 1}. ${b}`).join('\n')}`;
+  }
+
+  const fullPrompt = `${imagePrompt}
+${contentContext}
+
+STYLE REQUIREMENTS:
+- This is a professional B2B sales proposal slide for a LinkedIn Marketing Solutions pitch to a prospective client
+- Clean, modern presentation design with LinkedIn Blue (#0A66C2) as primary accent color
+- White or very light background for readability
+- Professional corporate keynote / pitch deck quality (think McKinsey or Bain presentation style)
+- Include the title text "${slideTitle}" clearly visible at the top of the slide
+- Render data points, metrics, and labels from the key points exactly as provided
+- Use clean data visualizations, charts, or diagrams where appropriate
+- Do NOT render hex color codes, aspect ratios, or technical instructions as visible text
+- 16:9 aspect ratio presentation slide format`;
+
+  const clients = [
+    { name: "user-key", client: ai },
+    { name: "replit-integration", client: aiIntegration },
+  ];
+
+  for (const { name, client } of clients) {
+    const maxRetries = 3;
+    
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        console.log(`[PitchSlide] Trying ${name} slide ${slideOrder} (attempt ${attempt + 1})...`);
+        const response = await client.models.generateContent({
+          model: "gemini-3-pro-image-preview",
+          contents: fullPrompt,
+          config: {
+            responseModalities: ["Text", "Image"],
+          },
+        });
+
+        const parts = response.candidates?.[0]?.content?.parts;
+        if (!parts) {
+          console.log(`[PitchSlide] ${name}: No response parts`);
+          break;
+        }
+
+        for (const part of parts) {
+          if (part.inlineData) {
+            const imageData = part.inlineData.data;
+            if (imageData) {
+              const uploadsDir = path.join(process.cwd(), "public", "uploads", "pitch-slides");
+              if (!fs.existsSync(uploadsDir)) {
+                fs.mkdirSync(uploadsDir, { recursive: true });
+              }
+
+              const filename = `pitch-${deckSlug}-${slideOrder}-${Date.now()}.png`;
+              const filepath = path.join(uploadsDir, filename);
+
+              const buffer = Buffer.from(imageData, "base64");
+              fs.writeFileSync(filepath, buffer);
+
+              console.log(`[PitchSlide] ${name}: Success for slide ${slideOrder}`);
+              return {
+                success: true,
+                imagePath: filepath,
+                imageUrl: `/uploads/pitch-slides/${filename}`,
+              };
+            }
+          }
+        }
+
+        console.log(`[PitchSlide] ${name}: No image data in response`);
+        break;
+      } catch (error: any) {
+        const isRetryable = error.status === 503 || error.status === 429 || error.message?.includes('UNAVAILABLE') || error.message?.includes('429') || error.message?.includes('quota');
+        if (isRetryable && attempt < maxRetries) {
+          const delay = Math.pow(2, attempt + 1) * 5000;
+          console.log(`  Retrying pitch slide ${slideOrder} in ${delay / 1000}s (attempt ${attempt + 1}/${maxRetries})...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+          continue;
+        }
+        console.error(`[PitchSlide] ${name} failed:`, error.message || error);
+        break;
+      }
+    }
+  }
+
+  return { success: false, error: "Max retries exceeded" };
+}
