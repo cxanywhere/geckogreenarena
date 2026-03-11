@@ -571,7 +571,7 @@ export default function ChapterPage() {
                       </>
                     ) : (
                       <>
-                        <NotionIcon src={notionCoach} size={14} />
+                        <NotionIcon src={notionProgress} size={14} />
                         <span className="hidden sm:inline">Teach Me</span>
                       </>
                     )}
