@@ -482,6 +482,111 @@ export type ComicStory = typeof comicStories.$inferSelect;
 export type InsertComicPanel = z.infer<typeof insertComicPanelSchema>;
 export type ComicPanel = typeof comicPanels.$inferSelect;
 
+// Pitch Practice - Decks and Sessions
+export const pitchDecks = pgTable("pitch_decks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").unique().notNull(),
+  clientName: text("client_name").notNull(),
+  clientLogo: text("client_logo"),
+  industry: text("industry").notNull(),
+  buyerName: text("buyer_name").notNull(),
+  buyerRole: text("buyer_role").notNull(),
+  buyerAvatar: text("buyer_avatar"),
+  buyerContext: text("buyer_context").notNull(),
+  description: text("description").notNull(),
+  difficulty: text("difficulty").notNull().default("Intermediate"),
+  slideCount: integer("slide_count").default(0),
+  estimatedMinutes: integer("estimated_minutes").default(15),
+  coverImage: text("cover_image"),
+  orderIndex: integer("order_index").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const pitchDeckSlides = pgTable("pitch_deck_slides", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  deckId: varchar("deck_id").notNull(),
+  slideOrder: integer("slide_order").notNull(),
+  title: text("title").notNull(),
+  subtitle: text("subtitle"),
+  content: text("content").notNull(),
+  talkingPoints: jsonb("talking_points").$type<string[]>().notNull(),
+  evaluationCriteria: jsonb("evaluation_criteria").$type<string[]>().notNull(),
+  imageUrl: text("image_url"),
+  imagePrompt: text("image_prompt"),
+  slideType: text("slide_type").notNull().default("content"),
+});
+
+export const pitchSessions = pgTable("pitch_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  deckId: varchar("deck_id").notNull(),
+  status: text("status").notNull().default("active"),
+  currentSlideOrder: integer("current_slide_order").default(0),
+  transcript: text("transcript"),
+  overallScore: integer("overall_score"),
+  overallFeedback: text("overall_feedback"),
+  pilotSignedOff: integer("pilot_signed_off").default(0),
+  durationSeconds: integer("duration_seconds").default(0),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  endedAt: timestamp("ended_at"),
+});
+
+export const pitchSessionFeedback = pgTable("pitch_session_feedback", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sessionId: varchar("session_id").notNull(),
+  slideOrder: integer("slide_order").notNull(),
+  slideTitle: text("slide_title").notNull(),
+  score: integer("score"),
+  feedback: text("feedback"),
+  strengths: jsonb("strengths").$type<string[]>(),
+  improvements: jsonb("improvements").$type<string[]>(),
+});
+
+export const pitchDecksRelations = relations(pitchDecks, ({ many }) => ({
+  slides: many(pitchDeckSlides),
+  sessions: many(pitchSessions),
+}));
+
+export const pitchDeckSlidesRelations = relations(pitchDeckSlides, ({ one }) => ({
+  deck: one(pitchDecks, {
+    fields: [pitchDeckSlides.deckId],
+    references: [pitchDecks.id],
+  }),
+}));
+
+export const pitchSessionsRelations = relations(pitchSessions, ({ one, many }) => ({
+  user: one(users, {
+    fields: [pitchSessions.userId],
+    references: [users.id],
+  }),
+  deck: one(pitchDecks, {
+    fields: [pitchSessions.deckId],
+    references: [pitchDecks.id],
+  }),
+  feedback: many(pitchSessionFeedback),
+}));
+
+export const pitchSessionFeedbackRelations = relations(pitchSessionFeedback, ({ one }) => ({
+  session: one(pitchSessions, {
+    fields: [pitchSessionFeedback.sessionId],
+    references: [pitchSessions.id],
+  }),
+}));
+
+export const insertPitchDeckSchema = createInsertSchema(pitchDecks).omit({ id: true, createdAt: true });
+export const insertPitchDeckSlideSchema = createInsertSchema(pitchDeckSlides).omit({ id: true });
+export const insertPitchSessionSchema = createInsertSchema(pitchSessions).omit({ id: true, startedAt: true });
+export const insertPitchSessionFeedbackSchema = createInsertSchema(pitchSessionFeedback).omit({ id: true });
+
+export type InsertPitchDeck = z.infer<typeof insertPitchDeckSchema>;
+export type PitchDeck = typeof pitchDecks.$inferSelect;
+export type InsertPitchDeckSlide = z.infer<typeof insertPitchDeckSlideSchema>;
+export type PitchDeckSlide = typeof pitchDeckSlides.$inferSelect;
+export type InsertPitchSession = z.infer<typeof insertPitchSessionSchema>;
+export type PitchSession = typeof pitchSessions.$inferSelect;
+export type InsertPitchSessionFeedback = z.infer<typeof insertPitchSessionFeedbackSchema>;
+export type PitchSessionFeedback = typeof pitchSessionFeedback.$inferSelect;
+
 // Migrations tracking table - for one-time data migrations
 export const migrations = pgTable("migrations", {
   id: varchar("id").primaryKey(),

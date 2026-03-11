@@ -4879,5 +4879,176 @@ LINKEDIN MARKETING SOLUTIONS CONTEXT:
     }
   });
 
+  // ============= PITCH PRACTICE ROUTES =============
+
+  app.get("/api/pitch-decks", async (req, res) => {
+    try {
+      const decks = await storage.getAllPitchDecks();
+      res.json(decks);
+    } catch (error) {
+      console.error("Get pitch decks error:", error);
+      res.status(500).json({ error: "Failed to get pitch decks" });
+    }
+  });
+
+  app.get("/api/pitch-decks/:slug", async (req, res) => {
+    try {
+      const deck = await storage.getPitchDeckBySlug(req.params.slug);
+      if (!deck) return res.status(404).json({ error: "Deck not found" });
+      const slides = await storage.getPitchDeckSlides(deck.id);
+      res.json({ ...deck, slides });
+    } catch (error) {
+      console.error("Get pitch deck error:", error);
+      res.status(500).json({ error: "Failed to get pitch deck" });
+    }
+  });
+
+  app.post("/api/pitch-sessions", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      const session = await storage.createPitchSession({
+        userId: authResult.user.id,
+        deckId: req.body.deckId,
+        status: "active",
+      });
+      res.json(session);
+    } catch (error) {
+      console.error("Create pitch session error:", error);
+      res.status(500).json({ error: "Failed to create pitch session" });
+    }
+  });
+
+  app.get("/api/pitch-sessions/:id", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      const session = await storage.getPitchSession(req.params.id);
+      if (!session) return res.status(404).json({ error: "Session not found" });
+      res.json(session);
+    } catch (error) {
+      console.error("Get pitch session error:", error);
+      res.status(500).json({ error: "Failed to get pitch session" });
+    }
+  });
+
+  app.patch("/api/pitch-sessions/:id", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      const updated = await storage.updatePitchSession(req.params.id, req.body);
+      if (!updated) return res.status(404).json({ error: "Session not found" });
+      res.json(updated);
+    } catch (error) {
+      console.error("Update pitch session error:", error);
+      res.status(500).json({ error: "Failed to update pitch session" });
+    }
+  });
+
+  app.get("/api/pitch-sessions/user/:deckId", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      const sessions = await storage.getUserPitchSessions(authResult.user.id, req.params.deckId);
+      res.json(sessions);
+    } catch (error) {
+      console.error("Get user pitch sessions error:", error);
+      res.status(500).json({ error: "Failed to get pitch sessions" });
+    }
+  });
+
+  app.post("/api/pitch-sessions/:id/evaluate", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      const session = await storage.getPitchSession(req.params.id);
+      if (!session) return res.status(404).json({ error: "Session not found" });
+
+      const deck = await storage.getPitchDeckById(session.deckId);
+      if (!deck) return res.status(404).json({ error: "Deck not found" });
+
+      const slides = await storage.getPitchDeckSlides(deck.id);
+      const transcript = session.transcript || req.body.transcript || "";
+
+      const evaluationPrompt = `You are an expert sales pitch evaluator for LinkedIn Marketing Solutions. 
+Evaluate this pitch presentation to ${deck.buyerName} (${deck.buyerRole}) at ${deck.clientName}.
+
+Context about the buyer: ${deck.buyerContext}
+
+The presentation has ${slides.length} slides. Here are the slide topics and evaluation criteria:
+${slides.map(s => `Slide ${s.slideOrder + 1}: "${s.title}" - Criteria: ${(s.evaluationCriteria as string[]).join(", ")}`).join("\n")}
+
+Transcript of the rep's pitch:
+${transcript}
+
+Provide your evaluation as a JSON object with this structure:
+{
+  "overallScore": <number 0-100>,
+  "overallFeedback": "<2-3 paragraph assessment>",
+  "pilotSignedOff": <true/false - would the buyer agree to a pilot?>,
+  "slideFeedback": [
+    {
+      "slideOrder": <number>,
+      "slideTitle": "<title>",
+      "score": <number 0-100>,
+      "feedback": "<specific feedback>",
+      "strengths": ["<strength1>", "<strength2>"],
+      "improvements": ["<improvement1>", "<improvement2>"]
+    }
+  ]
+}
+
+Be specific, constructive, and fair. Score based on how well the rep covered talking points, used discovery questions, handled objections, and built toward the pilot sign-off.`;
+
+      const { GoogleGenerativeAI } = await import("@google/generative-ai");
+      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+      const result = await model.generateContent(evaluationPrompt);
+      const responseText = result.response.text();
+      
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error("Failed to parse evaluation response");
+      
+      const evaluation = JSON.parse(jsonMatch[0]);
+
+      await storage.updatePitchSession(session.id, {
+        overallScore: evaluation.overallScore,
+        overallFeedback: evaluation.overallFeedback,
+        pilotSignedOff: evaluation.pilotSignedOff ? 1 : 0,
+        status: "evaluated",
+        endedAt: new Date(),
+      } as any);
+
+      if (evaluation.slideFeedback) {
+        for (const sf of evaluation.slideFeedback) {
+          await storage.createPitchSessionFeedback({
+            sessionId: session.id,
+            slideOrder: sf.slideOrder,
+            slideTitle: sf.slideTitle,
+            score: sf.score,
+            feedback: sf.feedback,
+            strengths: sf.strengths || [],
+            improvements: sf.improvements || [],
+          });
+        }
+      }
+
+      res.json({ success: true, evaluation });
+    } catch (error) {
+      console.error("Evaluate pitch session error:", error);
+      res.status(500).json({ error: "Failed to evaluate pitch session" });
+    }
+  });
+
+  app.get("/api/pitch-sessions/:id/feedback", async (req, res) => {
+    try {
+      const feedback = await storage.getPitchSessionFeedback(req.params.id);
+      res.json(feedback);
+    } catch (error) {
+      console.error("Get pitch session feedback error:", error);
+      res.status(500).json({ error: "Failed to get feedback" });
+    }
+  });
+
   return httpServer;
 }

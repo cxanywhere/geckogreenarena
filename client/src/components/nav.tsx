@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { Menu, LogOut, User, ChevronDown, Library } from "lucide-react";
+import { Menu, LogOut, User, ChevronDown, Library, Presentation } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -83,6 +83,13 @@ export function Nav() {
         { href: "/quizzes", label: "Quizzes", icon: <NotionIcon src={notionQuiz} />, description: "Review & complete quizzes" },
         { href: "/my-stats", label: "My Stats", icon: <NotionIcon src={notionStats} />, description: "Track your progress" },
         { href: "/leaderboard", label: "Leaderboard", icon: <NotionIcon src={notionLeaderboard} />, description: "See top performers" },
+      ],
+    },
+    {
+      label: "Practice",
+      icon: <NotionIcon src={notionTarget} />,
+      items: [
+        { href: "/pitch-practice", label: "Pitch Practice", icon: <Presentation className="h-4 w-4" />, description: "Practice client presentations" },
       ],
     },
     {

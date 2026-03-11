@@ -43,6 +43,7 @@ Preferred communication style: Simple, everyday language.
 - **Admin Dashboard**: Features for bulk user creation, organization-wide user management, and usage/billing oversight.
 - **Quiz System**: Comprehensive quiz review, retake functionality, and a reminder system for certification.
 - **Usage & Billing**: Tracks voice roleplay session duration and calculates costs at $0.15/minute, rounded up to the nearest minute.
+- **Pitch Practice**: Reps practice presenting client proposal decks and get AI evaluation. DB tables: `pitch_decks`, `pitch_deck_slides`, `pitch_sessions`, `pitch_session_feedback`. First deck: HubSpot LinkedIn Ads pilot proposal (25 slides). Seed data in `server/pitch-deck-seed.ts`. Frontend pages: `/pitch-practice` (hub), `/pitch-session/:slug` (practice), `/pitch-results/:id` (evaluation results).
 
 ### Sales Context
 - **Client**: LinkedIn Marketing Solutions — LinkedIn's B2B advertising and demand generation business
@@ -65,6 +66,7 @@ Preferred communication style: Simple, everyday language.
 - **Knowledge Base**: `server/knowledge-base.ts` — LMS product and sales knowledge entries
 - **VAPI Config**: `server/vapi-config.ts` — Voice roleplay scenario configurations (18 LMS scenarios)
 - **Playbook**: `server/playbook-seed-data.ts` — Victory playbook comic stories
+- **Pitch Decks**: `server/pitch-deck-seed.ts` — HubSpot LinkedIn Ads pilot proposal (25 slides)
 - **Mock Data**: `client/src/lib/mock-data.ts` — Client-side battlecards, personas, resources
 
 ## External Dependencies

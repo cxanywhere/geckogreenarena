@@ -1,9 +1,10 @@
 import { db } from './db';
-import { chapters, roleplays, buyerPersonas, comicStories, comicPanels } from '@shared/schema';
+import { chapters, roleplays, buyerPersonas, comicStories, comicPanels, pitchDecks, pitchDeckSlides } from '@shared/schema';
 import { eq, notInArray } from 'drizzle-orm';
 import { CHAPTER_SEED_DATA, ROLEPLAY_SEED_DATA } from './seed-data-new';
 import { BUYER_PERSONA_SEED_DATA } from './seed-data';
 import { PLAYBOOK_STORIES_SEED, PLAYBOOK_PANELS_SEED } from './playbook-seed-data';
+import { hubspotDeck, hubspotSlides, HUBSPOT_DECK_ID } from './pitch-deck-seed';
 
 export async function seedDatabase(): Promise<void> {
   console.log('Starting idempotent database seed...');
@@ -237,6 +238,20 @@ export async function seedDatabase(): Promise<void> {
       }
     }
     console.log(`  Seeded ${PLAYBOOK_PANELS_SEED.length} playbook panels`);
+
+    // Seed pitch decks
+    const existingDeck = await db.select().from(pitchDecks).where(eq(pitchDecks.id, HUBSPOT_DECK_ID));
+    if (existingDeck.length === 0) {
+      await db.insert(pitchDecks).values(hubspotDeck as any);
+      console.log(`  Created pitch deck: ${hubspotDeck.clientName}`);
+      
+      for (const slideData of hubspotSlides) {
+        await db.insert(pitchDeckSlides).values(slideData as any);
+      }
+      console.log(`  Seeded ${hubspotSlides.length} pitch deck slides`);
+    } else {
+      console.log(`  Pitch deck "${hubspotDeck.clientName}" already exists, skipping`);
+    }
 
     console.log('Idempotent database seed completed successfully!');
   } catch (error) {

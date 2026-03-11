@@ -30,6 +30,9 @@ import ExpertsPage from "@/pages/experts";
 import VictoryPlaybookPage from "@/pages/victory-playbook";
 import CertificatePage from "@/pages/certificate";
 import QuizReviewPage from "@/pages/quiz-review";
+import PitchPracticePage from "@/pages/pitch-practice";
+import PitchSessionPage from "@/pages/pitch-session";
+import PitchResultsPage from "@/pages/pitch-results";
 
 function Router() {
   return (
@@ -141,6 +144,21 @@ function Router() {
       <Route path="/quizzes">
         <ProtectedRoute allowedRoles={["rep"]}>
           <QuizReviewPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/pitch-practice">
+        <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
+          <PitchPracticePage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/pitch-session/:slug">
+        <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
+          <PitchSessionPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/pitch-results/:id">
+        <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
+          <PitchResultsPage />
         </ProtectedRoute>
       </Route>
       <Route component={NotFound} />

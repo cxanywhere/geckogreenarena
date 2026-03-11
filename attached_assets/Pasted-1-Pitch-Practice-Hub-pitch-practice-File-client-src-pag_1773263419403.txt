@@ -1,0 +1,91 @@
+1. Pitch Practice Hub (/pitch-practice)
+File: client/src/pages/pitch-practice.tsx
+
+This is the landing page where reps see available pitch decks. It:
+
+Fetches all decks from GET /api/pitch-decks
+Shows each deck as a card with the client name, industry, buyer persona name/role, and a "Start Practice" button
+Optionally shows past session history with scores (fetched from GET /api/pitch-sessions/user/:deckId)
+2. Pitch Session (/pitch-session/:slug)
+File: client/src/pages/pitch-session.tsx
+
+This is the main practice page — the most complex component. It has three states:
+
+Idle State — Before the call starts:
+
+Shows a "How it works" instruction panel explaining the feature
+Displays the first slide as a preview
+Has a "Start Practice" button
+Microphone device selector
+Active State — During the voice call:
+
+Left side: The current slide image (full-size, takes ~60-70% of width)
+Top bar: Slide counter ("Slide 3 of 25"), slide title, timer showing session duration
+Bottom controls: Previous/Next slide buttons, End Session button, Mute toggle
+Toast notification: Brief "Slide X synced with buyer" confirmation on each navigation
+Voice indicator: Visual indicator showing when the AI buyer is speaking vs listening
+Evaluating State — After ending the session:
+
+Shows an "Evaluating Your Pitch..." overlay with a spinner while the server processes the transcript
+Key state management:
+
+- currentSlide (number) — 0-based index of current slide
+- callStatus ("idle" | "connecting" | "active" | "ended")
+- isEvaluating (boolean) — shows overlay during evaluation
+- sessionId (string) — created when practice starts
+- vapiRef (ref) — VAPI instance
+- transcriptRef (ref) — accumulates transcript
+- sessionEndedRef (ref) — prevents double-fire
+Flow:
+
+Page loads → fetches deck data + slides from API
+User clicks "Start Practice" → creates a session via POST /api/pitch-sessions, fetches VAPI config from GET /api/vapi/pitch-config/:slug, gets a VAPI auth token from GET /api/vapi/token
+VAPI call starts → AI buyer delivers opening line (firstMessage)
+User navigates slides with prev/next buttons → each transition sends a system message to VAPI via vapi.send() and updates the session's currentSlideOrder via PATCH /api/pitch-sessions/:id
+User clicks "End Session" → calls vapi.stop(), which triggers call-end event → handleSessionEnd() saves transcript, calls POST /api/pitch-sessions/:id/evaluate, redirects to results
+3. Pitch Results (/pitch-results/:id)
+File: client/src/pages/pitch-results.tsx
+
+Displays the AI evaluation after a session:
+
+Header: Overall score (big number, color-coded), "Pilot Signed Off" badge (yes/no)
+Overall Feedback: 2-3 paragraph summary from the AI
+Per-Slide Breakdown: Expandable accordion for each slide evaluated:
+Slide number and title
+Score (0-100, color-coded)
+Feedback text
+Strengths (green checkmarks)
+Areas for improvement (orange arrows)
+Best practice compliance grid (checkmarks/crosses for discovery questions, before/after framing, proof points, etc.)
+Empty state: If evaluation failed (the hasEvaluation flag), shows a clear message: "No Evaluation Available" with guidance to retry
+Actions: "Try Again" button (goes back to session page), "All Decks" button (goes to hub)
+The hasEvaluation check:
+
+const hasEvaluation = session.overallScore != null || feedback.length > 0;
+// null score (not 0) means unevaluated — 0 is a valid low score
+API Endpoints
+Method	Endpoint	Purpose
+GET	/api/pitch-decks	List all available decks
+GET	/api/pitch-decks/:slug	Get deck details + slides
+GET	/api/vapi/pitch-config/:slug	Get VAPI assistant config for a deck
+GET	/api/vapi/token	Get temporary VAPI auth token
+POST	/api/pitch-sessions	Create a new practice session
+PATCH	/api/pitch-sessions/:id	Update session (slide position, status, transcript)
+GET	/api/pitch-sessions/:id	Get session details
+GET	/api/pitch-sessions/user/:deckId	Get user's past sessions for a deck
+POST	/api/pitch-sessions/:id/evaluate	Trigger AI evaluation of transcript
+GET	/api/pitch-sessions/:id/feedback	Get per-slide feedback for a session
+Seed Data (server/pitch-deck-seed.ts)
+The ArmedAngels deck was created with:
+
+25 slides covering: title, agenda, client overview, challenges, solution slides, case studies, competitive comparison, pricing, pilot proposal, next steps
+Each slide has detailed content (talking points the rep should cover) and evaluationCriteria (what the AI should score)
+Slide images were generated using Gemini AI via a script (scripts/gen-pitch-slides.ts)
+The buyer persona (Sarah Mueller, CMO) has a detailed backstory, frustrations with Dynamic Yield, resistance profile, and tough questions
+VAPI Token Flow
+The app doesn't expose VAPI API keys to the frontend. Instead:
+
+Frontend calls GET /api/vapi/token
+Server generates a short-lived JWT token using the VAPI private key
+Frontend initializes VAPI SDK with this temporary token
+Token has restrictions (can only start calls, can't manage assistants)

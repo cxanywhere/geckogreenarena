@@ -50,6 +50,18 @@ import {
   type InsertExpert,
   type ComicStory,
   type ComicPanel,
+  pitchDecks,
+  pitchDeckSlides,
+  pitchSessions,
+  pitchSessionFeedback,
+  type PitchDeck,
+  type InsertPitchDeck,
+  type PitchDeckSlide,
+  type InsertPitchDeckSlide,
+  type PitchSession,
+  type InsertPitchSession,
+  type PitchSessionFeedback,
+  type InsertPitchSessionFeedback,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, ne, or, isNull, sql, count } from "drizzle-orm";
@@ -185,6 +197,22 @@ export interface IStorage {
   
   // Comic Stories
   getComicStoriesWithPanels(): Promise<(ComicStory & { panels: ComicPanel[] })[]>;
+
+  // Pitch Decks
+  getAllPitchDecks(): Promise<PitchDeck[]>;
+  getPitchDeckBySlug(slug: string): Promise<PitchDeck | undefined>;
+  getPitchDeckById(id: string): Promise<PitchDeck | undefined>;
+  createPitchDeck(deck: InsertPitchDeck): Promise<PitchDeck>;
+  getPitchDeckSlides(deckId: string): Promise<PitchDeckSlide[]>;
+  createPitchDeckSlide(slide: InsertPitchDeckSlide): Promise<PitchDeckSlide>;
+
+  // Pitch Sessions
+  createPitchSession(session: InsertPitchSession): Promise<PitchSession>;
+  getPitchSession(id: string): Promise<PitchSession | undefined>;
+  updatePitchSession(id: string, updates: Partial<InsertPitchSession>): Promise<PitchSession | undefined>;
+  getUserPitchSessions(userId: string, deckId: string): Promise<PitchSession[]>;
+  getPitchSessionFeedback(sessionId: string): Promise<PitchSessionFeedback[]>;
+  createPitchSessionFeedback(feedback: InsertPitchSessionFeedback): Promise<PitchSessionFeedback>;
 }
 
 // Performance metric types
@@ -1258,6 +1286,66 @@ export class DatabaseStorage implements IStorage {
       ...story,
       panels: allPanels.filter(panel => panel.storyId === story.id)
     }));
+  }
+
+  async getAllPitchDecks(): Promise<PitchDeck[]> {
+    return await db.select().from(pitchDecks).orderBy(pitchDecks.orderIndex);
+  }
+
+  async getPitchDeckBySlug(slug: string): Promise<PitchDeck | undefined> {
+    const [deck] = await db.select().from(pitchDecks).where(eq(pitchDecks.slug, slug));
+    return deck || undefined;
+  }
+
+  async getPitchDeckById(id: string): Promise<PitchDeck | undefined> {
+    const [deck] = await db.select().from(pitchDecks).where(eq(pitchDecks.id, id));
+    return deck || undefined;
+  }
+
+  async createPitchDeck(deck: InsertPitchDeck): Promise<PitchDeck> {
+    const [created] = await db.insert(pitchDecks).values(deck).returning();
+    return created;
+  }
+
+  async getPitchDeckSlides(deckId: string): Promise<PitchDeckSlide[]> {
+    return await db.select().from(pitchDeckSlides).where(eq(pitchDeckSlides.deckId, deckId)).orderBy(pitchDeckSlides.slideOrder);
+  }
+
+  async createPitchDeckSlide(slide: InsertPitchDeckSlide): Promise<PitchDeckSlide> {
+    const [created] = await db.insert(pitchDeckSlides).values(slide).returning();
+    return created;
+  }
+
+  async createPitchSession(session: InsertPitchSession): Promise<PitchSession> {
+    const [created] = await db.insert(pitchSessions).values(session).returning();
+    return created;
+  }
+
+  async getPitchSession(id: string): Promise<PitchSession | undefined> {
+    const [session] = await db.select().from(pitchSessions).where(eq(pitchSessions.id, id));
+    return session || undefined;
+  }
+
+  async updatePitchSession(id: string, updates: Partial<InsertPitchSession>): Promise<PitchSession | undefined> {
+    const [updated] = await db.update(pitchSessions).set(updates).where(eq(pitchSessions.id, id)).returning();
+    return updated || undefined;
+  }
+
+  async getUserPitchSessions(userId: string, deckId: string): Promise<PitchSession[]> {
+    return await db.select().from(pitchSessions)
+      .where(and(eq(pitchSessions.userId, userId), eq(pitchSessions.deckId, deckId)))
+      .orderBy(desc(pitchSessions.startedAt));
+  }
+
+  async getPitchSessionFeedback(sessionId: string): Promise<PitchSessionFeedback[]> {
+    return await db.select().from(pitchSessionFeedback)
+      .where(eq(pitchSessionFeedback.sessionId, sessionId))
+      .orderBy(pitchSessionFeedback.slideOrder);
+  }
+
+  async createPitchSessionFeedback(feedback: InsertPitchSessionFeedback): Promise<PitchSessionFeedback> {
+    const [created] = await db.insert(pitchSessionFeedback).values(feedback).returning();
+    return created;
   }
 }
 
