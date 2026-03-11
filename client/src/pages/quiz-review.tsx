@@ -5,8 +5,8 @@ import { Nav } from "@/components/nav";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import notionQuiz from "@/assets/notion-icon-quiz.png";
 import {
-  GraduationCap,
   CheckCircle2,
   XCircle,
   CircleDashed,
@@ -128,9 +128,7 @@ export default function QuizReviewPage() {
         </Link>
 
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-magenta/10 flex items-center justify-center">
-            <GraduationCap className="w-5 h-5 text-magenta" />
-          </div>
+          <img src={notionQuiz} alt="" className="w-10 h-10 object-contain" />
           <div>
             <h1 className="text-xl font-bold" data-testid="text-quiz-review-title">Quiz Review</h1>
             <p className="text-sm text-muted-foreground">

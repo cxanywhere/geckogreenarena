@@ -2,7 +2,8 @@ import { Nav } from "@/components/nav";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Search, Users, Loader2 } from "lucide-react";
+import { Search, Loader2 } from "lucide-react";
+import notionPersonas from "@/assets/notion-icon-personas.png";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api, type BuyerPersona } from "@/lib/api";
@@ -47,7 +48,7 @@ export default function PersonasPage() {
       <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full">
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <Users className="w-8 h-8 text-magenta" />
+            <img src={notionPersonas} alt="" className="w-10 h-10 object-contain" />
             <h1 className="text-3xl font-bold" data-testid="page-title">Buyer Personas</h1>
           </div>
           <p className="text-muted-foreground max-w-2xl">

@@ -1,7 +1,8 @@
 import { Nav } from "@/components/nav";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Trophy, Calendar, Loader2 } from "lucide-react";
+import { Calendar, Loader2 } from "lucide-react";
+import notionLeaderboard from "@/assets/notion-icon-leaderboard.png";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth-context";
@@ -51,9 +52,12 @@ export default function LeaderboardPage() {
       <Nav />
       <div className="container mx-auto px-4 py-8 flex-1">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground">Performance Center</h1>
-            <p className="text-sm sm:text-base text-muted-foreground">Track your progress and compete with top performers.</p>
+          <div className="flex items-center gap-3">
+            <img src={notionLeaderboard} alt="" className="w-10 h-10 object-contain" />
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground">Performance Center</h1>
+              <p className="text-sm sm:text-base text-muted-foreground">Track your progress and compete with top performers.</p>
+            </div>
           </div>
           <div className="flex items-center gap-3 sm:gap-4 bg-card px-3 sm:px-4 py-2 rounded-xl border border-border shadow-sm">
             <div className="flex items-center gap-1.5 sm:gap-2">

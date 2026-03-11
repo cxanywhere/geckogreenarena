@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useAuth } from "@/lib/auth-context";
 
-import arenaHelmetDark from "@/assets/arena-helmet-dark.png";
+import notionArena from "@/assets/notion-icon-arena.png";
 
 interface NavGroup {
   label: string;
@@ -98,7 +98,7 @@ export function Nav() {
       <div className="container mx-auto flex h-12 items-center justify-between px-4 max-w-5xl">
         <div className="flex items-center gap-3 lg:gap-5 min-w-0">
           <Link href="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity shrink-0">
-            <img src={arenaHelmetDark} alt="Arena AI" className="h-7 w-auto object-contain" />
+            <img src={notionArena} alt="Arena AI" className="h-7 w-7 object-contain rounded-full" />
             <div className="hidden sm:flex flex-col leading-none">
               <span className="text-sm font-bold tracking-wide text-[#37352f]">Arena AI</span>
               <span className="text-[8px] font-medium uppercase tracking-widest text-[#787774]">by GigaRev</span>

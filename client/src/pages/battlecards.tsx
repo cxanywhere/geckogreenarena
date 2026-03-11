@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search, ShieldAlert, MessageSquare, Lightbulb, Copy, Zap, Loader2, Maximize2, X, Eye, Lock, ChevronLeft, ChevronRight, Layers } from "lucide-react";
+import { Search, ShieldAlert, MessageSquare, Lightbulb, Copy, Loader2, Maximize2, X, Eye, Lock, ChevronLeft, ChevronRight, Layers } from "lucide-react";
+import notionBattlecard from "@/assets/notion-icon-battlecard.png";
 import { useState, useEffect, useCallback, type MouseEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
@@ -135,7 +136,7 @@ export default function BattlecardsPage() {
             {/* Left: Title and Description */}
             <div className="max-w-xl">
               <div className="flex items-center gap-2 mb-4">
-                <Zap className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+                <img src={notionBattlecard} alt="" className="w-6 h-6 object-contain" />
                 <span className="font-mono text-sm font-bold text-yellow-600 uppercase tracking-widest">Sales Enablement</span>
               </div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-foreground mb-4 tracking-tight" data-testid="text-battlecards-title">

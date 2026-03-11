@@ -21,6 +21,8 @@ import {
   ArrowLeft,
   History
 } from "lucide-react";
+import notionStats from "@/assets/notion-icon-stats.png";
+import notionCert from "@/assets/notion-icon-cert.png";
 import { Link, useLocation } from "wouter";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
@@ -100,12 +102,15 @@ export default function MyStatsPage() {
                 </Button>
               </Link>
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-magenta/10 border border-magenta/20 text-magenta text-xs font-mono font-bold mb-2">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                  </span>
-                  MY STATS
+                <div className="flex items-center gap-3 mb-2">
+                  <img src={notionStats} alt="" className="w-10 h-10 object-contain" />
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-magenta/10 border border-magenta/20 text-magenta text-xs font-mono font-bold">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    MY STATS
+                  </div>
                 </div>
                 <h1 className="text-3xl md:text-4xl font-display font-bold leading-tight tracking-tight text-foreground" data-testid="text-page-title">
                   Training Progress
@@ -123,9 +128,7 @@ export default function MyStatsPage() {
             >
               <div className="bg-gradient-to-r from-magenta/10 to-amber-500/10 border border-magenta/30 rounded-2xl p-5 mb-8">
                 <div className="flex items-center gap-4">
-                  <div className="p-3 bg-magenta/10 rounded-xl">
-                    <Award className="h-8 w-8 text-magenta" />
-                  </div>
+                  <img src={notionCert} alt="" className="w-12 h-12 object-contain" />
                   <div>
                     <h3 className="text-lg font-bold text-magenta" data-testid="text-certification-status">Certified Sales Warrior</h3>
                     <p className="text-sm text-muted-foreground">

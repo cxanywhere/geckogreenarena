@@ -9,7 +9,7 @@ import { ArrowRight } from "lucide-react";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
-import arenaHelmetDark from "@/assets/arena-helmet-dark.png";
+import notionArena from "@/assets/notion-icon-arena.png";
 import notionChapter from "@/assets/notion-icon-chapter.png";
 import notionRoleplay from "@/assets/notion-icon-roleplay.png";
 import notionBattlecard from "@/assets/notion-icon-battlecard.png";
@@ -94,7 +94,7 @@ export default function LoginPage() {
           transition={{ duration: 0.35 }}
         >
           <div className="mb-10 flex items-center gap-2.5">
-            <img src={arenaHelmetDark} alt="Arena AI" className="h-9 w-auto object-contain" />
+            <img src={notionArena} alt="Arena AI" className="h-9 w-9 object-contain rounded-full" />
             <div className="flex flex-col leading-none">
               <span className="text-base font-bold tracking-wide text-[#37352f]">Arena AI</span>
               <span className="text-[9px] font-medium uppercase tracking-widest text-[#787774]">by GigaRev</span>

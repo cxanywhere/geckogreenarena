@@ -3,7 +3,8 @@ import { Nav } from "@/components/nav";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Bot, User, Loader2, Sparkles, BookOpen, MessageSquare, Target, Lightbulb } from "lucide-react";
+import { Send, User, Loader2, Sparkles, BookOpen, MessageSquare, Target, Lightbulb } from "lucide-react";
+import notionCoach from "@/assets/notion-icon-coach.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/lib/auth-context";
 
@@ -121,9 +122,7 @@ export default function CoachPage() {
         <div className="flex flex-col h-[calc(100vh-120px)]">
           <div className="mb-6">
             <div className="flex items-center gap-3 mb-2">
-              <div className="p-2 rounded-xl bg-magenta/10">
-                <Bot className="h-6 w-6 text-magenta" />
-              </div>
+              <img src={notionCoach} alt="" className="w-10 h-10 object-contain" />
               <div>
                 <h1 className="text-2xl font-bold text-foreground">Sales Coach</h1>
                 <p className="text-sm text-muted-foreground">
@@ -137,9 +136,7 @@ export default function CoachPage() {
             <ScrollArea className="flex-1 p-4" ref={scrollRef}>
               {messages.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center py-8">
-                  <div className="p-4 rounded-full bg-magenta/10 mb-4">
-                    <Sparkles className="h-8 w-8 text-magenta" />
-                  </div>
+                  <img src={notionCoach} alt="" className="w-16 h-16 object-contain mb-4" />
                   <h2 className="text-lg font-semibold text-foreground mb-2">
                     How can I help you today?
                   </h2>
