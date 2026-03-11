@@ -159,7 +159,7 @@ export function TextSlideViewer({
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full flex flex-col bg-[#2A1B4E] overflow-hidden"
+      className="relative w-full h-full flex flex-col bg-[#f5f3f0] overflow-hidden"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
@@ -344,7 +344,7 @@ export function TextSlideViewer({
             </AnimatePresence>
           </div>
 
-          <div className="border-t border-white/10 bg-[#2A1B4E]/90 backdrop-blur-sm px-4 py-3 shrink-0">
+          <div className="border-t border-white/10 bg-[#f5f3f0]/90 backdrop-blur-sm px-4 py-3 shrink-0">
             <div className="max-w-3xl mx-auto flex items-center justify-between">
               <Button
                 variant="ghost"

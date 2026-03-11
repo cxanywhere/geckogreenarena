@@ -258,7 +258,7 @@ export function PresentMode({ slides, narration, chapterTitle, chapterId, onClos
                 data-testid={`present-slide-image-${currentSlide}`}
               />
             ) : (
-              <div className="max-w-3xl w-full bg-[#2A1B4E] rounded-2xl p-5 sm:p-8 md:p-12 shadow-2xl mx-2">
+              <div className="max-w-3xl w-full bg-[#f5f3f0] rounded-2xl p-5 sm:p-8 md:p-12 shadow-2xl mx-2">
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-3 sm:mb-6">{slide?.title}</h2>
                 {slide?.content && (
                   <p className="text-white/80 text-sm sm:text-base md:text-lg mb-4 sm:mb-6 leading-relaxed">{slide.content}</p>

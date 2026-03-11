@@ -5,15 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Zap, ArrowRight, Lock, GraduationCap } from "lucide-react";
+import { ArrowRight, BookOpen, Mic, Shield, Award } from "lucide-react";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
-import arenaHelmet from "@/assets/arena-helmet.png";
 import arenaHelmetDark from "@/assets/arena-helmet-dark.png";
-import heroBg from "@/assets/hero-arena-bg.png";
-import trophyIcon from "@/assets/trophy-icon.png";
-import certBadge from "@/assets/cert-badge.png";
+import iconChapter from "@/assets/icon-chapter.png";
+import iconRoleplay from "@/assets/icon-roleplay.png";
+import iconBattlecard from "@/assets/icon-battlecard.png";
+import iconCert from "@/assets/icon-cert.png";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
@@ -43,8 +43,8 @@ export default function LoginPage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="h-8 w-8 border-4 border-magenta/30 border-t-magenta rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="h-8 w-8 border-4 border-gray-200 border-t-gray-900 rounded-full animate-spin" />
       </div>
     );
   }
@@ -78,68 +78,64 @@ export default function LoginPage() {
     }
   };
 
-  return (
-    <div className="min-h-screen grid lg:grid-cols-2 bg-background font-sans overflow-hidden">
-      <div className="flex flex-col justify-center px-8 sm:px-12 lg:px-24 xl:px-32 z-10 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-magenta/5 via-transparent to-transparent pointer-events-none" />
-        
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="relative z-10"
-        >
-          <div className="mb-10 flex items-center gap-3">
-            <img src={arenaHelmetDark} alt="Arena AI" className="h-14 w-auto object-contain" />
-            <div className="flex flex-col leading-none">
-              <span className="text-2xl font-bold tracking-wide text-foreground">arena ai</span>
-              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted-foreground">by gigarev</span>
-            </div>
-          </div>
+  const features = [
+    { icon: iconChapter, label: "3 Training Chapters", desc: "Comprehensive LMS sales curriculum" },
+    { icon: iconRoleplay, label: "18 AI Roleplays", desc: "Practice with realistic buyer personas" },
+    { icon: iconBattlecard, label: "10 Battlecards", desc: "Handle any objection with confidence" },
+    { icon: iconCert, label: "Sales Certification", desc: "Earn your LMS sales credential" },
+  ];
 
-          <div className="mb-8 p-5 rounded-2xl border border-magenta/20 bg-magenta/5 relative overflow-hidden group">
-            <div className="absolute top-0 right-0 p-2 opacity-20 group-hover:opacity-30 transition-opacity">
-              <Zap className="w-20 h-20 text-magenta rotate-12" />
+  return (
+    <div className="min-h-screen grid lg:grid-cols-2 bg-white font-sans overflow-hidden">
+      <div className="flex flex-col justify-center px-8 sm:px-12 lg:px-20 xl:px-28 z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <div className="mb-10 flex items-center gap-2.5">
+            <img src={arenaHelmetDark} alt="Arena AI" className="h-10 w-auto object-contain" />
+            <div className="flex flex-col leading-none">
+              <span className="text-lg font-bold tracking-wide text-foreground">Arena AI</span>
+              <span className="text-[9px] font-medium uppercase tracking-widest text-muted-foreground">by GigaRev</span>
             </div>
-            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground mb-3">Authorized Workspace For</p>
-            <span className="text-xl font-bold text-foreground tracking-tight">LinkedIn Marketing Solutions</span>
           </div>
 
           <div className="mb-8">
-            <h1 className="font-display text-3xl font-bold text-foreground mb-2">
-              {isReturningUser ? "Welcome Back" : "Welcome"}
+            <h1 className="text-3xl font-bold text-foreground mb-2">
+              {isReturningUser ? "Welcome back" : "Welcome"}
             </h1>
             <p className="text-muted-foreground">
-              Sign in to your Arena training platform.
+              Sign in to your LinkedIn Marketing Solutions training platform.
             </p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-foreground">Email address</Label>
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div className="space-y-1.5">
+              <Label htmlFor="email" className="text-foreground text-sm font-medium">Email address</Label>
               <Input 
                 id="email" 
                 type="email" 
                 placeholder="name@linkedin.com" 
-                className="h-12 bg-secondary border-border focus:border-magenta focus:ring-magenta/20 transition-all text-foreground placeholder:text-muted-foreground"
+                className="h-11 bg-white border-border focus:border-foreground focus:ring-foreground/10 text-foreground placeholder:text-muted-foreground"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
             
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-foreground">Password</Label>
-                <a href="#" className="text-sm font-medium text-magenta hover:underline">
+                <Label htmlFor="password" className="text-foreground text-sm font-medium">Password</Label>
+                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Forgot password?
                 </a>
               </div>
               <Input 
                 id="password" 
                 type="password" 
-                placeholder="••••••••" 
-                className="h-12 bg-secondary border-border focus:border-magenta focus:ring-magenta/20 transition-all text-foreground placeholder:text-muted-foreground"
+                placeholder="Enter your password" 
+                className="h-11 bg-white border-border focus:border-foreground focus:ring-foreground/10 text-foreground placeholder:text-muted-foreground"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -147,21 +143,21 @@ export default function LoginPage() {
             </div>
 
             <div className="flex items-center space-x-2">
-              <Checkbox id="remember" className="border-border data-[state=checked]:bg-magenta data-[state=checked]:text-white" />
-              <Label htmlFor="remember" className="font-normal text-muted-foreground cursor-pointer">
+              <Checkbox id="remember" className="border-border data-[state=checked]:bg-foreground data-[state=checked]:text-background" />
+              <Label htmlFor="remember" className="font-normal text-sm text-muted-foreground cursor-pointer">
                 Remember this device for 30 days
               </Label>
             </div>
 
             <Button 
               type="submit" 
-              className="w-full h-12 text-base font-medium btn-gradient"
+              className="w-full h-11 text-sm font-medium bg-foreground text-background hover:bg-foreground/90"
               disabled={isLoading}
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">
-                  <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Authenticating...
+                  <div className="h-4 w-4 border-2 border-background/30 border-t-background rounded-full animate-spin" />
+                  Signing in...
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
@@ -174,47 +170,39 @@ export default function LoginPage() {
         </motion.div>
       </div>
 
-      <div className="hidden lg:block relative overflow-hidden">
-        <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-background/30 to-background/80" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
-        
-        <div className="relative z-10 h-full flex flex-col justify-between p-16 xl:p-24 text-white">
-          <div className="flex justify-end">
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-sm font-mono">
-              <Lock className="w-3 h-3" />
-              ARENA BY GIGAREV
-            </div>
-          </div>
+      <div className="hidden lg:flex flex-col justify-center bg-[#faf8f5] border-l border-border p-16 xl:p-24">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.15 }}
+        >
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4">Authorized Workspace</p>
+          <h2 className="text-3xl xl:text-4xl font-bold text-foreground mb-3 leading-tight">
+            LinkedIn Marketing Solutions<br />
+            Sales Enablement
+          </h2>
+          <p className="text-muted-foreground text-base max-w-md leading-relaxed mb-10">
+            Master your pitch with AI-powered training. Built exclusively for LMS sales professionals.
+          </p>
           
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-          >
-            <h2 className="font-display text-4xl xl:text-5xl font-bold mb-6 leading-tight">
-              LinkedIn Marketing Solutions <br />
-              <span className="text-glow bg-gradient-to-r from-magenta via-purple-400 to-gold bg-clip-text text-transparent">Sales Enablement</span>
-            </h2>
-            <p className="text-white/70 text-lg max-w-md leading-relaxed">
-              Master your pitch with AI-powered training. Arena by GigaRev — built exclusively for LinkedIn Marketing Solutions sales professionals.
-            </p>
-            
-            <div className="flex gap-3 mt-8">
-              <div className="px-4 py-2.5 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-sm flex items-center gap-2">
-                <img src={trophyIcon} alt="" className="w-5 h-5 object-contain" />
-                <span className="text-gold font-bold">18</span> <span className="text-white/60">AI Roleplays</span>
-              </div>
-              <div className="px-4 py-2.5 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-sm flex items-center gap-2">
-                <img src={certBadge} alt="" className="w-5 h-5 object-contain" />
-                <span className="text-gold font-bold">4</span> <span className="text-white/60">Buyer Personas</span>
-              </div>
-              <div className="px-4 py-2.5 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-sm flex items-center gap-2">
-                <span className="text-gold font-bold">10</span> <span className="text-white/60">Battlecards</span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+          <div className="grid grid-cols-2 gap-3">
+            {features.map((f, i) => (
+              <motion.div
+                key={f.label}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 + i * 0.08 }}
+                className="flex items-start gap-3 p-4 rounded-xl border border-border bg-white"
+              >
+                <img src={f.icon} alt="" className="w-9 h-9 object-contain shrink-0" />
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground">{f.label}</h3>
+                  <p className="text-xs text-muted-foreground mt-0.5">{f.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </div>
   );
