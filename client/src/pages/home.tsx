@@ -1,10 +1,10 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "wouter";
 import { Nav } from "@/components/nav";
 import { RoleplayCard } from "@/components/character-card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle, Lock, BookOpen, Award, GraduationCap, ChevronDown, ChevronUp, Play, Clock, FileText, Mic, RotateCcw, BarChart3, Target, Zap } from "lucide-react";
-import { useState, useEffect } from "react";
+import { ArrowRight, CheckCircle, Lock, BookOpen, Award, GraduationCap, ChevronDown, ChevronUp, Play, Clock, FileText, Mic, RotateCcw, BarChart3, Target, Zap, Flame, Lightbulb, Trophy, TrendingUp } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, type Chapter, type Roleplay } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
@@ -14,6 +14,33 @@ import notionProgress from "@/assets/notion-icon-progress.png";
 import notionChapter from "@/assets/notion-icon-chapter.png";
 import notionRoleplay from "@/assets/notion-icon-roleplay.png";
 import notionQuiz from "@/assets/notion-icon-quiz.png";
+import notionCoach from "@/assets/notion-icon-coach.png";
+import notionBattlecard from "@/assets/notion-icon-battlecard.png";
+import notionPersonas from "@/assets/notion-icon-personas.png";
+import notionLeaderboard from "@/assets/notion-icon-leaderboard.png";
+import notionCert from "@/assets/notion-icon-cert.png";
+
+const SALES_TIPS = [
+  { tip: "Always ask at least 2 discovery questions before recommending a campaign objective.", category: "Discovery" },
+  { tip: "Lead Gen Forms reduce friction by pre-filling professional data — connect this to the buyer's conversion problem.", category: "Product" },
+  { tip: "When a CMO asks 'why LinkedIn?', lead with business outcomes, not ad formats.", category: "Executive Selling" },
+  { tip: "The 7-part discovery framework: Business goals → Audience → Funnel gap → Current channels → Offer/content → Measurement → Stakeholders.", category: "Discovery" },
+  { tip: "Niche audience? Reframe it as LinkedIn's strength — professional targeting makes small audiences more reachable, not less.", category: "Objection Handling" },
+  { tip: "Never dismiss a buyer's past failure with LinkedIn. Ask diagnostic questions about what was tested before proposing a retry.", category: "Objection Handling" },
+  { tip: "When discussing price, shift from cost comparison to results comparison. What's the cost of reaching the wrong people?", category: "Negotiation" },
+  { tip: "For pilot campaigns, recommend one objective, one audience, one offer, and clear success metrics. Simplicity wins trust.", category: "Strategy" },
+  { tip: "Document Ads work best for whitepapers; Lead Gen Forms work best for webinar signups. Match format to offer.", category: "Product" },
+  { tip: "In a buying committee, sequence your messaging — different stakeholders need different value propositions.", category: "ABM" },
+];
+
+interface LeaderboardEntry {
+  rank: number;
+  userId: string;
+  name: string;
+  avatarInitials: string;
+  avgScore: number;
+  passedCount: number;
+}
 
 export default function Home() {
   const [completedChapters, setCompletedChapters] = useState<string[]>([]);
@@ -52,12 +79,79 @@ export default function Home() {
     enabled: !!user?.id,
   });
 
+  const { data: leaderboard = [] } = useQuery<LeaderboardEntry[]>({
+    queryKey: ["leaderboard"],
+    queryFn: async () => {
+      const response = await fetch("/api/leaderboard");
+      if (!response.ok) throw new Error("Failed to fetch leaderboard");
+      return response.json();
+    },
+  });
+
   useEffect(() => {
     const savedChapters = JSON.parse(localStorage.getItem("completed_chapters") || "[]");
     const savedRoleplays = JSON.parse(localStorage.getItem("unlocked_roleplays") || "[]");
     setCompletedChapters(savedChapters);
     setUnlockedRoleplays(savedRoleplays);
   }, []);
+
+  const dailyTip = useMemo(() => {
+    const today = new Date();
+    const dayIndex = (today.getFullYear() * 366 + today.getMonth() * 31 + today.getDate()) % SALES_TIPS.length;
+    return SALES_TIPS[dayIndex];
+  }, []);
+
+  const streak = useMemo(() => {
+    if (!roleplayAttempts.length) return 0;
+    const dates = roleplayAttempts
+      .map(a => new Date(a.completedAt || a.createdAt || Date.now()).toDateString())
+      .filter((v, i, arr) => arr.indexOf(v) === i)
+      .sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+    
+    let count = 0;
+    const today = new Date();
+    for (let i = 0; i < dates.length; i++) {
+      const expected = new Date(today);
+      expected.setDate(expected.getDate() - i);
+      if (dates[i] === expected.toDateString()) {
+        count++;
+      } else if (i === 0 && dates[0] === new Date(today.getTime() - 86400000).toDateString()) {
+        count++;
+      } else {
+        break;
+      }
+    }
+    return count;
+  }, [roleplayAttempts]);
+
+  const recentAttempts = useMemo(() => {
+    return [...roleplayAttempts]
+      .sort((a, b) => new Date(b.completedAt || b.createdAt || 0).getTime() - new Date(a.completedAt || a.createdAt || 0).getTime())
+      .slice(0, 4);
+  }, [roleplayAttempts]);
+
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good morning";
+    if (hour < 17) return "Good afternoon";
+    return "Good evening";
+  };
+
+  const currentUserRank = leaderboard.find(e => e.userId === user?.id)?.rank || "--";
+  const top3 = leaderboard.slice(0, 3);
+
+  const getTimeAgo = (date: Date) => {
+    const now = new Date();
+    const diff = now.getTime() - date.getTime();
+    const minutes = Math.floor(diff / 60000);
+    if (minutes < 1) return "Just now";
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    if (days < 7) return `${days}d ago`;
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
 
   const chaptersCompleted = userProgress.filter((p) => p.completed === 1).length;
   const totalChapters = chapters.length;
@@ -180,15 +274,55 @@ export default function Home() {
           transition={{ duration: 0.35 }}
           className="mb-8"
         >
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#1a1a1a] mb-1" data-testid="text-welcome">
-            Welcome back, {user?.name || "Sales Rep"}
-          </h1>
-          <p className="text-[#787774]">
-            Complete your training to earn your LMS certification.
-          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-[#1a1a1a] mb-1" data-testid="text-welcome">
+                {getGreeting()}, {user?.name || "Sales Rep"}
+              </h1>
+              <p className="text-[#787774]">
+                Complete your training to earn your LMS certification.
+              </p>
+            </div>
+            {streak > 0 && (
+              <motion.div 
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="flex items-center gap-2 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200/60 px-3 py-2 rounded-lg shrink-0"
+                data-testid="streak-counter"
+              >
+                <Flame className="w-5 h-5 text-orange-500" />
+                <div className="text-right">
+                  <div className="text-lg font-bold text-orange-600 leading-none">{streak}</div>
+                  <div className="text-[10px] font-medium text-orange-400 uppercase">day streak</div>
+                </div>
+              </motion.div>
+            )}
+          </div>
         </motion.div>
 
         {user && <NudgeBanner userId={user.id} />}
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: 0.04 }}
+          className="grid grid-cols-4 gap-2 mb-6"
+          data-testid="quick-access-toolbar"
+        >
+          {[
+            { label: "Sales Coach", icon: notionCoach, href: "/coach" },
+            { label: "Battlecards", icon: notionBattlecard, href: "/battlecards" },
+            { label: "Personas", icon: notionPersonas, href: "/personas" },
+            { label: "Leaderboard", icon: notionLeaderboard, href: "/leaderboard" },
+          ].map((item) => (
+            <Link key={item.href} href={item.href}>
+              <div className="flex flex-col items-center gap-1.5 p-3 rounded-lg border border-[#e8e8e5] bg-white hover:border-[#d4d4d0] hover:shadow-sm transition-all cursor-pointer group" data-testid={`quick-link-${item.label.toLowerCase().replace(/\s+/g, '-')}`}>
+                <img src={item.icon} alt="" className="w-8 h-8 object-contain group-hover:scale-110 transition-transform" />
+                <span className="text-[11px] font-medium text-[#787774] group-hover:text-[#1a1a1a] transition-colors">{item.label}</span>
+              </div>
+            </Link>
+          ))}
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -314,6 +448,147 @@ export default function Home() {
                   </Button>
                 </Link>
               )}
+            </div>
+          </motion.div>
+        )}
+
+        {!isCertified && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="mb-8 rounded-lg border border-[#e8e8e5] bg-white p-5"
+            data-testid="certification-checklist"
+          >
+            <div className="flex items-center gap-2.5 mb-4">
+              <img src={notionCert} alt="" className="w-7 h-7 object-contain" />
+              <h3 className="text-sm font-semibold text-[#1a1a1a]">Certification Checklist</h3>
+            </div>
+            <div className="space-y-3">
+              {[
+                { label: "Complete all chapters", done: allChaptersComplete, detail: `${chaptersCompleted}/${totalChapters} chapters` },
+                { label: "Pass 16+ roleplays", done: allRoleplaysPassed, detail: `${uniqueRoleplaysPassed}/${REQUIRED_ROLEPLAYS_FOR_CERTIFICATION} passed` },
+                { label: "Quiz average ≥ 75%", done: quizScoreMet, detail: avgQuizScore > 0 ? `Currently ${avgQuizScore}%` : "No quizzes taken" },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${item.done ? 'bg-[#2ecc71]' : 'border-2 border-[#e8e8e5]'}`}>
+                    {item.done && <CheckCircle className="w-3.5 h-3.5 text-white" />}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <span className={`text-sm ${item.done ? 'text-[#787774] line-through' : 'text-[#1a1a1a] font-medium'}`}>{item.label}</span>
+                  </div>
+                  <span className={`text-xs ${item.done ? 'text-[#2ecc71]' : 'text-[#787774]'} shrink-0`}>{item.detail}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.18 }}
+            className="rounded-lg border border-[#e8e8e5] bg-white p-5"
+            data-testid="daily-tip-card"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <img src={notionCoach} alt="" className="w-7 h-7 object-contain" />
+              <div>
+                <h3 className="text-sm font-semibold text-[#1a1a1a]">Daily Sales Tip</h3>
+                <span className="text-[10px] font-medium text-[#787774] uppercase tracking-wider">{dailyTip.category}</span>
+              </div>
+            </div>
+            <div className="bg-[#f7f7f5] rounded-lg p-3.5">
+              <div className="flex gap-2.5">
+                <Lightbulb className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                <p className="text-sm text-[#37352f] leading-relaxed">{dailyTip.tip}</p>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="rounded-lg border border-[#e8e8e5] bg-white p-5"
+            data-testid="leaderboard-preview"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2.5">
+                <img src={notionLeaderboard} alt="" className="w-7 h-7 object-contain" />
+                <h3 className="text-sm font-semibold text-[#1a1a1a]">Leaderboard</h3>
+              </div>
+              <div className="flex items-center gap-1.5 bg-[#f7f7f5] px-2 py-1 rounded text-xs">
+                <span className="text-[#787774]">Your rank:</span>
+                <span className="font-bold text-[#1a1a1a]">#{currentUserRank}</span>
+              </div>
+            </div>
+            {top3.length > 0 ? (
+              <div className="space-y-2.5">
+                {top3.map((entry, i) => (
+                  <div key={entry.userId} className={`flex items-center gap-3 p-2 rounded-lg ${entry.userId === user?.id ? 'bg-[#f7f7f5]' : ''}`}>
+                    <span className={`text-sm font-bold w-5 text-center ${i === 0 ? 'text-amber-500' : i === 1 ? 'text-gray-400' : 'text-amber-700'}`}>
+                      {i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'}
+                    </span>
+                    <div className="w-7 h-7 rounded-full bg-[#f0f0ed] flex items-center justify-center text-xs font-bold text-[#787774]">
+                      {entry.avatarInitials}
+                    </div>
+                    <span className="flex-1 text-sm font-medium text-[#1a1a1a] truncate">{entry.name}</span>
+                    <span className="text-xs text-[#787774]">{entry.avgScore}%</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-[#787774] text-center py-4">Complete roleplays to appear on the leaderboard</p>
+            )}
+            <Link href="/leaderboard">
+              <div className="mt-3 text-center">
+                <span className="text-xs font-medium text-[#37352f] hover:underline cursor-pointer">View full leaderboard →</span>
+              </div>
+            </Link>
+          </motion.div>
+        </div>
+
+        {recentAttempts.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.22 }}
+            className="mb-8 rounded-lg border border-[#e8e8e5] bg-white p-5"
+            data-testid="recent-activity"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2.5">
+                <img src={notionRoleplay} alt="" className="w-7 h-7 object-contain" />
+                <h3 className="text-sm font-semibold text-[#1a1a1a]">Recent Activity</h3>
+              </div>
+              <Link href="/my-stats">
+                <span className="text-xs font-medium text-[#37352f] hover:underline cursor-pointer">View all →</span>
+              </Link>
+            </div>
+            <div className="space-y-2">
+              {recentAttempts.map((attempt, i) => {
+                const rp = roleplays.find(r => r.id === attempt.roleplayId);
+                const passed = attempt.passed === 1 || (attempt.passed as unknown) === true;
+                const date = new Date(attempt.completedAt || attempt.createdAt || Date.now());
+                const timeAgo = getTimeAgo(date);
+                return (
+                  <div key={i} className="flex items-center gap-3 py-2 border-b border-[#f0f0ed] last:border-0">
+                    <div className={`w-2 h-2 rounded-full shrink-0 ${passed ? 'bg-[#2ecc71]' : 'bg-[#e74c3c]'}`} />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-[#1a1a1a] truncate">{rp?.name || "Roleplay"}</p>
+                      <p className="text-[11px] text-[#787774]">{timeAgo}</p>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="text-sm font-bold text-[#1a1a1a]">{attempt.score || 0}%</span>
+                      <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded ${passed ? 'bg-green-50 text-[#2ecc71]' : 'bg-red-50 text-[#e74c3c]'}`}>
+                        {passed ? 'PASS' : 'FAIL'}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </motion.div>
         )}
