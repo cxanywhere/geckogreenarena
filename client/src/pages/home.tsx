@@ -267,12 +267,153 @@ export default function Home() {
     <div className="min-h-screen bg-[#f7f7f5] font-sans">
       <Nav />
       
-      <div className="container mx-auto px-4 py-8 md:py-10 max-w-5xl">
+      <div className="container mx-auto px-4 py-8 md:py-10 max-w-7xl">
+        <div className="flex gap-6">
+
+          <motion.aside
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.35 }}
+            className="hidden lg:flex flex-col gap-4 w-[280px] shrink-0 sticky top-20 self-start"
+          >
+            <div className="rounded-lg border border-[#e8e8e5] bg-white p-4" data-testid="sidebar-profile">
+              <div className="flex items-center gap-3 mb-3">
+                {user?.warriorAvatar ? (
+                  <img src={user.warriorAvatar} alt={user.name} className="w-10 h-10 rounded-full object-cover border border-[#e8e8e5]" />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-[#37352f] text-white flex items-center justify-center font-bold text-sm">
+                    {user?.name?.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) || "?"}
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-[#1a1a1a] truncate">{user?.name || "Sales Rep"}</p>
+                  <p className="text-[11px] text-[#787774] capitalize">{user?.role || "Rep"}</p>
+                </div>
+                {streak > 0 && (
+                  <div className="ml-auto flex items-center gap-1 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200/60 px-2 py-1 rounded" data-testid="streak-counter">
+                    <Flame className="w-3.5 h-3.5 text-orange-500" />
+                    <span className="text-sm font-bold text-orange-600">{streak}</span>
+                  </div>
+                )}
+              </div>
+              <div className="mb-2">
+                <div className="flex items-center justify-between text-xs mb-1">
+                  <span className="text-[#787774]">Overall Progress</span>
+                  <span className="font-bold text-[#1a1a1a]">{progressPercentage}%</span>
+                </div>
+                <div className="h-1.5 w-full bg-[#f0f0ed] rounded-full overflow-hidden">
+                  <motion.div 
+                    className="h-full bg-[#37352f] rounded-full"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${progressPercentage}%` }}
+                    transition={{ duration: 0.8 }}
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-2 pt-2 border-t border-[#f0f0ed]">
+                <div className="text-center">
+                  <p className="text-lg font-bold text-[#1a1a1a]">{chaptersCompleted}/{totalChapters}</p>
+                  <p className="text-[10px] text-[#787774] uppercase">Chapters</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-lg font-bold text-[#1a1a1a]">{uniqueRoleplaysPassed}/{totalRoleplays}</p>
+                  <p className="text-[10px] text-[#787774] uppercase">Roleplays</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-lg font-bold text-[#1a1a1a]">{avgQuizScore > 0 ? `${avgQuizScore}%` : "--"}</p>
+                  <p className="text-[10px] text-[#787774] uppercase">Quiz Avg</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-[#e8e8e5] bg-white p-4" data-testid="sidebar-quick-links">
+              <p className="text-[10px] font-medium text-[#787774] uppercase tracking-wider mb-3">Quick Access</p>
+              <div className="space-y-1">
+                {[
+                  { label: "Sales Coach", icon: notionCoach, href: "/coach" },
+                  { label: "Battlecards", icon: notionBattlecard, href: "/battlecards" },
+                  { label: "Personas", icon: notionPersonas, href: "/personas" },
+                  { label: "Leaderboard", icon: notionLeaderboard, href: "/leaderboard" },
+                  { label: "Playbook", icon: notionProgress, href: "/playbook" },
+                  { label: "My Stats", icon: notionQuiz, href: "/my-stats" },
+                ].map((item) => (
+                  <Link key={item.href} href={item.href}>
+                    <div className="flex items-center gap-2.5 px-2.5 py-2 rounded-md hover:bg-[#f7f7f5] transition-colors cursor-pointer group" data-testid={`sidebar-link-${item.label.toLowerCase().replace(/\s+/g, '-')}`}>
+                      <img src={item.icon} alt="" className="w-5 h-5 object-contain group-hover:scale-110 transition-transform" />
+                      <span className="text-sm text-[#787774] group-hover:text-[#1a1a1a] transition-colors">{item.label}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {!isCertified && (
+              <div className="rounded-lg border border-[#e8e8e5] bg-white p-4" data-testid="sidebar-certification">
+                <div className="flex items-center gap-2 mb-3">
+                  <img src={notionCert} alt="" className="w-5 h-5 object-contain" />
+                  <p className="text-xs font-semibold text-[#1a1a1a]">Certification</p>
+                </div>
+                <div className="space-y-2.5">
+                  {[
+                    { label: "All chapters", done: allChaptersComplete, detail: `${chaptersCompleted}/${totalChapters}` },
+                    { label: "16+ roleplays", done: allRoleplaysPassed, detail: `${uniqueRoleplaysPassed}/${REQUIRED_ROLEPLAYS_FOR_CERTIFICATION}` },
+                    { label: "Quiz avg ≥ 75%", done: quizScoreMet, detail: avgQuizScore > 0 ? `${avgQuizScore}%` : "--" },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <div className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 ${item.done ? 'bg-[#2ecc71]' : 'border-2 border-[#e8e8e5]'}`}>
+                        {item.done && <CheckCircle className="w-2.5 h-2.5 text-white" />}
+                      </div>
+                      <span className={`text-xs flex-1 ${item.done ? 'text-[#787774] line-through' : 'text-[#1a1a1a]'}`}>{item.label}</span>
+                      <span className={`text-[11px] font-medium ${item.done ? 'text-[#2ecc71]' : 'text-[#787774]'}`}>{item.detail}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="rounded-lg border border-[#e8e8e5] bg-white p-4" data-testid="sidebar-daily-tip">
+              <div className="flex items-center gap-2 mb-2.5">
+                <Lightbulb className="w-4 h-4 text-amber-500" />
+                <p className="text-xs font-semibold text-[#1a1a1a]">Daily Tip</p>
+                <span className="ml-auto text-[9px] font-medium text-[#787774] uppercase tracking-wider bg-[#f7f7f5] px-1.5 py-0.5 rounded">{dailyTip.category}</span>
+              </div>
+              <p className="text-xs text-[#37352f] leading-relaxed">{dailyTip.tip}</p>
+            </div>
+
+            <div className="rounded-lg border border-[#e8e8e5] bg-white p-4" data-testid="sidebar-leaderboard">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <img src={notionLeaderboard} alt="" className="w-5 h-5 object-contain" />
+                  <p className="text-xs font-semibold text-[#1a1a1a]">Leaderboard</p>
+                </div>
+                <span className="text-[10px] font-bold text-[#787774] bg-[#f7f7f5] px-1.5 py-0.5 rounded">#{currentUserRank}</span>
+              </div>
+              {top3.length > 0 ? (
+                <div className="space-y-2">
+                  {top3.map((entry, i) => (
+                    <div key={entry.userId} className={`flex items-center gap-2 py-1 ${entry.userId === user?.id ? 'font-medium' : ''}`}>
+                      <span className="text-xs w-4 text-center">{i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'}</span>
+                      <span className="flex-1 text-xs text-[#1a1a1a] truncate">{entry.name}</span>
+                      <span className="text-[11px] text-[#787774]">{entry.avgScore}%</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs text-[#787774] text-center py-2">No data yet</p>
+              )}
+              <Link href="/leaderboard">
+                <p className="text-[11px] font-medium text-[#37352f] hover:underline cursor-pointer mt-2 text-center">View all →</p>
+              </Link>
+            </div>
+          </motion.aside>
+
+          <div className="flex-1 min-w-0">
+
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className="mb-8"
+          className="mb-6"
         >
           <div className="flex items-center justify-between">
             <div>
@@ -287,8 +428,8 @@ export default function Home() {
               <motion.div 
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="flex items-center gap-2 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200/60 px-3 py-2 rounded-lg shrink-0"
-                data-testid="streak-counter"
+                className="flex items-center gap-2 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200/60 px-3 py-2 rounded-lg shrink-0 lg:hidden"
+                data-testid="streak-counter-mobile"
               >
                 <Flame className="w-5 h-5 text-orange-500" />
                 <div className="text-right">
@@ -306,7 +447,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.04 }}
-          className="grid grid-cols-4 gap-2 mb-6"
+          className="grid grid-cols-4 gap-2 mb-6 lg:hidden"
           data-testid="quick-access-toolbar"
         >
           {[
@@ -328,23 +469,23 @@ export default function Home() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.06 }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6"
         >
           {statCards.map((stat, i) => (
-            <div key={stat.label} className="rounded-lg border border-[#e8e8e5] bg-white p-4 sm:p-5" data-testid={`stat-${stat.label.toLowerCase().replace(/\s+/g, '-')}`}>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-[11px] font-medium text-[#787774] uppercase tracking-wider">{stat.label}</span>
-                <img src={stat.iconSrc} alt="" className="w-8 h-8 object-contain" />
+            <div key={stat.label} className="rounded-lg border border-[#e8e8e5] bg-white p-4" data-testid={`stat-${stat.label.toLowerCase().replace(/\s+/g, '-')}`}>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] font-medium text-[#787774] uppercase tracking-wider">{stat.label}</span>
+                <img src={stat.iconSrc} alt="" className="w-6 h-6 object-contain" />
               </div>
-              <div className="text-2xl sm:text-3xl font-bold text-[#1a1a1a]">{stat.value}</div>
+              <div className="text-xl sm:text-2xl font-bold text-[#1a1a1a]">{stat.value}</div>
               {stat.done && (
-                <div className="flex items-center gap-1 mt-2">
-                  <CheckCircle className="w-3.5 h-3.5 text-[#2ecc71]" />
-                  <span className="text-[11px] font-medium text-[#2ecc71] uppercase">Complete</span>
+                <div className="flex items-center gap-1 mt-1.5">
+                  <CheckCircle className="w-3 h-3 text-[#2ecc71]" />
+                  <span className="text-[10px] font-medium text-[#2ecc71] uppercase">Complete</span>
                 </div>
               )}
               {!stat.done && stat.progress !== undefined && (
-                <div className="mt-3">
+                <div className="mt-2">
                   <div className="h-1 w-full bg-[#f0f0ed] rounded-full overflow-hidden">
                     <motion.div 
                       className="h-full bg-[#37352f] rounded-full"
@@ -363,7 +504,7 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="mb-8 rounded-lg border border-[#e8e8e5] bg-white p-5"
+            className="mb-6 rounded-lg border border-[#e8e8e5] bg-white p-5"
             data-testid="banner-certified"
           >
             <div className="flex items-center gap-4">
@@ -387,7 +528,7 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8 rounded-lg border border-[#e8e8e5] bg-white p-5"
+            className="mb-6 rounded-lg border border-[#e8e8e5] bg-white p-5"
             data-testid="banner-almost-certified"
           >
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -417,7 +558,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="mb-8 rounded-lg border border-[#e8e8e5] bg-white p-5"
+            className="mb-6 rounded-lg border border-[#e8e8e5] bg-white p-5"
             data-testid="card-next-action"
           >
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
@@ -452,46 +593,36 @@ export default function Home() {
           </motion.div>
         )}
 
-        {!isCertified && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className="mb-8 rounded-lg border border-[#e8e8e5] bg-white p-5"
-            data-testid="certification-checklist"
-          >
-            <div className="flex items-center gap-2.5 mb-4">
-              <img src={notionCert} alt="" className="w-7 h-7 object-contain" />
-              <h3 className="text-sm font-semibold text-[#1a1a1a]">Certification Checklist</h3>
-            </div>
-            <div className="space-y-3">
-              {[
-                { label: "Complete all chapters", done: allChaptersComplete, detail: `${chaptersCompleted}/${totalChapters} chapters` },
-                { label: "Pass 16+ roleplays", done: allRoleplaysPassed, detail: `${uniqueRoleplaysPassed}/${REQUIRED_ROLEPLAYS_FOR_CERTIFICATION} passed` },
-                { label: "Quiz average ≥ 75%", done: quizScoreMet, detail: avgQuizScore > 0 ? `Currently ${avgQuizScore}%` : "No quizzes taken" },
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${item.done ? 'bg-[#2ecc71]' : 'border-2 border-[#e8e8e5]'}`}>
-                    {item.done && <CheckCircle className="w-3.5 h-3.5 text-white" />}
+        <div className="lg:hidden mb-6">
+          {!isCertified && (
+            <div className="rounded-lg border border-[#e8e8e5] bg-white p-5" data-testid="certification-checklist-mobile">
+              <div className="flex items-center gap-2.5 mb-4">
+                <img src={notionCert} alt="" className="w-7 h-7 object-contain" />
+                <h3 className="text-sm font-semibold text-[#1a1a1a]">Certification Checklist</h3>
+              </div>
+              <div className="space-y-3">
+                {[
+                  { label: "Complete all chapters", done: allChaptersComplete, detail: `${chaptersCompleted}/${totalChapters} chapters` },
+                  { label: "Pass 16+ roleplays", done: allRoleplaysPassed, detail: `${uniqueRoleplaysPassed}/${REQUIRED_ROLEPLAYS_FOR_CERTIFICATION} passed` },
+                  { label: "Quiz average ≥ 75%", done: quizScoreMet, detail: avgQuizScore > 0 ? `Currently ${avgQuizScore}%` : "No quizzes taken" },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${item.done ? 'bg-[#2ecc71]' : 'border-2 border-[#e8e8e5]'}`}>
+                      {item.done && <CheckCircle className="w-3.5 h-3.5 text-white" />}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className={`text-sm ${item.done ? 'text-[#787774] line-through' : 'text-[#1a1a1a] font-medium'}`}>{item.label}</span>
+                    </div>
+                    <span className={`text-xs ${item.done ? 'text-[#2ecc71]' : 'text-[#787774]'} shrink-0`}>{item.detail}</span>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <span className={`text-sm ${item.done ? 'text-[#787774] line-through' : 'text-[#1a1a1a] font-medium'}`}>{item.label}</span>
-                  </div>
-                  <span className={`text-xs ${item.done ? 'text-[#2ecc71]' : 'text-[#787774]'} shrink-0`}>{item.detail}</span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </motion.div>
-        )}
+          )}
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.18 }}
-            className="rounded-lg border border-[#e8e8e5] bg-white p-5"
-            data-testid="daily-tip-card"
-          >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6 lg:hidden">
+          <div className="rounded-lg border border-[#e8e8e5] bg-white p-5" data-testid="daily-tip-card-mobile">
             <div className="flex items-center gap-2.5 mb-3">
               <img src={notionCoach} alt="" className="w-7 h-7 object-contain" />
               <div>
@@ -505,15 +636,9 @@ export default function Home() {
                 <p className="text-sm text-[#37352f] leading-relaxed">{dailyTip.tip}</p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="rounded-lg border border-[#e8e8e5] bg-white p-5"
-            data-testid="leaderboard-preview"
-          >
+          <div className="rounded-lg border border-[#e8e8e5] bg-white p-5" data-testid="leaderboard-preview-mobile">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2.5">
                 <img src={notionLeaderboard} alt="" className="w-7 h-7 object-contain" />
@@ -547,15 +672,15 @@ export default function Home() {
                 <span className="text-xs font-medium text-[#37352f] hover:underline cursor-pointer">View full leaderboard →</span>
               </div>
             </Link>
-          </motion.div>
+          </div>
         </div>
 
         {recentAttempts.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.22 }}
-            className="mb-8 rounded-lg border border-[#e8e8e5] bg-white p-5"
+            transition={{ delay: 0.12 }}
+            className="mb-6 rounded-lg border border-[#e8e8e5] bg-white p-5"
             data-testid="recent-activity"
           >
             <div className="flex items-center justify-between mb-4">
@@ -774,6 +899,9 @@ export default function Home() {
                 </motion.div>
               );
             })}
+          </div>
+        </div>
+
           </div>
         </div>
 

@@ -1,7 +1,7 @@
 import { Nav } from "@/components/nav";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, Loader2 } from "lucide-react";
+import { Calendar, Loader2, Trophy } from "lucide-react";
 import notionLeaderboard from "@/assets/notion-icon-leaderboard.png";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
