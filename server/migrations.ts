@@ -11,6 +11,17 @@ interface MigrationDef {
 
 const allMigrations: MigrationDef[] = [
   {
+    id: "add-pitch-narration-columns-2026-03-11",
+    name: "Add narration_script and narration_audio_url to pitch_deck_slides",
+    run: async () => {
+      await db.execute(`
+        ALTER TABLE pitch_deck_slides ADD COLUMN IF NOT EXISTS narration_script TEXT;
+        ALTER TABLE pitch_deck_slides ADD COLUMN IF NOT EXISTS narration_audio_url TEXT;
+      `);
+      console.log("  Added narration columns to pitch_deck_slides");
+    }
+  },
+  {
     id: "restore-quiz-data-2026-02-04",
     name: "Restore quiz data and recalculate scores from quiz_attempts",
     run: async () => {

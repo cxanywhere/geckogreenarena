@@ -5156,5 +5156,101 @@ Be specific, constructive, and fair. Score based on how well the rep covered tal
     }
   });
 
+  app.post("/api/pitch-decks/:slug/generate-narration", async (req, res) => {
+    try {
+      const deck = await storage.getPitchDeckBySlug(req.params.slug);
+      if (!deck) return res.status(404).json({ error: "Deck not found" });
+
+      const slides = await storage.getPitchDeckSlides(deck.id);
+      const skipExisting = req.body.skipExisting !== false;
+
+      res.json({ message: `Starting narration generation for ${slides.length} slides`, total: slides.length });
+
+      (async () => {
+        const { generateNarrationAudio } = await import("./narration-service");
+        const { pitchDeckSlides: pitchSlidesTable } = await import("@shared/schema");
+        const { eq } = await import("drizzle-orm");
+
+        const openai = new (await import("openai")).default({
+          apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+          baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+        });
+
+        for (let i = 0; i < slides.length; i++) {
+          const slide = slides[i];
+
+          if (skipExisting && slide.narrationAudioUrl) {
+            console.log(`[PitchNarration] Skipping slide ${slide.slideOrder} (already has audio)`);
+            continue;
+          }
+
+          try {
+            const scriptPrompt = `You are an elite enterprise B2B sales rep from LinkedIn Marketing Solutions delivering a polished client proposal to ${deck.buyerName}, ${deck.buyerRole}. Generate a word-for-word sales pitch script for this single slide.
+
+Client: ${deck.clientName}
+Buyer Context: ${(deck as any).buyerContext || ""}
+
+Slide ${slide.slideOrder + 1} of ${slides.length}: ${slide.title}
+${slide.subtitle ? `Subtitle: ${slide.subtitle}` : ""}
+Content: ${slide.content}
+Talking Points: ${(slide.talkingPoints as string[]).join("; ")}
+
+Guidelines:
+- Speak directly to ${deck.buyerName} as if presenting live in their conference room
+- Be confident, conversational, and persuasive — not robotic or scripted-sounding
+- Cover ALL talking points naturally woven into the narrative
+- Use strategic pauses (commas, periods) for emphasis
+- For the first slide, include a warm professional greeting
+- For the last slide, end with a strong call-to-action asking for next steps
+- Keep it 60-120 seconds when spoken (150-280 words)
+- Never say "next slide" or reference slide numbers
+- Use concrete numbers, data points, and specific examples
+- Match the energy to the slide type — bold for proposals, empathetic for pain points, confident for case studies
+
+Return ONLY the spoken script text. No labels, formatting, or stage directions.`;
+
+            const scriptResponse = await openai.chat.completions.create({
+              model: "gpt-4o-mini",
+              messages: [{ role: "user", content: scriptPrompt }],
+              max_completion_tokens: 600,
+              temperature: 0.75,
+            });
+
+            const script = scriptResponse.choices[0]?.message?.content?.trim() || "";
+            if (!script) {
+              console.error(`[PitchNarration] Empty script for slide ${slide.slideOrder}`);
+              continue;
+            }
+
+            console.log(`[PitchNarration] Script generated for slide ${slide.slideOrder} (${script.length} chars). Generating TTS...`);
+
+            const audioUrl = await generateNarrationAudio(
+              `pitch-${deck.slug}`,
+              slide.slideOrder,
+              script
+            );
+
+            await db.update(pitchSlidesTable)
+              .set({ narrationScript: script, narrationAudioUrl: audioUrl })
+              .where(eq(pitchSlidesTable.id, slide.id));
+
+            console.log(`[PitchNarration] ${i + 1}/${slides.length} done - slide ${slide.slideOrder}: ${slide.title}`);
+          } catch (error: any) {
+            console.error(`[PitchNarration] Error on slide ${slide.slideOrder}:`, error.message);
+          }
+
+          if (i < slides.length - 1) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+          }
+        }
+
+        console.log(`[PitchNarration] Batch narration generation complete`);
+      })();
+    } catch (error: any) {
+      console.error("Pitch narration generation error:", error);
+      res.status(500).json({ error: error.message || "Failed to start narration generation" });
+    }
+  });
+
   return httpServer;
 }

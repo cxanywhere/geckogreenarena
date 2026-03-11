@@ -35,32 +35,34 @@ interface SlideFeedback {
 export default function PitchResultsPage() {
   const [, params] = useRoute("/pitch-results/:id");
   const [, setLocation] = useLocation();
-  const { token } = useAuth();
+  const { authToken } = useAuth();
   const sessionId = params?.id;
   const [expandedSlides, setExpandedSlides] = useState<Set<number>>(new Set());
 
   const { data: session, isLoading: sessionLoading } = useQuery<PitchSession>({
     queryKey: ["/api/pitch-sessions", sessionId],
     queryFn: async () => {
+      const token = authToken || localStorage.getItem("authToken");
       const res = await fetch(`/api/pitch-sessions/${sessionId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Failed to fetch session");
       return res.json();
     },
-    enabled: !!sessionId && !!token,
+    enabled: !!sessionId,
   });
 
   const { data: feedback = [], isLoading: feedbackLoading } = useQuery<SlideFeedback[]>({
     queryKey: ["/api/pitch-sessions", sessionId, "feedback"],
     queryFn: async () => {
+      const token = authToken || localStorage.getItem("authToken");
       const res = await fetch(`/api/pitch-sessions/${sessionId}/feedback`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Failed to fetch feedback");
       return res.json();
     },
-    enabled: !!sessionId && !!token,
+    enabled: !!sessionId,
   });
 
   const toggleSlide = (order: number) => {

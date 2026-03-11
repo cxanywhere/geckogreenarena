@@ -514,6 +514,8 @@ export const pitchDeckSlides = pgTable("pitch_deck_slides", {
   imageUrl: text("image_url"),
   imagePrompt: text("image_prompt"),
   slideType: text("slide_type").notNull().default("content"),
+  narrationScript: text("narration_script"),
+  narrationAudioUrl: text("narration_audio_url"),
 });
 
 export const pitchSessions = pgTable("pitch_sessions", {

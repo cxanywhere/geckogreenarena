@@ -22,7 +22,7 @@ interface PitchDeck {
 }
 
 export default function PitchPracticePage() {
-  const { user, token } = useAuth();
+  const { user } = useAuth();
   const [, setLocation] = useLocation();
 
   const { data: decks = [], isLoading } = useQuery<PitchDeck[]>({
