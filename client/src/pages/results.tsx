@@ -169,7 +169,7 @@ export default function ResultsPage() {
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center max-w-md px-6">
             <motion.div 
-              className="w-28 h-28 mx-auto mb-8 rounded-full bg-gradient-to-br from-[#E07A2F]/30 to-[#1A2B8C]/20 flex items-center justify-center relative"
+              className="w-28 h-28 mx-auto mb-8 rounded-full bg-gradient-to-br from-[#E07A2F]/30 to-[#1B2D5E]/20 flex items-center justify-center relative"
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             >

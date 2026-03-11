@@ -381,7 +381,7 @@ CRITICAL RULES:
 
   return (
     <div className="flex flex-col h-full" data-testid="voice-roleplay-container">
-      <Card className="mb-4 border-[#E07A2F]/30 bg-gradient-to-r from-[#1A2B8C]/5 to-[#E07A2F]/5">
+      <Card className="mb-4 border-[#E07A2F]/30 bg-gradient-to-r from-[#1B2D5E]/5 to-[#E07A2F]/5">
         <CardContent className="p-4">
           <div className="flex items-start justify-between">
             <div>
@@ -405,7 +405,7 @@ CRITICAL RULES:
 
           <div className="mt-3 flex flex-wrap gap-2">
             {config.traits.map((trait, index) => (
-              <span key={index} className="px-2 py-1 bg-[#E07A2F]/10 text-[#1A2B8C] text-xs rounded-full">
+              <span key={index} className="px-2 py-1 bg-[#E07A2F]/10 text-[#1B2D5E] text-xs rounded-full">
                 {trait}
               </span>
             ))}
@@ -472,7 +472,7 @@ CRITICAL RULES:
               <div className="h-full flex items-center justify-center text-center p-8">
                 <div>
                   <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-[#E07A2F]/20 flex items-center justify-center">
-                    <Phone className="w-10 h-10 text-[#1A2B8C]" />
+                    <Phone className="w-10 h-10 text-[#1B2D5E]" />
                   </div>
                   <h4 className="font-semibold text-lg text-gray-900 mb-2">Ready to Practice?</h4>
                   <p className="text-gray-600 text-sm max-w-md mb-3">
@@ -651,7 +651,7 @@ CRITICAL RULES:
                   {isMuted ? (
                     <MicOff className="w-6 h-6 text-red-600" />
                   ) : (
-                    <Mic className="w-6 h-6 text-[#1A2B8C]" />
+                    <Mic className="w-6 h-6 text-[#1B2D5E]" />
                   )}
                 </Button>
               </motion.div>

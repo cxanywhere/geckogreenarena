@@ -342,7 +342,7 @@ export default function ReportCardPage() {
                       
                       <div className="w-full space-y-4 md:space-y-6">
                          <div className="flex justify-between items-start w-full px-2 md:px-4">
-                            <span className="text-xl md:text-2xl font-bold text-[#0A66C2] tracking-tight">LinkedIn Marketing Solutions</span>
+                            <span className="text-xl md:text-2xl font-bold text-[#0096E0] tracking-tight">LinkedIn Marketing Solutions</span>
                             <div className="flex flex-col items-end">
                                <div className="flex items-center gap-2 opacity-50">
                                   <span className="font-display font-bold uppercase tracking-widest text-[10px] md:text-xs">LMS Certified</span>

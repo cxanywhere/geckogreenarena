@@ -169,9 +169,9 @@ export default function LoginPage() {
       </div>
 
       <div className="hidden lg:block relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0B1340] via-[#1A2B8C] to-[#0B1340]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(10,102,194,0.4),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(26,43,140,0.5),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0F1B3D] via-[#1B2D5E] to-[#0F1B3D]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,140,220,0.35),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(27,45,94,0.5),transparent_60%)]" />
         
         <div className="relative z-10 h-full flex flex-col justify-between p-24 text-white">
           <div className="flex justify-end">
@@ -188,7 +188,7 @@ export default function LoginPage() {
           >
             <h2 className="font-display text-5xl font-bold mb-6 leading-tight">
               LinkedIn Marketing Solutions <br />
-              <span className="text-[#0A66C2]">Sales Enablement</span>
+              <span className="text-[#0096E0]">Sales Enablement</span>
             </h2>
             <p className="text-white/80 text-lg max-w-md leading-relaxed">
               Master your pitch with AI-powered training. Arena by GigaRev — built exclusively for LinkedIn Marketing Solutions sales professionals.
@@ -196,13 +196,13 @@ export default function LoginPage() {
             
             <div className="flex gap-3 mt-8">
               <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
-                <span className="text-[#0A66C2] font-bold">18</span> <span className="text-white/70">AI Roleplays</span>
+                <span className="text-[#0096E0] font-bold">18</span> <span className="text-white/70">AI Roleplays</span>
               </div>
               <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
-                <span className="text-[#0A66C2] font-bold">4</span> <span className="text-white/70">Buyer Personas</span>
+                <span className="text-[#0096E0] font-bold">4</span> <span className="text-white/70">Buyer Personas</span>
               </div>
               <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
-                <span className="text-[#0A66C2] font-bold">10</span> <span className="text-white/70">Battlecards</span>
+                <span className="text-[#0096E0] font-bold">10</span> <span className="text-white/70">Battlecards</span>
               </div>
             </div>
           </motion.div>
