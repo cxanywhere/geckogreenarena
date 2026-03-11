@@ -7,6 +7,16 @@ import { PresentMode } from "@/components/present-mode";
 import { VoiceQA } from "@/components/voice-qa";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Download, BookOpen, Presentation, Brain, Loader2, Mic, CheckCircle, Clock, Target, FileText, GraduationCap, ChevronDown, ChevronUp, PlayCircle, MessageCircleQuestion } from "lucide-react";
+import notionChapter from "@/assets/notion-icon-chapter.png";
+import notionQuiz from "@/assets/notion-icon-quiz.png";
+import notionRoleplay from "@/assets/notion-icon-roleplay.png";
+import notionCoach from "@/assets/notion-icon-coach.png";
+import notionTarget from "@/assets/notion-icon-target.png";
+import notionProgress from "@/assets/notion-icon-progress.png";
+
+const NotionIcon = ({ src, size = 16 }: { src: string; size?: number }) => (
+  <img src={src} alt="" width={size} height={size} className="inline-block" style={{ imageRendering: 'auto' }} />
+);
 import { useEffect, useState, useCallback, useRef } from "react";
 import { toast } from "sonner";
 import { api, type QuizQuestion } from "@/lib/api";
@@ -531,7 +541,7 @@ export default function ChapterPage() {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-muted-foreground mb-0.5 sm:mb-1">
                       <span className="flex items-center gap-1 shrink-0">
-                        <Presentation className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                        <NotionIcon src={notionChapter} size={16} />
                         Chapter {chapters.findIndex(c => c.id === chapter.id) + 1}
                       </span>
                       <span className="text-border shrink-0">|</span>
@@ -561,8 +571,8 @@ export default function ChapterPage() {
                       </>
                     ) : (
                       <>
-                        <PlayCircle className="w-3.5 h-3.5" />
-                        <span className="hidden sm:inline">Auto Present</span>
+                        <NotionIcon src={notionCoach} size={14} />
+                        <span className="hidden sm:inline">Teach Me</span>
                       </>
                     )}
                   </Button>
@@ -573,8 +583,8 @@ export default function ChapterPage() {
                     onClick={() => setShowVoiceQA(!showVoiceQA)}
                     data-testid="button-ask-question"
                   >
-                    <MessageCircleQuestion className="w-3.5 h-3.5" />
-                    <span className="hidden sm:inline">Ask</span>
+                    <NotionIcon src={notionCoach} size={14} />
+                    <span className="hidden sm:inline">Ask Coach</span>
                   </Button>
                   <Button 
                     variant="ghost" 
@@ -591,18 +601,18 @@ export default function ChapterPage() {
               
               <div className="flex items-center gap-2 flex-wrap">
                 <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${slideProgress >= 100 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-muted text-muted-foreground'}`}>
-                  <FileText className="w-3 h-3" />
+                  <NotionIcon src={notionProgress} size={14} />
                   {currentPage}/{totalSlides || '?'} slides
                   {slideProgress >= 100 && <CheckCircle className="w-3 h-3" />}
                 </div>
                 <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${completedQuizPages.size > 0 ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : 'bg-muted text-muted-foreground'}`}>
-                  <GraduationCap className="w-3 h-3" />
+                  <NotionIcon src={notionQuiz} size={14} />
                   {completedQuizPages.size} quiz{completedQuizPages.size !== 1 ? 'zes' : ''}
                   {allQuizzesDone && <CheckCircle className="w-3 h-3" />}
                 </div>
                 {chapterHasRoleplays && (
                   <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${completedRoleplayOrderIndexes.size > 0 ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-muted text-muted-foreground'}`}>
-                    <Mic className="w-3 h-3" />
+                    <NotionIcon src={notionRoleplay} size={14} />
                     {completedRoleplayOrderIndexes.size}/{totalChapterRoleplays} roleplay{totalChapterRoleplays !== 1 ? 's' : ''}
                     {allRoleplaysDone && <CheckCircle className="w-3 h-3" />}
                   </div>
@@ -622,7 +632,7 @@ export default function ChapterPage() {
                   {/* What You'll Learn */}
                   <div>
                     <h3 className="text-sm font-bold mb-2 flex items-center gap-2">
-                      <Target className="w-4 h-4 text-magenta" />
+                      <NotionIcon src={notionTarget} size={18} />
                       What You'll Learn
                     </h3>
                     <ul className="space-y-1.5">

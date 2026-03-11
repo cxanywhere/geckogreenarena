@@ -373,7 +373,7 @@ export function PresentMode({ slides, narration, chapterTitle, chapterId, onClos
               data-testid="button-present-ask-question"
             >
               <MessageCircleQuestion className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-              <span className="hidden sm:inline">Ask</span>
+              <span className="hidden sm:inline">Ask Coach</span>
             </Button>
             <Button
               variant="ghost"
