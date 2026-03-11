@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { Menu, LogOut, User, ChevronDown, LayoutDashboard, BookOpen, Trophy, GraduationCap, BarChart3, Users, ScrollText, Target, Sparkles, Library, MessageSquare } from "lucide-react";
+import { Menu, LogOut, User, ChevronDown, Library } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -24,6 +24,20 @@ import {
 import { useAuth } from "@/lib/auth-context";
 
 import notionArena from "@/assets/notion-icon-arena.png";
+import notionProgress from "@/assets/notion-icon-progress.png";
+import notionQuiz from "@/assets/notion-icon-quiz.png";
+import notionStats from "@/assets/notion-icon-stats.png";
+import notionLeaderboard from "@/assets/notion-icon-leaderboard.png";
+import notionChapter from "@/assets/notion-icon-chapter.png";
+import notionPlaybook from "@/assets/notion-icon-playbook.png";
+import notionBattlecard from "@/assets/notion-icon-battlecard.png";
+import notionPersonas from "@/assets/notion-icon-personas.png";
+import notionCoach from "@/assets/notion-icon-coach.png";
+import notionTarget from "@/assets/notion-icon-target.png";
+
+const NotionIcon = ({ src, size = 16 }: { src: string; size?: number }) => (
+  <img src={src} alt="" className="object-contain rounded-sm" style={{ width: size, height: size }} />
+);
 
 interface NavGroup {
   label: string;
@@ -61,30 +75,30 @@ export function Nav() {
   const navGroups: NavGroup[] = [
     {
       label: "Training",
-      icon: <LayoutDashboard className="h-4 w-4" />,
+      icon: <NotionIcon src={notionProgress} />,
       items: [
-        { href: "/dashboard", label: "Dashboard", icon: <LayoutDashboard className="h-4 w-4" />, description: "Your training hub" },
-        { href: "/quizzes", label: "Quizzes", icon: <GraduationCap className="h-4 w-4" />, description: "Review & complete quizzes" },
-        { href: "/my-stats", label: "My Stats", icon: <BarChart3 className="h-4 w-4" />, description: "Track your progress" },
-        { href: "/leaderboard", label: "Leaderboard", icon: <Trophy className="h-4 w-4" />, description: "See top performers" },
+        { href: "/dashboard", label: "Dashboard", icon: <NotionIcon src={notionArena} />, description: "Your training hub" },
+        { href: "/quizzes", label: "Quizzes", icon: <NotionIcon src={notionQuiz} />, description: "Review & complete quizzes" },
+        { href: "/my-stats", label: "My Stats", icon: <NotionIcon src={notionStats} />, description: "Track your progress" },
+        { href: "/leaderboard", label: "Leaderboard", icon: <NotionIcon src={notionLeaderboard} />, description: "See top performers" },
       ],
     },
     {
       label: "Resources",
-      icon: <BookOpen className="h-4 w-4" />,
+      icon: <NotionIcon src={notionChapter} />,
       items: [
-        { href: "/playbook", label: "Playbook", icon: <ScrollText className="h-4 w-4" />, description: "Winning sales plays" },
-        { href: "/battlecards", label: "Battlecards", icon: <Target className="h-4 w-4" />, description: "Quick objection scripts" },
-        { href: "/personas", label: "Personas", icon: <Users className="h-4 w-4" />, description: "Buyer personality types" },
+        { href: "/playbook", label: "Playbook", icon: <NotionIcon src={notionPlaybook} />, description: "Winning sales plays" },
+        { href: "/battlecards", label: "Battlecards", icon: <NotionIcon src={notionBattlecard} />, description: "Quick objection scripts" },
+        { href: "/personas", label: "Personas", icon: <NotionIcon src={notionPersonas} />, description: "Buyer personality types" },
         { href: "/resources", label: "Library", icon: <Library className="h-4 w-4" />, description: "Videos & learning materials" },
       ],
     },
     {
       label: "Support",
-      icon: <MessageSquare className="h-4 w-4" />,
+      icon: <NotionIcon src={notionCoach} />,
       items: [
-        { href: "/coach", label: "AI Coach", icon: <Sparkles className="h-4 w-4" />, description: "Get personalized coaching" },
-        { href: "/experts", label: "Experts", icon: <Users className="h-4 w-4" />, description: "Connect with industry experts" },
+        { href: "/coach", label: "AI Coach", icon: <NotionIcon src={notionCoach} />, description: "Get personalized coaching" },
+        { href: "/experts", label: "Experts", icon: <NotionIcon src={notionTarget} />, description: "Connect with industry experts" },
       ],
     },
   ];
