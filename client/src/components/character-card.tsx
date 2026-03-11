@@ -28,30 +28,30 @@ interface RoleplayCardProps {
 }
 
 export function RoleplayCard({ scenario, index, isLocked = false, hasPassed = false, permanentlyFailed = false }: RoleplayCardProps) {
-  const difficultyColor = scenario.difficulty === 'Beginner' ? "bg-emerald-100 text-emerald-700" :
-    scenario.difficulty === 'Intermediate' ? "bg-amber-100 text-amber-700" :
-    "bg-red-100 text-red-700";
+  const difficultyColor = scenario.difficulty === 'Beginner' ? "bg-[#f0fdf4] text-[#16a34a]" :
+    scenario.difficulty === 'Intermediate' ? "bg-[#fffbeb] text-[#d97706]" :
+    "bg-[#fef2f2] text-[#dc2626]";
 
   if (permanentlyFailed) {
     return (
-      <div className="relative overflow-hidden rounded-xl bg-white border border-red-200 h-full flex flex-col opacity-75 cursor-not-allowed">
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/60 backdrop-blur-[1px]">
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-50 border border-red-200">
-            <XCircle className="w-4 h-4 text-red-500" />
-            <span className="text-xs font-semibold text-red-600">No Attempts Left</span>
+      <div className="relative overflow-hidden rounded-lg bg-white border border-[#e8e8e5] h-full flex flex-col opacity-60 cursor-not-allowed">
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/70">
+          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-[#fef2f2] border border-[#fecaca]">
+            <XCircle className="w-3.5 h-3.5 text-[#dc2626]" />
+            <span className="text-xs font-medium text-[#dc2626]">No Attempts Left</span>
           </div>
         </div>
-        <div className="flex items-center gap-3 p-4">
-          <div className="w-10 h-10 rounded-full bg-gray-100 overflow-hidden shrink-0 grayscale">
+        <div className="flex items-center gap-3 p-3.5">
+          <div className="w-9 h-9 rounded-full bg-[#f7f7f5] overflow-hidden shrink-0 grayscale">
             {scenario.avatar ? (
               <img src={scenario.avatar} alt={scenario.name} className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center"><User className="w-5 h-5 text-gray-400" /></div>
+              <div className="w-full h-full flex items-center justify-center"><User className="w-4 h-4 text-[#c4c4c0]" /></div>
             )}
           </div>
           <div className="min-w-0">
-            <h3 className="font-bold text-sm text-gray-400 truncate">{scenario.name}</h3>
-            <p className="text-xs text-gray-300 truncate">{scenario.role}</p>
+            <h3 className="font-medium text-sm text-[#c4c4c0] truncate">{scenario.name}</h3>
+            <p className="text-xs text-[#d4d4d0] truncate">{scenario.role}</p>
           </div>
         </div>
       </div>
@@ -60,39 +60,39 @@ export function RoleplayCard({ scenario, index, isLocked = false, hasPassed = fa
 
   if (hasPassed) {
     return (
-      <div className="relative overflow-hidden rounded-xl bg-white border border-emerald-200 h-full flex flex-col" data-testid={`card-roleplay-passed-${scenario.id}`}>
-        <div className="flex items-center gap-3 p-4">
-          <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0">
+      <div className="relative overflow-hidden rounded-lg bg-white border border-[#e8e8e5] h-full flex flex-col" data-testid={`card-roleplay-passed-${scenario.id}`}>
+        <div className="flex items-center gap-3 p-3.5">
+          <div className="relative w-9 h-9 rounded-full overflow-hidden shrink-0">
             {scenario.avatar ? (
               <img src={scenario.avatar} alt={scenario.name} className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-emerald-50"><User className="w-5 h-5 text-emerald-600" /></div>
+              <div className="w-full h-full flex items-center justify-center bg-[#f0fdf4]"><User className="w-4 h-4 text-[#2ecc71]" /></div>
             )}
-            <div className="absolute -bottom-0.5 -right-0.5 bg-emerald-500 rounded-full p-0.5">
-              <CheckCircle className="w-3 h-3 text-white" />
+            <div className="absolute -bottom-0.5 -right-0.5 bg-[#2ecc71] rounded-full p-0.5">
+              <CheckCircle className="w-2.5 h-2.5 text-white" />
             </div>
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="font-bold text-sm truncate text-foreground">{scenario.name}</h3>
-            <p className="text-xs text-muted-foreground truncate">{scenario.role}</p>
+            <h3 className="font-medium text-sm truncate text-[#37352f]">{scenario.name}</h3>
+            <p className="text-xs text-[#787774] truncate">{scenario.role}</p>
           </div>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md shrink-0">Passed</span>
+          <span className="text-[10px] font-medium uppercase tracking-wider text-[#2ecc71] bg-[#f0fdf4] px-2 py-0.5 rounded shrink-0">Passed</span>
         </div>
-        <p className="text-xs text-muted-foreground px-4 pb-3 line-clamp-2">{scenario.description}</p>
+        <p className="text-xs text-[#787774] px-3.5 pb-3 line-clamp-2">{scenario.description}</p>
       </div>
     );
   }
 
   if (isLocked) {
     return (
-      <div className="relative overflow-hidden rounded-xl bg-gray-50 border border-dashed border-gray-200 h-full flex flex-col opacity-60 cursor-not-allowed">
-        <div className="flex items-center gap-3 p-4">
-          <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
-            <Lock className="w-4 h-4 text-gray-400" />
+      <div className="relative overflow-hidden rounded-lg bg-[#fafaf8] border border-dashed border-[#e8e8e5] h-full flex flex-col opacity-50 cursor-not-allowed">
+        <div className="flex items-center gap-3 p-3.5">
+          <div className="w-9 h-9 rounded-full bg-[#f0f0ed] flex items-center justify-center shrink-0">
+            <Lock className="w-4 h-4 text-[#c4c4c0]" />
           </div>
           <div className="min-w-0">
-            <h3 className="font-bold text-sm text-gray-400 truncate">{scenario.name}</h3>
-            <p className="text-xs text-gray-300">Locked</p>
+            <h3 className="font-medium text-sm text-[#c4c4c0] truncate">{scenario.name}</h3>
+            <p className="text-xs text-[#d4d4d0]">Locked</p>
           </div>
         </div>
       </div>
@@ -102,49 +102,49 @@ export function RoleplayCard({ scenario, index, isLocked = false, hasPassed = fa
   return (
     <Link href={`/chat/${scenario.id}`}>
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
+        initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: index * 0.05, duration: 0.3 }}
-        className="group relative cursor-pointer overflow-hidden rounded-xl bg-white border border-border hover:border-gray-300 transition-all duration-200 hover:shadow-sm h-full flex flex-col"
+        transition={{ delay: index * 0.04, duration: 0.25 }}
+        className="group relative cursor-pointer overflow-hidden rounded-lg bg-white border border-[#e8e8e5] hover:border-[#d4d4d0] transition-all duration-200 hover:shadow-sm h-full flex flex-col"
         data-testid={`card-roleplay-${scenario.id}`}
       >
-        <div className="flex items-center gap-3 p-4">
-          <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 ring-2 ring-gray-100 group-hover:ring-gray-200 transition-all">
+        <div className="flex items-center gap-3 p-3.5">
+          <div className="w-9 h-9 rounded-full overflow-hidden shrink-0 ring-1 ring-[#e8e8e5] group-hover:ring-[#d4d4d0] transition-all">
             {scenario.avatar ? (
               <img src={scenario.avatar} alt={scenario.name} className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gray-100"><User className="w-5 h-5 text-gray-400" /></div>
+              <div className="w-full h-full flex items-center justify-center bg-[#f7f7f5]"><User className="w-4 h-4 text-[#787774]" /></div>
             )}
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="font-bold text-sm group-hover:text-amber-700 transition-colors truncate">{scenario.name}</h3>
-            <p className="text-xs text-muted-foreground truncate">{scenario.role}</p>
+            <h3 className="font-medium text-sm text-[#37352f] truncate">{scenario.name}</h3>
+            <p className="text-xs text-[#787774] truncate">{scenario.role}</p>
           </div>
-          <span className={cn("text-[10px] font-semibold px-2 py-1 rounded-md shrink-0", difficultyColor)}>
+          <span className={cn("text-[10px] font-medium px-2 py-0.5 rounded shrink-0", difficultyColor)}>
             {scenario.difficulty}
           </span>
         </div>
         
-        <p className="text-xs text-muted-foreground px-4 pb-3 line-clamp-2 flex-1">{scenario.description}</p>
+        <p className="text-xs text-[#787774] px-3.5 pb-3 line-clamp-2 flex-1">{scenario.description}</p>
 
-        <div className="px-4 pb-3 pt-2 border-t border-gray-100">
+        <div className="px-3.5 pb-3 pt-2 border-t border-[#f0f0ed]">
           <div className="flex items-center gap-3">
-            <div className="flex-1 flex items-center gap-1.5">
-              <Shield className="w-3 h-3 text-muted-foreground" />
-              <div className="h-1 flex-1 bg-gray-100 rounded-full overflow-hidden">
-                <div className="h-full bg-gray-400 rounded-full" style={{ width: `${scenario.stats.resistance}%` }} />
+            <div className="flex-1 flex items-center gap-1">
+              <Shield className="w-3 h-3 text-[#c4c4c0]" />
+              <div className="h-1 flex-1 bg-[#f0f0ed] rounded-full overflow-hidden">
+                <div className="h-full bg-[#787774] rounded-full" style={{ width: `${scenario.stats.resistance}%` }} />
               </div>
             </div>
-            <div className="flex-1 flex items-center gap-1.5">
-              <MessageSquare className="w-3 h-3 text-muted-foreground" />
-              <div className="h-1 flex-1 bg-gray-100 rounded-full overflow-hidden">
-                <div className="h-full bg-amber-400 rounded-full" style={{ width: `${scenario.stats.objections}%` }} />
+            <div className="flex-1 flex items-center gap-1">
+              <MessageSquare className="w-3 h-3 text-[#c4c4c0]" />
+              <div className="h-1 flex-1 bg-[#f0f0ed] rounded-full overflow-hidden">
+                <div className="h-full bg-[#d97706] rounded-full" style={{ width: `${scenario.stats.objections}%` }} />
               </div>
             </div>
-            <div className="flex-1 flex items-center gap-1.5">
-              <TrendingUp className="w-3 h-3 text-muted-foreground" />
-              <div className="h-1 flex-1 bg-gray-100 rounded-full overflow-hidden">
-                <div className="h-full bg-emerald-400 rounded-full" style={{ width: `${scenario.stats.buy_signal}%` }} />
+            <div className="flex-1 flex items-center gap-1">
+              <TrendingUp className="w-3 h-3 text-[#c4c4c0]" />
+              <div className="h-1 flex-1 bg-[#f0f0ed] rounded-full overflow-hidden">
+                <div className="h-full bg-[#2ecc71] rounded-full" style={{ width: `${scenario.stats.buy_signal}%` }} />
               </div>
             </div>
           </div>

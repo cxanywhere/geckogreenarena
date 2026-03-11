@@ -3,18 +3,12 @@ import { Link, useLocation } from "wouter";
 import { Nav } from "@/components/nav";
 import { RoleplayCard } from "@/components/character-card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle, Lock, BookOpen, Award, GraduationCap, ChevronDown, ChevronUp, Play, Clock, FileText, Mic, RotateCcw, BarChart3 } from "lucide-react";
+import { ArrowRight, CheckCircle, Lock, BookOpen, Award, GraduationCap, ChevronDown, ChevronUp, Play, Clock, FileText, Mic, RotateCcw, BarChart3, Target, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, type Chapter, type Roleplay } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { NudgeBanner } from "@/components/nudge-banner";
-
-import iconChapter from "@/assets/icon-chapter.png";
-import iconRoleplay from "@/assets/icon-roleplay.png";
-import iconTrophy from "@/assets/icon-trophy.png";
-import iconCert from "@/assets/icon-cert.png";
-import iconProgress from "@/assets/icon-progress.png";
 
 export default function Home() {
   const [completedChapters, setCompletedChapters] = useState<string[]>([]);
@@ -164,27 +158,27 @@ export default function Home() {
   };
 
   const statCards = [
-    { label: "Overall Progress", value: `${progressPercentage}%`, icon: iconProgress, progress: progressPercentage, bgColor: "bg-violet-50", borderColor: "border-violet-200" },
-    { label: "Chapters", value: `${chaptersCompleted}/${totalChapters}`, icon: iconChapter, progress: totalChapters > 0 ? (chaptersCompleted / totalChapters) * 100 : 0, done: allChaptersComplete, bgColor: "bg-blue-50", borderColor: "border-blue-200" },
-    { label: "Roleplays", value: `${uniqueRoleplaysPassed}/${totalRoleplays}`, icon: iconRoleplay, progress: totalRoleplays > 0 ? (uniqueRoleplaysPassed / totalRoleplays) * 100 : 0, done: allRoleplaysPassed, bgColor: "bg-orange-50", borderColor: "border-orange-200" },
-    { label: "Quiz Average", value: avgQuizScore > 0 ? `${avgQuizScore}%` : "--", icon: iconCert, progress: avgQuizScore, done: quizScoreMet, bgColor: "bg-emerald-50", borderColor: "border-emerald-200" },
+    { label: "Overall Progress", value: `${progressPercentage}%`, icon: <Zap className="w-4 h-4" />, progress: progressPercentage },
+    { label: "Chapters", value: `${chaptersCompleted}/${totalChapters}`, icon: <BookOpen className="w-4 h-4" />, progress: totalChapters > 0 ? (chaptersCompleted / totalChapters) * 100 : 0, done: allChaptersComplete },
+    { label: "Roleplays", value: `${uniqueRoleplaysPassed}/${totalRoleplays}`, icon: <Mic className="w-4 h-4" />, progress: totalRoleplays > 0 ? (uniqueRoleplaysPassed / totalRoleplays) * 100 : 0, done: allRoleplaysPassed },
+    { label: "Quiz Average", value: avgQuizScore > 0 ? `${avgQuizScore}%` : "--", icon: <GraduationCap className="w-4 h-4" />, progress: avgQuizScore, done: quizScoreMet },
   ];
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] font-sans">
+    <div className="min-h-screen bg-[#f7f7f5] font-sans">
       <Nav />
       
-      <div className="container mx-auto px-4 py-8 md:py-12 max-w-6xl">
+      <div className="container mx-auto px-4 py-8 md:py-10 max-w-5xl">
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.35 }}
           className="mb-8"
         >
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-1" data-testid="text-welcome">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#1a1a1a] mb-1" data-testid="text-welcome">
             Welcome back, {user?.name || "Sales Rep"}
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-[#787774]">
             Complete your training to earn your LMS certification.
           </p>
         </motion.div>
@@ -192,32 +186,34 @@ export default function Home() {
         {user && <NudgeBanner userId={user.id} />}
 
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.08 }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8"
+          transition={{ duration: 0.35, delay: 0.06 }}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8"
         >
           {statCards.map((stat, i) => (
-            <div key={stat.label} className={`relative overflow-hidden rounded-xl border ${stat.borderColor} ${stat.bgColor} p-4 sm:p-5`} data-testid={`stat-${stat.label.toLowerCase().replace(/\s+/g, '-')}`}>
-              <div className="flex items-start justify-between mb-3">
-                <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">{stat.label}</span>
-                <img src={stat.icon} alt="" className="w-8 h-8 object-contain opacity-80" />
+            <div key={stat.label} className="rounded-lg border border-[#e8e8e5] bg-white p-4 sm:p-5" data-testid={`stat-${stat.label.toLowerCase().replace(/\s+/g, '-')}`}>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[11px] font-medium text-[#787774] uppercase tracking-wider">{stat.label}</span>
+                <div className="w-7 h-7 rounded-md bg-[#f7f7f5] flex items-center justify-center text-[#787774]">
+                  {stat.icon}
+                </div>
               </div>
-              <div className="text-2xl sm:text-3xl font-bold text-foreground">{stat.value}</div>
+              <div className="text-2xl sm:text-3xl font-bold text-[#1a1a1a]">{stat.value}</div>
               {stat.done && (
                 <div className="flex items-center gap-1 mt-2">
-                  <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
-                  <span className="text-[11px] font-semibold text-emerald-600 uppercase">Complete</span>
+                  <CheckCircle className="w-3.5 h-3.5 text-[#2ecc71]" />
+                  <span className="text-[11px] font-medium text-[#2ecc71] uppercase">Complete</span>
                 </div>
               )}
               {!stat.done && stat.progress !== undefined && (
                 <div className="mt-3">
-                  <div className="h-1.5 w-full bg-black/5 rounded-full overflow-hidden">
+                  <div className="h-1 w-full bg-[#f0f0ed] rounded-full overflow-hidden">
                     <motion.div 
-                      className="h-full bg-foreground/70 rounded-full"
+                      className="h-full bg-[#37352f] rounded-full"
                       initial={{ width: 0 }}
                       animate={{ width: `${stat.progress}%` }}
-                      transition={{ duration: 1, delay: 0.3 + i * 0.1 }}
+                      transition={{ duration: 0.8, delay: 0.2 + i * 0.1 }}
                     />
                   </div>
                 </div>
@@ -230,18 +226,20 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="mb-8 rounded-xl border border-emerald-200 bg-emerald-50 p-5"
+            className="mb-8 rounded-lg border border-[#e8e8e5] bg-white p-5"
             data-testid="banner-certified"
           >
             <div className="flex items-center gap-4">
-              <img src={iconCert} alt="Certified" className="w-12 h-12 object-contain" />
+              <div className="w-10 h-10 rounded-lg bg-[#f0fdf4] flex items-center justify-center">
+                <Award className="w-5 h-5 text-[#2ecc71]" />
+              </div>
               <div className="flex-1">
-                <h3 className="text-base font-bold text-foreground">Certification Complete!</h3>
-                <p className="text-sm text-muted-foreground mt-0.5">You've mastered LMS sales. Full commission eligibility unlocked.</p>
+                <h3 className="text-sm font-semibold text-[#1a1a1a]">Certification Complete!</h3>
+                <p className="text-sm text-[#787774] mt-0.5">You've mastered LMS sales. Full commission eligibility unlocked.</p>
               </div>
               <Link href="/report-card">
-                <Button className="bg-foreground text-background hover:bg-foreground/90 shrink-0" data-testid="button-view-certificate">
-                  View Certificate <ArrowRight className="ml-2 w-4 h-4" />
+                <Button className="bg-[#37352f] text-white hover:bg-[#2f2f2a] text-sm shrink-0" data-testid="button-view-certificate">
+                  View Certificate <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
                 </Button>
               </Link>
             </div>
@@ -250,25 +248,27 @@ export default function Home() {
 
         {allRoleplaysPassed && !quizScoreMet && !isCertified && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8 rounded-xl border border-amber-200 bg-amber-50 p-5"
+            className="mb-8 rounded-lg border border-[#e8e8e5] bg-white p-5"
             data-testid="banner-almost-certified"
           >
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <img src={iconCert} alt="" className="w-10 h-10 object-contain" />
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-lg bg-[#fffbeb] flex items-center justify-center">
+                  <Award className="w-5 h-5 text-[#d97706]" />
+                </div>
                 <div>
-                  <h3 className="font-bold text-foreground">Almost certified!</h3>
-                  <p className="text-sm text-muted-foreground mt-0.5">
-                    Complete your quizzes with a 75%+ average to earn certification.
-                    {avgQuizScore > 0 && <span className="font-semibold text-foreground"> Current: {avgQuizScore}%</span>}
+                  <h3 className="text-sm font-semibold text-[#1a1a1a]">Almost certified!</h3>
+                  <p className="text-sm text-[#787774]">
+                    Complete quizzes with 75%+ average.
+                    {avgQuizScore > 0 && <span className="font-medium text-[#1a1a1a]"> Current: {avgQuizScore}%</span>}
                   </p>
                 </div>
               </div>
               <Link href="/quizzes">
-                <Button className="bg-foreground text-background hover:bg-foreground/90 shrink-0" data-testid="button-complete-quizzes">
-                  Complete Quizzes <ArrowRight className="ml-2 w-4 h-4" />
+                <Button className="bg-[#37352f] text-white hover:bg-[#2f2f2a] text-sm shrink-0" data-testid="button-complete-quizzes">
+                  Complete Quizzes <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
                 </Button>
               </Link>
             </div>
@@ -277,20 +277,20 @@ export default function Home() {
 
         {nextAction && !isCertified && (
           <motion.div
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.12 }}
-            className="mb-8 rounded-xl border border-border bg-white p-5 sm:p-6"
+            transition={{ delay: 0.1 }}
+            className="mb-8 rounded-lg border border-[#e8e8e5] bg-white p-5"
             data-testid="card-next-action"
           >
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center">
-                  <ArrowRight className="w-5 h-5 text-amber-700" />
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-lg bg-[#f7f7f5] flex items-center justify-center">
+                  <ArrowRight className="w-4 h-4 text-[#37352f]" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">Your Next Step</p>
-                  <h3 className="text-base font-bold text-foreground">
+                  <p className="text-[11px] font-medium text-[#787774] uppercase tracking-wider">Next step</p>
+                  <h3 className="text-sm font-semibold text-[#1a1a1a]">
                     {nextAction.type === "chapter" 
                       ? `Chapter ${(nextAction.index ?? 0) + 1}: ${nextAction.chapter?.title}`
                       : nextAction.message}
@@ -299,15 +299,15 @@ export default function Home() {
               </div>
               {nextAction.type === "chapter" && nextAction.chapter && (
                 <Link href={`/chapter/${nextAction.chapter.id}`}>
-                  <Button className="bg-foreground text-background hover:bg-foreground/90" data-testid="button-next-action">
-                    Continue <ArrowRight className="ml-2 w-4 h-4" />
+                  <Button className="bg-[#37352f] text-white hover:bg-[#2f2f2a] text-sm" data-testid="button-next-action">
+                    Continue <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
                   </Button>
                 </Link>
               )}
               {nextAction.type === "quiz" && (
                 <Link href="/quizzes">
-                  <Button className="bg-foreground text-background hover:bg-foreground/90" data-testid="button-next-action-quiz">
-                    Review Quizzes <ArrowRight className="ml-2 w-4 h-4" />
+                  <Button className="bg-[#37352f] text-white hover:bg-[#2f2f2a] text-sm" data-testid="button-next-action-quiz">
+                    Review Quizzes <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
                   </Button>
                 </Link>
               )}
@@ -316,12 +316,9 @@ export default function Home() {
         )}
 
         <div className="mb-10">
-          <div className="flex items-center gap-3 mb-6">
-            <img src={iconChapter} alt="" className="w-8 h-8 object-contain" />
-            <div>
-              <h2 className="text-lg font-bold text-foreground" data-testid="heading-training-path">Training Path</h2>
-              <p className="text-sm text-muted-foreground">Complete each chapter in order to progress</p>
-            </div>
+          <div className="mb-5">
+            <h2 className="text-lg font-semibold text-[#1a1a1a]" data-testid="heading-training-path">Training Path</h2>
+            <p className="text-sm text-[#787774]">Complete each chapter in order to progress</p>
           </div>
            
           <div className="space-y-3">
@@ -338,36 +335,38 @@ export default function Home() {
               return (
                 <motion.div
                   key={chapter.id}
-                  initial={{ opacity: 0, y: 8 }}
+                  initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.06 }}
+                  transition={{ delay: index * 0.05 }}
                 >
-                  <div className={`rounded-xl border overflow-hidden transition-all duration-200 ${
+                  <div className={`rounded-lg border overflow-hidden transition-all duration-200 ${
                     isCompleted 
-                      ? 'border-emerald-200 bg-white' 
+                      ? 'border-[#e8e8e5] bg-white' 
                       : isNext 
-                        ? 'border-amber-300 bg-white shadow-sm' 
+                        ? 'border-[#d4d4d0] bg-white shadow-sm' 
                         : isUnlocked
-                          ? 'border-border bg-white hover:border-gray-300 hover:shadow-sm'
-                          : 'border-dashed border-gray-200 bg-gray-50/50 opacity-60'
+                          ? 'border-[#e8e8e5] bg-white hover:shadow-sm'
+                          : 'border-dashed border-[#e8e8e5] bg-[#fafaf8] opacity-50'
                   }`}>
                     {isUnlocked ? (
                       <>
                         <Link href={`/chapter/${chapter.id}`} className="block">
                           <div className="flex flex-col sm:flex-row group">
-                            <div className="relative w-full sm:w-44 md:w-52 h-32 sm:h-auto overflow-hidden shrink-0">
+                            <div className="relative w-full sm:w-44 md:w-52 h-32 sm:h-auto overflow-hidden shrink-0 bg-[#f0f0ed]">
                               {chapter.coverImage ? (
                                 <img src={chapter.coverImage} alt={chapter.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                               ) : (
-                                <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200" />
+                                <div className="absolute inset-0 bg-[#f0f0ed] flex items-center justify-center">
+                                  <BookOpen className="w-8 h-8 text-[#c4c4c0]" />
+                                </div>
                               )}
                               {isNext && (
-                                <div className="absolute top-3 left-3 bg-amber-500 text-white px-2.5 py-1 rounded-full text-[11px] font-bold uppercase flex items-center gap-1">
+                                <div className="absolute top-3 left-3 bg-[#37352f] text-white px-2.5 py-1 rounded text-[11px] font-semibold uppercase flex items-center gap-1">
                                   <Play className="w-3 h-3" /> Up Next
                                 </div>
                               )}
                               {isCompleted && (
-                                <div className="absolute top-3 left-3 bg-emerald-500 text-white px-2.5 py-1 rounded-full text-[11px] font-bold uppercase flex items-center gap-1">
+                                <div className="absolute top-3 left-3 bg-[#2ecc71] text-white px-2.5 py-1 rounded text-[11px] font-semibold uppercase flex items-center gap-1">
                                   <CheckCircle className="w-3 h-3" /> Done
                                 </div>
                               )}
@@ -376,21 +375,21 @@ export default function Home() {
                             <div className="p-4 sm:p-5 flex-1 min-w-0">
                               <div className="flex items-start justify-between gap-3 mb-1.5">
                                 <div className="min-w-0">
-                                  <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">Chapter {index + 1}</p>
-                                  <h3 className="font-bold text-base leading-tight group-hover:text-amber-700 transition-colors" data-testid={`text-chapter-title-${chapter.id}`}>{chapter.title}</h3>
+                                  <p className="text-[11px] font-medium text-[#787774] uppercase tracking-wider mb-0.5">Chapter {index + 1}</p>
+                                  <h3 className="font-semibold text-[15px] leading-tight text-[#1a1a1a] group-hover:text-[#37352f]" data-testid={`text-chapter-title-${chapter.id}`}>{chapter.title}</h3>
                                 </div>
-                                <div className="flex items-center gap-1 text-xs text-muted-foreground bg-gray-100 px-2 py-1 rounded-md shrink-0">
+                                <div className="flex items-center gap-1 text-xs text-[#787774] bg-[#f7f7f5] px-2 py-1 rounded shrink-0">
                                   <Clock className="w-3 h-3" />
                                   {chapter.duration}
                                 </div>
                               </div>
                               
-                              <p className="text-muted-foreground text-sm line-clamp-1 mb-3">{chapter.description}</p>
+                              <p className="text-[#787774] text-sm line-clamp-1 mb-3">{chapter.description}</p>
                               
                               {chapter.agenda && chapter.agenda.length > 0 && (
                                 <div className="flex flex-wrap gap-1.5 mb-3">
                                   {chapter.agenda.slice(0, 3).map((item, i) => (
-                                    <span key={i} className="text-[11px] bg-gray-100 text-muted-foreground px-2 py-0.5 rounded-md font-medium">{item}</span>
+                                    <span key={i} className="text-[11px] bg-[#f7f7f5] text-[#787774] px-2 py-0.5 rounded font-medium">{item}</span>
                                   ))}
                                 </div>
                               )}
@@ -398,17 +397,17 @@ export default function Home() {
                               {!isCompleted && slidesViewed > 0 && (
                                 <div className="mb-3">
                                   <div className="flex items-center justify-between text-xs mb-1">
-                                    <span className="text-muted-foreground">Slide Progress</span>
-                                    <span className="font-medium text-foreground">{slidesViewed}/{totalSlides}</span>
+                                    <span className="text-[#787774]">Slide Progress</span>
+                                    <span className="font-medium text-[#1a1a1a]">{slidesViewed}/{totalSlides}</span>
                                   </div>
-                                  <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                                    <div className="h-full bg-foreground/60 rounded-full" style={{ width: `${(slidesViewed / totalSlides) * 100}%` }} />
+                                  <div className="h-1 w-full bg-[#f0f0ed] rounded-full overflow-hidden">
+                                    <div className="h-full bg-[#37352f] rounded-full" style={{ width: `${(slidesViewed / totalSlides) * 100}%` }} />
                                   </div>
                                 </div>
                               )}
                               
-                              <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                                <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                              <div className="flex items-center justify-between pt-3 border-t border-[#f0f0ed]">
+                                <div className="flex items-center gap-3 text-xs text-[#787774]">
                                   <span className="flex items-center gap-1"><FileText className="w-3 h-3" /> {totalSlides} slides</span>
                                   <span className="flex items-center gap-1"><Mic className="w-3 h-3" /> {chapterRps.length} roleplays</span>
                                   <span className="flex items-center gap-1"><GraduationCap className="w-3 h-3" /> Quiz</span>
@@ -418,15 +417,15 @@ export default function Home() {
                                     <button
                                       onClick={(e) => handleReviewChapter(e, chapter.id)}
                                       disabled={resettingChapter === chapter.id}
-                                      className="text-xs font-medium text-muted-foreground hover:text-foreground flex items-center gap-1 px-2 py-1 rounded-md hover:bg-gray-100 transition-colors"
+                                      className="text-xs font-medium text-[#787774] hover:text-[#1a1a1a] flex items-center gap-1 px-2 py-1 rounded hover:bg-[#f7f7f5] transition-colors"
                                       data-testid={`button-review-chapter-${chapter.id}`}
                                     >
                                       <RotateCcw className={`w-3 h-3 ${resettingChapter === chapter.id ? 'animate-spin' : ''}`} />
                                       Restart
                                     </button>
                                   )}
-                                  <span className="text-sm font-medium text-foreground flex items-center group-hover:translate-x-0.5 transition-transform">
-                                    {isCompleted ? "Review" : isNext ? "Start" : "Continue"} <ArrowRight className="ml-1 w-4 h-4" />
+                                  <span className="text-sm font-medium text-[#37352f] flex items-center group-hover:translate-x-0.5 transition-transform">
+                                    {isCompleted ? "Review" : isNext ? "Start" : "Continue"} <ArrowRight className="ml-1 w-3.5 h-3.5" />
                                   </span>
                                 </div>
                               </div>
@@ -435,16 +434,16 @@ export default function Home() {
                         </Link>
                         
                         {chapterRps.length > 0 && (
-                          <div className="border-t border-gray-100">
+                          <div className="border-t border-[#f0f0ed]">
                             <button
                               onClick={() => setExpandedChapter(isExpanded ? null : chapter.id)}
-                              className="w-full flex items-center justify-between px-5 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-gray-50 transition-colors"
+                              className="w-full flex items-center justify-between px-5 py-3 text-sm font-medium text-[#787774] hover:text-[#1a1a1a] hover:bg-[#fafaf8] transition-colors"
                               data-testid={`button-toggle-roleplays-${chapter.id}`}
                             >
                               <div className="flex items-center gap-2">
-                                <img src={iconRoleplay} alt="" className="w-5 h-5 object-contain" />
+                                <Mic className="w-4 h-4" />
                                 <span>{chapterRps.length} Roleplays</span>
-                                <span className="text-xs text-emerald-600 font-semibold">
+                                <span className="text-xs text-[#2ecc71] font-medium">
                                   {chapterRps.filter(r => getRoleplayStatus(r.id).hasPassed).length} passed
                                 </span>
                               </div>
@@ -480,13 +479,13 @@ export default function Home() {
                       </>
                     ) : (
                       <div className="flex items-center gap-4 p-5">
-                        <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center shrink-0">
-                          <Lock className="w-5 h-5 text-gray-400" />
+                        <div className="w-9 h-9 rounded-lg bg-[#f7f7f5] flex items-center justify-center shrink-0">
+                          <Lock className="w-4 h-4 text-[#c4c4c0]" />
                         </div>
                         <div className="min-w-0">
-                          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">Chapter {index + 1}</p>
-                          <h3 className="font-bold text-base text-muted-foreground">{chapter.title}</h3>
-                          <p className="text-xs text-muted-foreground/60 mt-1">Complete previous chapter to unlock</p>
+                          <p className="text-[11px] font-medium text-[#c4c4c0] uppercase tracking-wider mb-0.5">Chapter {index + 1}</p>
+                          <h3 className="font-semibold text-sm text-[#c4c4c0]">{chapter.title}</h3>
+                          <p className="text-xs text-[#d4d4d0] mt-0.5">Complete previous chapter to unlock</p>
                         </div>
                       </div>
                     )}
@@ -497,8 +496,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="text-center py-8 border-t border-border">
-          <p className="text-xs text-muted-foreground">Arena AI by GigaRev &middot; Built for LinkedIn Marketing Solutions</p>
+        <div className="text-center py-6 border-t border-[#e8e8e5]">
+          <p className="text-xs text-[#c4c4c0]">Arena AI by GigaRev &middot; Built for LinkedIn Marketing Solutions</p>
         </div>
       </div>
     </div>
