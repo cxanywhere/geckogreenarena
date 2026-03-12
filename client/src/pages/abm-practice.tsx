@@ -204,6 +204,13 @@ BEHAVIOR INSTRUCTIONS:
 
   const startPractice = useCallback(async (member: CommitteeMember) => {
     if (!account || !token) return;
+
+    if (vapiRef.current) {
+      try { vapiRef.current.stop(); } catch (e) {}
+      vapiRef.current = null;
+      await new Promise(r => setTimeout(r, 500));
+    }
+
     setActiveMember(member);
     setEvaluation(null);
     setVapiTranscript([]);
@@ -272,27 +279,29 @@ BEHAVIOR INSTRUCTIONS:
         "abm-member-cfo": "VR6AewLTigWG4xSOukaG",
       };
 
-      await vapi.start({
+      const assistantConfig: any = {
         name: `${member.name} - ${member.title}`.slice(0, 40),
         firstMessage: member.openingLine,
         model: {
-          provider: "openai" as const,
-          model: "gpt-4o" as const,
+          provider: "openai",
+          model: "gpt-4o",
           temperature: 0.7,
-          messages: [{ role: "system" as const, content: buildMemberPrompt(member, account) }],
+          messages: [{ role: "system", content: buildMemberPrompt(member, account) }],
         },
         voice: {
-          provider: "11labs" as const,
+          provider: "11labs",
           voiceId: memberVoices[member.id] || "21m00Tcm4TlvDq8ikWAM",
         },
         transcriber: {
-          provider: "deepgram" as const,
-          model: "nova-2" as const,
-          language: "en-US" as const,
+          provider: "deepgram",
+          model: "nova-2",
+          language: "en-US",
         },
         silenceTimeoutSeconds: 45,
         maxDurationSeconds: 600,
-      });
+      };
+
+      await vapi.start(assistantConfig);
     } catch (err: any) {
       console.error("Failed to start practice:", err);
       setVapiError(err.message || "Failed to start voice session");
