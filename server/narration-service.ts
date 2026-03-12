@@ -1,14 +1,8 @@
-import OpenAI from "openai";
 import { GoogleGenAI } from "@google/genai";
 import { MsEdgeTTS, OUTPUT_FORMAT } from "msedge-tts";
 import fs from "fs";
 import path from "path";
 import { Buffer } from "node:buffer";
-
-const openai = new OpenAI({
-  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-});
 
 const geminiAi = process.env.GEMINI_API_KEY
   ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
@@ -97,14 +91,16 @@ Guidelines:
 
 Return ONLY the narration script text, no formatting or labels.`;
 
-  const response = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [{ role: "user", content: prompt }],
-    max_completion_tokens: 500,
-    temperature: 0.7,
+  const geminiResult = await geminiAi.models.generateContent({
+    model: "gemini-2.0-flash",
+    contents: prompt,
+    config: {
+      temperature: 0.7,
+      maxOutputTokens: 1024,
+    },
   });
 
-  return response.choices[0]?.message?.content?.trim() || "";
+  return (geminiResult.text ?? "").trim();
 }
 
 export async function generateNarrationAudio(
