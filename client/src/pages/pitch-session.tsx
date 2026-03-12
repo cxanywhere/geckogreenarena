@@ -494,7 +494,7 @@ CRITICAL: Do NOT speak first. Wait for the rep to begin their pitch. When they p
       });
 
       vapi.on("call-end", () => {
-        setVapiStatus("ending");
+        setVapiStatus("idle");
       });
 
       vapi.on("speech-start", () => {
