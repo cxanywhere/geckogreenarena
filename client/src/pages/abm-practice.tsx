@@ -132,6 +132,7 @@ export default function AbmPracticePage() {
   const transcriptRef = useRef<TranscriptEntry[]>([]);
   const transcriptEndRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const autoEvaluateRef = useRef<(() => void) | null>(null);
 
   const slug = "meridian-health-systems";
 
@@ -211,6 +212,35 @@ Use this context naturally. If the rep mentions something a colleague already di
     return prompt;
   }, []);
 
+  const handleAutoEvaluate = useCallback(async () => {
+    if (!sessionId || !activeMember || !token || isEvaluating) return;
+    setIsEvaluating(true);
+    try {
+      const transcriptText = transcriptRef.current
+        .map(t => `${t.role === "user" ? "Rep" : activeMember.name || "Buyer"}: ${t.content}`)
+        .join("\n");
+      const res = await fetch(`/api/abm/practice-sessions/${sessionId}/evaluate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ transcript: transcriptText, durationSeconds: callDuration }),
+      });
+      if (!res.ok) throw new Error("Failed to evaluate");
+      const { evaluation: evalResult } = await res.json();
+      setEvaluation(evalResult);
+      refetchProgress();
+    } catch (err: any) {
+      toast({ title: "Evaluation failed", description: err.message, variant: "destructive" });
+    } finally {
+      setIsEvaluating(false);
+      setCallDuration(0);
+      setCallStartTime(null);
+    }
+  }, [sessionId, activeMember, token, callDuration, isEvaluating, refetchProgress, toast]);
+
+  useEffect(() => {
+    autoEvaluateRef.current = handleAutoEvaluate;
+  }, [handleAutoEvaluate]);
+
   const startPractice = useCallback(async (member: CommitteeMember) => {
     if (!account || !token) return;
 
@@ -275,8 +305,12 @@ Use this context naturally. If the rep mentions something a colleague already di
       });
 
       vapi.on("call-end", () => {
-        setVapiStatus("ending");
+        setVapiStatus("idle");
         if (timerRef.current) clearInterval(timerRef.current);
+        vapiRef.current = null;
+        if (transcriptRef.current.length > 0) {
+          autoEvaluateRef.current?.();
+        }
       });
 
       vapi.on("speech-start", () => setIsBuyerSpeaking(true));
@@ -340,41 +374,16 @@ Use this context naturally. If the rep mentions something a colleague already di
   }, [account, token, buildMemberPrompt, progress]);
 
   const endPractice = useCallback(async () => {
-    if (vapiRef.current) {
-      vapiRef.current.stop();
-      vapiRef.current = null;
-    }
-    if (timerRef.current) clearInterval(timerRef.current);
-    setVapiStatus("idle");
     setIsBuyerSpeaking(false);
     setBuyerVolume(0);
-
-    if (sessionId && transcriptRef.current.length > 0) {
-      setIsEvaluating(true);
-      try {
-        const transcriptText = transcriptRef.current
-          .map(t => `${t.role === "user" ? "Rep" : activeMember?.name || "Buyer"}: ${t.content}`)
-          .join("\n");
-
-        const res = await fetch(`/api/abm/practice-sessions/${sessionId}/evaluate`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-          body: JSON.stringify({ transcript: transcriptText, durationSeconds: callDuration }),
-        });
-        if (!res.ok) throw new Error("Failed to evaluate");
-        const { evaluation: evalResult } = await res.json();
-        setEvaluation(evalResult);
-        refetchProgress();
-      } catch (err: any) {
-        toast({ title: "Evaluation failed", description: err.message, variant: "destructive" });
-      } finally {
-        setIsEvaluating(false);
-      }
+    if (vapiRef.current) {
+      vapiRef.current.stop();
+    } else {
+      if (timerRef.current) clearInterval(timerRef.current);
+      setVapiStatus("idle");
+      handleAutoEvaluate();
     }
-
-    setCallDuration(0);
-    setCallStartTime(null);
-  }, [sessionId, activeMember, token, callDuration, refetchProgress, toast]);
+  }, [handleAutoEvaluate]);
 
   const toggleMute = useCallback(() => {
     if (vapiRef.current) {

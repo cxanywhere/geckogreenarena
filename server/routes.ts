@@ -5432,6 +5432,8 @@ Return ONLY the spoken script text. No labels, formatting, or stage directions.`
       if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Unauthorized" });
       const { accountId, memberId } = req.body;
       if (!accountId || !memberId) return res.status(400).json({ error: "accountId and memberId required" });
+      const member = await storage.getAbmCommitteeMember(memberId);
+      if (!member || member.accountId !== accountId) return res.status(400).json({ error: "Invalid memberId for this account" });
       const session = await storage.createAbmPracticeSession({
         userId: authResult.user.id,
         accountId,
@@ -5580,8 +5582,13 @@ Evaluate based on: (1) understanding of stakeholder priorities, (2) tailoring th
     }
   });
 
-  app.post("/api/abm/members/generate-avatars", async (_req, res) => {
+  app.post("/api/abm/members/generate-avatars", async (req, res) => {
     try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      if (authResult.user.role !== "admin" && authResult.user.role !== "director") {
+        return res.status(403).json({ error: "Admin access required" });
+      }
       const { GoogleGenAI, Modality } = await import("@google/genai");
       const fs = await import("fs");
       const path = await import("path");
