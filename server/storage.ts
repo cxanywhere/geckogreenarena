@@ -216,7 +216,7 @@ export interface IStorage {
   // Pitch Sessions
   createPitchSession(session: InsertPitchSession): Promise<PitchSession>;
   getPitchSession(id: string): Promise<PitchSession | undefined>;
-  updatePitchSession(id: string, updates: Partial<InsertPitchSession>): Promise<PitchSession | undefined>;
+  updatePitchSession(id: string, updates: Partial<PitchSession>): Promise<PitchSession | undefined>;
   getUserPitchSessions(userId: string, deckId: string): Promise<PitchSession[]>;
   getPitchSessionFeedback(sessionId: string): Promise<PitchSessionFeedback[]>;
   createPitchSessionFeedback(feedback: InsertPitchSessionFeedback): Promise<PitchSessionFeedback>;
@@ -228,7 +228,7 @@ export interface IStorage {
   getAbmCommitteeMember(id: string): Promise<AbmCommitteeMember | undefined>;
   createAbmPracticeSession(session: InsertAbmPracticeSession): Promise<AbmPracticeSession>;
   getAbmPracticeSession(id: string): Promise<AbmPracticeSession | undefined>;
-  updateAbmPracticeSession(id: string, updates: Partial<InsertAbmPracticeSession>): Promise<AbmPracticeSession | undefined>;
+  updateAbmPracticeSession(id: string, updates: Partial<AbmPracticeSession>): Promise<AbmPracticeSession | undefined>;
   getUserAbmPracticeSessions(userId: string, accountId: string): Promise<AbmPracticeSession[]>;
 }
 
@@ -1347,7 +1347,7 @@ export class DatabaseStorage implements IStorage {
     return session || undefined;
   }
 
-  async updatePitchSession(id: string, updates: Partial<InsertPitchSession>): Promise<PitchSession | undefined> {
+  async updatePitchSession(id: string, updates: Partial<PitchSession>): Promise<PitchSession | undefined> {
     const [updated] = await db.update(pitchSessions).set(updates).where(eq(pitchSessions.id, id)).returning();
     return updated || undefined;
   }
@@ -1399,7 +1399,7 @@ export class DatabaseStorage implements IStorage {
     return session || undefined;
   }
 
-  async updateAbmPracticeSession(id: string, updates: Partial<InsertAbmPracticeSession>): Promise<AbmPracticeSession | undefined> {
+  async updateAbmPracticeSession(id: string, updates: Partial<AbmPracticeSession>): Promise<AbmPracticeSession | undefined> {
     const [updated] = await db.update(abmPracticeSessions).set(updates).where(eq(abmPracticeSessions.id, id)).returning();
     return updated || undefined;
   }

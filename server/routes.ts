@@ -5066,7 +5066,7 @@ Be specific, constructive, and fair. Score based on how well the rep covered tal
         pilotSignedOff: evaluation.pilotSignedOff ? 1 : 0,
         status: "evaluated",
         endedAt: new Date(),
-      } as any);
+      });
 
       if (evaluation.slideFeedback) {
         for (const sf of evaluation.slideFeedback) {
@@ -5547,7 +5547,7 @@ Evaluate based on: (1) understanding of stakeholder priorities, (2) tailoring th
         durationSeconds,
         status: "evaluated",
         endedAt: new Date(),
-      } as any);
+      });
 
       res.json({ success: true, evaluation });
     } catch (error: any) {

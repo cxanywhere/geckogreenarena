@@ -592,6 +592,12 @@ Listen to the rep's presentation of this slide, then ask 1-2 contextual question
     });
   }, [vapiStatus]);
 
+  useEffect(() => {
+    if (vapiStatus === "active" && deck && sessionState === "active") {
+      sendSlideContext(deck, currentSlideRef.current);
+    }
+  }, [vapiStatus, deck, sessionState, sendSlideContext]);
+
   const toggleMute = useCallback(() => {
     if (vapiRef.current) {
       const newMuted = !isMuted;
