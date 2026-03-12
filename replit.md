@@ -44,6 +44,7 @@ Preferred communication style: Simple, everyday language.
 - **Quiz System**: Comprehensive quiz review, retake functionality, and a reminder system for certification.
 - **Usage & Billing**: Tracks voice roleplay session duration and calculates costs at $0.15/minute, rounded up to the nearest minute.
 - **Pitch Practice**: Reps practice presenting client proposal decks with a live AI buyer persona via VAPI voice and get AI evaluation. DB tables: `pitch_decks`, `pitch_deck_slides`, `pitch_sessions`, `pitch_session_feedback`. First deck: HubSpot LinkedIn Ads pilot proposal (25 slides, buyer: Kipp Bodnar, CMO). Seed data in `server/pitch-deck-seed.ts`. Frontend pages: `/pitch-practice` (hub), `/pitch-session/:slug` (live voice practice), `/pitch-results/:id` (evaluation results). VAPI integration: single call across all slides; rep speaks first, AI buyer asks 1-2 contextual questions per slide; mid-call slide context updates via `vapi.send()` `add-message`; per-slide transcript captured and stored; real transcript fed to Gemini evaluation. Pro Pitch mode: narrated slide walkthroughs with Gemini TTS.
+- **ABM Practice**: Account-based buying committee roleplay. Reps practice pitching to individual stakeholders of a target account. DB tables: `abm_accounts`, `abm_committee_members`, `abm_practice_sessions`. First account: "Meridian Health Systems" (Healthcare SaaS, 800 employees, $120M ARR) with 5 committee members (CMO Dr. Sarah Chen, VP Demand Gen Marcus Rivera, Performance Marketing Mgr Jessica Park, Head of ABM David Okonkwo, CFO Robert Nakamura). Each member has unique priorities, resistance triggers, and opening lines. Seed data in `server/abm-seed.ts`. Frontend page: `/abm-practice`. VAPI integration: member-specific AI persona with account context. Gemini evaluation scores stakeholder alignment, objection handling, and next step clarity. Accessible from Practice nav dropdown.
 
 ### Sales Context
 - **Client**: LinkedIn Marketing Solutions — LinkedIn's B2B advertising and demand generation business
@@ -67,6 +68,7 @@ Preferred communication style: Simple, everyday language.
 - **VAPI Config**: `server/vapi-config.ts` — Voice roleplay scenario configurations (18 LMS scenarios)
 - **Playbook**: `server/playbook-seed-data.ts` — Victory playbook comic stories
 - **Pitch Decks**: `server/pitch-deck-seed.ts` — HubSpot LinkedIn Ads pilot proposal (25 slides)
+- **ABM Seed**: `server/abm-seed.ts` — Meridian Health Systems account and 5 buying committee members
 - **Mock Data**: `client/src/lib/mock-data.ts` — Client-side battlecards, personas, resources
 
 ## External Dependencies

@@ -5310,5 +5310,151 @@ Return ONLY the spoken script text. No labels, formatting, or stage directions.`
     }
   });
 
+  // ==================== ABM Practice Routes ====================
+
+  app.get("/api/abm/accounts", async (req, res) => {
+    try {
+      const accounts = await storage.getAllAbmAccounts();
+      res.json(accounts);
+    } catch (error: any) {
+      console.error("Get ABM accounts error:", error);
+      res.status(500).json({ error: "Failed to get accounts" });
+    }
+  });
+
+  app.get("/api/abm/accounts/:slug", async (req, res) => {
+    try {
+      const account = await storage.getAbmAccountBySlug(req.params.slug);
+      if (!account) return res.status(404).json({ error: "Account not found" });
+      const members = await storage.getAbmCommitteeMembers(account.id);
+      res.json({ ...account, members });
+    } catch (error: any) {
+      console.error("Get ABM account error:", error);
+      res.status(500).json({ error: "Failed to get account" });
+    }
+  });
+
+  app.get("/api/abm/accounts/:slug/progress", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      const account = await storage.getAbmAccountBySlug(req.params.slug);
+      if (!account) return res.status(404).json({ error: "Account not found" });
+      const sessions = await storage.getUserAbmPracticeSessions(authResult.user.id, account.id);
+      const memberProgress: Record<string, { attempts: number; bestScore: number | null; passed: boolean; lastAttempt: string | null }> = {};
+      for (const s of sessions) {
+        if (!memberProgress[s.memberId]) {
+          memberProgress[s.memberId] = { attempts: 0, bestScore: null, passed: false, lastAttempt: null };
+        }
+        const mp = memberProgress[s.memberId];
+        mp.attempts++;
+        if (s.score !== null && (mp.bestScore === null || s.score > mp.bestScore)) mp.bestScore = s.score;
+        if (s.passed === 1) mp.passed = true;
+        if (!mp.lastAttempt || (s.startedAt && new Date(s.startedAt).toISOString() > mp.lastAttempt)) {
+          mp.lastAttempt = s.startedAt ? new Date(s.startedAt).toISOString() : null;
+        }
+      }
+      res.json({ accountId: account.id, memberProgress });
+    } catch (error: any) {
+      console.error("Get ABM progress error:", error);
+      res.status(500).json({ error: "Failed to get progress" });
+    }
+  });
+
+  app.post("/api/abm/practice-sessions", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      const { accountId, memberId } = req.body;
+      if (!accountId || !memberId) return res.status(400).json({ error: "accountId and memberId required" });
+      const session = await storage.createAbmPracticeSession({
+        userId: authResult.user.id,
+        accountId,
+        memberId,
+        status: "active",
+      });
+      res.json(session);
+    } catch (error: any) {
+      console.error("Create ABM session error:", error);
+      res.status(500).json({ error: "Failed to create session" });
+    }
+  });
+
+  app.post("/api/abm/practice-sessions/:id/evaluate", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      const session = await storage.getAbmPracticeSession(req.params.id);
+      if (!session) return res.status(404).json({ error: "Session not found" });
+
+      const member = await storage.getAbmCommitteeMember(session.memberId);
+      if (!member) return res.status(404).json({ error: "Committee member not found" });
+
+      const transcript = req.body.transcript || session.transcript || "";
+      const durationSeconds = req.body.durationSeconds || 0;
+
+      const evaluationPrompt = `You are an expert B2B sales coach evaluating a LinkedIn Marketing Solutions rep's practice conversation with a buying committee member.
+
+The rep was practicing a conversation with:
+- Name: ${member.name}
+- Title: ${member.title} at Meridian Health Systems (Healthcare SaaS, 800 employees)
+- Role in buying process: ${member.role}
+- Influence: ${member.influence}
+- What they care about: ${(member.whatTheyCareAbout as string[]).join(", ")}
+- Resistance triggers: ${(member.resistanceTriggers as string[]).join(", ")}
+- Personal context: ${member.personalContext}
+
+Transcript of the conversation:
+${transcript}
+
+Evaluate the rep's performance and provide a JSON response:
+{
+  "score": <number 0-100>,
+  "passed": <true if score >= 70>,
+  "overallFeedback": "<2-3 paragraph assessment of the rep's approach>",
+  "strengths": ["<strength1>", "<strength2>", "<strength3>"],
+  "improvements": ["<area1>", "<area2>", "<area3>"],
+  "stakeholderAlignment": "<How well did the rep tailor their message to this specific stakeholder's priorities?>",
+  "objectionHandling": "<How well did the rep handle resistance and objections?>",
+  "nextStepClarity": "<Did the rep establish a clear next step or call to action?>"
+}
+
+Evaluate based on: (1) understanding of stakeholder priorities, (2) tailoring the LMS value prop to their concerns, (3) handling resistance triggers appropriately, (4) building credibility and rapport, (5) establishing clear next steps. Be specific and constructive.`;
+
+      const { GoogleGenAI } = await import("@google/genai");
+      const geminiEval = process.env.GEMINI_API_KEY
+        ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
+        : new GoogleGenAI({
+            apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY || "",
+            httpOptions: { baseUrl: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL || "" },
+          });
+      const result = await geminiEval.models.generateContent({
+        model: "gemini-2.0-flash",
+        contents: evaluationPrompt,
+      });
+      const responseText = result.text || "";
+
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error("Failed to parse evaluation response");
+
+      const evaluation = JSON.parse(jsonMatch[0]);
+
+      await storage.updateAbmPracticeSession(session.id, {
+        score: evaluation.score,
+        passed: evaluation.passed ? 1 : 0,
+        feedback: JSON.stringify(evaluation),
+        transcript,
+        durationSeconds,
+        status: "evaluated",
+        endedAt: new Date(),
+      } as any);
+
+      res.json({ success: true, evaluation });
+    } catch (error: any) {
+      console.error("Evaluate ABM session error:", error);
+      res.status(500).json({ error: "Failed to evaluate session" });
+    }
+  });
+
   return httpServer;
 }

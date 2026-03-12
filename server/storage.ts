@@ -62,6 +62,13 @@ import {
   type InsertPitchSession,
   type PitchSessionFeedback,
   type InsertPitchSessionFeedback,
+  abmAccounts,
+  abmCommitteeMembers,
+  abmPracticeSessions,
+  type AbmAccount,
+  type AbmCommitteeMember,
+  type InsertAbmPracticeSession,
+  type AbmPracticeSession,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, ne, or, isNull, sql, count } from "drizzle-orm";
@@ -213,6 +220,16 @@ export interface IStorage {
   getUserPitchSessions(userId: string, deckId: string): Promise<PitchSession[]>;
   getPitchSessionFeedback(sessionId: string): Promise<PitchSessionFeedback[]>;
   createPitchSessionFeedback(feedback: InsertPitchSessionFeedback): Promise<PitchSessionFeedback>;
+
+  // ABM Practice
+  getAllAbmAccounts(): Promise<AbmAccount[]>;
+  getAbmAccountBySlug(slug: string): Promise<AbmAccount | undefined>;
+  getAbmCommitteeMembers(accountId: string): Promise<AbmCommitteeMember[]>;
+  getAbmCommitteeMember(id: string): Promise<AbmCommitteeMember | undefined>;
+  createAbmPracticeSession(session: InsertAbmPracticeSession): Promise<AbmPracticeSession>;
+  getAbmPracticeSession(id: string): Promise<AbmPracticeSession | undefined>;
+  updateAbmPracticeSession(id: string, updates: Partial<InsertAbmPracticeSession>): Promise<AbmPracticeSession | undefined>;
+  getUserAbmPracticeSessions(userId: string, accountId: string): Promise<AbmPracticeSession[]>;
 }
 
 // Performance metric types
@@ -1350,6 +1367,47 @@ export class DatabaseStorage implements IStorage {
   async createPitchSessionFeedback(feedback: InsertPitchSessionFeedback): Promise<PitchSessionFeedback> {
     const [created] = await db.insert(pitchSessionFeedback).values(feedback).returning();
     return created;
+  }
+
+  async getAllAbmAccounts(): Promise<AbmAccount[]> {
+    return await db.select().from(abmAccounts).orderBy(abmAccounts.companyName);
+  }
+
+  async getAbmAccountBySlug(slug: string): Promise<AbmAccount | undefined> {
+    const [account] = await db.select().from(abmAccounts).where(eq(abmAccounts.slug, slug));
+    return account || undefined;
+  }
+
+  async getAbmCommitteeMembers(accountId: string): Promise<AbmCommitteeMember[]> {
+    return await db.select().from(abmCommitteeMembers)
+      .where(eq(abmCommitteeMembers.accountId, accountId))
+      .orderBy(abmCommitteeMembers.orderIndex);
+  }
+
+  async getAbmCommitteeMember(id: string): Promise<AbmCommitteeMember | undefined> {
+    const [member] = await db.select().from(abmCommitteeMembers).where(eq(abmCommitteeMembers.id, id));
+    return member || undefined;
+  }
+
+  async createAbmPracticeSession(session: InsertAbmPracticeSession): Promise<AbmPracticeSession> {
+    const [created] = await db.insert(abmPracticeSessions).values(session).returning();
+    return created;
+  }
+
+  async getAbmPracticeSession(id: string): Promise<AbmPracticeSession | undefined> {
+    const [session] = await db.select().from(abmPracticeSessions).where(eq(abmPracticeSessions.id, id));
+    return session || undefined;
+  }
+
+  async updateAbmPracticeSession(id: string, updates: Partial<InsertAbmPracticeSession>): Promise<AbmPracticeSession | undefined> {
+    const [updated] = await db.update(abmPracticeSessions).set(updates).where(eq(abmPracticeSessions.id, id)).returning();
+    return updated || undefined;
+  }
+
+  async getUserAbmPracticeSessions(userId: string, accountId: string): Promise<AbmPracticeSession[]> {
+    return await db.select().from(abmPracticeSessions)
+      .where(and(eq(abmPracticeSessions.userId, userId), eq(abmPracticeSessions.accountId, accountId)))
+      .orderBy(desc(abmPracticeSessions.startedAt));
   }
 }
 

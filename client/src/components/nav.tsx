@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { Menu, LogOut, User, ChevronDown, Library, Presentation, Mic } from "lucide-react";
+import { Menu, LogOut, User, ChevronDown, Library, Presentation, Mic, Building2 } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -91,6 +91,7 @@ export function Nav() {
       items: [
         { href: "/roleplays", label: "Voice Roleplays", icon: <Mic className="h-4 w-4" />, description: "Practice buyer conversations" },
         { href: "/pitch-practice", label: "Pitch Practice", icon: <Presentation className="h-4 w-4" />, description: "Practice client presentations" },
+        { href: "/abm-practice", label: "ABM Practice", icon: <Building2 className="h-4 w-4" />, description: "Practice with buying committees" },
       ],
     },
     {

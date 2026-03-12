@@ -5,6 +5,7 @@ import { CHAPTER_SEED_DATA, ROLEPLAY_SEED_DATA } from './seed-data-new';
 import { BUYER_PERSONA_SEED_DATA } from './seed-data';
 import { PLAYBOOK_STORIES_SEED, PLAYBOOK_PANELS_SEED } from './playbook-seed-data';
 import { hubspotDeck, hubspotSlides, HUBSPOT_DECK_ID } from './pitch-deck-seed';
+import { seedAbmData } from './abm-seed';
 
 export async function seedDatabase(): Promise<void> {
   console.log('Starting idempotent database seed...');
@@ -252,6 +253,9 @@ export async function seedDatabase(): Promise<void> {
     } else {
       console.log(`  Pitch deck "${hubspotDeck.clientName}" already exists, skipping`);
     }
+
+    // Seed ABM account and committee members
+    await seedAbmData();
 
     console.log('Idempotent database seed completed successfully!');
   } catch (error) {

@@ -589,6 +589,89 @@ export type PitchSession = typeof pitchSessions.$inferSelect;
 export type InsertPitchSessionFeedback = z.infer<typeof insertPitchSessionFeedbackSchema>;
 export type PitchSessionFeedback = typeof pitchSessionFeedback.$inferSelect;
 
+// ABM Practice tables
+export const abmAccounts = pgTable("abm_accounts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").unique().notNull(),
+  companyName: text("company_name").notNull(),
+  industry: text("industry").notNull(),
+  companySize: text("company_size").notNull(),
+  description: text("description").notNull(),
+  currentStack: jsonb("current_stack").$type<string[]>().default([]),
+  strategicInitiative: text("strategic_initiative").notNull(),
+  budgetSignal: text("budget_signal").notNull(),
+  decisionTimeline: text("decision_timeline").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const abmCommitteeMembers = pgTable("abm_committee_members", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  accountId: varchar("account_id").notNull(),
+  name: text("name").notNull(),
+  title: text("title").notNull(),
+  role: text("role").notNull(),
+  influence: text("influence").notNull(),
+  whatTheyCareAbout: jsonb("what_they_care_about").$type<string[]>().default([]),
+  resistanceTriggers: jsonb("resistance_triggers").$type<string[]>().default([]),
+  personalContext: text("personal_context").notNull(),
+  openingLine: text("opening_line").notNull(),
+  orderIndex: integer("order_index").default(0),
+});
+
+export const abmPracticeSessions = pgTable("abm_practice_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  accountId: varchar("account_id").notNull(),
+  memberId: varchar("member_id").notNull(),
+  status: text("status").default("active"),
+  transcript: text("transcript"),
+  score: integer("score"),
+  passed: integer("passed").default(0),
+  feedback: text("feedback"),
+  durationSeconds: integer("duration_seconds"),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  endedAt: timestamp("ended_at"),
+});
+
+export const abmAccountsRelations = relations(abmAccounts, ({ many }) => ({
+  members: many(abmCommitteeMembers),
+  sessions: many(abmPracticeSessions),
+}));
+
+export const abmCommitteeMembersRelations = relations(abmCommitteeMembers, ({ one, many }) => ({
+  account: one(abmAccounts, {
+    fields: [abmCommitteeMembers.accountId],
+    references: [abmAccounts.id],
+  }),
+  sessions: many(abmPracticeSessions),
+}));
+
+export const abmPracticeSessionsRelations = relations(abmPracticeSessions, ({ one }) => ({
+  user: one(users, {
+    fields: [abmPracticeSessions.userId],
+    references: [users.id],
+  }),
+  account: one(abmAccounts, {
+    fields: [abmPracticeSessions.accountId],
+    references: [abmAccounts.id],
+  }),
+  member: one(abmCommitteeMembers, {
+    fields: [abmPracticeSessions.memberId],
+    references: [abmCommitteeMembers.id],
+  }),
+}));
+
+export const insertAbmAccountSchema = createInsertSchema(abmAccounts).omit({ id: true, createdAt: true });
+export const insertAbmCommitteeMemberSchema = createInsertSchema(abmCommitteeMembers).omit({ id: true });
+export const insertAbmPracticeSessionSchema = createInsertSchema(abmPracticeSessions).omit({ id: true, startedAt: true });
+
+export type InsertAbmAccount = z.infer<typeof insertAbmAccountSchema>;
+export type AbmAccount = typeof abmAccounts.$inferSelect;
+export type InsertAbmCommitteeMember = z.infer<typeof insertAbmCommitteeMemberSchema>;
+export type AbmCommitteeMember = typeof abmCommitteeMembers.$inferSelect;
+export type InsertAbmPracticeSession = z.infer<typeof insertAbmPracticeSessionSchema>;
+export type AbmPracticeSession = typeof abmPracticeSessions.$inferSelect;
+
 // Migrations tracking table - for one-time data migrations
 export const migrations = pgTable("migrations", {
   id: varchar("id").primaryKey(),

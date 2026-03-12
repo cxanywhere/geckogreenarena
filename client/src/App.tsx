@@ -34,6 +34,7 @@ import PitchPracticePage from "@/pages/pitch-practice";
 import PitchSessionPage from "@/pages/pitch-session";
 import PitchResultsPage from "@/pages/pitch-results";
 import RoleplaysPage from "@/pages/roleplays";
+import AbmPracticePage from "@/pages/abm-practice";
 
 function Router() {
   return (
@@ -165,6 +166,11 @@ function Router() {
       <Route path="/pitch-results/:id">
         <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
           <PitchResultsPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/abm-practice">
+        <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
+          <AbmPracticePage />
         </ProtectedRoute>
       </Route>
       <Route component={NotFound} />
