@@ -954,9 +954,11 @@ export class DatabaseStorage implements IStorage {
     const allChapters = await this.getAllChapters();
     const totalChapters = allChapters.length;
     
-    // Get chapter progress
+    // Get chapter progress — only count progress for current chapters
+    const currentChapterIds = new Set(allChapters.map(c => c.id));
     const progress = await this.getUserProgress(user.id);
-    const chaptersCompleted = progress.filter(p => p.completed === 1).length;
+    const relevantProgress = progress.filter(p => currentChapterIds.has(p.chapterId));
+    const chaptersCompleted = relevantProgress.filter(p => p.completed === 1).length;
     const chapterProgress = totalChapters > 0 ? Math.round((chaptersCompleted / totalChapters) * 100) : 0;
     
     // Get quiz performance across all chapters
@@ -969,19 +971,21 @@ export class DatabaseStorage implements IStorage {
     }
     const quizAverage = totalQuizAttempts > 0 ? Math.round((totalCorrect / totalQuizAttempts) * 100) : 0;
     
-    // Get roleplay performance
+    // Get roleplay performance — only count attempts for current roleplays
     const roleplayAttemptsData = await this.getUserRoleplayAttempts(user.id);
     const allRoleplays = await this.getAllRoleplays();
     const totalRoleplays = allRoleplays.length;
+    const currentRoleplayIds = new Set(allRoleplays.map(r => r.id));
+    const relevantAttempts = roleplayAttemptsData.filter(a => currentRoleplayIds.has(a.roleplayId));
     
     // Count unique roleplays attempted (not attempts)
-    const uniqueRoleplaysAttempted = new Set(roleplayAttemptsData.map(a => a.roleplayId)).size;
+    const uniqueRoleplaysAttempted = new Set(relevantAttempts.map(a => a.roleplayId)).size;
     // Count unique roleplays passed (not attempts)
-    const passedRoleplayIds = roleplayAttemptsData.filter(a => a.passed === 1).map(a => a.roleplayId);
+    const passedRoleplayIds = relevantAttempts.filter(a => a.passed === 1).map(a => a.roleplayId);
     const roleplaysPassed = new Set(passedRoleplayIds).size;
     
     // For display purposes, keep attempt counts too
-    const roleplaysAttempted = roleplayAttemptsData.length;
+    const roleplaysAttempted = relevantAttempts.length;
     const roleplayPassRate = uniqueRoleplaysAttempted > 0 ? Math.round((roleplaysPassed / totalRoleplays) * 100) : 0;
     
     // Get last activity - most recent attempt or progress update

@@ -1126,11 +1126,16 @@ export async function registerRoutes(
       const chapters = await storage.getAllChapters();
       const roleplays = await storage.getAllRoleplays();
 
-      const completedChapters = progress.filter(p => p.completed === 1).length;
-      const passedRoleplays = attempts.filter(a => a.passed === 1).length;
-      const uniquePassedRoleplays = Array.from(new Set(attempts.filter(a => a.passed === 1).map(a => a.roleplayId))).length;
+      const currentChapterIds = new Set(chapters.map(c => c.id));
+      const currentRoleplayIds = new Set(roleplays.map(r => r.id));
+      const relevantProgress = progress.filter(p => currentChapterIds.has(p.chapterId));
+      const relevantAttempts = attempts.filter(a => currentRoleplayIds.has(a.roleplayId));
+
+      const completedChapters = relevantProgress.filter(p => p.completed === 1).length;
+      const passedRoleplays = relevantAttempts.filter(a => a.passed === 1).length;
+      const uniquePassedRoleplays = Array.from(new Set(relevantAttempts.filter(a => a.passed === 1).map(a => a.roleplayId))).length;
       
-      const quizScores = progress.filter(p => p.quizScore != null).map(p => p.quizScore!);
+      const quizScores = relevantProgress.filter(p => p.quizScore != null).map(p => p.quizScore!);
       const avgQuizScore = quizScores.length > 0 
         ? Math.round(quizScores.reduce((a, b) => a + b, 0) / quizScores.length) 
         : 0;

@@ -153,24 +153,30 @@ export default function Home() {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 
-  const chaptersCompleted = userProgress.filter((p) => p.completed === 1).length;
+  const currentChapterIds = new Set(chapters.map(c => c.id));
+  const currentRoleplayIds = new Set(roleplays.map(r => r.id));
+
+  const relevantProgress = userProgress.filter(p => currentChapterIds.has(p.chapterId));
+  const relevantAttempts = roleplayAttempts.filter(a => currentRoleplayIds.has(a.roleplayId));
+
+  const chaptersCompleted = relevantProgress.filter((p) => p.completed === 1).length;
   const totalChapters = chapters.length;
   
   const isAttemptPassed = (attempt: typeof roleplayAttempts[number]) => {
     return attempt.passed === 1 || (attempt.passed as unknown) === true;
   };
-  const passedRoleplayIds = roleplayAttempts.filter(isAttemptPassed).map((a) => a.roleplayId);
+  const passedRoleplayIds = relevantAttempts.filter(isAttemptPassed).map((a) => a.roleplayId);
   const uniqueRoleplaysPassed = Array.from(new Set(passedRoleplayIds)).length;
   const totalRoleplays = roleplays.length;
   
   const getRoleplayStatus = (roleplayId: string) => {
-    const attempts = roleplayAttempts.filter(a => a.roleplayId === roleplayId);
+    const attempts = relevantAttempts.filter(a => a.roleplayId === roleplayId);
     const hasPassed = attempts.some(a => isAttemptPassed(a));
     const permanentlyFailed = !hasPassed && attempts.length >= 500;
     return { hasPassed, permanentlyFailed, attemptCount: attempts.length };
   };
   
-  const quizScores = userProgress.filter((p) => p.quizScore !== null && p.quizScore !== undefined).map((p) => p.quizScore!);
+  const quizScores = relevantProgress.filter((p) => p.quizScore !== null && p.quizScore !== undefined).map((p) => p.quizScore!);
   const avgQuizScore = quizScores.length > 0 ? Math.round(quizScores.reduce((a, b) => a + b, 0) / quizScores.length) : 0;
   
   const REQUIRED_ROLEPLAYS_FOR_CERTIFICATION = 16;
