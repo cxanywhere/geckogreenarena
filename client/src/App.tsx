@@ -33,6 +33,7 @@ import QuizReviewPage from "@/pages/quiz-review";
 import PitchPracticePage from "@/pages/pitch-practice";
 import PitchSessionPage from "@/pages/pitch-session";
 import PitchResultsPage from "@/pages/pitch-results";
+import RoleplaysPage from "@/pages/roleplays";
 
 function Router() {
   return (
@@ -144,6 +145,11 @@ function Router() {
       <Route path="/quizzes">
         <ProtectedRoute allowedRoles={["rep"]}>
           <QuizReviewPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/roleplays">
+        <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
+          <RoleplaysPage />
         </ProtectedRoute>
       </Route>
       <Route path="/pitch-practice">

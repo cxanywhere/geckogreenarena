@@ -33,7 +33,7 @@ Preferred communication style: Simple, everyday language.
 - **Authentication**: JWT-based with role-based access control (Reps, Managers, Directors).
 - **Onboarding**: First-time user flow for name, photo, and AI-generated professional avatar.
 - **Training Chapters**: 3 structured modules covering LinkedIn Marketing Solutions (LMS Fundamentals and Product Landscape, Buyer Conversations Discovery and Positioning, Objections Strategy and Selling with Confidence).
-- **AI Roleplays**: 18 interactive AI conversation scenarios covering LMS sales situations (elevator pitch, lead gen forms, objective clarification, format recommendations, metrics, discovery, persona positioning, objection handling, strategy), supporting both text and voice.
+- **AI Roleplays**: 18 interactive AI conversation scenarios covering LMS sales situations (elevator pitch, lead gen forms, objective clarification, format recommendations, metrics, discovery, persona positioning, objection handling, strategy), supporting both text and voice. Dedicated `/roleplays` page with search bar, difficulty/phase/chapter filters, and card grid showing each roleplay's metadata and user progress. Accessible from Practice nav dropdown.
 - **Buyer Personas**: 4 B2B marketing buyer personas (Demand Generation Director, VP of Marketing/CMO, ABM/Field Marketing Leader, Performance Marketing Manager) with detailed attributes and selling strategies.
 - **Battlecards**: 20 quick reference scripts for LMS objection handling across Discovery, Demo, Objection Handling, Pricing, Closing, and Follow-up phases.
 - **Knowledge Base**: 30+ entries covering LMS products, campaign objectives, measurement, discovery framework, competitive positioning, and beginner talk tracks.
