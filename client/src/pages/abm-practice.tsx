@@ -343,7 +343,7 @@ Use this context naturally. If the rep mentions something a colleague already di
         "abm-member-cfo": "VR6AewLTigWG4xSOukaG",
       };
 
-      const assistantConfig: any = {
+      const assistantConfig = {
         name: `${member.name} - ${member.title}`.slice(0, 40),
         firstMessage: member.openingLine,
         model: {
@@ -990,10 +990,15 @@ Use this context naturally. If the rep mentions something a colleague already di
                         {mp.relationshipStatus}
                       </span>
                     </div>
-                    <div className="flex items-center gap-3 text-xs" style={{ color: "#787774" }}>
+                    <div className="flex items-center gap-3 text-xs mb-1" style={{ color: "#787774" }}>
                       <span>{mp.attempts} attempt{mp.attempts !== 1 ? "s" : ""}</span>
                       {mp.bestScore !== null && <span>Best: {mp.bestScore}/100</span>}
                     </div>
+                    {mp.lastFeedbackSummary && (
+                      <p className="text-xs line-clamp-2 leading-relaxed" style={{ color: "#787774" }} data-testid={`text-feedback-${member.id}`}>
+                        {mp.lastFeedbackSummary}
+                      </p>
+                    )}
                   </div>
                 ) : (
                   <div className="mb-3">
