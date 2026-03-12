@@ -6,10 +6,19 @@ import { Nav } from "@/components/nav";
 import { 
   ChevronLeft, ChevronRight, Play, Square, Clock, Presentation,
   ArrowLeft, Lightbulb, CheckCircle2, Info, GraduationCap,
-  Pause, SkipForward, SkipBack, X, Volume2, VolumeX, Loader2
+  Pause, SkipForward, SkipBack, X, Volume2, VolumeX, Loader2,
+  Mic, MicOff, Phone, PhoneOff
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import Vapi from "@vapi-ai/web";
+
+interface TranscriptEntry {
+  role: "user" | "assistant";
+  content: string;
+  timestamp: number;
+  slideIndex: number;
+}
 
 interface PitchDeckSlide {
   id: string;
@@ -400,6 +409,16 @@ export default function PitchSessionPage() {
   const [showProPitch, setShowProPitch] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  const [vapiStatus, setVapiStatus] = useState<"idle" | "connecting" | "active" | "ending">("idle");
+  const [isMuted, setIsMuted] = useState(false);
+  const [isBuyerSpeaking, setIsBuyerSpeaking] = useState(false);
+  const [buyerVolume, setBuyerVolume] = useState(0);
+  const [vapiTranscript, setVapiTranscript] = useState<TranscriptEntry[]>([]);
+  const [vapiError, setVapiError] = useState<string | null>(null);
+  const vapiRef = useRef<Vapi | null>(null);
+  const currentSlideRef = useRef(0);
+  const transcriptRef = useRef<TranscriptEntry[]>([]);
+
   const getToken = () => authToken || localStorage.getItem("authToken");
 
   const { data: deck, isLoading } = useQuery<PitchDeckWithSlides>({
@@ -411,6 +430,196 @@ export default function PitchSessionPage() {
     },
     enabled: !!slug,
   });
+
+  const buildBuyerPrompt = useCallback((deckData: PitchDeckWithSlides, slideIndex: number) => {
+    const slide = deckData.slides[slideIndex];
+    return `You are playing the role of ${deckData.buyerName}, ${deckData.buyerRole} at ${deckData.clientName}, in a live sales pitch meeting.
+
+BUYER CONTEXT:
+${deckData.buyerContext}
+
+YOUR PERSONALITY:
+- You are a skeptical but fair CMO who built ${deckData.clientName} into an inbound powerhouse
+- You believe deeply in organic/inbound marketing but are open to paid channels if the data is compelling
+- You care about: attribution, pipeline contribution, audience quality, brand safety, and ROI
+- You speak concisely and ask sharp, probing questions
+- You are NOT hostile — you genuinely want to understand if this makes sense for your business
+
+CURRENT SLIDE BEING PRESENTED:
+Slide ${slide.slideOrder + 1} of ${deckData.slides.length}: "${slide.title}"
+${slide.subtitle ? `Subtitle: ${slide.subtitle}` : ""}
+Content: ${slide.content}
+Key talking points the rep should cover: ${(slide.talkingPoints as string[]).join("; ")}
+Evaluation criteria: ${(slide.evaluationCriteria as string[]).join("; ")}
+
+BEHAVIOR RULES:
+1. The sales rep is presenting to you. LISTEN FIRST. Let them finish their point before responding.
+2. After they finish presenting a slide's content, ask 1-2 short, contextual questions that a real CMO would ask about what they just said.
+3. Keep your responses SHORT — 1-2 sentences per question. You are a busy executive.
+4. Your questions should be based on the CURRENT SLIDE content and evaluation criteria.
+5. When the rep moves to the next slide, you will receive updated context. Acknowledge the transition naturally.
+6. Do NOT summarize what the rep said. Do NOT give them coaching. You are the BUYER, not a trainer.
+7. React realistically — if they make a strong point about attribution or ROI, acknowledge it briefly. If they are vague, push for specifics.
+8. NEVER break character. NEVER reveal you are AI. NEVER reference "slides" or "evaluation criteria" directly.
+
+EXAMPLE QUESTIONS BY TOPIC:
+- ROI/Budget: "What's the typical cost per qualified opportunity you've seen with similar pilots?"
+- Attribution: "How exactly would we attribute pipeline back to LinkedIn vs. our organic efforts?"
+- Inbound conflict: "How does this not cannibalize the inbound leads we're already generating?"
+- Targeting: "Can you be more specific about the match rates you've seen with Matched Audiences?"
+- Timing: "Why should we prioritize this over investing more in our content engine?"
+
+CRITICAL: Do NOT speak first. Wait for the rep to begin their pitch. When they pause or finish, respond with 1-2 questions.`;
+  }, []);
+
+  const startVapiCall = useCallback(async (deckData: PitchDeckWithSlides) => {
+    try {
+      setVapiStatus("connecting");
+      setVapiError(null);
+      setVapiTranscript([]);
+      transcriptRef.current = [];
+
+      const tokenResponse = await fetch("/api/vapi/token");
+      if (!tokenResponse.ok) {
+        const err = await tokenResponse.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to get voice token");
+      }
+      const { token } = await tokenResponse.json();
+
+      const vapi = new Vapi(token);
+      vapiRef.current = vapi;
+
+      vapi.on("call-start", () => {
+        setVapiStatus("active");
+      });
+
+      vapi.on("call-end", () => {
+        setVapiStatus("ending");
+      });
+
+      vapi.on("speech-start", () => {
+        setIsBuyerSpeaking(true);
+      });
+
+      vapi.on("speech-end", () => {
+        setIsBuyerSpeaking(false);
+      });
+
+      vapi.on("volume-level", (level: number) => {
+        setBuyerVolume(level);
+      });
+
+      vapi.on("message", (message: any) => {
+        if (message.type === "transcript" && message.transcriptType === "final") {
+          const entry: TranscriptEntry = {
+            role: message.role === "assistant" ? "assistant" : "user",
+            content: message.transcript,
+            timestamp: Date.now(),
+            slideIndex: currentSlideRef.current,
+          };
+          transcriptRef.current = [...transcriptRef.current, entry];
+          setVapiTranscript(prev => [...prev, entry]);
+        }
+      });
+
+      vapi.on("error", (err: any) => {
+        console.error("VAPI error:", err);
+        setVapiError(err.message || "Voice connection error");
+        setVapiStatus("idle");
+      });
+
+      const assistantConfig = {
+        name: `${deckData.buyerName} - Buyer`.slice(0, 40),
+        model: {
+          provider: "openai" as const,
+          model: "gpt-4o" as const,
+          temperature: 0.7,
+          messages: [
+            {
+              role: "system" as const,
+              content: buildBuyerPrompt(deckData, 0),
+            }
+          ]
+        },
+        voice: {
+          provider: "11labs" as const,
+          voiceId: "21m00Tcm4TlvDq8ikWAM",
+        },
+        transcriber: {
+          provider: "deepgram" as const,
+          model: "nova-2" as const,
+          language: "en-US" as const,
+        },
+        silenceTimeoutSeconds: 45,
+        maxDurationSeconds: 1800,
+      };
+
+      await vapi.start(assistantConfig);
+    } catch (err: any) {
+      console.error("Failed to start voice call:", err);
+      setVapiError(err.message || "Failed to start voice session");
+      setVapiStatus("idle");
+    }
+  }, [buildBuyerPrompt]);
+
+  const stopVapiCall = useCallback(() => {
+    if (vapiRef.current) {
+      vapiRef.current.stop();
+      vapiRef.current = null;
+    }
+    setVapiStatus("idle");
+    setIsBuyerSpeaking(false);
+    setBuyerVolume(0);
+  }, []);
+
+  const sendSlideContext = useCallback((deckData: PitchDeckWithSlides, slideIndex: number) => {
+    if (!vapiRef.current || vapiStatus !== "active") return;
+    const slide = deckData.slides[slideIndex];
+    if (!slide) return;
+
+    vapiRef.current.send({
+      type: "add-message",
+      message: {
+        role: "system",
+        content: `[SLIDE TRANSITION] The presenter has moved to Slide ${slide.slideOrder + 1} of ${deckData.slides.length}: "${slide.title}"
+${slide.subtitle ? `Subtitle: ${slide.subtitle}` : ""}
+Content: ${slide.content}
+Key talking points: ${(slide.talkingPoints as string[]).join("; ")}
+Evaluation criteria: ${(slide.evaluationCriteria as string[]).join("; ")}
+
+Listen to the rep's presentation of this slide, then ask 1-2 contextual questions. Do NOT speak until they begin presenting.`,
+      },
+    });
+  }, [vapiStatus]);
+
+  const toggleMute = useCallback(() => {
+    if (vapiRef.current) {
+      const newMuted = !isMuted;
+      vapiRef.current.setMuted(newMuted);
+      setIsMuted(newMuted);
+    }
+  }, [isMuted]);
+
+  const formatTranscriptForEval = useCallback((deckData: PitchDeckWithSlides): string => {
+    const entries = transcriptRef.current;
+    if (entries.length === 0) return "(No voice transcript captured)";
+
+    const slideGroups: Record<number, TranscriptEntry[]> = {};
+    entries.forEach(e => {
+      if (!slideGroups[e.slideIndex]) slideGroups[e.slideIndex] = [];
+      slideGroups[e.slideIndex].push(e);
+    });
+
+    return Object.entries(slideGroups)
+      .sort(([a], [b]) => Number(a) - Number(b))
+      .map(([idx, items]) => {
+        const slide = deckData.slides[Number(idx)];
+        const slideName = slide ? `Slide ${Number(idx) + 1}: ${slide.title}` : `Slide ${Number(idx) + 1}`;
+        const lines = items.map(i => `${i.role === "user" ? "REP" : "BUYER"}: ${i.content}`).join("\n");
+        return `--- ${slideName} ---\n${lines}`;
+      })
+      .join("\n\n");
+  }, []);
 
   const createSession = useMutation({
     mutationFn: async () => {
@@ -425,13 +634,19 @@ export default function PitchSessionPage() {
       }
       return res.json();
     },
-    onSuccess: (session) => {
+    onSuccess: async (session) => {
       setSessionId(session.id);
       setSessionState("active");
       setCurrentSlide(0);
+      currentSlideRef.current = 0;
       setElapsedSeconds(0);
       timerRef.current = setInterval(() => setElapsedSeconds(s => s + 1), 1000);
-      toast({ title: "Practice Started", description: "Present each slide as if you're in a real client meeting." });
+
+      if (deck) {
+        await startVapiCall(deck);
+      }
+
+      toast({ title: "Practice Started", description: "Present each slide to the buyer. They'll ask questions after you speak." });
     },
     onError: (error: any) => {
       toast({ title: "Error", description: error.message || "Failed to start session. Please log in first.", variant: "destructive" });
@@ -442,11 +657,15 @@ export default function PitchSessionPage() {
     mutationFn: async () => {
       if (!sessionId) throw new Error("No session");
       if (timerRef.current) clearInterval(timerRef.current);
-      
+
+      stopVapiCall();
+
+      const transcript = deck ? formatTranscriptForEval(deck) : "(No transcript)";
+
       await fetch(`/api/pitch-sessions/${sessionId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` },
-        body: JSON.stringify({ status: "completed", durationSeconds: elapsedSeconds }),
+        body: JSON.stringify({ status: "completed", durationSeconds: elapsedSeconds, transcript }),
       });
 
       setSessionState("evaluating");
@@ -454,7 +673,7 @@ export default function PitchSessionPage() {
       const evalRes = await fetch(`/api/pitch-sessions/${sessionId}/evaluate`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` },
-        body: JSON.stringify({ transcript: "(Practice session - slide-by-slide review mode)" }),
+        body: JSON.stringify({ transcript }),
       });
       if (!evalRes.ok) throw new Error("Evaluation failed");
       return evalRes.json();
@@ -470,6 +689,10 @@ export default function PitchSessionPage() {
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
+      if (vapiRef.current) {
+        vapiRef.current.stop();
+        vapiRef.current = null;
+      }
     };
   }, []);
 
@@ -483,7 +706,12 @@ export default function PitchSessionPage() {
     if (!deck) return;
     const clamped = Math.max(0, Math.min(index, deck.slides.length - 1));
     setCurrentSlide(clamped);
+    currentSlideRef.current = clamped;
     setShowTalkingPoints(false);
+
+    if (vapiStatus === "active" && deck) {
+      sendSlideContext(deck, clamped);
+    }
   };
 
   if (isLoading) {
@@ -542,6 +770,35 @@ export default function PitchSessionPage() {
           </button>
           {sessionState === "active" && (
             <div className="flex items-center gap-4">
+              {vapiStatus === "connecting" && (
+                <div className="flex items-center gap-1.5 text-sm text-amber-600">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>Connecting to buyer...</span>
+                </div>
+              )}
+              {vapiStatus === "active" && (
+                <div className="flex items-center gap-2">
+                  <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
+                    isBuyerSpeaking
+                      ? "bg-green-100 text-green-700"
+                      : "bg-blue-50 text-blue-700"
+                  }`} data-testid="status-buyer-voice">
+                    <div className={`h-2 w-2 rounded-full ${
+                      isBuyerSpeaking ? "bg-green-500 animate-pulse" : "bg-blue-400"
+                    }`} />
+                    {isBuyerSpeaking ? `${deck.buyerName} speaking` : "Listening"}
+                  </div>
+                  <button
+                    onClick={toggleMute}
+                    className={`p-1.5 rounded-full transition-colors ${
+                      isMuted ? "bg-red-100 text-red-600" : "bg-[#f7f7f5] text-[#787774] hover:bg-[#e8e8e5]"
+                    }`}
+                    data-testid="button-toggle-mute"
+                  >
+                    {isMuted ? <MicOff className="h-3.5 w-3.5" /> : <Mic className="h-3.5 w-3.5" />}
+                  </button>
+                </div>
+              )}
               <div className="flex items-center gap-1.5 text-sm text-[#787774]">
                 <Clock className="h-4 w-4" />
                 <span className="font-mono" data-testid="text-timer">{formatTime(elapsedSeconds)}</span>
@@ -594,16 +851,20 @@ export default function PitchSessionPage() {
                 <h3 className="text-base font-semibold text-[#1a1a1a] mb-3">How It Works</h3>
                 <div className="space-y-2 text-sm text-[#787774]">
                   <div className="flex items-start gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
-                    <span>Navigate through each slide using the controls</span>
+                    <Mic className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
+                    <span>Present each slide aloud — the AI buyer listens live</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
-                    <span>Use talking points as a guide for what to cover</span>
+                    <span>The buyer will ask 1-2 questions after each slide</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
-                    <span>End the session to get your AI evaluation</span>
+                    <span>Navigate slides at your own pace using the controls</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
+                    <span>End the session to get AI evaluation based on your real pitch</span>
                   </div>
                 </div>
               </div>
@@ -614,8 +875,8 @@ export default function PitchSessionPage() {
                 className="w-full flex items-center justify-center gap-2 bg-[#37352f] text-white py-3 rounded-xl font-medium hover:bg-[#1a1a1a] transition-colors disabled:opacity-50"
                 data-testid="button-start-practice"
               >
-                <Play className="h-5 w-5" />
-                {createSession.isPending ? "Starting..." : "Start Practice"}
+                <Phone className="h-5 w-5" />
+                {createSession.isPending ? "Connecting..." : "Start Live Pitch"}
               </button>
 
               <button
@@ -742,6 +1003,29 @@ export default function PitchSessionPage() {
                 </ul>
               </div>
 
+              {vapiTranscript.length > 0 && (
+                <div className="bg-white border border-[#e8e8e5] rounded-xl p-4">
+                  <div className="flex items-center gap-2 text-sm font-medium text-[#1a1a1a] mb-2">
+                    <Volume2 className="h-4 w-4 text-green-500" />
+                    Live Conversation
+                  </div>
+                  <div className="max-h-48 overflow-y-auto space-y-2" data-testid="container-live-transcript">
+                    {vapiTranscript.slice(-8).map((entry, i) => (
+                      <div key={i} className={`text-xs ${entry.role === "user" ? "text-[#37352f]" : "text-blue-700"}`}>
+                        <span className="font-medium">{entry.role === "user" ? "You" : deck.buyerName}:</span>{" "}
+                        {entry.content}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {vapiError && (
+                <div className="bg-red-50 border border-red-200 rounded-xl p-3 text-xs text-red-700" data-testid="text-vapi-error">
+                  {vapiError}
+                </div>
+              )}
+
               <div className="bg-white border border-[#e8e8e5] rounded-xl p-4">
                 <div className="flex items-center gap-2 text-sm font-medium text-[#1a1a1a] mb-2">
                   <Presentation className="h-4 w-4 text-[#787774]" />
@@ -770,8 +1054,8 @@ export default function PitchSessionPage() {
                 className="w-full flex items-center justify-center gap-2 bg-red-500 text-white py-3 rounded-xl font-medium hover:bg-red-600 transition-colors disabled:opacity-50"
                 data-testid="button-end-session"
               >
-                <Square className="h-4 w-4" />
-                {endSession.isPending ? "Ending..." : "End Session & Evaluate"}
+                <PhoneOff className="h-4 w-4" />
+                {endSession.isPending ? "Ending..." : "End Call & Evaluate"}
               </button>
             </div>
           </div>
