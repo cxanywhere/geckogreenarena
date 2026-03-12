@@ -18,6 +18,7 @@ interface CommitteeMember {
   title: string;
   role: string;
   influence: string;
+  avatar: string;
   whatTheyCareAbout: string[];
   resistanceTriggers: string[];
   personalContext: string;
@@ -81,6 +82,29 @@ const ROLE_COLORS: Record<string, string> = {
 
 function getInitials(name: string) {
   return name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
+}
+
+function MemberAvatar({ member, size = "md" }: { member: CommitteeMember; size?: "sm" | "md" | "lg" }) {
+  const sizeClasses = { sm: "w-8 h-8 text-xs", md: "w-12 h-12 text-sm", lg: "w-14 h-14 text-lg" };
+  const roleColor = ROLE_COLORS[member.role] || "#787774";
+  if (member.avatar) {
+    return (
+      <img
+        src={member.avatar}
+        alt={member.name}
+        className={`${sizeClasses[size]} rounded-full object-cover shrink-0`}
+        style={{ border: `2px solid ${roleColor}` }}
+      />
+    );
+  }
+  return (
+    <div
+      className={`${sizeClasses[size]} rounded-full flex items-center justify-center text-white font-bold shrink-0`}
+      style={{ background: roleColor }}
+    >
+      {getInitials(member.name)}
+    </div>
+  );
 }
 
 export default function AbmPracticePage() {
@@ -381,12 +405,7 @@ BEHAVIOR INSTRUCTIONS:
               <div className="rounded-xl border p-6" style={{ background: "white", borderColor: "#e8e8e5" }}>
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-4">
-                    <div
-                      className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg"
-                      style={{ background: ROLE_COLORS[activeMember.role] || "#787774" }}
-                    >
-                      {getInitials(activeMember.name)}
-                    </div>
+                    <MemberAvatar member={activeMember} size="lg" />
                     <div>
                       <h2 className="text-xl font-bold" style={{ color: "#1a1a1a" }} data-testid="text-active-member-name">
                         {activeMember.name}
@@ -502,12 +521,7 @@ BEHAVIOR INSTRUCTIONS:
                           className={`flex gap-3 ${entry.role === "user" ? "justify-end" : "justify-start"}`}
                         >
                           {entry.role === "assistant" && (
-                            <div
-                              className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
-                              style={{ background: ROLE_COLORS[activeMember.role] || "#787774" }}
-                            >
-                              {getInitials(activeMember.name)}
-                            </div>
+                            <MemberAvatar member={activeMember} size="sm" />
                           )}
                           <div
                             className="max-w-[75%] px-4 py-2.5 rounded-2xl text-sm"
@@ -778,12 +792,7 @@ BEHAVIOR INSTRUCTIONS:
                 data-testid={`card-member-${member.id}`}
               >
                 <div className="flex items-start gap-3 mb-4">
-                  <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0"
-                    style={{ background: roleColor }}
-                  >
-                    {getInitials(member.name)}
-                  </div>
+                  <MemberAvatar member={member} size="md" />
                   <div className="flex-1 min-w-0">
                     <h3 className="font-bold text-sm truncate" style={{ color: "#1a1a1a" }}>{member.name}</h3>
                     <p className="text-xs truncate" style={{ color: "#787774" }}>{member.title}</p>

@@ -611,6 +611,7 @@ export const abmCommitteeMembers = pgTable("abm_committee_members", {
   title: text("title").notNull(),
   role: text("role").notNull(),
   influence: text("influence").notNull(),
+  avatar: text("avatar").default(""),
   whatTheyCareAbout: jsonb("what_they_care_about").$type<string[]>().default([]),
   resistanceTriggers: jsonb("resistance_triggers").$type<string[]>().default([]),
   personalContext: text("personal_context").notNull(),

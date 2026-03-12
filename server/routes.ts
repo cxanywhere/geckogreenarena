@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { storage } from "./storage";
 import { db, withRetry } from "./db";
-import { insertUserProgressSchema, insertRoleplayAttemptSchema, quizQuestions, chapters } from "@shared/schema";
+import { insertUserProgressSchema, insertRoleplayAttemptSchema, quizQuestions, chapters, abmCommitteeMembers } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, generateLogoImage, generateBattlecardImage, generateArenaLogo, generateSlideImage, generatePitchSlideImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
@@ -5453,6 +5453,97 @@ Evaluate based on: (1) understanding of stakeholder priorities, (2) tailoring th
     } catch (error: any) {
       console.error("Evaluate ABM session error:", error);
       res.status(500).json({ error: "Failed to evaluate session" });
+    }
+  });
+
+  app.post("/api/abm/members/generate-avatars", async (_req, res) => {
+    try {
+      const { GoogleGenAI, Modality } = await import("@google/genai");
+      const fs = await import("fs");
+      const path = await import("path");
+
+      const gemini = process.env.GEMINI_API_KEY
+        ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
+        : new GoogleGenAI({
+            apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY || "",
+            httpOptions: { apiVersion: "", baseUrl: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL || "" },
+          });
+
+      const accounts = await storage.getAllAbmAccounts();
+      const results: { memberId: string; name: string; status: string; avatar?: string }[] = [];
+
+      for (const account of accounts) {
+        const members = await storage.getAbmCommitteeMembers(account.id);
+        for (const member of members) {
+          if (member.avatar) {
+            results.push({ memberId: member.id, name: member.name, status: "skipped", avatar: member.avatar });
+            continue;
+          }
+
+          const prompt = `Create a professional portrait headshot photo for a corporate executive persona.
+
+Name: ${member.name}
+Title: ${member.title} at ${account.companyName}
+Role: ${member.role}
+Context: ${member.personalContext}
+
+Requirements:
+- Realistic, high-quality photo-realistic headshot portrait
+- Professional business attire appropriate for a ${member.title}
+- Modern office or corporate setting background, slightly blurred
+- Natural, warm lighting
+- Person should appear ${member.name.includes("Dr.") ? "mid-40s to early 50s" : member.title.includes("CFO") ? "late 40s to mid-50s" : "mid-30s to mid-40s"}
+- Their expression should convey: ${member.role === "Budget gatekeeper" ? "thoughtful and analytical" : member.role === "Champion / Internal advocate" ? "approachable and enthusiastic" : member.role === "Technical evaluator" ? "sharp and detail-oriented" : member.role === "Final decision-maker" ? "confident and strategic" : "focused and collaborative"}
+- Subtle navy blue or LinkedIn blue (#0A66C2) color accent in tie, blouse, or background
+- Square crop, centered on face
+- High resolution, studio quality
+
+Generate a single professional portrait photo.`;
+
+          try {
+            const response = await gemini.models.generateContent({
+              model: "gemini-3-pro-image-preview",
+              contents: [{ role: "user", parts: [{ text: prompt }] }],
+              config: { responseModalities: [Modality.TEXT, Modality.IMAGE] },
+            });
+
+            let avatarUrl = "";
+            if (response.candidates && response.candidates[0]?.content?.parts) {
+              for (const part of response.candidates[0].content.parts) {
+                if (part.inlineData?.data) {
+                  const imageBuffer = Buffer.from(part.inlineData.data, "base64");
+                  const filename = `abm_${member.id}_${Date.now()}.png`;
+                  const filepath = path.join(process.cwd(), "public", "uploads", "abm-avatars", filename);
+                  fs.writeFileSync(filepath, imageBuffer);
+                  avatarUrl = `/uploads/abm-avatars/${filename}`;
+                  break;
+                }
+              }
+            }
+
+            if (avatarUrl) {
+              await db.update(abmCommitteeMembers)
+                .set({ avatar: avatarUrl })
+                .where(eq(abmCommitteeMembers.id, member.id));
+              results.push({ memberId: member.id, name: member.name, status: "generated", avatar: avatarUrl });
+              console.log(`[ABM Avatar] Generated avatar for ${member.name}`);
+            } else {
+              results.push({ memberId: member.id, name: member.name, status: "no_image" });
+              console.log(`[ABM Avatar] No image in response for ${member.name}`);
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 2000));
+          } catch (err: any) {
+            console.error(`[ABM Avatar] Error for ${member.name}:`, err.message);
+            results.push({ memberId: member.id, name: member.name, status: "error" });
+          }
+        }
+      }
+
+      res.json({ success: true, results });
+    } catch (error: any) {
+      console.error("ABM avatar generation error:", error);
+      res.status(500).json({ error: error.message || "Failed to generate avatars" });
     }
   });
 
