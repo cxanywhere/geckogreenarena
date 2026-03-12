@@ -245,7 +245,7 @@ CRITICAL RULES:
       });
 
       vapi.on("call-end", () => {
-        setStatus("ending");
+        setStatus("idle");
         if (callIdRef.current) {
           onComplete(callIdRef.current);
         }

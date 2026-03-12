@@ -45,6 +45,8 @@ interface MemberProgress {
   bestScore: number | null;
   passed: boolean;
   lastAttempt: string | null;
+  relationshipStatus: string;
+  lastFeedbackSummary: string | null;
 }
 
 interface TranscriptEntry {
@@ -142,7 +144,7 @@ export default function AbmPracticePage() {
     },
   });
 
-  const { data: progress, refetch: refetchProgress } = useQuery<{ memberProgress: Record<string, MemberProgress> }>({
+  const { data: progress, refetch: refetchProgress } = useQuery<{ memberProgress: Record<string, MemberProgress>; committeeReadiness: number }>({
     queryKey: ["abm-progress", slug],
     queryFn: async () => {
       const res = await fetch(`/api/abm/accounts/${slug}/progress`, {
@@ -170,8 +172,8 @@ export default function AbmPracticePage() {
     };
   }, []);
 
-  const buildMemberPrompt = useCallback((member: CommitteeMember, accountData: AbmAccount) => {
-    return `You are ${member.name}, ${member.title} at ${accountData.companyName}. You are in a meeting with a LinkedIn Marketing Solutions sales rep who wants to sell you LinkedIn Ads.
+  const buildMemberPrompt = useCallback((member: CommitteeMember, accountData: AbmAccount, priorContext?: string) => {
+    let prompt = `You are ${member.name}, ${member.title} at ${accountData.companyName}. You are in a meeting with a LinkedIn Marketing Solutions sales rep who wants to sell you LinkedIn Ads.
 
 ABOUT YOU:
 - Role: ${member.role}
@@ -189,9 +191,15 @@ WHAT YOU CARE ABOUT:
 ${(member.whatTheyCareAbout).map((c: string) => `- ${c}`).join("\n")}
 
 WHAT TRIGGERS YOUR RESISTANCE:
-${(member.resistanceTriggers).map((t: string) => `- ${t}`).join("\n")}
+${(member.resistanceTriggers).map((t: string) => `- ${t}`).join("\n")}`;
 
-BEHAVIOR INSTRUCTIONS:
+    if (priorContext) {
+      prompt += `\n\nCOMMITTEE CONTEXT — What you've heard from colleagues:
+${priorContext}
+Use this context naturally. If the rep mentions something a colleague already discussed, you can reference it. If colleagues had concerns, you might echo them.`;
+    }
+
+    prompt += `\n\nBEHAVIOR INSTRUCTIONS:
 1. Start the conversation with your opening line: "${member.openingLine}"
 2. Stay in character throughout. You are skeptical but open-minded.
 3. Ask tough questions related to your priorities.
@@ -200,6 +208,7 @@ BEHAVIOR INSTRUCTIONS:
 6. Keep responses conversational and natural — 2-4 sentences.
 7. If the rep does well, gradually show more interest and engagement.
 8. Never break character or mention you are an AI.`;
+    return prompt;
   }, []);
 
   const startPractice = useCallback(async (member: CommitteeMember) => {
@@ -228,6 +237,27 @@ BEHAVIOR INSTRUCTIONS:
       if (!sessionRes.ok) throw new Error("Failed to create session");
       const session = await sessionRes.json();
       setSessionId(session.id);
+
+      let priorContext = "";
+      if (progress?.memberProgress) {
+        const otherMembers = account.members.filter(m => m.id !== member.id);
+        const contextLines: string[] = [];
+        for (const other of otherMembers) {
+          const otherProgress = progress.memberProgress[other.id];
+          if (otherProgress && otherProgress.attempts > 0) {
+            const status = otherProgress.relationshipStatus || "Initial contact";
+            const scoreInfo = otherProgress.bestScore !== null ? ` (best score: ${otherProgress.bestScore}/100)` : "";
+            let summary = `${other.name} (${other.title}) — status: ${status}${scoreInfo}`;
+            if (otherProgress.lastFeedbackSummary) {
+              summary += `. Last conversation summary: ${otherProgress.lastFeedbackSummary}`;
+            }
+            contextLines.push(`- ${summary}`);
+          }
+        }
+        if (contextLines.length > 0) {
+          priorContext = contextLines.join("\n");
+        }
+      }
 
       const tokenResponse = await fetch("/api/vapi/token");
       if (!tokenResponse.ok) throw new Error("Failed to get voice token");
@@ -286,7 +316,7 @@ BEHAVIOR INSTRUCTIONS:
           provider: "openai",
           model: "gpt-4o",
           temperature: 0.7,
-          messages: [{ role: "system", content: buildMemberPrompt(member, account) }],
+          messages: [{ role: "system", content: buildMemberPrompt(member, account, priorContext || undefined) }],
         },
         voice: {
           provider: "11labs",
@@ -307,7 +337,7 @@ BEHAVIOR INSTRUCTIONS:
       setVapiError(err.message || "Failed to start voice session");
       setVapiStatus("idle");
     }
-  }, [account, token, buildMemberPrompt]);
+  }, [account, token, buildMemberPrompt, progress]);
 
   const endPractice = useCallback(async () => {
     if (vapiRef.current) {
@@ -363,6 +393,7 @@ BEHAVIOR INSTRUCTIONS:
   const memberProgress = progress?.memberProgress || {};
   const totalMembers = account?.members?.length || 0;
   const passedCount = Object.values(memberProgress).filter(p => p.passed).length;
+  const committeeReadiness = progress?.committeeReadiness || 0;
 
   if (isLoading) {
     return (
@@ -746,33 +777,125 @@ BEHAVIOR INSTRUCTIONS:
           </div>
 
           <div className="rounded-xl border p-6" style={{ background: "white", borderColor: "#e8e8e5" }}>
-            <h2 className="text-sm font-bold uppercase tracking-wide mb-4" style={{ color: "#787774" }}>Your Progress</h2>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="text-3xl font-bold" style={{ color: "#1a1a1a" }} data-testid="text-progress-count">{passedCount}/{totalMembers}</div>
-              <p className="text-sm" style={{ color: "#787774" }}>committee members passed</p>
+            <h2 className="text-sm font-bold uppercase tracking-wide mb-4" style={{ color: "#787774" }}>Committee Readiness</h2>
+            <div className="flex items-center gap-3 mb-2">
+              <div
+                className="text-4xl font-bold"
+                style={{ color: committeeReadiness >= 70 ? "#27ae60" : committeeReadiness >= 40 ? "#f39c12" : "#e74c3c" }}
+                data-testid="text-readiness-score"
+              >
+                {committeeReadiness}%
+              </div>
             </div>
+            <p className="text-xs mb-4" style={{ color: "#787774" }}>
+              {committeeReadiness >= 70 ? "Ready to engage the full committee" :
+               committeeReadiness >= 40 ? "Making progress — keep practicing" :
+               "Build more relationships to improve readiness"}
+            </p>
             <div className="w-full h-2 rounded-full mb-4" style={{ background: "#e8e8e5" }}>
               <div
                 className="h-full rounded-full transition-all duration-500"
-                style={{ width: `${totalMembers > 0 ? (passedCount / totalMembers) * 100 : 0}%`, background: "#27ae60" }}
+                style={{
+                  width: `${committeeReadiness}%`,
+                  background: committeeReadiness >= 70 ? "#27ae60" : committeeReadiness >= 40 ? "#f39c12" : "#e74c3c",
+                }}
               />
+            </div>
+            <div className="flex items-center gap-3 mb-4 text-sm">
+              <div data-testid="text-progress-count" style={{ color: "#1a1a1a" }}>
+                <span className="font-bold">{passedCount}/{totalMembers}</span>
+                <span className="ml-1" style={{ color: "#787774" }}>passed</span>
+              </div>
             </div>
             <div className="space-y-2">
               {account.members.map(m => {
                 const mp = memberProgress[m.id];
+                const status = mp?.relationshipStatus || "Not yet engaged";
                 return (
                   <div key={m.id} className="flex items-center justify-between text-sm">
                     <span style={{ color: "#37352f" }}>{m.name.split(" ")[0]}</span>
-                    {mp ? (
-                      <span style={{ color: mp.passed ? "#27ae60" : "#f39c12" }}>
-                        {mp.passed ? "Passed" : `${mp.bestScore || 0}/100`}
-                      </span>
-                    ) : (
-                      <span style={{ color: "#787774" }}>Not started</span>
-                    )}
+                    <span
+                      className="text-xs px-2 py-0.5 rounded-full"
+                      style={{
+                        background: status === "Champion" ? "#d4edda" :
+                                   status === "Building rapport" ? "#fff3cd" :
+                                   status === "Initial contact" ? "#e8f4fd" : "#f7f7f5",
+                        color: status === "Champion" ? "#27ae60" :
+                               status === "Building rapport" ? "#f39c12" :
+                               status === "Initial contact" ? "#3498db" : "#787774",
+                      }}
+                    >
+                      {status}
+                    </span>
                   </div>
                 );
               })}
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-xl border p-6 mb-8" style={{ background: "white", borderColor: "#e8e8e5" }} data-testid="committee-intel-panel">
+          <h2 className="text-sm font-bold uppercase tracking-wide mb-4" style={{ color: "#787774" }}>Committee Intel</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="rounded-lg p-4" style={{ background: "#f7f7f5" }}>
+              <p className="text-xs font-medium mb-2" style={{ color: "#787774" }}>Influence Map</p>
+              <div className="space-y-2">
+                {account.members.map(m => {
+                  const influenceColor = m.influence.toLowerCase().includes("final") || m.influence.toLowerCase().includes("decision") ? "#e74c3c" :
+                                         m.influence.toLowerCase().includes("champion") || m.influence.toLowerCase().includes("advocate") ? "#27ae60" :
+                                         m.influence.toLowerCase().includes("gate") ? "#f39c12" : "#3498db";
+                  return (
+                    <div key={m.id} className="flex items-center justify-between text-xs">
+                      <span style={{ color: "#37352f" }}>{m.name.split(" ")[0]}</span>
+                      <span className="px-2 py-0.5 rounded-full" style={{ background: `${influenceColor}15`, color: influenceColor }}>
+                        {m.influence.length > 25 ? m.influence.substring(0, 25) + "..." : m.influence}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="rounded-lg p-4" style={{ background: "#f7f7f5" }}>
+              <p className="text-xs font-medium mb-2" style={{ color: "#787774" }}>Decision Process</p>
+              <ul className="space-y-2 text-xs" style={{ color: "#37352f" }}>
+                <li className="flex items-start gap-2">
+                  <span className="font-bold mt-0.5" style={{ color: "#3498db" }}>1</span>
+                  Performance Marketing Manager evaluates platform capabilities
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="font-bold mt-0.5" style={{ color: "#3498db" }}>2</span>
+                  VP Demand Gen champions the solution internally
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="font-bold mt-0.5" style={{ color: "#3498db" }}>3</span>
+                  ABM Lead validates targeting and account-level fit
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="font-bold mt-0.5" style={{ color: "#3498db" }}>4</span>
+                  CFO approves budget based on ROI case
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="font-bold mt-0.5" style={{ color: "#3498db" }}>5</span>
+                  CMO makes final strategic decision
+                </li>
+              </ul>
+            </div>
+            <div className="rounded-lg p-4" style={{ background: "#f7f7f5" }}>
+              <p className="text-xs font-medium mb-2" style={{ color: "#787774" }}>Key Dates & Signals</p>
+              <div className="space-y-3 text-xs" style={{ color: "#37352f" }}>
+                <div>
+                  <p className="font-medium" style={{ color: "#787774" }}>Timeline</p>
+                  <p>{account.decisionTimeline}</p>
+                </div>
+                <div>
+                  <p className="font-medium" style={{ color: "#787774" }}>Budget Signal</p>
+                  <p>{account.budgetSignal}</p>
+                </div>
+                <div>
+                  <p className="font-medium" style={{ color: "#787774" }}>Strategic Priority</p>
+                  <p>{account.strategicInitiative}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -840,10 +963,38 @@ BEHAVIOR INSTRUCTIONS:
                   </ul>
                 </div>
 
-                {mp && (
-                  <div className="flex items-center gap-3 mb-3 text-xs" style={{ color: "#787774" }}>
-                    <span>{mp.attempts} attempt{mp.attempts !== 1 ? "s" : ""}</span>
-                    {mp.bestScore !== null && <span>Best: {mp.bestScore}/100</span>}
+                {mp ? (
+                  <div className="mb-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span
+                        className="text-xs px-2 py-0.5 rounded-full font-medium"
+                        style={{
+                          background: mp.relationshipStatus === "Champion" ? "#d4edda" :
+                                     mp.relationshipStatus === "Building rapport" ? "#fff3cd" :
+                                     mp.relationshipStatus === "Initial contact" ? "#e8f4fd" : "#f7f7f5",
+                          color: mp.relationshipStatus === "Champion" ? "#27ae60" :
+                                 mp.relationshipStatus === "Building rapport" ? "#f39c12" :
+                                 mp.relationshipStatus === "Initial contact" ? "#3498db" : "#787774",
+                        }}
+                        data-testid={`text-status-${member.id}`}
+                      >
+                        {mp.relationshipStatus}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3 text-xs" style={{ color: "#787774" }}>
+                      <span>{mp.attempts} attempt{mp.attempts !== 1 ? "s" : ""}</span>
+                      {mp.bestScore !== null && <span>Best: {mp.bestScore}/100</span>}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="mb-3">
+                    <span
+                      className="text-xs px-2 py-0.5 rounded-full font-medium"
+                      style={{ background: "#f7f7f5", color: "#787774" }}
+                      data-testid={`text-status-${member.id}`}
+                    >
+                      Not yet engaged
+                    </span>
                   </div>
                 )}
 

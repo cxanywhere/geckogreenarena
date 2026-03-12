@@ -5383,10 +5383,10 @@ Return ONLY the spoken script text. No labels, formatting, or stage directions.`
       const account = await storage.getAbmAccountBySlug(req.params.slug);
       if (!account) return res.status(404).json({ error: "Account not found" });
       const sessions = await storage.getUserAbmPracticeSessions(authResult.user.id, account.id);
-      const memberProgress: Record<string, { attempts: number; bestScore: number | null; passed: boolean; lastAttempt: string | null }> = {};
+      const memberProgress: Record<string, { attempts: number; bestScore: number | null; passed: boolean; lastAttempt: string | null; relationshipStatus: string; lastFeedbackSummary: string | null }> = {};
       for (const s of sessions) {
         if (!memberProgress[s.memberId]) {
-          memberProgress[s.memberId] = { attempts: 0, bestScore: null, passed: false, lastAttempt: null };
+          memberProgress[s.memberId] = { attempts: 0, bestScore: null, passed: false, lastAttempt: null, relationshipStatus: "Not yet engaged", lastFeedbackSummary: null };
         }
         const mp = memberProgress[s.memberId];
         mp.attempts++;
@@ -5394,9 +5394,32 @@ Return ONLY the spoken script text. No labels, formatting, or stage directions.`
         if (s.passed === 1) mp.passed = true;
         if (!mp.lastAttempt || (s.startedAt && new Date(s.startedAt).toISOString() > mp.lastAttempt)) {
           mp.lastAttempt = s.startedAt ? new Date(s.startedAt).toISOString() : null;
+          if (s.feedback) {
+            try {
+              const fb = JSON.parse(s.feedback);
+              mp.lastFeedbackSummary = fb.overallFeedback ? fb.overallFeedback.substring(0, 200) : null;
+            } catch { mp.lastFeedbackSummary = null; }
+          }
+        }
+        if (mp.passed) {
+          mp.relationshipStatus = "Champion";
+        } else if (mp.bestScore !== null && mp.bestScore >= 50) {
+          mp.relationshipStatus = "Building rapport";
+        } else if (mp.attempts > 0) {
+          mp.relationshipStatus = "Initial contact";
         }
       }
-      res.json({ accountId: account.id, memberProgress });
+
+      const members = await storage.getAbmCommitteeMembers(account.id);
+      const totalMembers = members.length;
+      const passedCount = Object.values(memberProgress).filter(p => p.passed).length;
+      const avgScore = Object.values(memberProgress).filter(p => p.bestScore !== null).reduce((sum, p) => sum + (p.bestScore || 0), 0) / (Object.values(memberProgress).filter(p => p.bestScore !== null).length || 1);
+      const engagedCount = Object.values(memberProgress).filter(p => p.attempts > 0).length;
+      const committeeReadiness = totalMembers > 0
+        ? Math.round((passedCount / totalMembers) * 50 + (engagedCount / totalMembers) * 20 + (avgScore / 100) * 30)
+        : 0;
+
+      res.json({ accountId: account.id, memberProgress, committeeReadiness });
     } catch (error: any) {
       console.error("Get ABM progress error:", error);
       res.status(500).json({ error: "Failed to get progress" });
@@ -5428,6 +5451,7 @@ Return ONLY the spoken script text. No labels, formatting, or stage directions.`
       if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Unauthorized" });
       const session = await storage.getAbmPracticeSession(req.params.id);
       if (!session) return res.status(404).json({ error: "Session not found" });
+      if (session.userId !== authResult.user.id) return res.status(403).json({ error: "Forbidden" });
 
       const member = await storage.getAbmCommitteeMember(session.memberId);
       if (!member) return res.status(404).json({ error: "Committee member not found" });
