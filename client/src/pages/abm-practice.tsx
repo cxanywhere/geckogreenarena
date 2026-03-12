@@ -264,16 +264,17 @@ BEHAVIOR INSTRUCTIONS:
         setVapiStatus("idle");
       });
 
-      const voiceIds = [
-        "21m00Tcm4TlvDq8ikWAM",
-        "pNInz6obpgDQGcFmaJgB",
-        "yoZ06aMxZJJ28mfd3POQ",
-        "TxGEqnHWrfWFTfGW9XjX",
-        "VR6AewLTigWG4xSOukaG",
-      ];
+      const memberVoices: Record<string, string> = {
+        "abm-member-cmo": "21m00Tcm4TlvDq8ikWAM",
+        "abm-member-vp-demand": "pNInz6obpgDQGcFmaJgB",
+        "abm-member-perf-mktg": "EXAVITQu4vr4xnSDxMaL",
+        "abm-member-abm-lead": "TxGEqnHWrfWFTfGW9XjX",
+        "abm-member-cfo": "VR6AewLTigWG4xSOukaG",
+      };
 
       await vapi.start({
         name: `${member.name} - ${member.title}`.slice(0, 40),
+        firstMessage: member.openingLine,
         model: {
           provider: "openai" as const,
           model: "gpt-4o" as const,
@@ -282,7 +283,7 @@ BEHAVIOR INSTRUCTIONS:
         },
         voice: {
           provider: "11labs" as const,
-          voiceId: voiceIds[member.orderIndex % voiceIds.length],
+          voiceId: memberVoices[member.id] || "21m00Tcm4TlvDq8ikWAM",
         },
         transcriber: {
           provider: "deepgram" as const,
