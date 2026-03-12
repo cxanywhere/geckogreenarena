@@ -1,4 +1,5 @@
 import { db } from "./db";
+import { eq } from "drizzle-orm";
 import { abmAccounts, abmCommitteeMembers } from "@shared/schema";
 
 const ACCOUNT_ID = "abm-meridian-001";
@@ -146,7 +147,7 @@ const COMMITTEE_MEMBERS = [
 ];
 
 export async function seedAbmData() {
-  const existing = await db.select().from(abmAccounts).limit(1);
+  const existing = await db.select().from(abmAccounts).where(eq(abmAccounts.slug, "meridian-health-systems")).limit(1);
   if (existing.length > 0) {
     console.log("  ABM account data already exists, skipping");
     return;
