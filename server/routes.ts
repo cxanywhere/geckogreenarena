@@ -5015,13 +5015,45 @@ Be specific, constructive, and fair. Score based on how well the rep covered tal
       const result = await geminiEval.models.generateContent({
         model: "gemini-2.0-flash",
         contents: evaluationPrompt,
+        config: {
+          responseMimeType: "application/json",
+        },
       });
       const responseText = result.text || "";
       
-      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-      if (!jsonMatch) throw new Error("Failed to parse evaluation response");
-      
-      const evaluation = JSON.parse(jsonMatch[0]);
+      const parsePitchJson = (text: string): any => {
+        try {
+          return JSON.parse(text);
+        } catch {
+          const jsonMatch = text.match(/\{[\s\S]*\}/);
+          if (!jsonMatch) return null;
+          let cleaned = jsonMatch[0]
+            .replace(/,\s*}/g, "}")
+            .replace(/,\s*]/g, "]")
+            .replace(/[\x00-\x1f\x7f]/g, " ")
+            .replace(/([{,]\s*)(\w+)\s*:/g, '$1"$2":')
+            .replace(/:\s*'([^']*)'/g, ': "$1"')
+            .replace(/"\s*\n\s*/g, '" ')
+            .replace(/,\s*,/g, ",");
+          try {
+            return JSON.parse(cleaned);
+          } catch {
+            return null;
+          }
+        }
+      };
+
+      let evaluation = parsePitchJson(responseText);
+      if (!evaluation) {
+        console.warn("Pitch evaluation JSON parse failed, retrying...");
+        const retryResult = await geminiEval.models.generateContent({
+          model: "gemini-2.0-flash",
+          contents: `Convert the following evaluation text into valid JSON with these fields: overallScore (number 0-100), overallFeedback (string), pilotSignedOff (boolean), slideFeedback (array of objects with slideOrder, slideTitle, score, feedback, strengths, improvements). Return ONLY valid JSON.\n\nText:\n${responseText}`,
+          config: { responseMimeType: "application/json" },
+        });
+        evaluation = parsePitchJson(retryResult.text || "");
+        if (!evaluation) throw new Error("Failed to parse evaluation response after retry");
+      }
 
       await storage.updatePitchSession(session.id, {
         overallScore: evaluation.overallScore,
@@ -5438,17 +5470,60 @@ Evaluate based on: (1) understanding of stakeholder priorities, (2) tailoring th
       let responseText = result.text || "";
 
       let evaluation: any;
-      try {
-        evaluation = JSON.parse(responseText);
-      } catch (e) {
-        const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-        if (!jsonMatch) throw new Error("Failed to parse evaluation response");
-        let cleaned = jsonMatch[0]
-          .replace(/,\s*}/g, "}")
-          .replace(/,\s*]/g, "]")
-          .replace(/'/g, '"')
-          .replace(/[\x00-\x1f]/g, " ");
-        evaluation = JSON.parse(cleaned);
+      const parseJsonSafe = (text: string): any => {
+        try {
+          return JSON.parse(text);
+        } catch {
+          const jsonMatch = text.match(/\{[\s\S]*\}/);
+          if (!jsonMatch) return null;
+          let cleaned = jsonMatch[0]
+            .replace(/,\s*}/g, "}")
+            .replace(/,\s*]/g, "]")
+            .replace(/[\x00-\x1f\x7f]/g, " ")
+            .replace(/\\'/g, "'")
+            .replace(/([{,]\s*)(\w+)\s*:/g, '$1"$2":')
+            .replace(/:\s*'([^']*)'/g, ': "$1"')
+            .replace(/"\s*\n\s*/g, '" ')
+            .replace(/,\s*,/g, ",");
+          try {
+            return JSON.parse(cleaned);
+          } catch {
+            const lines = cleaned.split("\n");
+            const fixedLines = lines.map(line => {
+              return line
+                .replace(/([^\\])"/g, (m, p1, offset) => {
+                  const before = line.substring(0, offset);
+                  const colonCount = (before.match(/:/g) || []).length;
+                  const quoteCount = (before.match(/"/g) || []).length;
+                  if (quoteCount % 2 === 1 && !before.endsWith("\\")) {
+                    return p1 + '\\"';
+                  }
+                  return m;
+                });
+            });
+            try {
+              return JSON.parse(fixedLines.join("\n"));
+            } catch {
+              return null;
+            }
+          }
+        }
+      };
+
+      evaluation = parseJsonSafe(responseText);
+
+      if (!evaluation) {
+        console.warn("First Gemini JSON parse failed, retrying with strict prompt...");
+        const retryResult = await geminiEval.models.generateContent({
+          model: "gemini-2.0-flash",
+          contents: `Convert the following evaluation text into valid JSON with exactly these fields: score (number 0-100), passed (boolean), overallFeedback (string), strengths (array of strings), improvements (array of strings), stakeholderAlignment (string), objectionHandling (string), nextStepClarity (string). Return ONLY the JSON object, no markdown.\n\nText:\n${responseText}`,
+          config: {
+            responseMimeType: "application/json",
+          },
+        });
+        const retryText = retryResult.text || "";
+        evaluation = parseJsonSafe(retryText);
+        if (!evaluation) throw new Error("Failed to parse evaluation response after retry");
       }
 
       if (!evaluation.score && evaluation.score !== 0) evaluation.score = 50;
