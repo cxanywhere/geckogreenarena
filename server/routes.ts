@@ -5431,13 +5431,28 @@ Evaluate based on: (1) understanding of stakeholder priorities, (2) tailoring th
       const result = await geminiEval.models.generateContent({
         model: "gemini-2.0-flash",
         contents: evaluationPrompt,
+        config: {
+          responseMimeType: "application/json",
+        },
       });
-      const responseText = result.text || "";
+      let responseText = result.text || "";
 
-      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-      if (!jsonMatch) throw new Error("Failed to parse evaluation response");
+      let evaluation: any;
+      try {
+        evaluation = JSON.parse(responseText);
+      } catch (e) {
+        const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) throw new Error("Failed to parse evaluation response");
+        let cleaned = jsonMatch[0]
+          .replace(/,\s*}/g, "}")
+          .replace(/,\s*]/g, "]")
+          .replace(/'/g, '"')
+          .replace(/[\x00-\x1f]/g, " ");
+        evaluation = JSON.parse(cleaned);
+      }
 
-      const evaluation = JSON.parse(jsonMatch[0]);
+      if (!evaluation.score && evaluation.score !== 0) evaluation.score = 50;
+      if (evaluation.passed === undefined) evaluation.passed = evaluation.score >= 70;
 
       await storage.updateAbmPracticeSession(session.id, {
         score: evaluation.score,
