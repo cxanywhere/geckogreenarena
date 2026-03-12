@@ -5174,9 +5174,10 @@ Be specific, constructive, and fair. Score based on how well the rep covered tal
       if (!deck) return res.status(404).json({ error: "Deck not found" });
 
       const slides = await storage.getPitchDeckSlides(deck.id);
-      const skipExisting = req.body.skipExisting !== false;
+      const skipExisting = req.body.skipExisting === true;
+      const forceRegenerate = req.body.forceRegenerate === true || !skipExisting;
 
-      res.json({ message: `Starting narration generation for ${slides.length} slides`, total: slides.length });
+      res.json({ message: `Starting narration generation for ${slides.length} slides`, total: slides.length, forceRegenerate });
 
       (async () => {
         const { generateNarrationAudio } = await import("./narration-service");
@@ -5190,6 +5191,16 @@ Be specific, constructive, and fair. Score based on how well the rep covered tal
               apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY || "",
               httpOptions: { baseUrl: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL || "" },
             });
+
+        if (forceRegenerate) {
+          console.log(`[PitchNarration] Force regeneration: clearing all existing narration data...`);
+          for (const slide of slides) {
+            await db.update(pitchSlidesTable)
+              .set({ narrationScript: null, narrationAudioUrl: null })
+              .where(eq(pitchSlidesTable.id, slide.id));
+          }
+          slides.forEach(s => { s.narrationScript = null; s.narrationAudioUrl = null; });
+        }
 
         for (let i = 0; i < slides.length; i++) {
           const slide = slides[i];
