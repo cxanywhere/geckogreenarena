@@ -5005,11 +5005,18 @@ Provide your evaluation as a JSON object with this structure:
 
 Be specific, constructive, and fair. Score based on how well the rep covered talking points, used discovery questions, handled objections, and built toward the pilot sign-off.`;
 
-      const { GoogleGenerativeAI } = await import("@google/generative-ai");
-      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
-      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-      const result = await model.generateContent(evaluationPrompt);
-      const responseText = result.response.text();
+      const { GoogleGenAI } = await import("@google/genai");
+      const geminiEval = process.env.GEMINI_API_KEY
+        ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
+        : new GoogleGenAI({
+            apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY || "",
+            httpOptions: { baseUrl: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL || "" },
+          });
+      const result = await geminiEval.models.generateContent({
+        model: "gemini-2.0-flash",
+        contents: evaluationPrompt,
+      });
+      const responseText = result.text || "";
       
       const jsonMatch = responseText.match(/\{[\s\S]*\}/);
       if (!jsonMatch) throw new Error("Failed to parse evaluation response");
@@ -5176,22 +5183,50 @@ Be specific, constructive, and fair. Score based on how well the rep covered tal
         const { pitchDeckSlides: pitchSlidesTable } = await import("@shared/schema");
         const { eq } = await import("drizzle-orm");
 
-        const openai = new (await import("openai")).default({
-          apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-          baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-        });
+        const { GoogleGenAI } = await import("@google/genai");
+        const geminiAi = process.env.GEMINI_API_KEY
+          ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
+          : new GoogleGenAI({
+              apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY || "",
+              httpOptions: { baseUrl: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL || "" },
+            });
 
         for (let i = 0; i < slides.length; i++) {
           const slide = slides[i];
 
-          if (skipExisting && slide.narrationAudioUrl) {
-            console.log(`[PitchNarration] Skipping slide ${slide.slideOrder} (already has audio)`);
+          if (skipExisting && slide.narrationScript && slide.narrationAudioUrl) {
+            console.log(`[PitchNarration] Skipping slide ${slide.slideOrder} (already has script+audio)`);
             continue;
           }
 
           try {
-            const scriptPrompt = `You are an elite enterprise B2B sales rep from LinkedIn Marketing Solutions delivering a polished client proposal to ${deck.buyerName}, ${deck.buyerRole}. Generate a word-for-word sales pitch script for this single slide.
+            if (skipExisting && slide.narrationScript && !slide.narrationAudioUrl) {
+              console.log(`[PitchNarration] Slide ${slide.slideOrder} has script but no audio. Generating TTS only...`);
+              const audioUrl = await generateNarrationAudio(
+                `pitch-${deck.slug}`,
+                slide.slideOrder,
+                slide.narrationScript
+              );
+              await db.update(pitchSlidesTable)
+                .set({ narrationAudioUrl: audioUrl })
+                .where(eq(pitchSlidesTable.id, slide.id));
+              console.log(`[PitchNarration] ${i + 1}/${slides.length} done (TTS only) - slide ${slide.slideOrder}: ${slide.title}`);
+              continue;
+            }
 
+            const isFirstSlide = slide.slideOrder === 0;
+            const isLastSlide = slide.slideOrder === slides.length - 1;
+
+            const systemInstruction = isFirstSlide
+              ? `You write sales pitch scripts. For this opening slide, start with a warm greeting to the buyer.`
+              : isLastSlide
+              ? `You write sales pitch scripts. For this closing slide, wrap up with a call-to-action for next steps.`
+              : `You write sales pitch scripts. ABSOLUTE RULE: The presenter has already greeted the buyer on slide 1. For this mid-presentation slide, you MUST NOT begin with ANY form of greeting, salutation, or pleasantry. Forbidden openings include but are not limited to: "Good afternoon", "Good morning", "Hi", "Hello", "Hey", "Thank you for", "Thanks for", "Great to be here", "It's great to", "I appreciate", "Welcome". Instead, your script MUST begin with a content-focused transition such as "Now,", "Let's", "Here's", "So", "Building on", "What's", "One of", "The", "When we", "Looking at", or similar. If your output begins with a greeting, it will be rejected.`;
+
+            const scriptPrompt = `Generate a word-for-word sales pitch script for this single slide in a client proposal presentation.
+
+Presenter: Elite enterprise B2B sales rep from LinkedIn Marketing Solutions
+Buyer: ${deck.buyerName}, ${deck.buyerRole}
 Client: ${deck.clientName}
 Buyer Context: ${(deck as any).buyerContext || ""}
 
@@ -5205,8 +5240,6 @@ Guidelines:
 - Be confident, conversational, and persuasive — not robotic or scripted-sounding
 - Cover ALL talking points naturally woven into the narrative
 - Use strategic pauses (commas, periods) for emphasis
-- For the first slide, include a warm professional greeting
-- For the last slide, end with a strong call-to-action asking for next steps
 - Keep it 60-120 seconds when spoken (150-280 words)
 - Never say "next slide" or reference slide numbers
 - Use concrete numbers, data points, and specific examples
@@ -5214,20 +5247,29 @@ Guidelines:
 
 Return ONLY the spoken script text. No labels, formatting, or stage directions.`;
 
-            const scriptResponse = await openai.chat.completions.create({
-              model: "gpt-4o-mini",
-              messages: [{ role: "user", content: scriptPrompt }],
-              max_completion_tokens: 600,
-              temperature: 0.75,
+            const geminiResult = await geminiAi.models.generateContent({
+              model: "gemini-3.1-pro-preview",
+              contents: scriptPrompt,
+              config: {
+                temperature: 0.75,
+                maxOutputTokens: 8000,
+                systemInstruction: systemInstruction,
+              },
             });
 
-            const script = scriptResponse.choices[0]?.message?.content?.trim() || "";
+            const script = (geminiResult.text ?? "").trim();
             if (!script) {
               console.error(`[PitchNarration] Empty script for slide ${slide.slideOrder}`);
               continue;
             }
 
-            console.log(`[PitchNarration] Script generated for slide ${slide.slideOrder} (${script.length} chars). Generating TTS...`);
+            console.log(`[PitchNarration] Script generated for slide ${slide.slideOrder} (${script.length} chars). Saving script...`);
+
+            await db.update(pitchSlidesTable)
+              .set({ narrationScript: script })
+              .where(eq(pitchSlidesTable.id, slide.id));
+
+            console.log(`[PitchNarration] Generating TTS for slide ${slide.slideOrder}...`);
 
             const audioUrl = await generateNarrationAudio(
               `pitch-${deck.slug}`,
@@ -5236,7 +5278,7 @@ Return ONLY the spoken script text. No labels, formatting, or stage directions.`
             );
 
             await db.update(pitchSlidesTable)
-              .set({ narrationScript: script, narrationAudioUrl: audioUrl })
+              .set({ narrationAudioUrl: audioUrl })
               .where(eq(pitchSlidesTable.id, slide.id));
 
             console.log(`[PitchNarration] ${i + 1}/${slides.length} done - slide ${slide.slideOrder}: ${slide.title}`);
