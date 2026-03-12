@@ -661,11 +661,17 @@ Listen to the rep's presentation of this slide, then ask 1-2 contextual question
       stopVapiCall();
 
       const transcript = deck ? formatTranscriptForEval(deck) : "(No transcript)";
+      const structuredTranscript = transcriptRef.current.map(e => ({
+        role: e.role,
+        content: e.content,
+        timestamp: e.timestamp,
+        slideIndex: e.slideIndex,
+      }));
 
       await fetch(`/api/pitch-sessions/${sessionId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` },
-        body: JSON.stringify({ status: "completed", durationSeconds: elapsedSeconds, transcript }),
+        body: JSON.stringify({ status: "completed", durationSeconds: elapsedSeconds, transcript, structuredTranscript }),
       });
 
       setSessionState("evaluating");

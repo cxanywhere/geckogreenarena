@@ -525,6 +525,7 @@ export const pitchSessions = pgTable("pitch_sessions", {
   status: text("status").notNull().default("active"),
   currentSlideOrder: integer("current_slide_order").default(0),
   transcript: text("transcript"),
+  structuredTranscript: jsonb("structured_transcript").$type<Array<{ role: string; content: string; timestamp: number; slideIndex: number }>>(),
   overallScore: integer("overall_score"),
   overallFeedback: text("overall_feedback"),
   pilotSignedOff: integer("pilot_signed_off").default(0),

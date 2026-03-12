@@ -4930,6 +4930,7 @@ LINKEDIN MARKETING SOLUTIONS CONTEXT:
       if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Unauthorized" });
       const session = await storage.getPitchSession(req.params.id);
       if (!session) return res.status(404).json({ error: "Session not found" });
+      if (session.userId !== authResult.user.id) return res.status(403).json({ error: "Forbidden" });
       res.json(session);
     } catch (error) {
       console.error("Get pitch session error:", error);
@@ -4941,6 +4942,9 @@ LINKEDIN MARKETING SOLUTIONS CONTEXT:
     try {
       const authResult = await getAuthenticatedUser(req);
       if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      const session = await storage.getPitchSession(req.params.id);
+      if (!session) return res.status(404).json({ error: "Session not found" });
+      if (session.userId !== authResult.user.id) return res.status(403).json({ error: "Forbidden" });
       const updated = await storage.updatePitchSession(req.params.id, req.body);
       if (!updated) return res.status(404).json({ error: "Session not found" });
       res.json(updated);
@@ -4968,6 +4972,7 @@ LINKEDIN MARKETING SOLUTIONS CONTEXT:
       if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Unauthorized" });
       const session = await storage.getPitchSession(req.params.id);
       if (!session) return res.status(404).json({ error: "Session not found" });
+      if (session.userId !== authResult.user.id) return res.status(403).json({ error: "Forbidden" });
 
       const deck = await storage.getPitchDeckById(session.deckId);
       if (!deck) return res.status(404).json({ error: "Deck not found" });
@@ -5192,6 +5197,11 @@ Be specific, constructive, and fair. Score based on how well the rep covered tal
 
   app.get("/api/pitch-sessions/:id/feedback", async (req, res) => {
     try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Unauthorized" });
+      const session = await storage.getPitchSession(req.params.id);
+      if (!session) return res.status(404).json({ error: "Session not found" });
+      if (session.userId !== authResult.user.id) return res.status(403).json({ error: "Forbidden" });
       const feedback = await storage.getPitchSessionFeedback(req.params.id);
       res.json(feedback);
     } catch (error) {
