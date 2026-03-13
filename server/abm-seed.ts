@@ -1,6 +1,7 @@
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 import { abmAccounts, abmCommitteeMembers } from "@shared/schema";
+import { ABM_MEMBER_GENERATED_AVATARS } from "./seed-generated-assets";
 
 const ACCOUNT_ID = "abm-meridian-001";
 
@@ -157,7 +158,9 @@ export async function seedAbmData() {
   console.log(`  Seeded ABM account: ${MERIDIAN_ACCOUNT.companyName}`);
 
   for (const member of COMMITTEE_MEMBERS) {
-    await db.insert(abmCommitteeMembers).values(member);
+    const generatedAvatar = ABM_MEMBER_GENERATED_AVATARS[member.id];
+    const memberWithAvatar = generatedAvatar ? { ...member, avatar: generatedAvatar } : member;
+    await db.insert(abmCommitteeMembers).values(memberWithAvatar);
     console.log(`  Seeded committee member: ${member.name} (${member.title})`);
   }
 }

@@ -6,6 +6,14 @@ import { BUYER_PERSONA_SEED_DATA } from './seed-data';
 import { PLAYBOOK_STORIES_SEED, PLAYBOOK_PANELS_SEED } from './playbook-seed-data';
 import { hubspotDeck, hubspotSlides, HUBSPOT_DECK_ID } from './pitch-deck-seed';
 import { seedAbmData } from './abm-seed';
+import {
+  CHAPTER_GENERATED_ASSETS,
+  ROLEPLAY_GENERATED_AVATARS,
+  PERSONA_GENERATED_AVATARS,
+  PITCH_DECK_GENERATED_ASSETS,
+  PITCH_SLIDE_GENERATED_ASSETS,
+  PANEL_GENERATED_IMAGES,
+} from './seed-generated-assets';
 
 export async function seedDatabase(): Promise<void> {
   console.log('Starting idempotent database seed...');
@@ -65,6 +73,21 @@ export async function seedDatabase(): Promise<void> {
         chapterSlugToId.set(chapterData.slug, existing[0].id);
         console.log(`  Updated chapter: ${chapterData.title}`);
       } else {
+        const generatedAssets = CHAPTER_GENERATED_ASSETS[chapterData.slug];
+        const seedCoverImage = generatedAssets?.coverImage || chapterData.coverImage;
+        const seedSlides = chapterData.slides.map((slide: any, idx: number) => {
+          const gen = generatedAssets?.slides?.[idx];
+          if (gen) {
+            return {
+              ...slide,
+              imageUrl: gen.imageUrl || slide.imageUrl,
+              narrationScript: gen.narrationScript || slide.narrationScript,
+              narrationAudioUrl: gen.narrationAudioUrl || slide.narrationAudioUrl,
+            };
+          }
+          return slide;
+        });
+
         const [newChapter] = await db.insert(chapters)
           .values({
             slug: chapterData.slug,
@@ -73,9 +96,9 @@ export async function seedDatabase(): Promise<void> {
             description: chapterData.description,
             duration: chapterData.duration,
             pdfUrl: chapterData.pdfUrl,
-            coverImage: chapterData.coverImage,
+            coverImage: seedCoverImage,
             agenda: chapterData.agenda,
-            slides: chapterData.slides,
+            slides: seedSlides,
             slideCount: chapterData.slideCount,
             orderIndex: chapterData.orderIndex,
           })
@@ -114,13 +137,14 @@ export async function seedDatabase(): Promise<void> {
         
         console.log(`  Updated roleplay: ${roleplayData.role}`);
       } else {
+        const generatedAvatar = ROLEPLAY_GENERATED_AVATARS[roleplayData.slug];
         await db.insert(roleplays)
           .values({
             slug: roleplayData.slug,
             name: roleplayData.name,
             role: roleplayData.role,
             description: roleplayData.description,
-            avatar: roleplayData.avatar,
+            avatar: generatedAvatar || roleplayData.avatar,
             traits: roleplayData.traits,
             difficulty: roleplayData.difficulty,
             stats: roleplayData.stats,
@@ -158,12 +182,13 @@ export async function seedDatabase(): Promise<void> {
         
         console.log(`  Updated buyer persona: ${personaData.name}`);
       } else {
+        const generatedAvatar = PERSONA_GENERATED_AVATARS[personaData.slug];
         await db.insert(buyerPersonas)
           .values({
             slug: personaData.slug,
             name: personaData.name,
             subtitle: personaData.subtitle,
-            avatar: personaData.avatar,
+            avatar: generatedAvatar || personaData.avatar,
             attributes: personaData.attributes,
             whatTheyCareAbout: personaData.whatTheyCareAbout,
             whatTriggersResistance: personaData.whatTriggersResistance,
@@ -225,12 +250,13 @@ export async function seedDatabase(): Promise<void> {
           })
           .where(eq(comicPanels.id, panelData.id));
       } else {
+        const generatedImage = PANEL_GENERATED_IMAGES[panelData.id];
         await db.insert(comicPanels)
           .values({
             id: panelData.id,
             storyId: panelData.storyId,
             panelOrder: panelData.panelOrder,
-            imageUrl: panelData.imageUrl,
+            imageUrl: generatedImage || panelData.imageUrl,
             speaker: panelData.speaker,
             dialogue: panelData.dialogue,
             setting: panelData.setting,
@@ -243,11 +269,23 @@ export async function seedDatabase(): Promise<void> {
     // Seed pitch decks
     const existingDeck = await db.select().from(pitchDecks).where(eq(pitchDecks.id, HUBSPOT_DECK_ID));
     if (existingDeck.length === 0) {
-      await db.insert(pitchDecks).values(hubspotDeck as any);
+      const deckWithAssets = {
+        ...hubspotDeck,
+        coverImage: PITCH_DECK_GENERATED_ASSETS.coverImage || hubspotDeck.coverImage,
+        buyerAvatar: PITCH_DECK_GENERATED_ASSETS.buyerAvatar || hubspotDeck.buyerAvatar,
+      };
+      await db.insert(pitchDecks).values(deckWithAssets as any);
       console.log(`  Created pitch deck: ${hubspotDeck.clientName}`);
       
       for (const slideData of hubspotSlides) {
-        await db.insert(pitchDeckSlides).values(slideData as any);
+        const genSlide = PITCH_SLIDE_GENERATED_ASSETS[slideData.slideOrder];
+        const slideWithAssets = genSlide ? {
+          ...slideData,
+          imageUrl: genSlide.imageUrl || undefined,
+          narrationScript: genSlide.narrationScript || undefined,
+          narrationAudioUrl: genSlide.narrationAudioUrl || undefined,
+        } : slideData;
+        await db.insert(pitchDeckSlides).values(slideWithAssets as any);
       }
       console.log(`  Seeded ${hubspotSlides.length} pitch deck slides`);
     } else {
