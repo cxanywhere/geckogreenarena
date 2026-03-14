@@ -1,7 +1,7 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { motion, AnimatePresence, PanInfo } from "framer-motion";
-import { ChevronLeft, ChevronRight, BookOpen, Play, Trophy, Target, ArrowLeft } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { BookOpen, Play, Trophy, Target, ArrowLeft, MessageSquare, User, Mic, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -32,22 +32,33 @@ interface ComicStory {
 }
 
 const phaseColors: Record<string, string> = {
-  Opening: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-  "Turn & Burn": "bg-orange-500/20 text-orange-400 border-orange-500/30",
-  "Demo": "bg-green-500/20 text-green-400 border-green-500/30",
-  Pricing: "bg-purple-500/20 text-purple-400 border-purple-500/30",
-  Closing: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+  "Discovery": "bg-blue-500/15 text-blue-600 border-blue-300",
+  "Objection Handling": "bg-amber-500/15 text-amber-700 border-amber-300",
+  "Executive Pitch": "bg-violet-500/15 text-violet-600 border-violet-300",
+  "Full Sale": "bg-emerald-500/15 text-emerald-700 border-emerald-300",
+  "Opening": "bg-blue-500/15 text-blue-600 border-blue-300",
+  "Turn & Burn": "bg-orange-500/15 text-orange-600 border-orange-300",
+  "Demo": "bg-green-500/15 text-green-600 border-green-300",
+  "Pricing": "bg-purple-500/15 text-purple-600 border-purple-300",
+  "Closing": "bg-emerald-500/15 text-emerald-700 border-emerald-300",
 };
 
 const phaseIcons: Record<string, React.ReactNode> = {
-  Opening: <Play className="w-4 h-4" />,
-  "Turn & Burn": <Target className="w-4 h-4" />,
-  "Demo": <BookOpen className="w-4 h-4" />,
-  Pricing: <Trophy className="w-4 h-4" />,
-  Closing: <Trophy className="w-4 h-4" />,
+  "Discovery": <Play className="w-3.5 h-3.5" />,
+  "Objection Handling": <Target className="w-3.5 h-3.5" />,
+  "Executive Pitch": <Trophy className="w-3.5 h-3.5" />,
+  "Full Sale": <BookOpen className="w-3.5 h-3.5" />,
+  "Opening": <Play className="w-3.5 h-3.5" />,
+  "Demo": <BookOpen className="w-3.5 h-3.5" />,
+  "Pricing": <Trophy className="w-3.5 h-3.5" />,
+  "Closing": <Trophy className="w-3.5 h-3.5" />,
 };
 
 function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => void }) {
+  const panels = [...(story.panels || [])].sort((a, b) => a.panelOrder - b.panelOrder);
+  const repLines = panels.filter(p => p.speaker === "rep").length;
+  const buyerLines = panels.filter(p => p.speaker === "buyer").length;
+
   return (
     <motion.div
       whileHover={{ scale: 1.02, y: -4 }}
@@ -55,17 +66,16 @@ function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => voi
       transition={{ type: "spring", stiffness: 400, damping: 20 }}
     >
       <Card
-        className="cursor-pointer bg-card/50 border-border/50 hover:border-magenta/50 transition-all overflow-hidden group"
+        className="cursor-pointer bg-white border-[#e8e8e5] hover:border-[#787774] transition-all overflow-hidden group"
         onClick={onSelect}
         data-testid={`story-card-${story.roleplayId}`}
       >
-        <div className="relative h-32 bg-gradient-to-br from-magenta/20 to-magenta/5 flex items-center justify-center overflow-hidden">
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%2322c55e%22%20fill-opacity%3D%220.08%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-50" />
+        <div className="relative h-28 bg-gradient-to-br from-[#f7f7f5] to-white flex items-center justify-center overflow-hidden">
           <div className="relative z-10 flex flex-col items-center gap-2">
-            <div className="text-4xl font-bold text-magenta/30 group-hover:text-magenta/50 transition-colors">
+            <div className="text-3xl font-bold text-[#787774]/40 group-hover:text-[#37352f]/60 transition-colors">
               #{story.orderIndex}
             </div>
-            <Badge className={`${phaseColors[story.phase] || "bg-muted"} border`}>
+            <Badge className={`${phaseColors[story.phase] || "bg-[#f7f7f5] text-[#787774] border-[#e8e8e5]"} border text-xs`}>
               <span className="flex items-center gap-1">
                 {phaseIcons[story.phase]}
                 {story.phase}
@@ -74,12 +84,21 @@ function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => voi
           </div>
         </div>
         <CardContent className="p-4">
-          <h3 className="font-semibold text-lg mb-1">{story.title}</h3>
-          <p className="text-sm text-muted-foreground italic mb-2">{story.subtitle}</p>
-          <p className="text-xs text-muted-foreground">{story.description}</p>
-          <div className="mt-3 flex items-center justify-between text-xs text-muted-foreground">
-            <span>{story.panels?.length || 0} panels</span>
-            <span className="text-magenta group-hover:underline">View Story →</span>
+          <h3 className="font-semibold text-base text-[#1a1a1a] mb-1">{story.title}</h3>
+          <p className="text-sm text-[#787774] italic mb-3">{story.subtitle}</p>
+          <p className="text-xs text-[#787774] line-clamp-2 mb-3">{story.description}</p>
+          <div className="flex items-center justify-between text-xs text-[#787774]">
+            <div className="flex items-center gap-3">
+              <span className="flex items-center gap-1">
+                <Mic className="w-3 h-3 text-emerald-600" />
+                {repLines} rep
+              </span>
+              <span className="flex items-center gap-1">
+                <User className="w-3 h-3 text-blue-500" />
+                {buyerLines} buyer
+              </span>
+            </div>
+            <span className="text-[#37352f] font-medium group-hover:underline">View Flow →</span>
           </div>
         </CardContent>
       </Card>
@@ -87,171 +106,139 @@ function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => voi
   );
 }
 
-function ComicPanelView({ panel, panelNumber, totalPanels }: { panel: ComicPanel; panelNumber: number; totalPanels: number }) {
-  const speakerColors = {
-    rep: "bg-magenta text-primary-foreground",
-    buyer: "bg-blue-500 text-white",
-    narrator: "bg-muted text-muted-foreground italic",
-  };
+function FlowchartNode({ panel, index, total }: { panel: ComicPanel; index: number; total: number }) {
+  const isNarrator = panel.speaker === "narrator";
+  const isRep = panel.speaker === "rep";
+  const isBuyer = panel.speaker === "buyer";
 
-  const speakerLabels = {
-    rep: "Sales Rep",
-    buyer: "Buyer",
-    narrator: "Narrator",
-  };
+  const nodeStyles = isNarrator
+    ? "bg-[#f7f7f5] border-[#e8e8e5] text-[#787774]"
+    : isRep
+    ? "bg-emerald-50 border-emerald-200"
+    : "bg-blue-50 border-blue-200";
 
-  const speakerColor = speakerColors[panel.speaker as keyof typeof speakerColors] || speakerColors.narrator;
-  const speakerLabel = speakerLabels[panel.speaker as keyof typeof speakerLabels] || "Narrator";
+  const iconBg = isNarrator
+    ? "bg-[#e8e8e5] text-[#787774]"
+    : isRep
+    ? "bg-emerald-100 text-emerald-700"
+    : "bg-blue-100 text-blue-700";
+
+  const label = isNarrator ? "Context" : isRep ? "Sales Rep" : "Buyer";
+  const labelColor = isNarrator
+    ? "text-[#787774]"
+    : isRep
+    ? "text-emerald-700"
+    : "text-blue-700";
+
+  const alignment = isNarrator ? "mx-auto" : isRep ? "mr-auto" : "ml-auto";
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="relative bg-gradient-to-b from-muted/30 to-muted/10 rounded-xl overflow-hidden">
-        {panel.imageUrl ? (
-          <img
-            src={panel.imageUrl}
-            alt={panel.setting}
-            className="w-full aspect-[4/3] object-cover rounded-xl"
-          />
-        ) : (
-          <div className="w-full aspect-[4/3] flex items-center justify-center bg-gradient-to-br from-magenta/10 to-magenta/5 rounded-xl">
-            <div className="text-center p-8">
-              <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-magenta/10 flex items-center justify-center">
-                <BookOpen className="w-12 h-12 text-magenta/50" />
+    <motion.div
+      className="flex flex-col items-center"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.06, duration: 0.3 }}
+    >
+      <div className={`w-full max-w-2xl ${alignment}`}>
+        <div className={`rounded-xl border-2 p-4 ${nodeStyles} relative`}>
+          <div className="flex items-start gap-3">
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${iconBg}`}>
+              {isNarrator ? (
+                <BookOpen className="w-4 h-4" />
+              ) : isRep ? (
+                <Mic className="w-4 h-4" />
+              ) : (
+                <User className="w-4 h-4" />
+              )}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className={`text-xs font-semibold uppercase tracking-wide mb-1 ${labelColor}`}>
+                {label}
               </div>
-              <p className="text-sm text-muted-foreground max-w-md">{panel.setting}</p>
+              <p className={`text-sm leading-relaxed ${isNarrator ? "italic text-[#787774]" : "text-[#37352f]"}`}>
+                {panel.dialogue}
+              </p>
             </div>
           </div>
-        )}
-        <div className="absolute top-3 right-3 bg-black/60 text-white px-3 py-1 rounded-full text-sm font-medium">
-          {panelNumber} / {totalPanels}
         </div>
       </div>
 
-      <div className="mt-3 p-4 bg-card rounded-xl border border-border/50">
-        <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3">
-          <div className={`px-3 py-1 rounded-full text-xs font-medium shrink-0 w-fit ${speakerColor}`}>
-            {speakerLabel}
-          </div>
-          <p className={`text-base sm:text-lg leading-relaxed ${panel.speaker === "narrator" ? "italic text-muted-foreground" : ""}`}>
-            {panel.dialogue}
-          </p>
+      {index < total - 1 && (
+        <div className="flex flex-col items-center py-1">
+          <div className="w-0.5 h-4 bg-[#e8e8e5]" />
+          <ArrowDown className="w-4 h-4 text-[#e8e8e5]" />
         </div>
-      </div>
-    </div>
+      )}
+    </motion.div>
   );
 }
 
-function StoryViewer({ story, onBack }: { story: ComicStory; onBack: () => void }) {
-  const [currentPanel, setCurrentPanel] = useState(0);
-  const [direction, setDirection] = useState(0);
-  const panels = story.panels?.sort((a, b) => a.panelOrder - b.panelOrder) || [];
-
-  const nextPanel = () => {
-    if (currentPanel < panels.length - 1) {
-      setDirection(1);
-      setCurrentPanel((prev) => prev + 1);
-    }
-  };
-
-  const prevPanel = () => {
-    if (currentPanel > 0) {
-      setDirection(-1);
-      setCurrentPanel((prev) => prev - 1);
-    }
-  };
-
-  const handleDragEnd = (_: any, info: PanInfo) => {
-    const threshold = 50;
-    if (info.offset.x < -threshold && currentPanel < panels.length - 1) {
-      nextPanel();
-    } else if (info.offset.x > threshold && currentPanel > 0) {
-      prevPanel();
-    }
-  };
-
-  const progressPercent = panels.length > 1 ? ((currentPanel + 1) / panels.length) * 100 : 100;
+function FlowchartViewer({ story, onBack }: { story: ComicStory; onBack: () => void }) {
+  const panels = [...(story.panels || [])].sort((a, b) => a.panelOrder - b.panelOrder);
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-180px)]">
-      <div className="flex items-center justify-between mb-3 gap-2">
+    <div className="flex flex-col">
+      <div className="flex items-center justify-between mb-6 gap-3">
         <Button
           variant="ghost"
           size="sm"
           onClick={onBack}
-          className="gap-1 px-2"
+          className="gap-1.5 px-2 text-[#787774] hover:text-[#37352f]"
           data-testid="back-to-stories"
         >
           <ArrowLeft className="w-4 h-4" />
           <span className="hidden sm:inline">Back</span>
         </Button>
         <div className="flex items-center gap-2 min-w-0">
-          <Badge className={`${phaseColors[story.phase] || "bg-muted"} border shrink-0`}>
+          <Badge className={`${phaseColors[story.phase] || "bg-[#f7f7f5] text-[#787774] border-[#e8e8e5]"} border shrink-0`}>
             {story.phase}
           </Badge>
-          <h2 className="font-semibold text-sm sm:text-base truncate">{story.title}</h2>
+          <h2 className="font-semibold text-[#1a1a1a] text-sm sm:text-base truncate">{story.title}</h2>
         </div>
       </div>
 
-      <motion.div
-        className="flex-1 touch-pan-y"
-        drag="x"
-        dragConstraints={{ left: 0, right: 0 }}
-        dragElastic={0.2}
-        onDragEnd={handleDragEnd}
-      >
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={panels[currentPanel]?.id}
-            initial={{ opacity: 0, x: direction * 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -direction * 100 }}
-            transition={{ duration: 0.2 }}
-          >
-            {panels[currentPanel] && (
-              <ComicPanelView
-                panel={panels[currentPanel]}
-                panelNumber={currentPanel + 1}
-                totalPanels={panels.length}
-              />
-            )}
-          </motion.div>
-        </AnimatePresence>
-      </motion.div>
+      <div className="mb-6 text-center">
+        <h1 className="text-2xl font-bold text-[#1a1a1a] mb-1">{story.title}</h1>
+        <p className="text-[#787774] italic">{story.subtitle}</p>
+      </div>
 
-      <div className="mt-3 pt-3 border-t border-border/50">
-        <div className="w-full h-1 bg-muted rounded-full mb-3 overflow-hidden">
-          <motion.div 
-            className="h-full bg-magenta rounded-full"
-            initial={false}
-            animate={{ width: `${progressPercent}%` }}
-            transition={{ duration: 0.3 }}
+      <div className="flex items-center justify-center gap-6 mb-6 text-xs">
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-3 rounded-full bg-[#e8e8e5]" />
+          <span className="text-[#787774]">Context</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-3 rounded-full bg-emerald-200" />
+          <span className="text-[#787774]">Sales Rep</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-3 rounded-full bg-blue-200" />
+          <span className="text-[#787774]">Buyer</span>
+        </div>
+      </div>
+
+      <div className="flex flex-col items-center px-2">
+        {panels.map((panel, index) => (
+          <FlowchartNode
+            key={panel.id}
+            panel={panel}
+            index={index}
+            total={panels.length}
           />
-        </div>
-        
-        <div className="flex items-center justify-between">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={prevPanel}
-            disabled={currentPanel === 0}
-            className="gap-1"
-            data-testid="prev-panel"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">Previous</span>
-          </Button>
+        ))}
+      </div>
 
-          <Button
-            size="sm"
-            onClick={nextPanel}
-            disabled={currentPanel === panels.length - 1}
-            className="gap-1"
-            data-testid="next-panel"
-          >
-            <span className="hidden sm:inline">Next</span>
-            <ChevronRight className="w-4 h-4" />
-          </Button>
-        </div>
+      <div className="mt-8 mb-4 text-center">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={onBack}
+          className="gap-1.5 text-[#787774] border-[#e8e8e5]"
+          data-testid="back-to-stories-bottom"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to all scenarios
+        </Button>
       </div>
     </div>
   );
@@ -267,9 +254,9 @@ export default function VictoryPlaybookPage() {
   });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#f7f7f5]">
       <Nav />
-      <main className="max-w-6xl mx-auto px-4 py-8">
+      <main className="max-w-4xl mx-auto px-4 py-8">
         <AnimatePresence mode="wait">
           {selectedStory ? (
             <motion.div
@@ -278,7 +265,7 @@ export default function VictoryPlaybookPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <StoryViewer story={selectedStory} onBack={() => setSelectedStory(null)} />
+              <FlowchartViewer story={selectedStory} onBack={() => setSelectedStory(null)} />
             </motion.div>
           ) : (
             <motion.div
@@ -288,17 +275,17 @@ export default function VictoryPlaybookPage() {
               exit={{ opacity: 0 }}
             >
               <div className="text-center mb-8">
-                <h1 className="text-3xl font-bold mb-2">Victory Playbook</h1>
-                <p className="text-muted-foreground max-w-xl mx-auto">
-                  Learn from the best. These visual stories show you exactly how top sales reps handle 
-                  common objections and close deals. Study the techniques, master the responses.
+                <h1 className="text-3xl font-bold text-[#1a1a1a] mb-2">Victory Playbook</h1>
+                <p className="text-[#787774] max-w-xl mx-auto">
+                  Visual conversation flows showing exactly how top reps handle 
+                  objections, run discovery, and close deals. Study the patterns, master the responses.
                 </p>
               </div>
 
               {isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {[1, 2, 3, 4, 5, 6].map((i) => (
-                    <Card key={i} className="h-64 animate-pulse bg-muted/20" />
+                    <Card key={i} className="h-56 animate-pulse bg-white/50 border-[#e8e8e5]" />
                   ))}
                 </div>
               ) : (
