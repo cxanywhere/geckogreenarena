@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, ArrowLeft, User, Mic, ArrowDown, Lightbulb } from "lucide-react";
+import { BookOpen, ArrowLeft, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +13,9 @@ import notionDiscovery from "@/assets/notion-icon-discovery.png";
 import notionObjection from "@/assets/notion-icon-objection.png";
 import notionExecutive from "@/assets/notion-icon-executive.png";
 import notionDeal from "@/assets/notion-icon-deal.png";
+import notionSalesRep from "@/assets/notion-icon-salesrep.png";
+import notionBuyer from "@/assets/notion-icon-buyer.png";
+import notionContext from "@/assets/notion-icon-context.png";
 
 interface ComicPanel {
   id: string;
@@ -85,11 +88,11 @@ function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => voi
           <div className="flex items-center justify-between text-xs text-muted-foreground">
             <div className="flex items-center gap-3">
               <span className="flex items-center gap-1">
-                <Mic className="w-3 h-3 text-magenta" />
+                <img src={notionSalesRep} alt="Rep" className="w-4 h-4" />
                 {repLines} rep
               </span>
               <span className="flex items-center gap-1">
-                <User className="w-3 h-3 text-blue-500" />
+                <img src={notionBuyer} alt="Buyer" className="w-4 h-4" />
                 {buyerLines} buyer
               </span>
             </div>
@@ -101,6 +104,12 @@ function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => voi
   );
 }
 
+const speakerIcons: Record<string, string> = {
+  rep: notionSalesRep,
+  buyer: notionBuyer,
+  narrator: notionContext,
+};
+
 function FlowchartNode({ panel, index, total }: { panel: ComicPanel; index: number; total: number }) {
   const isNarrator = panel.speaker === "narrator";
   const isRep = panel.speaker === "rep";
@@ -110,12 +119,6 @@ function FlowchartNode({ panel, index, total }: { panel: ComicPanel; index: numb
     : isRep
     ? "bg-white dark:bg-card border-magenta/30"
     : "bg-white dark:bg-card border-blue-300/50";
-
-  const iconBg = isNarrator
-    ? "bg-muted text-muted-foreground"
-    : isRep
-    ? "bg-magenta/10 text-magenta"
-    : "bg-blue-50 text-blue-600";
 
   const label = isNarrator ? "Context" : isRep ? "Sales Rep" : "Buyer";
   const labelColor = isNarrator
@@ -134,15 +137,11 @@ function FlowchartNode({ panel, index, total }: { panel: ComicPanel; index: numb
       <div className={`w-full max-w-2xl ${isNarrator ? "mx-auto" : isRep ? "mr-auto" : "ml-auto"}`}>
         <div className={`rounded-xl border p-4 ${nodeStyles} shadow-sm`}>
           <div className="flex items-start gap-3">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${iconBg}`}>
-              {isNarrator ? (
-                <Lightbulb className="w-4 h-4" />
-              ) : isRep ? (
-                <Mic className="w-4 h-4" />
-              ) : (
-                <User className="w-4 h-4" />
-              )}
-            </div>
+            <img
+              src={speakerIcons[panel.speaker] || notionContext}
+              alt={label}
+              className="w-9 h-9 shrink-0"
+            />
             <div className="flex-1 min-w-0">
               <div className={`text-xs font-semibold uppercase tracking-wide mb-1 ${labelColor}`}>
                 {label}
@@ -200,15 +199,15 @@ function FlowchartViewer({ story, onBack }: { story: ComicStory; onBack: () => v
 
       <div className="flex items-center justify-center gap-6 mb-6">
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          <div className="w-3 h-3 rounded-full bg-muted border border-border" />
+          <img src={notionContext} alt="Context" className="w-5 h-5" />
           Context
         </div>
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          <div className="w-3 h-3 rounded-full bg-magenta/20 border border-magenta/30" />
+          <img src={notionSalesRep} alt="Sales Rep" className="w-5 h-5" />
           Sales Rep
         </div>
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          <div className="w-3 h-3 rounded-full bg-blue-50 border border-blue-200" />
+          <img src={notionBuyer} alt="Buyer" className="w-5 h-5" />
           Buyer
         </div>
       </div>

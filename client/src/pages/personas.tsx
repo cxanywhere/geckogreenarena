@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { api, type BuyerPersona } from "@/lib/api";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
+import { getPersonaIcon } from "@/lib/persona-icons";
 
 export default function PersonasPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -76,24 +77,18 @@ export default function PersonasPage() {
                 transition={{ delay: index * 0.05 }}
               >
                 <Card 
-                  className="cursor-pointer hover:shadow-lg transition-all duration-200 overflow-hidden h-full group"
+                  className="cursor-pointer hover:shadow-lg hover:border-magenta/50 transition-all duration-200 overflow-hidden h-full group"
                   data-testid={`card-persona-${persona.slug}`}
                 >
-                  <div className="relative aspect-square overflow-hidden bg-muted">
-                    {persona.avatar ? (
-                      <img
-                        src={persona.avatar}
-                        alt={persona.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <Users className="w-16 h-16 text-muted-foreground/50" />
-                      </div>
-                    )}
+                  <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-primary/5 via-white to-muted/50 flex items-center justify-center">
+                    <img
+                      src={getPersonaIcon(persona.slug)}
+                      alt={persona.name}
+                      className="w-28 h-28 group-hover:scale-110 transition-transform duration-300"
+                    />
                   </div>
                   <CardContent className="p-4">
-                    <h3 className="font-semibold text-lg mb-2 line-clamp-1" data-testid={`text-persona-name-${persona.slug}`}>
+                    <h3 className="font-semibold text-lg mb-2 line-clamp-1 group-hover:text-magenta transition-colors" data-testid={`text-persona-name-${persona.slug}`}>
                       {persona.name}
                     </h3>
                     <p className="text-sm text-muted-foreground line-clamp-2 mb-3">

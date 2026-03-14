@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { api, type BuyerPersona } from "@/lib/api";
 import { useParams, useLocation } from "wouter";
 import { motion } from "framer-motion";
+import { getPersonaIcon } from "@/lib/persona-icons";
 
 export default function PersonaDetailPage() {
   const params = useParams<{ slug: string }>();
@@ -71,19 +72,13 @@ export default function PersonaDetailPage() {
             className="lg:col-span-1"
           >
             <Card className="overflow-hidden sticky top-4">
-              <div className="aspect-square bg-muted overflow-hidden">
-                {persona.avatar ? (
-                  <img
-                    src={persona.avatar}
-                    alt={persona.name}
-                    className="w-full h-full object-cover"
-                    data-testid="img-persona-avatar"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <Users className="w-20 h-20 text-muted-foreground/50" />
-                  </div>
-                )}
+              <div className="aspect-square bg-gradient-to-br from-primary/5 via-white to-muted/50 overflow-hidden flex items-center justify-center">
+                <img
+                  src={getPersonaIcon(params.slug!)}
+                  alt={persona.name}
+                  className="w-40 h-40"
+                  data-testid="img-persona-avatar"
+                />
               </div>
               <CardContent className="p-6">
                 <h1 className="text-2xl font-bold mb-2" data-testid="text-persona-name">
