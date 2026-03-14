@@ -1,14 +1,18 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, Play, Trophy, Target, ArrowLeft, MessageSquare, User, Mic, ArrowDown, Lightbulb } from "lucide-react";
+import { BookOpen, ArrowLeft, User, Mic, ArrowDown, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
 import { api } from "@/lib/api";
 import { Nav } from "@/components/nav";
-import notionPlaybook from "@/assets/notion-icon-progress.png";
+import notionPlaybook from "@/assets/notion-icon-playbook.png";
+import notionDiscovery from "@/assets/notion-icon-discovery.png";
+import notionObjection from "@/assets/notion-icon-objection.png";
+import notionExecutive from "@/assets/notion-icon-executive.png";
+import notionDeal from "@/assets/notion-icon-deal.png";
 
 interface ComicPanel {
   id: string;
@@ -39,11 +43,11 @@ const phaseColors: Record<string, string> = {
   "Full Sale": "bg-emerald-500/10 text-emerald-700 border-emerald-200",
 };
 
-const phaseIcons: Record<string, React.ReactNode> = {
-  "Discovery": <Play className="w-3.5 h-3.5" />,
-  "Objection Handling": <Target className="w-3.5 h-3.5" />,
-  "Executive Pitch": <Trophy className="w-3.5 h-3.5" />,
-  "Full Sale": <BookOpen className="w-3.5 h-3.5" />,
+const phaseNotionIcons: Record<string, string> = {
+  "Discovery": notionDiscovery,
+  "Objection Handling": notionObjection,
+  "Executive Pitch": notionExecutive,
+  "Full Sale": notionDeal,
 };
 
 function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => void }) {
@@ -62,16 +66,15 @@ function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => voi
         onClick={onSelect}
         data-testid={`story-card-${story.roleplayId}`}
       >
-        <div className="relative h-28 bg-gradient-to-br from-primary/5 via-white to-muted/50 flex items-center justify-center overflow-hidden">
+        <div className="relative h-32 bg-gradient-to-br from-primary/5 via-white to-muted/50 flex items-center justify-center overflow-hidden">
           <div className="relative z-10 flex flex-col items-center gap-2">
-            <div className="text-3xl font-bold font-display text-foreground/20 group-hover:text-magenta/40 transition-colors">
-              #{story.orderIndex}
-            </div>
+            <img
+              src={phaseNotionIcons[story.phase] || notionPlaybook}
+              alt={story.phase}
+              className="w-16 h-16 group-hover:scale-110 transition-transform duration-300"
+            />
             <Badge className={`${phaseColors[story.phase] || "bg-muted text-muted-foreground border-border"} border text-xs`}>
-              <span className="flex items-center gap-1">
-                {phaseIcons[story.phase]}
-                {story.phase}
-              </span>
+              {story.phase}
             </Badge>
           </div>
         </div>
@@ -185,7 +188,12 @@ function FlowchartViewer({ story, onBack }: { story: ComicStory; onBack: () => v
         </div>
       </div>
 
-      <div className="mb-6 text-center">
+      <div className="mb-6 text-center flex flex-col items-center">
+        <img
+          src={phaseNotionIcons[story.phase] || notionPlaybook}
+          alt={story.phase}
+          className="w-14 h-14 mb-3"
+        />
         <h1 className="text-2xl font-bold font-display text-foreground mb-1">{story.title}</h1>
         <p className="text-muted-foreground italic">{story.subtitle}</p>
       </div>
