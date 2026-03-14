@@ -175,7 +175,7 @@ export const BUYER_PERSONA_SEED_DATA = [
     orderIndex: 2
   },
   {
-    slug: "abm-field-marketing",
+    slug: "abm-field-marketing-leader",
     name: "The ABM / Field Marketing Leader",
     subtitle: "Account-obsessed, sales-aligned strategist",
     avatar: "",
@@ -237,6 +237,422 @@ export const BUYER_PERSONA_SEED_DATA = [
       "Hands-on Campaign Manager walkthrough showing optimization and testing workflows."
     ],
     orderIndex: 4
+  },
+  {
+    slug: "vp-ecommerce",
+    name: "The VP of E-Commerce",
+    subtitle: "Revenue-driven, metrics-obsessed digital leader",
+    avatar: "",
+    attributes: [
+      "Owns the P&L for the digital channel",
+      "Measured on conversion rate, revenue growth, and AOV",
+      "Reports to CMO or CEO, manages merchandising and digital teams"
+    ],
+    whatTheyCareAbout: [
+      "Revenue lift, conversion rate optimization, competitive advantage",
+      "Speed to value and ease of implementation",
+      "Proving ROI to the C-suite to justify continued investment"
+    ],
+    whatTriggersResistance: [
+      "Vague ROI claims without specific data or case studies",
+      "Solutions that require heavy IT involvement or long implementation timelines",
+      "Vendors who don't understand commerce KPIs"
+    ],
+    howToWin: [
+      "Lead with revenue impact and LinkedIn's ability to reach decision-makers at target accounts.",
+      "Show case studies from similar B2B e-commerce companies with specific metrics.",
+      "Demonstrate how Sponsored Content drives qualified traffic from buyers already in purchase mode.",
+      "Position LinkedIn ads as a revenue-generating investment in reaching the right buyers."
+    ],
+    bestPlays: [
+      "Custom ROI model based on their target account list and average deal size.",
+      "Offer a pilot campaign with measurable success criteria tied to pipeline."
+    ],
+    orderIndex: 5
+  },
+  {
+    slug: "cto",
+    name: "The CTO",
+    subtitle: "Technical gatekeeper, integration-focused",
+    avatar: "",
+    attributes: [
+      "Evaluates architecture, scalability, and security",
+      "Concerned about tech debt and integration complexity",
+      "Manages engineering resources and prioritizes the technical roadmap"
+    ],
+    whatTheyCareAbout: [
+      "Clean API architecture, scalable infrastructure, data privacy compliance",
+      "Minimal engineering overhead for implementation and maintenance",
+      "Vendor stability and long-term platform viability"
+    ],
+    whatTriggersResistance: [
+      "Unclear data handling, GDPR/CCPA compliance gaps",
+      "Overly complex integration requirements that burden engineering",
+      "Lack of transparent documentation on data collection and privacy"
+    ],
+    howToWin: [
+      "Lead with LinkedIn's enterprise-grade data privacy and compliance (SOC 2, GDPR).",
+      "Show the Conversions API and CRM integration flexibility.",
+      "Address data security with concrete compliance certifications.",
+      "Highlight that LinkedIn Insight Tag is lightweight and well-documented."
+    ],
+    bestPlays: [
+      "Technical deep-dive session on LinkedIn's API documentation and integration paths.",
+      "Provide sandbox or test environment access for their engineering team."
+    ],
+    orderIndex: 6
+  },
+  {
+    slug: "cmo",
+    name: "The CMO",
+    subtitle: "Brand-conscious, customer experience champion",
+    avatar: "",
+    attributes: [
+      "Owns brand strategy, market positioning, and customer experience",
+      "Reports to CEO or board, accountable for brand equity and revenue growth",
+      "Champions customer-centric approaches across all marketing channels"
+    ],
+    whatTheyCareAbout: [
+      "Customer experience consistency across all touchpoints",
+      "Brand-safe environments that enhance rather than dilute brand perception",
+      "Strategic differentiation and market leadership through innovative marketing"
+    ],
+    whatTriggersResistance: [
+      "Tactical or feature-level conversations that miss the strategic picture",
+      "Platforms that feel transactional rather than brand-building",
+      "Vendors who can't articulate a compelling vision for B2B brand growth"
+    ],
+    howToWin: [
+      "Position LinkedIn as a premium, brand-safe environment where B2B brands build credibility.",
+      "Show how leading B2B brands use LinkedIn for thought leadership and executive engagement.",
+      "Keep the conversation high-level: brand influence, market positioning, customer trust.",
+      "Reference industry trends and analyst reports on the future of B2B marketing."
+    ],
+    bestPlays: [
+      "Executive briefing on LinkedIn's role in B2B brand building and executive engagement.",
+      "Strategic roadmap presentation showing how LinkedIn supports full-funnel brand-to-demand."
+    ],
+    orderIndex: 7
+  },
+  {
+    slug: "cfo",
+    name: "The CFO",
+    subtitle: "ROI-focused, risk-averse budget guardian",
+    avatar: "",
+    attributes: [
+      "Controls budgets, evaluates vendor ROI, and manages financial risk",
+      "Demands clear payback periods and total cost of ownership analysis",
+      "Skeptical of marketing spend without measurable business outcomes"
+    ],
+    whatTheyCareAbout: [
+      "Clear, measurable ROI with defined payback period",
+      "Total cost of ownership including implementation and ongoing management",
+      "Risk mitigation and financial predictability"
+    ],
+    whatTriggersResistance: [
+      "Vague value propositions without concrete financial models",
+      "Marketing spend that can't be tied to revenue or pipeline metrics",
+      "Long-term commitments without performance guarantees or flexibility"
+    ],
+    howToWin: [
+      "Lead with financial outcomes: cost per opportunity, pipeline ROI, and revenue influence.",
+      "Present a clear payback model showing LinkedIn's impact on sales pipeline.",
+      "Show conversion tracking and CRM attribution that ties ad spend to closed revenue.",
+      "Offer flexible engagement models with clear performance benchmarks."
+    ],
+    bestPlays: [
+      "Build a custom ROI model based on their average deal size, sales cycle, and pipeline targets.",
+      "Present case studies with concrete financial outcomes from LinkedIn campaigns."
+    ],
+    orderIndex: 8
+  },
+  {
+    slug: "director-digital",
+    name: "The Director of Digital Marketing",
+    subtitle: "Hands-on operator, campaign-focused",
+    avatar: "",
+    attributes: [
+      "Manages digital marketing strategy and campaign execution",
+      "Hands-on with multiple platforms including LinkedIn Campaign Manager",
+      "Measured on channel performance, efficiency, and multi-channel attribution"
+    ],
+    whatTheyCareAbout: [
+      "Ease of use, speed of campaign execution, self-service capabilities",
+      "Integration with existing martech stack (CRM, MAP, analytics)",
+      "Multi-channel attribution and understanding LinkedIn's role in the journey"
+    ],
+    whatTriggersResistance: [
+      "Clunky campaign setup or lack of bulk management tools",
+      "Difficulty integrating LinkedIn data with their existing marketing stack",
+      "Unclear attribution model that makes it hard to justify LinkedIn's contribution"
+    ],
+    howToWin: [
+      "Demonstrate Campaign Manager workflows for fast, efficient campaign setup.",
+      "Show CRM and MAP integrations (Salesforce, HubSpot, Marketo) for seamless data flow.",
+      "Walk through attribution reporting and how LinkedIn fits their multi-touch model.",
+      "Highlight new features like predictive audiences and campaign optimization tools."
+    ],
+    bestPlays: [
+      "Hands-on Campaign Manager session tailored to their specific campaign goals.",
+      "Integration architecture diagram showing LinkedIn's data flow with their martech stack."
+    ],
+    orderIndex: 9
+  },
+  {
+    slug: "it-security",
+    name: "The IT Security Lead",
+    subtitle: "Data privacy and compliance watchdog",
+    avatar: "",
+    attributes: [
+      "Evaluates vendor compliance, data handling, and security protocols",
+      "Gatekeeps technology purchases based on privacy and security standards",
+      "Ensures GDPR, CCPA, SOC 2, and industry-specific compliance requirements"
+    ],
+    whatTheyCareAbout: [
+      "SOC 2 Type II compliance, GDPR/CCPA adherence, data residency",
+      "Data encryption (at rest and in transit), access controls, audit trails",
+      "Vendor security posture and incident response capabilities"
+    ],
+    whatTriggersResistance: [
+      "Unclear data collection and processing practices",
+      "Third-party data sharing without explicit consent mechanisms",
+      "Lack of compliance documentation or security certifications"
+    ],
+    howToWin: [
+      "Lead with LinkedIn's enterprise security certifications and compliance posture.",
+      "Provide detailed documentation on data handling, consent, and privacy controls.",
+      "Show how LinkedIn Insight Tag and Conversions API handle data in compliance with regulations.",
+      "Offer a security review session with LinkedIn's trust and compliance team."
+    ],
+    bestPlays: [
+      "Security and compliance documentation package tailored to their industry requirements.",
+      "Technical session on LinkedIn's data architecture and privacy controls."
+    ],
+    orderIndex: 10
+  },
+  {
+    slug: "data-analyst",
+    name: "The Data Analyst",
+    subtitle: "Evidence-driven, wants proof before commitment",
+    avatar: "",
+    attributes: [
+      "Evaluates campaign data, attribution models, and reporting accuracy",
+      "Advises marketing leadership on channel effectiveness and budget allocation",
+      "Skeptical of vendor claims without transparent, exportable data"
+    ],
+    whatTheyCareAbout: [
+      "Statistical significance in testing, transparent algorithms, data export",
+      "Integration with analytics platforms (Google Analytics, Tableau, Looker)",
+      "Clean, structured data for custom reporting and attribution modeling"
+    ],
+    whatTriggersResistance: [
+      "Black-box reporting or algorithms without transparency",
+      "Inability to export raw data for independent analysis",
+      "Inflated metrics or unclear definitions of key performance indicators"
+    ],
+    howToWin: [
+      "Show LinkedIn's reporting API and data export capabilities.",
+      "Demonstrate conversion tracking methodology and attribution model transparency.",
+      "Walk through LinkedIn's metrics definitions and how they compare to industry standards.",
+      "Offer access to LinkedIn Marketing API for custom reporting and analysis."
+    ],
+    bestPlays: [
+      "Data deep-dive session showing raw reporting outputs and API capabilities.",
+      "Provide sample data exports and integration guides for their analytics stack."
+    ],
+    orderIndex: 11
+  },
+  {
+    slug: "head-product",
+    name: "The Head of Product",
+    subtitle: "User experience advocate, roadmap-focused",
+    avatar: "",
+    attributes: [
+      "Owns product strategy, user experience, and feature roadmap",
+      "Evaluates how marketing tools impact site performance and user journeys",
+      "Bridges technical and business teams in vendor evaluations"
+    ],
+    whatTheyCareAbout: [
+      "Impact on site performance, page load times, and Core Web Vitals",
+      "Alignment with product roadmap and user experience standards",
+      "Data-driven personalization that enhances rather than disrupts user journeys"
+    ],
+    whatTriggersResistance: [
+      "Third-party scripts that slow down site performance",
+      "Vendor tools that require significant product team resources to implement",
+      "Marketing tools that create inconsistent user experiences"
+    ],
+    howToWin: [
+      "Show LinkedIn Insight Tag's minimal performance impact with concrete benchmarks.",
+      "Demonstrate how LinkedIn campaigns drive qualified traffic without disrupting user experience.",
+      "Highlight LinkedIn's approach to privacy-first advertising that respects user preferences.",
+      "Position LinkedIn ads as enhancing the buyer journey rather than interrupting it."
+    ],
+    bestPlays: [
+      "Performance benchmarking session showing LinkedIn tag impact on page load.",
+      "Walk through how LinkedIn fits into their product-led growth strategy."
+    ],
+    orderIndex: 12
+  },
+  {
+    slug: "procurement-lead",
+    name: "The Procurement Lead",
+    subtitle: "Process-driven, contract negotiator",
+    avatar: "",
+    attributes: [
+      "Manages vendor selection, contract negotiation, and compliance",
+      "Driven by cost optimization, contract terms, and vendor risk management",
+      "Evaluates multiple vendors and negotiates favorable terms"
+    ],
+    whatTheyCareAbout: [
+      "Competitive pricing, contract flexibility, and favorable payment terms",
+      "Vendor stability, references, and financial health",
+      "Compliance with procurement policies and approval workflows"
+    ],
+    whatTriggersResistance: [
+      "Rigid contract terms or lack of flexibility",
+      "Unclear pricing models or hidden costs",
+      "Vendors who can't provide references from similar organizations"
+    ],
+    howToWin: [
+      "Present clear, transparent pricing with flexible engagement options.",
+      "Provide references and case studies from similar-sized organizations.",
+      "Show willingness to work within their procurement process and timelines.",
+      "Offer pilot programs with clear success criteria before larger commitments."
+    ],
+    bestPlays: [
+      "Prepare a procurement-ready package with pricing, references, and compliance documentation.",
+      "Offer a structured pilot with defined success metrics and scale-up path."
+    ],
+    orderIndex: 13
+  },
+  {
+    slug: "marketing-manager",
+    name: "The Marketing Manager",
+    subtitle: "Tactical executor, day-to-day user",
+    avatar: "",
+    attributes: [
+      "Executes campaigns, manages day-to-day marketing operations",
+      "Hands-on with advertising platforms and marketing automation tools",
+      "Measured on campaign performance, efficiency, and execution quality"
+    ],
+    whatTheyCareAbout: [
+      "Intuitive UI, fast campaign creation, and self-service capabilities",
+      "Training and support resources for maximizing platform value",
+      "Clear reporting and easy-to-communicate results for stakeholders"
+    ],
+    whatTriggersResistance: [
+      "Steep learning curve or complex setup processes",
+      "Lack of responsive support when issues arise",
+      "Reporting that's hard to interpret or share with leadership"
+    ],
+    howToWin: [
+      "Demonstrate Campaign Manager's intuitive workflow for quick campaign setup.",
+      "Show training resources, LinkedIn Marketing Labs, and certification programs.",
+      "Walk through reporting dashboards and how to create executive-ready reports.",
+      "Offer dedicated support and onboarding assistance for new accounts."
+    ],
+    bestPlays: [
+      "Hands-on Campaign Manager tutorial tailored to their specific campaign needs.",
+      "Provide access to LinkedIn Marketing Labs for team training and certification."
+    ],
+    orderIndex: 14
+  },
+  {
+    slug: "cx-director",
+    name: "The CX Director",
+    subtitle: "Customer journey obsessed, omnichannel thinker",
+    avatar: "",
+    attributes: [
+      "Owns customer experience strategy across all touchpoints",
+      "Focused on journey orchestration, personalization, and retention",
+      "Bridges marketing, sales, and customer success teams"
+    ],
+    whatTheyCareAbout: [
+      "Consistent, personalized experiences across web, mobile, email, and paid channels",
+      "Customer journey analytics and cross-channel attribution",
+      "Engagement quality and long-term relationship building over short-term conversions"
+    ],
+    whatTriggersResistance: [
+      "Channels that feel disconnected from the broader customer journey",
+      "Advertising that disrupts rather than enhances the customer experience",
+      "Lack of journey-level analytics or cross-channel visibility"
+    ],
+    howToWin: [
+      "Position LinkedIn as a professional touchpoint in the B2B buyer journey.",
+      "Show how LinkedIn Matched Audiences and retargeting create sequential, journey-aware experiences.",
+      "Demonstrate how LinkedIn engagement data feeds into CRM for journey orchestration.",
+      "Highlight thought leadership ads that build trust rather than interrupt."
+    ],
+    bestPlays: [
+      "Map LinkedIn touchpoints onto their existing customer journey framework.",
+      "Show how LinkedIn engagement signals can trigger downstream nurture sequences."
+    ],
+    orderIndex: 15
+  },
+  {
+    slug: "founder-ceo",
+    name: "The Founder/CEO",
+    subtitle: "Vision-driven, wants strategic impact",
+    avatar: "",
+    attributes: [
+      "Sets company vision, strategy, and growth priorities",
+      "Makes high-level budget and vendor decisions",
+      "Focused on competitive advantage, market share, and revenue growth"
+    ],
+    whatTheyCareAbout: [
+      "Competitive differentiation and market leadership",
+      "Revenue growth, market share expansion, and strategic positioning",
+      "Building a strong brand among professional decision-makers"
+    ],
+    whatTriggersResistance: [
+      "Tactical or feature-level conversations that miss the strategic picture",
+      "Solutions that feel incremental rather than transformational",
+      "Vendors who can't articulate a compelling vision for business growth"
+    ],
+    howToWin: [
+      "Position LinkedIn as a strategic channel for reaching the buyers who make enterprise decisions.",
+      "Show how industry leaders use LinkedIn to build brand credibility and drive pipeline.",
+      "Keep the conversation high-level: revenue impact, market positioning, competitive advantage.",
+      "Reference industry trends on the shift to professional-context B2B advertising."
+    ],
+    bestPlays: [
+      "Executive briefing on LinkedIn's role in building B2B market leadership.",
+      "Strategic roadmap showing how LinkedIn supports brand-to-demand at scale."
+    ],
+    orderIndex: 16
+  },
+  {
+    slug: "innovation-lead",
+    name: "The Innovation Lead",
+    subtitle: "Trend-chaser, early adopter mentality",
+    avatar: "",
+    attributes: [
+      "Evaluates emerging technologies and innovation opportunities",
+      "Champions new initiatives and pilots within the organization",
+      "Influential but may not have direct budget authority"
+    ],
+    whatTheyCareAbout: [
+      "Cutting-edge advertising capabilities and innovation roadmap",
+      "Being first to market with new B2B marketing approaches",
+      "Building internal credibility by bringing winning technologies to the org"
+    ],
+    whatTriggersResistance: [
+      "Solutions that feel dated or lack a compelling innovation roadmap",
+      "Vendors who can't articulate their AI/ML strategy clearly",
+      "Overly conservative approaches that limit experimentation"
+    ],
+    howToWin: [
+      "Lead with LinkedIn's AI-powered features: predictive audiences, automated bidding, dynamic ads.",
+      "Share the LinkedIn Marketing Solutions product roadmap and upcoming capabilities.",
+      "Position them as the internal champion who brought in a transformative advertising channel.",
+      "Offer early access to beta features or LinkedIn partner programs."
+    ],
+    bestPlays: [
+      "Innovation showcase highlighting LinkedIn's latest AI/ML advertising capabilities.",
+      "Invite them to LinkedIn Marketing Partner events or advisory programs."
+    ],
+    orderIndex: 17
   }
 ];
 

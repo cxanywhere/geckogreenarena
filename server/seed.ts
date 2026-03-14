@@ -163,6 +163,13 @@ export async function seedDatabase(): Promise<void> {
       }
     }
 
+    const validPersonaSlugs = BUYER_PERSONA_SEED_DATA.map(p => p.slug);
+    const stalePersonas = await db.select().from(buyerPersonas).where(notInArray(buyerPersonas.slug, validPersonaSlugs));
+    if (stalePersonas.length > 0) {
+      await db.delete(buyerPersonas).where(notInArray(buyerPersonas.slug, validPersonaSlugs));
+      console.log(`  Purged ${stalePersonas.length} stale buyer personas: ${stalePersonas.map(p => p.slug).join(', ')}`);
+    }
+
     for (const personaData of BUYER_PERSONA_SEED_DATA) {
       const existing = await db.select().from(buyerPersonas).where(eq(buyerPersonas.slug, personaData.slug));
       
