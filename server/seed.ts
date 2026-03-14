@@ -235,6 +235,23 @@ export async function seedDatabase(): Promise<void> {
       }
     }
 
+    const validPanelIds = PLAYBOOK_PANELS_SEED.map(p => p.id);
+    const validStoryIds = PLAYBOOK_STORIES_SEED.map(s => s.id);
+
+    const deletedPanels = await db.delete(comicPanels)
+      .where(notInArray(comicPanels.id, validPanelIds))
+      .returning({ id: comicPanels.id });
+    if (deletedPanels.length > 0) {
+      console.log(`  Removed ${deletedPanels.length} stale playbook panels`);
+    }
+
+    const deletedStories = await db.delete(comicStories)
+      .where(notInArray(comicStories.id, validStoryIds))
+      .returning({ id: comicStories.id });
+    if (deletedStories.length > 0) {
+      console.log(`  Removed ${deletedStories.length} stale playbook stories`);
+    }
+
     for (const panelData of PLAYBOOK_PANELS_SEED) {
       const existing = await db.select().from(comicPanels).where(eq(comicPanels.id, panelData.id));
       
