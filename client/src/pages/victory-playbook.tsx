@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, Play, Trophy, Target, ArrowLeft, MessageSquare, User, Mic, ArrowDown } from "lucide-react";
+import { BookOpen, Play, Trophy, Target, ArrowLeft, MessageSquare, User, Mic, ArrowDown, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
 import { api } from "@/lib/api";
 import { Nav } from "@/components/nav";
+import notionPlaybook from "@/assets/notion-icon-progress.png";
 
 interface ComicPanel {
   id: string;
@@ -32,15 +33,10 @@ interface ComicStory {
 }
 
 const phaseColors: Record<string, string> = {
-  "Discovery": "bg-blue-500/15 text-blue-600 border-blue-300",
-  "Objection Handling": "bg-amber-500/15 text-amber-700 border-amber-300",
-  "Executive Pitch": "bg-violet-500/15 text-violet-600 border-violet-300",
-  "Full Sale": "bg-emerald-500/15 text-emerald-700 border-emerald-300",
-  "Opening": "bg-blue-500/15 text-blue-600 border-blue-300",
-  "Turn & Burn": "bg-orange-500/15 text-orange-600 border-orange-300",
-  "Demo": "bg-green-500/15 text-green-600 border-green-300",
-  "Pricing": "bg-purple-500/15 text-purple-600 border-purple-300",
-  "Closing": "bg-emerald-500/15 text-emerald-700 border-emerald-300",
+  "Discovery": "bg-blue-500/10 text-blue-700 border-blue-200",
+  "Objection Handling": "bg-amber-500/10 text-amber-700 border-amber-200",
+  "Executive Pitch": "bg-violet-500/10 text-violet-700 border-violet-200",
+  "Full Sale": "bg-emerald-500/10 text-emerald-700 border-emerald-200",
 };
 
 const phaseIcons: Record<string, React.ReactNode> = {
@@ -48,10 +44,6 @@ const phaseIcons: Record<string, React.ReactNode> = {
   "Objection Handling": <Target className="w-3.5 h-3.5" />,
   "Executive Pitch": <Trophy className="w-3.5 h-3.5" />,
   "Full Sale": <BookOpen className="w-3.5 h-3.5" />,
-  "Opening": <Play className="w-3.5 h-3.5" />,
-  "Demo": <BookOpen className="w-3.5 h-3.5" />,
-  "Pricing": <Trophy className="w-3.5 h-3.5" />,
-  "Closing": <Trophy className="w-3.5 h-3.5" />,
 };
 
 function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => void }) {
@@ -66,16 +58,16 @@ function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => voi
       transition={{ type: "spring", stiffness: 400, damping: 20 }}
     >
       <Card
-        className="cursor-pointer bg-white border-[#e8e8e5] hover:border-[#787774] transition-all overflow-hidden group"
+        className="cursor-pointer border border-border hover:border-magenta/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden"
         onClick={onSelect}
         data-testid={`story-card-${story.roleplayId}`}
       >
-        <div className="relative h-28 bg-gradient-to-br from-[#f7f7f5] to-white flex items-center justify-center overflow-hidden">
+        <div className="relative h-28 bg-gradient-to-br from-primary/5 via-white to-muted/50 flex items-center justify-center overflow-hidden">
           <div className="relative z-10 flex flex-col items-center gap-2">
-            <div className="text-3xl font-bold text-[#787774]/40 group-hover:text-[#37352f]/60 transition-colors">
+            <div className="text-3xl font-bold font-display text-foreground/20 group-hover:text-magenta/40 transition-colors">
               #{story.orderIndex}
             </div>
-            <Badge className={`${phaseColors[story.phase] || "bg-[#f7f7f5] text-[#787774] border-[#e8e8e5]"} border text-xs`}>
+            <Badge className={`${phaseColors[story.phase] || "bg-muted text-muted-foreground border-border"} border text-xs`}>
               <span className="flex items-center gap-1">
                 {phaseIcons[story.phase]}
                 {story.phase}
@@ -84,13 +76,13 @@ function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => voi
           </div>
         </div>
         <CardContent className="p-4">
-          <h3 className="font-semibold text-base text-[#1a1a1a] mb-1">{story.title}</h3>
-          <p className="text-sm text-[#787774] italic mb-3">{story.subtitle}</p>
-          <p className="text-xs text-[#787774] line-clamp-2 mb-3">{story.description}</p>
-          <div className="flex items-center justify-between text-xs text-[#787774]">
+          <h3 className="font-bold font-display text-base text-foreground mb-1 group-hover:text-magenta transition-colors">{story.title}</h3>
+          <p className="text-sm text-muted-foreground italic mb-3">{story.subtitle}</p>
+          <p className="text-xs text-muted-foreground line-clamp-2 mb-3">{story.description}</p>
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
             <div className="flex items-center gap-3">
               <span className="flex items-center gap-1">
-                <Mic className="w-3 h-3 text-emerald-600" />
+                <Mic className="w-3 h-3 text-magenta" />
                 {repLines} rep
               </span>
               <span className="flex items-center gap-1">
@@ -98,7 +90,7 @@ function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => voi
                 {buyerLines} buyer
               </span>
             </div>
-            <span className="text-[#37352f] font-medium group-hover:underline">View Flow →</span>
+            <span className="text-magenta font-medium group-hover:underline">View Flow →</span>
           </div>
         </CardContent>
       </Card>
@@ -109,42 +101,39 @@ function StoryCard({ story, onSelect }: { story: ComicStory; onSelect: () => voi
 function FlowchartNode({ panel, index, total }: { panel: ComicPanel; index: number; total: number }) {
   const isNarrator = panel.speaker === "narrator";
   const isRep = panel.speaker === "rep";
-  const isBuyer = panel.speaker === "buyer";
 
   const nodeStyles = isNarrator
-    ? "bg-[#f7f7f5] border-[#e8e8e5] text-[#787774]"
+    ? "bg-muted/50 border-border"
     : isRep
-    ? "bg-emerald-50 border-emerald-200"
-    : "bg-blue-50 border-blue-200";
+    ? "bg-white dark:bg-card border-magenta/30"
+    : "bg-white dark:bg-card border-blue-300/50";
 
   const iconBg = isNarrator
-    ? "bg-[#e8e8e5] text-[#787774]"
+    ? "bg-muted text-muted-foreground"
     : isRep
-    ? "bg-emerald-100 text-emerald-700"
-    : "bg-blue-100 text-blue-700";
+    ? "bg-magenta/10 text-magenta"
+    : "bg-blue-50 text-blue-600";
 
   const label = isNarrator ? "Context" : isRep ? "Sales Rep" : "Buyer";
   const labelColor = isNarrator
-    ? "text-[#787774]"
+    ? "text-muted-foreground"
     : isRep
-    ? "text-emerald-700"
-    : "text-blue-700";
-
-  const alignment = isNarrator ? "mx-auto" : isRep ? "mr-auto" : "ml-auto";
+    ? "text-magenta"
+    : "text-blue-600";
 
   return (
     <motion.div
-      className="flex flex-col items-center"
+      className="flex flex-col items-center w-full"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.06, duration: 0.3 }}
+      transition={{ delay: index * 0.05, duration: 0.3 }}
     >
-      <div className={`w-full max-w-2xl ${alignment}`}>
-        <div className={`rounded-xl border-2 p-4 ${nodeStyles} relative`}>
+      <div className={`w-full max-w-2xl ${isNarrator ? "mx-auto" : isRep ? "mr-auto" : "ml-auto"}`}>
+        <div className={`rounded-xl border p-4 ${nodeStyles} shadow-sm`}>
           <div className="flex items-start gap-3">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${iconBg}`}>
               {isNarrator ? (
-                <BookOpen className="w-4 h-4" />
+                <Lightbulb className="w-4 h-4" />
               ) : isRep ? (
                 <Mic className="w-4 h-4" />
               ) : (
@@ -155,7 +144,7 @@ function FlowchartNode({ panel, index, total }: { panel: ComicPanel; index: numb
               <div className={`text-xs font-semibold uppercase tracking-wide mb-1 ${labelColor}`}>
                 {label}
               </div>
-              <p className={`text-sm leading-relaxed ${isNarrator ? "italic text-[#787774]" : "text-[#37352f]"}`}>
+              <p className={`text-sm leading-relaxed ${isNarrator ? "italic text-muted-foreground" : "text-foreground"}`}>
                 {panel.dialogue}
               </p>
             </div>
@@ -165,8 +154,8 @@ function FlowchartNode({ panel, index, total }: { panel: ComicPanel; index: numb
 
       {index < total - 1 && (
         <div className="flex flex-col items-center py-1">
-          <div className="w-0.5 h-4 bg-[#e8e8e5]" />
-          <ArrowDown className="w-4 h-4 text-[#e8e8e5]" />
+          <div className="w-px h-4 bg-border" />
+          <ArrowDown className="w-4 h-4 text-border" />
         </div>
       )}
     </motion.div>
@@ -183,37 +172,36 @@ function FlowchartViewer({ story, onBack }: { story: ComicStory; onBack: () => v
           variant="ghost"
           size="sm"
           onClick={onBack}
-          className="gap-1.5 px-2 text-[#787774] hover:text-[#37352f]"
+          className="gap-1.5 px-2"
           data-testid="back-to-stories"
         >
           <ArrowLeft className="w-4 h-4" />
           <span className="hidden sm:inline">Back</span>
         </Button>
         <div className="flex items-center gap-2 min-w-0">
-          <Badge className={`${phaseColors[story.phase] || "bg-[#f7f7f5] text-[#787774] border-[#e8e8e5]"} border shrink-0`}>
+          <Badge className={`${phaseColors[story.phase] || "bg-muted text-muted-foreground border-border"} border shrink-0`}>
             {story.phase}
           </Badge>
-          <h2 className="font-semibold text-[#1a1a1a] text-sm sm:text-base truncate">{story.title}</h2>
         </div>
       </div>
 
       <div className="mb-6 text-center">
-        <h1 className="text-2xl font-bold text-[#1a1a1a] mb-1">{story.title}</h1>
-        <p className="text-[#787774] italic">{story.subtitle}</p>
+        <h1 className="text-2xl font-bold font-display text-foreground mb-1">{story.title}</h1>
+        <p className="text-muted-foreground italic">{story.subtitle}</p>
       </div>
 
-      <div className="flex items-center justify-center gap-6 mb-6 text-xs">
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-[#e8e8e5]" />
-          <span className="text-[#787774]">Context</span>
+      <div className="flex items-center justify-center gap-6 mb-6">
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <div className="w-3 h-3 rounded-full bg-muted border border-border" />
+          Context
         </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-emerald-200" />
-          <span className="text-[#787774]">Sales Rep</span>
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <div className="w-3 h-3 rounded-full bg-magenta/20 border border-magenta/30" />
+          Sales Rep
         </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-blue-200" />
-          <span className="text-[#787774]">Buyer</span>
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <div className="w-3 h-3 rounded-full bg-blue-50 border border-blue-200" />
+          Buyer
         </div>
       </div>
 
@@ -233,7 +221,7 @@ function FlowchartViewer({ story, onBack }: { story: ComicStory; onBack: () => v
           variant="outline"
           size="sm"
           onClick={onBack}
-          className="gap-1.5 text-[#787774] border-[#e8e8e5]"
+          className="gap-1.5"
           data-testid="back-to-stories-bottom"
         >
           <ArrowLeft className="w-4 h-4" />
@@ -254,9 +242,9 @@ export default function VictoryPlaybookPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#f7f7f5]">
+    <div className="min-h-screen bg-background">
       <Nav />
-      <main className="max-w-4xl mx-auto px-4 py-8">
+      <main className="max-w-6xl mx-auto px-4 py-8">
         <AnimatePresence mode="wait">
           {selectedStory ? (
             <motion.div
@@ -274,9 +262,16 @@ export default function VictoryPlaybookPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <div className="text-center mb-8">
-                <h1 className="text-3xl font-bold text-[#1a1a1a] mb-2">Victory Playbook</h1>
-                <p className="text-[#787774] max-w-xl mx-auto">
+              <div className="bg-gradient-to-br from-primary/5 via-white to-yellow-50/50 border-b border-border rounded-2xl p-6 sm:p-8 mb-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <img src={notionPlaybook} alt="" className="w-10 h-10" />
+                  <div>
+                    <h1 className="text-3xl sm:text-4xl font-display font-bold text-foreground tracking-tight" data-testid="text-playbook-title">
+                      Victory Playbook
+                    </h1>
+                  </div>
+                </div>
+                <p className="text-muted-foreground max-w-xl">
                   Visual conversation flows showing exactly how top reps handle 
                   objections, run discovery, and close deals. Study the patterns, master the responses.
                 </p>
@@ -285,7 +280,7 @@ export default function VictoryPlaybookPage() {
               {isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {[1, 2, 3, 4, 5, 6].map((i) => (
-                    <Card key={i} className="h-56 animate-pulse bg-white/50 border-[#e8e8e5]" />
+                    <Card key={i} className="h-56 animate-pulse bg-muted/20 border-border" />
                   ))}
                 </div>
               ) : (
