@@ -1,11 +1,12 @@
 import { db } from './db';
-import { chapters, roleplays, buyerPersonas, comicStories, comicPanels, pitchDecks, pitchDeckSlides } from '@shared/schema';
+import { chapters, roleplays, buyerPersonas, comicStories, comicPanels, pitchDecks, pitchDeckSlides, battlecards } from '@shared/schema';
 import { eq, notInArray } from 'drizzle-orm';
 import { CHAPTER_SEED_DATA, ROLEPLAY_SEED_DATA } from './seed-data-new';
 import { BUYER_PERSONA_SEED_DATA } from './seed-data';
 import { PLAYBOOK_STORIES_SEED, PLAYBOOK_PANELS_SEED } from './playbook-seed-data';
 import { hubspotDeck, hubspotSlides, HUBSPOT_DECK_ID } from './pitch-deck-seed';
 import { seedAbmData } from './abm-seed';
+import { BATTLECARD_SEED_DATA } from './battlecard-seed-data';
 import {
   CHAPTER_GENERATED_ASSETS,
   ROLEPLAY_GENERATED_AVATARS,
@@ -290,6 +291,31 @@ export async function seedDatabase(): Promise<void> {
       console.log(`  Seeded ${hubspotSlides.length} pitch deck slides`);
     } else {
       console.log(`  Pitch deck "${hubspotDeck.clientName}" already exists, skipping`);
+    }
+
+    const expectedTitles = BATTLECARD_SEED_DATA.map(b => b.title);
+    const existingBattlecards = await db.select({ id: battlecards.id, title: battlecards.title }).from(battlecards);
+    const existingTitles = existingBattlecards.map(b => b.title);
+    const needsReseed = existingBattlecards.length === 0 ||
+      existingBattlecards.length !== BATTLECARD_SEED_DATA.length ||
+      !expectedTitles.every(t => existingTitles.includes(t));
+
+    if (needsReseed) {
+      await db.delete(battlecards);
+      for (const bc of BATTLECARD_SEED_DATA) {
+        await db.insert(battlecards).values({
+          phase: bc.phase,
+          title: bc.title,
+          situation: bc.situation,
+          script: bc.script,
+          keyPoints: bc.keyPoints,
+          type: bc.type,
+          image: bc.image,
+        });
+      }
+      console.log(`  Seeded ${BATTLECARD_SEED_DATA.length} battlecards (replaced ${existingBattlecards.length} old)`);
+    } else {
+      console.log(`  Battlecards already seeded (${existingBattlecards.length}), skipping`);
     }
 
     // Seed ABM account and committee members

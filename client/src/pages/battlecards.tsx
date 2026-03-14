@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search, ShieldAlert, MessageSquare, Lightbulb, Copy, Loader2, Maximize2, X, Eye, Lock, ChevronLeft, ChevronRight, Layers } from "lucide-react";
+import { Search, ShieldAlert, MessageSquare, Lightbulb, Copy, Loader2, Maximize2, X, Eye, Lock, ChevronLeft, ChevronRight, Layers, Zap } from "lucide-react";
 import notionBattlecard from "@/assets/notion-icon-battlecard.png";
 import { useState, useEffect, useCallback, type MouseEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";

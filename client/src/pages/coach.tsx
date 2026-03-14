@@ -3,7 +3,7 @@ import { Nav } from "@/components/nav";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, User, Loader2, Sparkles, BookOpen, MessageSquare, Target, Lightbulb } from "lucide-react";
+import { Send, User, Bot, Loader2, Sparkles, BookOpen, MessageSquare, Target, Lightbulb } from "lucide-react";
 import notionCoach from "@/assets/notion-icon-coach.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/lib/auth-context";
