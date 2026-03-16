@@ -5434,5 +5434,123 @@ Generate a single professional portrait photo.`;
     }
   });
 
+  // ============================================================
+  // Base Camp Routes
+  // ============================================================
+
+  app.get("/api/basecamp/units", async (_req, res) => {
+    try {
+      const units = await storage.getBasecampUnits();
+      const unitsWithLessons = await Promise.all(
+        units.map(async (unit) => {
+          const lessons = await storage.getBasecampLessonsByUnit(unit.id);
+          return { ...unit, lessons };
+        })
+      );
+      res.json(unitsWithLessons);
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.get("/api/basecamp/lessons/:slug", async (req, res) => {
+    try {
+      const lesson = await storage.getBasecampLessonBySlug(req.params.slug);
+      if (!lesson) return res.status(404).json({ error: "Lesson not found" });
+      const questions = await storage.getBasecampQuestionsByLesson(lesson.id);
+      res.json({ ...lesson, questions });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.get("/api/basecamp/progress", async (req, res) => {
+    try {
+      const authHeader = req.headers.authorization;
+      if (!authHeader) return res.status(401).json({ error: "No auth token" });
+      const token = authHeader.replace("Bearer ", "");
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || "arena-jwt-secret-2024") as any;
+      const progress = await storage.getBasecampProgress(decoded.userId);
+      res.json(progress);
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.get("/api/basecamp/streak", async (req, res) => {
+    try {
+      const authHeader = req.headers.authorization;
+      if (!authHeader) return res.status(401).json({ error: "No auth token" });
+      const token = authHeader.replace("Bearer ", "");
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || "arena-jwt-secret-2024") as any;
+      const streak = await storage.getBasecampStreak(decoded.userId);
+      res.json(streak || { currentStreak: 0, longestStreak: 0, totalXp: 0, lastActivityDate: null });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.post("/api/basecamp/complete-lesson", async (req, res) => {
+    try {
+      const authHeader = req.headers.authorization;
+      if (!authHeader) return res.status(401).json({ error: "No auth token" });
+      const token = authHeader.replace("Bearer ", "");
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || "arena-jwt-secret-2024") as any;
+      const userId = decoded.userId;
+
+      const { lessonId, score, xpEarned, answers } = req.body;
+      if (!lessonId) return res.status(400).json({ error: "lessonId required" });
+
+      const existing = await storage.getBasecampLessonProgress(userId, lessonId);
+      if (existing && existing.completed === 1 && score <= existing.score) {
+        return res.json({ progress: existing, streak: await storage.getBasecampStreak(userId), alreadyCompleted: true });
+      }
+
+      const progress = await storage.saveBasecampProgress({
+        userId,
+        lessonId,
+        completed: 1,
+        score: score || 0,
+        xpEarned: xpEarned || 0,
+        answers: answers || null,
+        completedAt: new Date(),
+      });
+
+      const today = new Date().toISOString().split("T")[0];
+      const currentStreak = await storage.getBasecampStreak(userId);
+      let newStreak = 1;
+      let longestStreak = 1;
+      let totalXp = xpEarned || 0;
+
+      if (currentStreak) {
+        totalXp = (currentStreak.totalXp || 0) + (xpEarned || 0);
+        const lastDate = currentStreak.lastActivityDate;
+        if (lastDate) {
+          const last = new Date(lastDate);
+          const todayDate = new Date(today);
+          const diffDays = Math.floor((todayDate.getTime() - last.getTime()) / (1000 * 60 * 60 * 24));
+          if (diffDays === 0) {
+            newStreak = currentStreak.currentStreak;
+          } else if (diffDays === 1) {
+            newStreak = (currentStreak.currentStreak || 0) + 1;
+          }
+        }
+        longestStreak = Math.max(newStreak, currentStreak.longestStreak || 0);
+      }
+
+      const streak = await storage.upsertBasecampStreak({
+        userId,
+        currentStreak: newStreak,
+        longestStreak,
+        totalXp,
+        lastActivityDate: today,
+      });
+
+      res.json({ progress, streak, alreadyCompleted: false });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
   return httpServer;
 }

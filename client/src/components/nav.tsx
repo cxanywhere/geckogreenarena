@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { Menu, LogOut, User, ChevronDown, Library, Presentation, Mic, Building2 } from "lucide-react";
+import { Menu, LogOut, User, ChevronDown, Library, Presentation, Mic, Building2, Mountain } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -80,6 +80,7 @@ export function Nav() {
       icon: <NotionIcon src={notionProgress} />,
       items: [
         { href: "/dashboard", label: "Dashboard", icon: <NotionIcon src={notionArena} />, description: "Your training hub" },
+        { href: "/basecamp", label: "Base Camp", icon: <Mountain className="h-4 w-4" />, description: "B2B marketing fundamentals" },
         { href: "/quizzes", label: "Quizzes", icon: <NotionIcon src={notionQuiz} />, description: "Review & complete quizzes" },
         { href: "/my-stats", label: "My Stats", icon: <NotionIcon src={notionStats} />, description: "Track your progress" },
         { href: "/leaderboard", label: "Leaderboard", icon: <NotionIcon src={notionLeaderboard} />, description: "See top performers" },

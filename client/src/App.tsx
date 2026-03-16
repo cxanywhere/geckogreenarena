@@ -35,6 +35,8 @@ import PitchSessionPage from "@/pages/pitch-session";
 import PitchResultsPage from "@/pages/pitch-results";
 import RoleplaysPage from "@/pages/roleplays";
 import AbmPracticePage from "@/pages/abm-practice";
+import BasecampPage from "@/pages/basecamp";
+import BasecampLessonPage from "@/pages/basecamp-lesson";
 
 function Router() {
   return (
@@ -171,6 +173,16 @@ function Router() {
       <Route path="/abm-practice">
         <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
           <AbmPracticePage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/basecamp">
+        <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
+          <BasecampPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/basecamp/lesson/:slug">
+        <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
+          <BasecampLessonPage />
         </ProtectedRoute>
       </Route>
       <Route component={NotFound} />

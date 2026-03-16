@@ -683,5 +683,84 @@ export const migrations = pgTable("migrations", {
 
 export type Migration = typeof migrations.$inferSelect;
 
+// ============================================================
+// Base Camp — Duolingo-style B2B Marketing Fundamentals
+// ============================================================
+
+export const basecampUnits = pgTable("basecamp_units", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").unique().notNull(),
+  title: text("title").notNull(),
+  subtitle: text("subtitle").notNull(),
+  icon: text("icon"),
+  color: text("color").notNull().default("#0A66C2"),
+  orderIndex: integer("order_index").notNull().default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const basecampLessons = pgTable("basecamp_lessons", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  unitId: varchar("unit_id").notNull(),
+  slug: text("slug").unique().notNull(),
+  title: text("title").notNull(),
+  subtitle: text("subtitle"),
+  conceptCard: jsonb("concept_card"),
+  orderIndex: integer("order_index").notNull().default(0),
+  xpReward: integer("xp_reward").notNull().default(20),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const basecampQuestions = pgTable("basecamp_questions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  lessonId: varchar("lesson_id").notNull(),
+  type: text("type").notNull(),
+  prompt: text("prompt").notNull(),
+  options: jsonb("options"),
+  correctAnswer: text("correct_answer").notNull(),
+  explanation: text("explanation").notNull(),
+  visual: jsonb("visual"),
+  orderIndex: integer("order_index").notNull().default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const basecampProgress = pgTable("basecamp_progress", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  lessonId: varchar("lesson_id").notNull(),
+  completed: integer("completed").notNull().default(0),
+  score: integer("score").notNull().default(0),
+  xpEarned: integer("xp_earned").notNull().default(0),
+  answers: jsonb("answers"),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const basecampStreaks = pgTable("basecamp_streaks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().unique(),
+  currentStreak: integer("current_streak").notNull().default(0),
+  longestStreak: integer("longest_streak").notNull().default(0),
+  totalXp: integer("total_xp").notNull().default(0),
+  lastActivityDate: text("last_activity_date"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertBasecampUnitSchema = createInsertSchema(basecampUnits).omit({ id: true, createdAt: true });
+export const insertBasecampLessonSchema = createInsertSchema(basecampLessons).omit({ id: true, createdAt: true });
+export const insertBasecampQuestionSchema = createInsertSchema(basecampQuestions).omit({ id: true, createdAt: true });
+export const insertBasecampProgressSchema = createInsertSchema(basecampProgress).omit({ id: true, createdAt: true });
+export const insertBasecampStreakSchema = createInsertSchema(basecampStreaks).omit({ id: true, createdAt: true });
+
+export type InsertBasecampUnit = z.infer<typeof insertBasecampUnitSchema>;
+export type BasecampUnit = typeof basecampUnits.$inferSelect;
+export type InsertBasecampLesson = z.infer<typeof insertBasecampLessonSchema>;
+export type BasecampLesson = typeof basecampLessons.$inferSelect;
+export type InsertBasecampQuestion = z.infer<typeof insertBasecampQuestionSchema>;
+export type BasecampQuestion = typeof basecampQuestions.$inferSelect;
+export type InsertBasecampProgress = z.infer<typeof insertBasecampProgressSchema>;
+export type BasecampProgress = typeof basecampProgress.$inferSelect;
+export type InsertBasecampStreak = z.infer<typeof insertBasecampStreakSchema>;
+export type BasecampStreak = typeof basecampStreaks.$inferSelect;
+
 // Export chat models for OpenAI integration
 export * from "./models/chat";

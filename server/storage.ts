@@ -69,6 +69,18 @@ import {
   type AbmCommitteeMember,
   type InsertAbmPracticeSession,
   type AbmPracticeSession,
+  basecampUnits,
+  basecampLessons,
+  basecampQuestions,
+  basecampProgress,
+  basecampStreaks,
+  type BasecampUnit,
+  type BasecampLesson,
+  type BasecampQuestion,
+  type BasecampProgress,
+  type InsertBasecampProgress,
+  type BasecampStreak,
+  type InsertBasecampStreak,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, ne, or, isNull, sql, count } from "drizzle-orm";
@@ -230,6 +242,18 @@ export interface IStorage {
   getAbmPracticeSession(id: string): Promise<AbmPracticeSession | undefined>;
   updateAbmPracticeSession(id: string, updates: Partial<AbmPracticeSession>): Promise<AbmPracticeSession | undefined>;
   getUserAbmPracticeSessions(userId: string, accountId: string): Promise<AbmPracticeSession[]>;
+
+  // Base Camp
+  getBasecampUnits(): Promise<BasecampUnit[]>;
+  getBasecampLessonsByUnit(unitId: string): Promise<BasecampLesson[]>;
+  getBasecampLesson(id: string): Promise<BasecampLesson | undefined>;
+  getBasecampLessonBySlug(slug: string): Promise<BasecampLesson | undefined>;
+  getBasecampQuestionsByLesson(lessonId: string): Promise<BasecampQuestion[]>;
+  getBasecampProgress(userId: string): Promise<BasecampProgress[]>;
+  getBasecampLessonProgress(userId: string, lessonId: string): Promise<BasecampProgress | undefined>;
+  saveBasecampProgress(progress: InsertBasecampProgress): Promise<BasecampProgress>;
+  getBasecampStreak(userId: string): Promise<BasecampStreak | undefined>;
+  upsertBasecampStreak(streak: InsertBasecampStreak): Promise<BasecampStreak>;
 }
 
 // Performance metric types
@@ -1408,6 +1432,71 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(abmPracticeSessions)
       .where(and(eq(abmPracticeSessions.userId, userId), eq(abmPracticeSessions.accountId, accountId)))
       .orderBy(desc(abmPracticeSessions.startedAt));
+  }
+
+  async getBasecampUnits(): Promise<BasecampUnit[]> {
+    return await db.select().from(basecampUnits).orderBy(basecampUnits.orderIndex);
+  }
+
+  async getBasecampLessonsByUnit(unitId: string): Promise<BasecampLesson[]> {
+    return await db.select().from(basecampLessons)
+      .where(eq(basecampLessons.unitId, unitId))
+      .orderBy(basecampLessons.orderIndex);
+  }
+
+  async getBasecampLesson(id: string): Promise<BasecampLesson | undefined> {
+    const [lesson] = await db.select().from(basecampLessons).where(eq(basecampLessons.id, id));
+    return lesson || undefined;
+  }
+
+  async getBasecampLessonBySlug(slug: string): Promise<BasecampLesson | undefined> {
+    const [lesson] = await db.select().from(basecampLessons).where(eq(basecampLessons.slug, slug));
+    return lesson || undefined;
+  }
+
+  async getBasecampQuestionsByLesson(lessonId: string): Promise<BasecampQuestion[]> {
+    return await db.select().from(basecampQuestions)
+      .where(eq(basecampQuestions.lessonId, lessonId))
+      .orderBy(basecampQuestions.orderIndex);
+  }
+
+  async getBasecampProgress(userId: string): Promise<BasecampProgress[]> {
+    return await db.select().from(basecampProgress)
+      .where(eq(basecampProgress.userId, userId));
+  }
+
+  async getBasecampLessonProgress(userId: string, lessonId: string): Promise<BasecampProgress | undefined> {
+    const [progress] = await db.select().from(basecampProgress)
+      .where(and(eq(basecampProgress.userId, userId), eq(basecampProgress.lessonId, lessonId)));
+    return progress || undefined;
+  }
+
+  async saveBasecampProgress(progress: InsertBasecampProgress): Promise<BasecampProgress> {
+    const [created] = await db.insert(basecampProgress).values(progress).returning();
+    return created;
+  }
+
+  async getBasecampStreak(userId: string): Promise<BasecampStreak | undefined> {
+    const [streak] = await db.select().from(basecampStreaks).where(eq(basecampStreaks.userId, userId));
+    return streak || undefined;
+  }
+
+  async upsertBasecampStreak(streak: InsertBasecampStreak): Promise<BasecampStreak> {
+    const existing = await this.getBasecampStreak(streak.userId);
+    if (existing) {
+      const [updated] = await db.update(basecampStreaks)
+        .set({
+          currentStreak: streak.currentStreak ?? existing.currentStreak,
+          longestStreak: streak.longestStreak ?? existing.longestStreak,
+          totalXp: streak.totalXp ?? existing.totalXp,
+          lastActivityDate: streak.lastActivityDate ?? existing.lastActivityDate,
+        })
+        .where(eq(basecampStreaks.userId, streak.userId))
+        .returning();
+      return updated;
+    }
+    const [created] = await db.insert(basecampStreaks).values(streak).returning();
+    return created;
   }
 }
 

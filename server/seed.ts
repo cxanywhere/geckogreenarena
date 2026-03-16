@@ -1,5 +1,5 @@
 import { db } from './db';
-import { chapters, roleplays, buyerPersonas, comicStories, comicPanels, pitchDecks, pitchDeckSlides, battlecards } from '@shared/schema';
+import { chapters, roleplays, buyerPersonas, comicStories, comicPanels, pitchDecks, pitchDeckSlides, battlecards, basecampUnits, basecampLessons, basecampQuestions } from '@shared/schema';
 import { eq, notInArray } from 'drizzle-orm';
 import { CHAPTER_SEED_DATA, ROLEPLAY_SEED_DATA } from './seed-data-new';
 import { BUYER_PERSONA_SEED_DATA } from './seed-data';
@@ -7,6 +7,7 @@ import { PLAYBOOK_STORIES_SEED, PLAYBOOK_PANELS_SEED } from './playbook-seed-dat
 import { hubspotDeck, hubspotSlides, HUBSPOT_DECK_ID } from './pitch-deck-seed';
 import { seedAbmData } from './abm-seed';
 import { BATTLECARD_SEED_DATA } from './battlecard-seed-data';
+import { BASECAMP_UNITS, BASECAMP_LESSONS, BASECAMP_QUESTIONS } from './basecamp-seed-data';
 import {
   CHAPTER_GENERATED_ASSETS,
   ROLEPLAY_GENERATED_AVATARS,
@@ -345,8 +346,55 @@ export async function seedDatabase(): Promise<void> {
     // Seed ABM account and committee members
     await seedAbmData();
 
+    // Seed Base Camp units, lessons, and questions
+    await seedBasecampData();
+
     console.log('Idempotent database seed completed successfully!');
   } catch (error) {
     console.error('Error seeding database:', error);
   }
+}
+
+async function seedBasecampData(): Promise<void> {
+  const existingUnits = await db.select().from(basecampUnits);
+  
+  if (existingUnits.length >= BASECAMP_UNITS.length) {
+    console.log(`  Base Camp already seeded (${existingUnits.length} units), skipping`);
+    return;
+  }
+
+  console.log('  Seeding Base Camp curriculum...');
+  
+  await db.delete(basecampQuestions);
+  await db.delete(basecampLessons);
+  await db.delete(basecampUnits);
+
+  for (const unitData of BASECAMP_UNITS) {
+    const [unit] = await db.insert(basecampUnits).values(unitData).returning();
+    console.log(`    Unit: ${unit.title}`);
+
+    const lessonsForUnit = BASECAMP_LESSONS[unitData.slug] || [];
+    for (const lessonData of lessonsForUnit) {
+      const [lesson] = await db.insert(basecampLessons).values({
+        ...lessonData,
+        unitId: unit.id,
+        conceptCard: lessonData.conceptCard,
+      }).returning();
+
+      const questionsForLesson = BASECAMP_QUESTIONS[lessonData.slug] || [];
+      for (const questionData of questionsForLesson) {
+        await db.insert(basecampQuestions).values({
+          ...questionData,
+          lessonId: lesson.id,
+          options: questionData.options,
+          visual: questionData.visual || null,
+        });
+      }
+      console.log(`      Lesson: ${lesson.title} (${questionsForLesson.length} questions)`);
+    }
+  }
+
+  const totalLessons = Object.values(BASECAMP_LESSONS).reduce((s, l) => s + l.length, 0);
+  const totalQuestions = Object.values(BASECAMP_QUESTIONS).reduce((s, q) => s + q.length, 0);
+  console.log(`  Base Camp seeded: ${BASECAMP_UNITS.length} units, ${totalLessons} lessons, ${totalQuestions} questions`);
 }
