@@ -705,6 +705,7 @@ export const basecampLessons = pgTable("basecamp_lessons", {
   title: text("title").notNull(),
   subtitle: text("subtitle"),
   conceptCard: jsonb("concept_card"),
+  conceptImageUrl: text("concept_image_url"),
   orderIndex: integer("order_index").notNull().default(0),
   xpReward: integer("xp_reward").notNull().default(20),
   createdAt: timestamp("created_at").defaultNow().notNull(),

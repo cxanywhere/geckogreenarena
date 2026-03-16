@@ -6,10 +6,10 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { storage } from "./storage";
 import { db, withRetry } from "./db";
-import { insertUserProgressSchema, insertRoleplayAttemptSchema, quizQuestions, chapters, abmCommitteeMembers } from "@shared/schema";
+import { insertUserProgressSchema, insertRoleplayAttemptSchema, quizQuestions, chapters, abmCommitteeMembers, basecampLessons } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, generateLogoImage, generateBattlecardImage, generateArenaLogo, generateSlideImage, generatePitchSlideImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
+import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, generateLogoImage, generateBattlecardImage, generateArenaLogo, generateSlideImage, generatePitchSlideImage, generateBasecampConceptImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
 import { getOrGenerateQuizForSlide, submitQuizAnswer, ensurePredefinedQuizzesSeeded } from "./quiz-service";
 import { vapiService } from "./vapi-service";
 import { getVapiRoleplayConfig, convertRoleplayToVapiConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
@@ -5549,6 +5549,60 @@ Generate a single professional portrait photo.`;
       res.json({ progress, streak, alreadyCompleted: false });
     } catch (error: any) {
       res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.post("/api/basecamp/generate-images", async (_req, res) => {
+    try {
+      const allUnits = await storage.getBasecampUnits();
+      const results: { lessonSlug: string; status: string; imageUrl?: string }[] = [];
+
+      for (const unit of allUnits) {
+        const lessons = await storage.getBasecampLessonsByUnit(unit.id);
+        for (const lesson of lessons) {
+          if (lesson.conceptImageUrl) {
+            results.push({ lessonSlug: lesson.slug, status: "already_exists", imageUrl: lesson.conceptImageUrl });
+            continue;
+          }
+
+          const card = lesson.conceptCard as any;
+          if (!card || !card.heading) {
+            results.push({ lessonSlug: lesson.slug, status: "no_concept_card" });
+            continue;
+          }
+
+          try {
+            const result = await generateBasecampConceptImage(
+              lesson.slug,
+              card.heading,
+              card.bullets || [],
+              card.visual || "infographic"
+            );
+
+            if (result.success && result.imageUrl) {
+              await db.update(basecampLessons)
+                .set({ conceptImageUrl: result.imageUrl })
+                .where(eq(basecampLessons.id, lesson.id));
+
+              results.push({ lessonSlug: lesson.slug, status: "generated", imageUrl: result.imageUrl });
+              console.log(`[BasecampImage] Generated for ${lesson.slug}: ${result.imageUrl}`);
+            } else {
+              results.push({ lessonSlug: lesson.slug, status: "failed", imageUrl: undefined });
+              console.log(`[BasecampImage] Failed for ${lesson.slug}: ${result.error}`);
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 3000));
+          } catch (err: any) {
+            console.error(`[BasecampImage] Error for ${lesson.slug}:`, err.message);
+            results.push({ lessonSlug: lesson.slug, status: "error" });
+          }
+        }
+      }
+
+      res.json({ success: true, results });
+    } catch (error: any) {
+      console.error("Basecamp image generation error:", error);
+      res.status(500).json({ error: error.message || "Failed to generate images" });
     }
   });
 

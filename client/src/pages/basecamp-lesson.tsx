@@ -33,6 +33,7 @@ interface Lesson {
   title: string;
   subtitle: string | null;
   conceptCard: ConceptCard | null;
+  conceptImageUrl: string | null;
   xpReward: number;
   questions: Question[];
 }
@@ -57,6 +58,19 @@ export default function BasecampLessonPage() {
   const [dragItems, setDragItems] = useState<string[]>([]);
   const [matchSelections, setMatchSelections] = useState<Record<string, string>>({});
   const [matchLeft, setMatchLeft] = useState<string | null>(null);
+
+  useEffect(() => {
+    setStep("concept");
+    setCurrentQ(0);
+    setSelectedAnswer(null);
+    setAnswerState("unanswered");
+    setHearts(3);
+    setCorrectCount(0);
+    setAnswers({});
+    setDragItems([]);
+    setMatchSelections({});
+    setMatchLeft(null);
+  }, [slug]);
 
   const { data: lesson, isLoading } = useQuery<Lesson>({
     queryKey: ["/api/basecamp/lessons", slug],
@@ -198,6 +212,22 @@ export default function BasecampLessonPage() {
             <h2 className="text-xl font-display font-bold text-foreground mb-4" data-testid="text-concept-heading">
               {lesson.conceptCard.heading}
             </h2>
+
+            {lesson.conceptImageUrl && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.15 }}
+                className="mb-6 rounded-xl overflow-hidden border border-border"
+              >
+                <img
+                  src={lesson.conceptImageUrl}
+                  alt={lesson.conceptCard.heading}
+                  className="w-full h-auto object-cover"
+                  data-testid="img-concept-visual"
+                />
+              </motion.div>
+            )}
 
             <ul className="space-y-3 mb-8">
               {lesson.conceptCard.bullets.map((bullet, i) => (

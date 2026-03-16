@@ -816,3 +816,88 @@ STYLE REQUIREMENTS:
 
   return { success: false, error: "Max retries exceeded" };
 }
+
+export async function generateBasecampConceptImage(
+  lessonSlug: string,
+  heading: string,
+  bullets: string[],
+  visual: string
+): Promise<GeneratedImage> {
+  const bulletText = bullets.map((b, i) => `${i + 1}. ${b}`).join("\n");
+
+  const prompt = `Create a clean, modern infographic-style illustration for a B2B marketing training concept card.
+
+TOPIC: "${heading}"
+VISUAL TYPE: ${visual}
+KEY CONCEPTS:
+${bulletText}
+
+DESIGN REQUIREMENTS:
+- Professional LinkedIn corporate style — LinkedIn Blue (#0A66C2) as primary accent color
+- Clean white/off-white background with subtle geometric shapes
+- Modern flat design with subtle 3D depth — like a polished SaaS product illustration
+- Use icons, diagrams, flow arrows, or visual metaphors to represent the concepts above
+- DO NOT include any body text, paragraphs, or long labels — only short labels (2-4 words max) if needed
+- NO hex codes, technical specs, or watermarks visible
+- Aspect ratio: 16:9, landscape orientation
+- The visual should immediately communicate the concept at a glance — think slide illustration, not infographic poster
+- Color palette: LinkedIn Blue (#0A66C2), navy (#1A2B8C), white, light gray, with subtle orange or green accents for emphasis`;
+
+  const clients = [
+    ...(ai ? [{ name: "user-key", client: ai }] : []),
+    { name: "replit-integration", client: aiIntegration },
+  ];
+
+  for (const { name, client } of clients) {
+    for (let attempt = 0; attempt <= 2; attempt++) {
+      try {
+        console.log(`[BasecampImage] Trying ${name} for "${heading}" (attempt ${attempt + 1})...`);
+        const response = await client.models.generateContent({
+          model: "gemini-3-pro-image-preview",
+          contents: prompt,
+          config: {
+            responseModalities: ["Text", "Image"],
+          },
+        });
+
+        const parts = response.candidates?.[0]?.content?.parts;
+        if (!parts) {
+          console.log(`[BasecampImage] ${name}: No response parts`);
+          break;
+        }
+
+        for (const part of parts) {
+          if (part.inlineData?.data) {
+            const uploadsDir = path.join(process.cwd(), "public", "uploads", "basecamp");
+            if (!fs.existsSync(uploadsDir)) {
+              fs.mkdirSync(uploadsDir, { recursive: true });
+            }
+
+            const filename = `basecamp-${lessonSlug}-${Date.now()}.png`;
+            const filepath = path.join(uploadsDir, filename);
+            const buffer = Buffer.from(part.inlineData.data, "base64");
+            fs.writeFileSync(filepath, buffer);
+
+            console.log(`[BasecampImage] ${name}: Success for "${heading}"`);
+            return { success: true, imagePath: filepath, imageUrl: `/uploads/basecamp/${filename}` };
+          }
+        }
+
+        console.log(`[BasecampImage] ${name}: No image data in response`);
+        break;
+      } catch (error: any) {
+        const isRetryable = error.status === 503 || error.status === 429 || error.message?.includes("UNAVAILABLE") || error.message?.includes("429");
+        if (isRetryable && attempt < 2) {
+          const delay = Math.pow(2, attempt + 1) * 4000;
+          console.log(`  Retrying in ${delay / 1000}s...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+          continue;
+        }
+        console.error(`[BasecampImage] ${name} failed:`, error.message || error);
+        break;
+      }
+    }
+  }
+
+  return { success: false, error: "All API keys exhausted or failed" };
+}
