@@ -273,8 +273,8 @@ export default function BasecampLessonPage() {
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
           >
             {passed ? (
-              <div className="w-24 h-24 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto mb-6">
-                <Star className="h-12 w-12 text-emerald-500" />
+              <div className="w-24 h-24 rounded-full bg-[#0A66C2]/10 flex items-center justify-center mx-auto mb-6">
+                <Star className="h-12 w-12 text-[#0A66C2]" />
               </div>
             ) : (
               <div className="w-24 h-24 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-6">
@@ -402,7 +402,7 @@ export default function BasecampLessonPage() {
                     const isCorrectOption = option === currentQuestion.correctAnswer;
                     let optionClass = "border-border bg-card hover:border-[#0A66C2]/50";
                     if (answerState !== "unanswered") {
-                      if (isCorrectOption) optionClass = "border-emerald-500 bg-emerald-500/10";
+                      if (isCorrectOption) optionClass = "border-[#0A66C2] bg-[#0A66C2]/10";
                       else if (isSelected && !isCorrectOption) optionClass = "border-red-500 bg-red-500/10";
                       else optionClass = "border-border bg-card opacity-50";
                     } else if (isSelected) {
@@ -418,10 +418,10 @@ export default function BasecampLessonPage() {
                         data-testid={`option-${i}`}
                       >
                         <span className="w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold flex-shrink-0" style={{
-                          borderColor: answerState !== "unanswered" ? (isCorrectOption ? "#059669" : isSelected ? "#ef4444" : "") : (isSelected ? "#0A66C2" : ""),
+                          borderColor: answerState !== "unanswered" ? (isCorrectOption ? "#0A66C2" : isSelected ? "#ef4444" : "") : (isSelected ? "#0A66C2" : ""),
                         }}>
                           {answerState !== "unanswered" ? (
-                            isCorrectOption ? <CheckCircle2 className="h-4 w-4 text-emerald-500" /> :
+                            isCorrectOption ? <CheckCircle2 className="h-4 w-4 text-[#0A66C2]" /> :
                             isSelected ? <XCircle className="h-4 w-4 text-red-500" /> :
                             String.fromCharCode(65 + i)
                           ) : String.fromCharCode(65 + i)}
@@ -441,7 +441,7 @@ export default function BasecampLessonPage() {
                       className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all ${
                         answerState !== "unanswered"
                           ? currentQuestion.correctAnswer.split(",")[idx] === item
-                            ? "border-emerald-500 bg-emerald-500/10"
+                            ? "border-[#0A66C2] bg-[#0A66C2]/10"
                             : "border-red-500 bg-red-500/10"
                           : "border-border bg-card"
                       }`}
@@ -492,7 +492,7 @@ export default function BasecampLessonPage() {
                             className={`w-full text-left px-3 py-2.5 rounded-lg border-2 text-sm transition-all ${
                               answerState !== "unanswered"
                                 ? matchSelections[pair.left] === pair.right
-                                  ? "border-emerald-500 bg-emerald-500/10"
+                                  ? "border-[#0A66C2] bg-[#0A66C2]/10"
                                   : matchSelections[pair.left]
                                   ? "border-red-500 bg-red-500/10"
                                   : "border-border"
@@ -551,17 +551,17 @@ export default function BasecampLessonPage() {
                     animate={{ opacity: 1, y: 0 }}
                     className={`mt-6 p-4 rounded-xl border-2 ${
                       answerState === "correct"
-                        ? "border-emerald-500/30 bg-emerald-500/5"
+                        ? "border-[#0A66C2]/30 bg-[#0A66C2]/5"
                         : "border-red-500/30 bg-red-500/5"
                     }`}
                   >
                     <div className="flex items-center gap-2 mb-1">
                       {answerState === "correct" ? (
-                        <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+                        <CheckCircle2 className="h-5 w-5 text-[#0A66C2]" />
                       ) : (
                         <XCircle className="h-5 w-5 text-red-500" />
                       )}
-                      <span className={`font-semibold text-sm ${answerState === "correct" ? "text-emerald-500" : "text-red-500"}`}>
+                      <span className={`font-semibold text-sm ${answerState === "correct" ? "text-[#0A66C2]" : "text-red-500"}`}>
                         {answerState === "correct" ? "Correct!" : "Not quite"}
                       </span>
                     </div>

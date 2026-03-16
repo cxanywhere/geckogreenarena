@@ -183,7 +183,7 @@ export default function BasecampPage() {
             whileHover={{ scale: 1.03 }}
             data-testid="stat-lessons"
           >
-            <Trophy className="h-5 w-5 text-emerald-500" />
+            <Trophy className="h-5 w-5 text-[#0A66C2]" />
             <div>
               <p className="text-lg font-bold text-foreground">{totalCompleted}/{totalLessons}</p>
               <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Lessons</p>
@@ -298,14 +298,14 @@ export default function BasecampPage() {
                                   !lessonUnlocked
                                     ? "opacity-40 cursor-not-allowed border-border bg-background"
                                     : lessonDone
-                                    ? "border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500/10"
+                                    ? "border-[#0A66C2]/30 bg-[#0A66C2]/5 hover:bg-[#0A66C2]/10"
                                     : "border-border bg-background hover:border-[var(--unit-color)] hover:bg-card"
                                 }`}
                                 style={{ "--unit-color": unit.color } as React.CSSProperties}
                                 data-testid={`lesson-card-${lesson.slug}`}
                               >
                                 <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style={{
-                                  backgroundColor: lessonDone ? "#059669" : lessonUnlocked ? unit.color + "20" : undefined,
+                                  backgroundColor: lessonDone ? "#0A66C2" : lessonUnlocked ? unit.color + "20" : undefined,
                                 }}>
                                   {!lessonUnlocked ? (
                                     <Lock className="h-3 w-3 text-muted-foreground" />
@@ -327,7 +327,7 @@ export default function BasecampPage() {
 
                                 <div className="flex items-center gap-2 flex-shrink-0">
                                   {lessonDone && lessonProgress && (
-                                    <span className="text-xs font-medium text-emerald-500">
+                                    <span className="text-xs font-medium text-[#0A66C2]">
                                       {lessonProgress.score}%
                                     </span>
                                   )}
