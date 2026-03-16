@@ -4,6 +4,10 @@
 
 Arena by GigaRev is an AI-powered B2B sales training and roleplay platform, customized for LinkedIn Marketing Solutions (LMS). It enables sales representatives to practice B2B advertising buyer conversations, complete structured training chapters on LinkedIn's marketing products and solutions, and track their performance through interactive roleplays. The platform features role-based dashboards for reps, managers, and directors to monitor team progress, certification status, and training analytics. Brand colors: LinkedIn Blue (#0A66C2) and navy (#1A2B8C). The app name is "Arena" by "GigaRev", deployed for client "LinkedIn Marketing Solutions". The top nav displays Arena branding alongside "LinkedIn Marketing Solutions" text.
 
+## Deployment
+- **Production URL**: https://linkedinarena.gigarev.com
+- **Admin Endpoints**: `POST /api/admin/unlock-all` (body: `{email}`), `POST /api/basecamp/seed-images`, `POST /api/basecamp/generate-images`
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
