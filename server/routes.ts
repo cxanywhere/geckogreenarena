@@ -2,12 +2,13 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import express from "express";
 import path from "path";
+import fs from "fs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { storage } from "./storage";
 import { db, withRetry } from "./db";
-import { insertUserProgressSchema, insertRoleplayAttemptSchema, quizQuestions, chapters, abmCommitteeMembers, basecampLessons } from "@shared/schema";
-import { eq } from "drizzle-orm";
+import { insertUserProgressSchema, insertRoleplayAttemptSchema, quizQuestions, chapters, abmCommitteeMembers, basecampLessons, userProgress, basecampProgress } from "@shared/schema";
+import { eq, and } from "drizzle-orm";
 import { z } from "zod";
 import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, generateLogoImage, generateBattlecardImage, generateArenaLogo, generateSlideImage, generatePitchSlideImage, generateBasecampConceptImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
 import { getOrGenerateQuizForSlide, submitQuizAnswer, ensurePredefinedQuizzesSeeded } from "./quiz-service";
@@ -5346,8 +5347,6 @@ Evaluate based on: (1) understanding of stakeholder priorities, (2) tailoring th
         return res.status(403).json({ error: "Admin access required" });
       }
       const { GoogleGenAI, Modality } = await import("@google/genai");
-      const fs = await import("fs");
-      const path = await import("path");
 
       const gemini = process.env.GEMINI_API_KEY
         ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
@@ -5549,6 +5548,115 @@ Generate a single professional portrait photo.`;
       res.json({ progress, streak, alreadyCompleted: false });
     } catch (error: any) {
       res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.post("/api/admin/unlock-all", async (req, res) => {
+    try {
+      const { email } = req.body;
+      if (!email) return res.status(400).json({ error: "email required" });
+
+      const user = await storage.getUserByEmail(email);
+      if (!user) return res.status(404).json({ error: "User not found" });
+
+      const allChapters = await db.select().from(chapters);
+      const chapterResults: string[] = [];
+      for (const ch of allChapters) {
+        const existing = await db.select().from(userProgress)
+          .where(and(eq(userProgress.userId, user.id), eq(userProgress.chapterId, ch.id)));
+        if (existing.length > 0 && existing[0].completed === 1) {
+          chapterResults.push(`${ch.title}: already_complete`);
+          continue;
+        }
+        if (existing.length > 0) {
+          await db.update(userProgress)
+            .set({ completed: 1, completedAt: new Date(), currentSlide: existing[0].totalSlides || 10, slidesViewed: [] })
+            .where(eq(userProgress.id, existing[0].id));
+        } else {
+          await db.insert(userProgress).values({
+            userId: user.id,
+            chapterId: ch.id,
+            completed: 1,
+            completedAt: new Date(),
+            currentSlide: 10,
+            totalSlides: 10,
+            slidesViewed: [],
+          });
+        }
+        chapterResults.push(`${ch.title}: unlocked`);
+      }
+
+      const allUnits = await storage.getBasecampUnits();
+      const lessonResults: string[] = [];
+      for (const unit of allUnits) {
+        const lessons = await storage.getBasecampLessonsByUnit(unit.id);
+        for (const lesson of lessons) {
+          const existing = await db.select().from(basecampProgress)
+            .where(and(eq(basecampProgress.userId, user.id), eq(basecampProgress.lessonId, lesson.id)));
+          if (existing.length > 0 && existing[0].completed === 1) {
+            lessonResults.push(`${lesson.slug}: already_complete`);
+            continue;
+          }
+          if (existing.length > 0) {
+            await db.update(basecampProgress)
+              .set({ completed: 1, score: 100, xpEarned: lesson.xpReward || 20, completedAt: new Date() })
+              .where(eq(basecampProgress.id, existing[0].id));
+          } else {
+            await db.insert(basecampProgress).values({
+              userId: user.id,
+              lessonId: lesson.id,
+              completed: 1,
+              score: 100,
+              xpEarned: lesson.xpReward || 20,
+              completedAt: new Date(),
+            });
+          }
+          lessonResults.push(`${lesson.slug}: unlocked`);
+        }
+      }
+
+      res.json({ success: true, user: user.email, chapters: chapterResults, basecampLessons: lessonResults });
+    } catch (error: any) {
+      console.error("Admin unlock error:", error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.post("/api/basecamp/seed-images", async (_req, res) => {
+    try {
+      const uploadsDir = path.join(process.cwd(), "public", "uploads", "basecamp");
+      const existingFiles = fs.existsSync(uploadsDir) ? fs.readdirSync(uploadsDir) : [];
+      const allUnits = await storage.getBasecampUnits();
+      const results: { lessonSlug: string; status: string; imageUrl?: string }[] = [];
+
+      for (const unit of allUnits) {
+        const lessons = await storage.getBasecampLessonsByUnit(unit.id);
+        for (const lesson of lessons) {
+          if (lesson.conceptImageUrl) {
+            const imgPath = path.join(process.cwd(), "public", lesson.conceptImageUrl);
+            if (fs.existsSync(imgPath)) {
+              results.push({ lessonSlug: lesson.slug, status: "already_exists", imageUrl: lesson.conceptImageUrl });
+              continue;
+            }
+          }
+
+          const match = existingFiles.find(f => f.startsWith(`basecamp-${lesson.slug}-`) && f.endsWith(".png"));
+          if (match) {
+            const imageUrl = `/uploads/basecamp/${match}`;
+            await db.update(basecampLessons)
+              .set({ conceptImageUrl: imageUrl })
+              .where(eq(basecampLessons.id, lesson.id));
+            results.push({ lessonSlug: lesson.slug, status: "seeded_from_file", imageUrl });
+          } else {
+            results.push({ lessonSlug: lesson.slug, status: "no_file_found" });
+          }
+        }
+      }
+
+      res.json({ success: true, results });
+    } catch (error: any) {
+      console.error("Basecamp image seed error:", error);
+      res.status(500).json({ error: error.message || "Failed to seed images" });
     }
   });
 
