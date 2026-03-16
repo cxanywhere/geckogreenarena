@@ -5591,7 +5591,7 @@ Generate a single professional portrait photo.`;
               console.log(`[BasecampImage] Failed for ${lesson.slug}: ${result.error}`);
             }
 
-            await new Promise(resolve => setTimeout(resolve, 3000));
+            await new Promise(resolve => setTimeout(resolve, 8000));
           } catch (err: any) {
             console.error(`[BasecampImage] Error for ${lesson.slug}:`, err.message);
             results.push({ lessonSlug: lesson.slug, status: "error" });
