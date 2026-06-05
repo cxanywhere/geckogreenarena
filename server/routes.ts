@@ -5551,6 +5551,24 @@ Generate a single professional portrait photo.`;
     }
   });
 
+  app.post("/api/admin/create-user", async (req, res) => {
+    try {
+      const { name, email, password, role = "rep" } = req.body;
+      if (!name || !email || !password) return res.status(400).json({ error: "name, email, password required" });
+
+      const existing = await storage.getUserByEmail(email);
+      if (existing) return res.status(400).json({ error: "Email already exists", userId: existing.id });
+
+      const avatarInitials = name.split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2);
+      const newUser = await storage.createUser({ name, email, password, role, status: "active", avatarInitials, phone: null, managerId: null });
+
+      res.json({ success: true, user: { id: newUser.id, name: newUser.name, email: newUser.email, role: newUser.role } });
+    } catch (error: any) {
+      console.error("Admin create user error:", error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
   app.post("/api/admin/unlock-all", async (req, res) => {
     try {
       const { email } = req.body;
