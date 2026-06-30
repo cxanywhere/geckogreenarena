@@ -1,1 +1,1 @@
-- [Eval paths & skills-map data flow](eval-paths.md) — 4 separate Gemini grading paths; every feedback field must be in BOTH main AND retry prompt; pitch uses typed cols, roleplay/abm reuse feedback JSON; only voice roleplay has audio.
+- [Eval paths & skills-map data flow](eval-paths.md) — the 4 AI grading paths and where each persists dimension/delivery/acoustic data.

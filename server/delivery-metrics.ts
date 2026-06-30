@@ -113,11 +113,13 @@ export function computeDeliveryMetrics(
       const prev = timed[i - 1];
       if (isRep(prev.role) !== isRep(cur.role)) {
         const prevEstEnd = prev.secondsFromStart + countWords(prev.content) / WORDS_PER_SECOND;
-        if (cur.secondsFromStart < prevEstEnd - 1.0) {
-          // started talking notably before the previous speaker likely finished
+        const overlapped = cur.secondsFromStart < prevEstEnd - 1.0;
+        if (overlapped && isRep(cur.role)) {
+          // rep started talking notably before the buyer likely finished —
+          // i.e. the rep cut off the buyer. Buyer-on-rep overlap is not counted.
           interruptions++;
-        } else if (isRep(cur.role)) {
-          // rep responding after buyer — measure thinking delay
+        } else if (!overlapped && isRep(cur.role)) {
+          // rep responding after buyer finished — measure thinking delay
           responseDelays.push(Math.max(0, cur.secondsFromStart - prevEstEnd));
         }
       }
