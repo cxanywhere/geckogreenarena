@@ -7,6 +7,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useEffect, useState, useRef, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { SkillsAnalysis } from "@/components/skills-analysis";
+import type { DimensionScores, DeliveryMetrics, AcousticScores, TimestampedMoment } from "@shared/schema";
 
 interface AIFeedback {
   overallScore: number;
@@ -17,6 +19,10 @@ interface AIFeedback {
   passed?: boolean;
   passFailReason?: string;
   recordingUrl?: string;
+  dimensionScores?: DimensionScores;
+  deliveryMetrics?: DeliveryMetrics;
+  acousticScores?: AcousticScores;
+  timestampedMoments?: TimestampedMoment[];
 }
 
 interface TranscriptMessage {
@@ -450,6 +456,13 @@ export default function ResultsPage() {
                 ))}
               </div>
             </div>
+
+            <SkillsAnalysis
+              dimensionScores={feedback.dimensionScores}
+              deliveryMetrics={feedback.deliveryMetrics}
+              acousticScores={feedback.acousticScores}
+              timestampedMoments={feedback.timestampedMoments}
+            />
           </div>
 
           <div className="space-y-6">

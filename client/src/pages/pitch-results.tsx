@@ -7,6 +7,8 @@ import {
   CheckCircle2, AlertCircle, RotateCcw, Presentation, Target
 } from "lucide-react";
 import { useState } from "react";
+import { SkillsAnalysis } from "@/components/skills-analysis";
+import type { DimensionScores, DeliveryMetrics, TimestampedMoment } from "@shared/schema";
 
 interface PitchSession {
   id: string;
@@ -19,6 +21,9 @@ interface PitchSession {
   durationSeconds: number;
   startedAt: string;
   endedAt: string | null;
+  dimensionScores?: DimensionScores | null;
+  deliveryMetrics?: DeliveryMetrics | null;
+  timestampedMoments?: TimestampedMoment[] | null;
 }
 
 interface SlideFeedback {
@@ -175,6 +180,14 @@ export default function PitchResultsPage() {
                 </div>
               </div>
             )}
+
+            <div className="mb-6">
+              <SkillsAnalysis
+                dimensionScores={session?.dimensionScores}
+                deliveryMetrics={session?.deliveryMetrics}
+                timestampedMoments={session?.timestampedMoments}
+              />
+            </div>
 
             {feedback.length > 0 && (
               <div className="space-y-3">

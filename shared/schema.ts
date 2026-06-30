@@ -530,6 +530,10 @@ export const pitchSessions = pgTable("pitch_sessions", {
   overallFeedback: text("overall_feedback"),
   pilotSignedOff: integer("pilot_signed_off").default(0),
   durationSeconds: integer("duration_seconds").default(0),
+  dimensionScores: jsonb("dimension_scores").$type<DimensionScores>(),
+  deliveryMetrics: jsonb("delivery_metrics").$type<DeliveryMetrics>(),
+  acousticScores: jsonb("acoustic_scores").$type<AcousticScores>(),
+  timestampedMoments: jsonb("timestamped_moments").$type<TimestampedMoment[]>(),
   startedAt: timestamp("started_at").defaultNow().notNull(),
   endedAt: timestamp("ended_at"),
 });
@@ -762,6 +766,60 @@ export type InsertBasecampProgress = z.infer<typeof insertBasecampProgressSchema
 export type BasecampProgress = typeof basecampProgress.$inferSelect;
 export type InsertBasecampStreak = z.infer<typeof insertBasecampStreakSchema>;
 export type BasecampStreak = typeof basecampStreaks.$inferSelect;
+
+// ---------------------------------------------------------------------------
+// Smarter Call Grading + Skills Map shared types
+// Used by roleplay, pitch, and ABM evaluation flows on both server and client.
+// ---------------------------------------------------------------------------
+
+export interface DimensionScores {
+  discovery: number;
+  objectionHandling: number;
+  valueFraming: number;
+  delivery: number;
+  activeListening: number;
+  nextStepClarity: number;
+}
+
+export const DIMENSION_LABELS: Record<keyof DimensionScores, string> = {
+  discovery: "Discovery",
+  objectionHandling: "Objection Handling",
+  valueFraming: "Value Framing",
+  delivery: "Delivery",
+  activeListening: "Active Listening",
+  nextStepClarity: "Next-Step Clarity",
+};
+
+export interface DeliveryMetrics {
+  available: boolean;
+  paceWpm: number;
+  paceBand: "too slow" | "ideal" | "too fast";
+  fillerWordCount: number;
+  fillerWordsPerMin: number;
+  talkListenRatio: number; // % of speaking time that was the rep
+  interruptions: number;
+  longestMonologueSec: number;
+  avgResponseDelaySec: number;
+  repSpeakingSec: number;
+  buyerSpeakingSec: number;
+}
+
+export interface AcousticScores {
+  available: boolean;
+  vocalConfidence: number; // 0-100
+  energy: number; // 0-100
+  composureUnderPressure: number; // 0-100
+  repSentimentArc: string;
+  buyerSentimentShift: string;
+  summary: string;
+}
+
+export interface TimestampedMoment {
+  timestampSec: number | null;
+  type: "strength" | "weakness";
+  label: string;
+  quote?: string;
+}
 
 // Export chat models for OpenAI integration
 export * from "./models/chat";

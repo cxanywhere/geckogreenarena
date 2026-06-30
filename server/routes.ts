@@ -10,7 +10,8 @@ import { db, withRetry } from "./db";
 import { insertUserProgressSchema, insertRoleplayAttemptSchema, quizQuestions, chapters, abmCommitteeMembers, basecampLessons, userProgress, basecampProgress } from "@shared/schema";
 import { eq, and } from "drizzle-orm";
 import { z } from "zod";
-import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, generateChapterImage, generatePersonaImage, generateLogoImage, generateBattlecardImage, generateArenaLogo, generateSlideImage, generatePitchSlideImage, generateBasecampConceptImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
+import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, analyzeCallAcoustics, generateChapterImage, generatePersonaImage, generateLogoImage, generateBattlecardImage, generateArenaLogo, generateSlideImage, generatePitchSlideImage, generateBasecampConceptImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
+import { computeDeliveryMetrics, formatTimedTranscript, type TimedUtterance } from "./delivery-metrics";
 import { getOrGenerateQuizForSlide, submitQuizAnswer, ensurePredefinedQuizzesSeeded } from "./quiz-service";
 import { vapiService } from "./vapi-service";
 import { getVapiRoleplayConfig, convertRoleplayToVapiConfig, VAPI_ROLEPLAY_CONFIGS } from "./vapi-config";
@@ -2549,12 +2550,47 @@ export async function registerRoutes(
         }
       };
 
-      const typedMessages = transcriptData.messages.map(m => ({
+      let typedMessages = transcriptData.messages.map(m => ({
         role: m.role as "model" | "user",
         content: m.content
       }));
-      const feedback = await evaluateRoleplay(scenario, typedMessages);
-      
+
+      // Fallback: VAPI sometimes returns transcript text with an empty/sparse
+      // structured message list. Parse the plain transcript so grading still runs
+      // on real content instead of near-empty history.
+      if (typedMessages.length === 0 && transcriptData.transcript) {
+        typedMessages = transcriptData.transcript
+          .split("\n")
+          .map(line => line.trim())
+          .filter(Boolean)
+          .map(line => {
+            const m = line.match(/^(user|rep|sales rep|ai|bot|assistant|buyer|model)\s*:\s*(.*)$/i);
+            if (m) {
+              const speaker = m[1].toLowerCase();
+              const isRep = speaker === "user" || speaker === "rep" || speaker === "sales rep";
+              return { role: (isRep ? "user" : "model") as "model" | "user", content: m[2] };
+            }
+            return { role: "user" as const, content: line };
+          })
+          .filter(m => m.content.length > 0);
+      }
+
+      // Delivery metrics from timestamped turns + acoustic analysis from the recording.
+      const timed: TimedUtterance[] = (transcriptData.timedMessages || []).map(m => ({
+        role: m.role === "user" ? "user" : "model",
+        content: m.content,
+        secondsFromStart: m.secondsFromStart,
+      }));
+      const deliveryMetrics = computeDeliveryMetrics(timed, transcriptData.durationSeconds);
+      const timedTranscript = timed.length ? formatTimedTranscript(timed) : undefined;
+
+      const [feedback, acousticScores] = await Promise.all([
+        evaluateRoleplay(scenario, typedMessages, { deliveryMetrics, timedTranscript }),
+        analyzeCallAcoustics(transcriptData.recordingUrl),
+      ]);
+      feedback.deliveryMetrics = deliveryMetrics;
+      feedback.acousticScores = acousticScores;
+
       const passed = feedback.passed ?? feedback.overallScore >= 70;
 
       if (userId) {
@@ -4737,8 +4773,20 @@ LINKEDIN MARKETING SOLUTIONS CONTEXT:
       const slides = await storage.getPitchDeckSlides(deck.id);
       const transcript = session.transcript || req.body.transcript || "";
 
-      const evaluationPrompt = `You are an expert sales pitch evaluator for LinkedIn Marketing Solutions. 
-Evaluate this pitch presentation to ${deck.buyerName} (${deck.buyerRole}) at ${deck.clientName}.
+      // Delivery metrics from the structured (timestamped) transcript when available.
+      const structured = (session.structuredTranscript || []) as Array<{ role: string; content: string; timestamp: number; slideIndex: number }>;
+      let pitchDeliveryMetrics: ReturnType<typeof computeDeliveryMetrics> | undefined;
+      if (structured.length >= 2) {
+        const base = Math.min(...structured.map(e => e.timestamp));
+        const timed: TimedUtterance[] = structured.map(e => ({
+          role: e.role === "user" ? "user" : "model",
+          content: e.content,
+          secondsFromStart: Math.max(0, (e.timestamp - base) / 1000),
+        }));
+        pitchDeliveryMetrics = computeDeliveryMetrics(timed, session.durationSeconds || undefined);
+      }
+
+      const evaluationPrompt = `You are a DEMANDING senior sales coach evaluating a LinkedIn Marketing Solutions pitch presentation to ${deck.buyerName} (${deck.buyerRole}) at ${deck.clientName}. Grade strictly — generic feature-dumping scores in the 40s-50s; only sharp, tailored, consultative selling earns 80+.
 
 Context about the buyer: ${deck.buyerContext}
 
@@ -4747,12 +4795,23 @@ ${slides.map(s => `Slide ${s.slideOrder + 1}: "${s.title}" - Criteria: ${(s.eval
 
 Transcript of the rep's pitch:
 ${transcript}
-
+${pitchDeliveryMetrics?.available ? `\nMEASURED DELIVERY METRICS (factor into the "delivery" dimension): pace ${pitchDeliveryMetrics.paceWpm} wpm (${pitchDeliveryMetrics.paceBand}), ${pitchDeliveryMetrics.fillerWordCount} filler words (${pitchDeliveryMetrics.fillerWordsPerMin}/min), rep talked ${pitchDeliveryMetrics.talkListenRatio}% of the time, ${pitchDeliveryMetrics.interruptions} interruptions, longest monologue ${pitchDeliveryMetrics.longestMonologueSec}s.\n` : ""}
 Provide your evaluation as a JSON object with this structure:
 {
   "overallScore": <number 0-100>,
   "overallFeedback": "<2-3 paragraph assessment>",
-  "pilotSignedOff": <true/false - would the buyer agree to a pilot?>,
+  "pilotSignedOff": <true/false - would the buyer agree to a pilot? Only true for a genuinely strong pitch>,
+  "dimensionScores": {
+    "discovery": <0-100>,
+    "objectionHandling": <0-100>,
+    "valueFraming": <0-100>,
+    "delivery": <0-100>,
+    "activeListening": <0-100>,
+    "nextStepClarity": <0-100>
+  },
+  "timestampedMoments": [
+    { "timestampSec": <integer seconds or null>, "type": "strength"|"weakness", "label": "<short label>", "quote": "<short quote>" }
+  ],
   "slideFeedback": [
     {
       "slideOrder": <number>,
@@ -4765,7 +4824,7 @@ Provide your evaluation as a JSON object with this structure:
   ]
 }
 
-Be specific, constructive, and fair. Score based on how well the rep covered talking points, used discovery questions, handled objections, and built toward the pilot sign-off.`;
+dimensionScores definitions: discovery (asked sharp questions about the buyer's goals/audience/funnel), objectionHandling (acknowledged & reframed concerns without getting defensive), valueFraming (tied LMS capabilities to THIS buyer's outcomes, not generic features), delivery (clarity/confidence/pace), activeListening (built on what the buyer said), nextStepClarity (secured a concrete next step / pilot). Use the full 0-100 range and be strict. Provide 2-5 timestampedMoments. Score based on how well the rep covered talking points, used discovery, handled objections, and built toward the pilot sign-off.`;
 
       const { GoogleGenAI } = await import("@google/genai");
       const geminiEval = process.env.GEMINI_API_KEY
@@ -4810,7 +4869,7 @@ Be specific, constructive, and fair. Score based on how well the rep covered tal
         console.warn("Pitch evaluation JSON parse failed, retrying...");
         const retryResult = await geminiEval.models.generateContent({
           model: "gemini-2.0-flash",
-          contents: `Convert the following evaluation text into valid JSON with these fields: overallScore (number 0-100), overallFeedback (string), pilotSignedOff (boolean), slideFeedback (array of objects with slideOrder, slideTitle, score, feedback, strengths, improvements). Return ONLY valid JSON.\n\nText:\n${responseText}`,
+          contents: `Convert the following evaluation text into valid JSON with these fields: overallScore (number 0-100), overallFeedback (string), pilotSignedOff (boolean), dimensionScores (object with discovery, objectionHandling, valueFraming, delivery, activeListening, nextStepClarity each a number 0-100), timestampedMoments (array of objects with timestampSec number-or-null, type "strength"|"weakness", label string, quote string), slideFeedback (array of objects with slideOrder, slideTitle, score, feedback, strengths, improvements). Return ONLY valid JSON.\n\nText:\n${responseText}`,
           config: { responseMimeType: "application/json" },
         });
         evaluation = parsePitchJson(retryResult.text || "");
@@ -4823,6 +4882,9 @@ Be specific, constructive, and fair. Score based on how well the rep covered tal
         pilotSignedOff: evaluation.pilotSignedOff ? 1 : 0,
         status: "evaluated",
         endedAt: new Date(),
+        dimensionScores: evaluation.dimensionScores || undefined,
+        deliveryMetrics: pitchDeliveryMetrics || undefined,
+        timestampedMoments: evaluation.timestampedMoments || undefined,
       });
 
       if (evaluation.slideFeedback) {
@@ -5218,7 +5280,20 @@ Return ONLY the spoken script text. No labels, formatting, or stage directions.`
       const transcript = req.body.transcript || session.transcript || "";
       const durationSeconds = req.body.durationSeconds || 0;
 
-      const evaluationPrompt = `You are an expert B2B sales coach evaluating a LinkedIn Marketing Solutions rep's practice conversation with a buying committee member.
+      // Optional delivery metrics if the client sent a timestamped transcript.
+      const abmStructured = (req.body.structuredTranscript || []) as Array<{ role: string; content: string; timestamp: number }>;
+      let abmDeliveryMetrics: ReturnType<typeof computeDeliveryMetrics> | undefined;
+      if (Array.isArray(abmStructured) && abmStructured.length >= 2) {
+        const base = Math.min(...abmStructured.map(e => e.timestamp));
+        const timed: TimedUtterance[] = abmStructured.map(e => ({
+          role: e.role === "user" ? "user" : "model",
+          content: e.content,
+          secondsFromStart: Math.max(0, (e.timestamp - base) / 1000),
+        }));
+        abmDeliveryMetrics = computeDeliveryMetrics(timed, durationSeconds || undefined);
+      }
+
+      const evaluationPrompt = `You are a DEMANDING senior B2B sales coach evaluating a LinkedIn Marketing Solutions rep's practice conversation with a buying committee member. Grade strictly — generic, surface-level effort scores in the 40s-50s; only sharp, tailored, consultative selling earns 80+.
 
 The rep was practicing a conversation with:
 - Name: ${member.name}
@@ -5231,20 +5306,31 @@ The rep was practicing a conversation with:
 
 Transcript of the conversation:
 ${transcript}
-
+${abmDeliveryMetrics?.available ? `\nMEASURED DELIVERY METRICS (factor into the "delivery" dimension): pace ${abmDeliveryMetrics.paceWpm} wpm (${abmDeliveryMetrics.paceBand}), ${abmDeliveryMetrics.fillerWordCount} filler words (${abmDeliveryMetrics.fillerWordsPerMin}/min), rep talked ${abmDeliveryMetrics.talkListenRatio}% of the time, ${abmDeliveryMetrics.interruptions} interruptions, longest monologue ${abmDeliveryMetrics.longestMonologueSec}s.\n` : ""}
 Evaluate the rep's performance and provide a JSON response:
 {
   "score": <number 0-100>,
-  "passed": <true if score >= 70>,
+  "passed": <true ONLY if score >= 70 and the rep genuinely tailored to this stakeholder>,
   "overallFeedback": "<2-3 paragraph assessment of the rep's approach>",
   "strengths": ["<strength1>", "<strength2>", "<strength3>"],
   "improvements": ["<area1>", "<area2>", "<area3>"],
   "stakeholderAlignment": "<How well did the rep tailor their message to this specific stakeholder's priorities?>",
   "objectionHandling": "<How well did the rep handle resistance and objections?>",
-  "nextStepClarity": "<Did the rep establish a clear next step or call to action?>"
+  "nextStepClarity": "<Did the rep establish a clear next step or call to action?>",
+  "dimensionScores": {
+    "discovery": <0-100>,
+    "objectionHandling": <0-100>,
+    "valueFraming": <0-100>,
+    "delivery": <0-100>,
+    "activeListening": <0-100>,
+    "nextStepClarity": <0-100>
+  },
+  "timestampedMoments": [
+    { "timestampSec": <integer seconds or null>, "type": "strength"|"weakness", "label": "<short label>", "quote": "<short quote>" }
+  ]
 }
 
-Evaluate based on: (1) understanding of stakeholder priorities, (2) tailoring the LMS value prop to their concerns, (3) handling resistance triggers appropriately, (4) building credibility and rapport, (5) establishing clear next steps. Be specific and constructive.`;
+dimensionScores definitions: discovery (asked sharp questions about this stakeholder's goals/concerns), objectionHandling (acknowledged & reframed resistance without getting defensive), valueFraming (tied LMS value to THIS stakeholder's specific priorities, not generic features), delivery (clarity/confidence/concision), activeListening (built on what the stakeholder said), nextStepClarity (secured a concrete next step). Use the full 0-100 range and be strict. Provide 2-5 timestampedMoments. Evaluate based on: (1) understanding of stakeholder priorities, (2) tailoring the LMS value prop to their concerns, (3) handling resistance triggers appropriately, (4) building credibility and rapport, (5) establishing clear next steps. Be specific and constructive.`;
 
       const { GoogleGenAI } = await import("@google/genai");
       const geminiEval = process.env.GEMINI_API_KEY
@@ -5309,7 +5395,7 @@ Evaluate based on: (1) understanding of stakeholder priorities, (2) tailoring th
         console.warn("First Gemini JSON parse failed, retrying with strict prompt...");
         const retryResult = await geminiEval.models.generateContent({
           model: "gemini-2.0-flash",
-          contents: `Convert the following evaluation text into valid JSON with exactly these fields: score (number 0-100), passed (boolean), overallFeedback (string), strengths (array of strings), improvements (array of strings), stakeholderAlignment (string), objectionHandling (string), nextStepClarity (string). Return ONLY the JSON object, no markdown.\n\nText:\n${responseText}`,
+          contents: `Convert the following evaluation text into valid JSON with exactly these fields: score (number 0-100), passed (boolean), overallFeedback (string), strengths (array of strings), improvements (array of strings), stakeholderAlignment (string), objectionHandling (string), nextStepClarity (string), dimensionScores (object with discovery, objectionHandling, valueFraming, delivery, activeListening, nextStepClarity each a number 0-100), timestampedMoments (array of objects with timestampSec number-or-null, type "strength"|"weakness", label string, quote string). Return ONLY the JSON object, no markdown.\n\nText:\n${responseText}`,
           config: {
             responseMimeType: "application/json",
           },
@@ -5321,6 +5407,7 @@ Evaluate based on: (1) understanding of stakeholder priorities, (2) tailoring th
 
       if (!evaluation.score && evaluation.score !== 0) evaluation.score = 50;
       if (evaluation.passed === undefined) evaluation.passed = evaluation.score >= 70;
+      if (abmDeliveryMetrics) evaluation.deliveryMetrics = abmDeliveryMetrics;
 
       await storage.updateAbmPracticeSession(session.id, {
         score: evaluation.score,

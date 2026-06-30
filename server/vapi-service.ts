@@ -129,7 +129,9 @@ export class VapiService {
   async getCallTranscript(callId: string, maxRetries: number = 5): Promise<{ 
     transcript: string; 
     messages: Array<{ role: string; content: string }>;
+    timedMessages: Array<{ role: string; content: string; secondsFromStart: number }>;
     recordingUrl?: string;
+    durationSeconds?: number;
   }> {
     let lastError: Error | null = null;
     
@@ -140,16 +142,31 @@ export class VapiService {
         
         // Check if call has ended and has transcript data
         if (callDetails.status === "ended" && (callDetails.messages?.length || callDetails.transcript)) {
-          const messages = (callDetails.messages || []).map(msg => ({
+          const rawMessages = (callDetails.messages || []).filter(msg => msg.role !== "system");
+          const messages = rawMessages.map(msg => ({
             // VAPI uses "bot" or "assistant" for AI, "user" for human
             role: (msg.role === "assistant" || msg.role === "bot") ? "model" : "user",
             content: msg.message,
           }));
+          const timedMessages = rawMessages.map(msg => ({
+            role: (msg.role === "assistant" || msg.role === "bot") ? "model" : "user",
+            content: msg.message,
+            secondsFromStart: typeof msg.secondsFromStart === "number" ? msg.secondsFromStart : 0,
+          }));
+
+          let durationSeconds: number | undefined;
+          if (callDetails.startedAt && callDetails.endedAt) {
+            durationSeconds = Math.floor((new Date(callDetails.endedAt).getTime() - new Date(callDetails.startedAt).getTime()) / 1000);
+          } else if (rawMessages.length) {
+            durationSeconds = Math.ceil(rawMessages[rawMessages.length - 1].secondsFromStart || 0);
+          }
 
           return {
             transcript: callDetails.transcript || "",
             messages,
+            timedMessages,
             recordingUrl: callDetails.recordingUrl,
+            durationSeconds,
           };
         }
         
@@ -172,7 +189,9 @@ export class VapiService {
     return {
       transcript: "",
       messages: [],
+      timedMessages: [],
       recordingUrl: undefined,
+      durationSeconds: undefined,
     };
   }
 

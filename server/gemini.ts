@@ -1,6 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import * as fs from "fs";
 import * as path from "path";
+import type { DimensionScores, DeliveryMetrics, AcousticScores, TimestampedMoment } from "@shared/schema";
 
 const ai = process.env.GEMINI_API_KEY
   ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
@@ -434,15 +435,27 @@ export interface RoleplayFeedback {
   keyMoments: string[];
   tips: string[];
   passFailReason: string;
+  dimensionScores?: DimensionScores;
+  criticalMisses?: string[];
+  timestampedMoments?: TimestampedMoment[];
+  deliveryMetrics?: DeliveryMetrics;
+  acousticScores?: AcousticScores;
+}
+
+export interface EvaluateRoleplayContext {
+  deliveryMetrics?: DeliveryMetrics;
+  timedTranscript?: string;
 }
 
 export async function evaluateRoleplay(
   scenario: RoleplayScenario,
-  history: RoleplayMessage[]
+  history: RoleplayMessage[],
+  context?: EvaluateRoleplayContext
 ): Promise<RoleplayFeedback> {
-  const transcript = history.map(msg => 
+  const plainTranscript = history.map(msg => 
     `${msg.role === "user" ? "SALES REP" : "BUYER"}: ${msg.content}`
   ).join("\n");
+  const transcript = context?.timedTranscript || plainTranscript;
 
   // Extract pass criteria and fail conditions from description if available
   const passCriteriaMatch = scenario.description.match(/Pass criteria: ([^.]+\.)/i);
@@ -450,50 +463,66 @@ export async function evaluateRoleplay(
   const passCriteria = passCriteriaMatch ? passCriteriaMatch[1] : "Handle objections professionally and move toward next step";
   const failConditions = failConditionsMatch ? failConditionsMatch[1] : "Buyer ending the meeting, being rude, or giving up too easily";
 
-  const evaluationPrompt = `You are an expert sales coach evaluating a LinkedIn Marketing Solutions (LMS) B2B advertising sales training roleplay.
+  const dm = context?.deliveryMetrics;
+  const deliveryBlock = dm?.available
+    ? `MEASURED DELIVERY METRICS (computed from the call audio timing — factor these into the "delivery" dimension):
+- Speaking pace: ${dm.paceWpm} words/min (${dm.paceBand}); ideal is roughly 120-175 wpm
+- Filler words: ${dm.fillerWordCount} total (${dm.fillerWordsPerMin}/min) — high filler use signals low confidence
+- Talk-to-listen ratio: rep spoke ${dm.talkListenRatio}% of the time (great discovery reps listen more; ~40-55% rep talk is healthy)
+- Interruptions of the buyer: ${dm.interruptions}
+- Longest uninterrupted monologue: ${dm.longestMonologueSec}s (over ~45s without a check-in is a monologue red flag)
+- Average pause before responding: ${dm.avgResponseDelaySec}s`
+    : `DELIVERY METRICS: Not available for this session (text-only or no timing data). Judge "delivery" from clarity and structure of the written responses only, and keep that score moderate (cap around 75) since vocal delivery could not be measured.`;
+
+  const evaluationPrompt = `You are a DEMANDING, senior B2B sales coach for LinkedIn Marketing Solutions (LMS). You grade like a tough sales manager who has heard thousands of calls — you reward genuinely skilled selling and you do NOT inflate scores. Average reps get average scores. Generic, surface-level effort scores in the 40s-50s. Only sharp, consultative, well-executed selling earns 80+.
 
 SCENARIO: ${scenario.name} - ${scenario.description}
 DIFFICULTY: ${scenario.difficulty}
 
-PASS CRITERIA (rep must achieve to pass):
+PASS CRITERIA (rep must genuinely achieve to pass):
 ${passCriteria}
 
-FAIL CONDITIONS (any of these means rep fails):
+FAIL CONDITIONS (any of these means the rep FAILS regardless of other strengths):
 ${failConditions}
 
-TRANSCRIPT:
+TRANSCRIPT (timestamps in [mm:ss] when available):
 ${transcript}
 
-⚠️ IMPORTANT CONTEXT - READ THIS FIRST:
-- This is a TIMED practice session (5 minutes max) that may end abruptly when time runs out
-- The conversation may be cut off mid-sentence - this is NORMAL and expected
-- DO NOT penalize for incomplete conversations, abrupt endings, or unanswered questions at the end
-- DO NOT penalize for not reaching a "close" - most practice sessions are just for the opening/objection handling
-- Focus your evaluation on what the rep DID say, not what they didn't have time to say
+${deliveryBlock}
 
-SCORING WEIGHTS (CRITICAL):
-- 80% of your evaluation should be based on: Did they correctly handle the opening objection "${scenario.name}"?
-- 20% is for overall technique, professionalism, and listening skills
-- If the rep demonstrated the correct technique for handling this objection, they should PASS even if the conversation was cut short
+CONTEXT (be fair, not lenient):
+- This is a timed practice session that can end abruptly. Do NOT penalize for an abrupt ending or for not reaching a formal close.
+- DO still expect the rep to have set up a next step or attempted to advance the deal if they had the chance.
+- Judge what the rep actually said. Vague, generic, or feature-dumping language should score LOW even if polite.
 
-WHAT "CORRECTLY HANDLING THE OBJECTION" MEANS:
-1. Did they ACKNOWLEDGE the objection first? (Not ignore it)
-2. Did they use the appropriate technique for this specific objection? (discovery, consultative selling, LinkedIn advertising value articulation)
-3. Did they stay professional and not get pushy or defensive?
+SCORE SIX DIMENSIONS (each 0-100, be strict and use the full range):
+1. discovery — Did they ask sharp, open questions to uncover business goals, audience, funnel gaps, current motion, and stakeholders? No real questions = below 40.
+2. objectionHandling — Did they acknowledge the specific objection, stay non-defensive, and reframe with evidence/value rather than discounting or getting pushy?
+3. valueFraming — Did they connect LMS capabilities (professional-graph targeting, Lead Gen Forms, full-funnel, measurable pipeline) to THIS buyer's outcomes, not generic features?
+4. delivery — Clarity, confidence, concision, structure, and vocal delivery (use the measured metrics above when available).
+5. activeListening — Did they build on what the buyer said, reference it, and avoid talking over the buyer / monologuing?
+6. nextStepClarity — Did they propose or secure a concrete, mutually agreed next step?
 
-EVALUATION CRITERIA (in order of importance):
-1. Did they meet the PASS CRITERIA? This is 80% of the decision.
-2. Did they trigger any FAIL CONDITIONS? If yes, they fail.
-3. Opening response - Did they acknowledge the objection appropriately?
-4. Technique - Did they use the right approach for this objection type in a B2B advertising context?
-5. Professionalism - Were they respectful and not pushy?
+CRITICAL MISSES (list any that occurred in criticalMisses[]). Each critical miss CAPS the overall score:
+- Ignored or talked over the core objection → cap overall at 55
+- Pure feature-dump with no discovery question at all → cap overall at 50
+- Got defensive, argumentative, pushy, or discounted immediately to win → cap overall at 50
+- Triggered an explicit FAIL CONDITION → cap overall at 45 and passed=false
+- Made things up / false claims about LMS → cap overall at 45
 
-SCORING GUIDE:
-- 75-100: Demonstrated correct objection handling technique = PASS
-- 60-74: Showed understanding but execution needs work = May pass if core technique was right
-- Below 60: Did not demonstrate the correct technique = FAIL
+OVERALL SCORE = weighted blend of dimensions: objectionHandling 30%, discovery 20%, valueFraming 20%, activeListening 12%, nextStepClarity 10%, delivery 8% — THEN apply the lowest applicable critical-miss cap. Round to an integer.
 
-Be encouraging but honest. The "passed" field should be TRUE if the rep genuinely demonstrated the correct technique for handling this objection, regardless of whether the conversation reached a natural conclusion.`;
+PASS BAR: passed = true ONLY if overallScore >= 70 AND no FAIL CONDITION was triggered AND objectionHandling >= 60. Most genuinely-average attempts should NOT pass.
+
+Also return:
+- strengths: 2-4 specific, honest strengths (no fluff). If there are few, say so.
+- improvements: 2-4 specific, actionable improvements.
+- timestampedMoments: 2-5 pivotal moments. Each has timestampSec (integer seconds parsed from the [mm:ss] tag, or null if unknown), type ("strength" or "weakness"), a short label, and a short quote from the transcript.
+- keyMoments: 2-4 plain-text highlights (for backward compatibility).
+- tips: 2-3 concrete coaching tips for next time.
+- passFailReason: one direct sentence explaining the verdict.
+
+Be specific and honest. A demanding coach helps reps improve by telling the truth.`;
 
   try {
     const response = await getClient().models.generateContent({
@@ -505,13 +534,39 @@ Be encouraging but honest. The "passed" field should be TRUE if the rep genuinel
           properties: {
             passed: { type: "boolean" },
             overallScore: { type: "number" },
+            dimensionScores: {
+              type: "object",
+              properties: {
+                discovery: { type: "number" },
+                objectionHandling: { type: "number" },
+                valueFraming: { type: "number" },
+                delivery: { type: "number" },
+                activeListening: { type: "number" },
+                nextStepClarity: { type: "number" },
+              },
+              required: ["discovery", "objectionHandling", "valueFraming", "delivery", "activeListening", "nextStepClarity"],
+            },
+            criticalMisses: { type: "array", items: { type: "string" } },
             strengths: { type: "array", items: { type: "string" } },
             improvements: { type: "array", items: { type: "string" } },
             keyMoments: { type: "array", items: { type: "string" } },
+            timestampedMoments: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  timestampSec: { type: "number", nullable: true },
+                  type: { type: "string", enum: ["strength", "weakness"] },
+                  label: { type: "string" },
+                  quote: { type: "string" },
+                },
+                required: ["type", "label"],
+              },
+            },
             tips: { type: "array", items: { type: "string" } },
             passFailReason: { type: "string" },
           },
-          required: ["passed", "overallScore", "strengths", "improvements", "keyMoments", "tips", "passFailReason"],
+          required: ["passed", "overallScore", "dimensionScores", "strengths", "improvements", "keyMoments", "tips", "passFailReason"],
         },
       },
       contents: evaluationPrompt,
@@ -519,7 +574,9 @@ Be encouraging but honest. The "passed" field should be TRUE if the rep genuinel
 
     const rawJson = response.text;
     if (rawJson) {
-      return JSON.parse(rawJson) as RoleplayFeedback;
+      const parsed = JSON.parse(rawJson) as RoleplayFeedback;
+      if (context?.deliveryMetrics) parsed.deliveryMetrics = context.deliveryMetrics;
+      return parsed;
     }
   } catch (error) {
     console.error("Failed to evaluate roleplay:", error);
@@ -533,7 +590,89 @@ Be encouraging but honest. The "passed" field should be TRUE if the rep genuinel
     keyMoments: ["Session completed"],
     tips: ["Try again for more detailed feedback"],
     passFailReason: "Unable to evaluate - please try again",
+    dimensionScores: { discovery: 50, objectionHandling: 50, valueFraming: 50, delivery: 50, activeListening: 50, nextStepClarity: 50 },
+    deliveryMetrics: context?.deliveryMetrics,
   };
+}
+
+/**
+ * Analyze the acoustic / vocal qualities and sentiment arc of a recorded call
+ * using Gemini multimodal audio understanding. Degrades gracefully when no
+ * recording is available or the audio can't be fetched.
+ */
+export async function analyzeCallAcoustics(recordingUrl?: string): Promise<AcousticScores> {
+  const unavailable: AcousticScores = {
+    available: false,
+    vocalConfidence: 0,
+    energy: 0,
+    composureUnderPressure: 0,
+    repSentimentArc: "",
+    buyerSentimentShift: "",
+    summary: "Audio analysis was not available for this session.",
+  };
+
+  if (!recordingUrl) return unavailable;
+
+  try {
+    const audioRes = await fetch(recordingUrl);
+    if (!audioRes.ok) {
+      console.warn(`analyzeCallAcoustics: failed to fetch recording (${audioRes.status})`);
+      return unavailable;
+    }
+    const contentType = audioRes.headers.get("content-type") || "audio/wav";
+    const buffer = Buffer.from(await audioRes.arrayBuffer());
+    // Guard against very large files (Gemini inline data limits ~20MB)
+    if (buffer.length > 19 * 1024 * 1024) {
+      console.warn("analyzeCallAcoustics: recording too large for inline analysis");
+      return unavailable;
+    }
+    const base64Audio = buffer.toString("base64");
+
+    const prompt = `You are a vocal delivery and sentiment coach analyzing the AUDIO of a B2B sales practice call between a SALES REP (the human) and an AI BUYER. Listen to tone, pace, energy, hesitation, and emotional arc — not just the words.
+
+Return JSON with:
+- vocalConfidence (0-100): how confident, steady, and assured the rep SOUNDS.
+- energy (0-100): the rep's vocal energy and engagement (flat/monotone = low).
+- composureUnderPressure (0-100): how well the rep kept a calm, steady tone when challenged or pushed back on.
+- repSentimentArc: one sentence on how the rep's tone evolved across the call (e.g. "started nervous, grew more confident").
+- buyerSentimentShift: one sentence on whether the buyer warmed up, stayed neutral, or cooled off.
+- summary: 1-2 sentences of vocal-delivery coaching.
+
+Be honest and specific. If the audio is mostly silence or unintelligible, give low/neutral scores and say so in the summary.`;
+
+    const response = await getClient().models.generateContent({
+      model: "gemini-2.5-flash",
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: "object",
+          properties: {
+            vocalConfidence: { type: "number" },
+            energy: { type: "number" },
+            composureUnderPressure: { type: "number" },
+            repSentimentArc: { type: "string" },
+            buyerSentimentShift: { type: "string" },
+            summary: { type: "string" },
+          },
+          required: ["vocalConfidence", "energy", "composureUnderPressure", "repSentimentArc", "buyerSentimentShift", "summary"],
+        },
+      },
+      contents: [
+        { inlineData: { mimeType: contentType, data: base64Audio } },
+        { text: prompt },
+      ],
+    });
+
+    const rawJson = response.text;
+    if (rawJson) {
+      const parsed = JSON.parse(rawJson);
+      return { available: true, ...parsed } as AcousticScores;
+    }
+    return unavailable;
+  } catch (error) {
+    console.error("analyzeCallAcoustics failed:", error);
+    return unavailable;
+  }
 }
 
 export async function generateArenaLogo(mode: "dark" | "light"): Promise<GeneratedImage> {
