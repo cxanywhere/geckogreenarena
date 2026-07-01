@@ -4813,6 +4813,12 @@ Provide your evaluation as a JSON object with this structure:
   "timestampedMoments": [
     { "timestampSec": <integer seconds or null>, "type": "strength"|"weakness", "label": "<short label>", "quote": "<short quote>" }
   ],
+  "betterResponses": [
+    { "youSaid": "<short near-verbatim quote of what the rep ACTUALLY said>", "betterVersion": "<a stronger rewrite of that exact line>", "why": "<one short sentence on why it lands better>" }
+  ],
+  "missedPoints": [
+    { "point": "<an important point or question the rep should have raised but didn't>", "why": "<one short sentence on why it matters for this pitch>" }
+  ],
   "slideFeedback": [
     {
       "slideOrder": <number>,
@@ -4825,7 +4831,10 @@ Provide your evaluation as a JSON object with this structure:
   ]
 }
 
-dimensionScores definitions: discovery (asked sharp questions about the buyer's goals/audience/funnel), objectionHandling (acknowledged & reframed concerns without getting defensive), valueFraming (tied LMS capabilities to THIS buyer's outcomes, not generic features), delivery (clarity/confidence/pace), activeListening (built on what the buyer said), nextStepClarity (secured a concrete next step / pilot). Use the full 0-100 range and be strict. Provide 2-5 timestampedMoments. Score based on how well the rep covered talking points, used discovery, handled objections, and built toward the pilot sign-off.`;
+dimensionScores definitions: discovery (asked sharp questions about the buyer's goals/audience/funnel), objectionHandling (acknowledged & reframed concerns without getting defensive), valueFraming (tied LMS capabilities to THIS buyer's outcomes, not generic features), delivery (clarity/confidence/pace), activeListening (built on what the buyer said), nextStepClarity (secured a concrete next step / pilot). Use the full 0-100 range and be strict. Provide 2-5 timestampedMoments. Score based on how well the rep covered talking points, used discovery, handled objections, and built toward the pilot sign-off.
+
+For betterResponses (2-4 items, "How you could have said it better"): each youSaid MUST be a real, near-verbatim quote from the rep's transcript — never invent quotes. betterVersion rewrites that exact line to be sharper and more tailored to ${deck.buyerName}. Return an empty array if the rep barely spoke or nothing is worth rewriting.
+For missedPoints (2-4 items, "What you missed saying"): important points or questions the rep should have raised for this pitch but never did. Return an empty array if the essentials were genuinely covered.`;
 
       const { GoogleGenAI } = await import("@google/genai");
       const geminiEval = process.env.GEMINI_API_KEY
@@ -4870,7 +4879,7 @@ dimensionScores definitions: discovery (asked sharp questions about the buyer's 
         console.warn("Pitch evaluation JSON parse failed, retrying...");
         const retryResult = await geminiEval.models.generateContent({
           model: "gemini-2.0-flash",
-          contents: `Convert the following evaluation text into valid JSON with these fields: overallScore (number 0-100), overallFeedback (string), pilotSignedOff (boolean), dimensionScores (object with discovery, objectionHandling, valueFraming, delivery, activeListening, nextStepClarity each a number 0-100), timestampedMoments (array of objects with timestampSec number-or-null, type "strength"|"weakness", label string, quote string), slideFeedback (array of objects with slideOrder, slideTitle, score, feedback, strengths, improvements). Return ONLY valid JSON.\n\nText:\n${responseText}`,
+          contents: `Convert the following evaluation text into valid JSON with these fields: overallScore (number 0-100), overallFeedback (string), pilotSignedOff (boolean), dimensionScores (object with discovery, objectionHandling, valueFraming, delivery, activeListening, nextStepClarity each a number 0-100), timestampedMoments (array of objects with timestampSec number-or-null, type "strength"|"weakness", label string, quote string), betterResponses (array of objects with youSaid string, betterVersion string, why string), missedPoints (array of objects with point string, why string), slideFeedback (array of objects with slideOrder, slideTitle, score, feedback, strengths, improvements). Return ONLY valid JSON.\n\nText:\n${responseText}`,
           config: { responseMimeType: "application/json" },
         });
         evaluation = parsePitchJson(retryResult.text || "");
@@ -4886,6 +4895,8 @@ dimensionScores definitions: discovery (asked sharp questions about the buyer's 
         dimensionScores: evaluation.dimensionScores || undefined,
         deliveryMetrics: pitchDeliveryMetrics || undefined,
         timestampedMoments: evaluation.timestampedMoments || undefined,
+        betterResponses: evaluation.betterResponses || undefined,
+        missedPoints: evaluation.missedPoints || undefined,
       });
 
       if (evaluation.slideFeedback) {
@@ -5328,10 +5339,19 @@ Evaluate the rep's performance and provide a JSON response:
   },
   "timestampedMoments": [
     { "timestampSec": <integer seconds or null>, "type": "strength"|"weakness", "label": "<short label>", "quote": "<short quote>" }
+  ],
+  "betterResponses": [
+    { "youSaid": "<short near-verbatim quote of what the rep ACTUALLY said>", "betterVersion": "<a stronger rewrite of that exact line>", "why": "<one short sentence on why it lands better>" }
+  ],
+  "missedPoints": [
+    { "point": "<an important point or question the rep should have raised but didn't>", "why": "<one short sentence on why it matters for this stakeholder>" }
   ]
 }
 
-dimensionScores definitions: discovery (asked sharp questions about this stakeholder's goals/concerns), objectionHandling (acknowledged & reframed resistance without getting defensive), valueFraming (tied LMS value to THIS stakeholder's specific priorities, not generic features), delivery (clarity/confidence/concision), activeListening (built on what the stakeholder said), nextStepClarity (secured a concrete next step). Use the full 0-100 range and be strict. Provide 2-5 timestampedMoments. Evaluate based on: (1) understanding of stakeholder priorities, (2) tailoring the LMS value prop to their concerns, (3) handling resistance triggers appropriately, (4) building credibility and rapport, (5) establishing clear next steps. Be specific and constructive.`;
+dimensionScores definitions: discovery (asked sharp questions about this stakeholder's goals/concerns), objectionHandling (acknowledged & reframed resistance without getting defensive), valueFraming (tied LMS value to THIS stakeholder's specific priorities, not generic features), delivery (clarity/confidence/concision), activeListening (built on what the stakeholder said), nextStepClarity (secured a concrete next step). Use the full 0-100 range and be strict. Provide 2-5 timestampedMoments. Evaluate based on: (1) understanding of stakeholder priorities, (2) tailoring the LMS value prop to their concerns, (3) handling resistance triggers appropriately, (4) building credibility and rapport, (5) establishing clear next steps. Be specific and constructive.
+
+For betterResponses (2-4 items, "How you could have said it better"): each youSaid MUST be a real, near-verbatim quote from the rep's transcript — never invent quotes. betterVersion rewrites that exact line to be sharper and more tailored to ${member.name}. Return an empty array if the rep barely spoke or nothing is worth rewriting.
+For missedPoints (2-4 items, "What you missed saying"): important points or questions the rep should have raised with this stakeholder but never did. Return an empty array if the essentials were genuinely covered.`;
 
       const { GoogleGenAI } = await import("@google/genai");
       const geminiEval = process.env.GEMINI_API_KEY
@@ -5396,7 +5416,7 @@ dimensionScores definitions: discovery (asked sharp questions about this stakeho
         console.warn("First Gemini JSON parse failed, retrying with strict prompt...");
         const retryResult = await geminiEval.models.generateContent({
           model: "gemini-2.0-flash",
-          contents: `Convert the following evaluation text into valid JSON with exactly these fields: score (number 0-100), passed (boolean), overallFeedback (string), strengths (array of strings), improvements (array of strings), stakeholderAlignment (string), objectionHandling (string), nextStepClarity (string), dimensionScores (object with discovery, objectionHandling, valueFraming, delivery, activeListening, nextStepClarity each a number 0-100), timestampedMoments (array of objects with timestampSec number-or-null, type "strength"|"weakness", label string, quote string). Return ONLY the JSON object, no markdown.\n\nText:\n${responseText}`,
+          contents: `Convert the following evaluation text into valid JSON with exactly these fields: score (number 0-100), passed (boolean), overallFeedback (string), strengths (array of strings), improvements (array of strings), stakeholderAlignment (string), objectionHandling (string), nextStepClarity (string), dimensionScores (object with discovery, objectionHandling, valueFraming, delivery, activeListening, nextStepClarity each a number 0-100), timestampedMoments (array of objects with timestampSec number-or-null, type "strength"|"weakness", label string, quote string), betterResponses (array of objects with youSaid string, betterVersion string, why string), missedPoints (array of objects with point string, why string). Return ONLY the JSON object, no markdown.\n\nText:\n${responseText}`,
           config: {
             responseMimeType: "application/json",
           },

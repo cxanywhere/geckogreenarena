@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useEffect, useState, useRef, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { SkillsAnalysis } from "@/components/skills-analysis";
-import type { DimensionScores, DeliveryMetrics, AcousticScores, TimestampedMoment } from "@shared/schema";
+import type { DimensionScores, DeliveryMetrics, AcousticScores, TimestampedMoment, BetterPhrasing, MissedPoint } from "@shared/schema";
 
 interface AIFeedback {
   overallScore: number;
@@ -23,6 +23,8 @@ interface AIFeedback {
   deliveryMetrics?: DeliveryMetrics;
   acousticScores?: AcousticScores;
   timestampedMoments?: TimestampedMoment[];
+  betterResponses?: BetterPhrasing[];
+  missedPoints?: MissedPoint[];
 }
 
 interface TranscriptMessage {
@@ -462,6 +464,8 @@ export default function ResultsPage() {
               deliveryMetrics={feedback.deliveryMetrics}
               acousticScores={feedback.acousticScores}
               timestampedMoments={feedback.timestampedMoments}
+              betterResponses={feedback.betterResponses}
+              missedPoints={feedback.missedPoints}
             />
           </div>
 

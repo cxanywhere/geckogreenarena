@@ -17,6 +17,11 @@ import {
   CheckCircle2,
   AlertTriangle,
   Target,
+  Sparkles,
+  ArrowRight,
+  Quote,
+  ListChecks,
+  HelpCircle,
 } from "lucide-react";
 import {
   DIMENSION_LABELS,
@@ -24,6 +29,8 @@ import {
   type DeliveryMetrics,
   type AcousticScores,
   type TimestampedMoment,
+  type BetterPhrasing,
+  type MissedPoint,
 } from "@shared/schema";
 
 const LINKEDIN_BLUE = "#0A66C2";
@@ -371,22 +378,151 @@ export function TimestampedMoments({
   );
 }
 
+export function SayItBetter({
+  items,
+}: {
+  items?: BetterPhrasing[] | null;
+}) {
+  if (!items || items.length === 0) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+      data-testid="card-say-it-better"
+    >
+      <div className="mb-2 flex items-center gap-2">
+        <Sparkles className="h-5 w-5" style={{ color: LINKEDIN_BLUE }} />
+        <h3 className="text-lg font-bold" style={{ color: NAVY }}>
+          How you could have said it better
+        </h3>
+      </div>
+      <p className="mb-4 text-sm text-gray-500">
+        Real lines from your conversation, with a stronger way to say each one.
+      </p>
+      <div className="space-y-4">
+        {items.map((item, i) => (
+          <div
+            key={i}
+            className="rounded-xl border border-gray-200 bg-gray-50 p-4"
+            data-testid={`better-response-${i}`}
+          >
+            <div className="flex items-start gap-2">
+              <Quote className="mt-0.5 h-4 w-4 shrink-0 text-gray-400" />
+              <p className="text-sm italic text-gray-500" data-testid={`better-response-yousaid-${i}`}>
+                "{item.youSaid}"
+              </p>
+            </div>
+            <div className="mt-3 flex items-start gap-2 rounded-lg bg-white p-3 ring-1 ring-inset" style={{ ["--tw-ring-color" as any]: `${LINKEDIN_BLUE}33` }}>
+              <ArrowRight className="mt-0.5 h-4 w-4 shrink-0" style={{ color: LINKEDIN_BLUE }} />
+              <p className="text-sm font-medium" style={{ color: NAVY }} data-testid={`better-response-better-${i}`}>
+                {item.betterVersion}
+              </p>
+            </div>
+            {item.why && (
+              <p className="mt-2 pl-6 text-xs text-gray-500" data-testid={`better-response-why-${i}`}>
+                {item.why}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+export function WhatYouMissed({
+  items,
+}: {
+  items?: MissedPoint[] | null;
+}) {
+  if (!items || items.length === 0) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+      data-testid="card-what-you-missed"
+    >
+      <div className="mb-2 flex items-center gap-2">
+        <ListChecks className="h-5 w-5" style={{ color: LINKEDIN_BLUE }} />
+        <h3 className="text-lg font-bold" style={{ color: NAVY }}>
+          What you missed saying
+        </h3>
+      </div>
+      <p className="mb-4 text-sm text-gray-500">
+        Points and questions worth raising that didn't come up this time.
+      </p>
+      <div className="space-y-3">
+        {items.map((item, i) => (
+          <div
+            key={i}
+            className="flex items-start gap-3 rounded-xl border-l-4 bg-gray-50 px-4 py-3"
+            style={{ borderLeftColor: LINKEDIN_BLUE }}
+            data-testid={`missed-point-${i}`}
+          >
+            <HelpCircle className="mt-0.5 h-4 w-4 shrink-0" style={{ color: LINKEDIN_BLUE }} />
+            <div className="flex-1">
+              <p className="text-sm font-medium" style={{ color: NAVY }} data-testid={`missed-point-point-${i}`}>
+                {item.point}
+              </p>
+              {item.why && (
+                <p className="mt-1 text-xs text-gray-500" data-testid={`missed-point-why-${i}`}>
+                  {item.why}
+                </p>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+export function CoachingImprovements({
+  betterResponses,
+  missedPoints,
+}: {
+  betterResponses?: BetterPhrasing[] | null;
+  missedPoints?: MissedPoint[] | null;
+}) {
+  const hasAny =
+    (betterResponses && betterResponses.length > 0) ||
+    (missedPoints && missedPoints.length > 0);
+  if (!hasAny) return null;
+
+  return (
+    <div className="space-y-6">
+      <SayItBetter items={betterResponses} />
+      <WhatYouMissed items={missedPoints} />
+    </div>
+  );
+}
+
 export function SkillsAnalysis({
   dimensionScores,
   deliveryMetrics,
   acousticScores,
   timestampedMoments,
+  betterResponses,
+  missedPoints,
 }: {
   dimensionScores?: DimensionScores | null;
   deliveryMetrics?: DeliveryMetrics | null;
   acousticScores?: AcousticScores | null;
   timestampedMoments?: TimestampedMoment[] | null;
+  betterResponses?: BetterPhrasing[] | null;
+  missedPoints?: MissedPoint[] | null;
 }) {
   const hasAny =
     dimensionScores ||
     (deliveryMetrics && deliveryMetrics.available) ||
     (acousticScores && acousticScores.available) ||
-    (timestampedMoments && timestampedMoments.length > 0);
+    (timestampedMoments && timestampedMoments.length > 0) ||
+    (betterResponses && betterResponses.length > 0) ||
+    (missedPoints && missedPoints.length > 0);
   if (!hasAny) return null;
 
   return (
@@ -395,6 +531,10 @@ export function SkillsAnalysis({
       <DeliveryMetricsCard metrics={deliveryMetrics} />
       <AcousticCard acoustic={acousticScores} />
       <TimestampedMoments moments={timestampedMoments} />
+      <CoachingImprovements
+        betterResponses={betterResponses}
+        missedPoints={missedPoints}
+      />
     </div>
   );
 }

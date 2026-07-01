@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import * as fs from "fs";
 import * as path from "path";
-import type { DimensionScores, DeliveryMetrics, AcousticScores, TimestampedMoment } from "@shared/schema";
+import type { DimensionScores, DeliveryMetrics, AcousticScores, TimestampedMoment, BetterPhrasing, MissedPoint } from "@shared/schema";
 
 const ai = process.env.GEMINI_API_KEY
   ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
@@ -440,6 +440,8 @@ export interface RoleplayFeedback {
   timestampedMoments?: TimestampedMoment[];
   deliveryMetrics?: DeliveryMetrics;
   acousticScores?: AcousticScores;
+  betterResponses?: BetterPhrasing[];
+  missedPoints?: MissedPoint[];
 }
 
 export interface EvaluateRoleplayContext {
@@ -521,6 +523,8 @@ Also return:
 - keyMoments: 2-4 plain-text highlights (for backward compatibility).
 - tips: 2-3 concrete coaching tips for next time.
 - passFailReason: one direct sentence explaining the verdict.
+- betterResponses: 2-4 items titled "How you could have said it better". Each MUST be grounded in something the rep ACTUALLY said: youSaid = a short, near-verbatim quote of the rep's words from the transcript; betterVersion = a stronger rewrite of that exact line; why = one short sentence on why the rewrite lands better. Do NOT invent quotes. If the rep barely spoke or nothing is worth rewriting, return an empty array.
+- missedPoints: 2-4 items titled "What you missed saying" — important points or questions the rep should have raised for THIS scenario but never did (e.g. an unasked discovery question, an un-surfaced value point, a next step never proposed). Each has: point = what they should have said/asked; why = one short sentence on why it matters here. If the rep genuinely covered the essentials, return an empty array.
 
 Be specific and honest. A demanding coach helps reps improve by telling the truth.`;
 
@@ -565,6 +569,29 @@ Be specific and honest. A demanding coach helps reps improve by telling the trut
             },
             tips: { type: "array", items: { type: "string" } },
             passFailReason: { type: "string" },
+            betterResponses: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  youSaid: { type: "string" },
+                  betterVersion: { type: "string" },
+                  why: { type: "string" },
+                },
+                required: ["youSaid", "betterVersion", "why"],
+              },
+            },
+            missedPoints: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  point: { type: "string" },
+                  why: { type: "string" },
+                },
+                required: ["point", "why"],
+              },
+            },
           },
           required: ["passed", "overallScore", "dimensionScores", "strengths", "improvements", "keyMoments", "tips", "passFailReason"],
         },

@@ -534,6 +534,8 @@ export const pitchSessions = pgTable("pitch_sessions", {
   deliveryMetrics: jsonb("delivery_metrics").$type<DeliveryMetrics>(),
   acousticScores: jsonb("acoustic_scores").$type<AcousticScores>(),
   timestampedMoments: jsonb("timestamped_moments").$type<TimestampedMoment[]>(),
+  betterResponses: jsonb("better_responses").$type<BetterPhrasing[]>(),
+  missedPoints: jsonb("missed_points").$type<MissedPoint[]>(),
   startedAt: timestamp("started_at").defaultNow().notNull(),
   endedAt: timestamp("ended_at"),
 });
@@ -822,6 +824,22 @@ export interface TimestampedMoment {
   type: "strength" | "weakness";
   label: string;
   quote?: string;
+}
+
+// "How you could have said it better" — grounded rewrites of what the rep
+// actually said. youSaid is a real quote from the transcript, betterVersion is
+// the improved phrasing, why is a one-line reason it lands better.
+export interface BetterPhrasing {
+  youSaid: string;
+  betterVersion: string;
+  why: string;
+}
+
+// "What you missed saying" — points or questions the rep should have raised but
+// didn't, each with a short why-it-matters.
+export interface MissedPoint {
+  point: string;
+  why: string;
 }
 
 // Export chat models for OpenAI integration

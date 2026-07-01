@@ -1,1 +1,2 @@
 - [Eval paths & skills-map data flow](eval-paths.md) — the 4 AI grading paths and where each persists dimension/delivery/acoustic data.
+- [db:push interactive prompt](db-push-interactive-prompt.md) — `--force` still hangs on unique-constraint drift; add additive columns via direct psql ALTER instead.
