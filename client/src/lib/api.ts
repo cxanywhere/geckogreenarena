@@ -1,3 +1,5 @@
+import { handleAuthFailure } from "./auth-context";
+
 const API_BASE = "";
 
 export interface User {
@@ -172,6 +174,9 @@ class APIClient {
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
+      if (response.status === 401 && !endpoint.includes("/api/auth/login")) {
+        handleAuthFailure();
+      }
       throw new Error(error.error || "Request failed");
     }
 

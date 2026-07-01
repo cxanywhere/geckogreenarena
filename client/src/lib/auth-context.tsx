@@ -32,12 +32,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const storedUser = localStorage.getItem("currentUser");
     const storedToken = localStorage.getItem("authToken");
     if (storedUser) {
+      if (storedToken && isTokenExpired(storedToken)) {
+        clearStoredAuth();
+        setIsLoading(false);
+        return;
+      }
       try {
         setUser(JSON.parse(storedUser));
         if (storedToken) setAuthToken(storedToken);
       } catch {
-        localStorage.removeItem("currentUser");
-        localStorage.removeItem("authToken");
+        clearStoredAuth();
       }
     }
     setIsLoading(false);
@@ -97,4 +101,49 @@ export function getStoredAuthHeaders(): Record<string, string> {
     return { "Authorization": `Bearer ${token}` };
   }
   return {};
+}
+
+// Clears all stored auth data (used on logout and on expired/invalid tokens).
+export function clearStoredAuth() {
+  localStorage.removeItem("currentUser");
+  localStorage.removeItem("user");
+  localStorage.removeItem("authToken");
+}
+
+// Decodes a JWT and returns true if it is expired or unreadable.
+export function isTokenExpired(token: string): boolean {
+  try {
+    const part = token.split(".")[1];
+    if (!part) return true;
+    // JWT payloads are base64url-encoded: normalize to base64 before decoding.
+    let base64 = part.replace(/-/g, "+").replace(/_/g, "/");
+    while (base64.length % 4 !== 0) base64 += "=";
+    const payload = JSON.parse(atob(base64));
+    if (!payload || typeof payload.exp !== "number") return false;
+    return payload.exp * 1000 <= Date.now();
+  } catch {
+    return true;
+  }
+}
+
+// Guards against multiple redirects firing at once.
+let isHandlingAuthFailure = false;
+
+// Called when an authenticated request is rejected because the login is
+// expired/invalid. Clears the stored login and sends the user to sign in again
+// with a clear message. No-op if already on the login screen.
+export function handleAuthFailure(
+  message = "Your session expired — please sign in again."
+) {
+  clearStoredAuth();
+  const path = window.location.pathname;
+  const onLoginScreen = path === "/" || path === "/login";
+  if (onLoginScreen || isHandlingAuthFailure) return;
+  isHandlingAuthFailure = true;
+  try {
+    sessionStorage.setItem("authErrorMessage", message);
+  } catch {
+    // ignore storage failures
+  }
+  window.location.href = "/login";
 }

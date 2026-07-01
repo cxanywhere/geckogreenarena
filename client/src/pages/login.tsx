@@ -26,6 +26,14 @@ export default function LoginPage() {
   const isReturningUser = localStorage.getItem("hasLoggedInBefore") === "true";
 
   useEffect(() => {
+    const authErrorMessage = sessionStorage.getItem("authErrorMessage");
+    if (authErrorMessage) {
+      sessionStorage.removeItem("authErrorMessage");
+      toast.error(authErrorMessage);
+    }
+  }, []);
+
+  useEffect(() => {
     if (!authLoading && user) {
       if (user.status === "onboarding") {
         setLocation("/onboarding");

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRoute, useLocation } from "wouter";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth, handleAuthFailure } from "@/lib/auth-context";
 import { Nav } from "@/components/nav";
 import { 
   ChevronLeft, ChevronRight, Play, Square, Clock, Presentation,
@@ -636,6 +636,10 @@ Listen to the rep's presentation of this slide, then ask 1-2 contextual question
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
+        if (res.status === 401) {
+          handleAuthFailure();
+          throw new Error("Your session expired. Please sign in again to start the pitch.");
+        }
         throw new Error(err.error || "Failed to create session");
       }
       return res.json();

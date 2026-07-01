@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth, handleAuthFailure } from "@/lib/auth-context";
 import { Nav } from "@/components/nav";
 import {
   Building2, Users, Target, Shield, AlertTriangle, CheckCircle2,
@@ -258,7 +258,11 @@ Use this context naturally. If the rep mentions something a colleague already di
   }, [handleAutoEvaluate]);
 
   const startPractice = useCallback(async (member: CommitteeMember) => {
-    if (!account || !token) return;
+    if (!account) return;
+    if (!token) {
+      handleAuthFailure();
+      return;
+    }
 
     if (vapiRef.current) {
       try { vapiRef.current.stop(); } catch (e) {}
@@ -280,7 +284,13 @@ Use this context naturally. If the rep mentions something a colleague already di
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ accountId: account.id, memberId: member.id }),
       });
-      if (!sessionRes.ok) throw new Error("Failed to create session");
+      if (!sessionRes.ok) {
+        if (sessionRes.status === 401) {
+          handleAuthFailure();
+          throw new Error("Your session expired. Please sign in again to start the roleplay.");
+        }
+        throw new Error("Failed to create session");
+      }
       const session = await sessionRes.json();
       setSessionId(session.id);
 
