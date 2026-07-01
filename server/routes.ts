@@ -7,10 +7,10 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { storage } from "./storage";
 import { db, withRetry } from "./db";
-import { insertUserProgressSchema, insertRoleplayAttemptSchema, quizQuestions, chapters, abmCommitteeMembers, basecampLessons, userProgress, basecampProgress } from "@shared/schema";
+import { insertUserProgressSchema, insertRoleplayAttemptSchema, quizQuestions, chapters, abmCommitteeMembers, basecampLessons, userProgress, basecampProgress, campaignSubmissionSchema } from "@shared/schema";
 import { eq, and } from "drizzle-orm";
 import { z } from "zod";
-import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, analyzeCallAcoustics, generateChapterImage, generatePersonaImage, generateLogoImage, generateBattlecardImage, generateArenaLogo, generateSlideImage, generatePitchSlideImage, generateBasecampConceptImage, type RoleplayMessage, type RoleplayScenario } from "./gemini";
+import { startRoleplayConversation, continueRoleplayConversation, evaluateRoleplay, analyzeCallAcoustics, generateChapterImage, generatePersonaImage, generateLogoImage, generateBattlecardImage, generateArenaLogo, generateSlideImage, generatePitchSlideImage, generateBasecampConceptImage, evaluateCampaign, type RoleplayMessage, type RoleplayScenario } from "./gemini";
 import { computeDeliveryMetrics, formatTimedTranscript, type TimedUtterance } from "./delivery-metrics";
 import { getOrGenerateQuizForSlide, submitQuizAnswer, ensurePredefinedQuizzesSeeded } from "./quiz-service";
 import { vapiService } from "./vapi-service";
@@ -5683,6 +5683,155 @@ Generate a single professional portrait photo.`;
       });
 
       res.json({ progress, streak, alreadyCompleted: false });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // ============================================================
+  // Campaign Builder API
+  // ============================================================
+
+  // Strip referenceContext — the grader's ideal-answer key must never reach the client.
+  function toSafeCampaignBrief<T extends { referenceContext?: unknown }>(brief: T): Omit<T, "referenceContext"> {
+    const { referenceContext, ...safe } = brief;
+    return safe;
+  }
+
+  // List all briefs with the current user's best score per brief.
+  app.get("/api/campaign-builder/briefs", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Authorization required" });
+
+      const briefs = await storage.getCampaignBriefs();
+      const attempts = await storage.getUserCampaignAttempts(authResult.user.id);
+
+      const bestByBrief = new Map<string, { bestScore: number; attemptCount: number; passed: boolean }>();
+      for (const a of attempts) {
+        const prev = bestByBrief.get(a.briefId);
+        const score = a.overallScore ?? 0;
+        if (!prev) {
+          bestByBrief.set(a.briefId, { bestScore: score, attemptCount: 1, passed: a.passed === 1 });
+        } else {
+          bestByBrief.set(a.briefId, {
+            bestScore: Math.max(prev.bestScore, score),
+            attemptCount: prev.attemptCount + 1,
+            passed: prev.passed || a.passed === 1,
+          });
+        }
+      }
+
+      const result = briefs.map((b) => {
+        const stat = bestByBrief.get(b.id);
+        return {
+          ...toSafeCampaignBrief(b),
+          bestScore: stat?.bestScore ?? null,
+          attemptCount: stat?.attemptCount ?? 0,
+          passed: stat?.passed ?? false,
+        };
+      });
+
+      res.json(result);
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // Get a single brief by slug.
+  app.get("/api/campaign-builder/briefs/:slug", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Authorization required" });
+
+      const brief = await storage.getCampaignBriefBySlug(req.params.slug);
+      if (!brief) return res.status(404).json({ error: "Campaign brief not found" });
+      res.json(toSafeCampaignBrief(brief));
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // Submit a built campaign, grade it with Gemini, persist the attempt.
+  app.post("/api/campaign-builder/submit", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Authorization required" });
+
+      const parsed = campaignSubmissionSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Invalid submission", details: parsed.error.flatten() });
+      }
+      const submission = parsed.data;
+
+      const brief = await storage.getCampaignBriefBySlug(submission.briefSlug);
+      if (!brief) return res.status(404).json({ error: "Campaign brief not found" });
+
+      const evaluation = await evaluateCampaign(
+        {
+          title: brief.title,
+          company: brief.company,
+          industry: brief.industry,
+          difficulty: brief.difficulty,
+          objective: brief.objective,
+          budgetRange: brief.budgetRange,
+          targetPersona: brief.targetPersona,
+          businessGoal: brief.businessGoal,
+          brief: brief.brief,
+          constraints: brief.constraints ?? [],
+          referenceContext: brief.referenceContext,
+        },
+        {
+          objective: submission.objective,
+          targeting: submission.targeting,
+          formats: submission.formats,
+          messagingHeadline: submission.messagingHeadline,
+          messagingBody: submission.messagingBody,
+          messagingCta: submission.messagingCta,
+          budget: submission.budget,
+          primaryKpi: submission.primaryKpi,
+          supportingMetrics: submission.supportingMetrics,
+        }
+      );
+
+      const attempt = await storage.createCampaignAttempt({
+        userId: authResult.user.id,
+        briefId: brief.id,
+        objective: submission.objective,
+        targeting: submission.targeting,
+        formats: submission.formats,
+        messagingHeadline: submission.messagingHeadline,
+        messagingBody: submission.messagingBody,
+        messagingCta: submission.messagingCta,
+        budget: submission.budget,
+        primaryKpi: submission.primaryKpi,
+        supportingMetrics: submission.supportingMetrics,
+        overallScore: Math.round(evaluation.overallScore),
+        passed: evaluation.passed ? 1 : 0,
+        sectionScores: evaluation.sections,
+        coachSummary: evaluation.coachSummary,
+        passFailReason: evaluation.passFailReason,
+      });
+
+      res.json({ attemptId: attempt.id, evaluation });
+    } catch (error: any) {
+      console.error("Campaign submit error:", error);
+      res.status(500).json({ error: error.message || "Campaign evaluation failed" });
+    }
+  });
+
+  // Fetch a stored attempt (results view). Owner-only.
+  app.get("/api/campaign-builder/attempts/:id", async (req, res) => {
+    try {
+      const authResult = await getAuthenticatedUser(req);
+      if (!authResult?.user) return res.status(401).json({ error: authResult?.error || "Authorization required" });
+
+      const attempt = await storage.getCampaignAttempt(req.params.id);
+      if (!attempt) return res.status(404).json({ error: "Attempt not found" });
+      if (attempt.userId !== authResult.user.id) return res.status(403).json({ error: "Forbidden" });
+
+      const brief = await storage.getCampaignBrief(attempt.briefId);
+      res.json({ attempt, brief: brief ? toSafeCampaignBrief(brief) : null });
     } catch (error: any) {
       res.status(500).json({ error: error.message });
     }

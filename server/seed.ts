@@ -6,6 +6,7 @@ import { BUYER_PERSONA_SEED_DATA } from './seed-data';
 import { PLAYBOOK_STORIES_SEED, PLAYBOOK_PANELS_SEED } from './playbook-seed-data';
 import { hubspotDeck, hubspotSlides, HUBSPOT_DECK_ID } from './pitch-deck-seed';
 import { seedAbmData } from './abm-seed';
+import { seedCampaignBuilderData } from './campaign-builder-seed';
 import { BATTLECARD_SEED_DATA } from './battlecard-seed-data';
 import { BASECAMP_UNITS, BASECAMP_LESSONS, BASECAMP_QUESTIONS } from './basecamp-seed-data';
 import {
@@ -348,6 +349,9 @@ export async function seedDatabase(): Promise<void> {
 
     // Seed Base Camp units, lessons, and questions
     await seedBasecampData();
+
+    // Seed Campaign Builder briefs
+    await seedCampaignBuilderData();
 
     console.log('Idempotent database seed completed successfully!');
   } catch (error) {

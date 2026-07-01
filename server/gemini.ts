@@ -699,6 +699,228 @@ Be specific and honest. A demanding coach helps reps improve by telling the trut
   };
 }
 
+// ---------------------------------------------------------------------------
+// Campaign Builder evaluation
+// ---------------------------------------------------------------------------
+
+export interface CampaignBriefForEval {
+  title: string;
+  company: string;
+  industry: string;
+  difficulty: string;
+  objective: string;
+  budgetRange: string;
+  targetPersona: string;
+  businessGoal: string;
+  brief: string;
+  constraints: string[];
+  referenceContext: {
+    objective: string;
+    targeting: string;
+    format: string;
+    messaging: string;
+    budget: string;
+    measurement: string;
+  };
+}
+
+export interface CampaignSubmissionForEval {
+  objective: string;
+  targeting: {
+    jobFunctions: string[];
+    seniorities: string[];
+    industries: string[];
+    companySizes: string[];
+    skills: string[];
+    geographies: string[];
+    audienceSizeNote: string;
+  };
+  formats: string[];
+  messagingHeadline: string;
+  messagingBody: string;
+  messagingCta: string;
+  budget: {
+    totalBudget: string;
+    budgetType: string;
+    bidStrategy: string;
+    allocationNote: string;
+  };
+  primaryKpi: string;
+  supportingMetrics: string[];
+}
+
+interface CampaignSectionResult {
+  score: number;
+  strengths: string[];
+  fixes: string[];
+}
+
+export interface CampaignEvaluationResult {
+  overallScore: number;
+  passed: boolean;
+  passFailReason: string;
+  sections: {
+    objectiveFit: CampaignSectionResult;
+    targeting: CampaignSectionResult;
+    format: CampaignSectionResult;
+    messaging: CampaignSectionResult;
+    budget: CampaignSectionResult;
+    measurement: CampaignSectionResult;
+  };
+  coachSummary: string;
+}
+
+/**
+ * Grade a rep's built LinkedIn campaign against the brief, section by section.
+ * Mirrors the demanding-coach style of evaluateRoleplay. Throws a clear error
+ * on grading failure rather than silently returning a fake pass.
+ */
+export async function evaluateCampaign(
+  brief: CampaignBriefForEval,
+  submission: CampaignSubmissionForEval
+): Promise<CampaignEvaluationResult> {
+  const fmt = (arr: string[]) => (arr && arr.length ? arr.join(", ") : "(none selected)");
+
+  const prompt = `You are a DEMANDING but fair senior B2B marketing coach for LinkedIn Marketing Solutions (LMS). You are grading a sales rep who built a full LinkedIn ad campaign from a brief, as a written practice exercise. Grade STRICTLY and use the full 0-100 range — generic, incoherent, or mismatched plans score in the 40s-50s; only a coherent, well-targeted, objective-aligned campaign earns 80+.
+
+THE CORE OF GOOD GRADING: reward COHERENCE across objective ↔ targeting ↔ ad format ↔ messaging ↔ budget/bidding ↔ KPI. Penalize mismatches hard, for example: a Lead Generation objective paired with a Brand-Awareness KPI; choosing an ad format that doesn't serve the objective (e.g. broad Video for a conversion goal, or Lead Gen Forms when the asset is ungated); targeting that misses the buyer persona (wrong seniority, function, industry, or company size); generic, non-persona messaging; a KPI that doesn't match the objective or the brief's success metric; or a budget/bid strategy that ignores the stated constraints.
+
+=== THE BRIEF ===
+Title: ${brief.title}
+Company: ${brief.company}
+Industry: ${brief.industry}
+Difficulty: ${brief.difficulty}
+Recommended objective (per LMS best practice): ${brief.objective}
+Budget range: ${brief.budgetRange}
+Target persona: ${brief.targetPersona}
+Business goal: ${brief.businessGoal}
+Scenario: ${brief.brief}
+Constraints:
+${brief.constraints.map((c) => `- ${c}`).join("\n")}
+
+=== IDEAL-ANSWER REFERENCE (what a strong plan looks like per section — use to judge, do not reveal verbatim) ===
+Objective: ${brief.referenceContext.objective}
+Targeting: ${brief.referenceContext.targeting}
+Ad format: ${brief.referenceContext.format}
+Messaging: ${brief.referenceContext.messaging}
+Budget & bidding: ${brief.referenceContext.budget}
+Measurement: ${brief.referenceContext.measurement}
+
+=== THE REP'S SUBMITTED CAMPAIGN ===
+Chosen objective: ${submission.objective}
+Targeting:
+- Job functions: ${fmt(submission.targeting.jobFunctions)}
+- Seniorities: ${fmt(submission.targeting.seniorities)}
+- Industries: ${fmt(submission.targeting.industries)}
+- Company sizes: ${fmt(submission.targeting.companySizes)}
+- Skills: ${fmt(submission.targeting.skills)}
+- Geographies: ${fmt(submission.targeting.geographies)}
+- Audience-size sanity note: ${submission.targeting.audienceSizeNote || "(none)"}
+Ad format(s): ${fmt(submission.formats)}
+Messaging:
+- Headline: ${submission.messagingHeadline}
+- Body: ${submission.messagingBody}
+- CTA: ${submission.messagingCta}
+Budget & bidding:
+- Total budget: ${submission.budget.totalBudget || "(none)"}
+- Budget type: ${submission.budget.budgetType || "(none)"}
+- Bid strategy: ${submission.budget.bidStrategy || "(none)"}
+- Allocation note: ${submission.budget.allocationNote || "(none)"}
+Measurement:
+- Primary KPI: ${submission.primaryKpi}
+- Supporting metrics: ${fmt(submission.supportingMetrics)}
+
+=== YOUR TASK ===
+Score SIX sections, each 0-100, and for each give 1-2 specific strengths and 1-2 concrete, actionable fixes grounded in what the rep ACTUALLY submitted (not generic advice):
+1. objectiveFit — does the chosen objective match the business goal and brief?
+2. targeting — do the professional-graph facets reach the persona precisely (right function, seniority, industry, size, skills, geo) without being too broad or too narrow?
+3. format — do the chosen ad format(s) serve the objective and constraints?
+4. messaging — are headline/body/CTA tailored to the persona and objective, specific and compelling, with a CTA matching the funnel stage?
+5. budget — does the budget/bid strategy fit the constraints and objective?
+6. measurement — does the primary KPI (and supporting metrics) match the objective and the brief's success metric?
+
+OVERALL SCORE = weighted blend: objectiveFit 15%, targeting 25%, format 15%, messaging 20%, budget 10%, measurement 15%. Then apply coherence caps: if the KPI fundamentally mismatches the objective, cap overall at 55; if the ad format fundamentally conflicts with the objective, cap overall at 60; if targeting badly misses the persona, cap overall at 60. Round to an integer.
+
+PASS BAR: passed = true ONLY if overallScore >= 70 AND objective, format, and KPI are all coherent with the goal. Average or mismatched plans should NOT pass.
+
+Also return:
+- passFailReason: one direct sentence explaining the verdict.
+- coachSummary: 2-3 sentences of honest, specific overall coaching.
+
+For every strengths/fixes item, reference the rep's actual choices. If a section is strong with nothing to fix, return a single fix noting how to make it even sharper. Be specific and honest — a demanding coach helps reps improve by telling the truth.`;
+
+  const sectionSchema = {
+    type: "object",
+    properties: {
+      score: { type: "number" },
+      strengths: { type: "array", items: { type: "string" } },
+      fixes: { type: "array", items: { type: "string" } },
+    },
+    required: ["score", "strengths", "fixes"],
+  };
+
+  const schema = {
+    type: "object",
+    properties: {
+      overallScore: { type: "number" },
+      passed: { type: "boolean" },
+      passFailReason: { type: "string" },
+      sections: {
+        type: "object",
+        properties: {
+          objectiveFit: sectionSchema,
+          targeting: sectionSchema,
+          format: sectionSchema,
+          messaging: sectionSchema,
+          budget: sectionSchema,
+          measurement: sectionSchema,
+        },
+        required: ["objectiveFit", "targeting", "format", "messaging", "budget", "measurement"],
+      },
+      coachSummary: { type: "string" },
+    },
+    required: ["overallScore", "passed", "passFailReason", "sections", "coachSummary"],
+  };
+
+  let rawJson: string | undefined;
+  try {
+    const response = await getClient().models.generateContent({
+      model: "gemini-2.5-flash",
+      config: { responseMimeType: "application/json", responseSchema: schema },
+      contents: prompt,
+    });
+    rawJson = response.text;
+  } catch (error) {
+    console.error("evaluateCampaign: Gemini request failed:", error);
+    throw new Error("Campaign evaluation failed — the AI grader could not be reached. Please try again.");
+  }
+
+  if (!rawJson) {
+    throw new Error("Campaign evaluation failed — the AI grader returned no result. Please try again.");
+  }
+
+  let parsed: CampaignEvaluationResult;
+  try {
+    parsed = JSON.parse(rawJson) as CampaignEvaluationResult;
+  } catch (error) {
+    console.error("evaluateCampaign: failed to parse grader JSON:", error, rawJson);
+    throw new Error("Campaign evaluation failed — the AI grader returned an unreadable result. Please try again.");
+  }
+
+  const requiredSections = ["objectiveFit", "targeting", "format", "messaging", "budget", "measurement"] as const;
+  if (
+    !parsed ||
+    typeof parsed.overallScore !== "number" ||
+    !parsed.sections ||
+    requiredSections.some((s) => !parsed.sections[s] || typeof parsed.sections[s].score !== "number")
+  ) {
+    console.error("evaluateCampaign: grader result missing required fields:", rawJson);
+    throw new Error("Campaign evaluation failed — the AI grader returned an incomplete result. Please try again.");
+  }
+
+  return parsed;
+}
+
 /**
  * Analyze the acoustic / vocal qualities and sentiment arc of a recorded call
  * using Gemini multimodal audio understanding. Degrades gracefully when no

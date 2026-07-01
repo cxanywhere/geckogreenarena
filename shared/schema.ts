@@ -770,6 +770,274 @@ export type BasecampProgress = typeof basecampProgress.$inferSelect;
 export type InsertBasecampStreak = z.infer<typeof insertBasecampStreakSchema>;
 export type BasecampStreak = typeof basecampStreaks.$inferSelect;
 
+// ============================================================
+// Campaign Builder — guided LinkedIn campaign practice + AI grading
+// ============================================================
+
+// Shared step option constants so the builder UI and the grader stay in sync.
+export const CAMPAIGN_OBJECTIVES = [
+  "Brand Awareness",
+  "Website Visits",
+  "Engagement",
+  "Video Views",
+  "Lead Generation",
+  "Website Conversions",
+] as const;
+
+export const CAMPAIGN_AD_FORMATS = [
+  "Sponsored Content",
+  "Lead Gen Forms",
+  "Message Ads",
+  "Video Ads",
+  "Carousel Ads",
+  "Document Ads",
+] as const;
+
+export const CAMPAIGN_KPI_OPTIONS = [
+  "Impressions",
+  "Reach",
+  "Brand Lift",
+  "Clicks / CTR",
+  "Cost Per Click (CPC)",
+  "Engagement Rate",
+  "Video Views / View Rate",
+  "Leads / Cost Per Lead (CPL)",
+  "Conversions / Cost Per Conversion",
+  "Pipeline Influenced",
+  "Return on Ad Spend (ROAS)",
+] as const;
+
+export const CAMPAIGN_BID_STRATEGIES = [
+  "Maximum Delivery (automated)",
+  "Cost Cap",
+  "Manual Bidding",
+  "Target Cost",
+] as const;
+
+// Professional-graph targeting facets and their selectable options.
+export const CAMPAIGN_TARGETING_FACETS = {
+  jobFunctions: [
+    "Marketing",
+    "Sales",
+    "Information Technology",
+    "Finance",
+    "Operations",
+    "Human Resources",
+    "Engineering",
+    "Business Development",
+    "Consulting",
+    "Healthcare Services",
+  ],
+  seniorities: [
+    "Entry",
+    "Senior",
+    "Manager",
+    "Director",
+    "VP",
+    "CXO",
+    "Owner / Partner",
+  ],
+  industries: [
+    "Software / SaaS",
+    "Financial Services",
+    "Healthcare",
+    "Manufacturing",
+    "Retail / E-commerce",
+    "Professional Services",
+    "Telecommunications",
+    "Education",
+    "Energy / Utilities",
+  ],
+  companySizes: [
+    "1-50",
+    "51-200",
+    "201-500",
+    "501-1,000",
+    "1,001-5,000",
+    "5,001-10,000",
+    "10,001+",
+  ],
+  skills: [
+    "Demand Generation",
+    "Account-Based Marketing",
+    "Digital Marketing",
+    "Marketing Strategy",
+    "Cloud Computing",
+    "Cybersecurity",
+    "Financial Analysis",
+    "Supply Chain Management",
+    "Healthcare Management",
+    "Product Management",
+  ],
+  geographies: [
+    "United States",
+    "Canada",
+    "United Kingdom",
+    "DACH (Germany, Austria, Switzerland)",
+    "Nordics",
+    "APAC",
+    "North America (US + Canada)",
+    "EMEA",
+    "Global",
+  ],
+} as const;
+
+export type CampaignObjective = (typeof CAMPAIGN_OBJECTIVES)[number];
+export type CampaignAdFormat = (typeof CAMPAIGN_AD_FORMATS)[number];
+
+// The rep's targeting selections (per facet) plus their audience-size sanity note.
+export interface CampaignTargetingSelection {
+  jobFunctions: string[];
+  seniorities: string[];
+  industries: string[];
+  companySizes: string[];
+  skills: string[];
+  geographies: string[];
+  audienceSizeNote: string;
+}
+
+// The rep's budget & bidding plan.
+export interface CampaignBudgetPlan {
+  totalBudget: string;
+  budgetType: string; // "Daily" | "Lifetime"
+  bidStrategy: string;
+  allocationNote: string;
+}
+
+// Reference / ideal-answer context the grader uses per step.
+export interface CampaignReferenceContext {
+  objective: string;
+  targeting: string;
+  format: string;
+  messaging: string;
+  budget: string;
+  measurement: string;
+}
+
+// One graded section: a score plus grounded strengths and concrete fixes.
+export interface CampaignSectionScore {
+  score: number; // 0-100
+  strengths: string[];
+  fixes: string[];
+}
+
+export interface CampaignSectionScores {
+  objectiveFit: CampaignSectionScore;
+  targeting: CampaignSectionScore;
+  format: CampaignSectionScore;
+  messaging: CampaignSectionScore;
+  budget: CampaignSectionScore;
+  measurement: CampaignSectionScore;
+}
+
+export interface CampaignEvaluation {
+  overallScore: number;
+  passed: boolean;
+  passFailReason: string;
+  sections: CampaignSectionScores;
+  coachSummary: string;
+}
+
+export const CAMPAIGN_SECTION_LABELS: Record<keyof CampaignSectionScores, string> = {
+  objectiveFit: "Objective Fit",
+  targeting: "Audience & Targeting",
+  format: "Ad Format",
+  messaging: "Messaging",
+  budget: "Budget & Bidding",
+  measurement: "Measurement",
+};
+
+export const campaignBriefs = pgTable("campaign_briefs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").unique().notNull(),
+  title: text("title").notNull(),
+  company: text("company").notNull(),
+  industry: text("industry").notNull(),
+  difficulty: text("difficulty").notNull(),
+  objective: text("objective").notNull(),
+  budgetRange: text("budget_range").notNull(),
+  targetPersona: text("target_persona").notNull(),
+  businessGoal: text("business_goal").notNull(),
+  brief: text("brief").notNull(),
+  constraints: jsonb("constraints").$type<string[]>().default([]),
+  referenceContext: jsonb("reference_context").$type<CampaignReferenceContext>().notNull(),
+  orderIndex: integer("order_index").notNull().default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const campaignAttempts = pgTable("campaign_attempts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  briefId: varchar("brief_id").notNull(),
+  objective: text("objective").notNull(),
+  targeting: jsonb("targeting").$type<CampaignTargetingSelection>().notNull(),
+  formats: jsonb("formats").$type<string[]>().notNull(),
+  messagingHeadline: text("messaging_headline").notNull(),
+  messagingBody: text("messaging_body").notNull(),
+  messagingCta: text("messaging_cta").notNull(),
+  budget: jsonb("budget").$type<CampaignBudgetPlan>().notNull(),
+  primaryKpi: text("primary_kpi").notNull(),
+  supportingMetrics: jsonb("supporting_metrics").$type<string[]>().default([]),
+  overallScore: integer("overall_score"),
+  passed: integer("passed").default(0),
+  sectionScores: jsonb("section_scores").$type<CampaignSectionScores>(),
+  coachSummary: text("coach_summary"),
+  passFailReason: text("pass_fail_reason"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const campaignBriefsRelations = relations(campaignBriefs, ({ many }) => ({
+  attempts: many(campaignAttempts),
+}));
+
+export const campaignAttemptsRelations = relations(campaignAttempts, ({ one }) => ({
+  user: one(users, {
+    fields: [campaignAttempts.userId],
+    references: [users.id],
+  }),
+  brief: one(campaignBriefs, {
+    fields: [campaignAttempts.briefId],
+    references: [campaignBriefs.id],
+  }),
+}));
+
+export const insertCampaignBriefSchema = createInsertSchema(campaignBriefs).omit({ id: true, createdAt: true });
+export const insertCampaignAttemptSchema = createInsertSchema(campaignAttempts).omit({ id: true, createdAt: true });
+
+export type InsertCampaignBrief = z.infer<typeof insertCampaignBriefSchema>;
+export type CampaignBrief = typeof campaignBriefs.$inferSelect;
+export type InsertCampaignAttempt = z.infer<typeof insertCampaignAttemptSchema>;
+export type CampaignAttempt = typeof campaignAttempts.$inferSelect;
+
+// The client submits this shape when creating an attempt (server adds userId + AI result).
+export const campaignSubmissionSchema = z.object({
+  briefSlug: z.string(),
+  objective: z.string().min(1),
+  targeting: z.object({
+    jobFunctions: z.array(z.string()),
+    seniorities: z.array(z.string()),
+    industries: z.array(z.string()),
+    companySizes: z.array(z.string()),
+    skills: z.array(z.string()),
+    geographies: z.array(z.string()),
+    audienceSizeNote: z.string(),
+  }),
+  formats: z.array(z.string()).min(1),
+  messagingHeadline: z.string().min(1),
+  messagingBody: z.string().min(1),
+  messagingCta: z.string().min(1),
+  budget: z.object({
+    totalBudget: z.string(),
+    budgetType: z.string(),
+    bidStrategy: z.string(),
+    allocationNote: z.string(),
+  }),
+  primaryKpi: z.string().min(1),
+  supportingMetrics: z.array(z.string()),
+});
+
+export type CampaignSubmission = z.infer<typeof campaignSubmissionSchema>;
+
 // ---------------------------------------------------------------------------
 // Smarter Call Grading + Skills Map shared types
 // Used by roleplay, pitch, and ABM evaluation flows on both server and client.

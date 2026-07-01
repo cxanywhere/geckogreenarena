@@ -9,6 +9,7 @@ There are four separate AI grading paths in `server/routes.ts`, each with its ow
 - text roleplay end — no timestamps, no audio; stricter grading only.
 - pitch evaluate — has `structuredTranscript` (timestamp in ms + slideIndex), NO recordingUrl. Persists skills-map data to dedicated `pitch_sessions` jsonb columns (dimension_scores, delivery_metrics, acoustic_scores, timestamped_moments).
 - abm evaluate — text transcript; client can send `structuredTranscript` (ms timestamps) to enable delivery metrics. Persists skills-map data INSIDE the existing `feedback` JSON column (no schema change).
+- campaign builder evaluate — grades a structured WRITTEN artifact, not a transcript, against a per-brief ideal-answer (`referenceContext`). **That reference key is the answer sheet: it must stay server-only — strip it from any client-facing brief DTO or reps can read the rubric via network inspector.** Single Gemini call (no parallel split/retry/skills-map); scoring rule is objective↔targeting↔format↔KPI coherence with hard caps on mismatch; throws on failure (no silent fallback).
 
 **Why:** roleplay & ABM reuse an existing feedback JSON blob, pitch has typed columns — so persistence shape differs per path; the frontend reads accordingly (results.tsx & abm read from feedback object, pitch-results reads from session columns).
 

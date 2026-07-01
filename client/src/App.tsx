@@ -37,6 +37,8 @@ import RoleplaysPage from "@/pages/roleplays";
 import AbmPracticePage from "@/pages/abm-practice";
 import BasecampPage from "@/pages/basecamp";
 import BasecampLessonPage from "@/pages/basecamp-lesson";
+import CampaignBuilderPage from "@/pages/campaign-builder";
+import CampaignBuilderSessionPage from "@/pages/campaign-builder-session";
 
 function Router() {
   return (
@@ -183,6 +185,16 @@ function Router() {
       <Route path="/basecamp/lesson/:slug">
         <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
           <BasecampLessonPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/campaign-builder">
+        <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
+          <CampaignBuilderPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/campaign-builder/:slug">
+        <ProtectedRoute allowedRoles={["rep", "manager", "admin", "director"]}>
+          <CampaignBuilderSessionPage />
         </ProtectedRoute>
       </Route>
       <Route component={NotFound} />

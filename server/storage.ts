@@ -81,6 +81,11 @@ import {
   type InsertBasecampProgress,
   type BasecampStreak,
   type InsertBasecampStreak,
+  campaignBriefs,
+  campaignAttempts,
+  type CampaignBrief,
+  type CampaignAttempt,
+  type InsertCampaignAttempt,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, ne, or, isNull, sql, count } from "drizzle-orm";
@@ -255,6 +260,14 @@ export interface IStorage {
   saveBasecampProgress(progress: InsertBasecampProgress): Promise<BasecampProgress>;
   getBasecampStreak(userId: string): Promise<BasecampStreak | undefined>;
   upsertBasecampStreak(streak: InsertBasecampStreak): Promise<BasecampStreak>;
+
+  // Campaign Builder
+  getCampaignBriefs(): Promise<CampaignBrief[]>;
+  getCampaignBriefBySlug(slug: string): Promise<CampaignBrief | undefined>;
+  getCampaignBrief(id: string): Promise<CampaignBrief | undefined>;
+  createCampaignAttempt(attempt: InsertCampaignAttempt): Promise<CampaignAttempt>;
+  getCampaignAttempt(id: string): Promise<CampaignAttempt | undefined>;
+  getUserCampaignAttempts(userId: string): Promise<CampaignAttempt[]>;
 }
 
 // Performance metric types
@@ -1508,6 +1521,36 @@ export class DatabaseStorage implements IStorage {
     }
     const [created] = await db.insert(basecampStreaks).values(streak).returning();
     return created;
+  }
+
+  async getCampaignBriefs(): Promise<CampaignBrief[]> {
+    return await db.select().from(campaignBriefs).orderBy(campaignBriefs.orderIndex);
+  }
+
+  async getCampaignBriefBySlug(slug: string): Promise<CampaignBrief | undefined> {
+    const [brief] = await db.select().from(campaignBriefs).where(eq(campaignBriefs.slug, slug));
+    return brief || undefined;
+  }
+
+  async getCampaignBrief(id: string): Promise<CampaignBrief | undefined> {
+    const [brief] = await db.select().from(campaignBriefs).where(eq(campaignBriefs.id, id));
+    return brief || undefined;
+  }
+
+  async createCampaignAttempt(attempt: InsertCampaignAttempt): Promise<CampaignAttempt> {
+    const [created] = await db.insert(campaignAttempts).values(attempt).returning();
+    return created;
+  }
+
+  async getCampaignAttempt(id: string): Promise<CampaignAttempt | undefined> {
+    const [attempt] = await db.select().from(campaignAttempts).where(eq(campaignAttempts.id, id));
+    return attempt || undefined;
+  }
+
+  async getUserCampaignAttempts(userId: string): Promise<CampaignAttempt[]> {
+    return await db.select().from(campaignAttempts)
+      .where(eq(campaignAttempts.userId, userId))
+      .orderBy(desc(campaignAttempts.createdAt));
   }
 }
 
