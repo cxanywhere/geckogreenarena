@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Mic, MicOff, Phone, PhoneOff, Volume2, Loader2, Clock, Lightbulb, ChevronDown, ChevronUp, Settings } from "lucide-react";
+import { Mic, MicOff, Phone, PhoneOff, Volume2, Loader2, Clock, Lightbulb, ChevronDown, ChevronUp, Settings, Target, CheckCircle2 } from "lucide-react";
 import Vapi from "@vapi-ai/web";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -412,6 +412,37 @@ CRITICAL RULES:
           </div>
         </CardContent>
       </Card>
+
+      {/* How to Pass - Shows before the call starts */}
+      {status === "idle" && config.passCriteria && (
+        <Card className="mb-4 border-[#0A66C2]/30 bg-[#0A66C2]/5" data-testid="how-to-pass-card">
+          <CardContent className="p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 rounded-full bg-[#0A66C2]/10 flex items-center justify-center">
+                <Target className="w-4 h-4 text-[#0A66C2]" />
+              </div>
+              <h4 className="font-semibold text-[#1A2B8C]">How to Pass</h4>
+            </div>
+            <p className="text-sm text-gray-700" data-testid="text-pass-criteria">
+              {config.passCriteria}
+            </p>
+            <div className="mt-3 space-y-1.5">
+              <div className="flex items-start gap-2 text-sm text-gray-700" data-testid="pass-bar-score">
+                <CheckCircle2 className="w-4 h-4 text-[#0A66C2] mt-0.5 shrink-0" />
+                <span>Score <strong>70 or higher</strong> overall</span>
+              </div>
+              <div className="flex items-start gap-2 text-sm text-gray-700" data-testid="pass-bar-objection">
+                <CheckCircle2 className="w-4 h-4 text-[#0A66C2] mt-0.5 shrink-0" />
+                <span>Handle their objection well</span>
+              </div>
+              <div className="flex items-start gap-2 text-sm text-gray-700" data-testid="pass-bar-avoid">
+                <CheckCircle2 className="w-4 h-4 text-[#0A66C2] mt-0.5 shrink-0" />
+                <span>Avoid rambling, feature-dumping, or getting defensive</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Hint Section - Shows on 2nd attempt or later */}
       {attemptNumber >= 2 && scriptHint && status === "idle" && (
