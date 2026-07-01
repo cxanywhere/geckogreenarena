@@ -102,6 +102,7 @@ export const roleplayAttempts = pgTable("roleplay_attempts", {
   duration: text("duration"),
   feedback: text("feedback"),
   metrics: jsonb("metrics").$type<{resistance: string; clarity: string; tone: string}>(),
+  vapiCallId: text("vapi_call_id"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

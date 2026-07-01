@@ -2536,7 +2536,35 @@ export async function registerRoutes(
       }
 
       const transcriptData = await vapiService.getCallTranscript(callId);
-      
+
+      // Idempotency: if this call was already evaluated, return the stored
+      // result instead of re-running Gemini (whose output is non-deterministic).
+      // This keeps the results page stable on refresh and prevents duplicate
+      // attempt records / billing sessions from being created.
+      const existingAttempt = await storage.getRoleplayAttemptByVapiCallId(callId);
+      if (existingAttempt?.feedback) {
+        try {
+          const storedFeedback = JSON.parse(existingAttempt.feedback);
+          return res.json({
+            scenario: {
+              id: config.id,
+              name: config.name,
+              role: config.role,
+              difficulty: config.difficulty,
+              orderIndex: dbRoleplay?.orderIndex,
+              chapterId: dbRoleplay?.chapterId
+            },
+            feedback: {
+              ...storedFeedback,
+              passed: storedFeedback.passed ?? existingAttempt.passed === 1,
+            },
+            transcript: transcriptData.messages
+          });
+        } catch (parseError) {
+          console.error("Failed to parse stored roleplay feedback, re-evaluating:", parseError);
+        }
+      }
+
       const scenario: RoleplayScenario = {
         name: config.name,
         role: config.role,
@@ -2601,6 +2629,7 @@ export async function registerRoutes(
             const attempt = await storage.createRoleplayAttempt({
               userId,
               roleplayId,
+              vapiCallId: callId,
               score: feedback.overallScore,
               passed: passed ? 1 : 0,
               feedback: JSON.stringify({

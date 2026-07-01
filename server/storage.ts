@@ -142,6 +142,7 @@ export interface IStorage {
   // Roleplay Attempts
   getUserRoleplayAttempts(userId: string): Promise<RoleplayAttempt[]>;
   getAllRoleplayAttempts(): Promise<RoleplayAttempt[]>;
+  getRoleplayAttemptByVapiCallId(vapiCallId: string): Promise<RoleplayAttempt | undefined>;
   createRoleplayAttempt(attempt: InsertRoleplayAttempt): Promise<RoleplayAttempt>;
   
   // Quiz Questions
@@ -710,6 +711,16 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(roleplayAttempts)
       .orderBy(desc(roleplayAttempts.createdAt));
+  }
+
+  async getRoleplayAttemptByVapiCallId(vapiCallId: string): Promise<RoleplayAttempt | undefined> {
+    const [attempt] = await db
+      .select()
+      .from(roleplayAttempts)
+      .where(eq(roleplayAttempts.vapiCallId, vapiCallId))
+      .orderBy(desc(roleplayAttempts.createdAt))
+      .limit(1);
+    return attempt || undefined;
   }
 
   async createRoleplayAttempt(insertAttempt: InsertRoleplayAttempt): Promise<RoleplayAttempt> {
