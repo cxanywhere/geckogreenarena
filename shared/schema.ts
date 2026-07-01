@@ -802,6 +802,9 @@ export interface DeliveryMetrics {
   avgResponseDelaySec: number;
   repSpeakingSec: number;
   buyerSpeakingSec: number;
+  // "measured" when real per-turn audio timing was available (e.g. VAPI turn
+  // durations); "estimated" when derived from a fixed words-per-second heuristic.
+  timingSource: "measured" | "estimated";
 }
 
 export interface AcousticScores {

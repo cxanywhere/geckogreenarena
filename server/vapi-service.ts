@@ -27,6 +27,8 @@ interface VapiCallResponse {
     role: string;
     message: string;
     time: number;
+    endTime?: number;
+    duration?: number; // spoken duration of this turn in milliseconds
     secondsFromStart: number;
   }>;
 }
@@ -129,7 +131,7 @@ export class VapiService {
   async getCallTranscript(callId: string, maxRetries: number = 5): Promise<{ 
     transcript: string; 
     messages: Array<{ role: string; content: string }>;
-    timedMessages: Array<{ role: string; content: string; secondsFromStart: number }>;
+    timedMessages: Array<{ role: string; content: string; secondsFromStart: number; durationSeconds?: number }>;
     recordingUrl?: string;
     durationSeconds?: number;
   }> {
@@ -148,11 +150,25 @@ export class VapiService {
             role: (msg.role === "assistant" || msg.role === "bot") ? "model" : "user",
             content: msg.message,
           }));
-          const timedMessages = rawMessages.map(msg => ({
-            role: (msg.role === "assistant" || msg.role === "bot") ? "model" : "user",
-            content: msg.message,
-            secondsFromStart: typeof msg.secondsFromStart === "number" ? msg.secondsFromStart : 0,
-          }));
+          const timedMessages = rawMessages.map(msg => {
+            // Prefer VAPI's real per-turn duration; fall back to endTime - time.
+            let durationSeconds: number | undefined;
+            if (typeof msg.duration === "number" && msg.duration > 0) {
+              durationSeconds = msg.duration / 1000;
+            } else if (
+              typeof msg.endTime === "number" &&
+              typeof msg.time === "number" &&
+              msg.endTime > msg.time
+            ) {
+              durationSeconds = (msg.endTime - msg.time) / 1000;
+            }
+            return {
+              role: (msg.role === "assistant" || msg.role === "bot") ? "model" : "user",
+              content: msg.message,
+              secondsFromStart: typeof msg.secondsFromStart === "number" ? msg.secondsFromStart : 0,
+              durationSeconds,
+            };
+          });
 
           let durationSeconds: number | undefined;
           if (callDetails.startedAt && callDetails.endedAt) {

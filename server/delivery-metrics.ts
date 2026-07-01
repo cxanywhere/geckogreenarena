@@ -4,6 +4,10 @@ export interface TimedUtterance {
   role: string; // "user" (rep) | anything else (buyer/model/assistant/bot)
   content: string;
   secondsFromStart: number;
+  // Real spoken duration of this turn in seconds, when the transcription source
+  // provides it (e.g. VAPI per-turn duration/endTime). When present, this is used
+  // instead of the words-per-second estimate below.
+  durationSec?: number;
 }
 
 const FILLER_PATTERNS = [
@@ -56,16 +60,62 @@ function emptyMetrics(): DeliveryMetrics {
     avgResponseDelaySec: 0,
     repSpeakingSec: 0,
     buyerSpeakingSec: 0,
+    timingSource: "estimated",
   };
 }
 
+interface ResolvedTurn {
+  role: string;
+  content: string;
+  words: number;
+  startSec: number;
+  endSec: number;
+  speakSec: number;
+  measured: boolean;
+}
+
 /**
- * Compute delivery metrics from timestamped utterances.
+ * Resolve each turn's spoken duration, preferring real per-turn timing when the
+ * transcription source supplies it (`durationSec`) and only falling back to a
+ * words-per-second heuristic when it does not.
  *
- * VAPI / structured transcripts give us a `secondsFromStart` per turn but no
- * explicit per-turn end time. We estimate each turn's spoken duration as the
+ * For the heuristic fallback we estimate each turn's spoken duration as the
  * smaller of (a) the gap until the next turn and (b) an estimate from word
  * count, which keeps long pauses from being counted as speaking time.
+ */
+function resolveTurns(timed: TimedUtterance[], endBound: number): ResolvedTurn[] {
+  return timed.map((cur, i) => {
+    const words = countWords(cur.content);
+    const hasRealDuration =
+      typeof cur.durationSec === "number" && !isNaN(cur.durationSec) && cur.durationSec > 0;
+
+    let speakSec: number;
+    if (hasRealDuration) {
+      // Real measured speaking time from the audio — use as-is.
+      speakSec = Math.max(0.5, cur.durationSec as number);
+    } else {
+      const nextStart = i < timed.length - 1 ? timed[i + 1].secondsFromStart : endBound;
+      const gap = Math.max(0, nextStart - cur.secondsFromStart);
+      const estSpeak = words / WORDS_PER_SECOND;
+      speakSec = Math.max(0.5, Math.min(estSpeak, gap > 0 ? gap : estSpeak));
+    }
+
+    return {
+      role: cur.role,
+      content: cur.content,
+      words,
+      startSec: cur.secondsFromStart,
+      endSec: cur.secondsFromStart + speakSec,
+      speakSec,
+      measured: hasRealDuration,
+    };
+  });
+}
+
+/**
+ * Compute delivery metrics from timestamped utterances. Uses real per-turn audio
+ * timing (`durationSec`) when available and flags the result via `timingSource`;
+ * otherwise falls back to a words-per-second estimate.
  */
 export function computeDeliveryMetrics(
   utterances: TimedUtterance[],
@@ -79,8 +129,14 @@ export function computeDeliveryMetrics(
     return emptyMetrics();
   }
 
-  const lastStart = timed[timed.length - 1].secondsFromStart;
-  const endBound = Math.max(totalDurationSec || 0, lastStart + countWords(timed[timed.length - 1].content) / WORDS_PER_SECOND);
+  const last = timed[timed.length - 1];
+  const lastEst = typeof last.durationSec === "number" && last.durationSec > 0
+    ? last.durationSec
+    : countWords(last.content) / WORDS_PER_SECOND;
+  const endBound = Math.max(totalDurationSec || 0, last.secondsFromStart + lastEst);
+
+  const turns = resolveTurns(timed, endBound);
+  const measuredTurns = turns.filter(t => t.measured).length;
 
   let repWords = 0;
   let repFillers = 0;
@@ -90,41 +146,40 @@ export function computeDeliveryMetrics(
   let interruptions = 0;
   const responseDelays: number[] = [];
 
-  for (let i = 0; i < timed.length; i++) {
-    const cur = timed[i];
-    const nextStart = i < timed.length - 1 ? timed[i + 1].secondsFromStart : endBound;
-    const gap = Math.max(0, nextStart - cur.secondsFromStart);
-    const words = countWords(cur.content);
-    const estSpeak = words / WORDS_PER_SECOND;
-    // actual speaking time for this turn: bounded by the gap to next turn
-    const speakSec = Math.max(0.5, Math.min(estSpeak, gap > 0 ? gap : estSpeak));
+  for (let i = 0; i < turns.length; i++) {
+    const cur = turns[i];
 
     if (isRep(cur.role)) {
-      repWords += words;
+      repWords += cur.words;
       repFillers += countFillers(cur.content);
-      repSpeakingSec += speakSec;
-      if (speakSec > longestMonologueSec) longestMonologueSec = speakSec;
+      repSpeakingSec += cur.speakSec;
+      if (cur.speakSec > longestMonologueSec) longestMonologueSec = cur.speakSec;
     } else {
-      buyerSpeakingSec += speakSec;
+      buyerSpeakingSec += cur.speakSec;
     }
 
     // interruption + response delay analysis (turn vs previous turn of opposite role)
     if (i > 0) {
-      const prev = timed[i - 1];
+      const prev = turns[i - 1];
       if (isRep(prev.role) !== isRep(cur.role)) {
-        const prevEstEnd = prev.secondsFromStart + countWords(prev.content) / WORDS_PER_SECOND;
-        const overlapped = cur.secondsFromStart < prevEstEnd - 1.0;
+        const prevEnd = prev.endSec;
+        const overlapped = cur.startSec < prevEnd - 1.0;
         if (overlapped && isRep(cur.role)) {
           // rep started talking notably before the buyer likely finished —
           // i.e. the rep cut off the buyer. Buyer-on-rep overlap is not counted.
           interruptions++;
         } else if (!overlapped && isRep(cur.role)) {
           // rep responding after buyer finished — measure thinking delay
-          responseDelays.push(Math.max(0, cur.secondsFromStart - prevEstEnd));
+          responseDelays.push(Math.max(0, cur.startSec - prevEnd));
         }
       }
     }
   }
+
+  // Consider the result "measured" only when real timing covers at least half the
+  // turns; otherwise the numbers are dominated by the heuristic and we flag them.
+  const timingSource: DeliveryMetrics["timingSource"] =
+    measuredTurns >= Math.ceil(turns.length / 2) ? "measured" : "estimated";
 
   const repMinutes = repSpeakingSec / 60;
   const paceWpm = repMinutes > 0 ? Math.round(repWords / repMinutes) : 0;
@@ -151,6 +206,7 @@ export function computeDeliveryMetrics(
     avgResponseDelaySec,
     repSpeakingSec: Math.round(repSpeakingSec),
     buyerSpeakingSec: Math.round(buyerSpeakingSec),
+    timingSource,
   };
 }
 

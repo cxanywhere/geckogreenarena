@@ -179,6 +179,15 @@ export function DeliveryMetricsCard({
         <h3 className="text-lg font-bold" style={{ color: NAVY }}>
           Delivery Metrics
         </h3>
+        {metrics.timingSource === "estimated" && (
+          <span
+            className="ml-auto rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-200"
+            title="Timing was estimated from word count because real per-word audio timing wasn't available for this session."
+            data-testid="badge-timing-estimated"
+          >
+            Estimated
+          </span>
+        )}
       </div>
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         <MetricRow

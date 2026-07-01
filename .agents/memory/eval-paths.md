@@ -12,6 +12,6 @@ There are four separate AI grading paths in `server/routes.ts`, each with its ow
 
 **Why:** roleplay & ABM reuse an existing feedback JSON blob, pitch has typed columns — so persistence shape differs per path; the frontend reads accordingly (results.tsx & abm read from feedback object, pitch-results reads from session columns).
 
-Delivery metrics are heuristic (`server/delivery-metrics.ts`, WORDS_PER_SECOND≈2.5) — there is no real word-level timing, so pace/monologue/pause numbers are estimates, not ground truth. Rep = role "user".
+Delivery metrics (`server/delivery-metrics.ts`) prefer REAL per-turn timing when a source supplies it via `TimedUtterance.durationSec`, and fall back to the WORDS_PER_SECOND≈2.5 heuristic otherwise. `DeliveryMetrics.timingSource` = "measured" when real timing covers ≥50% of turns, else "estimated" (frontend shows an amber "Estimated" badge). Only the VAPI voice path has real timing — `vapi-service.ts` maps each message's `duration` (ms) / `endTime-time` into `timedMessages[].durationSeconds`. Pitch & ABM use client `structuredTranscript` with start timestamps only, so they stay "estimated". Rep = role "user".
 
 Shared types live at the end of `shared/schema.ts`: DimensionScores, DIMENSION_LABELS, DeliveryMetrics, AcousticScores, TimestampedMoment. Frontend skills-map UI is one shared component `client/src/components/skills-analysis.tsx` used by all three results surfaces.

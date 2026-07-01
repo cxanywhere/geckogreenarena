@@ -2580,6 +2580,7 @@ export async function registerRoutes(
         role: m.role === "user" ? "user" : "model",
         content: m.content,
         secondsFromStart: m.secondsFromStart,
+        durationSec: m.durationSeconds,
       }));
       const deliveryMetrics = computeDeliveryMetrics(timed, transcriptData.durationSeconds);
       const timedTranscript = timed.length ? formatTimedTranscript(timed) : undefined;
