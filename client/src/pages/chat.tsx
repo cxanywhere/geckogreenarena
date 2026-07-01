@@ -279,9 +279,9 @@ export default function ChatPage() {
           </Link>
 
           <div className="flex items-center gap-2">
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-[#e5a100]/10 rounded-full">
-              <Mic className="h-4 w-4 text-[#f5f3f0]" />
-              <span className="text-xs font-medium text-[#f5f3f0]">Voice Roleplay</span>
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-[#0A66C2]/10 rounded-full">
+              <Mic className="h-4 w-4 text-[#0A66C2]" />
+              <span className="text-xs font-medium text-[#0A66C2]">Voice Roleplay</span>
             </div>
 
             <div className="lg:hidden landscape:hidden">

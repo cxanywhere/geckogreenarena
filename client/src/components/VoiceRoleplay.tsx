@@ -405,7 +405,7 @@ CRITICAL RULES:
 
           <div className="mt-3 flex flex-wrap gap-2">
             {config.traits.map((trait, index) => (
-              <span key={index} className="px-2 py-1 bg-[#e5a100]/10 text-[#f5f3f0] text-xs rounded-full">
+              <span key={index} className="px-2 py-1 bg-[#0A66C2]/10 text-[#0A66C2] text-xs font-medium rounded-full">
                 {trait}
               </span>
             ))}
