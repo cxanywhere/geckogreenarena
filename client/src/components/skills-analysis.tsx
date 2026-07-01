@@ -26,6 +26,7 @@ import {
 import {
   DIMENSION_LABELS,
   type DimensionScores,
+  type DimensionRationales,
   type DeliveryMetrics,
   type AcousticScores,
   type TimestampedMoment,
@@ -43,12 +44,20 @@ function formatTime(sec: number | null | undefined): string {
   return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
-export function SkillsRadar({ scores }: { scores?: DimensionScores | null }) {
+export function SkillsRadar({
+  scores,
+  rationales,
+}: {
+  scores?: DimensionScores | null;
+  rationales?: DimensionRationales | null;
+}) {
   if (!scores) return null;
   const data = (Object.keys(DIMENSION_LABELS) as (keyof DimensionScores)[]).map(
     (key) => ({
+      key,
       dimension: DIMENSION_LABELS[key],
       score: Math.max(0, Math.min(100, Math.round(scores[key] ?? 0))),
+      rationale: rationales?.[key]?.trim() || "",
     }),
   );
 
@@ -96,16 +105,26 @@ export function SkillsRadar({ scores }: { scores?: DimensionScores | null }) {
         {data.map((d) => (
           <div
             key={d.dimension}
-            className="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2"
+            className="rounded-lg bg-gray-50 px-3 py-2"
             data-testid={`stat-dimension-${d.dimension.replace(/\s+/g, "-").toLowerCase()}`}
           >
-            <span className="text-xs text-gray-600">{d.dimension}</span>
-            <span
-              className="text-sm font-bold"
-              style={{ color: d.score >= 70 ? LINKEDIN_BLUE : d.score >= 50 ? "#b45309" : "#dc2626" }}
-            >
-              {d.score}
-            </span>
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-xs text-gray-600">{d.dimension}</span>
+              <span
+                className="text-sm font-bold"
+                style={{ color: d.score >= 70 ? LINKEDIN_BLUE : d.score >= 50 ? "#b45309" : "#dc2626" }}
+              >
+                {d.score}
+              </span>
+            </div>
+            {d.rationale && (
+              <p
+                className="mt-1 text-[11px] leading-snug text-gray-500"
+                data-testid={`text-dimension-rationale-${d.key}`}
+              >
+                {d.rationale}
+              </p>
+            )}
           </div>
         ))}
       </div>
@@ -503,6 +522,7 @@ export function CoachingImprovements({
 
 export function SkillsAnalysis({
   dimensionScores,
+  dimensionRationales,
   deliveryMetrics,
   acousticScores,
   timestampedMoments,
@@ -510,6 +530,7 @@ export function SkillsAnalysis({
   missedPoints,
 }: {
   dimensionScores?: DimensionScores | null;
+  dimensionRationales?: DimensionRationales | null;
   deliveryMetrics?: DeliveryMetrics | null;
   acousticScores?: AcousticScores | null;
   timestampedMoments?: TimestampedMoment[] | null;
@@ -527,7 +548,7 @@ export function SkillsAnalysis({
 
   return (
     <div className="space-y-6">
-      <SkillsRadar scores={dimensionScores} />
+      <SkillsRadar scores={dimensionScores} rationales={dimensionRationales} />
       <DeliveryMetricsCard metrics={deliveryMetrics} />
       <AcousticCard acoustic={acousticScores} />
       <TimestampedMoments moments={timestampedMoments} />

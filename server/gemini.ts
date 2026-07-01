@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import * as fs from "fs";
 import * as path from "path";
-import type { DimensionScores, DeliveryMetrics, AcousticScores, TimestampedMoment, BetterPhrasing, MissedPoint } from "@shared/schema";
+import type { DimensionScores, DimensionRationales, DeliveryMetrics, AcousticScores, TimestampedMoment, BetterPhrasing, MissedPoint } from "@shared/schema";
 
 const ai = process.env.GEMINI_API_KEY
   ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
@@ -436,6 +436,7 @@ export interface RoleplayFeedback {
   tips: string[];
   passFailReason: string;
   dimensionScores?: DimensionScores;
+  dimensionRationales?: DimensionRationales;
   criticalMisses?: string[];
   timestampedMoments?: TimestampedMoment[];
   deliveryMetrics?: DeliveryMetrics;
@@ -476,7 +477,9 @@ export async function evaluateRoleplay(
 - Average pause before responding: ${dm.avgResponseDelaySec}s`
     : `DELIVERY METRICS: Not available for this session (text-only or no timing data). Judge "delivery" from clarity and structure of the written responses only, and keep that score moderate (cap around 75) since vocal delivery could not be measured.`;
 
-  const evaluationPrompt = `You are a DEMANDING, senior B2B sales coach for LinkedIn Marketing Solutions (LMS). You grade like a tough sales manager who has heard thousands of calls — you reward genuinely skilled selling and you do NOT inflate scores. Average reps get average scores. Generic, surface-level effort scores in the 40s-50s. Only sharp, consultative, well-executed selling earns 80+.
+  // Shared framing given to BOTH the scoring call and the coaching call so they
+  // judge the exact same material.
+  const sharedContext = `You are a DEMANDING, senior B2B sales coach for LinkedIn Marketing Solutions (LMS). You grade like a tough sales manager who has heard thousands of calls — you reward genuinely skilled selling and you do NOT inflate scores. Average reps get average scores. Generic, surface-level effort scores in the 40s-50s. Only sharp, consultative, well-executed selling earns 80+.
 
 SCENARIO: ${scenario.name} - ${scenario.description}
 DIFFICULTY: ${scenario.difficulty}
@@ -495,7 +498,13 @@ ${deliveryBlock}
 CONTEXT (be fair, not lenient):
 - This is a timed practice session that can end abruptly. Do NOT penalize for an abrupt ending or for not reaching a formal close.
 - DO still expect the rep to have set up a next step or attempted to advance the deal if they had the chance.
-- Judge what the rep actually said. Vague, generic, or feature-dumping language should score LOW even if polite.
+- Judge what the rep actually said. Vague, generic, or feature-dumping language should score LOW even if polite.`;
+
+  // CALL 1 — the numbers only (scores, rationales, pass/fail). Kept small so it
+  // returns fast; runs in parallel with the coaching call below.
+  const numbersPrompt = `${sharedContext}
+
+YOUR JOB IN THIS RESPONSE: score the call only. Do NOT write long coaching prose.
 
 SCORE SIX DIMENSIONS (each 0-100, be strict and use the full range):
 1. discovery — Did they ask sharp, open questions to uncover business goals, audience, funnel gaps, current motion, and stakeholders? No real questions = below 40.
@@ -504,6 +513,8 @@ SCORE SIX DIMENSIONS (each 0-100, be strict and use the full range):
 4. delivery — Clarity, confidence, concision, structure, and vocal delivery (use the measured metrics above when available).
 5. activeListening — Did they build on what the buyer said, reference it, and avoid talking over the buyer / monologuing?
 6. nextStepClarity — Did they propose or secure a concrete, mutually agreed next step?
+
+For EACH of the six dimensions, also return a dimensionRationales entry: ONE short sentence (max ~15 words) that explains WHY it earned that score, grounded in what the rep ACTUALLY said or failed to say in THIS conversation. Be specific, not generic (e.g. "Asked no open discovery questions before pitching" — not "Discovery could be better").
 
 CRITICAL MISSES (list any that occurred in criticalMisses[]). Each critical miss CAPS the overall score:
 - Ignored or talked over the core objection → cap overall at 55
@@ -516,108 +527,174 @@ OVERALL SCORE = weighted blend of dimensions: objectionHandling 30%, discovery 2
 
 PASS BAR: passed = true ONLY if overallScore >= 70 AND no FAIL CONDITION was triggered AND objectionHandling >= 60. Most genuinely-average attempts should NOT pass.
 
-Also return:
+- passFailReason: one direct sentence explaining the verdict.
+
+Be specific and honest. A demanding coach helps reps improve by telling the truth.`;
+
+  // CALL 2 — the written coaching (no numeric scores). Uses the same weighting
+  // language so its narrative stays consistent with the numbers call.
+  const coachingPrompt = `${sharedContext}
+
+The call is being scored separately on six dimensions (discovery, objection handling, value framing, delivery, active listening, next-step clarity) using a demanding bar where only sharp, consultative selling earns high marks.
+
+YOUR JOB IN THIS RESPONSE: write the coaching feedback only. Do NOT return any numeric scores or pass/fail verdict.
+
+Return:
 - strengths: 2-4 specific, honest strengths (no fluff). If there are few, say so.
 - improvements: 2-4 specific, actionable improvements.
 - timestampedMoments: 2-5 pivotal moments. Each has timestampSec (integer seconds parsed from the [mm:ss] tag, or null if unknown), type ("strength" or "weakness"), a short label, and a short quote from the transcript.
 - keyMoments: 2-4 plain-text highlights (for backward compatibility).
 - tips: 2-3 concrete coaching tips for next time.
-- passFailReason: one direct sentence explaining the verdict.
 - betterResponses: 2-4 items titled "How you could have said it better". Each MUST be grounded in something the rep ACTUALLY said: youSaid = a short, near-verbatim quote of the rep's words from the transcript; betterVersion = a stronger rewrite of that exact line; why = one short sentence on why the rewrite lands better. Do NOT invent quotes. If the rep barely spoke or nothing is worth rewriting, return an empty array.
 - missedPoints: 2-4 items titled "What you missed saying" — important points or questions the rep should have raised for THIS scenario but never did (e.g. an unasked discovery question, an un-surfaced value point, a next step never proposed). Each has: point = what they should have said/asked; why = one short sentence on why it matters here. If the rep genuinely covered the essentials, return an empty array.
 
 Be specific and honest. A demanding coach helps reps improve by telling the truth.`;
 
-  try {
-    const response = await getClient().models.generateContent({
-      model: "gemini-2.5-flash",
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: {
+  const numbersSchema = {
+    type: "object",
+    properties: {
+      passed: { type: "boolean" },
+      overallScore: { type: "number" },
+      dimensionScores: {
+        type: "object",
+        properties: {
+          discovery: { type: "number" },
+          objectionHandling: { type: "number" },
+          valueFraming: { type: "number" },
+          delivery: { type: "number" },
+          activeListening: { type: "number" },
+          nextStepClarity: { type: "number" },
+        },
+        required: ["discovery", "objectionHandling", "valueFraming", "delivery", "activeListening", "nextStepClarity"],
+      },
+      dimensionRationales: {
+        type: "object",
+        properties: {
+          discovery: { type: "string" },
+          objectionHandling: { type: "string" },
+          valueFraming: { type: "string" },
+          delivery: { type: "string" },
+          activeListening: { type: "string" },
+          nextStepClarity: { type: "string" },
+        },
+        required: ["discovery", "objectionHandling", "valueFraming", "delivery", "activeListening", "nextStepClarity"],
+      },
+      criticalMisses: { type: "array", items: { type: "string" } },
+      passFailReason: { type: "string" },
+    },
+    required: ["passed", "overallScore", "dimensionScores", "dimensionRationales", "passFailReason"],
+  };
+
+  const coachingSchema = {
+    type: "object",
+    properties: {
+      strengths: { type: "array", items: { type: "string" } },
+      improvements: { type: "array", items: { type: "string" } },
+      keyMoments: { type: "array", items: { type: "string" } },
+      timestampedMoments: {
+        type: "array",
+        items: {
           type: "object",
           properties: {
-            passed: { type: "boolean" },
-            overallScore: { type: "number" },
-            dimensionScores: {
-              type: "object",
-              properties: {
-                discovery: { type: "number" },
-                objectionHandling: { type: "number" },
-                valueFraming: { type: "number" },
-                delivery: { type: "number" },
-                activeListening: { type: "number" },
-                nextStepClarity: { type: "number" },
-              },
-              required: ["discovery", "objectionHandling", "valueFraming", "delivery", "activeListening", "nextStepClarity"],
-            },
-            criticalMisses: { type: "array", items: { type: "string" } },
-            strengths: { type: "array", items: { type: "string" } },
-            improvements: { type: "array", items: { type: "string" } },
-            keyMoments: { type: "array", items: { type: "string" } },
-            timestampedMoments: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  timestampSec: { type: "number", nullable: true },
-                  type: { type: "string", enum: ["strength", "weakness"] },
-                  label: { type: "string" },
-                  quote: { type: "string" },
-                },
-                required: ["type", "label"],
-              },
-            },
-            tips: { type: "array", items: { type: "string" } },
-            passFailReason: { type: "string" },
-            betterResponses: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  youSaid: { type: "string" },
-                  betterVersion: { type: "string" },
-                  why: { type: "string" },
-                },
-                required: ["youSaid", "betterVersion", "why"],
-              },
-            },
-            missedPoints: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  point: { type: "string" },
-                  why: { type: "string" },
-                },
-                required: ["point", "why"],
-              },
-            },
+            timestampSec: { type: "number", nullable: true },
+            type: { type: "string", enum: ["strength", "weakness"] },
+            label: { type: "string" },
+            quote: { type: "string" },
           },
-          required: ["passed", "overallScore", "dimensionScores", "strengths", "improvements", "keyMoments", "tips", "passFailReason"],
+          required: ["type", "label"],
         },
       },
-      contents: evaluationPrompt,
-    });
+      tips: { type: "array", items: { type: "string" } },
+      betterResponses: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            youSaid: { type: "string" },
+            betterVersion: { type: "string" },
+            why: { type: "string" },
+          },
+          required: ["youSaid", "betterVersion", "why"],
+        },
+      },
+      missedPoints: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            point: { type: "string" },
+            why: { type: "string" },
+          },
+          required: ["point", "why"],
+        },
+      },
+    },
+    required: ["strengths", "improvements", "keyMoments", "tips"],
+  };
 
-    const rawJson = response.text;
-    if (rawJson) {
-      const parsed = JSON.parse(rawJson) as RoleplayFeedback;
-      if (context?.deliveryMetrics) parsed.deliveryMetrics = context.deliveryMetrics;
-      return parsed;
+  // Run each call in its own try so a failure/parse-error in one half never
+  // takes down the other — the failing half falls back to a default.
+  async function runCall<T>(prompt: string, schema: object, label: string): Promise<T | null> {
+    try {
+      const response = await getClient().models.generateContent({
+        model: "gemini-2.5-flash",
+        config: { responseMimeType: "application/json", responseSchema: schema },
+        contents: prompt,
+      });
+      const rawJson = response.text;
+      return rawJson ? (JSON.parse(rawJson) as T) : null;
+    } catch (error) {
+      console.error(`Failed to evaluate roleplay (${label}):`, error);
+      return null;
     }
-  } catch (error) {
-    console.error("Failed to evaluate roleplay:", error);
   }
 
-  return {
+  type NumbersHalf = Pick<RoleplayFeedback, "passed" | "overallScore" | "dimensionScores" | "dimensionRationales" | "criticalMisses" | "passFailReason">;
+  type CoachingHalf = Pick<RoleplayFeedback, "strengths" | "improvements" | "keyMoments" | "timestampedMoments" | "tips" | "betterResponses" | "missedPoints">;
+
+  // The two grading calls run concurrently: producing smaller responses in
+  // parallel returns faster than one large combined response.
+  const [numbers, coaching] = await Promise.all([
+    runCall<NumbersHalf>(numbersPrompt, numbersSchema, "scores"),
+    runCall<CoachingHalf>(coachingPrompt, coachingSchema, "coaching"),
+  ]);
+
+  const numbersHalf: NumbersHalf = numbers ?? {
     passed: false,
     overallScore: 50,
+    dimensionScores: { discovery: 50, objectionHandling: 50, valueFraming: 50, delivery: 50, activeListening: 50, nextStepClarity: 50 },
+    dimensionRationales: {
+      discovery: "Score unavailable — evaluation could not be completed.",
+      objectionHandling: "Score unavailable — evaluation could not be completed.",
+      valueFraming: "Score unavailable — evaluation could not be completed.",
+      delivery: "Score unavailable — evaluation could not be completed.",
+      activeListening: "Score unavailable — evaluation could not be completed.",
+      nextStepClarity: "Score unavailable — evaluation could not be completed.",
+    },
+    passFailReason: "Unable to evaluate - please try again",
+  };
+
+  const coachingHalf: CoachingHalf = coaching ?? {
     strengths: ["Completed the roleplay session"],
     improvements: ["Unable to generate detailed feedback"],
     keyMoments: ["Session completed"],
     tips: ["Try again for more detailed feedback"],
-    passFailReason: "Unable to evaluate - please try again",
-    dimensionScores: { discovery: 50, objectionHandling: 50, valueFraming: 50, delivery: 50, activeListening: 50, nextStepClarity: 50 },
+  };
+
+  return {
+    passed: numbersHalf.passed,
+    overallScore: numbersHalf.overallScore,
+    dimensionScores: numbersHalf.dimensionScores,
+    dimensionRationales: numbersHalf.dimensionRationales,
+    criticalMisses: numbersHalf.criticalMisses,
+    passFailReason: numbersHalf.passFailReason,
+    strengths: coachingHalf.strengths,
+    improvements: coachingHalf.improvements,
+    keyMoments: coachingHalf.keyMoments,
+    timestampedMoments: coachingHalf.timestampedMoments,
+    tips: coachingHalf.tips,
+    betterResponses: coachingHalf.betterResponses,
+    missedPoints: coachingHalf.missedPoints,
     deliveryMetrics: context?.deliveryMetrics,
   };
 }

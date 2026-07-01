@@ -11,7 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import Vapi from "@vapi-ai/web";
 import { SkillsAnalysis } from "@/components/skills-analysis";
-import type { DimensionScores, DeliveryMetrics, TimestampedMoment, BetterPhrasing, MissedPoint } from "@shared/schema";
+import type { DimensionScores, DimensionRationales, DeliveryMetrics, TimestampedMoment, BetterPhrasing, MissedPoint } from "@shared/schema";
 
 interface CommitteeMember {
   id: string;
@@ -67,6 +67,7 @@ interface EvaluationResult {
   objectionHandling: string;
   nextStepClarity: string;
   dimensionScores?: DimensionScores | null;
+  dimensionRationales?: DimensionRationales | null;
   deliveryMetrics?: DeliveryMetrics | null;
   timestampedMoments?: TimestampedMoment[] | null;
   betterResponses?: BetterPhrasing[] | null;
@@ -685,6 +686,7 @@ Use this context naturally. If the rep mentions something a colleague already di
                   <div className="mt-6">
                     <SkillsAnalysis
                       dimensionScores={evaluation.dimensionScores}
+                      dimensionRationales={evaluation.dimensionRationales}
                       deliveryMetrics={evaluation.deliveryMetrics}
                       timestampedMoments={evaluation.timestampedMoments}
                       betterResponses={evaluation.betterResponses}

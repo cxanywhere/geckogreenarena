@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { SkillsAnalysis } from "@/components/skills-analysis";
-import type { DimensionScores, DeliveryMetrics, TimestampedMoment, BetterPhrasing, MissedPoint } from "@shared/schema";
+import type { DimensionScores, DimensionRationales, DeliveryMetrics, TimestampedMoment, BetterPhrasing, MissedPoint } from "@shared/schema";
 
 interface PitchSession {
   id: string;
@@ -22,6 +22,7 @@ interface PitchSession {
   startedAt: string;
   endedAt: string | null;
   dimensionScores?: DimensionScores | null;
+  dimensionRationales?: DimensionRationales | null;
   deliveryMetrics?: DeliveryMetrics | null;
   timestampedMoments?: TimestampedMoment[] | null;
   betterResponses?: BetterPhrasing[] | null;
@@ -186,6 +187,7 @@ export default function PitchResultsPage() {
             <div className="mb-6">
               <SkillsAnalysis
                 dimensionScores={session?.dimensionScores}
+                dimensionRationales={session?.dimensionRationales}
                 deliveryMetrics={session?.deliveryMetrics}
                 timestampedMoments={session?.timestampedMoments}
                 betterResponses={session?.betterResponses}

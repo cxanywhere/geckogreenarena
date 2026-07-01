@@ -793,6 +793,18 @@ export const DIMENSION_LABELS: Record<keyof DimensionScores, string> = {
   nextStepClarity: "Next-Step Clarity",
 };
 
+// One short sentence per dimension explaining WHY it earned its score,
+// grounded in what the rep actually said/did. All optional so older stored
+// feedback (without rationales) still renders.
+export interface DimensionRationales {
+  discovery: string;
+  objectionHandling: string;
+  valueFraming: string;
+  delivery: string;
+  activeListening: string;
+  nextStepClarity: string;
+}
+
 export interface DeliveryMetrics {
   available: boolean;
   paceWpm: number;

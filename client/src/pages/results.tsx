@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useEffect, useState, useRef, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { SkillsAnalysis } from "@/components/skills-analysis";
-import type { DimensionScores, DeliveryMetrics, AcousticScores, TimestampedMoment, BetterPhrasing, MissedPoint } from "@shared/schema";
+import type { DimensionScores, DimensionRationales, DeliveryMetrics, AcousticScores, TimestampedMoment, BetterPhrasing, MissedPoint } from "@shared/schema";
 
 interface AIFeedback {
   overallScore: number;
@@ -20,6 +20,7 @@ interface AIFeedback {
   passFailReason?: string;
   recordingUrl?: string;
   dimensionScores?: DimensionScores;
+  dimensionRationales?: DimensionRationales;
   deliveryMetrics?: DeliveryMetrics;
   acousticScores?: AcousticScores;
   timestampedMoments?: TimestampedMoment[];
@@ -461,6 +462,7 @@ export default function ResultsPage() {
 
             <SkillsAnalysis
               dimensionScores={feedback.dimensionScores}
+              dimensionRationales={feedback.dimensionRationales}
               deliveryMetrics={feedback.deliveryMetrics}
               acousticScores={feedback.acousticScores}
               timestampedMoments={feedback.timestampedMoments}
