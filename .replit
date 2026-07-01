@@ -46,3 +46,7 @@ integrations = ["javascript_database:1.0.0", "javascript_openai_ai_integrations:
 
 [userenv.shared]
 VITE_VAPI_PUBLIC_KEY = "d6e7c556-a0ac-443c-8e35-87f1df10b3e9"
+
+[postMerge]
+path = "script/post-merge.sh"
+timeoutMs = 120000
