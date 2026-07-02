@@ -104,43 +104,60 @@ function ProPitchMode({ deck, onClose }: { deck: PitchDeckWithSlides; onClose: (
 
     const willAutoPlay = shouldAutoPlayRef.current;
 
-    if (slide?.narrationAudioUrl) {
-      const audio = new Audio(slide.narrationAudioUrl);
-      audioRef.current = audio;
-      audio.muted = isMuted;
-
-      audio.addEventListener("loadedmetadata", () => {
-        setDuration(audio.duration);
-        setAudioReady(true);
-      });
-
-      audio.addEventListener("canplaythrough", () => {
-        setAudioReady(true);
-        if (willAutoPlay) {
-          audio.play().catch(console.error);
-          setIsPlaying(true);
-        }
-      });
-
-      audio.addEventListener("ended", () => {
-        setIsPlaying(false);
-        setProgress(100);
-        if (autoAdvanceRef.current && currentSlide < totalSlides - 1) {
-          setTimeout(() => {
-            shouldAutoPlayRef.current = true;
-            setCurrentSlide(prev => prev + 1);
-          }, 1200);
-        }
-      });
-
-      audio.addEventListener("error", () => {
-        setAudioReady(true);
-      });
+    if (!slide?.narrationAudioUrl) {
+      return;
     }
 
+    let cancelled = false;
+    const audio = new Audio(slide.narrationAudioUrl);
+    audioRef.current = audio;
+    audio.muted = isMuted;
+
+    const handleLoadedMetadata = () => {
+      if (cancelled) return;
+      setDuration(audio.duration);
+      setAudioReady(true);
+    };
+
+    const handleCanPlayThrough = () => {
+      if (cancelled || audioRef.current !== audio) return;
+      setAudioReady(true);
+      if (willAutoPlay) {
+        audio.play().catch(console.error);
+        setIsPlaying(true);
+      }
+    };
+
+    const handleEnded = () => {
+      if (cancelled) return;
+      setIsPlaying(false);
+      setProgress(100);
+      if (autoAdvanceRef.current && currentSlide < totalSlides - 1) {
+        setTimeout(() => {
+          shouldAutoPlayRef.current = true;
+          setCurrentSlide(prev => prev + 1);
+        }, 1200);
+      }
+    };
+
+    const handleError = () => {
+      if (cancelled) return;
+      setAudioReady(true);
+    };
+
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("canplaythrough", handleCanPlayThrough);
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("error", handleError);
+
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
+      cancelled = true;
+      audio.pause();
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("canplaythrough", handleCanPlayThrough);
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("error", handleError);
+      if (audioRef.current === audio) {
         audioRef.current = null;
       }
     };
