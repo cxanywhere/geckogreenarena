@@ -1,0 +1,16 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "f8LWMBzenR49AquBkt2Zr"
+uri = "file://generated-artifacts/media-inventory.html"
+type = "html"
+title = "Media inventory and cleanup candidates"
+description = "All media retained. Includes detected source/development references and review-only candidates; production was not checked."
+logical_id = "e3bf7442-c908-4ae5-ac90-45eb46e66e8f"
+content_hash = "sha256:6b49ef56fe1273e15ec505f4e8f98329a4d7bb39f56b3f21596e86309c200ea3"
+size = 286431
+mtime_ms = 1794568376465
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:6bea6f5a-c477-4931-84dd-d9a49f6e568e/e3bf7442-c908-4ae5-ac90-45eb46e66e8f/0dbd6605-43cd-4a9d-8404-92c9a7e257e4"
+storage_version_token = "1794568383379611"
+content_type = "text/html"

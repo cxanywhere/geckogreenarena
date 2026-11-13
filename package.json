@@ -9,7 +9,10 @@
     "build": "tsx script/build.ts",
     "start": "NODE_ENV=production node dist/index.cjs",
     "check": "tsc",
-    "db:push": "drizzle-kit push"
+    "db:push": "drizzle-kit push",
+    "export:zip": "node scripts/export-project.mjs",
+    "export:test": "node --test scripts/export-project.test.mjs",
+    "assets:inventory": "node scripts/media-inventory.mjs"
   },
   "dependencies": {
     "@google/genai": "^1.42.0",
